@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `achieve` [a name objective](#achieve-method) of an agent 
+* `achieve` [a named objective](#achieve-a-named-objective) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:

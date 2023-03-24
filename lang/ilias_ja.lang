@@ -380,9 +380,9 @@ adn#:#msg_permanent#:#表示
 adn#:#msg_permanent_info#:#恒久的または暫定的に表示
 adn#:#msg_permanent_no#:#暫定表示
 adn#:#msg_permanent_yes#:#恒久的に表示
-adn#:#msg_presentation#:#Presentation###19 08 2022 new variable
-adn#:#msg_show_to_all_roles#:#Show to all roles###19 08 2022 new variable
-adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.###19 08 2022 new variable
+adn#:#msg_presentation#:#プレゼンテーション
+adn#:#msg_show_to_all_roles#:#全ての役割を表示
+adn#:#msg_show_to_all_roles_info#:#ログインなしでも全てのユーザは通知されます。
 adn#:#msg_success_created#:#通知を作成しました
 adn#:#msg_success_deleted#:#通知は正しく削除されました
 adn#:#msg_success_reset#:#通知をリセットしました
@@ -892,7 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテスト
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
+assessment#:#mailnottype_desc#:#<strong>たっとえ</strong> テスト試行回数が上限をこえていなくてもテストオーナーへ通知する。
 assessment#:#maintenance#:#メンテナンス
 assessment#:#manscoring#:#手動採点
 assessment#:#manscoring_done#:#採点済み受講者
@@ -973,7 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#解答図を使用する
 assessment#:#oq_btn_use_order_terms#:#解答用語を使用する
 assessment#:#oq_header_ordering_elements#:#要素順
 assessment#:#or#:#または
-assessment#:#order#:#Order###09 11 2022 new variable
+assessment#:#order#:#順番
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordertext#:#整列するテキスト
 assessment#:#ordertext_info#:#水平方向にそろえるテキストを入力してください。整列するテキストはテキストの空白記号で区切られます。別の区切りが必要な場合は、%s の区切り記号を使用してテキストの単位を区切る事ができます。
@@ -1295,10 +1295,10 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#追加問題コンテンツの初期モード編集
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
+assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
@@ -1402,7 +1402,7 @@ assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (P
 assessment#:#tst_edit_competence_assign#:#割り当てのプロパティを編集
 assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_ending_time#:#終了時間
-assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.###19 08 2022 new variable
+assessment#:#tst_ending_time_before_starting_time#:#開始日以降のテスト終了日を入力してください。
 assessment#:#tst_ending_time_desc#:#テスト終了時点の点数: 受験者はこれ以降回答できません、ILIASはテストを終了します。
 assessment#:#tst_enter_questionpool#:#新規問題の保存場所の問題集名
 assessment#:#tst_eval_question_points#:#完了%sの答案結果
@@ -1494,7 +1494,7 @@ assessment#:#tst_inp_source_pool_no_tax_filter#:#分類基準ではないフィ�
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#回答ステータスフィルタを提供
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#分類基準の順番
 assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#選択された分類基準の割り当て通りにテスト問題が表示されます。
-assessment#:#tst_input_dynamic_question_set_question_ordering#:#問題順
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#問題順番
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#日付別問題の順番
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#分類基準の問題順番
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#問題集ソース
@@ -1634,7 +1634,7 @@ assessment#:#tst_pass_details#:#試験詳細
 assessment#:#tst_pass_details_header_lo_initial#:#学習目標に対する最初のテスト結果<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#学習目標に対する資格テスト結果<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#テスト%sの詳細全体像
-assessment#:#tst_pass_finished#:#Test pass finished###24 11 2022 new variable
+assessment#:#tst_pass_finished#:#テスト受験終了
 assessment#:#tst_pass_finished_on#:#テスト受験終了日
 assessment#:#tst_pass_last_pass#:#最終試験成績
 assessment#:#tst_pass_last_pass_desc#:#受験者の最終合格が採点されます。
@@ -1656,7 +1656,7 @@ assessment#:#tst_password_entered_wrong_password#:#入力したパスワード�
 assessment#:#tst_password_form#:#テストパスワードを入力
 assessment#:#tst_password_introduction#:#テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。
 assessment#:#tst_percent_solved#:#正解率
-assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_player_answer_saved_and_locked#:#回答は保存されてロックされ変更できなくなります。
 assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナを選択してください。
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
@@ -1713,7 +1713,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#順番クリップ
 assessment#:#tst_question_hints_paste_after_success_msg#:#ヒント%sはヒント%sより後に正しく貼りつけられました。
 assessment#:#tst_question_hints_paste_before_success_msg#:#ヒント%sはヒント%sより前に正しく貼りつけられました。
 assessment#:#tst_question_hints_request_confirmation#:#ヒント%sを本当に要求しますか?　このヒント%sの点数は控除されます。
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.###09 11 2022 new variable
+assessment#:#tst_question_hints_request_confirmation_no_deduction#:#このヒントでは点数の差し引きはありません。
 assessment#:#tst_question_hints_requested_hint_count_header#:#リクエストのヒント
 assessment#:#tst_question_hints_save_order_success_msg#:#ヒントの順番が正しく保存されました。
 assessment#:#tst_question_hints_tab#:#ヒント
@@ -1917,15 +1917,15 @@ assessment#:#tst_tab_results_objective_oriented#:#学習目標結果
 assessment#:#tst_tab_results_pass_oriented#:#試み結果
 assessment#:#tst_tbl_col_answered_questions#:#回答
 assessment#:#tst_tbl_col_final_mark#:#マーク
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes###19 08 2022 new variable
-assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s###19 08 2022 new variable
-assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access###19 08 2022 new variable
-assessment#:#tst_tbl_col_pass_finished#:#終了日時
+assessment#:#tst_tbl_col_finished_passes#:#終了した通過数
+assessment#:#tst_tbl_col_finished_passes_num_of#:#割当てのプロパティを表示
+assessment#:#tst_tbl_col_last_scored_access#:#最終採点付きのアクセス
+assessment#:#tst_tbl_col_pass_finished#:#終了済回数
 assessment#:#tst_tbl_col_passed_status#:#評価
 assessment#:#tst_tbl_col_percent_result#:#回答率
 assessment#:#tst_tbl_col_reached_points#:#達成点
 assessment#:#tst_tbl_col_scored_pass#:#採点回数
-assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variable
+assessment#:#tst_tbl_col_started_passes#:#開始済回数
 assessment#:#tst_tbl_invited_users#:#手動で選択の受験者
 assessment#:#tst_tbl_participants#:#受験者
 assessment#:#tst_tbl_results_grades#:#結果と評価
@@ -3151,12 +3151,12 @@ cmix#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてフォ�
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
 cmix#:#conf_privacy_ident_il_uuid_random#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたランダムID
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#各ILIASオブジェクトとILIASユーザランダムIDは各コール毎に識別されて生成されます。ユーザに関する結論は、オブジェクトを横断するユーザプロファイルの作成が困難なので極めて限定的です。
-cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてIDフォーマットされたユニークなILIASプラットフォームでILIASユーザIDは結合されます。
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容しません。
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#E-MailアドレスとしてフォーマットされたILIASドメイン有で結合されたハッシュ
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#メールアドレスとしてIDフォーマットされたユニークなILIASプラットフォームでILIASユーザIDは結合されます。
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#E-MailアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIASユーザID
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#内部の数値ユーザIDを送信。コール毎に異なりますが、ILIASユーザに関して誘導する可能性があります。
 cmix#:#conf_privacy_ident_info#:#標準はメールアドレスを利用するのが一般的です。ユニークなILIASプラットフォームID:
 cmix#:#conf_privacy_ident_real_email#:#E-Mail Address
 cmix#:#conf_privacy_ident_real_email_info#:#IDとしてのユーザのメールアドレスを送信(警告: メールアドレスは複数のユーザで使用される可能性があります!)
@@ -3386,7 +3386,7 @@ common#:#HH#:#HH:MM
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement#:#使用許諾書を承諾しますか?
 common#:#accept_usr_agreement_btn#:#承諾
-common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###24 11 2022 new variable
+common#:#accept_usr_agreement_intro#:#新しいサービス条件があります。ILIASご利用の前にそれを了承する必要があります。次のドキュメントを読んでページ下のへ同意または却下して下さい。
 common#:#access#:#アクセス
 common#:#accessFree#:#アクセス制限を解除
 common#:#accessRestrict#:#アクセス制限を設定
@@ -4143,10 +4143,10 @@ common#:#functions#:#機能
 common#:#further_informations#:#詳細
 common#:#gdf_add#:#定義を追加
 common#:#gdf_new#:#新定義
-common#:#gender#:#挨拶
+common#:#gender#:#性別
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#挨拶を希望しない
+common#:#gender_n#:#性別非表示
 common#:#general_settings#:#全般設定
 common#:#generate#:#生成
 common#:#ghostscript_not_configured#:#Ghostscriptが構成されていません。構成するには<a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a>を開いてください。
@@ -5411,10 +5411,10 @@ common#:#sahs_export_file#:#ILIASがエクスポートしたSCORMアーカイブ
 common#:#sahs_insert_chap_from_clip#:#クリップボードの章を貼付ける
 common#:#sahs_insert_page_from_clip#:#クリップボードのページﾞを貼り付ける
 common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
-common#:#salutation#:#挨拶
+common#:#salutation#:#性別
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
-common#:#salutation_n#:#挨拶不要
+common#:#salutation_n#:#性別非表示
 common#:#saml_log_in#:#ダイレクトログイン
 common#:#saml_login_form_info_txt#:#ユーザ名やパスワードの入力なしでダイレクトログインボタン使ってログインすることができます。
 common#:#saml_login_form_txt#:#SAML経由でILIASへログインする
@@ -5710,7 +5710,7 @@ common#:#udf_delete_sure#:#本当にこの欄と全ての割り当てユーザ�
 common#:#udf_duplicate_entries#:#値はユニークでなければなりません。
 common#:#udf_field_deleted#:#欄を削除しました。
 common#:#udf_name_already_exists#:#この欄の名称は既に使用されています。別の名前を使用してください。
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
+common#:#udf_required_and_visible_requires_changeable#:#フィールドが"必須"で"パーソナルデータ中に表示"の際は、'プロファイル内で表示可'にする必要があります。
 common#:#udf_required_requires_visib_reg#:#欄が"必須項目"に設定されていると、"登録中表示"に設定しなければなりません。
 common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
@@ -5804,7 +5804,7 @@ common#:#usr_account_inactive#:#アクティブ化されていないアカウン
 common#:#usr_active_only#:#アクティブユーザのみ
 common#:#usr_add#:#ユーザを追加
 common#:#usr_agreement#:#使用許諾書
-common#:#usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###24 11 2022 new variable
+common#:#usr_agreement_footer_intro#:#あなたは、サービス条件を承諾しました。
 common#:#usr_edit#:#ユーザを編集
 common#:#usr_filter_coursemember#:#コースメンバー
 common#:#usr_filter_groupmember#:#グループメンバー
@@ -5932,7 +5932,7 @@ common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利�
 common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###19 08 2022 new variable
+common#:#withdrawal_sure_account_no_consent_ye#:#本当に使用許諾を承認しませんか? 
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
 common#:#write#:#書込み
@@ -5990,7 +5990,7 @@ cont#:#cont_skill_do_not_set#:#セットしてはいけません
 cont#:#cont_skill_members#:#メンバー
 cont#:#cont_skill_no_profile_selected#:#プロファイルを選択してください。
 cont#:#cont_skill_no_skill#:#値がありません(リセット)
-cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".###09 11 2022 new variable
+cont#:#cont_skill_no_skills_selected#:#まだ能力が何も選択されていません。"能力セクション"下の能力を一つは追加してください。
 cont#:#cont_skill_profile#:#プロファイル
 cont#:#cont_skill_profiles#:#メンバーの割当てプロファイル
 cont#:#cont_skill_publish#:#公開
@@ -7792,11 +7792,11 @@ crs#:#crs_view_timing#:#タイミングビュー
 crs#:#crs_view_timing_absolute#:#絶対日付
 crs#:#crs_view_timing_relative#:#総体日付
 crs#:#crs_view_timings#:#期間表示タイプ
-crs#:#crs_visibility#:#Visibility###24 11 2022 new variable
+crs#:#crs_visibility#:#表示
 crs#:#crs_visibility_limitless#:#期限なし
 crs#:#crs_visibility_until#:#利用期間限定
 crs#:#crs_visibility_until_info#:#コースは一定の期間そのメンバーへ表示されます。
-crs#:#crs_visibility_unvisible#:#The course is not visible.###24 11 2022 new variable
+crs#:#crs_visibility_unvisible#:#コースは表示されません。
 crs#:#crs_wait_info#:#有効にしてユーザ最大数を超えると、新しい登録が待ちリストに載せられます。
 crs#:#crs_waiting_list#:#待ちリスト
 crs#:#crs_waiting_list_autofill#:#自動-挿入あり
@@ -9282,8 +9282,8 @@ exc#:#exc_team_log#:#チームログ
 exc#:#exc_team_log_add_file#:#ファイル%sを追加しました。
 exc#:#exc_team_log_add_member#:#メンバ%sを追加しました。
 exc#:#exc_team_log_create_team#:#チームを作成しました。
-exc#:#exc_team_log_remove_file#:#Removed file %s.###21 12 2022 new variable
-exc#:#exc_team_log_remove_member#:#メンバ%sを削除しました。
+exc#:#exc_team_log_remove_file#:#ファイル %s　を削除しました。
+exc#:#exc_team_log_remove_member#:#メンバ %s を削除しました。
 exc#:#exc_team_management_tutor#:#指導教員によるチーム管理
 exc#:#exc_team_management_tutor_info#:#有効にすると受験者は自分でチーム組織化できなくなります。
 exc#:#exc_team_max_small_than_members#:#チームのいくつかは%sに設定する必要があるため参加者最大数は%sに設定できません。
@@ -10365,10 +10365,10 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてユ
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合されたILIAS Login
 lti#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
-lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#E-MailアドレスとしてフォーマットされたILIASドメインありで結合されたハッシュ
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に区別され、最大80桁以下のILIASプラットフォームIDで異なる重要なILIASユーザに関する限定情報を許可します。
 lti#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてユニークなILIASプラットフォームでフォーマットされて結合されたILIASユーザID
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論は許可しません。
 lti#:#conf_privacy_ident_info#:#標準はメールアドレスが使用されます。ユニークなILIASプラットフォームid:
@@ -11068,9 +11068,9 @@ meta#:#md_adv_record_lng_table_lng#:#言語
 meta#:#md_adv_records#:#含まれたデータベース
 meta#:#md_adv_records_exported#:#新しいエクスポート ファイルが作成されました。
 meta#:#md_adv_scope#:#範囲
-meta#:#md_adv_scope_info#:#Usage of this custom metadata set will be limited to selected parts of the repository.###01 02 2023 new variable
+meta#:#md_adv_scope_info#:#このカスタムメタデータセットの利用はリポジトリの選択されたパーツに限定されます。
 meta#:#md_adv_scope_list_header#:#限定：
-meta#:#md_adv_scope_objects#:#Data Set Effective From###01 02 2023 new variable
+meta#:#md_adv_scope_objects#:#データーセット有効開始期間
 meta#:#md_adv_searchable#:#検索可能
 meta#:#md_adv_select_one_file#:#ファイルを一つ選択してください。
 meta#:#md_adv_show#:#表示
@@ -13759,16 +13759,16 @@ registration#:#reg_added_assignment#:#新しい割当を追加しました。
 registration#:#reg_allow_codes#:#コードを許可
 registration#:#reg_allow_codes_info#:#ユーザはコードによる登録もできます。
 registration#:#reg_allowed_domains#:#許可されたemailアドレスドメイン
-registration#:#reg_allowed_domains_info#:#ワイルドカードには*を、セパレータには;を使用
+registration#:#reg_allowed_domains_info#:#ワイルドカードには*を、セパレータには;を使用　例　 "*@ilias.de". レジストリーションコードはこれらのルールを上書き。
 registration#:#reg_approve#:#要承認の登録
 registration#:#reg_approve_info#:#チェックすると、いかなる新規ユーザの登録にも管理者の承認が必要となります。
 registration#:#reg_approve_needs_recipient#:#登録タイプ「要承認の登録」選択に備えて、新規の登録を通知するユーザを一人以上定義する必要があります。
-registration#:#reg_available_roles#:#利用可能な役割
+registration#:#reg_available_roles#:#利用可能な役割:
 registration#:#reg_confirmation_hash_life_time#:#有効期間
 registration#:#reg_confirmation_hash_life_time_expired#:#確認用のリンクはもう有効ではありません。
 registration#:#reg_confirmation_hash_life_time_info#:#確認用リンクの有効期間を秒で入力してください。
 registration#:#reg_confirmation_hash_not_found#:#この確認用リンクに一致する可能性のユーザ アカウントはありません
-registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.###01 02 2023 new variable
+registration#:#reg_confirmation_hash_not_passed#:#確認用リンクは不完全です。
 registration#:#reg_confirmation_link_successful#:#アカウントがILIASへ正しく送られました。数分すると確認のemailを受領します。そのmaiにあるリンク先をクリックして登録を確認してください。<br />リダイレクトされます<a href="%s" タイトル="ログイン画面">ログイン画面</a>20秒後
 registration#:#reg_default#:#初期設定
 registration#:#reg_deleted_assignment#:#割当を削除しました。
@@ -13862,11 +13862,11 @@ rep#:#rep_add_to_favourites#:#お気に入りへ追加
 rep#:#rep_added_rec_content#:#推奨コンテンツが追加されました。
 rep#:#rep_added_to_favourites#:#アイテムがお気に入りへ追加されました。
 rep#:#rep_breadcr_crs#:#コースのパンくずステータス
-rep#:#rep_breadcr_crs_config#:#Configuration###24 11 2022 new variable
+rep#:#rep_breadcr_crs_config#:#構成
 rep#:#rep_breadcr_crs_overwrite#:#設定はコースレベル上で変更可能です
 rep#:#rep_breadcr_crs_overwrite_not#:#設定はコースレベル上で変更不可です
 rep#:#rep_configure#:#構成
-rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened###24 11 2022 new variable
+rep#:#rep_crs_default_shortened#:#Default: パンクズリスト省略
 rep#:#rep_custom_icons#:#カスタムアイコン
 rep#:#rep_default#:#Default
 rep#:#rep_dependencies#:#依存性
@@ -14534,7 +14534,7 @@ skmg#:#skmg_cert_skill_trigger_title#:#能力トリガータイトル
 skmg#:#skmg_confirm_level_resources_removal#:#本当に能力レベルから次のリソースを削除しますか?
 skmg#:#skmg_confirm_remove_level_ass#:#本当にプロファイルから次の能力レベルを削除しますか?
 skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次のユーザを削除しますか?
-skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###19 08 2022 new variable
+skmg#:#skmg_cont_profiles_info#:#この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
@@ -14580,11 +14580,11 @@ skmg#:#skmg_new_sktr#:#新規能力テンプレートレファレンス
 skmg#:#skmg_next_step#:#次のステップ
 skmg#:#skmg_no_nodes_selectable#:#現在選択可能な能力がありません。
 skmg#:#skmg_no_skills#:#能力未記入
-skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any competences yet. Click on the "Add Competence"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here.###09 11 2022 new variable
+skmg#:#skmg_no_skills_selected_info#:#能力未記入もしくは選択されていません。能力を選択する"能力追加ボタン"をクリックします。教材編集におより能力記入の場合は自動的にここへ表示されます。
 skmg#:#skmg_no_trigger#:#トリガーがありません
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#数字
-skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles###19 08 2022 new variable
+skmg#:#skmg_open_all_assigned_profiles#:#全ての能力プロファイルを開く
 skmg#:#skmg_order#:#順番
 skmg#:#skmg_order_nr#:#順位
 skmg#:#skmg_order_nr_info#:#能力リスト内のポジション能力
@@ -14623,8 +14623,8 @@ skmg#:#skmg_skill_levels#:#能力レベル
 skmg#:#skmg_skill_management_deactivated#:#能力管理は現在動作していません。
 skmg#:#skmg_skill_needs_impr_no_res#:#この能力を向上する必要があります。目標としている能力レベルに沿うような提供された学習教材の現在学習リソースがありません。
 skmg#:#skmg_skill_needs_impr_res#:#この能力を向上する必要があります。次のリソースは目標の能力レベルに沿う学習教材を提供します。
-skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.###09 11 2022 new variable
-skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
+skmg#:#skmg_skill_needs_self_eval#:#あなたの能力目標をわかるために、自己評価を行ってください。
+skmg#:#skmg_skill_needs_self_eval_box#:#このプロファイル一つも自己評価を実行されていない事に注意願います。
 skmg#:#skmg_skill_no_needs_impr#:#能力レベルは選択したプロファイルに適合します。
 skmg#:#skmg_skill_profiles#:#プロファイル
 skmg#:#skmg_skill_template#:#能力テンプレート
@@ -15225,7 +15225,7 @@ survey#:#dp_standard_behaviour_yes_undecided_no#:#基準品行(はい-未定-い
 survey#:#dp_standard_beliefs_always5#:#基準信念(常に-何度も-変化-まれ-決して)
 survey#:#dp_standard_beliefs_always_never#:#基準信念(常に-決して)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#基準信念 (常に-時々-決して)
-survey#:#dp_standard_beliefs_true5#:#基準信念(間違いなく真-真-未定-偽-絶対に偽)
+survey#:#dp_standard_beliefs_true5#:#基準信念(真-未定-偽-)
 survey#:#dp_standard_beliefs_true_false#:#基準信念(真-偽)
 survey#:#dp_standard_beliefs_true_undecided_false#:#基準信念(真-未定-偽)
 survey#:#dp_standard_numbers#:#基準値
@@ -16112,14 +16112,14 @@ trac#:#trac_mode_deactivated_info_new#:#学習進捗ステータスは表示さ�
 trac#:#trac_mode_event#:#指導教員モニタと受験者記録
 trac#:#trac_mode_event_info#:#セッションに参加いかんに関わらず指導教員はモニタします。指導教員は'受験者を編集'タブ内で手動で受講者を記録します。
 trac#:#trac_mode_exercise_returned#:#指導教員モニタとステータス設定
-trac#:#trac_mode_exercise_returned_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
+trac#:#trac_mode_exercise_returned_info#:#ユーザが演習を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
 trac#:#trac_mode_individual_assessment#:#指導教員またはトレーナにより手動で評価されました
 trac#:#trac_mode_individual_assessment_info#:#ユーザの記録は個別のアセスメントを完了するために指導教員により終了される必要があります。
 trac#:#trac_mode_lti_outcome#:#マスタースコアに達する必要があります。
 trac#:#trac_mode_lti_outcome_info#:#学習進捗はLTI consumerとマスタースコアスレッショールドで評価されます。
 trac#:#trac_mode_manual#:#ユーザモニタと自身のステータス設定(全モジュール)
 trac#:#trac_mode_manual_by_tutor#:#指導教員モニタとステータス設定
-trac#:#trac_mode_manual_by_tutor_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
+trac#:#trac_mode_manual_by_tutor_info#:#ユーザがオブジェクトを完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
 trac#:#trac_mode_manual_info#:#学習モジュールを完了するとユーザは自身で決定します。一旦完了すると'Info'タブのステータスを'完了'にする必要があります。
 trac#:#trac_mode_objectives#:#ステータスは学習目標により決定されます
 trac#:#trac_mode_objectives_info#:#学習進捗は学習目標の達成数に沿って自動的に計算されます。
@@ -16240,7 +16240,7 @@ ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#残り文字数:
 ui#:#ui_error_in_group#:#この部分にエラーがあります。
-ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s MiB.###19 08 2022 new variable
+ui#:#ui_file_input_invalid_size#:#ファイルが %s MiB　の最大サイズを超えています。
 ui#:#ui_numeric_only#:#数字全部を挿入してください。
 ui#:#ui_tag_required#:#タグを一つは挿入してください。
 user#:#all_roles_has_starting_point#:#全ての役割は開始位置があります。
@@ -16699,12 +16699,10 @@ wsp#:#wsp_tab_shared#:#他のユーザのリソース
 wsp#:#wsp_type_blog#:#ブログ
 wsp#:#wsp_type_cmxv#:#証明書: xAPI/cmi5
 wsp#:#wsp_type_crsv#:#証明書: コース
-wsp#:#wsp_type_excv#:#ファイル
 wsp#:#wsp_type_excv#:#証明書: 演習問題
-wsp#:#wsp_type_file#:#File###19 08 2022 new variable
+wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_ltiv#:#証明書: LTI Consumer
 wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#Weblink
-wsp#:#wsp_type_tstv#:#証明書: テスト
-wsp#:#wsp_type_webr#:#Weblink###19 08 2022 new variable
-wsp#:#wsp_type_wfld#:#Folder###19 08 2022 new variable
+wsp#:#wsp_type_webr#:#証明書: Test
+wsp#:#wsp_type_wfld#:#Folder

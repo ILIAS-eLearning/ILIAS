@@ -79,20 +79,44 @@ class ilFileDataForum extends ilFileData
      */
     public function getFiles()
     {
-        $files = array();
+        $directory_iterator = new DirectoryIterator($this->forum_path);
+        $filter_iterator = new RegexIterator($directory_iterator, "/^{$this->obj_id}_(.+)$/");
 
-        foreach (new DirectoryIterator($this->forum_path) as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
-            
-            if ($file->isDir()) {
+        $files = [];
+        foreach ($filter_iterator as $file) {
+            /** @var SplFileInfo $file */
+            if (!$file->isFile()) {
                 continue;
             }
 
             list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
             if ($obj_id == $this->obj_id) {
-                $files[] = array(
+                $files[] = [
+                    'path' => $file->getPathname(),
+                    'md5' => md5($this->obj_id . '_' . $rest),
+                    'name' => $rest,
+                    'size' => $file->getSize(),
+                    'ctime' => date('Y-m-d H:i:s', $file->getCTime())
+                ];
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilesOfPost()
+    {
+        $directoryIterator = new DirectoryIterator($this->forum_path);
+        $filterIterator = new RegexIterator($directoryIterator, "/^{$this->obj_id}_{$this->getPosId()}_(.+)$/");
+
+        $files = array();
+        foreach ($filterIterator as $file) {
+            if ($file->isFile()) {
+                list($obj_id, $pos_id, $rest) = explode('_', $file->getFilename(), 3);
+                $files[$rest] = array(
                     'path' => $file->getPathname(),
                     'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
                     'name' => $rest,
@@ -106,67 +130,32 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @return array
-     */
-    public function getFilesOfPost()
-    {
-        $files = array();
-
-        foreach (new DirectoryIterator($this->forum_path) as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
-
-            if ($file->isDir()) {
-                continue;
-            }
-
-            list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
-            if ($obj_id == $this->obj_id) {
-                list($pos_id, $rest) = explode('_', $rest, 2);
-                if ($pos_id == $this->getPosId()) {
-                    $files[$rest] = array(
-                        'path' => $file->getPathname(),
-                        'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
-                        'name' => $rest,
-                        'size' => $file->getSize(),
-                        'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-                    );
-                }
-            }
-        }
-
-        return $files;
-    }
-
-    /**
      * @param int $a_new_frm_id
      * @return bool
      */
     public function moveFilesOfPost($a_new_frm_id = 0)
     {
-        if ((int) $a_new_frm_id) {
-            foreach (new DirectoryIterator($this->forum_path) as $file) {
-                /**
-                 * @var $file SplFileInfo
-                 */
+        if ($a_new_frm_id) {
+            $directory_iterator = new DirectoryIterator($this->forum_path);
+            $filter_iterator = new RegexIterator($directory_iterator, "/^{$this->obj_id}_(\d+)_(.+)$/");
 
-                if ($file->isDir()) {
+            foreach ($filter_iterator as $file) {
+                /** @var SplFileInfo $file */
+                if (!$file->isFile()) {
                     continue;
                 }
 
-                list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
-                if ($obj_id == $this->obj_id) {
-                    list($pos_id, $rest) = explode('_', $rest, 2);
-                    if ($pos_id == $this->getPosId()) {
-                        \ilFileUtils::rename(
-                            $file->getPathname(),
-                            $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
-                        );
-                    }
+                [$obj_id, $pos_id, $rest] = explode('_', $file->getFilename(), 3);
+                if ((int) $obj_id !== (int) $this->obj_id || (int) $pos_id !== (int) $this->getPosId()) {
+                    continue;
                 }
+
+                ilFileUtils::rename(
+                    $file->getPathname(),
+                    $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
+                );
             }
-    
+
             return true;
         }
 

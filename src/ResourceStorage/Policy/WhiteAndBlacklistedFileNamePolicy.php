@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Policy;
 
 /**
@@ -42,6 +58,10 @@ class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
             'disable_ascii'
         );
         $valid_filename = \ilFileUtils::getValidFilename($filename_with_extension);
+
+        // remove all control characters, see https://mantis.ilias.de/view.php?id=34975
+        $valid_filename = preg_replace('/&#.*;/U', '_', $valid_filename, 1);
+
         if ($as_ascii) {
             return \ilUtil::getASCIIFilename($valid_filename);
         }

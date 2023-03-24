@@ -646,7 +646,6 @@ class ilWikiUtil
                 $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
-
             ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);

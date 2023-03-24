@@ -140,23 +140,28 @@ class ilPCResources extends ilPageContent
      * @param
      * @return
      */
-    public static function modifyItemGroupRefIdsByMapping($a_page, $mappings)
+    public static function modifyItemGroupRefIdsByMapping($a_page, $mappings) : bool
     {
         $dom = $a_page->getDom();
+        $log = ilLoggerFactory::getLogger('copg');
         
         if ($dom instanceof php4DOMDocument) {
             $dom = $dom->myDOMDocument;
         }
- 
+        $changed = false;
         $xpath_temp = new DOMXPath($dom);
         $igs = $xpath_temp->query("//Resources/ItemGroup");
         
         foreach ($igs as $ig_node) {
             $ref_id = $ig_node->getAttribute("RefId");
+            $log->debug(">>> Fix Item Group with import Ref Id:" . $ref_id);
+            $log->debug("Ref Id Mapping:" . print_r($mappings, true));
             if ($mappings[$ref_id] > 0) {
                 $ig_node->setAttribute("RefId", $mappings[$ref_id]);
+                $changed = true;
             }
         }
+        return $changed;
     }
     
     /**
@@ -173,8 +178,8 @@ class ilPCResources extends ilPageContent
      *
      * @param ilPageObject $page
      */
-    public static function resolveResources(ilPageObject $page, $ref_mappings)
+    public static function resolveResources(ilPageObject $page, $ref_mappings) : bool
     {
-        self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
+        return self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
     }
 }

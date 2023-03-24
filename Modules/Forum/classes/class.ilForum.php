@@ -805,13 +805,29 @@ class ilForum
         }
 
         if ($raiseEvents) {
+            $is_deleted_thread = ($p_node["parent"] == 0) ? true : false;
+            $num_visible_active_posts = 0;
+            if ($is_deleted_thread) {
+                $query = '
+                    SELECT COUNT(*) AS cnt
+                    FROM frm_posts
+                    INNER JOIN frm_posts_tree ON pos_pk = pos_fk
+                    WHERE frm_posts_tree.parent_pos != 0
+                    AND pos_thr_fk = ' . $this->db->quote($p_node['pos_thr_fk'], 'integer') . '
+                    AND pos_status = ' . $this->db->quote(1, 'integer');
+                $res = $this->db->query($query);
+                $row = $this->db->fetchAssoc($res);
+                $num_visible_active_posts = (int) ($row['cnt'] ?? 0);
+            }
+
             $GLOBALS['ilAppEventHandler']->raise(
                 'Modules/Forum',
                 'deletedPost',
                 [
                     'ref_id' => $this->getForumRefId(),
                     'post' => new ilForumPost($p_node['pos_pk']),
-                    'thread_deleted' => ($p_node["parent"] == 0) ? true : false
+                    'thread_deleted' => $is_deleted_thread,
+                    'num_visible_active_posts' => $num_visible_active_posts
                 ]
             );
         }
@@ -914,7 +930,7 @@ class ilForum
 					WHERE pos_pk = %s',
                     array('integer'),
                     array($del_id[$i])
-                 );
+                );
                 
                 // delete related news item
                 $news_id = ilNewsItem::getFirstNewsIdForContext(
@@ -994,7 +1010,7 @@ class ilForum
 			WHERE top_frm_fk = %s',
             array('integer', 'integer'),
             array($dead_pos, $this->id)
-         );
+        );
         
         // get latest post of forum and update last_post
         $res2 = $this->db->queryf(

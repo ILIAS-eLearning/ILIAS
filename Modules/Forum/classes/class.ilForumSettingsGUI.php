@@ -220,12 +220,12 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array((int)  $this->parent_obj->objProperties->getDefaultView(), array(
+        if (in_array((int) $this->parent_obj->objProperties->getDefaultView(), array(
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ))) {
-            $default_view = (int)  $this->parent_obj->objProperties->getDefaultView();
+            $default_view = (int) $this->parent_obj->objProperties->getDefaultView();
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }

@@ -160,12 +160,20 @@ class ilPreviewGUI
             // preview images available?
             $images = $this->preview->getImages();
             if (count($images) > 0) {
+                $title = ilObject2::_lookupTitle($this->obj_id);
+                $index = 1;
                 foreach ($images as $image) {
                     $tmpl->setCurrentBlock("preview_item");
                     $tmpl->setVariable("IMG_URL", ilWACSignedPath::signFile($image["url"]));
                     $tmpl->setVariable("WIDTH", $image["width"]);
                     $tmpl->setVariable("HEIGHT", $image["height"]);
+                    $tmpl->setVariable("ALT_TEXT", sprintf(
+                        $this->lng->txt('preview_caption'),
+                        (string) $index . ' ',
+                        $title
+                    ));
                     $tmpl->parseCurrentBlock();
+                    $index++;
                 }
             } else {
                 // set text depending on the status

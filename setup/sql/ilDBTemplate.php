@@ -16923,6 +16923,9 @@ $ilDB->createTable("il_dcl_field_prop", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_dcl_field_prop", $pk_fields);
 
+$in_fields = array("id","field_id");
+$ilDB->addIndex("il_dcl_field_prop", $in_fields, "i1", false);
+
 $ilDB->createSequence("il_dcl_field_prop", 1);
 
 
@@ -17720,6 +17723,9 @@ $ilDB->createTable("il_dcl_tview_set", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_dcl_tview_set", $pk_fields);
+
+$in_fields = array("tableview_id");
+$ilDB->addIndex("il_dcl_tview_set", $in_fields, "i1", false);
 
 $ilDB->createSequence("il_dcl_tview_set", 1);
 
@@ -30717,7 +30723,7 @@ $fields = array (
 	)
 	,"title" => array (
 		"notnull" => false
-		,"length" => 128
+		,"length" => 255
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -48777,7 +48783,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '93')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '95')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));

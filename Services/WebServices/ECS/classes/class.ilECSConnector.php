@@ -642,17 +642,22 @@ class ilECSConnector
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
-        if (!isset($a_header['Location'])) {
+        $location_parts = [];
+        foreach ($a_header as $header => $value) {
+            if (strcasecmp('Location', $header) == 0) {
+                $location_parts = explode('/', $value);
+                break;
+            }
+        }
+        if (!$location_parts) {
+            $ilLog->write(__METHOD__ . ': Cannot find location headers.');
             return false;
         }
-        $end_path = strrpos($a_header['Location'], "/");
-        
-        if ($end_path === false) {
+        if (count($location_parts) == 1) {
             $ilLog->write(__METHOD__ . ': Cannot find path seperator.');
             return false;
         }
-        $econtent_id = substr($a_header['Location'], $end_path + 1);
+        $econtent_id = end($location_parts);
         $ilLog->write(__METHOD__ . ': Received EContentId ' . $econtent_id);
         return (int) $econtent_id;
     }

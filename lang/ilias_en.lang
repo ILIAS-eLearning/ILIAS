@@ -2058,6 +2058,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Sessi
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
@@ -2814,7 +2815,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
@@ -5262,6 +5263,7 @@ common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
+common#:#preview_caption#:#Preview %sof %s
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
@@ -6931,7 +6933,7 @@ content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only.
 content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
-content#:#cont_select_other_qpool#:#Select other Pool
+content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
@@ -10700,6 +10702,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
@@ -10853,6 +10856,7 @@ mail#:#placeholders_advise#:#Personal placeholders are only substituted for reci
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Search Recipients
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“
 mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
@@ -12014,7 +12018,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (oder 'Content Display Options' - siehe oben) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’). To avoid performance issues, only upload files with a resolution of 72dpi and a width of less than 1000 px.
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
@@ -13793,7 +13797,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link i
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links. Recommended value is 1800 seconds.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direct Registration
@@ -15980,7 +15984,7 @@ tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
-tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the case, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
 tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
 tos#:#tos_saved_sorting#:#The sorting has been saved.

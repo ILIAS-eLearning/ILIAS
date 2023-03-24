@@ -125,7 +125,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if ($output_html != "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
-        
+
+        $prefix = $postfix = '';
         if (is_array($this->items["sess"]) ||
             $this->items['sess_link']['prev']['value'] ||
             $this->items['sess_link']['next']['value']) {
@@ -142,7 +143,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             $this->renderer->setBlockPosition("sess", 1);
             
             $position = 1;
-            
             foreach ($this->items["sess"] as $item_data) {
                 if (!$this->renderer->hasItem($item_data["child"])) {
                     $html = $this->renderItem($item_data, $position++, true);
@@ -151,10 +151,15 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
                     }
                 }
             }
+            #22328 render session block if previous or next session link is available
+            if (
+                !count($this->items['sess'] ?? []) &&
+                ($prefix !== '' || $postfix !== '')
+            ) {
+                $this->renderer->addItemToBlock('sess', '', 0, '&nbsp;');
+            }
         }
-
         $pos = $this->getItemGroupsHTML(1);
-        
         if (is_array($this->items["_all"])) {
             $this->renderer->addCustomBlock("_all", $lng->txt("content"));
             $this->renderer->setBlockPosition("_all", ++$pos);

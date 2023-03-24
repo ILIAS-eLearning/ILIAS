@@ -101,6 +101,6 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable("TSTAMP", $date);
         $this->tpl->setVariable("TXT_USER", $a_set["user"]);
-        $this->tpl->setVariable("TXT_DETAILS", $a_set["details"]);
+        $this->tpl->setVariable("TXT_DETAILS", htmlspecialchars($a_set["details"]));
     }
 }

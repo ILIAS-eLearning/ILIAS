@@ -417,10 +417,10 @@ class ilOpenIdConnectSettingsGUI
             return;
         }
 
-        if(!empty($form->getInput('scopes'))) {
+        if (!empty($form->getInput('scopes'))) {
             $scopes = $form->getInput('scopes');
             foreach ($scopes as $key => $value) {
-                if(empty($value)) {
+                if (empty($value)) {
                     array_splice($scopes, $key, 1);
                 }
             }
@@ -437,12 +437,19 @@ class ilOpenIdConnectSettingsGUI
                 $discoveryURL = null;
                 break;
         }
-        $invalid_scopes = !is_null($discoveryURL) ? $this->settings->validateScopes($discoveryURL, (array) $scopes) : [];
-
-        if(!empty($invalid_scopes)) {
-            ilUtil::sendFailure(
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'),implode(",", $invalid_scopes))
-            );
+        $validation_result = !is_null($discoveryURL) ? $this->settings->validateScopes($discoveryURL, (array) $scopes) : [];
+        if (!empty($validation_result)) {
+            if (ilOpenIdConnectSettings::VALIDATION_ISSUE_INVALID_SCOPE === $validation_result[0]) {
+                $this->mainTemplate->setOnScreenMessage(
+                    'failure',
+                    sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $validation_result[1]))
+                );
+            } else {
+                $this->mainTemplate->setOnScreenMessage(
+                    'failure',
+                    sprintf($this->lng->txt('auth_oidc_settings_discovery_error'), $validation_result[1])
+                );
+            }
             $form->setValuesByPost();
             $this->settings($form);
             return;

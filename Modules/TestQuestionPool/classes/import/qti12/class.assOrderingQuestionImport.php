@@ -18,7 +18,7 @@ class assOrderingQuestionImport extends assQuestionImport
      * @var assOrderingQuestion
      */
     public $object;
-    
+
     /**
     * Creates a question from a QTI file
     *
@@ -47,7 +47,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
         $answers = array();
         $type = OQ_TERMS;
-        
+
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
                 case "response":
@@ -110,7 +110,7 @@ class assOrderingQuestionImport extends assQuestionImport
                     break;
             }
         }
-        $responses = array();
+
         $feedbacksgeneric = array();
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
@@ -178,7 +178,7 @@ class assOrderingQuestionImport extends assQuestionImport
                 }
             }
         }
-        
+
         $itemfeedbacks = $this->getFeedbackAnswerSpecific($item, 'link_');
 
         $this->addGeneralMetadata($item);
@@ -194,36 +194,42 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setElementHeight($item->getMetadataEntry("element_height"));
         $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
         $this->object->setShuffle($shuffle);
+        $this->object->saveQuestionDataToDb();
         $points = 0;
         $solanswers = array();
-        
+
         foreach ($answers as $answer) {
             $solanswers[$answer["solutionorder"]] = $answer;
         }
         ksort($solanswers);
         $position = 0;
+        $element_list = $this->object->getOrderingElementList();
         foreach ($solanswers as $answer) {
             $points += $answer["points"];
-            
+
             $element = new ilAssOrderingElement();
-            
+
             if ($element->isExportIdent($answer['ident'])) {
                 $element->setExportIdent($answer['ident']);
             } else {
-                $element->setPosition($position++);
+                $element = $element->withPosition($position++);
                 if (isset($answer['answerdepth'])) {
-                    $element->setIndentation($answer['answerdepth']);
+                    $element = $element->withIndentation((int) $answer['answerdepth']);
                 }
             }
-            
+
             if ($this->object->isImageOrderingType()) {
-                $element->setContent($answer["answerimage"]["label"]);
+                $filename = $this->handleUploadedfile($answer);
+                if ($filename !== null) {
+                    $element = $element->withContent($filename);
+                }
             } else {
-                $element->setContent($answer["answertext"]);
+                $element = $element->withContent($answer["answertext"]);
             }
-            
-            $this->object->getOrderingElementList()->addElement($element);
+
+            $element_list->addElement($element);
         }
+        $this->object->setOrderingElementList($element_list);
         $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
         $this->object->setPoints($points);
         // additional content editing mode information
@@ -236,29 +242,6 @@ class assOrderingQuestionImport extends assQuestionImport
                 $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
             }
             $this->object->saveToDb();
-        }
-        foreach ($answers as $answer) {
-            if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES) {
-                include_once "./Services/Utilities/classes/class.ilUtil.php";
-                if (strlen($answer['answerimage']['label']) && strlen($answer['answerimage']['content'])) {
-                    $image = &base64_decode($answer["answerimage"]["content"]);
-                    $imagepath = $this->object->getImagePath();
-                    if (!file_exists($imagepath)) {
-                        ilUtil::makeDirParents($imagepath);
-                    }
-                    $imagepath .= $answer["answerimage"]["label"];
-                    $fh = fopen($imagepath, "wb");
-                    if ($fh == false) {
-                        //									global $DIC;
-//									$ilErr = $DIC['ilErr'];
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
-                    } else {
-                        $imagefile = fwrite($fh, $image);
-                        fclose($fh);
-                    }
-                }
-            }
         }
 
         foreach ($feedbacksgeneric as $correctness => $material) {
@@ -277,10 +260,10 @@ class assOrderingQuestionImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
@@ -308,7 +291,7 @@ class assOrderingQuestionImport extends assQuestionImport
         }
         foreach ($itemfeedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident, 'link_');
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,
@@ -317,16 +300,57 @@ class assOrderingQuestionImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if ($tst_id > 0) {
-            $this->object->setObjId($tst_id);
-            $tstQid = $this->object->getId();
-            $qplQid = $this->object->duplicate(true, null, null, null, $questionpool_id);
-            assQuestion::resetOriginalId($qplQid);
-            assQuestion::saveOriginalId($tstQid, $qplQid);
+        if (isset($tst_id) && $tst_id !== $questionpool_id) {
+            $qplQid = $this->object->getId();
+            $tstQid = $this->object->duplicate(true, '', '', '', $tst_id);
             $tst_object->questions[$question_counter++] = $tstQid;
             $import_mapping[$item->getIdent()] = array("pool" => $qplQid, "test" => $tstQid);
-        } else {
-            $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+            return;
+        }
+        if (isset($tst_id)) {
+            $tst_object->questions[$question_counter++] = $this->object->getId();
+            $import_mapping[$item->getIdent()] = array("pool" => 0, "test" => $this->object->getId());
+            return;
+        }
+        $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
+    }
+
+    protected function handleUploadedFile(array $answer) : ?string
+    {
+        $image = &base64_decode($answer["answerimage"]["content"]);
+        $image_file_name = $answer['answerimage']['label'];
+        $tmp_path = ilUtil::ilTempnam();
+
+        $file_handle = fopen($tmp_path, "wb");
+        if ($file_handle === false) {
+            return null;
+        }
+        fwrite($file_handle, $image);
+        fclose($file_handle);
+
+        $suffix = strtolower(array_pop(explode(".", $image_file_name)));
+        if (!in_array($suffix, assOrderingQuestion::VALID_UPLOAD_SUFFIXES)) {
+            return null;
+        }
+
+        $this->ensureImagePathExists();
+        $target_filename = $this->object->buildHashedImageFilename($image_file_name, true);
+        $target_filepath = $this->object->getImagePath() . $target_filename;
+        if (rename($tmp_path, $target_filepath)) {
+            $thumb_path = $this->object->getImagePath() . $this->object->getThumbPrefix() . $target_filename;
+            if ($this->object->getThumbGeometry()) {
+                ilUtil::convertImage($target_filepath, $thumb_path, "JPEG", $this->object->getThumbGeometry());
+            }
+            return $target_filename;
+        }
+
+        return null;
+    }
+
+    protected function ensureImagePathExists()
+    {
+        if (!file_exists($this->object->getImagePath())) {
+            ilUtil::makeDirParents($this->object->getImagePath());
         }
     }
 }

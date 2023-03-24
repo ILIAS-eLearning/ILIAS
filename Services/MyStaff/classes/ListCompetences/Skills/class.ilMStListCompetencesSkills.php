@@ -38,8 +38,7 @@ class ilMStListCompetencesSkills
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-        $select = $options['count'] === true ?
-            'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
@@ -89,6 +88,7 @@ class ilMStListCompetencesSkills
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {
             $skills[] = new ilMStListCompetencesSkill(
+                $rec['skill_node_id'],
                 $rec['skill_title'],
                 $rec['skill_level'],
                 $rec['login'],
@@ -126,7 +126,7 @@ class ilMStListCompetencesSkills
                     ->like("ud.email", "text", "%" . $filters['user'] . "%") . ") ";
         }
 
-        if (!empty($arr_filter['org_unit'])) {
+        if (!empty($filters['org_unit'])) {
             $wheres[] = 'ud.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' .
                 $this->dic->database()->quote($filters['org_unit'], 'integer') . ')';
         }

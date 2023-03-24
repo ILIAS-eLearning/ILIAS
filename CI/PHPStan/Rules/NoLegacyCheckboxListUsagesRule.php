@@ -31,6 +31,11 @@ class NoLegacyCheckboxListUsagesRule extends LegacyClassUsageRule implements Rul
         return 'Legacy Checkbox List Usages';
     }
 
+    protected function getRelevantILIASVersion(): int
+    {
+        return 9;
+    }
+
 
     protected function getForbiddenClasses(): array
     {

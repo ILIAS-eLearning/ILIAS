@@ -1386,6 +1386,7 @@ assessment#:#tst_count_correct_solutions#:#Samo pravilni in popolni odgovori dob
 assessment#:#tst_count_correct_solutions_desc#:#Udeleženci prejmejo bodisi maksimalno število točk za popolne in pravilne odgovore ali 0 točk v vseh drugih primerih. To velja tudi za vprašanja, ki določajo točke za delne odgovore.
 assessment#:#tst_count_partial_solutions#:#Točke se podeljujejo tudi za delno napačne odgovore
 assessment#:#tst_count_partial_solutions_desc#:#Če posamezno vprašanje omogoča točke za delne odgovore, se točke za pravilne delne odgovore vprašanja seštejejo. Glede na posamezno vprašanje se torej točke podeljujejo tudi za nepopolne ali delno napačne odgovore.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Osebne privzete nastavitve
 assessment#:#tst_defaults_applied#:#Uporabljene so izbrane privzete nastavitve.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS ni mogel uporabiti izbranih privzetih nastavitev za ta test! Test morda že vsebuje podatkovne zapise o udeležencih, ki preprečujejo prenos določenih privzetih nastavitev.
@@ -2041,6 +2042,7 @@ auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenID Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Assignment of ILIAS Profile Data to OpenID Connect Attributes
 auth#:#auth_oidc_profile#:#Assignment of Profile Data
@@ -2056,6 +2058,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Own session duration
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Settings for Session Duration
 auth#:#auth_oidc_settings_default_role#:#Role Assignment
 auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for new ILIAS users to be created
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Picture
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image to be displayed on the login page. The picture automatically links to the OpenID Connect login script.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###19 08 2022 new variable
@@ -2080,6 +2084,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Enter a text that should be displayed o
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of the user accounts
 auth#:#auth_oidc_settings_user_sync#:#Automatic Synchronization
 auth#:#auth_oidc_settings_user_sync_info#:#If activated, a new user account is created automatically for users who have successfully authenticated themselves at Open ID Connect but do not have an ILIAS user account.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Update automatically
 auth#:#auth_oidc_update_role_info#:#Use only when logging in for the first time (automatic synchronization)
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2519,6 +2527,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
 book#:#book_not#:#Ni
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
 book#:#book_notification#:#Obveščanje o rezervacijah
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Pošlje seznam rezervacij za naslednjih dan uporabnikom (samo lastne) in administratorjem (če je aktivirano).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
@@ -2806,7 +2815,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
@@ -3654,7 +3663,6 @@ common#:#categories_imported#:#Uvoz kategorije je končan.
 common#:#catr#:#Povezava do kategorije
 common#:#catr_edit_info#:#Izberite kategorijo, za katero želite ustvariti povezavo.
 common#:#catr_new#:#Ustvari novo povezavo do kategorije
-common#:#cc#:#CC
 common#:#certificate#:#Certifikat
 common#:#certificate_file_already_exists_error#:#Datoteka certifikata že obstaja v datotečnem sistemu.
 common#:#certificate_file_input_output_error#:#Datoteka certifikata je bila najdena v sitemu, vendar je ni mogoče izbrisati zaradi napak. Obrnite se na svojega administratorja.
@@ -5976,6 +5984,7 @@ cont#:#cont_filter_fields#:#Filter Fields
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#Seznam
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Pogled predstavitve za vsebine
 cont#:#cont_mem_skills#:#Kompetence
 cont#:#cont_news_edited#:#Urejeno
@@ -6029,6 +6038,7 @@ cont#:#cont_std_filter_title_8#:#Object Type
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
 cont#:#cont_tile_view#:#Ploščice
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -10602,7 +10612,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Nazaj na mapo
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Povabljeni so bili uporabniki:
 mail#:#chat_users_without_login#:#Naslednji uporabniki nimajo računa ILIAS in jih ni mogoče povabiti:
 mail#:#chat_users_without_permission#:#Naslednji uporabniki nimajo dostopa do izbrane sobe:
@@ -10627,9 +10636,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Dodelitev stika na poštni seznam
 mail#:#mail_attachment_file_not_exist#:#Vsaj ena od naslednjih prilog ni bila najdena: %1$s
 mail#:#mail_attachments#:#Priloge
 mail#:#mail_auto_generated_info#:#To e-pošto vam je samodejno poslala namestitev ILIAS % s, %s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Oba e-poštna naslova
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Preklopi na mapo: %s
 mail#:#mail_create_tpl#:#Ustvari besedilno predlogo
 mail#:#mail_cronjob_notification_info#:#Tukaj lahko aktivirate redno obveščanje o novi e-pošti.
@@ -10843,6 +10854,7 @@ mail#:#placeholders_advise#:#Osebna rezervirana mesta se nadomestijo samo za pre
 mail#:#search_content#:#Rezultat iskanja
 mail#:#search_recipients#:#Išči prejemnika
 mail#:#second_email_missing_info#:#Izbira ni mogoča, ker ni bil vnesen drug e-poštni naslov
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Vsi administratorji
 mail#:#send_mail_members#:#Vsi člani
 mail#:#send_mail_to#:#Sporočilo za

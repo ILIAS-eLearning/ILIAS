@@ -212,7 +212,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null) {
+    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return;
@@ -299,9 +300,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -310,7 +310,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $sourceParentId = $this->getObjId();
 
         // duplicate the question in database
-        $clone = $this;
+        $clone = clone $this;
         $clone->id = -1;
 
         $clone->setObjId($targetParentId);
@@ -320,6 +320,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $clone->saveToDb();
+
+        $list = $this->getRepository()->getOrderingList($this->getId())
+            ->withQuestionId($clone->getId());
+        $list->distributeNewRandomIdentifiers();
+        $clone->setOrderingElementList($list);
+        $clone->saveToDb();
+
         // copy question page content
         $clone->copyPageOfQuestion($sourceQuestionId);
         // copy XHTML media objects
@@ -345,16 +352,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
-                //if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
+                if (!file_exists($imagepath_original . $filename)
+                    || !copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!");
                     $ilLog->write($imagepath_original . $filename);
                     $ilLog->write($imagepath . $filename);
                 }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("image thumbnail could not be duplicated!!!!");
-                    }
+                if (file_exists($imagepath_original . $this->getThumbPrefix() . $filename)
+                    && !copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
+                    $ilLog->write("image thumbnail could not be duplicated!!!!");
                 }
             }
         }

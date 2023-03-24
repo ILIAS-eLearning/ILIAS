@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @defgroup ServicesUtilities Services/Utilities
@@ -198,7 +212,15 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
-        return $filename;
+        $skin_version_appendix = "";
+        if ($mode !== "filesystem") {
+            // use version from template xml to force reload on changes
+            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+            $skin_version = $skin->getVersion();
+            $skin_version_appendix .= ($skin_version !== '' ? str_replace(".", "-", $skin_version) : '0');
+            $skin_version_appendix = "?skin_version=" . $skin_version_appendix;
+        }
+        return $filename . $skin_version_appendix;
     }
 
     /**
@@ -232,12 +254,7 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_js_location . "templates/default/" . $js_name;
         }
-        $vers = "";
-        if ($add_version) {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-        return $filename . $vers;
+        return $filename;
     }
 
     /**
@@ -278,12 +295,6 @@ class ilUtil
 
         $ilSetting = $DIC->settings();
 
-        // add version as parameter to force reload for new releases
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-
         // use ilStyleDefinition instead of account to get the current skin and style
         require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() == "default") {
@@ -295,9 +306,9 @@ class ilUtil
         }
 
         if (is_file("./" . $in_style)) {
-            return $in_style . $vers;
+            return $in_style;
         } else {
-            return "templates/default/delos_cont.css" . $vers;
+            return "templates/default/delos_cont.css";
         }
     }
 
@@ -2063,8 +2074,19 @@ class ilUtil
         /// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
 
         // #15914 - try to fix german umlauts
-        $umlauts = array("Ä" => "Ae", "Ö" => "Oe", "Ü" => "Ue",
-            "ä" => "ae", "ö" => "oe", "ü" => "ue", "ß" => "ss");
+        $umlauts = [
+            "Ä" => "Ae",
+            "Ö" => "Oe",
+            "Ü" => "Ue",
+            "ä" => "ae",
+            "ö" => "oe",
+            "ü" => "ue",
+            "é" => "e",
+            "è" => "e",
+            "é" => "e",
+            "ê" => "e",
+            "ß" => "ss"
+        ];
         foreach ($umlauts as $src => $tgt) {
             $a_filename = str_replace($src, $tgt, $a_filename);
         }

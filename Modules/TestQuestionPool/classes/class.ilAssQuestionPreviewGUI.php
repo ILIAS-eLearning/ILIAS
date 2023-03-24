@@ -1,6 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use ILIAS\DI\RBACServices;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -28,6 +43,11 @@ class ilAssQuestionPreviewGUI
     const TAB_ID_QUESTION = 'question';
 
     const FEEDBACK_FOCUS_ANCHOR = 'focus';
+
+    /**
+     * @var RBACServices
+     */
+    private $rbac_services;
 
     /**
      * @var ilCtrl
@@ -84,14 +104,22 @@ class ilAssQuestionPreviewGUI
      */
     protected $hintTracking;
 
-    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
-    {
+    public function __construct(
+        ilCtrl $ctrl,
+        ilTabsGUI $tabs,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng,
+        ilDBInterface $db,
+        ilObjUser $user,
+        RBACServices $rbac_services
+    ) {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
+        $this->rbac_services = $rbac_services;
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
@@ -276,13 +304,10 @@ class ilAssQuestionPreviewGUI
 
     protected function isCommentingRequired()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if ($this->previewSettings->isTestRefId()) {
             return false;
         }
-
-        return (bool) $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return (bool) $this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id']);
     }
 
     private function showCmd($notesPanelHTML = '')
@@ -380,21 +405,24 @@ class ilAssQuestionPreviewGUI
 
     private function populatePreviewToolbar(ilTemplate $tpl)
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php';
         $toolbarGUI = new ilAssQuestionPreviewToolbarGUI($this->lng);
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
-        $toolbarGUI->setEditPageCmd(
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
-        );
 
-        $toolbarGUI->setEditQuestionCmd(
-            $this->ctrl->getLinkTargetByClass(
-                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
-                'editQuestion'
-            )
-        );
+        // Check Permissions first, some Toolbar Actions are only available for write access
+        if ($this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id'])) {
+            $toolbarGUI->setEditPageCmd(
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
+            );
+
+            $toolbarGUI->setEditQuestionCmd(
+                $this->ctrl->getLinkTargetByClass(
+                    array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                    'editQuestion'
+                )
+            );
+        }
         $toolbarGUI->build();
 
         $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));

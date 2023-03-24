@@ -238,39 +238,34 @@ class ilFileDataMail extends ilFileData
         }
     }
     /**
-    * get all attachments of a specific user
-    * @access	public
-    * @return array
-    */
-    public function getUserFilesData()
+     * @return list<array{name: string, size: int, ctime: int}>
+     */
+    public function getUserFilesData(): array
     {
         return $this->getUnsentFiles();
     }
 
     /**
-    * get all files which are not sent
-    * find them in directory data/mail/
-    * @access	private
-    * @return array
-    */
-    private function getUnsentFiles()
+     * @return list<array{name: string, size: int, ctime: int}>
+     */
+    private function getUnsentFiles(): array
     {
-        $files = array();
+        $files = [];
 
-        $iter = new DirectoryIterator($this->mail_path);
+        $iter = new RegexIterator(new DirectoryIterator($this->mail_path), "/^{$this->user_id}_(.+)$/");
         foreach ($iter as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
-            if ($file->isFile()) {
-                list($uid, $rest) = explode('_', $file->getFilename(), 2);
-                if ($uid == $this->user_id) {
-                    $files[] = array(
-                        'name' => $rest,
-                        'size' => $file->getSize(),
-                        'ctime' => $file->getCTime()
-                    );
-                }
+            /** @var SplFileInfo $file */
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            list($uid, $rest) = explode('_', $file->getFilename(), 2);
+            if ($uid === (string) $this->user_id) {
+                $files[] = [
+                    'name' => $rest,
+                    'size' => $file->getSize(),
+                    'ctime' => $file->getCTime(),
+                ];
             }
         }
 

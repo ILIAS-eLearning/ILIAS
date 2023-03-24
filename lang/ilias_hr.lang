@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Bodove dobivaju samo točni i potpuni
 assessment#:#tst_count_correct_solutions_desc#:#Sudionici dobivaju ili maksimalan broj bodova za potpun i točan odgovor ili 0 bodova u svim drugim slučajevima. To vrijedi i za pitanja koja definiraju bodove za djelomične odgovore.
 assessment#:#tst_count_partial_solutions#:#Bodove dobivaju i djelomično pogrešni odgovori
 assessment#:#tst_count_partial_solutions_desc#:#Ako pitanje definira bodova za djelomične odgovore, bodovi za ispravne djelomične odgovore se zbrajaju: Dakle, ovisno o pitanju, daju se i bodovi za ukupno nepotpune ili djelomično pogrešne odgovore.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Osobne standardne postavke
 assessment#:#tst_defaults_applied#:#Primijenjene su odabrane osobne standardne postavke.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS nije mogao na ovaj test primijeniti odabrane standardne postavke! Test možda već sadrži skupove podataka sudionika koji sprječavaju preuzimanje određenih standardnih postavki.
@@ -2027,6 +2028,7 @@ auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
 auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 06 2021 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
@@ -2042,6 +2044,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###04 06 2021 new variable
@@ -2066,6 +2070,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der A
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2505,6 +2513,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###
 book#:#book_not#:#Ne
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###04 06 2021 new variable
 book#:#book_notification#:#Pošalji obavijesti o rezervaciji
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Pošalji korisnicima (vlastite rezervacije) i administratorima (ako su aktivirani) popis rezervacija za sljedeći dan.
 book#:#book_nr_of_preferences#:#Number of Preferences###04 06 2021 new variable
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###04 06 2021 new variable
@@ -2792,7 +2801,7 @@ chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
-chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
+chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
@@ -3640,7 +3649,6 @@ common#:#categories_imported#:#Uvoz kategorije dovršen.
 common#:#catr#:#Poveznica kategorije
 common#:#catr_edit_info#:#Odaberite jednu kategoriju za koju želite izraditi poveznicu.
 common#:#catr_new#:#Izradite novu poveznicu kategorije
-common#:#cc#:#CC
 common#:#certificate#:#Certifikat
 common#:#certificate_file_already_exists_error#:#Datoteka certifikata već postoji u datotečnom sustavu.
 common#:#certificate_file_input_output_error#:#Datoteka certifikata je pronađena, ali se zbog internih pogrešaka ne može izbrisati. Molimo kontaktirajte svog administratora.
@@ -5962,6 +5970,7 @@ cont#:#cont_filter_fields#:#Filter Fields###04 06 2021 new variable
 cont#:#cont_filter_record#:#Record###04 06 2021 new variable
 cont#:#cont_found_objects#:#Found Objects###04 06 2021 new variable
 cont#:#cont_item_list#:#Popis
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Prezentacija predmeta
 cont#:#cont_mem_skills#:#Kompetencije
 cont#:#cont_news_edited#:#Obrađeno
@@ -6015,6 +6024,7 @@ cont#:#cont_std_filter_title_8#:#Object Type###04 06 2021 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###04 06 2021 new variable
 cont#:#cont_std_record_title#:#Standard###04 06 2021 new variable
 cont#:#cont_tile_view#:#Pločice
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -10588,7 +10598,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users###04 06 2021 new variabl
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###04 06 2021 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###04 06 2021 new variable
 mail#:#back_to_folder#:#Povratak na mapu
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Pozvani su sljedeći korisnici:
 mail#:#chat_users_without_login#:#Sljedeći korisnici nemaju ILIAS račun i ne mogu biti pozvani u sobu za razgovor:
 mail#:#chat_users_without_permission#:#Sljedeći korisnici nemaju pristup odabranoj sobi za razgovor:
@@ -10613,9 +10622,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Dodijeli unos iz svojih kontakata na 
 mail#:#mail_attachment_file_not_exist#:#Barem jedan od sljedećih privitaka ne postoji: %1$s
 mail#:#mail_attachments#:#Prilozi
 mail#:#mail_auto_generated_info#:#Ovu vam je poruku automatski poslala instalacija ILIAS-a %s,%s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s###04 06 2021 new variable
 mail#:#mail_bg_task_title#:#E-mail Delivery###04 06 2021 new variable
 mail#:#mail_both_email#:#Obje adrese e-pošte
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Prebaci na mapu: %s
 mail#:#mail_create_tpl#:#Kreiraj tekstualne predloške
 mail#:#mail_cronjob_notification_info#:#Ovdje možete aktivirati povremene obavijesti o novoj pošti.
@@ -10829,6 +10840,7 @@ mail#:#placeholders_advise#:#Osobna rezervirana mjesta zamjenjuju se samo za pri
 mail#:#search_content#:#Rezultat pretrage
 mail#:#search_recipients#:#Primatelji pretraživanja
 mail#:#second_email_missing_info#:#Odabir nije moguć jer nije unesena druga adresa e-pošte
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Svi administratori
 mail#:#send_mail_members#:#Svi članovi
 mail#:#send_mail_to#:#Pošalji za

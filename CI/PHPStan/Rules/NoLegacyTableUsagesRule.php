@@ -31,6 +31,11 @@ class NoLegacyTableUsagesRule extends LegacyClassUsageRule implements Rule
         return 'Legacy Table Usages';
     }
 
+    protected function getRelevantILIASVersion(): int
+    {
+        return 10;
+    }
+
 
     protected function getForbiddenClasses(): array
     {

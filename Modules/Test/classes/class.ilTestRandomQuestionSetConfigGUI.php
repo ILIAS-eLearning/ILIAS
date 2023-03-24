@@ -356,9 +356,10 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        $this->configStateMessageHandler->setContext(
-            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-        );
+        if (!$disabled_form) {
+            $this->configStateMessageHandler->setContext(
+                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+            );
 
             $this->configStateMessageHandler->handle();
 
@@ -373,8 +374,8 @@ class ilTestRandomQuestionSetConfigGUI
             }
 
             if (isset($_GET['modified']) && (int) $_GET['modified']) {
-            ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
-
+                ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
+            }
         }
     }
 
@@ -445,13 +446,17 @@ class ilTestRandomQuestionSetConfigGUI
         $table->init($this->sourcePoolDefinitionList);
         $content .= $this->ctrl->getHTML($table);
 
-        if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
+        if (!$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $table = $this->buildNonAvailablePoolsTableGUI();
             $table->init($this->sourcePoolDefinitionList);
             $content .= $this->ctrl->getHTML($table);
         }
 
         $this->tpl->setContent($content);
+
+        if ($disabled_form) {
+            return;
+        }
 
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
@@ -967,9 +972,10 @@ class ilTestRandomQuestionSetConfigGUI
     protected function preventFormBecauseOfSync() : bool
     {
         $return = false;
-        $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
-        if ($last_sync != 0 &&
-            !$this->isFrozenConfigRequired()) {
+        $last_sync = (int) $this->questionSetConfig->getLastQuestionSyncTimestamp();
+
+        if ($last_sync !== null && $last_sync !== 0 &&
+            !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
             $return = true;
 
             $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);

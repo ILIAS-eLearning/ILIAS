@@ -1386,6 +1386,7 @@ assessment#:#tst_count_correct_solutions#:#Solo le risposte corrette e complete 
 assessment#:#tst_count_correct_solutions_desc#:#I partecipanti ottengono il numero massimo di punti per una risposta completamente corretta e completa o 0 punti in ogni altro caso.
 assessment#:#tst_count_partial_solutions#:#Conta anche i test risolti parzialmente.
 assessment#:#tst_count_partial_solutions_desc#:#Vengono aggiunti punti per le risposte parziali fornite correttamente: i partecipanti possono ottenere punti per risposte incomplete o parzialmente errate.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Impostazioni personali predefinite
 assessment#:#tst_defaults_applied#:#Le impostazioni di base selezionate sono state salvate.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS non è stato in grado di applicare le impostazioni standard per questo test! Probabilmente esso contiene domande e/o dati dei partecipanti che non sono compatibili con le impostazioni standard.
@@ -2041,6 +2042,7 @@ auth#:#auth_info_migrate#:#Se hai già un account ILIAS, inserisci per favore us
 auth#:#auth_ldap_server_ds#:#Server LDAP
 auth#:#auth_login_editor#:#Editor della schermata di accesso
 auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login a ILIAS via OpenID
 auth#:#auth_oidc_mapping_table#:#Mappatura attributi utente ILIAS su attributi OpenID Connect
 auth#:#auth_oidc_profile#:#Mappatura attributi utente
@@ -2056,6 +2058,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Durata sessione perso
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Impostazioone della durata della sessione
 auth#:#auth_oidc_settings_default_role#:#Ruolo predefinito utenti
 auth#:#auth_oidc_settings_default_role_info#:#Selezionare un ruolo globale per i nuovi utenti creati
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Immagine
 auth#:#auth_oidc_settings_img_file_info#:#Caricare un immagine da visualizzare nella pagine di login. L'immagine viene inserita nello script di login OpenID Connect.
 auth#:#auth_oidc_settings_invalid_scopes#:#I seguenti valori non sono parametri Scope validi: %s
@@ -2080,6 +2084,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Immettere un testo da visualizzare nell
 auth#:#auth_oidc_settings_user_attr#:#Nome attributo da sincronizzare
 auth#:#auth_oidc_settings_user_sync#:#Sincronizzazione automatica
 auth#:#auth_oidc_settings_user_sync_info#:#Se attivato, viene automaticamente creato un nuovo account utente per gli utenti che si sono autenticati correttamente con Open ID Connect ma non dispongono di un account utente ILIAS.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Aggiornamento automatico
 auth#:#auth_oidc_update_role_info#:#Utilizzare solo quando ci si registra per la prima volta (sincronizzazione automatica)
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2519,6 +2527,7 @@ book#:#book_no_preferences_for_you#:#Non ha salvato alcuna preferenza.
 book#:#book_not#:#No
 book#:#book_not_enough_preferences#:#Non è stato selezionato un numero sufficiente di preferenze. Le preferenze non sono state salvate.
 book#:#book_notification#:#Invia notifiche di prenotazione
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Invia un elenco di prenotazioni del giorno successivo agli utenti (proprie prenotazioni) e agli amministratori (se attivato).
 book#:#book_nr_of_preferences#:#Numero preferenze
 book#:#book_nr_of_preferences_info#:#Numero preferenze, che ogni partecipante può esprimere.
@@ -3654,7 +3663,6 @@ common#:#categories_imported#:#Importazione contesti completata.
 common#:#catr#:#Categoria Reference
 common#:#catr_edit_info#:#Scegli una categoria per creare un nuovo riferimento.
 common#:#catr_new#:#Creare Nuovo Riferimento di Categoria
-common#:#cc#:#CC
 common#:#certificate#:#Certificato
 common#:#certificate_file_already_exists_error#:#Il file del certificato esiste già nel file system.
 common#:#certificate_file_input_output_error#:#Il file del certificato è stato trovato ma non è stato possibile eliminarlo a causa di errori interni. Si prega di contattare l'amministratore.
@@ -5976,6 +5984,7 @@ cont#:#cont_filter_fields#:#Campi di filtro
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Oggetti trovati
 cont#:#cont_item_list#:#Lista
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Vista presentazione per contenuti
 cont#:#cont_mem_skills#:#Competenze
 cont#:#cont_news_edited#:#Modificato
@@ -6029,6 +6038,7 @@ cont#:#cont_std_filter_title_8#:#Tipo oggetto
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
 cont#:#cont_tile_view#:#Mattonelle
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Contatti confermati
 contact#:#contact_awrn_ap_contacts_info#:#Sono elencati tutti i contatti confermati dall’utente.
 contact#:#contact_awrn_req_contacts#:#Richieste di contatto
@@ -10602,7 +10612,6 @@ lti#:#user_provider_subtab#:#Fornitori definiti dagli utenti
 ltiv#:#ltiv_create#:#Crea certificato per Oggetto consumatore LTI.
 ltiv#:#ltiv_create_info#:#Seleziona un Oggetto consumatore LTI completato per generare un certificato.
 mail#:#back_to_folder#:#Torna alla cartella
-mail#:#bc#:#BC
 mail#:#chat_users_have_been_invited#:#I seguenti utenti sono stati invitati:
 mail#:#chat_users_without_login#:#I seguenti utenti non hanno un account di ILIAS e quindi non possono essere invitati alla Chat Room:
 mail#:#chat_users_without_permission#:#I seguenti utenti non hanno accesso alla chat room:
@@ -10627,9 +10636,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assegna un indirizzo della tua rubric
 mail#:#mail_attachment_file_not_exist#:#Almeno uno dei seguenti allegati non esiste: %1$s
 mail#:#mail_attachments#:#Allegati
 mail#:#mail_auto_generated_info#:#Questa mail ti è stata mandata in automatico dalla installazione %s, %s di ILIAS
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Soggetto: %s
 mail#:#mail_bg_task_title#:#E-mail consegnata
 mail#:#mail_both_email#:#Entrambi gli indirizzi e-mail
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Spostare nella cartella: %s
 mail#:#mail_create_tpl#:#Crea modello di testo
 mail#:#mail_cronjob_notification_info#:#Puoi attivare qui una notifica periodica per nuove mail.
@@ -10843,6 +10854,7 @@ mail#:#placeholders_advise#:#I segnaposto vengono mantenuti solo per gli indiriz
 mail#:#search_content#:#Cerca risultato
 mail#:#search_recipients#:#Cerca destinatario
 mail#:#second_email_missing_info#:#Selezione impossibile perché non è stato inserito un secondo indirizzo e-mail
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Tutti gli amministratori
 mail#:#send_mail_members#:#Tutti i membri
 mail#:#send_mail_to#:#Mail a

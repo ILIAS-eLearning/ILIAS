@@ -87,6 +87,8 @@ abstract class LegacyClassUsageRule implements Rule
 
     abstract protected function getHumanReadableRuleName(): string;
 
+    abstract protected function getRelevantILIASVersion(): int;
+
     final public function processNode(Node $node, Scope $scope): array
     {
         switch (true) {
@@ -109,7 +111,10 @@ abstract class LegacyClassUsageRule implements Rule
             $this->cacheAncestors($class_name, $class_names_to_test);
             return [
                 RuleErrorBuilder::message("Usage of $class_name is forbidden.")
-                    ->metadata(['rule' => $this->getHumanReadableRuleName()])
+                    ->metadata([
+                        'rule' => $this->getHumanReadableRuleName(),
+                        'version' => $this->getRelevantILIASVersion(),
+                    ])
                     ->build()
             ];
         }

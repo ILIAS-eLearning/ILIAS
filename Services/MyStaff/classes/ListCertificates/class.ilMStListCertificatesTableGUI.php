@@ -79,6 +79,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
         $this->setDefaultOrderField('obj_title');
 
         $this->determineLimit();
@@ -86,7 +87,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit' => array(),
+            'limit' => array(
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
+            ),
             'count' => true,
             'sort' => array(
                 'field' => $this->getOrderField(),
@@ -96,12 +100,15 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $certificates_fetcher = new ilMStListCertificates($DIC);
         $data = $certificates_fetcher->getData($options);
-        $options['limit'] = array(
-            'start' => intval($this->getOffset()),
-            'end' => intval($this->getLimit()),
-        );
-        $this->setMaxCount(count($data));
+
         $this->setData($data);
+
+        $options['limit'] = array(
+            'start' => null,
+            'end' => null,
+        );
+        $max_data = $certificates_fetcher->getData($options);
+        $this->setMaxCount(count($max_data));
     }
 
 
@@ -115,8 +122,12 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->filter['obj_title'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+        $item = new ilTextInputGUI(
+            $DIC->language()->txt("login")
+            . "/" . $DIC->language()->txt("email")
+            . "/" . $DIC->language()->txt("name"),
+            "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -186,11 +197,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
 
         if ($arr_searchable_user_columns['email']) {
-            $cols['usr_email'] = array(
+            $cols['userEmail'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
                 'width' => 'auto',
-                'sort_field' => 'usr_email',
+                'sort_field' => 'userEmail',
             );
         }
         if ($arr_searchable_user_columns['org_units']) {

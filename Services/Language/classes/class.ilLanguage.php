@@ -140,6 +140,9 @@ class ilLanguage
      * @var string[]
      */
     protected static $lng_log = array();
+    public $cust_lang_path;
+    protected $log;
+    protected $global_cache;
 
     /**
      * Constructor
@@ -148,7 +151,7 @@ class ilLanguage
      * Second dimension is the languagetopic. Content is the translation.
      *
      * @access	public
-     * @param	string		languagecode (two characters), e.g. "de", "en", "in"
+     * @param	string $a_lang_key languagecode (two characters), e.g. "de", "en", "in"
      * @return	boolean 	false if reading failed
      */
     public function __construct($a_lang_key)
@@ -156,7 +159,7 @@ class ilLanguage
         global $DIC;
         $ilIliasIniFile = $DIC->iliasIni();
 
-        $this->log = $DIC->logger()->lang();
+        $this->log = $DIC->logger()->root();
 
         $this->lang_key = $a_lang_key;
         

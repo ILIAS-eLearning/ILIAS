@@ -530,7 +530,6 @@ if (!$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name')) {
 <#29>
 <?php
 if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
-
     $set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
     while ($row = $ilDB->fetchAssoc($set)) {
         $ident = 0;
@@ -582,7 +581,6 @@ if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
 <#30>
 <?php
 if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
-
     $set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
     while ($row = $ilDB->fetchAssoc($set)) {
         $ident = 0;
@@ -1054,7 +1052,7 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
 ?>
 <#55>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_users', 'registration') ) {
+if (!$ilDB->tableColumnExists('cmix_users', 'registration')) {
     $ilDB->addTableColumn('cmix_users', 'registration', array(
         'type' => 'text',
         'length' => 255,
@@ -1062,7 +1060,7 @@ if ( !$ilDB->tableColumnExists('cmix_users', 'registration') ) {
         'default' => ''
     ));
 }
-if ( !$ilDB->tableColumnExists('cmix_settings', 'publisher_id') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'publisher_id')) {
     $ilDB->addTableColumn('cmix_settings', 'publisher_id', array(
         'type' => 'text',
         'length' => 255,
@@ -1070,7 +1068,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'publisher_id') ) {
         'default' => ''
     ));
 }
-if ( !$ilDB->tableColumnExists('cmix_settings', 'anonymous_homepage') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'anonymous_homepage')) {
     $ilDB->addTableColumn('cmix_settings', 'anonymous_homepage', array(
             'type' => 'integer',
             'length' => 1,
@@ -1081,7 +1079,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'anonymous_homepage') ) {
 ?>
 <#56>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_settings', 'moveon') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'moveon')) {
     $ilDB->addTableColumn('cmix_settings', 'moveon', array(
         'type' => 'text',
         'length' => 32,
@@ -1092,7 +1090,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'moveon') ) {
 ?>
 <#57>
 <?php
-if (!$ilDB->tableColumnExists('cmix_token','cmi5_session')) {
+if (!$ilDB->tableColumnExists('cmix_token', 'cmi5_session')) {
     $ilDB->addTableColumn("cmix_token", "cmi5_session", [
         'type' => 'text',
         'length' => 255,
@@ -1103,7 +1101,7 @@ if (!$ilDB->tableColumnExists('cmix_token','cmi5_session')) {
 ?>
 <#58>
 <?php
-if (!$ilDB->tableColumnExists('cmix_token','returned_for_cmi5_session')) {
+if (!$ilDB->tableColumnExists('cmix_token', 'returned_for_cmi5_session')) {
     $ilDB->addTableColumn("cmix_token", "returned_for_cmi5_session", [
         'type' => 'text',
         'length' => 255,
@@ -1114,7 +1112,7 @@ if (!$ilDB->tableColumnExists('cmix_token','returned_for_cmi5_session')) {
 ?>
 <#59>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_settings', 'launch_parameters') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'launch_parameters')) {
     $ilDB->addTableColumn('cmix_settings', 'launch_parameters', array(
         'type' => 'text',
         'length' => 255,
@@ -1125,7 +1123,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'launch_parameters') ) {
 ?>
 <#60>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_settings', 'entitlement_key') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'entitlement_key')) {
     $ilDB->addTableColumn('cmix_settings', 'entitlement_key', array(
         'type' => 'text',
         'length' => 255,
@@ -1136,7 +1134,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'entitlement_key') ) {
 ?>
 <#61>
 <?php
-if (!$ilDB->tableColumnExists('cmix_token','cmi5_session_data')) {
+if (!$ilDB->tableColumnExists('cmix_token', 'cmi5_session_data')) {
     $ilDB->addTableColumn("cmix_token", "cmi5_session_data", [
         'type' => 'clob'
     ]);
@@ -1144,7 +1142,7 @@ if (!$ilDB->tableColumnExists('cmix_token','cmi5_session_data')) {
 ?>
 <#62>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_users', 'satisfied') ) {
+if (!$ilDB->tableColumnExists('cmix_users', 'satisfied')) {
     $ilDB->addTableColumn('cmix_users', 'satisfied', array(
             'type' => 'integer',
             'length' => 1,
@@ -1155,7 +1153,7 @@ if ( !$ilDB->tableColumnExists('cmix_users', 'satisfied') ) {
 ?>
 <#63>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_settings', 'switch_to_review') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'switch_to_review')) {
     $ilDB->addTableColumn('cmix_settings', 'switch_to_review', array(
             'type' => 'integer',
             'length' => 1,
@@ -1371,16 +1369,19 @@ $ilDB->modifyTableColumn(
 ?>
 <#72>
 <?php
-if(!$ilDB->indexExistsByFields('il_bt_bucket', ['user_id'])) {
+if (!$ilDB->indexExistsByFields('il_bt_bucket', ['user_id'])) {
     $ilDB->addIndex('il_bt_bucket', ['user_id'], 'i1');
 }
 ?>
 <#73>
 <?php
-$ilDB->replace("settings", [        // pk
+$ilDB->replace(
+    "settings",
+    [        // pk
                            "module" => ["text", "common"],
                            "keyword" => ["text", "rep_favourites"],
-], [
+],
+    [
         "value" => ["text", "1"]
     ]
 );
@@ -1388,49 +1389,49 @@ $ilDB->replace("settings", [        // pk
 ?>
 <#74>
 <?php
-if(!$ilDB->indexExistsByFields('booking_reservation', ['context_obj_id'])) {
+if (!$ilDB->indexExistsByFields('booking_reservation', ['context_obj_id'])) {
     $ilDB->addIndex('booking_reservation', ['context_obj_id'], 'i5');
 }
 ?>
 <#75>
 <?php
-if(!$ilDB->indexExistsByFields('booking_schedule', ['pool_id'])) {
+if (!$ilDB->indexExistsByFields('booking_schedule', ['pool_id'])) {
     $ilDB->addIndex('booking_schedule', ['pool_id'], 'i1');
 }
 ?>
 <#76>
 <?php
-if(!$ilDB->indexExistsByFields('booking_object', ['schedule_id'])) {
+if (!$ilDB->indexExistsByFields('booking_object', ['schedule_id'])) {
     $ilDB->addIndex('booking_object', ['schedule_id'], 'i2');
 }
 ?>
 <#77>
 <?php
-if(!$ilDB->indexExistsByFields('exc_assignment', ['exc_id'])) {
+if (!$ilDB->indexExistsByFields('exc_assignment', ['exc_id'])) {
     $ilDB->addIndex('exc_assignment', ['exc_id'], 'i1');
 }
 ?>
 <#78>
 <?php
-if(!$ilDB->indexExistsByFields('exc_members', ['usr_id'])) {
+if (!$ilDB->indexExistsByFields('exc_members', ['usr_id'])) {
     $ilDB->addIndex('exc_members', ['usr_id'], 'i1');
 }
 ?>
 <#79>
 <?php
-if(!$ilDB->indexExistsByFields('exc_assignment', ['deadline_mode', 'exc_id'])) {
+if (!$ilDB->indexExistsByFields('exc_assignment', ['deadline_mode', 'exc_id'])) {
     $ilDB->addIndex('exc_assignment', ['deadline_mode', 'exc_id'], 'i2');
 }
 ?>
 <#80>
 <?php
-if(!$ilDB->indexExistsByFields('exc_ass_file_order', ['assignment_id'])) {
+if (!$ilDB->indexExistsByFields('exc_ass_file_order', ['assignment_id'])) {
     $ilDB->addIndex('exc_ass_file_order', ['assignment_id'], 'i1');
 }
 ?>
 <#81>
 <?php
-if(!$ilDB->indexExistsByFields('il_exc_team', ['id'])) {
+if (!$ilDB->indexExistsByFields('il_exc_team', ['id'])) {
     $ilDB->addIndex('il_exc_team', ['id'], 'i1');
 }
 ?>
@@ -1536,7 +1537,7 @@ function migrateData($field_id, $data) : array
     if (!is_array($data)) {
         return [];
     }
-    $indexes  = [];
+    $indexes = [];
     foreach ($data as $idx => $value) {
         $query = 'SELECT idx from adv_mdf_enum ' .
             'WHERE value = ' . $ilDB->quote($value, ilDBConstants::T_TEXT) . ' ' .
@@ -1570,18 +1571,18 @@ $res = $ilDB->query($query);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if ($row->field_type == 1 || $row->field_type == 8) {
         migrate(
-                $row->id,
+            $row->id,
+            $row->field_id,
+            migrateData(
                 $row->field_id,
-                migrateData(
-                        $row->field_id,
-                        unserialize(unserialize($row->data))
-                )
+                unserialize(unserialize($row->data))
+            )
         );
     } else {
         migrate(
-                $row->id,
-                $row->field_id,
-                unserialize(unserialize($row->data))
+            $row->id,
+            $row->field_id,
+            unserialize(unserialize($row->data))
         );
     }
 }
@@ -1623,8 +1624,7 @@ $check = "SELECT * FROM settings WHERE module = 'MathJax' AND keyword = 'enable'
 $result = $ilDB->query($check);
 if ($row = $ilDB->fetchAssoc($result)) {
     // don't change the url of an activated mathjax
-}
-else {
+} else {
     // change the default value
     $old = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
     $new = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
@@ -1643,8 +1643,7 @@ $check = "SELECT * FROM settings WHERE module = 'MathJax' AND keyword = 'enable'
 $result = $ilDB->query($check);
 if ($row = $ilDB->fetchAssoc($result)) {
     // don't change the url of an activated mathjax
-}
-else {
+} else {
     // change the default value
     $old = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
     $new = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
@@ -1654,5 +1653,23 @@ else {
         array('text','text'),
         array($new, $old)
     );
+}
+?>
+<#94>
+<?php
+global $DIC;
+$DIC->database()->modifyTableColumn("object_translation", "title", [
+    "type" => \ilDBConstants::T_TEXT,
+    "length" => 255,
+    "notnull" => false
+]);
+?>
+<#95>
+<?php
+if (!$ilDB->indexExistsByFields('il_dcl_field_prop', array('id', 'field_id'))) {
+    $ilDB->addIndex('il_dcl_field_prop', array('id', 'field_id'), 'i1');
+}
+if (!$ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+    $ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
 }
 ?>

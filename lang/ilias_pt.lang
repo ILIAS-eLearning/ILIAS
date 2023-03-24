@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Apenas as respostas corretas e comple
 assessment#:#tst_count_correct_solutions_desc#:#Os participantes pontuam o número máximo de pontos para uma resposta totalmente correta e completa ou 0 pontos nos outros casos. Isto também é válido para perguntas que definem pontos para respostas parciais.
 assessment#:#tst_count_partial_solutions#:#As respostas incompletas ou parcialmente erradas pontuam
 assessment#:#tst_count_partial_solutions_desc#:#Quando uma pergunta define pontos para respostas parciais são adicionados pontos por respostas parcialmente corretas: Os participantes podem pontuar por respostas incompletas ou parcialmente erradas neste tipo de perguntas.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Definições padrão pessoais
 assessment#:#tst_defaults_applied#:#As predefinições do teste selecionado foram aplicadas.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS não conseguiu aplicar as predefinições do teste selecionado a este teste! Talvez este teste já contém conjuntos de dados dos participantes.
@@ -2027,6 +2028,7 @@ auth#:#auth_info_migrate#:#Ativar RSS
 auth#:#auth_ldap_server_ds#:#Servidor LDAP
 auth#:#auth_login_editor#:#Este blog faz parte da atribuição "%s" do exercício "%s".
 auth#:#auth_oidc#:#A sua última entrega foi a %s. Verifique o ficheiro de exportação: %s
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
 auth#:#auth_oidc_mapping_table#:#Número total de meses apresentados
 auth#:#auth_oidc_profile#:#Os meses adicionais serão apresentados com o seu número total de postings.
@@ -2042,6 +2044,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#O posting foi apagado
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Tem a certeza que quer apagar o seguinte posting?
 auth#:#auth_oidc_settings_default_role#:#O tamanho predefinido é de 1370x100 pixéis.
 auth#:#auth_oidc_settings_default_role_info#:#Retirar publicação
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Objetos de reserva
 auth#:#auth_oidc_settings_img_file_info#:#Tem a certeza que quer cancelar as seguintes reservas?
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###30 04 2021 new variable
@@ -2066,6 +2070,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Nome completo do utilizador (título, n
 auth#:#auth_oidc_settings_user_attr#:#‘aprovado’ ou ‘reprovado’, dependendo dos resultados do teste
 auth#:#auth_oidc_settings_user_sync#:#‘Aprovado’ ou ‘Reprovado’
 auth#:#auth_oidc_settings_user_sync_info#:#Pontuação do utilizador
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Pré-visualização
 auth#:#auth_oidc_update_role_info#:#Note que a utilização dos certificados só está disponível se o servidor Java de ILIAS estiver em funcionamento. A configuração para o servidor Java está disponível no servidor Administração » Definições gerais », subseparador do servidor Java.
 auth#:#auth_oidconnect#:#Todos os meses com postings são apresentados no bloco 'Postings'.
@@ -2505,6 +2513,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###
 book#:#book_not#:#Mostrar detalhes
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Tem a certeza que quer desinstalar o plugin "%s" e remover todas as entradas relacionadas com a base de dados?
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#A base de dados está atualizada.
 book#:#book_nr_of_preferences#:#Number of Preferences###07 02 2020 new variable
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###07 02 2020 new variable
@@ -3640,7 +3649,6 @@ common#:#categories_imported#:#Erro de destinatário
 common#:#catr#:#O carregamento falhou, pois esta é uma pasta, o tamanho do ficheiro é 0 bytes ou excedeu o tamanho máx. de carregamento ou o ficheiro entretanto mudou de nome.
 common#:#catr_edit_info#:#Apenas 1 parâmetro!
 common#:#catr_new#:#Apenas 2 parâmetro!
-common#:#cc#:#Cc
 common#:#certificate#:#Certificado
 common#:#certificate_file_already_exists_error#:#Nenhum parâmetro!
 common#:#certificate_file_input_output_error#:#Mais de 3 parâmetros!
@@ -5962,6 +5970,7 @@ cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
 cont#:#cont_filter_record#:#Record###07 02 2020 new variable
 cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
 cont#:#cont_item_list#:#Clicar e editar para inserir media
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Variável de media
 cont#:#cont_mem_skills#:#Competências
 cont#:#cont_news_edited#:#Processado
@@ -6015,6 +6024,7 @@ cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
 cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
 cont#:#cont_tile_view#:#Propriedades de instância
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Contactos aprovados
 contact#:#contact_awrn_ap_contacts_info#:#Todos os contactos aprovados pelo utilizador estão listados.
 contact#:#contact_awrn_req_contacts#:#Pedidos de contactos
@@ -10588,7 +10598,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variabl
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Voltar à pasta
-mail#:#bc#:#Estado
 mail#:#chat_users_have_been_invited#:#Estrutura
 mail#:#chat_users_without_login#:#Perito(s) no assunto
 mail#:#chat_users_without_permission#:#Tabela
@@ -10613,9 +10622,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Versão
 mail#:#mail_attachment_file_not_exist#:#Pelo menos um dos seguintes anexos não existe: %1$s
 mail#:#mail_attachments#:#Muito difícil
 mail#:#mail_auto_generated_info#:#Este mail foi enviado automaticamente para si pela instalação ILIAS %s, %s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s###07 02 2020 new variable
 mail#:#mail_bg_task_title#:#E-mail Delivery###07 02 2020 new variable
 mail#:#mail_both_email#:#Muito fácil
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Muito alto
 mail#:#mail_create_tpl#:#Criar modelos de texto
 mail#:#mail_cronjob_notification_info#:#Pode ativar uma notificação periódica sobre o novo mail aqui.
@@ -10829,6 +10840,7 @@ mail#:#placeholders_advise#:#Este portefólio faz parte da atribuição "%s" do 
 mail#:#search_content#:#Resultado da pesquisa
 mail#:#search_recipients#:#Entregou o seu portefólio em %s. Adicionalmente pode querer guardar uma cópia dos seus próprios ficheiros: %s
 mail#:#second_email_missing_info#:#Tipo da primeira página
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Todos os administradores
 mail#:#send_mail_members#:#Todos os membros
 mail#:#send_mail_to#:#O seu "%s" não contém quaisquer blogs. Criar blogs para usá-los como parte dos seus portefólios.

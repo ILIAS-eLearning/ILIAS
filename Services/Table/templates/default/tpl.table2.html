@@ -18,11 +18,11 @@
 <!-- BEGIN filter_section -->
 <div class="ilTableFilterSec" id = "tfil_{FIL_ID}" style="display:none;">
 <fieldset class="ilTableFilter">
-<legend class="ilTableFilter"><!--{TXT_FILTER}-->
-<!-- BEGIN filter_deactivation -->
-<a href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</a>
-<!-- END filter_deactivation -->
+<legend class="ilTableFilter sr-only">{TXT_FILTER}
 </legend>
+<!-- BEGIN filter_deactivation --><div class="ilFloatRight">
+<button href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button></div>
+<!-- END filter_deactivation -->
 <!-- BEGIN filter_select -->
 <input type="submit" class="btn btn-default" name="cmd[{HIDDEN_CMD_APPLY}]" style="display:none;" />
 <div class="small" style="margin-bottom:5px;">{FILTER_SELECTOR}</div>
@@ -67,7 +67,7 @@
 	</td>
 	<td class="ilWhiteSpaceNowrap ilRight">
 	<!-- BEGIN filter_activation -->
-	<a class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+	<button class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button>
 	<!-- END filter_activation -->
 	<!-- BEGIN filter_hidden -->
 	<script>
@@ -167,7 +167,7 @@
     <th {TBL_COLUMN_WIDTH} {TBL_COLUMN_CLASS}>
 	  <a class="tblheader" href="{TBL_ORDER_LINK}" title="{TBL_ORDER_ALT}"><span id="{HEAD_CELL_ID}">{TBL_HEADER_CELL}</span>
 <!-- BEGIN tbl_order_image -->
-	  <span class="{ORDER_CLASS}"></span>
+		  <span class="{ORDER_CLASS}"><span class="sr-only">{ORDER_TXT}</span></span>
 <!-- END tbl_order_image -->
 	  </a>
 	</th>

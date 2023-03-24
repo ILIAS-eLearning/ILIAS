@@ -104,6 +104,7 @@ class ilMStListUsersGUI
         $this->help->setScreenId('users_list');
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_users'));
+        $DIC->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_stff.svg'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
@@ -154,7 +155,7 @@ class ilMStListUsersGUI
         if ($mst_lus_usr_id > 0) {
             $selection = new ilAdvancedSelectionListGUI();
 
-            if ($this->access->hasCurrentUserAccessToMyStaff()) {
+            if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
                 $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
                 $selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
                     ilDashboardGUI::class,

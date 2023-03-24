@@ -26,6 +26,11 @@ class ilOpenIdConnectSettings
     const URL_VALIDATION_PROVIDER = 0;
     const URL_VALIDATION_CUSTOM = 1;
     const URL_VALIDATION_NONE = 2;
+
+    const VALIDATION_ISSUE_INVALID_SCOPE = 0;
+    const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
+
+
     /**
      * @var \ilOpenIdConnectSettings
      *
@@ -401,7 +406,8 @@ class ilOpenIdConnectSettings
     /**
      * @return array
      */
-    public function getAllScopes() : array {
+    public function getAllScopes() : array
+    {
         $scopes = $this->additional_scopes;
         array_unshift($scopes, self::DEFAULT_SCOPE);
 
@@ -490,27 +496,29 @@ class ilOpenIdConnectSettings
         }
         return '';
     }
-    public function setValidateScopes(int $validation_mode): void
+    public function setValidateScopes(int $validation_mode) : void
     {
         $this->validate_scopes = $validation_mode;
     }
 
-    public function getValidateScopes(): int
+    public function getValidateScopes() : int
     {
         return $this->validate_scopes;
     }
 
-    public function setCustomDiscoveryUrl(?string $discoveryUrl): void
+    public function setCustomDiscoveryUrl(?string $discoveryUrl) : void
     {
         $this->custom_discovery_url = $discoveryUrl;
     }
 
-    public function getCustomDiscoveryUrl(): ?string
+    public function getCustomDiscoveryUrl() : ?string
     {
         return $this->custom_discovery_url;
     }
 
-    public function validateScopes(string $discoveryURL, array $custom_scopes) {
+    public function validateScopes(string $discoveryURL, array $custom_scopes)
+    {
+        $result = array();
         try {
             $curl = new ilCurlConnection($discoveryURL);
             $curl->init();
@@ -519,24 +527,26 @@ class ilOpenIdConnectSettings
             $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
             $curl->setOpt(CURLOPT_TIMEOUT, 4);
 
-            $response =  json_decode($curl->exec());
+            $response = $curl->exec();
 
-            if($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
-                return array();
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
+                $available_scopes = $response->scopes_supported;
+                $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
+                $available_scopes = $decoded_response->scopes_supported;
+                array_unshift($custom_scopes, self::DEFAULT_SCOPE);
+
+                $result = array_diff($custom_scopes, $available_scopes);
+                if (!empty(array_diff($custom_scopes, $available_scopes))) {
+                    $result = [self::VALIDATION_ISSUE_INVALID_SCOPE, array_diff($custom_scopes, $available_scopes)];
+                }
+            } else {
+                $result = [self::VALIDATION_ISSUE_DISCOVERY_ERROR, $response];
             }
-
-            $available_scopes = $response->scopes_supported;
-            array_unshift($custom_scopes, self::DEFAULT_SCOPE);
-
-            $result = array_diff($custom_scopes, $available_scopes);
-
-
-        } catch (ilCurlConnectionException $e){
+        } catch (ilCurlConnectionException $e) {
             throw $e;
         } finally {
             $curl->close();
         }
-
         return $result;
     }
 
@@ -573,7 +583,6 @@ class ilOpenIdConnectSettings
         } else {
             $this->storage->delete('custom_discovery_url');
         }
-
     }
 
     /**
@@ -606,7 +615,6 @@ class ilOpenIdConnectSettings
         if (self::URL_VALIDATION_CUSTOM === $this->getValidateScopes()) {
             $this->setCustomDiscoveryUrl($this->storage->get('custom_discovery_url'));
         }
-
     }
 
     /**
