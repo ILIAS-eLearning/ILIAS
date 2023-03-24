@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Component\Toast\Toast;
-use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\ToastRenderer;
 
@@ -55,6 +52,8 @@ interface isStandardItem extends isItem
      * @return ToastAction[]
      */
     public function getAdditionalToastActions(): array;
+
+    public function withIcon(Icon $icon): isStandardItem;
 
     public function getIcon(): ?Icon;
 
@@ -102,6 +101,14 @@ interface isStandardItem extends isItem
      * Get whether there are any callables to be executed the Toast has vanished.
      */
     public function hasVanishedAction(): bool;
+
+    public function withVanishTime(int $miliseconds): isStandardItem;
+
+    public function getVanishTime(): ?int;
+
+    public function withDelayTime(int $miliseconds): isStandardItem;
+
+    public function getDelayTime(): ?int;
 
     public function getRenderer(): ToastRenderer;
 }

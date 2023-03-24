@@ -1,8 +1,11 @@
 Scope Toasts
 ===================
-This scope addresses toasts that are displayed to the user in the ToastContainer. Components can - as in all other scopes - via an implementation of a `ToastProvider` provide the `ToastCollector` with a list of GloablScreen Toasts Items. These are summarized, translated to UI\Toasts and displayed in the ToastContainer.
+This scope addresses toasts that are displayed to the user in the ToastContainer. Components can - as in all other
+scopes - via an implementation of a `ToastProvider` provide the `ToastCollector` with a list of GloablScreen Toasts
+Items. These are summarized, translated to UI\Toasts and displayed in the ToastContainer.
 
-After implementing a `ToastProvider`, you need to perform a classmap update which triggers the collection of Providers in the GlobalScreen-Service:
+After implementing a `ToastProvider`, you need to perform a classmap update which triggers the collection of Providers
+in the GlobalScreen-Service:
 
 ```bash
 ./libs/composer/vendor/bin/composer dump-autoload
@@ -104,4 +107,5 @@ class ExampleToastProvider extends AbstractToastProvider
 }
 ```
 
-For more details on the properties of the UI Component Toast, see the respective documentation in src/UI/Components/Item/Toast and the respective examples.
+For more details on the properties of the UI Component Toast, see the respective documentation in
+src/UI/Components/Item/Toast and the respective examples.

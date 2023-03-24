@@ -22,15 +22,12 @@ namespace ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isItem;
-use ILIAS\UI\Component\Toast\Toast;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastAction;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -130,15 +127,25 @@ class StandardToastRenderer implements ToastRenderer
             $toast = $toast->withAdditionalLink($link);
         }
 
+        // Times (currently disbaled since these methods are not on the Interface of a Toast
+        if ($item->getVanishTime() !== null) {
+            // $toast = $toast->withVanishTime($item->getVanishTime());
+        }
+
+        if ($item->getDelayTime() !== null) {
+            // $toast = $toast->withDelayTime($item->getDelayTime());
+        }
+
         return $toast;
     }
 
     private function getIconOrFallback(isStandardItem $item): Icon
     {
-        if ($item->getIcon() !== null) {
-            return $item->getIcon();
+        $icon = $item->getIcon();
+        if ($icon !== null) {
+            return $icon;
         }
-        return $this->ui->factory()->symbol()->icon()->standard("crs", "Lobale");
+        return $this->ui->factory()->symbol()->icon()->standard("nota", $item->getTitle());
     }
 
     protected function buildURL(string $action, IdentificationInterface $id): string

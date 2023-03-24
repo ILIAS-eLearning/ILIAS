@@ -21,9 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\MainControls\Slate\Notification as NotificationSlate;
-use ILIAS\UI\Component\Item\Notification as NotificationItem;
-use ILIAS\UI\Implementation\Component\MainControls\SystemInfo;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isItem;
 use ILIAS\UI\Component\Toast\Toast;
 

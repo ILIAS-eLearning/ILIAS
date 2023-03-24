@@ -19,11 +19,8 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Collector;
 
-use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
-use ILIAS\UI\Component\Toast\Toast;
 use Iterator;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 
