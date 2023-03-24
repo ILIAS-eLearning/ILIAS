@@ -49,6 +49,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private ?int $object_id = null;
     private bool $activated = false;
     private string $file_name;
+    private Settings $settings;
 
     public function __construct(
         ?int $object_id = null
