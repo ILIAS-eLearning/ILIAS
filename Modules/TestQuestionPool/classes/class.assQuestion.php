@@ -1257,22 +1257,6 @@ abstract class assQuestion
         return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/flash/";
     }
 
-    /**
-    * Returns the web image path for web accessable java applets of a question.
-    * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/java
-    *
-     * @deprecated Java is obsolete
-    */
-    public function getJavaPathWeb(): string
-    {
-        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
-        return str_replace(
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            $webdir
-        );
-    }
-
     public function getSuggestedSolutionPathWeb(): string
     {
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
