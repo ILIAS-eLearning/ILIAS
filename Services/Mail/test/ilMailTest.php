@@ -433,7 +433,7 @@ class ilMailTest extends ilMailBaseTest
         ]);
 
         $instance->savePostData(
-            78979078,
+            78_979_078,
             $attachments,
             $rcpTo,
             $rcpCc,

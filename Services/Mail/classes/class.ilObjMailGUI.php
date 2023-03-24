@@ -129,7 +129,7 @@ class ilObjMailGUI extends ilObjectGUI
         if ($this->isPermissionChangeAllowed()) {
             $this->tabs->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass([$this::class, ilPermissionGUI::class], 'perm'),
+                $this->ctrl->getLinkTargetByClass([static::class, ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
                 ilPermissionGUI::class
             );

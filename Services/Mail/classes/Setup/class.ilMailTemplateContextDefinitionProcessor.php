@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected ?string $component;
+    protected ?string $component = null;
     protected bool $in_mailtemplates = false;
 
     /**

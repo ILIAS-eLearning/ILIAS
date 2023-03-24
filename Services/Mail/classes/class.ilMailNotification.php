@@ -25,7 +25,8 @@ declare(strict_types=1);
  */
 abstract class ilMailNotification
 {
-    public const SUBJECT_TITLE_LENGTH = 60;
+    final public const SUBJECT_TITLE_LENGTH = 60;
+
     protected int $type;
     protected int $sender;
     protected ?ilMail $mail = null;
