@@ -78,7 +78,6 @@ class ilAssQuestionPreviewGUI
         RandomGroup $randomGroup,
         int $parent_ref_id,
         RBACServices $rbac_services
-
     ) {
         $this->ctrl = $ctrl;
         $this->rbac_system = $rbac_system;
@@ -486,7 +485,7 @@ class ilAssQuestionPreviewGUI
      * Populate the block for an instant generic feedback
      * @return bool     true, if there is some feedback populated
      */
-    private function populateGenericQuestionFeedback(ilTemplate $tpl) : bool
+    private function populateGenericQuestionFeedback(ilTemplate $tpl): bool
     {
         if ($this->questionOBJ->isPreviewSolutionCorrect($this->previewSession)) {
             $feedback = $this->questionGUI->getGenericFeedbackOutputForCorrectSolution();
@@ -510,7 +509,7 @@ class ilAssQuestionPreviewGUI
      * Populate the block for an instant specific feedback
      * @return bool     true, if there is some feedback populated
      */
-    private function populateSpecificQuestionFeedback(ilTemplate $tpl) : bool
+    private function populateSpecificQuestionFeedback(ilTemplate $tpl): bool
     {
         $fb = $this->questionGUI->getSpecificFeedbackOutput(
             (array) $this->previewSession->getParticipantsSolution()
