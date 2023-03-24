@@ -706,15 +706,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if ($this->object->isSingleline) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString(htmlentities($answertext));
-
                 $picturefile = $_POST['choice']['imagename'][$index];
                 $file_org_name = $_FILES['choice']['name']['image'][$index];
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
 
                 if (strlen($file_temp_name)) {
                     // check suffix
-                    $tmp = explode(".", $file_org_name);
-                    $suffix = strtolower(array_pop($tmp));
+                    $suffix = strtolower(array_pop(explode(".", $file_org_name)));
                     if (in_array($suffix, array( "jpg", "jpeg", "png", "gif" ))) {
                         // upload image
                         $filename = $this->object->buildHashedImageFilename($file_org_name);
@@ -723,7 +721,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                         }
                     }
                 }
-                $tmp = $_POST['choice']['answer_id'][$index];
                 $this->object->addAnswer(
                     $answertext,
                     $_POST['choice']['points'][$index],
