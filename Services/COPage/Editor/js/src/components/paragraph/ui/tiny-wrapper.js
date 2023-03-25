@@ -16,6 +16,7 @@
 
 import HTMLTransform from "./html-transform.js";
 import TinyDomTransform from "./tiny-dom-transform.js";
+import DomUtil from "./dom-util.js";
 import CB from "./tiny-wrapper-cb-types.js";
 
 /**
@@ -140,6 +141,7 @@ export default class TinyWrapper {
 
     this.lib = tinyMCE;
     this.htmlTransform = new HTMLTransform();
+    this.domUtil = new DomUtil();
   }
 
   /**
@@ -687,7 +689,8 @@ export default class TinyWrapper {
     this.ghost = content_element;
     this.ghost.classList.add("copg-ghost-wrapper");
 
-    this.ghost_reg = YAHOO.util.Region.getRegion(this.ghost);
+    //this.ghost_reg = YAHOO.util.Region.getRegion(this.ghost);
+    this.ghost_reg = this.domUtil.getRegion(this.ghost);
   }
 
   // copy input of tiny to ghost div in background
@@ -798,20 +801,25 @@ export default class TinyWrapper {
     back_el.style.display = '';
     back_el.style.overflow = 'auto';
     back_el.style.height = '';
-    var back_reg = YAHOO.util.Region.getRegion(back_el);
+    //var back_reg = YAHOO.util.Region.getRegion(back_el);
+    var back_reg = this.domUtil.getRegion(back_el);
 
     this.log("Ghost region: ");
     this.log(back_reg);
 
-    var cl_reg = YAHOO.util.Dom.getClientRegion();
+    //var cl_reg = YAHOO.util.Dom.getClientRegion();
+    var cl_reg = this.domUtil.getClientRegion();
     if (back_reg.y + back_reg.height + 20 > cl_reg.top + cl_reg.height) {
       back_el.style.overflow = 'hidden';
       back_el.style.height = (cl_reg.top + cl_reg.height - back_reg.y - 20) + "px";
-      back_reg = YAHOO.util.Region.getRegion(back_el);
+      //back_reg = YAHOO.util.Region.getRegion(back_el);
+      back_reg = this.domUtil.getRegion(back_el);
     }
 
-    YAHOO.util.Dom.setX(tdiv, back_reg.x);
-    YAHOO.util.Dom.setY(tdiv, back_reg.y);
+    //YAHOO.util.Dom.setX(tdiv, back_reg.x);
+    this.domUtil.setX(tdiv, back_reg.x);
+    //YAHOO.util.Dom.setY(tdiv, back_reg.y);
+    this.domUtil.setY(tdiv, back_reg.y);
     this.setEditFrameSize(back_reg.width,
       back_reg.height);
 
