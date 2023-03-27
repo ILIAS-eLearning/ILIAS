@@ -202,7 +202,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -213,7 +213,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_0/filter_input_2">
+					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -336,7 +336,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -347,7 +347,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_0/filter_input_2">
+					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -470,7 +470,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -481,7 +481,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_0/filter_input_2">
+					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -604,7 +604,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -615,7 +615,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_0/filter_input_2">
+					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>

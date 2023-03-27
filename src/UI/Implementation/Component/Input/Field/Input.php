@@ -303,6 +303,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     public function withNameFrom(NameSource $source, ?string $parent_name = null)
     {
         $clone = clone $this;
+
         if ($source instanceof DynamicInputsNameSource) {
             $clone->name = '';
         } else {

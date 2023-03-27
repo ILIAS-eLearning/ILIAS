@@ -197,15 +197,17 @@ class Group extends Input implements C\Input\Field\Group
     public function withNameFrom(NameSource $source, ?string $parent_name = null): C\Input\Field\Input
     {
         $clone = parent::withNameFrom($source, $parent_name);
+        if ($this->dedicated_name !== null) {
+            $parent_name = $clone->getName();
+        }
 
         /**
          * @var $clone Group
          */
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source, $clone->getName());
+            $named_inputs[$key] = $input->withNameFrom($source, $parent_name);
         }
-
         $clone->inputs = $named_inputs;
 
         return $clone;
