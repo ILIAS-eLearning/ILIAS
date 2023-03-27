@@ -10176,13 +10176,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $user = $feedback_old['finalized_by_usr_id'];
             $finalized_time = $feedback_old['finalized_tstamp'];
         }
-        if ($finalized == false || $finalized == NULL) {
 
+        if ($finalized === false) {
             $update_default['finalized_evaluation'] = ['integer', 0];
             $update_default['finalized_by_usr_id'] = ['integer', 0];
             $update_default['finalized_tstamp'] = ['integer', 0];
-        }
-       elseif ($finalized == true) {
+        } elseif ($finalized === true) {
             $update_default['finalized_evaluation'] = ['integer', 1];
             $update_default['finalized_by_usr_id'] = ['integer', $user];
             $update_default['finalized_tstamp'] = ['integer', $finalized_time];
