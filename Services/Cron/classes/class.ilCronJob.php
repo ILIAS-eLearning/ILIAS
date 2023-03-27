@@ -20,13 +20,21 @@ declare(strict_types=1);
 
 abstract class ilCronJob
 {
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_DAILY = 1;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_IN_MINUTES = 2;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_IN_HOURS = 3;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_IN_DAYS = 4;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_WEEKLY = 5;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_MONTHLY = 6;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_QUARTERLY = 7;
+    /** @depracated This will be replaced with an ENUM in ILIAS 9 */
     public const SCHEDULE_TYPE_YEARLY = 8;
 
     protected ?int $schedule_type = null;
