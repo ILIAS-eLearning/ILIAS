@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 abstract class ilCronJob
 {
-    final public const SCHEDULE_TYPE_DAILY = 1;
-    final public const SCHEDULE_TYPE_IN_MINUTES = 2;
-    final public const SCHEDULE_TYPE_IN_HOURS = 3;
-    final public const SCHEDULE_TYPE_IN_DAYS = 4;
-    final public const SCHEDULE_TYPE_WEEKLY = 5;
-    final public const SCHEDULE_TYPE_MONTHLY = 6;
-    final public const SCHEDULE_TYPE_QUARTERLY = 7;
-    final public const SCHEDULE_TYPE_YEARLY = 8;
-
-    protected ?int $schedule_type = null;
+    protected ?CronJobScheduleType $schedule_type = null;
     protected ?int $schedule_value = null;
     protected ?Closure $date_time_provider = null;
 
@@ -71,7 +64,7 @@ abstract class ilCronJob
         return $last_month === $now_month;
     }
 
-    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value): bool
+    private function checkSchedule(?DateTimeImmutable $last_run, ?CronJobScheduleType $schedule_type, ?int $schedule_value): bool
     {
         if (null === $schedule_type) {
             return false;
@@ -87,38 +80,38 @@ abstract class ilCronJob
         }
 
         switch ($schedule_type) {
-            case self::SCHEDULE_TYPE_DAILY:
+            case CronJobScheduleType::SCHEDULE_TYPE_DAILY:
                 $last = $last_run->format('Y-m-d');
                 $ref = $now->format('Y-m-d');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_WEEKLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_WEEKLY:
                 return $this->checkWeeklySchedule($last_run, $now);
 
-            case self::SCHEDULE_TYPE_MONTHLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_MONTHLY:
                 $last = $last_run->format('Y-n');
                 $ref = $now->format('Y-n');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_QUARTERLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY:
                 $last = $last_run->format('Y') . '-' . ceil(((int) $last_run->format('n')) / 3);
                 $ref = $now->format('Y') . '-' . ceil(((int) $now->format('n')) / 3);
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_YEARLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_YEARLY:
                 $last = $last_run->format('Y');
                 $ref = $now->format('Y');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_IN_MINUTES:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / 60);
                 return ($diff >= $schedule_value);
 
-            case self::SCHEDULE_TYPE_IN_HOURS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60));
                 return ($diff >= $schedule_value);
 
-            case self::SCHEDULE_TYPE_IN_DAYS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60 * 24));
                 return ($diff >= $schedule_value);
         }
@@ -156,7 +149,7 @@ abstract class ilCronJob
 
     public function isDue(
         ?DateTimeImmutable $last_run,
-        ?int $schedule_type,
+        ?CronJobScheduleType $schedule_type,
         ?int $schedule_value,
         bool $is_manually_executed = false
     ): bool {
@@ -175,7 +168,7 @@ abstract class ilCronJob
     /**
      * Get current schedule type (if flexible)
      */
-    public function getScheduleType(): ?int
+    public function getScheduleType(): ?CronJobScheduleType
     {
         if ($this->schedule_type && $this->hasFlexibleSchedule()) {
             return $this->schedule_type;
@@ -199,7 +192,7 @@ abstract class ilCronJob
     /**
      * Update current schedule (if flexible)
      */
-    public function setSchedule(?int $a_type, ?int $a_value): void
+    public function setSchedule(?CronJobScheduleType $a_type, ?int $a_value): void
     {
         if (
             $a_value &&
@@ -213,37 +206,28 @@ abstract class ilCronJob
 
     /**
      * Get all available schedule types
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
     public function getAllScheduleTypes(): array
     {
-        return [
-            self::SCHEDULE_TYPE_DAILY,
-            self::SCHEDULE_TYPE_WEEKLY,
-            self::SCHEDULE_TYPE_MONTHLY,
-            self::SCHEDULE_TYPE_QUARTERLY,
-            self::SCHEDULE_TYPE_YEARLY,
-            self::SCHEDULE_TYPE_IN_MINUTES,
-            self::SCHEDULE_TYPE_IN_HOURS,
-            self::SCHEDULE_TYPE_IN_DAYS,
-        ];
+        return CronJobScheduleType::cases();
     }
 
     /**
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
     public function getScheduleTypesWithValues(): array
     {
         return [
-            self::SCHEDULE_TYPE_IN_MINUTES,
-            self::SCHEDULE_TYPE_IN_HOURS,
-            self::SCHEDULE_TYPE_IN_DAYS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS,
         ];
     }
 
     /**
      * Returns a collection of all valid schedule types for a specific job
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
     public function getValidScheduleTypes(): array
     {
@@ -294,7 +278,7 @@ abstract class ilCronJob
 
     abstract public function hasFlexibleSchedule(): bool;
 
-    abstract public function getDefaultScheduleType(): int;
+    abstract public function getDefaultScheduleType(): CronJobScheduleType;
 
     abstract public function getDefaultScheduleValue(): ?int;
 

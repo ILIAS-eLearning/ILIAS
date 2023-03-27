@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 class ilCronManagerTableGUI extends ilTable2GUI
 {
@@ -61,26 +63,24 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
     private function formatSchedule(ilCronJobEntity $entity, array $row): string
     {
-        $schedule = '';
         $schedule = match ($entity->getEffectiveScheduleType()) {
-            ilCronJob::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
-            ilCronJob::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
-            ilCronJob::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
-            ilCronJob::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
-            ilCronJob::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
-            ilCronJob::SCHEDULE_TYPE_IN_MINUTES => sprintf(
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => sprintf(
                 $this->lng->txt('cron_schedule_in_minutes'),
                 $entity->getEffectiveScheduleValue()
             ),
-            ilCronJob::SCHEDULE_TYPE_IN_HOURS => sprintf(
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => sprintf(
                 $this->lng->txt('cron_schedule_in_hours'),
                 $entity->getEffectiveScheduleValue()
             ),
-            ilCronJob::SCHEDULE_TYPE_IN_DAYS => sprintf(
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => sprintf(
                 $this->lng->txt('cron_schedule_in_days'),
                 $entity->getEffectiveScheduleValue()
-            ),
-            default => $schedule,
+            )
         };
 
         return $schedule;
@@ -205,14 +205,14 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
             if ($entity->getJob()->hasFlexibleSchedule()) {
                 $row['editable_schedule'] = true;
-                if (!$entity->getScheduleType()) {
+                if ($entity->getScheduleType() === null) {
                     $this->cronRepository->updateJobSchedule(
                         $entity->getJob(),
                         $entity->getEffectiveScheduleType(),
                         $entity->getEffectiveScheduleValue()
                     );
                 }
-            } elseif ($entity->getScheduleType()) {
+            } elseif ($entity->getScheduleType() !== null) {
                 $this->cronRepository->updateJobSchedule($entity->getJob(), null, null);
             }
 

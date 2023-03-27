@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Forum notifications
  * @author Michael Jansen <mjansen@databay.de>
@@ -81,9 +83,9 @@ class ilForumCronNotification extends ilCronJob
         return $this->lng->txt('cron_forum_notification_crob_desc');
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_HOURS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
     }
 
     public function getDefaultScheduleValue(): ?int

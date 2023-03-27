@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /*
  * This invalidates a successful progress if validityOfQualification is reached.
  *
@@ -71,9 +73,9 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int

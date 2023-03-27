@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Course/group skill notification
@@ -70,9 +71,9 @@ class ilSkillNotifications extends ilCronJob
         return $lng->txt("skll_skill_notification_desc");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

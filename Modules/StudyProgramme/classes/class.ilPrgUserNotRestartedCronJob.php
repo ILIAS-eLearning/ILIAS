@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Inform a user, that her qualification is about to expire
  */
@@ -67,9 +69,9 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int

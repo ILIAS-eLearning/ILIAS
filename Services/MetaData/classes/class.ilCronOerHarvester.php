@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Cron job for definition for oer harvesting
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -54,9 +56,9 @@ class ilCronOerHarvester extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

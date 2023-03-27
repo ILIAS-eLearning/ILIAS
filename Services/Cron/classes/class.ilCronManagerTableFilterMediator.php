@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Factory;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 class ilCronManagerTableFilterMediator
 {
@@ -61,14 +62,14 @@ class ilCronManagerTableFilterMediator
         $schedule = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_schedule'),
             [
-                ilCronJob::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
-                ilCronJob::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
-                ilCronJob::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
-                ilCronJob::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
-                ilCronJob::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
-                ilCronJob::SCHEDULE_TYPE_IN_MINUTES => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
-                ilCronJob::SCHEDULE_TYPE_IN_HOURS => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
-                ilCronJob::SCHEDULE_TYPE_IN_DAYS => sprintf($this->lng->txt('cron_schedule_in_days'), 'x')
+                CronJobScheduleType::SCHEDULE_TYPE_DAILY->value => $this->lng->txt('cron_schedule_daily'),
+                CronJobScheduleType::SCHEDULE_TYPE_WEEKLY->value => $this->lng->txt('cron_schedule_weekly'),
+                CronJobScheduleType::SCHEDULE_TYPE_MONTHLY->value => $this->lng->txt('cron_schedule_monthly'),
+                CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY->value => $this->lng->txt('cron_schedule_quarterly'),
+                CronJobScheduleType::SCHEDULE_TYPE_YEARLY->value => $this->lng->txt('cron_schedule_yearly'),
+                CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES->value => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
+                CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS->value => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
+                CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS->value => sprintf($this->lng->txt('cron_schedule_in_days'), 'x')
             ]
         );
         $status = $this->uiFactory->input()->field()->select(

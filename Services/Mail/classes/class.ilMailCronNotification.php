@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Mail notifications
@@ -68,9 +69,9 @@ class ilMailCronNotification extends ilCronJob
         );
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

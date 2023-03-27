@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilCronStartUp
 {
     private readonly ilAuthSession $authSession;
@@ -33,7 +33,6 @@ class ilCronStartUp
 
         // TODO @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
-        /** @noRector  */
         require_once './include/inc.header.php';
 
         if (null === $authSession) {

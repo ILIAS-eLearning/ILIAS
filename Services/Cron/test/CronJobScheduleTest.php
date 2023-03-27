@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class CronJobScheduleTest
@@ -32,17 +33,17 @@ class CronJobScheduleTest extends TestCase
 
     private function getJob(
         bool $has_flexible_schedule,
-        int $default_schedule_type,
+        CronJobScheduleType $default_schedule_type,
         ?int $default_schedule_value,
-        int $schedule_type,
+        CronJobScheduleType $schedule_type,
         ?int $schedule_value
     ): ilCronJob {
         $job_instance = new class ($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
             public function __construct(
                 private readonly bool $has_flexible_schedule,
-                private readonly int $default_schedule_type,
+                private readonly CronJobScheduleType $default_schedule_type,
                 private readonly ?int $default_schedule_value,
-                int $schedule_type,
+                CronJobScheduleType $schedule_type,
                 ?int $schedule_value
             ) {
                 $this->schedule_type = $schedule_type;
@@ -74,7 +75,7 @@ class CronJobScheduleTest extends TestCase
                 return $this->has_flexible_schedule;
             }
 
-            public function getDefaultScheduleType(): int
+            public function getDefaultScheduleType(): CronJobScheduleType
             {
                 return $this->default_schedule_type;
             }
@@ -107,154 +108,146 @@ class CronJobScheduleTest extends TestCase
 
         return [
             'Manual Run is Always Due' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null),
                 true,
                 null,
-                ilCronJob::SCHEDULE_TYPE_DAILY,
+                CronJobScheduleType::SCHEDULE_TYPE_DAILY,
                 null,
                 true
             ],
             'Job Without Any Run is Always Due' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null),
                 false,
                 null,
-                ilCronJob::SCHEDULE_TYPE_DAILY,
+                CronJobScheduleType::SCHEDULE_TYPE_DAILY,
                 null,
                 true
             ],
             'Daily Schedule / Did not run Today' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null),
                 false,
                 $this->now->modify('-1 day'),
-                ilCronJob::SCHEDULE_TYPE_DAILY,
+                CronJobScheduleType::SCHEDULE_TYPE_DAILY,
                 null,
                 true
             ],
             'Daily Schedule / Did run Today' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null, CronJobScheduleType::SCHEDULE_TYPE_DAILY, null),
                 false,
                 $this->now,
-                ilCronJob::SCHEDULE_TYPE_DAILY,
+                CronJobScheduleType::SCHEDULE_TYPE_DAILY,
                 null,
                 false
             ],
             'Weekly Schedule / Did not run this Week' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
                 false,
                 $this->now->modify('-1 week'),
-                ilCronJob::SCHEDULE_TYPE_WEEKLY,
+                CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
                 null,
                 true
             ],
             'Weekly Schedule / Did run this Week' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
                 false,
                 $this->now->modify('monday this week'),
-                ilCronJob::SCHEDULE_TYPE_WEEKLY,
+                CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
                 null,
                 false
             ],
             'Monthly Schedule / Did not run this Month' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_MONTHLY, null, ilCronJob::SCHEDULE_TYPE_MONTHLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_MONTHLY, null, CronJobScheduleType::SCHEDULE_TYPE_MONTHLY, null),
                 false,
                 $this->now->modify('last day of last month'),
-                ilCronJob::SCHEDULE_TYPE_MONTHLY,
+                CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
                 null,
                 true
             ],
             'Monthly Schedule / Did run this Month' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_MONTHLY, null, ilCronJob::SCHEDULE_TYPE_MONTHLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_MONTHLY, null, CronJobScheduleType::SCHEDULE_TYPE_MONTHLY, null),
                 false,
                 $this->now->modify('first day of this month'),
-                ilCronJob::SCHEDULE_TYPE_MONTHLY,
+                CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
                 null,
                 false
             ],
             'Yearly Schedule / Did not run this Year' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_YEARLY, null, ilCronJob::SCHEDULE_TYPE_YEARLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_YEARLY, null, CronJobScheduleType::SCHEDULE_TYPE_YEARLY, null),
                 false,
                 $this->now->modify('-1 year'),
-                ilCronJob::SCHEDULE_TYPE_YEARLY,
+                CronJobScheduleType::SCHEDULE_TYPE_YEARLY,
                 null,
                 true
             ],
             'Yearly Schedule / Did run this Year' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_YEARLY, null, ilCronJob::SCHEDULE_TYPE_YEARLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_YEARLY, null, CronJobScheduleType::SCHEDULE_TYPE_YEARLY, null),
                 false,
                 $this->now->modify('first day of January this year'),
-                ilCronJob::SCHEDULE_TYPE_YEARLY,
+                CronJobScheduleType::SCHEDULE_TYPE_YEARLY,
                 null,
                 false
             ],
             'Quarterly Schedule / Did not run this Quarter' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY, null, CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
                 $this->this_quarter_start->modify('-1 seconds'),
-                ilCronJob::SCHEDULE_TYPE_QUARTERLY,
+                CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 true
             ],
             'Quarterly Schedule / Did run this Quarter' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY, null, CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
                 $this->this_quarter_start->modify('+30 seconds'),
-                ilCronJob::SCHEDULE_TYPE_QUARTERLY,
+                CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 false
             ],
             'Minutely Schedule / Did not run this Minute' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, 1, CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
                 $this->now->modify('-1 minute'),
-                ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
                 1,
                 true
             ],
             'Minutely Schedule / Did run this Minute' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, 1, CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
                 $this->now->modify('-30 seconds'),
-                ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
                 1,
                 false
             ],
             'Hourly Schedule / Did not run this Hour' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, 7, CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, 7),
                 false,
                 $this->now->modify('-7 hours'),
-                ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
                 7,
                 true
             ],
             'Hourly Schedule / Did run this Hour' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, 7, CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, 7),
                 false,
                 $this->now->modify('-7 hours +30 seconds'),
-                ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
                 7,
                 false
             ],
             'Every 5 Days Schedule / Did not run for 5 Days' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS, 5, CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS, 5),
                 false,
                 $this->now->modify('-5 days'),
-                ilCronJob::SCHEDULE_TYPE_IN_DAYS,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS,
                 5,
                 true
             ],
             'Every 5 Days Schedule / Did run withing the last 5 Days' => [
-                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
+                $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS, 5, CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS, 5),
                 false,
                 $this->now->modify('-4 days'),
-                ilCronJob::SCHEDULE_TYPE_IN_DAYS,
-                5,
-                false
-            ],
-            'Invalid Schedule Type' => [
-                $this->getJob(true, PHP_INT_MAX, 5, PHP_INT_MAX, 5),
-                false,
-                $this->now,
-                PHP_INT_MAX,
+                CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS,
                 5,
                 false
             ]
@@ -268,7 +261,7 @@ class CronJobScheduleTest extends TestCase
         ilCronJob $job_instance,
         bool $is_manual_run,
         ?DateTimeImmutable $last_run_datetime,
-        int $schedule_type,
+        CronJobScheduleType $schedule_type,
         ?int $schedule_value,
         bool $should_be_due
     ): void {
@@ -282,7 +275,7 @@ class CronJobScheduleTest extends TestCase
     public function weeklyScheduleProvider(): Generator
     {
         yield 'Different Week' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52)
 
@@ -292,7 +285,7 @@ class CronJobScheduleTest extends TestCase
         ];
 
         yield 'Same Week and Year, but different Month: December (now) and January (Last run)' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1703669703'); // Wed Dec 27 2023 09:35:03 GMT+0000 (year: 2023 / week: 52 / month: 12)
 
@@ -302,7 +295,7 @@ class CronJobScheduleTest extends TestCase
         ];
 
         yield 'Same Week and Year and same Month: January' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1704188103'); // Tue Jan 02 2024 09:35:03 GMT+0000 (year: 2024 / week: 1 / month: 1)
 
@@ -312,7 +305,7 @@ class CronJobScheduleTest extends TestCase
         ];
 
         yield 'Same Week (52nd), but Year Difference > 1' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52)
 
@@ -322,7 +315,7 @@ class CronJobScheduleTest extends TestCase
         ];
 
         yield 'Same Week (52nd) in different Years, but Turn of the Year' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1672570104'); // Sun Jan 01 2023 10:48:24 GMT+0000 (year: 2023 / week: 52 / month: 1)
 
@@ -332,7 +325,7 @@ class CronJobScheduleTest extends TestCase
         ];
 
         yield 'Same Week (52nd) in different Years, but not Turn of the Year' => [
-            $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
+            $this->getJob(true, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null, CronJobScheduleType::SCHEDULE_TYPE_WEEKLY, null),
             function (): DateTimeImmutable {
                 $this->now = new DateTimeImmutable('@1703669703'); // Wed Dec 27 2023 09:35:03 GMT+0000 (year: 2023 / week: 52 / month: 12)
 

@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use Pimple\Container;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Re-assign users (according to restart-date).
@@ -73,9 +74,9 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int

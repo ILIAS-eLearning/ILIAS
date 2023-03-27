@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Class ilCronFinishUnfinishedTestPassesTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -78,7 +80,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
     public function testGetDefaultScheduleType(): void
     {
         $this->assertEquals(
-            ilCronFinishUnfinishedTestPasses::SCHEDULE_TYPE_DAILY,
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
             $this->testObj->getDefaultScheduleType()
         );
     }

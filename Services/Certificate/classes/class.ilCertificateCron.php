@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -185,9 +186,9 @@ class ilCertificateCron extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_MINUTES;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int

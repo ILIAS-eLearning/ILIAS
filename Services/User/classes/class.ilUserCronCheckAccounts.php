@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * This cron send notifications about expiring user accounts
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -47,9 +49,9 @@ class ilUserCronCheckAccounts extends ilCronJob
         return $lng->txt("check_user_accounts_desc");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
