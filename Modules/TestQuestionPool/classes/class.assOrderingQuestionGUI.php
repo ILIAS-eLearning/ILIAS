@@ -62,7 +62,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
-
     }
 
     public function changeToPictures()
@@ -159,7 +158,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
         $post = $_POST;
-        $thumb_geometry = max(20, (int) $post["thumb_geometry"]);
+        $thumb_geometry = (int) ($post["thumb_geometry"] ?? $this->object->getThumbGeometry());
         $this->object->setThumbGeometry($thumb_geometry);
 
         $this->object->setPoints((int) $post["points"]);

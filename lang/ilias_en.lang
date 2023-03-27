@@ -1440,6 +1440,8 @@ assessment#:#tst_failed#:#Failed
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The according competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
 assessment#:#tst_feedback#:#Feedback
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
@@ -5263,6 +5265,7 @@ common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
+common#:#preview_caption#:#Preview %sof %s
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
@@ -6932,7 +6935,7 @@ content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only.
 content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
-content#:#cont_select_other_qpool#:#Select other Pool
+content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
@@ -10701,6 +10704,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local

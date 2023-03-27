@@ -80,6 +80,14 @@ class ilObjSurveyGUI extends ilObjectGUI
         $this->invitation_manager = new Participants\InvitationsManager();
 
         parent::__construct("", (int) $_GET["ref_id"], true, false);
+
+        // this class will be treated as a baseclass in most cases, therefore
+        // we need to claim the repository context manually. see #37010
+        if (!$DIC->globalScreen()->tool()->context()->stack()->hasMatch(
+            $DIC->globalScreen()->tool()->context()->collection()->repository()
+        )) {
+            $DIC->globalScreen()->tool()->context()->claim()->repository();
+        }
     }
     
     public function executeCommand()
@@ -949,13 +957,15 @@ class ilObjSurveyGUI extends ilObjectGUI
         $intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
         $intro->setRows(10);
         $intro->setCols(80);
-        $intro->setUseRte(true);
-        $intro->setInfo($this->lng->txt("survey_introduction_info"));
-        $intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $intro->addPlugin("latex");
-        $intro->addButton("latex");
-        $intro->addButton("pastelatex");
-        $intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $intro->setUseRte(true);
+            $intro->setInfo($this->lng->txt("survey_introduction_info"));
+            $intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $intro->addPlugin("latex");
+            $intro->addButton("latex");
+            $intro->addButton("pastelatex");
+            $intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+        }
         $form->addItem($intro);
 
         
@@ -1037,12 +1047,14 @@ class ilObjSurveyGUI extends ilObjectGUI
         $finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getOutro()));
         $finalstatement->setRows(10);
         $finalstatement->setCols(80);
-        $finalstatement->setUseRte(true);
-        $finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $finalstatement->addPlugin("latex");
-        $finalstatement->addButton("latex");
-        $finalstatement->addButton("pastelatex");
-        $finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $finalstatement->setUseRte(true);
+            $finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $finalstatement->addPlugin("latex");
+            $finalstatement->addButton("latex");
+            $finalstatement->addButton("pastelatex");
+            $finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+        }
         $form->addItem($finalstatement);
         
         // mail notification
