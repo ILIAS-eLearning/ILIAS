@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class ilCronManagerGUI
@@ -189,43 +190,39 @@ class ilCronManagerGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function getScheduleTypeFormElementName(int $scheduleTypeId): string
+    private function getScheduleTypeFormElementName(CronJobScheduleType $schedule_type): string
     {
-        return match ($scheduleTypeId) {
-            ilCronJob::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
-            ilCronJob::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
-            ilCronJob::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
-            ilCronJob::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
-            ilCronJob::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
-            ilCronJob::SCHEDULE_TYPE_IN_MINUTES => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
-            ilCronJob::SCHEDULE_TYPE_IN_HOURS => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
-            ilCronJob::SCHEDULE_TYPE_IN_DAYS => sprintf($this->lng->txt('cron_schedule_in_days'), 'x'),
+        return match ($schedule_type) {
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => sprintf($this->lng->txt('cron_schedule_in_days'), 'x'),
+        };
+    }
+
+    protected function getScheduleValueFormElementName(CronJobScheduleType $schedule_type): string
+    {
+        return match ($schedule_type) {
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => 'smini',
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => 'shri',
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => 'sdyi',
             default => throw new InvalidArgumentException(sprintf(
                 'The passed argument %s is invalid!',
-                var_export($scheduleTypeId, true)
+                var_export($schedule_type, true)
             )),
         };
     }
 
-    protected function getScheduleValueFormElementName(int $scheduleTypeId): string
+    protected function hasScheduleValue(CronJobScheduleType $schedule_type): bool
     {
-        return match ($scheduleTypeId) {
-            ilCronJob::SCHEDULE_TYPE_IN_MINUTES => 'smini',
-            ilCronJob::SCHEDULE_TYPE_IN_HOURS => 'shri',
-            ilCronJob::SCHEDULE_TYPE_IN_DAYS => 'sdyi',
-            default => throw new InvalidArgumentException(sprintf(
-                'The passed argument %s is invalid!',
-                var_export($scheduleTypeId, true)
-            )),
-        };
-    }
-
-    protected function hasScheduleValue(int $scheduleTypeId): bool
-    {
-        return in_array($scheduleTypeId, [
-            ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
-            ilCronJob::SCHEDULE_TYPE_IN_HOURS,
-            ilCronJob::SCHEDULE_TYPE_IN_DAYS
+        return in_array($schedule_type, [
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS
         ], true);
     }
 
@@ -248,29 +245,30 @@ class ilCronManagerGUI
         if ($job->hasFlexibleSchedule()) {
             $type = new ilRadioGroupInputGUI($this->lng->txt('cron_schedule_type'), 'type');
             $type->setRequired(true);
-            $type->setValue($job_data['schedule_type']);
+            $type->setValue($job_data['schedule_type'] === null ? null : (string) $job_data['schedule_type']);
 
-            foreach ($job->getAllScheduleTypes() as $typeId) {
-                if (!in_array($typeId, $job->getValidScheduleTypes(), true)) {
+            foreach ($job->getAllScheduleTypes() as $schedule_type) {
+                if (!in_array($schedule_type, $job->getValidScheduleTypes(), true)) {
                     continue;
                 }
 
                 $option = new ilRadioOption(
-                    $this->getScheduleTypeFormElementName($typeId),
-                    (string) $typeId
+                    $this->getScheduleTypeFormElementName($schedule_type),
+                    (string) $schedule_type->value
                 );
                 $type->addOption($option);
 
-                if (in_array($typeId, $job->getScheduleTypesWithValues(), true)) {
+                if (in_array($schedule_type, $job->getScheduleTypesWithValues(), true)) {
                     $scheduleValue = new ilNumberInputGUI(
                         $this->lng->txt('cron_schedule_value'),
-                        $this->getScheduleValueFormElementName($typeId)
+                        $this->getScheduleValueFormElementName($schedule_type)
                     );
                     $scheduleValue->allowDecimals(false);
                     $scheduleValue->setRequired(true);
                     $scheduleValue->setSize(5);
-                    if ((int) $job_data['schedule_type'] === $typeId) {
-                        $scheduleValue->setValue($job_data['schedule_value']);
+                    if (is_numeric($job_data['schedule_type']) &&
+                        CronJobScheduleType::tryFrom((int) $job_data['schedule_type']) === $schedule_type) {
+                        $scheduleValue->setValue($job_data['schedule_value'] === null ? null : (string) $job_data['schedule_value']);
                     }
                     $option->addSubItem($scheduleValue);
                 }
@@ -310,7 +308,7 @@ class ilCronManagerGUI
                 }
 
                 if ($valid && $job->hasFlexibleSchedule()) {
-                    $type = (int) $form->getInput('type');
+                    $type = CronJobScheduleType::from((int) $form->getInput('type'));
                     $value = match (true) {
                         $this->hasScheduleValue($type) => (int) $form->getInput($this->getScheduleValueFormElementName($type)),
                         default => null,

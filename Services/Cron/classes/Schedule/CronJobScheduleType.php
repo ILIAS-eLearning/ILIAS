@@ -18,19 +18,16 @@
 
 declare(strict_types=1);
 
-class ilCronServicesImpl implements ilCronServices
+namespace ILIAS\Cron\Schedule;
+
+enum CronJobScheduleType: int
 {
-    public function __construct(private readonly \ILIAS\DI\Container $dic)
-    {
-    }
-
-    public function manager(): ilCronManager
-    {
-        return $this->dic['cron.manager'];
-    }
-
-    public function repository(): ilCronJobRepository
-    {
-        return $this->dic['cron.repository'];
-    }
+    case  SCHEDULE_TYPE_DAILY = 1;
+    case  SCHEDULE_TYPE_IN_MINUTES = 2;
+    case  SCHEDULE_TYPE_IN_HOURS = 3;
+    case  SCHEDULE_TYPE_IN_DAYS = 4;
+    case  SCHEDULE_TYPE_WEEKLY = 5;
+    case  SCHEDULE_TYPE_MONTHLY = 6;
+    case  SCHEDULE_TYPE_QUARTERLY = 7;
+    case  SCHEDULE_TYPE_YEARLY = 8;
 }

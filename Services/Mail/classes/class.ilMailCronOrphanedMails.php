@@ -25,6 +25,7 @@ use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\ExpiredOrOrphanedMailsCollector;
 use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\MailDeletionHandler;
 use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\NotificationsCollector;
 use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\Notifier;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Delete orphaned mails
@@ -113,18 +114,18 @@ class ilMailCronOrphanedMails extends ilCronJob
     public function getValidScheduleTypes(): array
     {
         return [
-            self::SCHEDULE_TYPE_DAILY,
-            self::SCHEDULE_TYPE_WEEKLY,
-            self::SCHEDULE_TYPE_MONTHLY,
-            self::SCHEDULE_TYPE_QUARTERLY,
-            self::SCHEDULE_TYPE_YEARLY,
-            self::SCHEDULE_TYPE_IN_DAYS
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS
         ];
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Cron for exercise reminders
  *
@@ -56,9 +58,9 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron_info");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

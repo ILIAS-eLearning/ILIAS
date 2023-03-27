@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Cron management
@@ -138,7 +140,7 @@ class ilCronManagerImpl implements ilCronManager
         } // initiate run?
         elseif ($job->isDue(
             $jobData['job_result_ts'] ? new DateTimeImmutable('@' . $jobData['job_result_ts']) : null,
-            $jobData['schedule_type'] ? (int) $jobData['schedule_type'] : null,
+            is_numeric($jobData['schedule_type']) ? CronJobScheduleType::tryFrom((int) $jobData['schedule_type']) : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
         )) {

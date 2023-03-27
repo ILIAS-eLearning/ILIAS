@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\COPage\History\HistoryManager;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -63,9 +64,9 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return $lng->txt("copg_history_cleanup_cron_info");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

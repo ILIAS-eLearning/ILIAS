@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Class ilCronFinishUnfinishedTestPasses
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -77,9 +79,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $lng->txt("finish_unfinished_passes_desc");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): int

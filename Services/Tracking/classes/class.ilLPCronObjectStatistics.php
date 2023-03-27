@@ -18,6 +18,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Cron for lp object statistics
@@ -61,9 +62,9 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $this->lng->txt("trac_object_statistics_info");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

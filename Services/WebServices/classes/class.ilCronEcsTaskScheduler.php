@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Class ilCronEcsTaskScheduler
  *
@@ -53,9 +55,9 @@ class ilCronEcsTaskScheduler extends \ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_HOURS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
     }
 
     public function getDefaultScheduleValue(): ?int

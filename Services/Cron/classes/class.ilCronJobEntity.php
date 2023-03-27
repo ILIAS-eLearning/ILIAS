@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 class ilCronJobEntity
 {
     private string $jobId;
     private string $component;
-    private int $scheduleType;
+    private ?CronJobScheduleType $scheduleType;
     private int $scheduleValue;
     private int $jobStatus;
     private int $jobStatusUsrId;
@@ -58,7 +60,7 @@ class ilCronJobEntity
     {
         $this->jobId = (string) $record['job_id'];
         $this->component = (string) $record['component'];
-        $this->scheduleType = (int) $record['schedule_type'];
+        $this->scheduleType = is_numeric($record['schedule_type']) ? CronJobScheduleType::tryFrom((int) $record['schedule_type']) : null;
         $this->scheduleValue = (int) $record['schedule_value'];
         $this->jobStatus = (int) $record['job_status'];
         $this->jobStatusUsrId = (int) $record['job_status_user_id'];
@@ -92,7 +94,7 @@ class ilCronJobEntity
         return $this->component;
     }
 
-    public function getScheduleType(): int
+    public function getScheduleType(): ?CronJobScheduleType
     {
         return $this->scheduleType;
     }
@@ -182,7 +184,7 @@ class ilCronJobEntity
         return $this->isPlugin;
     }
 
-    public function getEffectiveScheduleType(): int
+    public function getEffectiveScheduleType(): CronJobScheduleType
     {
         $type = $this->getScheduleType();
         if (!$type || !$this->getJob()->hasFlexibleSchedule()) {

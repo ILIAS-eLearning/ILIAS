@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 class ilCronJobRepositoryImpl implements ilCronJobRepository
 {
     private const TYPE_PLUGINS = 'Plugins';
@@ -102,11 +105,6 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         return null;
     }
 
-    /**
-     * Get cron job configuration/execution data
-     * @param array|string|null $id
-     * @return array<int, array<string, mixed>>
-     */
     public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true): array
     {
         $jobData = [];
@@ -118,12 +116,12 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         $query = "SELECT * FROM cron_job";
         $where = [];
         if ($id) {
-            $where[] = $this->db->in('job_id', $id, false, 'text');
+            $where[] = $this->db->in('job_id', $id, false, ilDBConstants::T_TEXT);
         } else {
-            $where[] = 'class != ' . $this->db->quote(self::TYPE_PLUGINS, 'text');
+            $where[] = 'class != ' . $this->db->quote(self::TYPE_PLUGINS, ilDBConstants::T_TEXT);
         }
         if (!$withInactiveJobsIncluded) {
-            $where[] = 'job_status = ' . $this->db->quote(1, 'integer');
+            $where[] = 'job_status = ' . $this->db->quote(1, ilDBConstants::T_INTEGER);
         }
         if ($where !== []) {
             $query .= ' WHERE ' . implode(' AND ', $where);
@@ -199,7 +197,8 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         $row = $this->db->fetchAssoc($res);
         $job_id = $row['job_id'] ?? null;
         $job_exists = ($job_id === $job->getId());
-        $schedule_type = $row["schedule_type"] ?? null;
+        $schedule_type_value = $row['schedule_type'] ?? null;
+        $schedule_type = is_numeric($schedule_type_value) ? CronJobScheduleType::tryFrom((int) $schedule_type_value) : null;
 
         if (
             $job_exists && (
@@ -240,15 +239,15 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
                 // to overwrite dependent settings
                 $job->activationWasToggled($this->db, $this->setting, false);
             }
-        } // existing job - but schedule is flexible now
-        elseif (!$schedule_type && $job->hasFlexibleSchedule()) {
+        } elseif ($schedule_type === null && $job->hasFlexibleSchedule()) {
+            // existing job - but schedule is flexible now
             $this->updateJobSchedule(
                 $job,
                 $job->getDefaultScheduleType(),
                 $job->getDefaultScheduleValue()
             );
-        } // existing job - but schedule is static now
-        elseif ($schedule_type && !$job->hasFlexibleSchedule()) {
+        } elseif ($schedule_type !== null && !$job->hasFlexibleSchedule()) {
+            // existing job - but schedule is not flexible anymore
             $this->updateJobSchedule($job, null, null);
         }
     }
@@ -332,14 +331,14 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         );
     }
 
-    public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue): void
+    public function updateJobSchedule(ilCronJob $job, ?CronJobScheduleType $scheduleType, ?int $scheduleValue): void
     {
         if (
             $scheduleType === null ||
             ($job->hasFlexibleSchedule() && in_array($scheduleType, $job->getValidScheduleTypes(), true))
         ) {
             $query = 'UPDATE cron_job SET ' .
-                ' schedule_type = ' . $this->db->quote($scheduleType, 'integer') .
+                ' schedule_type = ' . $this->db->quote($scheduleType?->value, 'integer') .
                 ' , schedule_value = ' . $this->db->quote($scheduleValue, 'integer') .
                 ' WHERE job_id = ' . $this->db->quote($job->getId(), 'text');
             $this->db->manipulate($query);

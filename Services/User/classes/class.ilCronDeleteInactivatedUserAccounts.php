@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * This cron deletes user accounts by INACTIVATION period
@@ -105,9 +106,9 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         );
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

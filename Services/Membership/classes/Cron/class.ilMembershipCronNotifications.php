@@ -20,6 +20,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Course/group notifications
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -61,9 +63,9 @@ class ilMembershipCronNotifications extends ilCronJob
         return $this->lng->txt("enable_course_group_notifications_desc");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

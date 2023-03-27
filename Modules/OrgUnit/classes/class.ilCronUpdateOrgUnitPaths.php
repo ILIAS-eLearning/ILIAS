@@ -16,6 +16,8 @@
  ********************************************************************
  */
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Class ilCronUpdateOrgUnitPaths
  * @author  Theodor Truffer <tt@studer-raimann.ch>
@@ -62,9 +64,9 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

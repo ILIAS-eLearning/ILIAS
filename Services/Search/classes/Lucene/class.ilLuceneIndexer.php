@@ -3,6 +3,7 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
@@ -42,9 +43,9 @@ class ilLuceneIndexer extends ilCronJob
         return $this->lng->txt("cron_lucene_index_info");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
