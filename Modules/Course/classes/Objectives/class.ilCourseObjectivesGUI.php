@@ -901,7 +901,12 @@ class ilCourseObjectivesGUI
         // TODO: not nice
         $this->questions = new ilCourseObjectiveQuestion($this->initObjectiveIdFromQuery());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-        $this->finalTestLimits();
+
+        if ($checked_questions) {
+            $this->finalTestLimits();
+            return;
+        }
+        $this->finalTestAssignment();
     }
 
     /**
