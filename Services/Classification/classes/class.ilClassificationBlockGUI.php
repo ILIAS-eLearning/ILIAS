@@ -55,10 +55,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
         // @todo: find another solution for this
         //$this->setFooterInfo($lng->txt("clsfct_block_info"));
 
-        $this->cl_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $service = new \ILIAS\Classification\Service($DIC);
+        $this->cl_request = $service->internal()->gui()->standardRequest();
 
         $this->repo = new ilClassificationSessionRepository($this->parent_ref_id);
     }
