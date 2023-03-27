@@ -91,8 +91,8 @@ administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
 administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
 administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_db_benchmark_user#:#Benutzer-Login
-administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
+administration#:#adm_db_benchmark_user#:#Anmeldename
+administration#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
 administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
