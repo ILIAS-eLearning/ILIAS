@@ -30,6 +30,9 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
  */
 abstract class AbstractNotificationProvider extends AbstractProvider implements NotificationProvider
 {
+    protected const NOTIFICATION_TYPE = 'default';
+    protected const MUTED_UNTIL_PREFERENCE_KEY = '';
+
     protected Container $dic;
     protected IdentificationProviderInterface $if;
     protected NotificationFactory $notification_factory;
@@ -37,11 +40,20 @@ abstract class AbstractNotificationProvider extends AbstractProvider implements 
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic)
+    public function __construct(Container $dic = null)
     {
+        if ($dic === null) {
+            global $DIC;
+            $dic = $DIC;
+        }
         parent::__construct($dic);
         $this->notification_factory = $this->globalScreen()->notifications()->factory();
         $this->if = $this->globalScreen()->identification()->core($this);
+    }
+
+    final public function getType(): string
+    {
+        return $this::NOTIFICATION_TYPE;
     }
 
     /**
