@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Link\Link;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */

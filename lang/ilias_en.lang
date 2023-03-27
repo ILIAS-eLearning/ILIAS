@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Failed
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The according competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
 assessment#:#tst_feedback#:#Feedback
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter

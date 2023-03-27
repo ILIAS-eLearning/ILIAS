@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,13 +15,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Toast\Collector;
 
-use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
-use ILIAS\UI\Component\Toast\Toast;
 use Iterator;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 

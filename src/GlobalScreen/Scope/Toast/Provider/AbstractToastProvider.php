@@ -22,13 +22,11 @@ namespace ILIAS\GlobalScreen\Scope\Toast\Provider;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Toast\Toast;
 use ILIAS\UI\Implementation\Component\Toast\Toast as IToast;
-use ILIAS\UI\Component\Toast\Factory;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
 
 abstract class AbstractToastProvider extends AbstractProvider implements ToastProvider
@@ -47,19 +45,5 @@ abstract class AbstractToastProvider extends AbstractProvider implements ToastPr
         $this->toast_factory = $this->globalScreen()->toasts()->factory();
         $this->ui_factory = $this->dic->ui()->factory();
         $this->if = $this->globalScreen()->identification()->core($this);
-    }
-
-    /**
-     * @param string|Shy|Link $title
-     * @param Icon   $icon
-     *
-     * @return Toast
-     */
-    protected function getDefaultToast($title, Icon $icon): Toast
-    {
-        $setting = new \ilSetting('notifications');
-        return $this->toast_factory->standard($title, $icon)
-            ->withVanishTime((int) $setting->get('osd_vanish', (string) IToast::DEFAULT_VANISH_TIME))
-            ->withDelayTime((int) $setting->get('osd_delay', (string) IToast::DEFAULT_DELAY_TIME));
     }
 }

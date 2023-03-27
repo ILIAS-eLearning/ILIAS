@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
 
-use ILIAS\UI\Component\Item\Notification as NotificationItem;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Link\Link;
-use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\StandardToastRenderer;
 use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\ToastRenderer;
 
 /**
@@ -57,14 +54,19 @@ class StandardToastItem implements isStandardItem
     protected IdentificationInterface $provider_identification;
     protected ToastRenderer $renderer;
 
+    protected ?int $vanish_time = null;
+    protected ?int $delay_time = null;
+
     public function __construct(
         IdentificationInterface $provider_identification,
         ToastRenderer $renderer,
-        string $title
+        string $title,
+        ?Icon $icon = null
     ) {
         $this->provider_identification = $provider_identification;
         $this->renderer = $renderer;
         $this->title = $title;
+        $this->icon = $icon;
     }
 
     private function packClosure(?\Closure $closure, string $identifier, string $title): ?ToastAction
@@ -130,6 +132,13 @@ class StandardToastItem implements isStandardItem
     final public function getAdditionalToastActions(): array
     {
         return $this->additional_actions;
+    }
+
+    public function withIcon(Icon $icon): isStandardItem
+    {
+        $clone = clone $this;
+        $clone->icon = $icon;
+        return $clone;
     }
 
     public function getIcon(): ?Icon
@@ -206,6 +215,30 @@ class StandardToastItem implements isStandardItem
     public function hasVanishedAction(): bool
     {
         return $this->handle_vanished !== null;
+    }
+
+    public function withVanishTime(int $miliseconds): isStandardItem
+    {
+        $clone = clone $this;
+        $clone->vanish_time = $miliseconds;
+        return $clone;
+    }
+
+    public function getVanishTime(): ?int
+    {
+        return $this->vanish_time;
+    }
+
+    public function withDelayTime(int $miliseconds): isStandardItem
+    {
+        $clone = clone $this;
+        $clone->delay_time = $miliseconds;
+        return $clone;
+    }
+
+    public function getDelayTime(): ?int
+    {
+        return $this->delay_time;
     }
 
     final public function getRenderer(): ToastRenderer

@@ -19,9 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast;
 
-use ILIAS\GlobalScreen\SingletonTrait;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
-use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\StandardToastRendererFactory;
 
