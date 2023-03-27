@@ -12,6 +12,8 @@ The following guidelines will help you to
 
 Code contributions to the ILIAS repository containing style code will be reviewed according to the rules and recommendations defined here.
 
+If you are interested why we decided to make big changes to the style code for ILIAS version 9 and up, you can find out more in this concept: [Using frameworkless SASS and ITCSS](../src/UI/docu/sass-itcss-concepts.md)
+
 ## SASS in SCSS syntax generates CSS
 
 Sass/CSS is responsible for the design of the website. Instead of directly writing CSS code and many repeating patterns by hand, we are using the Sass pre-processor to generate the CSS code for ILIAS.
@@ -19,6 +21,8 @@ Sass/CSS is responsible for the design of the website. Instead of directly writi
 Sass extends the CSS language, adding features that allow advanced variables, mixins, functions and many other techniques that allow you to make CSS that is more maintainable, themable and expendable (see: [sass-lang.com](http://sass-lang.com/)).
 
 The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
+
+Please use the most recent **Dart Sass** version (**not** Ruby Sass) that can be downloaded from [the official GitHub repository](https://github.com/sass/dart-sass/releases).
 
 You should consult the [official Sass Documentation](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
 
@@ -30,6 +34,8 @@ You should consult the [official Sass Documentation](https://sass-lang.com/docum
 * You MUST NOT make changes to the compiled delos.css manually.
 * Delos.scss MUST only contain imports and no other Sass logic at all.
 
+If you are interested, you can read more about why we switched preprocessors from LESS to Sass here.
+
 ## HTML
 
 HTML templates are only responsible for a well structured HTML document, which displays the bare content of the website and nothing else.
@@ -40,7 +46,6 @@ They can be found in `src/UI/templates/default` for modern UI components or in `
 * New class names MUST follow the naming convention outlined in this document.
 * You MUST NOT use style attributes like style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height and similar in HTML templates.
 * You MUST NOT use `&nbsp;`, `<br>`, `<br/>` or similar means to create space.
-
 
 
 # ITCSS structure
