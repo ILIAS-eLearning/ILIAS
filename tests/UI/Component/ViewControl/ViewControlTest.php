@@ -29,12 +29,12 @@ class ViewControlTest extends ILIAS_UI_TestBase
 {
     protected array $actions = [
         "ILIAS" => "http://www.ilias.de",
-        "Github" => "http://www.github.com"
+        "GitHub" => "http://www.github.com"
     ];
 
     protected string $aria_label = "Mode View Controler";
     protected string $role = "group";
-    protected string $active = "Github";
+    protected string $active = "GitHub";
 
     public function getViewControlFactory(): I\Component\ViewControl\Factory
     {

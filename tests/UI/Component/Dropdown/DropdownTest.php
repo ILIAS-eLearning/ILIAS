@@ -53,7 +53,7 @@ class DropdownTest extends ILIAS_UI_TestBase
     public function test_with_items(): void
     {
         $f = $this->getFactory();
-        $link = new I\Component\Link\Standard("Link to Github", "http://www.github.com");
+        $link = new I\Component\Link\Standard("Link to GitHub", "http://www.github.com");
         $c = $f->standard(array(
             new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
             new I\Component\Button\Shy("GitHub", "https://www.github.com"),
