@@ -288,7 +288,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 
-            $finalized = $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
+            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
 
             // fix #35543: save manual points only if they differ from the existing points
             // this prevents a question being set to "answered" if only feedback is entered
