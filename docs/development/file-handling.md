@@ -309,5 +309,5 @@ The legacy varaints should no longer be used because they always presuppose that
 
 # Contribute
 If there is anything wrong or missing here, or if there are any uncertainties, please open a ticket in Mantis (https://mantis.ilias.de). Errors or missing content in the documentation are treated as bugs.
-If someone wants to write this example in "pretty", i.e. use UI components etc., I'm happy about a pull request on Github!
+If someone wants to write this example in "pretty", i.e. use UI components etc., I'm happy about a pull request on GitHub!
 

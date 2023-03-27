@@ -27,7 +27,7 @@ npm install -g sass
 
 or
 
-Download [Dart SASS from Github](https://github.com/sass/dart-sass/releases/) and add it to the machine's PATH.
+Download [Dart SASS from GitHub](https://github.com/sass/dart-sass/releases/) and add it to the machine's PATH.
 
 If you want to create system styles throught frontend, make sure, that your webserver
 has the permission to read and execute your newly installed sass compiler.
@@ -64,7 +64,7 @@ To create a new skin, first add a new subdirectory to directory
 `Customizing/global/skin`, e.g. `Customizing/global/skin/myskin`.
 
 In the future, we will provide a base System Style based on the
-default Delos that you can download from Github and place here.
+default Delos that you can download from GitHub and place here.
 
 #### Step 2: Create template.xml File
 
