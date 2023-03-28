@@ -36,7 +36,6 @@ require_once(__DIR__ . '/../../libs/composer/vendor/autoload.php');
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
- * @runTestsInSeparateProcesses
  */
 class CacheTest extends TestCase
 {
