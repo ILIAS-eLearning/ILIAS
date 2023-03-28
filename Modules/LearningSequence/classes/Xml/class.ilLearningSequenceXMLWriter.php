@@ -32,11 +32,11 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
         ilLPObjSettings $lp_settings,
         ilRbacReview $rbac_review
     ) {
+        parent::__construct();
         $this->ls_object = $ls_object;
         $this->settings = $settings;
         $this->lp_settings = $lp_settings;
         $this->rbac_review = $rbac_review;
-
         $this->ls_settings = $ls_object->getLSSettings();
     }
 
