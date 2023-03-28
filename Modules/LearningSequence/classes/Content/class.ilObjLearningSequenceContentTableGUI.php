@@ -145,7 +145,9 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("POST_CONDITIONS", $si->render());
 
         if ($this->lp_globally_enabled) {
-            $this->tpl->setVariable("LP_SETTINGS", $this->getLPSettingsRepresentation($ls_item));
+            $lp_setting = $ls_item->getPostCondition()->getConditionOperator() === ilLSPostCondition::OPERATOR_LP ?
+                $this->getLPSettingsRepresentation($ls_item) : $this->lng->txt("lp_not_relevant_post_cond");
+            $this->tpl->setVariable("LP_SETTINGS", $lp_setting);
         }
 
         $this->tpl->setVariable("ACTIONS", $this->getItemActionsMenu($ls_item->getRefId(), $ls_item->getType()));

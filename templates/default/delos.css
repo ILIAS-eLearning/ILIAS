@@ -15250,6 +15250,9 @@ div#right_bottom_area iframe {
 .ilLSOKioskModeNavigation .navbar-form {
   line-height: 25px;
 }
+.ilLSOKioskModeNavigation .navbar-header {
+  float: none;
+}
 
 .ilLSOKioskModeContent .panel-primary .panel-heading {
   display: none;

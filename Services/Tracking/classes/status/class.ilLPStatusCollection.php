@@ -311,7 +311,7 @@ class ilLPStatusCollection extends ilLPStatus
                 }
 
                 if ($status['completed']) {
-                    if (!$this->isMember((int) $a_obj_id, (int) $a_user_id)) {
+                    if (!$this->isMember((int) $a_obj_id, (int) $a_usr_id)) {
                         return self::LP_STATUS_IN_PROGRESS_NUM;
                     }
 
