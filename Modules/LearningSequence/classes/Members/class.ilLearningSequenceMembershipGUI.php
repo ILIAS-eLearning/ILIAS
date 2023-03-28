@@ -191,10 +191,14 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             "visible_member_ids",
             $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
         );
-        $notification = $this->post_wrapper->retrieve(
-            "notification",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
+
+        $notification = [];
+        if ($this->post_wrapper->has('notification')) {
+            $notification = $this->post_wrapper->retrieve(
+                "notification",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
 
         foreach ($participants as $participant) {
             if ($members->isAdmin($participant)) {

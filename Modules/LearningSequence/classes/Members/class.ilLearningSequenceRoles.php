@@ -269,7 +269,7 @@ class ilLearningSequenceRoles
                 }
             }
 
-            if ($portfolio_enabled) {
+            if ($portfolio_enabled && array_key_exists($usr_id, $portfolios)) {
                 $data['prtf'] = $portfolios[$usr_id];
             }
 

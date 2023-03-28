@@ -135,7 +135,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($a_set['prtf'])) {
+                    if (array_key_exists('prtf', $a_set) && is_array($a_set['prtf'])) {
                         foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
@@ -332,7 +332,9 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
 
-            if (array_key_exists('org_units', $this->current_filter)) {
+            if (array_key_exists('org_units', $this->current_filter)
+                && $this->current_filter['org_units'] !== ''
+            ) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
                 $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
