@@ -22,7 +22,7 @@ use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastAction;
 
 require_once(__DIR__ . "/BaseToastSetUp.php");
 
-class ToastTest extends BaseToastSetUp
+class StandardToastTest extends BaseToastSetUp
 {
     public function testStandardToast()
     {
