@@ -1,18 +1,22 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Singleton class that stores all privacy settings
@@ -354,6 +358,7 @@ class ilPrivacySettings
         $this->settings->set('enable_anonymous_fora', (string) $this->enabledAnonymousFora());
         $this->settings->set('ps_access_times', (string) $this->enabledGroupAccessTimes());
         $this->settings->set('ps_crs_access_times', (string) $this->enabledCourseAccessTimes());
+        $this->settings->set('ps_lso_access_times', (string) $this->enabledLearningSequenceAccessTimes());
         $this->settings->set('rbac_log', (string) $this->enabledRbacLog());
         $this->settings->set('rbac_log_age', (string) $this->getRbacLogAge());
         $this->settings->set('enable_sahs_pd', (string) $this->enabledSahsProtocolData());

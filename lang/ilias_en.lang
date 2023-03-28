@@ -13153,6 +13153,7 @@ ps#:#ps_security_protection#:#Security Settings
 ps#:#ps_select_one#:#Please select one export file
 ps#:#ps_show_crs_access#:#Show last access time of course participants
 ps#:#ps_show_grp_access#:#Show last access time of group participants
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants
 ps#:#ps_size#:#Files Size
 ps#:#ps_type_select#:#Select Field
 ps#:#ps_type_select_long#:#Selection Box (Fixed Values)
