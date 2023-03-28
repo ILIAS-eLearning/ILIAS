@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * AMD field type text
@@ -278,14 +293,14 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
 
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search): string
     {
-        return $a_adt_search->getADT()->getText();
+        return (string) $a_adt_search->getADT()->getText();
     }
 
     protected function parseSearchObjects(array $a_records, array $a_object_types): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = array();
 
@@ -299,8 +314,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
 
         $sql = "SELECT obj_id,type" .
             " FROM object_data" .
-            " WHERE " . $ilDB->in("obj_id", array_keys($obj_ids), "", "integer") .
-            " AND " . $ilDB->in("type", $a_object_types, "", "text");
+            " WHERE " . $ilDB->in("obj_id", array_keys($obj_ids), false, "integer") .
+            " AND " . $ilDB->in("type", $a_object_types, false, "text");
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $row["found"] = array();

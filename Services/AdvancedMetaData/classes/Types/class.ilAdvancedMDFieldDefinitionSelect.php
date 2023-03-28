@@ -49,7 +49,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search): string
     {
-        return $a_adt_search->getADT()->getSelection();
+        return (string) $a_adt_search->getADT()->getSelection();
     }
 
     protected function initADTDefinition(): ilADTDefinition
