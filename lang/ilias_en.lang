@@ -10490,12 +10490,14 @@ lso#:#first_access#:#First Access
 lso#:#last_access#:#Last Access
 lso#:#last_visited_step#:#Last visited Step
 lso#:#learner_view#:#Overview
+lso#:#lp_not_relevant_post_cond#:#currently not relevant for continuation
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#lso_header_delete_members#:#Would you like to remove the following members from this learning sequence?
 lso#:#lso_header_edit_members#:#Edit Members
 lso#:#lso_intropages_deprecationhint#:#You can edit the abstract and exit page in the tab "Content".
+lso#:#lso_legacy_info#:#The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the "Next" button remains disabled.
 lso#:#lso_mail_admission_new_bod#:#we are pleased to announce your registration for the learning sequence "%s".
 lso#:#lso_mail_admission_new_sub#:#Your registration for learning sequence "%s"
 lso#:#lso_mail_dismiss_bod#:#your membership in learning sequence "%s" has been terminated.

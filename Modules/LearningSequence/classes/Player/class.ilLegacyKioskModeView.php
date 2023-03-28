@@ -136,10 +136,16 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $this->getMetadata($this->object->getId(), $obj_type)
         );
 
-        return $factory->item()->standard($this->object->getTitle())
-            ->withLeadIcon($icon)
-            ->withDescription($this->object->getDescription())
-            ->withProperties($props);
+        return $factory->panel()->standard(
+            $this->object->getTitle(),
+            [
+                $factory->messageBox()->info($this->lng->txt('lso_legacy_info')),
+                $factory->item()->standard($this->object->getTitle())
+                    ->withLeadIcon($icon)
+                    ->withDescription($this->object->getDescription())
+                    ->withProperties($props)
+            ]
+        );
     }
 
     //TODO: enhance metadata
