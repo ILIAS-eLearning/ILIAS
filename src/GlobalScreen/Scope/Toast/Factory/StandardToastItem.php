@@ -110,6 +110,16 @@ class StandardToastItem implements isStandardItem
             );
         }
 
+        $existing = array_map(function (ToastAction $action): string {
+            return $action->getIdentifier();
+        }, $this->additional_actions);
+
+        if (in_array($action->getIdentifier(), $existing, true)) {
+            throw new \InvalidArgumentException(
+                'You cannot use the same identifier twice'
+            );
+        }
+
         $clone = clone $this;
         $clone->additional_actions[] = $action;
         return $clone;
@@ -122,7 +132,7 @@ class StandardToastItem implements isStandardItem
         $actions[] = $this->handle_closed;
         $actions[] = $this->handle_vanished;
 
-        array_filter($actions, function (?ToastAction $action): bool {
+        $actions = array_filter($actions, function (?ToastAction $action): bool {
             return $action !== null;
         });
 
