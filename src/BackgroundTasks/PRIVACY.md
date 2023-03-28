@@ -25,4 +25,4 @@ Disclaimer: This documentation does not warrant completeness or correctness. Ple
   - If the account whose User ID has been stored for the background task cancels the background task. This can be done by clicking on the notification icon in the menubar, clicking on "Background Tasks" and then clicking on the close icon next to the corresponding background task.
 
 ## Data being exported
-- The BackgrountTasks service does not have an export function. Therefore no personal data is being exported.
+- The BackgroundTasks service does not have an export function. Therefore no personal data is being exported.
