@@ -8,6 +8,7 @@
 
 /* UI Framework */
 
+@use "./UI-framework/_ui-component_tooltip.scss";
 @use "./UI-framework/Breadcrumbs/_ui-component_breadcrumbs.scss";
 @use "./UI-framework/Button/_ui-component_button.scss";
 @use "./UI-framework/Button/_ui-component_tag.scss";
