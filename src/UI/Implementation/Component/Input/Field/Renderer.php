@@ -290,7 +290,9 @@ class Renderer extends AbstractComponentRenderer
         $dependant_group_html = $default_renderer->render($component->getInputs());
 
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), "", $dependant_group_html);
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
