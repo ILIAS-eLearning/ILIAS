@@ -20006,4 +20006,8 @@ table.mceToolbar td {
   a[href]:after {
     content: "";
   }
+  .ilAccHideContent {
+    height: auto !important;
+    width: auto !important;
+  }
 }
