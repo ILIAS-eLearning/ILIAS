@@ -87,7 +87,8 @@ class ilObjLearningSequenceContentGUI
     protected function manageContent(): void
     {
         // Adds a btn to the gui which allows adding possible objects.
-        $this->parent_gui->showPossibleSubObjects();
+        $gui = new ilObjectAddNewItemGUI($this->parent_gui->getObject()->getRefId());
+        $gui->render();
 
         $data = $this->parent_gui->getObject()->getLSItems();
         // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
