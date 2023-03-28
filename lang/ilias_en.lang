@@ -14253,7 +14253,7 @@ rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_groups#:#Grouping
 rep#:#rep_new_item_menu#:#‘Add New Item’-Menu
-rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
+rep#:#rep_no_last_visited_mess#:#You have not yet visited any objects in the Repository.
 rep#:#rep_no_permission_to_delete#:#No permission to delete
 rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.

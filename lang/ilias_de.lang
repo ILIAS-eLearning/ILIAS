@@ -14247,7 +14247,7 @@ rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_groups#:#Gruppierungen
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
-rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Objekte im Magazin aufgerufen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
 rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referenzen.
