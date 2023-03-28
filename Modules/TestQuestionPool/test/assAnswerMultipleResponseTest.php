@@ -35,9 +35,6 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
-
         // Act
         $instance = new ASS_AnswerMultipleResponse();
 
@@ -47,8 +44,6 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     public function test_setGetPointsUnchecked(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 1;
 
@@ -62,8 +57,6 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     public function test_setGetPointsUnchecked_InvalidPointsBecomeZero(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 0;
 
@@ -77,8 +70,6 @@ class assAnswerMultipleResponseTest extends assBaseTestCase
 
     public function test_setGetPointsChecked(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
         $instance = new ASS_AnswerMultipleResponse();
         $expected = 2;
 

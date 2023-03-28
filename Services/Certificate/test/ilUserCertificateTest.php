@@ -31,7 +31,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
             'crs',
             400,
             'Niels Theen',
-            123456789,
+            123_456_789,
             '<xml>Some Content</xml>',
             '[]',
             null,
@@ -48,7 +48,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
         $this->assertSame('crs', $userCertificate->getObjType());
         $this->assertSame(400, $userCertificate->getUserId());
         $this->assertSame('Niels Theen', $userCertificate->getUserName());
-        $this->assertSame(123456789, $userCertificate->getAcquiredTimestamp());
+        $this->assertSame(123_456_789, $userCertificate->getAcquiredTimestamp());
         $this->assertSame('<xml>Some Content</xml>', $userCertificate->getCertificateContent());
         $this->assertSame('[]', $userCertificate->getTemplateValues());
         $this->assertEquals(0, $userCertificate->getValidUntil());

@@ -108,7 +108,6 @@ class ilChatroomAdmin
 
     /**
      * Saves given client $settings into settingsTable.
-     * @param stdClass $settings
      */
     public function saveClientSettings(stdClass $settings): void
     {

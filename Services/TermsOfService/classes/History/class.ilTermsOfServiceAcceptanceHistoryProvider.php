@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilTermsOfServiceAcceptanceHistoryProvider
  * @author Michael Jansen <mjansen@databay.de>
+ * @extends ilTermsOfServiceTableDatabaseDataProvider<array{tosv_id: numeric-string, criteria: string, ts: numeric-string, usr_id: numeric-string, login: string, lastname: null|string, firstname: null|string, title: string, text: string}>
  */
 class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDatabaseDataProvider
 {

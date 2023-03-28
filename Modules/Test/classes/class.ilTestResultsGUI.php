@@ -187,13 +187,12 @@ class ilTestResultsGUI
         switch ($DIC->ctrl()->getNextClass()) {
             case 'ilparticipantstestresultsgui':
 
-                if (!$this->getTestAccess()->checkManageParticipantsAccess() && !$this->getTestAccess()->checkParticipantsResultsAccess()) {
+                if (!$this->getTestAccess()->checkParticipantsResultsAccess()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
 
-                require_once 'Modules/Test/classes/class.ilParticipantsTestResultsGUI.php';
                 $gui = new ilParticipantsTestResultsGUI();
                 $gui->setTestObj($this->getTestObj());
                 $gui->setQuestionSetConfig($this->getQuestionSetConfig());
@@ -210,7 +209,6 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_RESULTS);
 
-                require_once 'Modules/Test/classes/class.ilMyTestResultsGUI.php';
                 $gui = new ilMyTestResultsGUI();
                 $gui->setTestObj($this->getTestObj());
                 $gui->setTestAccess($this->getTestAccess());
@@ -227,7 +225,6 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_LO_RESULTS);
 
-                require_once 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php';
                 $gui = new ilTestEvalObjectiveOrientedGUI($this->getTestObj());
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
                 $DIC->ctrl()->forwardCommand($gui);
@@ -241,7 +238,6 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
 
-                require_once 'Modules/Test/classes/class.ilMyTestSolutionsGUI.php';
                 $gui = new ilMyTestSolutionsGUI();
                 $gui->setTestObj($this->getTestObj());
                 $gui->setTestAccess($this->getTestAccess());
@@ -257,7 +253,6 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_HIGHSCORE);
 
-                require_once './Modules/Test/classes/class.ilTestToplistGUI.php';
                 $gui = new ilTestToplistGUI($this->getTestObj());
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
@@ -267,9 +262,7 @@ class ilTestResultsGUI
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
 
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
                 if ($this->getTestObj()->isDynamicTest()) {
-                    require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
                     $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                         $DIC->repositoryTree(),
                         $DIC->database(),
@@ -287,11 +280,9 @@ class ilTestResultsGUI
                 }
                 $questionList->load();
 
-                require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
                 $testSessionFactory = new ilTestSessionFactory($this->getTestObj());
                 $testSession = $testSessionFactory->getSession();
 
-                require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
                 $gui = new ilTestSkillEvaluationGUI(
                     $DIC->ctrl(),
                     $DIC->tabs(),

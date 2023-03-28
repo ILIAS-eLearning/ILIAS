@@ -50,7 +50,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $question = ""
     ) {
         global $DIC;
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
         $this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
         parent::__construct($title, $comment, $author, $owner, $question);
@@ -303,12 +302,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                         ),
                     array(
                         'answer_text' => array('text', $answer),
-                        'points' => array('float', (float) $gap[1]),
+                        'points' => array('float', (float) str_replace(',', '.', $gap[1])),
                         'type' => array('integer', (int) $type)
                         )
                 );
             }
-            $points += (float) $gap[1];
+            $points += (float) str_replace(',', '.', $gap[1]);
         }
         $this->setPoints($points);
     }
@@ -394,7 +393,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setPoints($data["points"]);
             $this->setIdenticalScoring($data["identical_scoring"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc((string) $data['long_menu_text'], 1));
@@ -510,7 +508,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -549,7 +547,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -572,8 +570,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -656,7 +652,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
     {
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -675,7 +670,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -684,7 +678,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -890,7 +883,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();

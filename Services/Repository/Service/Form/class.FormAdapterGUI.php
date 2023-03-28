@@ -89,7 +89,8 @@ class FormAdapterGUI
 
     public static function getOnLoadCode(): string
     {
-        return "il.repository.ui.init()";
+        return "il.repository.ui.init();\n" .
+            "il.repository.core.init('" . ILIAS_HTTP_PATH . "')";
     }
 
     public static function initJavascript(): void

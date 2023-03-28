@@ -1116,23 +1116,34 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function uploadTstObject()
     {
         if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("error_upload"));
-            $this->createObject();
-            return;
+            $this->lng->loadLanguageModule('file');
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('general_upload_error_occured'));
+            $this->ctrl->redirect($this, 'create');
+            return false;
         }
-        // create import directory
+
+        $file = pathinfo($_FILES["xmldoc"]["name"]);
+        $subdir = basename($file["basename"], "." . $file["extension"]);
+
+        if (strpos($subdir, 'tst') === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
+
         $basedir = ilObjTest::_createImportDirectory();
 
-        // copy uploaded file to import directory
-        $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
-        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        try {
+            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        } catch (Error $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
 
-        // unzip file
         ilFileUtils::unzip($full_path);
 
-        // determine filenames of xml files
-        $subdir = basename($file["basename"], "." . $file["extension"]);
         ilObjTest::_setImportDirectory($basedir);
         $xml_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
         $qti_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . preg_replace("/test|tst/", "qti", $subdir) . ".xml";
@@ -1140,9 +1151,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         if (!is_file($qti_file)) {
             ilFileUtils::delDir($basedir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"));
-            $this->createObject();
-            return;
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
@@ -1159,7 +1170,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         if (count($founditems) && $complete == 0) {
-            // delete import directory
             ilFileUtils::delDir($basedir);
 
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_import_non_ilias_files"));
@@ -2997,19 +3007,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $total = $this->object->evalTotalPersons();
 
-        /*if (count($options)) {
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-            $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
-            $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-            $si->setOptions($options);
-
-            if ($qid) {
-                $si->setValue($qid);
-            }
-
-            $ilToolbar->addInputItem($si, true);
-        }*/
-
         if (count($questions) && !$total) {
             $ilCtrl->setParameter($this, 'q_id', $this->testrequest->raw('q_id'));
             $ilToolbar->addSeparator();
@@ -3111,8 +3108,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         foreach ($result->ids as $oldId => $newId) {
             $questionInstance = assQuestion::instantiateQuestion($oldId);
 
-            if (assQuestion::originalQuestionExists($questionInstance->getOriginalId())) {
-                $oldOriginal = assQuestion::instantiateQuestion($questionInstance->getOriginalId());
+            $original_question_id = $questionInstance->getOriginalId();
+            if ($original_question_id !== null
+                && assQuestion::originalQuestionExists($original_question_id)) {
+                $oldOriginal = assQuestion::instantiateQuestion($original_question_id);
                 $oldOriginal->delete($oldOriginal->getId());
             }
 
@@ -3388,7 +3387,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
 
 
-        $settings = $object->getScoreSettings();
+        $score_settings = $object->getScoreSettings();
         foreach ($simpleSetters as $field => $setter) {
             if (! array_key_exists($field, $templateData)) {
                 continue;
@@ -3399,8 +3398,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'count_system':
                 case 'pass_scoring':
                 case 'score_cutting':
-                    $settings = $settings->withScoringSettings(
-                        $settings->getScoringSettings()->$setter(
+                    $score_settings = $score_settings->withScoringSettings(
+                        $score_settings->getScoringSettings()->$setter(
                             (int) $templateData[$field]['value']
                         )
                     );
@@ -3409,15 +3408,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'pass_deletion_allowed':
                 case 'grading_status':
                 case 'grading_mark':
-                    $settings = $settings->withResultSummarySettings(
-                        $settings->getResultSummarySettings()->$setter(
+                    $score_settings = $score_settings->withResultSummarySettings(
+                        $score_settings->getResultSummarySettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
                     break;
                 case 'results_access_enabled':
-                    $settings = $settings->withResultSummarySettings(
-                        $settings->getResultSummarySettings()->$setter(
+                    $score_settings = $score_settings->withResultSummarySettings(
+                        $score_settings->getResultSummarySettings()->$setter(
                             (int) $templateData[$field]['value']
                         )
                     );
@@ -3430,16 +3429,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 case 'solution_signature':
                 case 'examid_in_test_res':
                 case 'exp_sc_short':
-                    $settings = $settings->withResultDetailsSettings(
-                        $settings->getResultDetailsSettings()->$setter(
+                    $score_settings = $score_settings->withResultDetailsSettings(
+                        $score_settings->getResultDetailsSettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
                     break;
 
                 case 'highscore_enabled':
-                    $settings = $settings->withGamificationSettings(
-                        $settings->getGamificationSettings()->$setter(
+                    $score_settings = $score_settings->withGamificationSettings(
+                        $score_settings->getGamificationSettings()->$setter(
                             (bool) $templateData[$field]['value']
                         )
                     );
@@ -3502,7 +3501,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     }
             }
         }
-        $object->getScoreSettingsRepository()->store($settings);
+        $object->getScoreSettingsRepository()->store($score_settings);
     }
 
     public function saveOrderAndObligationsObject()

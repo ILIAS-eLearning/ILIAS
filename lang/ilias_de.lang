@@ -91,8 +91,8 @@ administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
 administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
 administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_db_benchmark_user#:#Benutzer-Login
-administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
+administration#:#adm_db_benchmark_user#:#Anmeldename
+administration#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
 administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
@@ -972,7 +972,7 @@ assessment#:#or#:#oder
 assessment#:#order#:#Sortierung
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordertext#:#Anzuordnender Text
-assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
+assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte den Trenner %s anstelle der Leerzeichen.
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
 assessment#:#output#:#Ausgabe
 assessment#:#output_mode#:#Ausgabemodus
@@ -1421,6 +1421,8 @@ assessment#:#tst_failed#:#Durchgefallen
 assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu folgenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
 assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
 assessment#:#tst_feedback#:#Rückmeldung
+assessment#:#tst_feedback_is_given_inline#:#Die Rückmeldung wird direkt unter Ihrer Antwort angezeigt.
+assessment#:#tst_feedback_not_available_for_answer#:#Für Ihre Antwort ist keine Rückmeldung verfügbar.
 assessment#:#tst_filter_lifecycle_enabled#:#Filter „Lebenszyklus“ verwenden
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
@@ -2067,7 +2069,7 @@ auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
+auth#:#auth_oidc_settings_user_attr#:#Attributname der ILIAS-Konten
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
@@ -2385,7 +2387,7 @@ blog#:#blog_enable_nav_authors#:#Nach Mitwirkenden filtern###Modified as part of
 blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit den Namen aller Mitwirkenden eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieser Person an.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_enable_rss#:#RSS aktivieren
-blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
+blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Rechten.
 blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
 blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
@@ -3360,7 +3362,7 @@ cmxv#:#cmxv_create#:#Zertifikat für xAPI/cmi5-Objekt erstellen
 cmxv#:#cmxv_create_info#:#Wählen Sie ein abgeschlossenes xAPI/cmi5-Objekt aus, um ein Zertifikat dafür zu generieren.
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
-cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
+cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner, Lernsequenzen und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
@@ -3676,8 +3678,8 @@ common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
-common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
+common#:#check_user_accounts#:#ILIAS-Konten überprüfen
+common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft. Außerdem löscht der Cronjob alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
@@ -3864,23 +3866,23 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive ILIAS-Konten löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
-common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
-common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactive_user_accounts#:#ILIAS-Konten mit lange zurückliegendem Login löschen
+common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
-common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
-common#:#deleted_users#:#Die Benutzer wurden gelöscht.
+common#:#deleted_user#:#Das ILIAS-Konto wurde gelöscht.
+common#:#deleted_users#:#Die ILIAS-Konten wurden gelöscht.
 common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
 common#:#deliver#:#Übung abgeben
 common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
@@ -5646,7 +5648,7 @@ common#:#subscription#:#Abo
 common#:#subtabs#:#Unterpunkte
 common#:#success_message#:#Bestätigungsmeldung
 common#:#summary#:#Zusammenfassung
-common#:#sure_delete_selected_users#:#Sind Sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
+common#:#sure_delete_selected_users#:#Sind Sie sicher, dass die ausgewählten ILIAS-Konten gelöscht werden sollen?
 common#:#survey_defaults#:#Standardeinstellungen für Umfragen
 common#:#survey_unlimited_invitation#:#Unbegrenzte Einladung
 common#:#svy#:#Umfrage
@@ -5792,7 +5794,7 @@ common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
 common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
-common#:#user_deleted#:#Benutzer gelöscht
+common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
 common#:#user_ext_account_desc#:#Anmeldekonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP- oder LDAP-Authentifizierung)
@@ -5801,7 +5803,7 @@ common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
-common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
+common#:#user_never_logged_in#:#ILIAS-Konten ohne Anmeldung löschen
 common#:#user_never_logged_in_info#:#ILIAS-Konten werden gelöscht, wenn sich noch nie jemand damit in ILIAS angemeldet hat.
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
 common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
@@ -6940,7 +6942,7 @@ content#:#cont_select_item#:#Bitte wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_media_pool#:#Medienpool auswählen
 content#:#cont_select_none#:#Auswahl aufheben
-content#:#cont_select_other_qpool#:#Wählen Sie einen anderen Pool aus!
+content#:#cont_select_other_qpool#:#Anderen Fragenpool auswählen
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
 content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
 content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
@@ -7630,6 +7632,7 @@ crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
+crs#:#crs_objective_status_materials_info#:#Der Kurs hat momentan keinen Inhalt. Fügen Sie Lerninhalte hinzu, die Lernzielen zugeordnet werden können.
 crs#:#crs_objective_status_objective_creation#:#Lernziele hinzufügen
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
@@ -8464,10 +8467,10 @@ dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
+dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
-dcl#:#dcl_fileupload#:#Datei-Upload
-dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
@@ -8664,6 +8667,7 @@ dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann nicht angezeigt werden. Bitte wenden Sie sich an Ihre System-Administration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -8913,7 +8917,7 @@ ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
-ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge
+ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Zugänge
 ecs#:#ecs_role#:#Rollenzuordnung
 ecs#:#ecs_role_mapping_value#:#Attributwert
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -8963,6 +8967,7 @@ etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
 etal#:#date_of_talk#:#Start Datum
 etal#:#etal_add#:#Hinzufügen
 etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
+etal#:#etal_create_invalid_template_ref#:#Ungültige Gesprächsvorlagen-ID
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_edit#:#Allgemein
@@ -10375,7 +10380,7 @@ ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
 ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
 ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
 ldap#:#ldap_update_roles#:#Rollenzuordnungen
-ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
+ldap#:#ldap_user_attribute#:#Attributname der ILIAS-Konten
 ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
 ldap#:#ldap_user_scope#:#Suchbereich
@@ -10458,7 +10463,7 @@ lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
-lso#:#curriculum#:#Curriculum
+lso#:#curriculum#:#Inhalt
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
 lso#:#entries_updated#:#Einträge gespeichert
@@ -10501,7 +10506,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der L
 lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
 lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
-lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+lso#:#lso_mainbar_button_label_curriculum#:#Lernsequenz
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
 lso#:#lso_member_administration#:#Teilnehmerverwaltung
@@ -10928,6 +10933,7 @@ mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehl
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_grp_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
+mail#:#mail_hint_add_placeholder_x#:#Füge Platzhalter '%s' in den Textkörper der Nachricht ein.
 mail#:#mail_incoming#:#Maileingang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
 mail#:#mail_incoming_local#:#Nur lokal empfangen
@@ -11081,6 +11087,7 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen i
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
+mail#:#select_mail_with_subject_x#:#Wähle Mail mit Betreff „%s“
 mail#:#send_mail_admins#:#Alle Administratoren
 mail#:#send_mail_members#:#Alle Mitglieder
 mail#:#send_mail_to#:#Mail an
@@ -14921,6 +14928,7 @@ skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
 skmg#:#skmg_no_nodes_selectable#:#Zur Zeit sind keine Kompetenzen auswählbar.
+skmg#:#skmg_no_skill_entries#:#Sie besitzen für diese Kompetenz bisher keine Einträge.
 skmg#:#skmg_no_skills#:#Keine Kompetenz
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt oder erworben. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen. Sie können beliebig viele Kompetenzen hinzufügen. Wenn Sie Kompetenzen durch das Bearbeiten von Lerninhalten erwerben, werden diese automatisch hier aufgelistet.
 skmg#:#skmg_no_trigger#:#Kein Auslöser

@@ -31,7 +31,7 @@ class ilMailingList
     private string $title = '';
     private string $description = '';
     private string $createdate;
-    private ?string $changedate;
+    private ?string $changedate = null;
     private readonly ilDBInterface $db;
 
     private int $mode;

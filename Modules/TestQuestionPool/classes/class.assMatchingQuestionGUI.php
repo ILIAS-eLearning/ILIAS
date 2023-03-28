@@ -44,7 +44,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assMatchingQuestion.php";
         $this->object = new assMatchingQuestion();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
         if ($id >= 0) {
@@ -59,7 +58,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
             $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
@@ -155,7 +153,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
-                    (float)$points
+                    (float) str_replace(',', '.', $points)
                 );
             }
         }
@@ -255,7 +253,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
 
@@ -332,8 +329,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
     {
-        // Definitions
-        include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
         $definitions = new ilMatchingWizardInputGUI($this->lng->txt("definitions"), "definitions");
         if ($this->object->getSelfAssessmentEditingMode()) {
             $definitions->setHideImages(true);
@@ -347,7 +342,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $definitions->setQuestionObject($this->object);
         $definitions->setTextName($this->lng->txt('definition_text'));
         $definitions->setImageName($this->lng->txt('definition_image'));
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
         if (!count($this->object->getDefinitions())) {
             $this->object->addDefinition(new assAnswerMatchingDefinition());
         }
@@ -358,8 +352,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
         $form->addItem($definitions);
 
-        // Terms
-        include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
         $terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
         if ($this->object->getSelfAssessmentEditingMode()) {
             $terms->setHideImages(true);
@@ -368,7 +360,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $terms->setQuestionObject($this->object);
         $terms->setTextName($this->lng->txt('term_text'));
         $terms->setImageName($this->lng->txt('term_image'));
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
+
         if (0 === count($this->object->getTerms())) {
             // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
             // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
@@ -382,13 +374,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
         $form->addItem($terms);
 
-        // Matching Pairs
-        include_once "./Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php";
         $pairs = new ilMatchingPairWizardInputGUI($this->lng->txt('matching_pairs'), 'pairs');
         $pairs->setRequired(true);
         $pairs->setTerms($this->object->getTerms());
         $pairs->setDefinitions($this->object->getDefinitions());
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
         if (count($this->object->getMatchingPairs()) == 0) {
             $this->object->addMatchingPair($termvalues[0], $definitionvalues[0], 0);
             //$this->object->addMatchingPair(new assAnswerMatchingPair($termvalues[0], $definitionvalues[0], 0));
@@ -475,14 +464,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
@@ -652,7 +638,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
@@ -824,7 +809,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
@@ -1144,8 +1128,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex): ilAnswerFrequencyStatisticTableGUI
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php';
-
         $table = new ilMatchingQuestionAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
         $table->setQuestionIndex($questionIndex);
         $table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
@@ -1156,7 +1138,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMatchingPairCorrectionsInputGUI.php';
         $pairs = new ilAssMatchingPairCorrectionsInputGUI($this->lng->txt('matching_pairs'), 'pairs');
         $pairs->setRequired(true);
         $pairs->setTerms($this->object->getTerms());
@@ -1178,9 +1159,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $pair_terms = explode(',', $this->request->raw('pairs')['term_id']);
             $pair_definitions = explode(',', $this->request->raw('pairs')['definition_id']);
             $values = [];
-            foreach ($points_of_pairs as $idx=>$points) {
+            foreach ($points_of_pairs as $idx => $points) {
                 $k = implode('.', [$pair_terms[$idx],$pair_definitions[$idx]]);
-                $values[$k] = (float)$points;
+                $values[$k] = (float) str_replace(',', '.', $points);
             }
 
             foreach ($pairs as $idx => $pair) {

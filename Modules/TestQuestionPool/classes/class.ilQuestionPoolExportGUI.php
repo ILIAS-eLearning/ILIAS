@@ -29,7 +29,6 @@ class ilQuestionPoolExportGUI extends ilExportGUI
      */
     protected function buildExportTableGUI(): ilExportTableGUI
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php';
         $table = new ilQuestionPoolExportTableGUI($this, 'listExportFiles', $this->obj);
         return $table;
     }

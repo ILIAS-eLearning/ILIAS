@@ -36,7 +36,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 '[]',
                 3,
                 'v5.4.0',
-                123456789,
+                123_456_789,
                 true,
                 '/some/where/background.jpg',
                 '/some/where/thumbnail.jpg',

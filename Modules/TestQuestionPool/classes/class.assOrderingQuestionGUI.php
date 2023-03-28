@@ -67,7 +67,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php";
         $this->object = new assOrderingQuestion();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -167,7 +166,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $thumb_geometry = max(20, (int)$this->request->raw("thumb_geometry"));
+        $thumb_geometry = (int) ($this->request->raw("thumb_geometry") ?? $this->object->getThumbGeometry());
         $this->object->setThumbGeometry($thumb_geometry);
 
         $this->object->setPoints((int)$this->request->raw("points"));
@@ -330,7 +329,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function buildEditForm(): ilAssOrderingQuestionAuthoringFormGUI
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php';
         $form = new ilAssOrderingQuestionAuthoringFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());
@@ -839,7 +837,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $this->object->setPoints((float) $form->getInput('points'));
+        $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
 
         $submittedElementList = $this->fetchSolutionListFromSubmittedForm($form);
 

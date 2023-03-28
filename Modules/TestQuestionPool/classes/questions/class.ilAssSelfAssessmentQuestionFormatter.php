@@ -29,17 +29,11 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     public function format($string): string
     {
         $string = $this->handleLineBreaks($string);
-
-        require_once 'Services/RTE/classes/class.ilRTE.php';
         $string = ilRTE::_replaceMediaObjectImageSrc($string, 1);
-
         $string = str_replace("</li><br />", "</li>", $string);
         $string = str_replace("</li><br>", "</li>", $string);
-
-        require_once 'Services/MathJax/classes/class.ilMathJax.php';
         $string = ilMathJax::getInstance()->insertLatexImages($string, "\[tex\]", "\[\/tex\]");
         $string = ilMathJax::getInstance()->insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
-
         $string = str_replace('{', '&#123;', $string);
         $string = str_replace('}', '&#125;', $string);
 

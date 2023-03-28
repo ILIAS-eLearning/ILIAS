@@ -33,7 +33,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     use ContentLanguage;
     use LanguageForTargetedResource;
 
-    protected ?Symbol $symbol;
+    protected ?Symbol $symbol = null;
     protected string $title = "";
     protected string $action = "";
 

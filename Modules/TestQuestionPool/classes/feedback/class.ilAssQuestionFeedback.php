@@ -305,8 +305,6 @@ abstract class ilAssQuestionFeedback
      */
     final public function saveGenericFeedbackContent(int $questionId, bool $solutionCompleted, string $feedbackContent): int
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
 
         if (strlen($feedbackContent)) {

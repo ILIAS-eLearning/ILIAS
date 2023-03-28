@@ -160,7 +160,7 @@ ilTagging =
 				// only on update
 				if (o.argument.mode == 'cmd')
 				{				
-					$(document).trigger('il_classification_redraw');   
+					il.repository.core.trigger('il_classification_redraw');
 				}				
 			}
 		}

@@ -64,16 +64,6 @@ class ilAssLacConditionParser
     protected $spaces;
 
     /**
-     * Construct requirements
-     */
-    public function __construct()
-    {
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacExpressionManufacturer.php';
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacOperationManufacturer.php';
-        include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeBuilder.php";
-    }
-
-    /**
      * Parses the delivered condition and creates a composite tree Structure
      *
      * @param $condition

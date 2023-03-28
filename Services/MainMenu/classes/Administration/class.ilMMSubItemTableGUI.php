@@ -190,7 +190,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT)
             );
 
-            $ditem = $factory->modal()->interruptiveItem(
+            $ditem = $factory->modal()->interruptiveItem()->standard(
                 $this->hash($a_set['identification']),
                 $item_facade->getDefaultTitle()
             );

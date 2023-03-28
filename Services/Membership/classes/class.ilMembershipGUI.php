@@ -1561,9 +1561,7 @@ class ilMembershipGUI
 
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
-        $list->setId('0');
-        $list->initForm('printForMembersOutput');
-        $list->initFromForm();
+        $list->initFromSettings();
         $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
         $list->getNonMemberUserData($this->member_data);
@@ -1625,7 +1623,7 @@ class ilMembershipGUI
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
-        if ($show_tracking) {
+        if ($show_tracking && $this->getParentObject()->getType() !== 'sess') {
             $list->addPreset('progress', $this->lng->txt('learning_progress'), true);
         }
 

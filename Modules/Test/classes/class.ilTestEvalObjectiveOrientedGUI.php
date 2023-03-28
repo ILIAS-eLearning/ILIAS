@@ -33,7 +33,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilassquestionpagegui':
-                require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
                 $forwarder = new ilAssQuestionPageCommandForwarder();
                 $forwarder->setTestObj($this->object);
                 $forwarder->forward();
@@ -81,13 +80,11 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $virtualSequence = $this->service->buildVirtualSequence($testSession);
         $userResults = $this->service->getVirtualSequenceUserResults($virtualSequence);
 
-        require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
         $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
 
         $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $virtualSequence);
         $objectivesList->loadObjectivesTitles();
 
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->objCache);
 
         $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
@@ -141,7 +138,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                 )
             );
 
-            require_once 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php';
             $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);
             $loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
             $loStatus->setUsrId($testSession->getUserId());

@@ -60,9 +60,6 @@ class assClozeTestGUITest extends assBaseTestCase
          * @runInSeparateProcess
          * @preserveGlobalState enabled
          */
-        //$this->markTestIncomplete('Needs mock ilCtrl.');
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeTestGUI.php';
 
 
 

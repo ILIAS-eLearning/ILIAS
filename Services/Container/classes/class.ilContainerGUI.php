@@ -351,13 +351,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $container_view = new ilContainerObjectiveGUI($this);
                 break;
 
-                // all items in one block
+            // all items in one block
             case ilContainer::VIEW_SESSIONS:
             case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
                 $container_view = new ilContainerSessionsContentGUI($this);
                 break;
 
-                // all items in one block
+            // all items in one block
             case ilContainer::VIEW_BY_TYPE:
             default:
                 $container_view = new ilContainerByTypeContentGUI($this, $this->container_user_filter);
@@ -1062,7 +1062,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($containers > 0 && count($this->std_request->getSelectedIds()) > 1) {
-            $ilErr->raiseError($this->lng->txt("cntr_container_only_on_their_own"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cntr_container_only_on_their_own"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
@@ -1071,10 +1072,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             foreach ($no_copy as $copy_id) {
                 $titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
             }
-            $ilErr->raiseError(
+            $this->tpl->setOnScreenMessage(
+                'failure',
                 $this->lng->txt("msg_no_perm_copy") . " " . implode(',', $titles),
-                $ilErr->MESSAGE
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
         // if we have a single container, set it as source id and redirect to ilObjectCopyGUI
@@ -1168,17 +1171,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // NO ACCESS
-        if (count($no_cut)) {
-            $ilErr->raiseError(
-                $this->lng->txt("msg_no_perm_link") . " " .
-                implode(',', $no_cut),
-                $ilErr->MESSAGE
+        if ($no_cut !== []) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("msg_no_perm_link") . " " . implode(',', $no_cut),
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
-        if (count($no_link)) {
+        if ($no_link !== []) {
             //#12203
-            $ilErr->raiseError($this->lng->txt("msg_obj_no_link"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_obj_no_link'), true);
+            $this->ctrl->redirect($this, "");
         }
 
         $this->clipboard->setParent($this->requested_ref_id);

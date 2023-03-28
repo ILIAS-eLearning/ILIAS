@@ -80,7 +80,6 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
 
     private function getExistingPassesDescendent($activeId): array
     {
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
         $passesSelector = new ilTestPassesSelector($this->db, $this->testOBJ);
         $passesSelector->setActiveId($activeId);
 

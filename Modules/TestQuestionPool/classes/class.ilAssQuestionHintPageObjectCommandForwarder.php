@@ -217,7 +217,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      */
     protected function getPageObjectGUI($pageObjectType, $pageObjectId): ilAssHintPageGUI
     {
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php");
         $pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
         $pageObjectGUI->obj->addUpdateListener(
             $this->questionOBJ,
@@ -233,7 +232,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      */
     protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void
     {
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
         if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
             $pageObject = new ilAssHintPage();
             $pageObject->setParentId($this->questionOBJ->getId());

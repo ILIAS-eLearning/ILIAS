@@ -140,15 +140,18 @@ class assTextQuestionImport extends assQuestionImport
         }
         $this->object->setMatchcondition((strlen($item->getMetadataEntry('matchcondition'))) ? (int) $item->getMetadataEntry('matchcondition') : 0);
 
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $no_keywords_found = true;
 
-        $termscoring = $this->fetchTermScoring($item);
-        for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
-            $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
-            $no_keywords_found = false;
+        if ($item->getMetadataEntry('termrelation') !== 'non'
+            && $item->getMetadataEntry('termrelation') !== null) {
+            $termscoring = $this->fetchTermScoring($item);
+            for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
+                $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
+                $no_keywords_found = false;
+            }
         }
-        if (count($termscoring)) {
+
+        if ($item->getMetadataEntry('termrelation') !== null) {
             $this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
         }
 
@@ -190,8 +193,6 @@ class assTextQuestionImport extends assQuestionImport
         $feedbacks = $this->getFeedbackAnswerSpecific($item);
 
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

@@ -227,7 +227,6 @@ class assQuestionImport
      */
     protected function getQplImportArchivDirectory(): string
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
     }
 
@@ -236,7 +235,6 @@ class assQuestionImport
      */
     protected function getTstImportArchivDirectory(): string
     {
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
     }
 
@@ -264,7 +262,6 @@ class assQuestionImport
             ilSession::set('import_mob_xhtml', $mobs);
         }
 
-        include_once "./Services/RTE/classes/class.ilRTE.php";
         return ilRTE::_replaceMediaObjectImageSrc($text, 0, $sourceNic);
     }
 

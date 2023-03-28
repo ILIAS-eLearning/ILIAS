@@ -20,7 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -904,9 +904,7 @@ class ilTestServiceGUI
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
-        if (is_array($invited_user) &&
-            array_key_exists("clientip", $invited_user) &&
-            strlen($invited_user["clientip"])) {
+        if (strlen($invited_user["clientip"] ?? '')) {
             $template->setCurrentBlock("user_clientip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->parseCurrentBlock();
@@ -914,7 +912,6 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
             $template->parseCurrentBlock();
             $template->touchBlock("user_clientip_separator");
-            $title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
         }
 
         $template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));

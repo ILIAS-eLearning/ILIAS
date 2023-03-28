@@ -70,7 +70,8 @@ final class PHPChunked implements ilFileDeliveryType
         if ($possible_stream !== null) {
             $this->file = $possible_stream->detach();
         } else {
-            $this->file = fopen($path_to_file, 'rb');
+            $resource = fopen($path_to_file, 'rb');
+            $this->file = $resource === false ? null : $resource;
         }
         return true;
     }
@@ -83,6 +84,13 @@ final class PHPChunked implements ilFileDeliveryType
     {
         $file = $path_to_file;
         $fp = $this->file;
+
+        // see https://mantis.ilias.de/view.php?id=36970
+        if ($fp === null) {
+            $response = $this->httpService->response()->withStatus(404);
+            $this->httpService->saveResponse($response);
+            $this->close();
+        }
 
         $size = filesize($file); // File size
         $length = $size;           // Content length

@@ -97,16 +97,14 @@ class ilTestLP extends ilObjectLP
             $course_obj_id = ilLOTestAssignments::lookupContainerForTest($test_ref_id);
             if ($course_obj_id) {
                 // remove objective results data
-                $lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);
-
+                $lo_assignments = ilLOTestAssignments::getInstance($course_obj_id);
                 ilLOUserResults::deleteResultsFromLP(
                     $course_obj_id,
                     $a_user_ids,
-                    ($lo_settings->getInitialTest() == $test_ref_id),
-                    ($lo_settings->getQualifiedTest() == $test_ref_id),
+                    $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_INITIAL,
+                    $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_QUALIFIED,
                     ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
                 );
-
                 $lp_status = ilLPStatusFactory::_getInstance($course_obj_id);
                 if (strtolower(get_class($lp_status)) != "illpstatus") {
                     foreach ($a_user_ids as $user_id) {

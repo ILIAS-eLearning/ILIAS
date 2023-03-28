@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,15 +15,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Toast\Provider;
 
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\UI\Component\Toast\Toast;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
+use ILIAS\DI\Container;
 
 interface ToastProvider extends Provider
 {
+    public function __construct(Container $dic);
+
     /**
-     * @return Toast[]
+     * @return isStandardItem[]
      */
     public function getToasts(): array;
 }

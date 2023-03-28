@@ -345,6 +345,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     protected function fetchTableData(): self
     {
+        $data = [];
         if ($this->_folderNode['m_type'] === 'user_folder') {
             $txt_folder = $this->_folderNode['title'];
             $img_folder = 'icon_user_folder.png';
@@ -440,6 +441,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $mail['checked'] = ' checked="checked" ';
             }
+
+            $mail['txt_select_mail_with_subject'] = sprintf(
+                $this->lng->txt('select_mail_with_subject_x'),
+                htmlspecialchars($mail['m_subject'])
+            );
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(

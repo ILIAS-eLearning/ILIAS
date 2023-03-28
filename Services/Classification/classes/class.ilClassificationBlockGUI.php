@@ -55,10 +55,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
         // @todo: find another solution for this
         //$this->setFooterInfo($lng->txt("clsfct_block_info"));
 
-        $this->cl_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $service = new \ILIAS\Classification\Service($DIC);
+        $this->cl_request = $service->internal()->gui()->standardRequest();
 
         $this->repo = new ilClassificationSessionRepository($this->parent_ref_id);
     }
@@ -213,10 +211,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
 
         $all_matching_provider_object_ids = null;
+        $no_provider = true;
         foreach ($this->providers as $provider) {
             $id = get_class($provider);
             $current = $this->repo->getValueForProvider($id);
             if ($current) {
+                $no_provider = false;
                 // combine providers AND
                 $provider_object_ids = $provider->getFilteredObjects();
                 if (isset($all_matching_provider_object_ids)) {
@@ -340,6 +340,13 @@ class ilClassificationBlockGUI extends ilBlockGUI
                     }
                 }
             }
+        }
+
+        // if nothing has been selected reload to category page
+        if ($no_provider) {
+            echo "<span id='block_" . $this->getBlockType() . "_0_loader'></span>";
+            echo "<script>il.Classification.returnToParent();</script>";
+            exit();
         }
 
         if ($has_content) {

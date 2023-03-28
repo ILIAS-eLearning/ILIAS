@@ -38,8 +38,6 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
 
-        $this->sanitizeSuperGlobalSubmitValue();
-
         $values = $_POST[$this->getPostVar()];
 
         $max = 0;

@@ -75,8 +75,6 @@ class assFileUploadImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

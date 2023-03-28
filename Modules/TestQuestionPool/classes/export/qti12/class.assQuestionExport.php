@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-
 /**
 * Class for question exports
 *

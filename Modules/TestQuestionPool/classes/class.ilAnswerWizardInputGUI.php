@@ -52,7 +52,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
                     $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, -1);
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
@@ -379,12 +378,5 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     protected function getTemplate(): string
     {
         return "tpl.prop_answerwizardinput.html";
-    }
-
-    protected function sanitizeSuperGlobalSubmitValue(): void
-    {
-        if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
     }
 }

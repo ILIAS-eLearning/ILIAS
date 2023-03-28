@@ -15,10 +15,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 
 /**
  * Class for text questions
@@ -174,7 +171,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setAuthor($data["author"]);
             $this->setPoints((float) $data["points"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setShuffle(false);
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
@@ -226,7 +222,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -274,7 +270,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -300,8 +296,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -472,7 +466,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $refinery = $DIC->refinery();
         $result = false;
         $textrating = $this->getTextRating();
-        include_once "./Services/Utilities/classes/class.ilStr.php";
 
         switch ($textrating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -633,9 +626,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
 
-        include_once "./Services/Utilities/classes/class.ilStr.php";
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -652,7 +643,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -661,7 +651,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -826,7 +815,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
         $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
 
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         $assessment_folder = new ilObjAssessmentFolder();
 
         $string_escaping_org_value = $worksheet->getStringEscaping();
@@ -848,7 +836,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
@@ -885,9 +872,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $order = 0,
         $answerimage = ""
     ): void {
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-
-        // add answer
         $answer = new ASS_AnswerMultipleResponseImage($answertext, $points);
         $this->answers[] = $answer;
     }

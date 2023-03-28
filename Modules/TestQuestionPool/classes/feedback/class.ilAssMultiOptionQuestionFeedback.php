@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php';
-
 /**
  * abstract parent feedback class for question types
  * with multiple answer options (mc, sc, ...)
@@ -126,8 +124,6 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex): string
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getSpecificFeedbackTableName()}
 					WHERE question_fi = %s AND question = %s AND answer = %s",
@@ -150,8 +146,6 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     public function getAllSpecificAnswerFeedbackContents(int $questionId): string
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             ['integer'],
@@ -208,7 +202,6 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     public function deleteSpecificAnswerFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject): void
     {
         if ($isAdditionalContentEditingModePageObject) {
-            require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
             $feedbackIdentifiers = new ilAssSpecificFeedbackIdentifierList();
             $feedbackIdentifiers->load($questionId);
 

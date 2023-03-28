@@ -1546,7 +1546,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $res = array();
         $before = new ilDateTime(time(), IL_CAL_UNIX);
         $before->increment(IL_CAL_DAY, -1);
-        $now_date = $before->get(IL_CAL_DATETIME);
+        $now_date = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
         $now = $before->get(IL_CAL_UNIX);
 
         $set = $ilDB->query($q = "SELECT obj_id, registration_min_members" .
@@ -1558,7 +1558,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 " OR (leave_end IS NULL" .
                 " AND registration_end IS NOT NULL" .
                 " AND registration_end < " . $ilDB->quote($now_date, "text") . "))" .
-            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now, "integer") . ")");
+            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now_date, ilDBConstants::T_TEXT) . ")");
         while ($row = $ilDB->fetchAssoc($set)) {
             $refs = ilObject::_getAllReferences((int) $row['obj_id']);
             $ref = end($refs);

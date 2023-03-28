@@ -318,24 +318,12 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
         }
 
-        switch (strtolower($this->forwardClass)) {
-            case strtolower(ilMailFormGUI::class):
-                $DIC->tabs()->setTabActive('compose');
-                break;
-
-            case strtolower(ilContactGUI::class):
-                $DIC->tabs()->setTabActive('mail_addressbook');
-                break;
-
-            case strtolower(ilMailOptionsGUI::class):
-                $DIC->tabs()->setTabActive('options');
-                break;
-
-            case strtolower(ilMailFolderGUI::class):
-            default:
-                $DIC->tabs()->setTabActive('fold');
-                break;
-        }
+        match (strtolower($this->forwardClass)) {
+            strtolower(ilMailFormGUI::class) => $DIC->tabs()->setTabActive('compose'),
+            strtolower(ilContactGUI::class) => $DIC->tabs()->setTabActive('mail_addressbook'),
+            strtolower(ilMailOptionsGUI::class) => $DIC->tabs()->setTabActive('options'),
+            default => $DIC->tabs()->setTabActive('fold'),
+        };
 
         if ($this->http->wrapper()->query()->has('message_sent')) {
             $DIC->tabs()->setTabActive('fold');

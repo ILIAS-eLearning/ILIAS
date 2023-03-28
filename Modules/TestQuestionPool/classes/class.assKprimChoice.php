@@ -227,7 +227,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $this->setOwner($data['owner']);
             $this->setEstimatedWorkingTimeFromDurationString($data['working_time']);
             $this->setLastChange($data['tstamp']);
-            require_once 'Services/RTE/classes/class.ilRTE.php';
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
 
             $this->setShuffleAnswersEnabled((bool) $data['shuffle_answers']);
@@ -282,9 +281,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             array('integer'),
             array($questionId)
         );
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-        require_once 'Services/RTE/classes/class.ilRTE.php';
 
         while ($data = $ilDB->fetchAssoc($res)) {
             $answer = new ilAssKprimChoiceAnswer();
@@ -410,7 +406,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $ilDB = $GLOBALS['DIC']['ilDB'];
 
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -428,7 +423,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -437,7 +431,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -745,7 +738,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -788,8 +781,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
 
@@ -826,7 +817,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -942,7 +933,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         $this->lng->loadLanguageModule('assessment');
 
-        require_once './Services/RTE/classes/class.ilRTE.php';
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = $this->getQuestionType();

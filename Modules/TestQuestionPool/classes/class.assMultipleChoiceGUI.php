@@ -47,7 +47,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assMultipleChoice.php";
         $this->object = new assMultipleChoice();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -71,7 +70,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if (!$hasErrors) {
             $form = $this->buildEditForm();
             $form->setValuesByPost();
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData($form);
             $this->writeAnswerSpecificPostData($form);
@@ -243,8 +241,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
@@ -415,8 +411,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // shuffle output
         $keys = $this->getChoiceKeys();
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
@@ -537,7 +531,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // generate the question output
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
+
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
@@ -719,8 +713,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    (float)$_POST['choice']['points'][$index],
-                    (float)$_POST['choice']['points_unchecked'][$index],
+                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
+                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
                     $index,
                     $picturefile
                 );
@@ -730,8 +724,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    (float)$_POST['choice']['points'][$index],
-                    (float)$_POST['choice']['points_unchecked'][$index],
+                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
+                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
                     $index
                 );
             }
@@ -747,7 +741,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
-        require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
         $selLim = new ilNumberInputGUI($this->lng->txt('ass_mc_sel_lim_setting'), 'selection_limit');
         $selLim->setInfo($this->lng->txt('ass_mc_sel_lim_setting_desc'));
         $selLim->setSize(2);
@@ -797,8 +790,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
     {
-        // Choices
-        include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
         $choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
@@ -959,7 +950,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     protected function buildEditForm(): ilPropertyFormGUI
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());
@@ -993,7 +983,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMultipleChoiceCorrectionsInputGUI.php';
         $choices = new ilAssMultipleChoiceCorrectionsInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
@@ -1011,8 +1000,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerMultipleResponseImage $answer */
-            $answer->setPointsChecked((float) $answerElements[$index]->getPointsChecked());
-            $answer->setPointsUnchecked((float) $answerElements[$index]->getPointsUnchecked());
+            $answer->setPointsChecked((float) str_replace(',', '.', $answerElements[$index]->getPointsChecked()));
+            $answer->setPointsUnchecked((float) str_replace(',', '.', $answerElements[$index]->getPointsUnchecked()));
         }
     }
 }

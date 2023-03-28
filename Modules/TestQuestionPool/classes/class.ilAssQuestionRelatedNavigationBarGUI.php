@@ -140,9 +140,6 @@ class ilAssQuestionRelatedNavigationBarGUI
         }
 
         if ($this->isHintProvidingEnabled()) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-
             if ($this->areHintRequestsPossible()) {
                 if ($this->doesHintRequestsExist()) {
                     $buttonText = $this->lng->txt("button_request_next_question_hint");

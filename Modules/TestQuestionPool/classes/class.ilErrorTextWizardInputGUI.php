@@ -47,10 +47,9 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         $this->values = array();
         if (is_array($a_value)) {
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
             if (is_array($a_value['key'])) {
                 foreach ($a_value['key'] as $idx => $key) {
-                    $this->values[] = new assAnswerErrorText($key, $a_value['value'][$idx], str_replace(",", ".", (float)$a_value['points'][$idx]));
+                    $this->values[] = new assAnswerErrorText($key, $a_value['value'][$idx], (float) str_replace(",", ".", $a_value['points'][$idx]));
                 }
             }
         }
@@ -228,15 +227,16 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
                     }
                 }
                 foreach ($foundvalues['points'] as $val) {
+                    $val_num = str_replace(",", ".", $val);
                     if ($this->getRequired() && (strlen($val)) == 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
-                    if (!is_numeric(str_replace(",", ".", $val))) {
+                    if (!is_numeric($val_num)) {
                         $this->setAlert($lng->txt("form_msg_numeric_value_required"));
                         return false;
                     }
-                    if ((float) $val <= 0) {
+                    if ($val_num <= 0) {
                         $this->setAlert($lng->txt("positive_numbers_required"));
                         return false;
                     }

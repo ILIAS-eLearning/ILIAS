@@ -324,13 +324,15 @@ class SettingsFormGUI
         $intro->setValue($survey->prepareTextareaOutput($survey->getIntroduction()));
         $intro->setRows(10);
         $intro->setCols(80);
-        $intro->setUseRte(true);
         $intro->setInfo($lng->txt("survey_introduction_info"));
-        $intro->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $intro->addPlugin("latex");
-        $intro->addButton("latex");
-        $intro->addButton("pastelatex");
-        $intro->setRTESupport($survey->getId(), "svy", "survey", null);
+        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $intro->setUseRte(true);
+            $intro->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $intro->addPlugin("latex");
+            $intro->addButton("latex");
+            $intro->addButton("pastelatex");
+            $intro->setRTESupport($survey->getId(), "svy", "survey", null);
+        }
         $form->addItem($intro);
 
         return $form;
@@ -450,12 +452,14 @@ class SettingsFormGUI
         $finalstatement->setValue($survey->prepareTextareaOutput($survey->getOutro()));
         $finalstatement->setRows(10);
         $finalstatement->setCols(80);
-        $finalstatement->setUseRte(true);
-        $finalstatement->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $finalstatement->addPlugin("latex");
-        $finalstatement->addButton("latex");
-        $finalstatement->addButton("pastelatex");
-        $finalstatement->setRTESupport($survey->getId(), "svy", "survey", null);
+        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $finalstatement->setUseRte(true);
+            $finalstatement->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $finalstatement->addPlugin("latex");
+            $finalstatement->addButton("latex");
+            $finalstatement->addButton("pastelatex");
+            $finalstatement->setRTESupport($survey->getId(), "svy", "survey", null);
+        }
         $form->addItem($finalstatement);
 
         // mail notification
@@ -824,7 +828,6 @@ class SettingsFormGUI
         }
 
         if ($feature_config->supportsTutorNotification()) {
-
             // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);

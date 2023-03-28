@@ -719,7 +719,6 @@ abstract class assQuestion
                         )
                     );
 
-                    require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
                     $output[] = '<a href="'
                         . ilWACSignedPath::signFile(
@@ -1215,33 +1214,6 @@ abstract class assQuestion
     public function buildImagePath($questionId, $parentObjectId): string
     {
         return CLIENT_WEB_DIR . "/assessment/{$parentObjectId}/{$questionId}/images/";
-    }
-
-    /**
-    * Returns the image path for web accessable flash files of a question.
-    * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/flash
-    *
-    * @deprecated Flash is obsolete
-    */
-    public function getFlashPath(): string
-    {
-        return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/flash/";
-    }
-
-    /**
-    * Returns the web image path for web accessable java applets of a question.
-    * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/java
-    *
-     * @deprecated Java is obsolete
-    */
-    public function getJavaPathWeb(): string
-    {
-        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
-        return str_replace(
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            $webdir
-        );
     }
 
     public function getSuggestedSolutionPathWeb(): string
@@ -1904,8 +1876,7 @@ abstract class assQuestion
     */
     public function createNewQuestion(bool $a_create_page = true): int
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $this->current_user;
 
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
@@ -2413,7 +2384,6 @@ abstract class assQuestion
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
         }
 
-        assQuestion::_includeClass($question_type);
         $question = new $question_type();
         $question->loadFromDb($question_id);
 
@@ -2447,10 +2417,6 @@ abstract class assQuestion
     */
     public static function _getSolutionMaxPass(int $question_id, int $active_id): int
     {
-        /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
-                $pass = ilObjTest::_getPass($active_id);
-                return $pass;*/
-
         // the following code was the old solution which added the non answered
         // questions of a pass from the answered questions of the previous pass
         // with the above solution, only the answered questions of the last pass are counted
@@ -2638,7 +2604,7 @@ abstract class assQuestion
     public function QTIMaterialToString(ilQTIMaterial $a_material): string
     {
         $result = "";
-        $mobs = array();
+        $mobs = ilSession::get('import_mob_xhtml') ?? [];
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
             if (strcmp($material["type"], "mattext") == 0) {
@@ -2647,13 +2613,10 @@ abstract class assQuestion
             if (strcmp($material["type"], "matimage") == 0) {
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
-                    // import an mediaobject which was inserted using tiny mce
-                    //if (!is_array(ilSession::get("import_mob_xhtml"))) {
-                    //    ilSession::set("import_mob_xhtml", array());
-                    //}
-                    $mobs[] = array("mob" => $matimage->getLabel(),
-                                                            "uri" => $matimage->getUri()
-                    );
+                    $mobs[] = [
+                        "mob" => $matimage->getLabel(),
+                        "uri" => $matimage->getUri()
+                    ];
                 }
             }
         }
@@ -2958,31 +2921,9 @@ abstract class assQuestion
         return static::HAS_SPECIFIC_FEEDBACK;
     }
 
-    public static function _includeClass(string $question_type, int $gui = 0): void
-    {
-        if (self::isCoreQuestionType($question_type)) {
-            self::includeCoreClass($question_type, $gui);
-        }
-    }
-
     public static function getFeedbackClassNameByQuestionType(string $questionType): string
     {
         return str_replace('ass', 'ilAss', $questionType) . 'Feedback';
-    }
-
-    public static function isCoreQuestionType(string $questionType): bool
-    {
-        return file_exists("Modules/TestQuestionPool/classes/class.{$questionType}GUI.php");
-    }
-
-    public static function includeCoreClass($questionType, $withGuiClass): void
-    {
-        if ($withGuiClass) {
-            // object class is included by gui classes constructor
-        } else {
-        }
-
-        $feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
     }
 
     public static function _getQuestionTypeName($type_tag): string
@@ -3023,8 +2964,6 @@ abstract class assQuestion
 
         if (strcmp($a_question_id, "") != 0) {
             $question_type = assQuestion::_getQuestionType($a_question_id);
-
-            assQuestion::_includeClass($question_type, 1);
 
             $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();

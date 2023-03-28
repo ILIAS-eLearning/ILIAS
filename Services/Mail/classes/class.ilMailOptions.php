@@ -170,7 +170,7 @@ class ilMailOptions
         if ($this->settings->get('mail_notification', '0')) {
             $data['cronjob_notification'] = ['integer', (int) $this->isCronJobNotificationEnabled()];
         } else {
-            $data['cronjob_notification'] = ['integer', $this->lookupNotificationSetting($this->usrId)];
+            $data['cronjob_notification'] = ['integer', self::lookupNotificationSetting($this->usrId)];
         }
 
         $data['absence_status'] = ['integer', (int) $this->getAbsenceStatus()];

@@ -68,7 +68,8 @@
 		"simplesamlphp/simplesamlphp": "^1.19.8",
 		"seld/jsonlint": "^1.8",
 		"ext-xml": "*",
-		"jasig/phpcas": "^1.4"
+		"jasig/phpcas": "^1.4",
+		"league/commonmark": "^2.3"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -508,6 +509,16 @@
 			"last_update_by": "",
 			"approved-by": "JF",
 			"approved-date": "2021-11-21"
+		},
+		"league/commonmark": {
+			"source": "https://github.com/thephpleague/commonmark",
+			"used_version": "2.3.9",
+			"added_by": "Thibeau Fuhrer <thibeau@sr.solutions>",
+			"wrapped_by": "ILIAS\\UI\\Component\\Input\\Field\\MarkdownRenderer",
+			"last_update": "2023-03-14",
+			"last_update_by": "Thibeau Fuhrer <thibeau@sr.solutions>",
+			"approved-by": "JF",
+			"approved-date": "2023-03-20"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

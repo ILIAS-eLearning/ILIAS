@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
-
 /**
  * Question page GUI class
  *
@@ -36,11 +33,9 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 
     private $originalPresentationTitle = '';
 
-    // fau: testNav - variables for info and actions HTML
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
-    // fau.
-    protected \ILIAS\TestQuestionPool\InternalRequestService $testrequest;
+
 
     /**
      * Constructor
@@ -50,8 +45,6 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      */
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
-        global $DIC;
-        $this->testrequest = $DIC->testQuestionPool()->internal()->request();
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
     }

@@ -79,8 +79,6 @@ abstract class ilChatroomGUIHandler
     }
 
     /**
-     * @param string $key
-     * @param Transformation $trafo
      * @param mixed $default
      * @return mixed|null
      */
@@ -155,7 +153,6 @@ abstract class ilChatroomGUIHandler
 
     /**
      * Checks if a ilChatroom exists. If not, it will send a json encoded response with success = false
-     * @param ?ilChatroom $room
      */
     protected function exitIfNoRoomExists(?ilChatroom $room): void
     {
@@ -170,7 +167,6 @@ abstract class ilChatroomGUIHandler
     /**
      * Sends a json encoded response and exits the php process
      * @param mixed $response
-     * @param bool $isJson
      */
     public function sendResponse($response, bool $isJson = false): void
     {

@@ -232,8 +232,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
 
-            // replacement of old syntax with new syntax
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
             $this->cloze_text = ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 1);
             $this->setTextgapRating($data["textgap_rating"]);
@@ -244,9 +242,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             } catch (ilTestQuestionPoolException $e) {
             }
 
-            // open the cloze gaps with all answers
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
-            include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
             $result = $ilDB->queryF(
                 "SELECT * FROM qpl_a_cloze WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
                 array("integer"),
@@ -491,7 +486,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
         $ilDB->manipulateF(
@@ -672,8 +666,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function createGapsFromQuestiontext(): void
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
         $search_pattern = "|\[gap\](.*?)\[/gap\]|i";
         preg_match_all($search_pattern, $this->getClozeText(), $found);
         $this->gaps = array();
@@ -819,7 +811,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function addGapText($gap_index): void
     {
         if (array_key_exists($gap_index, $this->gaps)) {
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
             $answer = new assAnswerCloze(
                 "",
                 0,
@@ -940,7 +931,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -995,7 +985,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->getId());
         $clone->id = -1;
         $clone->setObjId($target_questionpool_id);
@@ -1025,8 +1014,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -1151,9 +1138,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getTextgapPoints($a_original, $a_entered, $max_points): int
+    public function getTextgapPoints($a_original, $a_entered, $max_points): float
     {
-        include_once "./Services/Utilities/classes/class.ilStr.php";
         global $DIC;
         $refinery = $DIC->refinery();
         $result = 0;
@@ -1206,13 +1192,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): int
     {
-        // fau: fixGapFormula - check entered value by evalMath
-        //		if( ! $this->checkForValidFormula($a_entered) )
-        //		{
-        //			return 0;
-        //		}
-
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
         $result = 0;
@@ -1259,8 +1238,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
 
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
@@ -1393,7 +1371,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -1417,7 +1394,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -1426,7 +1402,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 ), $active_id, $this->getId());
             }
         } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -1656,7 +1631,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
@@ -1933,7 +1907,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                         if (!$this->getIdenticalScoring()) {
                             // check if the same solution value was already entered
-                            include_once "./Services/Math/classes/class.EvalMath.php";
                             $eval = new EvalMath();
                             $eval->suppress_errors = true;
                             $found_value = false;

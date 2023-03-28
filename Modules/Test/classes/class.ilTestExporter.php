@@ -36,10 +36,7 @@ class ilTestExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         $tst = new ilObjTest($a_id, false);
-
-        require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($tst);
         $testExport = $expFactory->getExporter('xml');
         $zip = $testExport->buildExportFile();
@@ -90,8 +87,6 @@ class ilTestExporter extends ilXmlExporter
      */
     private function getDependingTaxonomyIds($testObjIds): array
     {
-        include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
         $taxIds = array();
 
         foreach ($testObjIds as $testObjId) {

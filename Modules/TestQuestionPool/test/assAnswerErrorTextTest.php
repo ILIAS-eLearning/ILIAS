@@ -35,9 +35,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
-
         // Act
         $instance = new assAnswerErrorText('errortext');
 
@@ -48,9 +45,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_instantiateObjectFull(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
-
         // Act
         $instance = new assAnswerErrorText(
             'errortext',
@@ -64,9 +58,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_setGetPoints_valid(): void
     {
-        //$this->markTestIncomplete('Testing an uncommitted feature.');
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
         $instance = new assAnswerErrorText('errortext');
         $expected = 0.01;
 
@@ -80,8 +71,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_setGetTextCorrect(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
         $instance = new assAnswerErrorText('errortext');
         $expected = 'Correct text';
 
@@ -95,8 +84,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_setGetTextWrong_valid(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
         $instance = new assAnswerErrorText('errortext');
         $expected = 'Errortext';
 
@@ -110,8 +97,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     public function test_setTextWrong_invalid(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
         $instance = new assAnswerErrorText('errortext');
         $expected = '';
 

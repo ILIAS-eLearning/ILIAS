@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -561,7 +560,7 @@ class ilDclTable
             ilDclDatatype::INPUTFORMAT_MOB,
             ilDclDatatype::INPUTFORMAT_REFERENCELIST,
             ilDclDatatype::INPUTFORMAT_REFERENCE,
-            ilDclDatatype::INPUTFORMAT_FILE,
+            ilDclDatatype::INPUTFORMAT_FILEUPLOAD,
             ilDclDatatype::INPUTFORMAT_RATING,
         );
 

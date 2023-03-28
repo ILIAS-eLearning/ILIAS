@@ -389,7 +389,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
-        if ($this->ctrl->getNextClass() !== "ilcolumngui") {
+        if (! $this->ctrl->isAsynch()) {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
         }

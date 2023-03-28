@@ -122,8 +122,6 @@ class assFormulaQuestionResult
             $resultunits = $this->getAvailableResultUnits($question_id);
         }
 
-        include_once "./Services/Math/classes/class.ilMath.php";
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $formula = $this->substituteFormula($variables, $results);
         if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
             foreach ($matches[1] as $variable) {
@@ -159,7 +157,6 @@ class assFormulaQuestionResult
 
     public function findValidRandomVariables($variables, $results): void
     {
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $i = 0;
         $inRange = false;
         while ($i < 1000 && !$inRange) {
@@ -197,7 +194,6 @@ class assFormulaQuestionResult
     public function suggestRange($variables, $results): void
     {
         //		@todo Check this
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $range_min = null;
         $range_max = null;
         for ($i = 0; $i < 1000; $i++) {
@@ -222,7 +218,6 @@ class assFormulaQuestionResult
                 $range_max = $result;
             }
         }
-        include_once "./Services/Math/classes/class.ilMath.php";
         if (is_object($this->getUnit())) {
             $range_min = ilMath::_div($range_min, $this->getUnit()->getFactor());
             $range_max = ilMath::_div($range_max, $this->getUnit()->getFactor());
@@ -246,8 +241,6 @@ class assFormulaQuestionResult
         }
         $value = str_replace(' ', '', $value);
 
-        include_once "./Services/Math/classes/class.EvalMath.php";
-        include_once "./Services/Math/classes/class.ilMath.php";
         $formula = $this->substituteFormula($variables, $results);
 
         $check_valid_chars = true;
@@ -451,8 +444,6 @@ class assFormulaQuestionResult
             }
         } else {
             $points = 0;
-            include_once "./Services/Math/classes/class.EvalMath.php";
-            include_once "./Services/Math/classes/class.ilMath.php";
             $formula = $this->substituteFormula($variables, $results);
 
             if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
@@ -570,8 +561,6 @@ class assFormulaQuestionResult
                 return array("points" => 0);
             }
         } else {
-            include_once "./Services/Math/classes/class.EvalMath.php";
-            include_once "./Services/Math/classes/class.ilMath.php";
             $totalpoints = 0;
             $formula = $this->substituteFormula($variables, $results);
             if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
@@ -634,14 +623,6 @@ class assFormulaQuestionResult
 
     public function setRangeMin($range_min): void
     {
-        //		include_once "./Services/Math/classes/class.EvalMath.php";
-        //		$math = new EvalMath();
-        //		$math->suppress_errors = TRUE;
-        //		$result = $math->evaluate($range_min);
-        //		$val = (strlen($result) > 8) ? strtoupper(sprintf("%e", $result)) : $result;
-        //		$this->range_min = $val;
-
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate((string) $range_min);
@@ -657,7 +638,6 @@ class assFormulaQuestionResult
     {
         if (is_numeric($this->getRangeMin())) {
             if (is_object($this->getUnit())) {
-                include_once "./Services/Math/classes/class.ilMath.php";
                 return ilMath::_mul($this->getRangeMin(), $this->getUnit()->getFactor(), 100);
             }
         }
@@ -666,14 +646,6 @@ class assFormulaQuestionResult
 
     public function setRangeMax($range_max): void
     {
-        //		include_once "./Services/Math/classes/class.EvalMath.php";
-        //		$math = new EvalMath();
-        //		$math->suppress_errors = TRUE;
-        //		$result = $math->evaluate($range_max);
-        //		$val = (strlen($result) > 8) ? strtoupper(sprintf("%e", $result)) : $result;
-        //		$this->range_max = $val;
-
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate((string) $range_max);
@@ -689,7 +661,6 @@ class assFormulaQuestionResult
     {
         if (is_numeric($this->getRangeMax())) {
             if (is_object($this->getUnit())) {
-                include_once "./Services/Math/classes/class.ilMath.php";
                 return ilMath::_mul($this->getRangeMax(), $this->getUnit()->getFactor(), 100);
             }
         }

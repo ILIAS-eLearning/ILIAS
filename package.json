@@ -28,11 +28,12 @@
     "moment": "^2.29.4",
     "nestable2": "^1.6.0",
     "ol": "^6.9.0",
-    "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
+    "owl.carousel": "github:OwlCarousel2/OwlCarousel2",
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "tinymce": "github:ILIAS-eLearning/tinymce-dist#master",
-    "webui-popover": "^1.2.18"
+    "webui-popover": "^1.2.18",
+    "yui2": "^2.9.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
@@ -255,6 +256,13 @@
       "developer": "tfuhrer",
       "purpose": "Preset environment for @babel which is used by the @babel/register package to run js unit tests.",
       "last-update-for-ilias": "7.0.0"
+    },
+    "yui2": {
+      "introduction-date": "unknown",
+      "approved-by": "unknown",
+      "developer": "unknown",
+      "purpose": "Several usages accross the codebase.",
+      "last-update-for-ilias": "9.0"
     }
   }
 }

@@ -75,7 +75,6 @@ class ilMyTestSolutionsGUI
 
         switch ($DIC->ctrl()->getNextClass()) {
             case "iltestevaluationgui":
-                require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
                 $gui = new ilTestEvaluationGUI($this->getTestObj());
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
                 $gui->setTestAccess($this->getTestAccess());
@@ -83,7 +82,6 @@ class ilMyTestSolutionsGUI
                 break;
 
             case 'ilassquestionpagegui':
-                require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
                 $forwarder = new ilAssQuestionPageCommandForwarder();
                 $forwarder->setTestObj($this->getTestObj());
                 $forwarder->forward();

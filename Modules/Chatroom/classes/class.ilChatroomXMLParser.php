@@ -64,19 +64,17 @@ class ilChatroomXMLParser extends ilSaxParser
         return $this->import_install_id;
     }
 
-    private function isSameInstallation(): bool
-    {
-        return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
-    }
-
     public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
-        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
+    /**
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'Messages':
@@ -85,7 +83,7 @@ class ilChatroomXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name): void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
 
@@ -179,7 +177,7 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data): void
+    public function handlerCharacterData(XMLParser $a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             $this->cdata .= preg_replace("/\t+/", ' ', $a_data);

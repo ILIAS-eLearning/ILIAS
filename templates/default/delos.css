@@ -7058,6 +7058,7 @@ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: white;
   border: 1px solid #dddddd;
   font-size: 0.75rem;
+  z-index: 5;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
@@ -12253,6 +12254,23 @@ div.alert ul > li:before {
   width: 66.67%;
 }
 
+.c-modal--interruptive .c-modal--interruptive__items {
+  margin-bottom: 15px;
+}
+.c-modal--interruptive .c-modal--interruptive__items .c-modal--interruptive__items__key-value .c-modal--interruptive__items__key-value__key {
+  float: left;
+  clear: left;
+  font-weight: initial;
+}
+.c-modal--interruptive .c-modal--interruptive__items .c-modal--interruptive__items__key-value .c-modal--interruptive__items__key-value__value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: #6f6f6f;
+  padding-left: 6px;
+}
+
 .panel {
   margin-bottom: 20px;
   border: 1px solid #dddddd;
@@ -17135,7 +17153,7 @@ th.calmini {
 }
 
 a.calminiapp {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 p.il_calmini_monthday, div.il_calmini_monthday {
@@ -20148,39 +20166,34 @@ td > img[src$="icon_custom.svg"] {
   margin: 3px 6px 3px 0;
   border-radius: 3px;
 }
-
-a.ilTag:hover, a.ilTag:active {
-  text-decoration: none;
-  color: #161616;
-  background-color: #75deea;
-}
-
-.ilTagRelHigh {
+.ilTag .ilTagRelHigh {
   background-color: #85d1da;
   color: #161616;
 }
-
-.ilTagRelMiddle {
+.ilTag .ilTagRelMiddle {
   background-color: #95c5ca;
   color: #161616;
 }
-
-.ilTagRelLow {
+.ilTag .ilTagRelLow {
   background-color: #a5b8ba;
   color: #161616;
 }
-
-.ilTagRelVeryLow {
+.ilTag .ilTagRelVeryLow {
   background-color: #b0b0b0;
   color: #161616;
 }
-
 .ilTag.ilHighlighted, .ilTag.ilHighlighted:hover {
   background-color: #B54F00;
   color: white;
 }
 .ilTag.ilHighlighted:hover, .ilTag.ilHighlighted:hover:hover {
   background-color: #9c4400;
+}
+
+a.ilTag:hover, a.ilTag:active {
+  text-decoration: none;
+  color: #161616;
+  background-color: #75deea;
 }
 
 #il_tags_modal textarea {

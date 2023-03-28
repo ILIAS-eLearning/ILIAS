@@ -331,7 +331,6 @@ class ilTestTabsManager
      */
     protected function isLpAccessGranted(): bool
     {
-        include_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
         return ilLearningProgressAccess::checkAccess($this->getTestOBJ()->getRefId());
     }
 
@@ -560,7 +559,6 @@ class ilTestTabsManager
                     "inviteParticipants", "saveFixedParticipantsStatus", "searchParticipants", "addParticipants" // ARE THEY RIGHT HERE
                 );
 
-                require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
                 $reflection = new ReflectionClass('ilObjTestSettingsGeneralGUI');
                 foreach ($reflection->getConstants() as $name => $value) {
                     if (substr($name, 0, 4) == 'CMD_') {
@@ -568,7 +566,6 @@ class ilTestTabsManager
                     }
                 }
 
-                require_once 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php';
                 $reflection = new ReflectionClass('ilObjTestSettingsScoringResultsGUI');
                 foreach ($reflection->getConstants() as $name => $value) {
                     if (substr($name, 0, 4) == 'CMD_') {
@@ -588,8 +585,6 @@ class ilTestTabsManager
 
             // skill service
             if ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
-
                 $link = $DIC->ctrl()->getLinkTargetByClass(
                     array('ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'),
                     ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
@@ -625,7 +620,6 @@ class ilTestTabsManager
         }
 
         if ($this->checkScoreParticipantsTabAccess() && !$this->isHiddenTab(self::TAB_ID_MANUAL_SCORING)) {
-            include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
             $scoring = ilObjAssessmentFolder::_getManualScoring();
             if (count($scoring)) {
                 // scoring tab
@@ -678,8 +672,6 @@ class ilTestTabsManager
             }
 
             if (!$this->isHiddenTab(self::TAB_ID_META_DATA)) {
-                // meta data
-                include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
                 $mdgui = new ilObjectMetaDataGUI($this->getTestOBJ());
                 $mdtab = $mdgui->getTab();
                 if ($mdtab) {
@@ -1043,10 +1035,6 @@ class ilTestTabsManager
      */
     public function needsParticipantsResultsSubTab(): bool
     {
-        if ($this->testAccess->checkManageParticipantsAccess()) {
-            return true;
-        }
-
         if ($this->testAccess->checkParticipantsResultsAccess()) {
             return true;
         }

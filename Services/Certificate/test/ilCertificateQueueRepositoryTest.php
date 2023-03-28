@@ -124,7 +124,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ],
                 [
                     'id' => 20,
@@ -133,7 +133,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ]
             );
 

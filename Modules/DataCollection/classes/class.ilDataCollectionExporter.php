@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDataCollectionExporter
@@ -71,7 +70,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $dependencies = array(
-            ilDclDatatype::INPUTFORMAT_FILE => array(
+            ilDclDatatype::INPUTFORMAT_FILEUPLOAD => array(
                 'component' => 'Modules/File',
                 'entity' => 'file',
                 'ids' => array(),
@@ -105,8 +104,8 @@ class ilDataCollectionExporter extends ilXmlExporter
 
         // Return external dependencies/IDs if there are any
         $return = array();
-        if (count($dependencies[ilDclDatatype::INPUTFORMAT_FILE]['ids'])) {
-            $return[] = $dependencies[ilDclDatatype::INPUTFORMAT_FILE];
+        if (count($dependencies[ilDclDatatype::INPUTFORMAT_FILEUPLOAD]['ids'])) {
+            $return[] = $dependencies[ilDclDatatype::INPUTFORMAT_FILEUPLOAD];
         }
         if (count($dependencies[ilDclDatatype::INPUTFORMAT_MOB]['ids'])) {
             $return[] = $dependencies[ilDclDatatype::INPUTFORMAT_MOB];

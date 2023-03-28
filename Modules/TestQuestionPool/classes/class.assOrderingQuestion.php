@@ -188,7 +188,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->ordering_type = strlen($data["ordering_type"]) ? $data["ordering_type"] : OQ_TERMS;
             $this->thumb_geometry = $data["thumb_geometry"];
@@ -305,8 +304,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -896,7 +893,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $entered_values = 0;
 
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -1151,7 +1147,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
@@ -1239,8 +1234,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $formDataConverter = $this->buildOrderingTextsFormDataConverter();
 
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php';
-
         $orderingElementInput = new ilAssOrderingTextsInputGUI(
             $formDataConverter,
             self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
@@ -1257,8 +1250,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function buildOrderingImagesInputGui(): ilAssOrderingImagesInputGUI
     {
         $formDataConverter = $this->buildOrderingImagesFormDataConverter();
-
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php';
 
         $orderingElementInput = new ilAssOrderingImagesInputGUI(
             $formDataConverter,
@@ -1279,8 +1270,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function buildNestedOrderingElementInputGui(): ilAssNestedOrderingElementsInputGUI
     {
         $formDataConverter = $this->buildNestedOrderingFormDataConverter();
-
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php';
 
         $orderingElementInput = new ilAssNestedOrderingElementsInputGUI(
             $formDataConverter,
@@ -1310,11 +1299,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $orderingGUI->setValueByArray($userSolutionPost);
 
         if (!$orderingGUI->checkInput()) {
-            require_once 'Modules/Test/exceptions/class.ilTestException.php';
             throw new ilTestException('error on validating user solution post');
         }
 
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         $solutionOrderingElementList = ilAssOrderingElementList::buildInstance($this->getId());
 
         $storedElementList = $this->getOrderingElementList();
@@ -1400,7 +1387,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
@@ -1593,7 +1579,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     protected function buildOrderingElementFormDataConverter(): ilAssOrderingFormValuesObjectsConverter
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingFormValuesObjectsConverter.php';
         $converter = new ilAssOrderingFormValuesObjectsConverter();
         $converter->setPostVar(self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
 

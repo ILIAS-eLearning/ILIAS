@@ -218,7 +218,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -267,7 +266,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -294,8 +293,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -397,7 +394,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             $this->setIsMultipleChoice($data["is_multiple_choice"] == self::MODE_MULTIPLE_CHOICE);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setImageFilename($data["image_file"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
@@ -418,7 +414,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 array("integer"),
                 array($question_id)
             );
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
                     $image_map_question = new ASS_AnswerImagemap($data["answertext"] ?? '', $data["points"], $data["aorder"]);
@@ -528,7 +523,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $area = "",
         $points_unchecked = 0.0
     ): void {
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
         if (array_key_exists($order, $this->answers)) {
             // Insert answer
             $answer = new ASS_AnswerImagemap($answertext, $points, $order, 0, -1);
@@ -737,7 +731,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $ilDB = $DIC['ilDB'];
 
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -793,7 +786,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         });
 
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             if ($solutionSelectionChanged) {
                 assQuestion::logAction($this->lng->txtlng(
@@ -937,7 +929,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function toJSON(): string
     {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();

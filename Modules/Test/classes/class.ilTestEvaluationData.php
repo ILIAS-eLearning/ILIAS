@@ -175,9 +175,6 @@ class ilTestEvaluationData
 
     public function generateOverview()
     {
-        include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-
         $this->participants = array();
 
         $pass = null;
@@ -273,7 +270,6 @@ class ilTestEvaluationData
 
     public function calculateStatistics()
     {
-        include_once "./Modules/Test/classes/class.ilTestStatistics.php";
         $this->statistics = new ilTestStatistics($this);
     }
 

@@ -390,10 +390,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public static function hasFinished($a_user_id, $a_obj_id): bool
     {
         if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
-            require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-            require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-            require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $lng = $DIC['lng'];
@@ -698,12 +694,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 $data['not_attempted'] = 1;
             }
 
-            if ($data['failed'] && !isset($lastPassUsers[$data['active_fi']])) {
-                $data['passed'] = 0;
-                $data['failed'] = 0;
-                $data['in_progress'] = 1;
-            }
-
             $data['user_id'] = $data['user_fi'];
             array_push($passed_users, $data);
         }
@@ -754,7 +744,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             return false;
         }
 
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($testOBJ);
         $testSession = $testSessionFactory->getSessionByUserId($userId);
 

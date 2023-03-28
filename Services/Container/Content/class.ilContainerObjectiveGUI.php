@@ -1222,15 +1222,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $initial_lim = null;
         if ($this->loc_settings->worksWithInitialTest()) {
             if (array_key_exists('initial', $a_lo_result)) {
-                $initial_res = (int) $a_lo_result['initial']['result_perc'];
-                $initial_lim = (int) $a_lo_result['initial']['limit_perc'];
+                $initial_res = (int) ($a_lo_result['initial']['result_perc'] ?? 0);
+                $initial_lim = (int) ($a_lo_result['initial']['limit_perc'] ?? 0);
             }
             if (
                 $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
                 isset($a_lo_result['result_perc'])
             ) {
-                $initial_res = (int) $a_lo_result['result_perc'];
-                $initial_lim = (int) $a_lo_result['limit_perc'];
+                $initial_res = (int) ($a_lo_result['result_perc'] ?? 0);
+                $initial_lim = (int) ($a_lo_result['limit_perc'] ?? 0);
             }
         }
 

@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
-
 /**
  * Class for answers with a binary state indicator
  *

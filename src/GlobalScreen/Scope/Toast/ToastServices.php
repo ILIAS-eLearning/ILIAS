@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,17 +15,27 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Toast;
 
-use ILIAS\GlobalScreen\SingletonTrait;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Toast\Factory;
+use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
+use ILIAS\DI\UIServices;
+use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\StandardToastRendererFactory;
 
 class ToastServices
 {
-    use SingletonTrait;
-    public function factory(): Factory
+    private ToastFactory $toast_factory;
+    private UIServices $ui;
+
+    public function __construct(UIServices $ui)
     {
-        return $this->getWithArgument(Factory::class, new SignalGenerator());
+        $this->ui = $ui;
+        $this->toast_factory = new ToastFactory(new StandardToastRendererFactory($this->ui));
+    }
+
+    public function factory(): ToastFactory
+    {
+        return $this->toast_factory;
     }
 }

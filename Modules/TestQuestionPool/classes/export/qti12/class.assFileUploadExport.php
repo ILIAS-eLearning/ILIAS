@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
-
 /**
 * Class for file upload question exports
 *
@@ -36,7 +34,6 @@ class assFileUploadExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();

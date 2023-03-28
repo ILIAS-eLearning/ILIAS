@@ -163,7 +163,6 @@ class ilTestDashboardGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
 
-                require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
                 $gui = new ilTestParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());
@@ -174,7 +173,6 @@ class ilTestDashboardGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
 
-                require_once 'Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php';
                 $gui = new ilTestParticipantsTimeExtensionGUI($this->getTestObj());
                 $DIC->ctrl()->forwardCommand($gui);
                 break;

@@ -455,10 +455,10 @@ class ilFileDataMail extends ilFileData
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
 
-        if (count($umf_parts) === 2) {
+        if ((is_countable($umf_parts) ? count($umf_parts) : 0) === 2) {
             $umf = (float) $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
-        if (count($pms_parts) === 2) {
+        if ((is_countable($pms_parts) ? count($pms_parts) : 0) === 2) {
             $pms = (float) $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 

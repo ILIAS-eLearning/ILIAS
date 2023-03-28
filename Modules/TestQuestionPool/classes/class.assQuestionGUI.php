@@ -448,8 +448,6 @@ abstract class assQuestionGUI
             return null;
         }
 
-        assQuestion::_includeClass($question_type, 1);
-
         $question_type_gui = $question_type . 'GUI';
         $question = new $question_type_gui();
 
@@ -755,16 +753,16 @@ abstract class assQuestionGUI
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
-                    $new_id = $test->insertQuestion(
+                    $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                        $this->object->getId()
+                        $this->object->getId(),
+                        true
                     );
 
                     if ($this->request->isset('prev_qid')) {
                         $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
                     }
 
-                    $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
                     #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
@@ -850,19 +848,17 @@ abstract class assQuestionGUI
 
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
-                    $new_id = $test->insertQuestion(
+                    $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                        $this->object->getId()
+                        $this->object->getId(),
+                        true
                     );
 
-                    $q_id = $new_id;
                     if ($this->request->isset('prev_qid')) {
                         $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
                     }
 
-                    $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
-                    #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);

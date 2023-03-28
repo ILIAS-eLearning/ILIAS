@@ -450,6 +450,7 @@ final class ilSamlSettingsGUI
      */
     private function prepareRoleSelection(): array
     {
+        $select = [];
         $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',

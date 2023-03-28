@@ -453,10 +453,15 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
             $this->ctrl->returnToParent($this);
         }
-        if ($this->getSettings()->worksWithInitialTest()) {
+        if (
+            $this->getSettings()->worksWithInitialTest() &&
+            !$this->getSettings()->hasSeparateInitialTests()
+        ) {
             $this->selfAssessmentAssignment();
-        } else {
+        } elseif (!$this->getSettings()->hasSeparateQualifiedTests()) {
             $this->finalTestAssignment();
+        } else {
+            $this->ctrl->redirectByClass(ilLOEditorGUI::class);
         }
     }
 
@@ -618,6 +623,10 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        if (!$this->settings->hasSeparateQualifiedTests()) {
+            $this->finalTestAssignment();
+            return;
+        }
         $this->ctrl->returnToParent($this);
     }
 
@@ -679,9 +688,11 @@ class ilCourseObjectivesGUI
     protected function showRandomTestAssignment(ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
-        $this->test_type = $this->initTestTypeFromQuery();
+        if ($this->test_type === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->test_type = $this->initTestTypeFromQuery();
+        }
+        $this->ctrl->setParameter($this, 'tt', $this->test_type);
         $this->setSubTabs("rand_test_assign");
 
         if (!$form instanceof ilPropertyFormGUI) {
@@ -689,7 +700,12 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initQuestionObject($this->initObjectiveIdFromQuery());
-        $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        if ($this->test_type === ilLOSettings::TYPE_TEST_INITIAL) {
+            $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
+        } else {
+            $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        }
+
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -827,7 +843,10 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        if ($this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED) {
+        if (
+            $this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED ||
+            $this->getSettings()->hasSeparateQualifiedTests()
+        ) {
             $this->ctrl->returnToParent($this);
         } else {
             $this->ctrl->redirect($this, 'finalTestAssignment');
@@ -882,7 +901,12 @@ class ilCourseObjectivesGUI
         // TODO: not nice
         $this->questions = new ilCourseObjectiveQuestion($this->initObjectiveIdFromQuery());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-        $this->finalTestLimits();
+
+        if ($checked_questions) {
+            $this->finalTestLimits();
+            return;
+        }
+        $this->finalTestAssignment();
     }
 
     /**

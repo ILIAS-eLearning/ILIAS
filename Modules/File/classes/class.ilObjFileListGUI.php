@@ -34,9 +34,10 @@ class ilObjFileListGUI extends ilObjectListGUI
 {
     use ilObjFileSecureString;
 
+    private bool $use_flavor_for_cards = false;
     protected string $title;
-    private bool $persist;
-    private int $max_size;
+    private bool $persist = true;
+    private int $max_size = 512;
     private FlavourDefinition $crop_definition;
     private FlavourDefinition $extract_definition;
     private IconDatabaseRepository $icon_repo;
@@ -48,10 +49,16 @@ class ilObjFileListGUI extends ilObjectListGUI
         parent::__construct($context);
 
         $this->irss = $DIC->resourceStorage();
-        $this->persist = false;
-        $this->max_size = 2048;
         $this->crop_definition = new CropToSquare($this->persist, $this->max_size);
         $this->extract_definition = new PagesToExtract($this->persist, $this->max_size, 1, true);
+    }
+
+    protected function getTileImagePath(): string
+    {
+        if ($this->use_flavor_for_cards) {
+            return $this->getCardImageFallbackPath($this->obj_id, $this->type);
+        }
+        return parent::getTileImagePath();
     }
 
     /**

@@ -293,7 +293,7 @@ ilias.questions.assTextQuestion = function(a_id) {
 	if (el) {
 		el.style.display = '';
 		if (typeof MathJax != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub, el]);
 		}
 	}
 	answers[a_id].passed = true;
@@ -928,7 +928,7 @@ ilias.questions.showFeedback =function(a_id) {
 	if (el) {
 		el.style.display = '';
 		if (typeof MathJax != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, this]);
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub, el]);
 		}
 	}
 

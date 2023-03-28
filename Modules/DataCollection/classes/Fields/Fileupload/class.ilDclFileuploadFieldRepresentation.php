@@ -13,23 +13,18 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
- * Class ilDclFileuploadFieldRepresentaion
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
+ * @deprecated
  */
 class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $input->setSuffixes($this->getField()->getSupportedExtensions());
-        $input->setAllowDeletion(true);
-
-        $this->requiredWorkaroundForInputField($input, $record_id);
+        $input->setInfo($this->lng->txt('fileupload_not_migrated'));
+        $input->setDisabled(true);
 
         return $input;
     }
@@ -60,7 +55,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
      * @return array|string|null
      * @throws Exception
      */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table) //todo
     {
         $input = $table->addFilterItemByMetaType(
             "filter_" . $this->getField()->getId(),
@@ -78,7 +73,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
     /**
      * @param string $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool //todo
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = false;

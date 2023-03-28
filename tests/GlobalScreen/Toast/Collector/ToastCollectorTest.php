@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
+use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 require_once(__DIR__ . "/../BaseToastSetUp.php");
 
@@ -26,27 +28,32 @@ class ToastCollectorTest extends BaseToastSetUp
 {
     public function testConstruct(): void
     {
-        $povider = $this->getDummyToastProviderWithToasts([]);
-        $collector = new ToastCollector([$povider]);
+        $provider = $this->getDummyToastProviderWithToasts([]);
+        $collector = new ToastCollector([$provider]);
         $this->assertInstanceOf(ToastCollector::class, $collector);
     }
 
     public function testGetToasts(): void
     {
-        $povider = $this->getDummyToastProviderWithToasts([]);
-        $collector = new ToastCollector([$povider]);
+        $provider = $this->getDummyToastProviderWithToasts([]);
+        $collector = new ToastCollector([$provider]);
         $this->assertEquals([], $collector->getToasts());
 
+        $id_one = $this->createMock(IdentificationInterface::class);
+        $id_two = $this->createMock(IdentificationInterface::class);
+
         $toast1 = $this->factory->standard(
-            'Test Toast 1',
-            new \ILIAS\UI\Implementation\Component\Symbol\Icon\Standard('test', 'Test Icon', 'small', false)
+            $id_one,
+            'Test Toast 1'
         );
+
         $toast2 = $this->factory->standard(
-            'Test Toast 2',
-            new \ILIAS\UI\Implementation\Component\Symbol\Icon\Standard('test', 'Test Icon', 'small', false)
+            $id_two,
+            'Test Toast 2'
         );
-        $povider = $this->getDummyToastProviderWithToasts([$toast1, $toast2]);
-        $collector = new ToastCollector([$povider]);
+
+        $provider = $this->getDummyToastProviderWithToasts([$toast1, $toast2]);
+        $collector = new ToastCollector([$provider]);
         $this->assertEquals([$toast1, $toast2], $collector->getToasts());
     }
 }

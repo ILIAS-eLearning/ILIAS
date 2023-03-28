@@ -26,8 +26,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilMailOptionsTest extends ilMailBaseTest
 {
-    protected MockObject $setting;
     protected stdClass $object;
+    protected MockObject&ilDBInterface $database;
+    protected MockObject&ilSetting $settings;
 
     protected function setUp(): void
     {

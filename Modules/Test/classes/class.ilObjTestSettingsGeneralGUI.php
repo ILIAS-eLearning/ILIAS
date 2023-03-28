@@ -138,7 +138,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
     private function showConfirmation(ilPropertyFormGUI $form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool)
     {
-        require_once 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php';
         $confirmation = new ilTestSettingsChangeConfirmationGUI($this->testOBJ);
 
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
@@ -429,7 +428,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
     private function buildForm(): ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->addCommandButton(self::CMD_SAVE_FORM, $this->lng->txt("save"));
@@ -446,8 +444,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->addTestSequenceProperties($form);
         $this->addTestFinishProperties($form);
 
-        // Edit ecs export settings
-        include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
         $ecs = new ilECSTestSettings($this->testOBJ);
         $ecs->addSettingsToForm($form, 'tst');
 
@@ -466,7 +462,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $form->addItem($otherHead);
         }
 
-        require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
         ilObjectServiceSettingsGUI::initServiceSettingsForm($this->testOBJ->getId(), $form, array(
                 ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
         ));
@@ -504,7 +499,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             }
         }
 
-        require_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
         ilObjectServiceSettingsGUI::updateServiceSettingsForm($this->testOBJ->getId(), $form, array(
             ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
         ));
@@ -513,7 +507,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testOBJ->saveToDb(true);
 
         // Update ecs export settings
-        include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
         $ecs = new ilECSTestSettings($this->testOBJ);
         $ecs->handleSettingsUpdate();
     }
@@ -528,8 +521,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $form->addItem($header);
 
         // title & description (meta data)
-
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->testOBJ->getId(), 0, "tst");
         $md_section = $md_obj->getGeneral();
 
@@ -645,7 +636,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
      */
     private function addAvailabilityProperties(ilPropertyFormGUI $form)
     {
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         $this->lng->loadLanguageModule('rep');
 
         $section = new ilFormSectionHeaderGUI();
@@ -668,7 +658,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $act_type->setChecked($this->testOBJ->isActivationLimited());
         // $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
 
-        include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
         $dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
         $dur->setRequired(true);
         $dur->setShowTime(true);
@@ -1248,7 +1237,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         // selector for unicode characters
         if ($this->isCharSelectorPropertyRequired()) {
-            require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
             $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
             $char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
             $char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
@@ -1315,7 +1303,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         if ($this->isCharSelectorPropertyRequired()) {
-            require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
             $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
             $char_selector->addFormProperties($form);
             $char_selector->getFormValues($form);

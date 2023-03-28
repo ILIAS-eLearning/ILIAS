@@ -114,6 +114,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
 
         $this->tabs->activateTab('settings');
+        $this->tabs->activateSubTab('qpl_settings_subtab_general');
 
         // process command
 
@@ -165,7 +166,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
@@ -210,9 +210,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
     private function buildForm(): ilPropertyFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+        global $DIC;
         $form = new ilPropertyFormGUI();
 
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -221,7 +219,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $form->setTitle($this->lng->txt('qpl_form_general_settings'));
         $form->setId('properties');
 
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 

@@ -223,13 +223,52 @@ class ilUtil
     }
 
     /**
-     * @depracated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)
+     * @deprecated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element.
+     * Will be removed in ILIAS 10.
      */
     public static function makeClickable(string $a_text, bool $detectGotoLinks = false): string
     {
         global $DIC;
 
-        return $DIC->refinery()->string()->makeClickable()->transform($a_text);
+        $ret = $DIC->refinery()->string()->makeClickable()->transform($a_text);
+
+        if ($detectGotoLinks) {
+            $goto = '<a[^>]*href="(' . str_replace('@', '\@', ILIAS_HTTP_PATH) . '/goto';
+            $regExp = $goto . '.php\?target=\w+_(\d+)[^"]*)"[^>]*>[^<]*</a>';
+            $ret = preg_replace_callback(
+                '@' . $regExp . '@i',
+                [self::class, 'replaceLinkProperties'],
+                $ret
+            );
+
+            // Edited this regex to allow multiple links in $ret: .* to [^"><]*.
+            $regExp = $goto . '_[^"><]*[a-z0-9]+_([0-9]+)\.html)"[^>]*>[^<]*</a>';
+            $ret = preg_replace_callback(
+                '@' . $regExp . '@i',
+                [self::class, 'replaceLinkProperties'],
+                $ret
+            );
+        }
+
+        return $ret;
+    }
+
+    private static function replaceLinkProperties(array $matches): string
+    {
+        global $DIC;
+        $cache = $DIC['ilObjDataCache'];
+
+        $link = $matches[0];
+        $ref_id = (int) $matches[2];
+        if ($ref_id > 0) {
+            $obj_id = $cache->lookupObjId($ref_id);
+            if ($obj_id > 0) {
+                $title = $cache->lookupTitle($obj_id);
+                $link = '<a href="' . $matches[1] . '" target="_self">' . $title . '</a>';
+            }
+        }
+
+        return $link;
     }
 
     /**

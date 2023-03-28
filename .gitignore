@@ -39,7 +39,6 @@
 /data
 /Customizing/global
 /Customizing/clients
-/setup/sql/ilDBTemplate
 virtual-data
 /libs/composer/vendor
 /node_modules
