@@ -2,9 +2,10 @@
 	<!-- BEGIN filter -->
 	<form id="il_awrn_filter_form">
 		<div class="input-group">
-			<input aria-label="{FILTER_INPUT_LABEL}" type="text" value="{VAL_FILTER}" class="form-control" name="il_awareness_filter" id="il_awareness_filter" placeholder="Filter" />
+			<input aria-label="{FILTER_INPUT_LABEL}" type="text" value="{VAL_FILTER}" class="form-control"
+				   name="il_awareness_filter" id="il_awareness_filter" placeholder="Filter" />
 			<span class="input-group-btn">
-				<button id="il_awrn_filer_btn" class="btn btn-default" type="submit">{GL_FILTER}</button>
+				<button aria-label="{GL_FILTER}" id="il_awrn_filer_btn" class="btn btn-default" type="submit">{GL_FILTER}</button>
 			</span>
 		</div>
 	</form>
@@ -18,22 +19,23 @@
 	<!-- END uc_title -->
 	<!-- BEGIN user -->
 	<div class="ilAwarenessItem">
-		<div tabindex="0" role="button" class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="false">
+		<button tabindex="0" role="button" class="media" id="dropdownMenu{CNT}" data-toggle="dropdown"
+			 aria-expanded="false">
 			<div class="ilAwarenessItemRow">
 				<div class="media-left">
-					<img class="media-object" src="{USERIMAGE}" alt="">
+					<img class="media-object" src="{USERIMAGE}" alt="User Image">
 				</div>
 				<div class="media-body <!-- BEGIN uonline -->ilAwarenessOnline<!-- END uonline -->">
 					<h4 class="media-heading">{UNAME}</h4>
 					<p>[{UACCOUNT}] <!-- BEGIN uonline_text --><span class="sr-only">({TXT_ONLINE})</span><!-- END uonline_text --></p>
 				</div>
 			</div>
-		</div>
+		</button>
 		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
 			<!-- BEGIN feature -->
 			<li role="presentation">
 				<!-- BEGIN arrow --><div class="arrow-down"></div><!-- END arrow -->
-				<a role="menuitem" tabindex="-1" href="{FEATURE_HREF}" <!-- BEGIN f_data -->data-{DATA_KEY}="{DATA_VAL}" <!-- END f_data -->>{FEATURE_TEXT}</a>
+				<a aria-label="{FEATURE_HREF}" role="menuitem" tabindex="-1" href="{FEATURE_HREF}" <!-- BEGIN f_data -->data-{DATA_KEY}="{DATA_VAL}" <!-- END f_data -->>{FEATURE_TEXT}</a>
 			</li>
 			<!-- END feature -->
 		</ul>

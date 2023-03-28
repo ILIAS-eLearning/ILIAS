@@ -2,18 +2,14 @@
 <table class="std">
 <tr class="tblheader">
   <td class="std" colspan="2">
-  <table class="invisible_border" width="100%">
-    <tr>
-      <td>{TXT_HEADER}</td>
-    </tr>
-  </table>
+      {TXT_HEADER}
   </td>
 </tr>
 <tr>
   <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
   <td class="option_value">
 <!-- BEGIN edit_title -->
-  <input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/>
+  <input  name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/>
 <!-- END edit_title -->
   {SHOW_TITLE}
   </td>
@@ -22,7 +18,7 @@
   <td class="option">{TXT_DESC}</td>
   <td class="option_value">
 <!-- BEGIN edit_desc -->
-  <textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+  <textarea aria-multiline="true" name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
 <!-- END edit_desc -->
   {SHOW_DESC}
 </tr>

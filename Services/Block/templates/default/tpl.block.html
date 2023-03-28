@@ -1,16 +1,18 @@
 <div class="il_Block">
-<div <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb -->>
+<div <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"
+	<!-- END hclassb -->>
 <!-- BEGIN hitem -->
 <!-- BEGIN header_commands -->
 <div class="ilFloatRight">
 <!-- BEGIN header_command -->
-<a class="il_ContainerItemCommand" href="{HREF_HCOMM}">{TXT_HCOMM}</a>
+<a aria-label="{TXT_HCOMM}" class="il_ContainerItemCommand" href="{HREF_HCOMM}">{TXT_HCOMM}</a>
 <!-- END header_command -->
 <!-- BEGIN header_config -->
-<!-- <a href="{HREF_CONFIG}" <!-- BEGIN oncclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END oncclick -->><img border="0" alt="{ALT_CONFIG}" src="{IMG_CONFIG}" /></a> -->
+<!-- <a href="{HREF_CONFIG}" <!-- BEGIN oncclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"
+	<!-- END oncclick -->><img aria-hidden="true" border="0" alt="{ALT_CONFIG}" src="{IMG_CONFIG}" /></a> -->
 <!-- END header_config -->
 <!-- BEGIN header_close -->
-<a href="{HREF_CLOSE}"><img border="0" alt="{ALT_CLOSE}" title="{ALT_CLOSE}" src="{IMG_CLOSE}" /></a>
+<a aria-label="{ALT_CLOSE}" href="{HREF_CLOSE}"><img aria-hidden="true" border="0" alt="{ALT_CLOSE}" title="{ALT_CLOSE}" src="{IMG_CLOSE}" /></a>
 <!-- END header_close -->
 </div>
 <!-- END header_commands -->
@@ -21,8 +23,10 @@
 <!-- END header_dropdown -->
 <!-- BEGIN header_title -->
 <div>
-<!-- BEGIN block_img --><!-- <img border="0" src="{IMG_BLOCK}" alt="{IMG_ALT}" title="{IMG_ALT}" id="{IMID}_blimg" /> --><!-- END block_img -->
-<h3 class="ilBlockHeader"><a class="ilAccAnchor" id="{BTID}_blhead">{BLOCK_TITLE}</a><span class="ilAccHidden"> ({TXT_BLOCK})</span></h3> <span id="{BTID}_loader"></span>
+<!-- BEGIN block_img --><!-- <img border="0" src="{IMG_BLOCK}" alt="{IMG_ALT}" title="{IMG_ALT}" id="{IMID}_blimg" />
+--><!-- END block_img -->
+<h3 class="ilBlockHeader"><a class="ilAccAnchor" id="{BTID}_blhead">{BLOCK_TITLE}</a><span class="ilAccHidden">
+	({TXT_BLOCK})</span></h3> <span id="{BTID}_loader"></span>
 <!-- BEGIN block_subtitle --><div>{BLOCK_SUBTITLE}</div><!-- END block_subtitle -->
 </div>
 <!-- END header_title -->
@@ -32,7 +36,9 @@
 <!-- BEGIN head_item -->
 <!-- BEGIN head_delim --><span style="font-weight: normal;"> | </span><!-- END head_delim -->
 <!-- BEGIN head_text --><span style="font-weight: normal;">{HTEXT}</span><!-- END head_text -->
-<!-- BEGIN head_link --><a style="font-weight: normal;" href="{HHREF}" <!-- BEGIN head_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END head_onclick -->>{HLINK}</a><!-- END head_link -->
+<!-- BEGIN head_link --><a aria-label="{HLINK}" style="font-weight: normal;" href="{HHREF}" <!-- BEGIN head_onclick -->
+	onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END head_onclick -->>{HLINK}</a>
+	<!-- END head_link -->
 <!-- END head_item -->
 </div>
 <!-- END header_links -->
@@ -43,7 +49,9 @@
 	<!-- BEGIN top_item -->
 	<!-- BEGIN top_delim --> | <!-- END top_delim -->
 	<!-- BEGIN top_text -->{FTEXT}<!-- END top_text -->
-	<!-- BEGIN top_link --><a href="{FHREF}" <!-- BEGIN top_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END top_onclick -->>{FLINK}</a><!-- END top_link -->
+	<!-- BEGIN top_link --><a aria-label="{FLINK}" href="{FHREF}" <!-- BEGIN top_onclick -->
+	onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END top_onclick -->>{FLINK}</a>
+	<!-- END top_link -->
 	<!-- END top_item -->
 </div>
 <!-- END top_row -->
@@ -54,7 +62,7 @@
 <!-- BEGIN detail_setting -->
 <div class="ilBlockInfo">
 	<!-- BEGIN det_info -->
-	<img style="cursor:help;" alt="{ALT_DET_INFO}" src="{IMG_DET_INFO}" onclick="ilBlockToggleInfo('{DI_BLOCK_ID}');" />
+	<img role="button" style="cursor:help;" alt="{ALT_DET_INFO}" src="{IMG_DET_INFO}" onclick="ilBlockToggleInfo('{DI_BLOCK_ID}');" />
 	<div class="small" style="clear:both; margin-top:2px;">
 	<span id="det_info_{DI_BLOCK_ID}" style="display:none;">{INFO_TEXT}</span>
 	<script></script>
@@ -70,7 +78,9 @@
 	<!-- BEGIN foot_item -->
 	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
 	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
-	<!-- BEGIN foot_link --><a href="{FHREF}" <!-- BEGIN foot_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END foot_onclick -->>{FLINK}</a><!-- END foot_link -->
+	<!-- BEGIN foot_link --><a aria-label="{FLINK}" href="{FHREF}" <!-- BEGIN foot_onclick -->
+		onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END foot_onclick -->>{FLINK}</a>
+		<!-- END foot_link -->
 	<!-- END foot_item -->
 	</div>
 	<div class="il_BlockInfo">{NUMINFO}</div>
@@ -83,9 +93,11 @@
 <!-- END footer_information -->
 <!-- BEGIN block_commands -->
 <div class="ilBlockInfo ilLeft">
-<!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
+<!-- BEGIN block_check --><input aria-label="{BL_REF_ID}" type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
 <!-- BEGIN block_command -->
-<a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" border="0" title="{ALT_BC}" alt="{ALT_BC}" /><!-- END bc_image --><!-- BEGIN bc_html -->{HTML}<!-- END bc_html -->{CMD_TEXT}</a>
+<a aria-label="{CMD_TEXT}" {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target -->
+	><!-- BEGIN bc_image --><img aria-hidden="true" src="{SRC_BC}" border="0" title="{ALT_BC}" alt="{ALT_BC}" />
+	<!-- END bc_image --><!-- BEGIN bc_html -->{HTML}<!-- END bc_html -->{CMD_TEXT}</a>
 	<!-- BEGIN bc_html_nohref -->{HTML_NOHREF}<!-- END bc_html_nohref -->
 <!-- END block_command -->
 </div>

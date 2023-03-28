@@ -1,9 +1,10 @@
 <tr class="{CSS_ROW}">
 	<td class="std" style="vertical-align:top;">
-		<input type="checkbox" name="field_id[]" value="{VAL_ID}" />
+		<input aria-label="set {VAL_ID}" type="checkbox" name="field_id[]" value="{VAL_ID}" />
 	</td>
 	<td class="std" style="vertical-align:top;">
-		<input type="text" class="form-control" id="text{ASS_ID}" name="position[{ASS_ID}]" value="{VAL_POS}" size="2" {POS_DISABLED} />
+		<input aria-label="{VAL_POS} input" type="text" class="form-control" id="text{ASS_ID}" name="position[{ASS_ID}]"
+			   value="{VAL_POS}" size="2" {POS_DISABLED} />
 	</td>
 	<td class="std"  style="vertical-align:top;">
 		{VAL_TITLE}
@@ -21,11 +22,12 @@
 	</td>
 	<td class="std" style="vertical-align:top;">		
 		<div style="float:left">
-			<input type="checkbox" name="searchable[{ASS_ID}][]" value="1" {ASS_CHECKED} {ASS_DISABLED}  /> {TXT_SEARCHABLE}<br />
+			<input aria-label="{TXT_SEARCHABLE} checkbox" type="checkbox" name="searchable[{ASS_ID}][]" value="1"
+				   {ASS_CHECKED} {ASS_DISABLED}  /> {TXT_SEARCHABLE}<br />
 		</div>
 		<div style="float: right;">
 			<div class="il_ContainerItemCommands">
-				<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a>
+				<a aria-label="{TXT_EDIT_RECORD}" class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a>
 			</div>	
 		</div>
 	</td>

@@ -1,11 +1,11 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
 		<!-- BEGIN check_bl -->
-		<input type="checkbox" name="record_id[]" value="{VAL_ID}" />
+		<input aria-label="{VAL_ID}" type="checkbox" name="record_id[]" value="{VAL_ID}" />
 		<!-- END check_bl -->
 	</td>
 	<td class="std">
-		<input type="text" class="form-control" name="pos[{R_ID}]" value="{VAL_POS}" size="3" maxlength="3" />
+		<input aria-label="{VAL_POS}" type="text" class="form-control" name="pos[{R_ID}]" value="{VAL_POS}" size="3" maxlength="3" />
 	</td>
 	<td class="std">
 		{VAL_TITLE}
@@ -28,7 +28,7 @@
 		<!-- BEGIN scope_list -->
 		<ul class="std">
 			<!-- BEGIN scope_entry -->
-			<li class="std"><a href="{LINK_HREF}">{LINK_NAME}</a></li>
+			<li class="std"><a aria-label="{LINK_NAME}" href="{LINK_HREF}">{LINK_NAME}</a></li>
 			<!-- END scope_entry -->
 		</ul>
 		<!-- END scope_list -->
@@ -47,10 +47,10 @@
 	</td>
 	<!-- END ass_obj_types_col -->
 	<td class="std">
-		<input type="checkbox" name="active[{ACTIVE_ID}]" value="1" {ACTIVE_CHECKED} {ACTIVE_DISABLED} />
+		<input aria-label="{ACTIVE_ID}" type="checkbox" name="active[{ACTIVE_ID}]" value="1" {ACTIVE_CHECKED} {ACTIVE_DISABLED} />
 	</td>
 	<td class="std">
-		<a href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a><br />
-		<a href="{EDIT_FIELDS_LINK}">{TXT_EDIT_FIELDS}</a>
+		<a aria-label="{TXT_EDIT_RECORD}" href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a><br />
+		<a aria-label="{TXT_EDIT_FIELDS}" href="{EDIT_FIELDS_LINK}">{TXT_EDIT_FIELDS}</a>
 	</td>
 </tr>

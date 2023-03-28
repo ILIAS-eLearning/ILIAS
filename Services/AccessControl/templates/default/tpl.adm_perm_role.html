@@ -13,11 +13,9 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 //-->
 </script>
 <!-- BEGIN sysrole_msg -->
-<table class="fullwidth">
-	<tr>
-	  <td class="message">{TXT_SYSROLE_MSG}</td>
-	</tr>
-</table>
+<p class="fullwidth message">
+	  {TXT_SYSROLE_MSG}
+</p>
 <!-- END sysrole_msg -->
 <form action="{FORMACTION}" name="ObjectItems" method="post">
 <div class="ilTableOuter">
@@ -49,8 +47,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <td class="std" colspan="4" style="padding-top:20px;">
 <!-- BEGIN obj_action_toggle_checkboxes -->
 	<div class="il_ContainerItemCommands ilFloatRight">
-		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
-		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_'
+		,{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
+		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems',
+		'{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
 <!-- END obj_action_toggle_checkboxes -->
 	<strong>{TXT_OBJ_TYPE}</strong> {TXT_ADMINIS}<span class="ilAlert">{TXT_NOT_IMPL}</span>

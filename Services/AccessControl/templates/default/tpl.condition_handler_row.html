@@ -1,10 +1,11 @@
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
-		<input type="checkbox" name="conditions[]" value="{COND_ID}" />
+		<label for="condition_id">{COND_ID}</label>
+		<input id="condition_id" type="checkbox" name="conditions[]" value="{COND_ID}" />
 	</td>
 	<td class="std" valign="top">
 		<img src="{OBJ_SRC}" title="{OBJ_ALT}" alt="{OBJ_ALT}" />
-		<a class="il_ContainerItemTitle" href="{OBJ_LINK}">{OBJ_TITLE}</a>
+		<a aria-label="{OBJ_TITLE}" class="il_ContainerItemTitle" href="{OBJ_LINK}">{OBJ_TITLE}</a>
 		<div class="il_Description">{OBJ_DESCRIPTION}</div>
 	</td>
 	<td class="std" valign="top">
@@ -15,10 +16,11 @@
 		<img src="{OBL_SRC}" title="{OBL_ALT}" alt="{OBL_ALT}" />
 		<!-- END obligatory_static -->
 		<!-- BEGIN obligatory_edit -->
-		<input type="checkbox" name="obl[]" value="{OBL_ID}"{OBL_STATUS} />
+		<label for="object_status">{OBL_STATUS}</label>
+		<input id="object_status" type="checkbox" name="obl[]" value="{OBL_ID}"{OBL_STATUS} />
 		<!-- END obligatory_edit -->
 	</td>
 	<td class="std" valign="top" style="text-align: left">
-		<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
+		<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
 	</td>
 </tr>

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  ilias:
+    image: srsolutions/ilias-dev:7-php7.4-apache
+    ports:
+      - 8080:80
+    links:
+      - mysql
+    volumes:
+      - /home/mmaag/Git/ILIAS/:/var/www/html/
+    environment:
+      - ILIAS_AUTO_SETUP=1
+      - ILIAS_DB_USER=root
+      - ILIAS_DB_PASSWORD=example
+      - ILIAS_DEVMODE=1
+      - ILIAS_ROOT_PASSWORD=docker
+      - ILIAS_SETUP_PASSWORD=docker
+      - COMPOSE_PROJECT_NAME='ilias_7'
+      - XDEBUG_CONFIG="discover_client_host=0 start_with_request=1 client_host=host.docker.internal idekey=PHPSTORM output_dir=/var/www/html profiler_output_name=profile.%p.%r"
+  mysql:
+    image: mariadb
+    ports:
+      - 3307:3306
+    command: |
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+      --default_authentication_plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=ilias
