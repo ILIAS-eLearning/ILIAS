@@ -5,13 +5,13 @@
 <table class="calmini">
 	<tr class="calminiheader">
 		<!-- BEGIN month_header_col -->
-		<th class="calmini">{TXT_WEEKDAY}</th>
+		<th scope="col" class="calmini">{TXT_WEEKDAY}</th>
 		<!--  END month_header_col -->
 	</tr>
 	<!-- BEGIN month_row -->
 	<tr class="calmini">
 		<!-- BEGIN week -->
-		<th class="calminiweek">
+		<th scope="col" class="calminiweek">
 			<div class="il_calmini_monthday">
 			<span>{WEEK}</span>
 			</div>
@@ -21,7 +21,7 @@
 		<td class="{TD_CLASS}">
 			<div class="il_calmini_monthday">
 			<!-- BEGIN month_col_link -->
-			<a class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a>
+			<a aria-haspopup="true" role="button" class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a>
 			<!-- END month_col_link -->
 			<!-- BEGIN month_col_no_link -->
 			<span class="{DAY_CLASS}">{MONTH_DAY}</span>

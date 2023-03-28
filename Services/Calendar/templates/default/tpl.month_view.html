@@ -3,7 +3,7 @@
 	<thead>
 	<tr class="calheader">
 		<!-- BEGIN month_header_col -->
-		<th class="calstd" width="14%">{TXT_WEEKDAY}</th>
+		<th scope="col" class="calstd" width="14%">{TXT_WEEKDAY}</th>
 		<!--  END month_header_col -->
 	</tr>
 	</thead>
@@ -27,12 +27,14 @@
 					<!-- BEGIN new_app -->{NEW_GLYPH}<!-- END new_app -->
 					<!-- BEGIN new_ms -->	
 					<div class="btn-group">
-						<div class="dropdown-toggle callink" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
+						<div role="button" aria-haspopup="true" class="dropdown-toggle callink" data-toggle="dropdown"
+							 data-container="body"
+							 id="add_dd_tr_{DD_ID}" type="button">
 							{DD_TRIGGER}
 						</div>
 						<ul class="dropdown-menu pull-right" role="menu" id="add_dd_{DD_ID}">
-							<li><a href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>						
-							<li><a href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>						
+							<li><a aria-label="{TXT_DD_NEW_APP}" href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>
+							<li><a aria-label="{TXT_DD_NEW_MS}" href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>
 					</ul>					
 					</div>
 					<!-- END new_ms -->

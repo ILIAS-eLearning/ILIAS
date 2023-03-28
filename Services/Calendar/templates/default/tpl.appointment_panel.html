@@ -3,33 +3,40 @@
 		<div class="hd">{PANEL_TITLE}</div>
 		<div class="bd" style="padding-bottom:2em">
 			<table class="il_InfoScreen small fullwidth">
+				<thead>
 				<tr>
 					<th colspan="2" class="il_InfoScreenSection">
-							<div class="ilFloatLeft">
+							<th scope="col" class="ilFloatLeft">
 								<h3>{PANEL_DETAILS}<h3>
-							</div>
+							</th>
 							<!-- BEGIN panel_delete_link -->
-							<div class="ilFloatRight">
-								<a href="{PANEL_DELETE_HREF}" class="btn btn-default small">{TXT_PANEL_DELETE}</a>
-							</div>
+							<th scope="col" class="ilFloatRight">
+								<a aria-label="{TXT_PANEL_DELETE}" role="button" href="{PANEL_DELETE_HREF}"
+								   class="btn btn-default small">{TXT_PANEL_DELETE}</a>
+							</th>
 							<!-- END panel_delete_link -->
 							<!-- BEGIN panel_edit_link -->
-							<div class="ilFloatRight">
-								<a href="{PANEL_EDIT_HREF}" class="btn btn-default small">{TXT_PANEL_EDIT}</a>
-							</div>
+							<th scope="col" class="ilFloatRight">
+								<a aria-label="{TXT_PANEL_EDIT}" role="button" href="{PANEL_EDIT_HREF}"
+								   class="btn btn-default small">{TXT_PANEL_EDIT}</a>
+							</th>
 							<!-- END panel_edit_link -->
 							<!-- BEGIN panel_book_link -->
-							<div class="ilFloatRight">
-								<a href="{PANEL_BOOK_HREF}" class="btn btn-default small">{TXT_PANEL_BOOK}</a>
-							</div>
+							<th scope="col" class="ilFloatRight">
+								<a aria-label="{TXT_PANEL_BOOK}" role="button" href="{PANEL_BOOK_HREF}"
+								   class="btn btn-default small">{TXT_PANEL_BOOK}</a>
+							</th>
 							<!-- END panel_book_link -->
 							<!-- BEGIN panel_cancel_book_link -->
-							<div class="ilFloatRight">
-								<a href="{PANEL_CANCELBOOK_HREF}" class="btn btn-default small">{TXT_PANEL_CANCELBOOK}</a>
-							</div>
+							<th scope="col" class="ilFloatRight">
+								<a aria-label="{TXT_PANEL_CANCELBOOK}" role="button" href="{PANEL_CANCELBOOK_HREF}"
+								   class="btn btn-default small">{TXT_PANEL_CANCELBOOK}</a>
+							</th>
 							<!-- END panel_cancel_book_link -->
 					</th>
 				</tr>
+				</thead>
+				<tbody>
 				<tr>
 					<td class="il_InfoScreenProperty ilRight" width="30%">{PANEL_TXT_CAL_TYPE}</td>
 					<td class="il_InfoScreenPropertyValue" width="70%">{PANEL_CAL_TYPE}</td>
@@ -85,7 +92,8 @@
 					<td class="il_InfoScreenProperty ilRight" width="30%">{PANEL_TXT_BOOKING_TARGET}</td>
 					<td class="il_InfoScreenPropertyValue" width="70%">
 						<!-- BEGIN panel_booking_target_row -->
-						<a href="{PANEL_BOOKING_TARGET}" target="_top">{PANEL_BOOKING_TARGET_TITLE}</a><br />
+						<a aria-label="{PANEL_BOOKING_TARGET_TITLE}" href="{PANEL_BOOKING_TARGET}"
+						   target="_top">{PANEL_BOOKING_TARGET_TITLE}</a><br />
 						<!-- END panel_booking_target_row -->
 					</td>
 				</tr>
@@ -102,6 +110,7 @@
 					<td class="il_InfoScreenPropertyValue" width="70%">{PANEL_CURRENT_BOOKING}</td>
 				</tr>
 				<!-- END panel_current_booking -->
+				</tbody>
 			</table>
 		</div>
 	</div>

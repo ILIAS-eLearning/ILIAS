@@ -1,14 +1,15 @@
 <tr class="{CSS_ROW}">
 	<td class="calmngColor">
-		<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
-		<input type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
+		<input aria-label="{VAL_ID} checkbox" type="checkbox"
+			   name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input aria-hidden="true" type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
 		<span class="calmngColorSpan" style="background-color: {BGCOLOR}">&nbsp;</span>
 	</td>
 	<td class="calmngImg">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />
 	</td>
 	<td class="calmngTitle">
-		<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
+		<a aria-label="{VAL_TITLE}" class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
 		<!-- BEGIN calendar_path -->
 		<div class="il_Description">
 			<span class="small">{ADD_PATH_INFO}</span>
@@ -16,7 +17,7 @@
 		<!-- END calendar_path -->
 	</td>
 	<td class="calmngSublink">
-		<a href="{SUB_LINK}">
+		<a aria-label="{SUB_SRC}" href="{SUB_LINK}">
 			{SUB_SRC}
 		</a>
 	</td>

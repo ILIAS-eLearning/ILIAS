@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input style="background-color: {BGCOLOR}" type="checkbox" name="apps[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input aria-label="{VAL_ID}" style="background-color: {BGCOLOR}" type="checkbox" name="apps[]" value="{VAL_ID}" {VAL_CHECKED} />
 	</td>
 	<td class="std">
 		{START}
@@ -23,7 +23,7 @@
 	</td>
 	<td class="std">
 		<!-- BEGIN booking_with_link -->
-			<a href="{URL_BOOKING}">{TXT_BOOKING}</a><br />
+			<a aria-label="{TXT_BOOKING}" href="{URL_BOOKING}">{TXT_BOOKING}</a><br />
 		<!-- END booking_with_link -->
 		<!-- BEGIN booking_without_link -->
 			{TXT_BOOKING}<br />
@@ -31,7 +31,7 @@
 	</td>
 	<td class="std">
 		<!-- BEGIN links -->
-		<a href="{URL_TARGET}">{TARGET}</a><br />
+		<a aria-label="{TARGET}" href="{URL_TARGET}">{TARGET}</a><br />
 		<!-- END links -->
 	</td>
 	<td class="std">

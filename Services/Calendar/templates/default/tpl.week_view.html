@@ -2,12 +2,12 @@
 <table class="calstd il-cal-week">
 	<thead>
 	<tr class="calheader">
-		<th class="calstd">{TXT_TIME}</th>
+		<th scope="col" class="calstd">{TXT_TIME}</th>
 		<!-- BEGIN day_header_row -->
-		<th class="calstd" width="13%" colspan="{DAY_COLSPAN}">
+		<th scope="col" class="calstd" width="13%" colspan="{DAY_COLSPAN}">
 
 			<!-- BEGIN day_view_link -->
-			<a class="callink" href="{DAY_VIEW_LINK}">{HEADER_DATE}</a>
+			<a aria-label="{HEADER_DATE}" class="callink" href="{DAY_VIEW_LINK}">{HEADER_DATE}</a>
 			<!-- END day_view_link -->
 			<!-- BEGIN day_view_no_link -->
 			{HEADER_DATE}
@@ -16,12 +16,13 @@
 			<!-- BEGIN new_app -->{NEW_APP_GLYPH}<!-- END new_app -->
 			<!-- BEGIN new_ms -->
 			<div class="btn-group">
-				<div class="dropdown-toggle callink" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
+				<div class="dropdown-toggle callink" data-toggle="dropdown"
+					 data-container="body" id="add_dd_tr_{DD_ID}" type="button">
 					{DD_TRIGGER}
 				</div>
 				<ul class="dropdown-menu pull-right" role="menu" id="add_dd_{DD_ID}">
-					<li><a href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>
-					<li><a href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>
+					<li><a aria-label="{TXT_DD_NEW_APP}" href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>
+					<li><a aria-label="{TXT_DD_NEW_MS}" href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>
 				</ul>
 			</div>
 			<!-- END new_ms -->
@@ -33,7 +34,7 @@
 	<tbody>
 		<!-- BEGIN fullday_apps -->
 		<tr class="calstd" style="height: 1em">
-			<th class="calheadertime">{TXT_F_DAY}</th>
+			<th scope="col" class="calheadertime">{TXT_F_DAY}</th>
 			<!-- BEGIN f_day_row -->
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN content_fd -->
@@ -46,7 +47,7 @@
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
 			<!-- BEGIN time_txt -->
-			<th class="calheadertime" rowspan="{TIME_ROWSPAN}" scope="rowgroup">
+			<th scope="col" class="calheadertime" rowspan="{TIME_ROWSPAN}" scope="rowgroup">
 				{TIME}
 			</th>
 			<!-- END time_txt -->

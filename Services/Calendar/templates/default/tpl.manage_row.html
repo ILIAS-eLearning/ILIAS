@@ -1,14 +1,14 @@
 <tr class="{CSS_ROW}" style="font-size: small">
 	<td class="std" >
 		<!-- BEGIN checkbox -->
-		<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" />
+		<input aria-label="{VAL_ID}" type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" />
 	    <!-- END checkbox -->
 	</td>
 	<td class="std" style="vertical-align:top;">
 	<img src="{IMG_SRC}" class="ilIcon" alt="{IMG_ALT}" title="{IMG_ALT}" />
 	</td>
 	<td class="std" style="vertical-align:top;">
-		<span style="padding: 0px 5px; background-color: {BGCOLOR}">&nbsp;</span>&nbsp;&nbsp;<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
+		<span style="padding: 0px 5px; background-color: {BGCOLOR}">&nbsp;</span>&nbsp;&nbsp;<a aria-label="{VAL_TITLE}" class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
 		<!-- BEGIN cal_description -->
 		<div class="il_Description">
 			<span style="padding: 0px 5px;">&nbsp;</span>&nbsp;&nbsp;<span class="small">{ADD_PATH_INFO}</span>
