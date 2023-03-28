@@ -306,7 +306,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         if ($this->filterUserIdsByRbacOrPositionOfCurrentUser([$user_id])) {
             $data = $this->member_data[$user_id];
-            $data['access'] = $data['access_time'];
+            if (array_key_exists('access_time', $data)) {
+                $data['access'] = $data['access_time'];
+            }
             $data['progress'] = $this->lng->txt($data['progress']);
         }
 

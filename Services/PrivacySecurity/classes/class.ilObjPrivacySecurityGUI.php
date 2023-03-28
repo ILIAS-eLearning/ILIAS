@@ -149,6 +149,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($privacy->enabledCourseAccessTimes()) {
             $value[] = "crs_access_times";
         }
+        if ($privacy->enabledLearningSequenceAccessTimes()) {
+            $value[] = "lso_access_times";
+        }
         if ($privacy->participantsListInCoursesEnabled()) {
             $value[] = 'participants_list_courses';
         }
@@ -177,6 +180,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_show_crs_access'));
         $check->setValue('crs_access_times');
+        $group->addOption($check);
+        $check = new ilCheckboxOption();
+        $check->setTitle($this->lng->txt('ps_show_lso_access'));
+        $check->setValue('lso_access_times');
         $group->addOption($check);
         $form->addItem($group);
         $check = new ilCheckboxOption();
@@ -252,6 +259,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             'export_confirm_group' => $privacy->groupConfirmationRequired(),
             'crs_access_times' => $privacy->enabledCourseAccessTimes(),
             'grp_access_times' => $privacy->enabledGroupAccessTimes(),
+            'lso_access_times' => $privacy->enabledLearningSequenceAccessTimes(),
             'participants_list_courses' => $privacy->participantsListInCoursesEnabled()
         );
 
@@ -261,6 +269,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $privacy->setGroupConfirmationRequired(in_array('export_confirm_group', $profile_protection));
         $privacy->showGroupAccessTimes(in_array('grp_access_times', $profile_protection));
         $privacy->showCourseAccessTimes(in_array('crs_access_times', $profile_protection));
+        $privacy->showLearningSequenceAccessTimes(in_array('lso_access_times', $profile_protection));
+
         $privacy->enableParticipantsListInCourses(in_array('participants_list_courses', $profile_protection));
 
         // validate settings
@@ -297,6 +307,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                 $do_reset = true;
             }
             if (!$do_reset && !$old_settings['grp_access_times'] && $privacy->enabledGroupAccessTimes()) {
+                $do_reset = true;
+            }
+            if (!$do_reset && !$old_settings['lso_access_times'] && $privacy->enabledLearningSequenceAccessTimes()) {
                 $do_reset = true;
             }
             if ($do_reset) {

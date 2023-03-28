@@ -354,6 +354,7 @@ class ilPrivacySettings
         $this->settings->set('enable_anonymous_fora', (string) $this->enabledAnonymousFora());
         $this->settings->set('ps_access_times', (string) $this->enabledGroupAccessTimes());
         $this->settings->set('ps_crs_access_times', (string) $this->enabledCourseAccessTimes());
+        $this->settings->set('ps_lso_access_times', (string) $this->enabledLearningSequenceAccessTimes());
         $this->settings->set('rbac_log', (string) $this->enabledRbacLog());
         $this->settings->set('rbac_log_age', (string) $this->getRbacLogAge());
         $this->settings->set('enable_sahs_pd', (string) $this->enabledSahsProtocolData());

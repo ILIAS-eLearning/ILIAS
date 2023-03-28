@@ -13144,6 +13144,7 @@ ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
 ps#:#ps_select_one#:#Bitte wählen Sie eine Datei aus.
 ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
 ps#:#ps_show_grp_access#:#Anzeige der letzten Zugriffszeit von Gruppenteilnehmern
+ps#:#ps_show_lso_access#:#Anzeige der letzten Zugriffszeit von Lernsequenzteilnehmern
 ps#:#ps_size#:#Dateigröße
 ps#:#ps_type_select#:#Auswahlliste
 ps#:#ps_type_select_long#:#Auswahlliste (feste Werte)
