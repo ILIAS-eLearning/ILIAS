@@ -14786,7 +14786,7 @@ skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the p
 skll#:#skll_skill_notification#:#Competence Notification
 skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
 skmg#:#scat#:#Competence Category
-skmg#:#skll#:#Basic Competence
+skmg#:#skll#:#Competence
 skmg#:#skmg_360_survey#:#360° Survey
 skmg#:#skmg_add_assignment#:#Add Roles / Members
 skmg#:#skmg_add_level#:#Add Level
@@ -14846,7 +14846,7 @@ skmg#:#skmg_hide_profile_self_eval#:#Hide Competence Target without Self Evaluat
 skmg#:#skmg_hide_profile_self_eval_info#:#Competence Target will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
-skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Competences from Clipboard
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Competences from Clipboard
 skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.
 skmg#:#skmg_insert_skill_category_from_clip#:#Insert Competence Categories from Clipboard
 skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard
