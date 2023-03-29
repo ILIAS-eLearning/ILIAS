@@ -250,8 +250,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             $this->refinery,
             $this->language,
             $inputs,
-            '',
-            null
+            ''
         );
     }
 }

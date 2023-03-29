@@ -43,7 +43,7 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
         Data\Factory $datafactory,
         Refinery $refinery,
         string $label,
-        ?string $byline
+        string $byline
     ) {
         parent::__construct(
             $datafactory,

@@ -57,7 +57,7 @@ class Group extends Input implements C\Input\Field\Group
         ilLanguage $lng,
         array $inputs,
         string $label,
-        ?string $byline
+        string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->checkArgListElements("inputs", $inputs, InputInternal::class);
