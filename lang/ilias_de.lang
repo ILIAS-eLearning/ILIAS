@@ -12078,7 +12078,6 @@ news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
 news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Neuigkeiten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
 news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
-news#:#news_hidden_news_block#:#Block "Neuigkeiten" wird zur Zeit in der Lernersicht nicht angezeigt.
 news#:#news_hide_news_block#:#Block "Neuigkeiten" verbergen
 news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Block "Neuigkeiten" wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
 news#:#news_hide_news_date#:#Startdatum
