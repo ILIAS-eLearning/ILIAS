@@ -195,4 +195,17 @@ class ilNotificationSystem
             ilNotificationDatabaseHandler::enableListeners($module, $ref_id, $users);
         }
     }
+
+    public function clear(string $channel = ''): void
+    {
+        $channels = $this->handler;
+        if ($channel !== '') {
+            $channels = [$this->handler[$channel]] ?? [];
+        }
+        foreach ($channels as $c) {
+            foreach ($c as $handler) {
+                $handler->clear();
+            }
+        }
+    }
 }
