@@ -213,13 +213,12 @@ class ilLMNavigationRendererGUI
                 if (!$this->offline) {
                     if ($this->lm->getRestrictForwardNavigation()) {
                         if ($this->tracker->hasPredIncorrectAnswers($succ_id)) {
-                            $this->main_tpl->addOnLoadCode("$('.ilc_page_rnav_RightNavigation').addClass('ilNoDisplay');");
+                            $this->main_tpl->addOnLoadCode("il.LearningModule.hideNextNavigation();");
                         }
                     }
                 }
             }
         }
-
         $tpl->setVariable("CLASS", ($top) ? "tnav_Top" : "bnav_Bottom");
 
         return $tpl->get();
