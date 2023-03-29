@@ -91,7 +91,7 @@ class FormTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): Input\Container\Form\Factory
     {
-        return new Input\Container\Form\Factory($this->buildInputFactory(), new DefNamesource());
+        return new Input\Container\Form\Factory($this->buildInputFactory());
     }
 
     protected function buildInputFactory(): Input\Field\Factory
@@ -483,5 +483,4 @@ class FormTest extends ILIAS_UI_TestBase
         $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
         $this->assertTrue($form->hasRequiredInputs());
     }
-
 }

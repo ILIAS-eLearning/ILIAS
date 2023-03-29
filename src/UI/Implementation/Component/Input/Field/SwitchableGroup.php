@@ -47,7 +47,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         ilLanguage $lng,
         array $inputs,
         string $label,
-        string $byline = null
+        ?string $byline = null
     ) {
         $this->checkArgListElements("inputs", $inputs, Group::class);
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
