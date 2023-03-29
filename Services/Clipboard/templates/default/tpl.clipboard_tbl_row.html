@@ -1,15 +1,15 @@
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
-		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<input aria-label="{CHECKBOX_ID} checkbox" class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
 	<td class="std" valign="top">
 	<!-- BEGIN thumbnail -->
-	<img border="0" src="{IMG_THUMB}" />
+	<img border="0" src="{IMG_THUMB}" alt="thumbmail" />
 	<!-- END thumbnail -->{IMG}
 	</td>
 	<td class="std" valign="top">
 	<!-- BEGIN edit -->
-	<a href="{EDIT_LINK}">{TEXT_OBJECT}</a>
+	<a aria-label="{TEXT_OBJECT}" href="{EDIT_LINK}">{TEXT_OBJECT}</a>
 	<!-- END edit -->
 	<!-- BEGIN show -->
 	{TEXT_OBJECT2}

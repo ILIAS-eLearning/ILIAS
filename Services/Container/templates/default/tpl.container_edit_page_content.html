@@ -6,20 +6,28 @@
 
 <form action="{FORMACTION}" method="post" class="ilForm" target="_top">
 <table class="std">
-<tr class="tblheader">
-	<th class="std">{TXT_EDIT_PAGE_CONTENT}
-	</th>
-</tr>
-<tr>
-	<td class="option_value">
-	<textarea name="page_content" rows="10" cols="80" wrap="virtual" style="width:95%;">{VAL_CONTENT}</textarea>
-	</td>
-</tr>
-<tr>
-	<td class="submit" style="text-align:right">
-	<input type="submit" class="submit" name="cmd[savePageContent]" value="{TXT_SAVE}" />
-	<input type="submit" class="submit" name="cmd[cancelPageContent]" value="{TXT_CANCEL}" />
-	</td>
-</tr>
+	<thead>
+	<tr class="tblheader">
+		<th scope="col" class="std">{TXT_EDIT_PAGE_CONTENT}
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td class="option_value">
+			<textarea aria-multiline="true" name="page_content" rows="10" cols="80" wrap="virtual" style="width:95%;">
+				{VAL_CONTENT}
+			</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="submit" style="text-align:right">
+			<input aria-label="{TXT_SAVE}" type="submit"
+				   class="submit" name="cmd[savePageContent]" value="{TXT_SAVE}" />
+			<input aria-label="{TXT_CANCEL}" type="submit"
+				   class="submit" name="cmd[cancelPageContent]" value="{TXT_CANCEL}" />
+		</td>
+	</tr>
+	</tbody>
 </table>
 </form>

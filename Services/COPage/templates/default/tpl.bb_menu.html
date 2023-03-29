@@ -248,44 +248,57 @@ var upload = false;
 <div id="bbcodebuttons">
 <div id="helpbox" class="ilEditHelpline">{TXT_BB_TIP}</div>
 <!-- BEGIN bb_str_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="s"><span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span></a>
+<a aria-label="str" role="button" class="btn btn-sm btn-default" href="#" accesskey="s">
+	<span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span>
+</a>
 <!-- END bb_str_button -->
 <!-- BEGIN bb_emp_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="e"><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>
+<a aria-label="emp" role="button" class="btn btn-sm btn-default" href="#" accesskey="e">
+	<span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span>
+</a>
 <!-- END bb_emp_button -->
 <!-- BEGIN bb_imp_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="m"><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>
+<a aria-label="imp" role="button" class="btn btn-sm btn-default" href="#" accesskey="m">
+	<span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span>
+</a>
 <!-- END bb_imp_button -->
 <!-- BEGIN bb_sup_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="p">&nbsp;x<sup class="ilc_sub_Sup">2</sup>&nbsp;</a>
+<a role="button" aria-label="2" class="btn btn-sm btn-default" href="#" accesskey="p">&nbsp;
+	x<sup class="ilc_sub_Sup">2</sup>&nbsp;
+</a>
 <!-- END bb_sup_button -->
 <!-- BEGIN bb_sub_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="b">&nbsp;x<sub class="ilc_sub_Sub">2</sub>&nbsp;</a>
+<a aria-label="2" role="button" class="btn btn-sm btn-default" href="#" accesskey="b">&nbsp;
+	x<sub class="ilc_sub_Sub">2</sub>&nbsp;
+</a>
 <!-- END bb_sub_button -->
 {CHAR_STYLE_SELECT}
 <!-- BEGIN bb_kw_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="k">&nbsp;kw&nbsp;</a>
+<a aria-label="kw" role="button" class="btn btn-sm btn-default" href="#" accesskey="k">&nbsp;kw&nbsp;</a>
 <!-- END bb_kw_button -->
 <!-- BEGIN bb_tex_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="t"><span>&nbsp;tex&nbsp;</span></a>
+<a aria-label="tex" role="button" class="btn btn-sm btn-default" href="#" accesskey="t"><span>&nbsp;tex&nbsp;</span></a>
 <!-- END bb_tex_button -->
 <!-- BEGIN bb_fn_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="f">&nbsp;fn&nbsp;</a>
+<a aria-label="fn" role="button" class="btn btn-sm btn-default" href="#" accesskey="f">&nbsp;fn&nbsp;</a>
 <!-- END bb_fn_button -->
 <!-- BEGIN bb_anc_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="n">&nbsp;anc&nbsp;</a>
+<a aria-label="anc" role="button" class="btn btn-sm btn-default" href="#" accesskey="n">&nbsp;anc&nbsp;</a>
 <!-- END bb_anc_button -->
 <!-- BEGIN bb_xln_button -->
-<a class="btn btn-sm btn-default" href="#" accesskey="x">&nbsp;xln&nbsp;</a>
+<a aria-label="xln" role="button" class="btn btn-sm btn-default" href="#" accesskey="x">&nbsp;xln&nbsp;</a>
 <!-- END bb_xln_button -->
 <!-- BEGIN bb_ilink_button -->
-<a id="iosEditInternalLinkTrigger" class="btn btn-sm btn-default" xhref="{BB_LINK_ILINK}" accesskey="i" xtarget="tree">&nbsp;iln&nbsp;</a>
+<a aria-label="iln" role="button" id="iosEditInternalLinkTrigger" class="btn btn-sm btn-default" xhref="{BB_LINK_ILINK}"
+   accesskey="i" xtarget="tree">&nbsp;iln&nbsp;
+</a>
 <!-- END bb_ilink_button -->
 	<!-- BEGIN bb_wikilink_button2 -->
-	<a class="btn btn-sm btn-default" href="#" onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}');" >&nbsp;{TXT_WIKI_BUTTON2}&nbsp;</a>
+	<a aria-label="{TXT_WIKI_BUTTON2}" role="button" class="btn btn-sm btn-default" href="#"
+	   onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}');" >&nbsp;{TXT_WIKI_BUTTON2}&nbsp;</a>
 	<!-- END bb_wikilink_button2 -->
 	<!-- BEGIN bb_wikilink_button -->
-	<a class="btn btn-sm btn-default" href="#" accesskey="w">&nbsp;[[{TXT_WLN2}]]&nbsp;</a>
+	<a aria-label="{TXT_WLN2}" role="button" class="btn btn-sm btn-default" href="#" accesskey="w">&nbsp;[[{TXT_WLN2}]]&nbsp;</a>
 	<!-- END bb_wikilink_button -->
 </div>
 <!-- BEGIN int_link_prep -->

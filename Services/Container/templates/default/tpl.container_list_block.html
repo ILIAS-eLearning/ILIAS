@@ -9,13 +9,16 @@
 	<!-- BEGIN container_header_row -->
 	<div class="row ilContainerBlockHeader">
 		<!-- BEGIN block_header_order_bl -->
-		<input type="text" class="form-control" name="{BLOCK_HEADER_ORDER_NAME}" value="{BLOCK_HEADER_ORDER_NUM}" maxlength="4" size="3" />
+		<input type="text" aria-label="{BLOCK_HEADER_ORDER_NUM}" class="form-control"
+			   name="{BLOCK_HEADER_ORDER_NAME}" value="{BLOCK_HEADER_ORDER_NUM}"
+			   maxlength="4" size="3" />
 		<!-- END block_header_order_bl -->
 		<h2 class="ilHeader ilContainerBlockHeader">{BLOCK_HEADER_CONTENT}</h2>
 		<div class="pull-right">{CHR_COMMANDS}</div>
 	</div>
 	<!-- END container_header_row -->
-	<div class="ilContainerItemsContainer <!-- BEGIN container_items_hide -->ilNoDisplay<!-- END container_items_hide -->">
+	<div class="ilContainerItemsContainer
+	<!-- BEGIN container_items_hide -->ilNoDisplay<!-- END container_items_hide -->">
 		<!-- BEGIN tile_rows --><div class="ilContainerTileRows">{TILE_ROWS}</div><!-- END tile_rows -->
 		<!-- BEGIN container_row -->
 		<!-- BEGIN container_standard_row -->
@@ -33,7 +36,7 @@
 		<div class="tblfooter row il_BlockInfo">
 			{TXT_DETAILS}:
 			<!-- BEGIN details_img -->
-			<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" alt="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a>
+			<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" aria-label="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a>
 			<!-- END details_img -->
 		</div>
 		<!-- END container_details_row -->
@@ -44,7 +47,8 @@
 	</div>
 	<!-- BEGIN select_all_row -->
 	<div class="tblfooter row ilContainerListFooter">
-		<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:il.Util.setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />
+		<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1"
+			   onClick="javascript:il.Util.setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />
 		<label for="{CHECKBOXNAME}" class="small">{TXT_SELECT_ALL}</label>
 	</div>
 	<!-- END select_all_row -->

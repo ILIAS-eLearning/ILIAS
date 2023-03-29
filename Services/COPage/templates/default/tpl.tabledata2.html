@@ -6,11 +6,12 @@
 </style>
 
 <form action="{FORMACTION}" id="post" name="post" method="post">
-<input type="hidden" id="dtform_type" name="type" value="" />
-<input type="hidden" id="dtform_command" name="action" value="" />
-<input type="hidden" id="dtform_nr" name="id" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_type" name="type" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_command" name="action" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_nr" name="id" value="" />
 <table id="ed_datatable" data-copg-ed-type="data-table" data-pcid="{PCID}" data-hierid="{HIERID}">
 <!-- BEGIN row -->
+<thead>
 <tr>
 	<!-- BEGIN empty_td -->
 	<th>&nbsp;</th>
@@ -31,6 +32,7 @@
 	</td>
 	<!-- END cell -->
 </tr>
+</thead>
 <!-- END row -->
 </table>
 </form>

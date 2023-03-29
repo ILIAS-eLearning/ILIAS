@@ -1,6 +1,6 @@
 <form action="{FORMACTION}" id="post" name="post" method="post" class="form-horizontal preventDoubleSubmission" novalidate="novalidate">
 
-<input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0" />
+<input aria-hidden="true" type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0" />
 
 <div class="ilFormHeader"><h3 class="ilHeader"><a name="il_form_top"></a>{TXT_ACTION}</h3></div>
 
@@ -11,7 +11,10 @@
 </div>
 <div id="il_prop_cont_text" class="form-group">
 	<div class="col-sm-12">
-		<textarea class="form-control" id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+		<textarea aria-multiline="true" class="form-control" id="{PAR_TA_NAME}" name="{PAR_TA_NAME}"
+				  onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);"
+				  onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12"
+				  wrap="virtual">{PAR_TA_CONTENT}</textarea>
 	</div>
 </div>
 	<div id="il_prop_cont_characteristic" class="form-group">
@@ -31,14 +34,17 @@
 	<div class="col-sm-6 ilFormRequired">
 		&nbsp;</div>
 	<div class="col-sm-6 ilFormCmds">
-		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
-		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+		<input aria-label="{BTN_NAME}" role="button" class="btn btn-default btn-sm" type="submit"
+			   name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input aria-label="{BTN_CANCEL}" role="button" class="btn btn-default btn-sm" type="submit"
+			   name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
 	</div>
 	<!-- END commands -->
 	<!-- BEGIN content_selection -->
 	<div class="col-sm-12">
 		{SELECT_CONTENT}
-		<input class="btn btn-default btn-sm" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+		<input aria-label="{BTN_NAME}" role="button" class="btn btn-default btn-sm" type="submit"
+			   name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
 	</div>
 	<!-- END content_selection -->
 </div>
@@ -47,7 +53,9 @@
 <div style="margin-top: 7px;" id="ilParagraphHelp">
 <!-- BEGIN help_item -->
 <div style="margin-top: 3px;">
-<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
+<!-- BEGIN help_img -->
+	<img alt="{ALT_HELP}" src="{IMG_HELP}" />
+	<!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
 </div>
 <!-- END help_item -->
 <div>

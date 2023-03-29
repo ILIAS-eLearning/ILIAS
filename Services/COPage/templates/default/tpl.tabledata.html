@@ -31,9 +31,9 @@ var current_row_col;
 //-->
 </script>
 <form action="{FORMACTION}" id="post" name="post" method="post">
-<input type="hidden" id="dtform_type" name="type" value="" />
-<input type="hidden" id="dtform_command" name="action" value="" />
-<input type="hidden" id="dtform_nr" name="id" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_type" name="type" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_command" name="action" value="" />
+<input aria-hidden="true" type="hidden" id="dtform_nr" name="id" value="" />
 <table id="ilEditTableDataCl" class="fullwidth">
 <tr class="tblheader">
 	<td class="std">
@@ -55,17 +55,22 @@ var current_row_col;
 	<!-- END  empty_td -->
 	<!-- BEGIN col_icon -->
 	<td style="text-align: center;">
-		<img src="{COL_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
+		<img role="button" aria-label="{COL_ICON}" src="{COL_ICON}" onclick="current_row_col = {NR};
+		doMouseClick(event, '{COL_ONCLICK}');" border="0" />
 	</td>
 	<!-- END col_icon -->
 	<!-- BEGIN row_icon -->
 	<td style="vertical-align: middle;">
-		<img src="{ROW_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
+		<img role="button" aria-label="{ROW_ICON}" src="{ROW_ICON}" onclick="current_row_col = {NR};
+		doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
 	</td>
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
 	<td {COLSPAN} {ROWSPAN}>
-	<textarea id="{PAR_TA_ID}" name="{PAR_TA_NAME}" onfocus="ilInitInsertions(this);" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:{WIDTH}px; height:{HEIGHT}px; padding:2px; margin:0px; border-width:1px; overflow:auto;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	<textarea aria-multiline="true" id="{PAR_TA_ID}" name="{PAR_TA_NAME}" onfocus="ilInitInsertions(this);"
+			  onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);"
+			  onkeyup="handleTDInput(this);"
+			  style="width:{WIDTH}px; height:{HEIGHT}px; padding:2px; margin:0px; border-width:1px; overflow:auto;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 	</td>
 	<!-- END cell -->
 </tr>
@@ -76,7 +81,7 @@ var current_row_col;
 <!-- BEGIN commands -->
 <tr>
 	<td class="submit" style="text-align:right;">
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input aria-label="{BTN_NAME}" class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 		<!-- <input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" /> -->
 	</td>
 </tr>
@@ -87,7 +92,8 @@ var current_row_col;
 <!-- BEGIN menu -->
 <div class="ilOverlay il_editmenu ilNoDisplay" id="{TYPE}_menu_{MOVE}">
 <!-- BEGIN menu_item -->
-<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</a>
+<a aria-label="{MENU_ITEM_TITLE}" href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);"
+   onClick="handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</a>
 <!-- END menu_item -->
 </div>
 <!-- END menu -->

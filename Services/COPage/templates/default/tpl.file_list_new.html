@@ -11,7 +11,7 @@
 	{TXT_TITLE}
 	</td>
 	<td class="option_value">
-	<input name="{INPUT_TITLE}" value="{VALUE_TITLE}" size="40" maxlength="80" />
+	<input aria-label="{VALUE_TITLE}" name="{INPUT_TITLE}" value="{VALUE_TITLE}" size="40" maxlength="80" />
 	</td>
 </tr>
 <!-- Language -->
@@ -38,8 +38,8 @@
 <!-- BEGIN commands -->
 <tr>
 	<td class="submit" colspan="2" style="text-align:right;">
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
-		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+		<input aria-label="{BTN_NAME}" class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input aria-label="{BTN_CANCEL}" class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
 	</td>
 </tr>
 <!-- END commands -->
