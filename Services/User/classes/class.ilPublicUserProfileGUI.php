@@ -196,10 +196,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 }
                 // no break
             case 'ilbuddysystemgui':
-                $osd_id = $this->profile_request->getOsdId();
-                if ($osd_id > 0) {
-                    ilNotificationOSDHandler::removeNotification($osd_id);
-                }
                 $gui = new ilBuddySystemGUI();
                 $ilCtrl->setReturn($this, 'view');
                 $ilCtrl->forwardCommand($gui);

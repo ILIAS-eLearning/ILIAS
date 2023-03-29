@@ -43,7 +43,7 @@ var OSDNotifier, OSDNotifications = settings => {
     };
 
     const poll = (container) => {
-        let lastRequest = 0;
+        let lastRequest = parseInt(new Date().getTime() / 1000);
 
         return () => {
             const time = parseInt(new Date().getTime() / 1000);
