@@ -12142,7 +12142,6 @@ news#:#news_get_feed_title#:#Personal Feed URL
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under ‘Settings’. Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL
-news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.
 news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
 news#:#news_hide_news_date#:#Starting Date
