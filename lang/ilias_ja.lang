@@ -16316,3 +16316,4 @@ lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各コールで同じで
 cmix#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスで初期化されユニークなILIASプラットフォームIDで結合されたハッシュ
 cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#これは各コールで同じですがILIASユーザについて直接終結する権限はありません。
 content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.###19 08 2022 new variable
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###29 03 2023 new variable
