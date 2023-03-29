@@ -1633,8 +1633,8 @@ assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed
+assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
+assessment#:#tst_pass_deletion_not_allowed#:#Previous attempts cannot be deleted.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
