@@ -756,9 +756,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $db_answers = $ilDB->fetchAll($result);
 
             // Collect old and new order entries by ids and order to calculate a diff/intersection and remove/update feedback
-            $db_ids = array();
-            $post_ids = array();
-            $db_idsr = array();
+            $db_ids = [];
+            $post_ids = [];
+            $db_idsr = [];
             foreach ($this->answers as $answer){
                 // Only the first appearance of an id is used
                 if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_ids))) {
