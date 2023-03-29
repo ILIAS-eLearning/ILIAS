@@ -41,7 +41,7 @@ class InternalGUIService
     protected ServerRequestInterface $request;
 
     public function __construct(
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         ModeFactory $mode_factory,
         InternalDomainService $domain_service
     ) {
