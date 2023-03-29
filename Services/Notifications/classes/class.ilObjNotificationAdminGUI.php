@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
@@ -100,6 +101,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         $data = $form->getData();
         if (isset($data['osd']) && is_array($data['osd'])) {
             if (!isset($data['osd']['enable_osd'])) {
+                global $DIC;
+                $DIC->notifications()->system()->clear('osd');
                 $settings->deleteAll();
                 $settings->set('enable_osd', '0');
             } else {

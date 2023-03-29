@@ -108,7 +108,11 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     public function getOSDNotificationsObject(): void
     {
         ilSession::enableWebAccessWithoutSession(true);
-        $toasts = $this->dic->globalScreen()->collector()->toasts()->getToasts();
+        $toasts = [];
+        foreach ($this->dic->globalScreen()->collector()->toasts()->getToasts() as $toast) {
+            $renderer = $toast->getRenderer();
+            $toasts[] = $renderer->getToastComponentForItem($toast);
+        }
 
         $this->dic->http()->saveResponse(
             $this->dic->http()->response()

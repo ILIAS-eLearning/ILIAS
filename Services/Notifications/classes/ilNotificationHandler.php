@@ -32,4 +32,8 @@ abstract class ilNotificationHandler
     public function showSettings($form): void
     {
     }
+
+    public function clear(): void
+    {
+    }
 }
