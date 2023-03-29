@@ -7,15 +7,15 @@ $il-input-tag-color-text: $il-btn-standard-color;
 $il-input-tag-color-disabled: #EEEEEE;
 
 .il-input-tag {
-	--tags-focus-border-color: $il-input-tag-color-bg;
-	--tag-bg: $il-input-tag-color-bg;
-	--tag-hover: $il-input-tag-color-bg;
-	--tag-text-color: $il-input-tag-color-text;
-	--tag-invalid-color: $il-input-tag-color-bg;
-	--tag-invalid-bg: $il-input-tag-color-bg;
-	--tag-remove-bg: $il-input-tag-color-bg;
-	--tag-remove-btn-color: $il-input-tag-color-text;
-	--tag-remove-btn-bg--hover: $il-input-tag-color-bg;
+	--tags-focus-border-color: #{$il-input-tag-color-bg};
+	--tag-bg: #{$il-input-tag-color-bg};
+	--tag-hover: #{$il-input-tag-color-bg};
+	--tag-text-color: #{$il-input-tag-color-text};
+	--tag-invalid-color: #{$il-input-tag-color-bg};
+	--tag-invalid-bg: #{$il-input-tag-color-bg};
+	--tag-remove-bg: #{$il-input-tag-color-bg};
+	--tag-remove-btn-color: #{$il-input-tag-color-text};
+	--tag-remove-btn-bg--hover: #{$il-input-tag-color-bg};
 	--tag-hide-transition: .0s;
 	line-height: $il-line-height-base;
 }
