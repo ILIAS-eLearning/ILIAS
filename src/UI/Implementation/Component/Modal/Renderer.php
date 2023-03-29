@@ -150,9 +150,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('KEY_VALUE_ITEMS', $key_value_items);
         }
 
-        $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
-        $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
-        $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
+        $tpl->setVariable('ACTION_BUTTON_LABEL', $modal->getActionButtonLabel() ?? $this->txt('delete'));
+        $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         return $tpl->get();
     }
 
@@ -209,7 +208,7 @@ class Renderer extends AbstractComponentRenderer
 
             // render submit in modal footer.
             $submit = $this->getUIFactory()->button()->standard(
-                $modal->getSubmitCaption(),
+                $modal->getSubmitCaption() ?? $this->txt('save'),
                 ''
             )->withOnClick($modal->getForm()->getSubmitSignal());
             $tpl->setCurrentBlock('with_submit');
@@ -217,7 +216,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
+        $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         return $tpl->get();
     }
 

@@ -141,8 +141,8 @@ EOT;
         $expected_end = <<<EOT
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" value="delete" name="cmd[delete]">
-					<button class="btn btn-default" data-dismiss="modal">cancel</button>
+					<input type="submit" class="btn btn-primary" value="delete"/>
+					<button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
 				</div>
 			</div>
 		</form>

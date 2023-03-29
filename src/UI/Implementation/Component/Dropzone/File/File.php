@@ -162,7 +162,7 @@ abstract class File implements FileDropzone
         return $this->modal->getActionButtons();
     }
 
-    public function getCancelButtonLabel(): string
+    public function getCancelButtonLabel(): ?string
     {
         return $this->modal->getCancelButtonLabel();
     }
