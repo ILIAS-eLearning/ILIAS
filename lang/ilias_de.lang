@@ -85,7 +85,7 @@ adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barri
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
-adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
+adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”.
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
 administration#:#adm_achievements#:#Lernerfolge
@@ -1027,7 +1027,7 @@ assessment#:#postponed#:#zurückgestellt
 assessment#:#precision#:#Präzision
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question#:#Zurück
-assessment#:#previous_question_rows#:#« Fragen %d - %d von %d
+assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
@@ -2258,7 +2258,7 @@ bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %
 bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
 bgtask#:#bgtask_failure#:#Fehler
 bgtask#:#bgtask_processing#:#Download erzeugen
-bgtask#:#bgtask_setting#:#«Herunterladen im Hintergrund» aktivieren
+bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
 bgtask#:#bgtask_setting_limit#:#Globales Limit
 bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert nicht überschreitet.
@@ -3004,7 +3004,7 @@ chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#enable_osd#:#Magazin-Chat: Popup-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
+chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer selbst entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte „Zeit zwischen Benachrichtigungen“ vergangen ist.
 chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Zeit zwischen Benachrichtigungen
@@ -3796,7 +3796,7 @@ common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS tägli
 common#:#cron_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
-common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
+common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server in der Administration unter „Suchen und finden » Suche“, Reiter „Lucene“.
 common#:#cron_mail_notification#:#Externe E-Mail-Benachrichtigung über den Erhalt neuer Mails
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#ILIAS verschickt auf Wunsch E-Mail-Benachrichtigungen über neue Mails. Im Gegensatz zur sofortigen Weiterleitung aller Mails sammelt dieser Cronjob die Mails eines Tages und stellt diese als Paket zu. Bitte aktivieren Sie die Option '%s', um diese Funktion zu nutzen. Zusätzlich müssen die E-Mail-Benachrichtigungen für jedes ILIAS-Konto in den persönlichen Mail-Einstellungen aktiviert werden.
@@ -3856,8 +3856,6 @@ common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank-Host
 common#:#db_name#:#Datenbankname
-common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das <a href="./setup/setup.php">»Setup</a>!
-common#:#db_need_update#:#Datenbank benötigt ein Update!
 common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
@@ -3953,16 +3951,16 @@ common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_dnd_upload#:#Drag-and-Drop-Upload aktivieren
 common#:#enable_dnd_upload_info#:#Wenn aktiviert, können Dateien mittels Drag-and-Drop hochgeladen werden.
-common#:#enable_download_folder#:#«Herunterladen Aktion für Ordner» aktivieren
-common#:#enable_download_folder_info#:#Aktiviert eine Herunterladen-Option im Aktionen-Dropdown von Ordnern.
+common#:#enable_download_folder#:#Aktion „Herunterladen” für Ordner aktivieren
+common#:#enable_download_folder_info#:#Aktiviert die Option „Herunterladen“ im Aktionen-Dropdown von Ordnern.
 common#:#enable_export_scorm_desc#:#Anzeige persönlicher Daten in den Protokolldaten (SCORM)
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu Ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
-common#:#enable_multi_download#:#«Mehrere Objekte herunterladen»  aktivieren
-common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunter zu laden.
+common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
+common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_preview#:#Vorschau aktivieren
 common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
@@ -5343,7 +5341,7 @@ common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätig
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Login-Seite.
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen, nutzen Sie bitte die Funktion „Passwort vergessen?“ auf der Login-Seite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
@@ -7052,7 +7050,7 @@ content#:#cont_tracking_data#:#Protokolldaten
 content#:#cont_tracking_items#:#Protokollierte Inhalte
 content#:#cont_tracking_modify#:#Daten modifizieren
 content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
-content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen Sie zumindest eine zusätzliche Sprache unter "Einstellungen" » "Mehrsprachigkeit" aktivieren.
+content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen Sie zumindest eine zusätzliche Sprache unter „Einstellungen » Mehrsprachigkeit“ aktivieren.
 content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_remaining#:#Verbleibende Versuche
@@ -7609,7 +7607,7 @@ crs#:#crs_objective_pretest#:#Nach Einstiegstest
 crs#:#crs_objective_qst_summary#:#Fragenübersicht
 crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 crs#:#crs_objective_result#:#Nach Abschlusstest
-crs#:#crs_objective_result_details#:#« Details anzeigen
+crs#:#crs_objective_result_details#:#⬅︎ Details anzeigen
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
@@ -8775,7 +8773,7 @@ ecs#:#ecs_communities#:#Teilnehmer
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
-ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Nur notwendig, wenn ein ECS-Server unter 'Administration » ILIAS erweitern » ECS' aktiviert ist.
+ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Dies ist nur möglich, wenn ein ECS-Server unter „Administration » ILIAS erweitern » ECS“ aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
 ecs#:#ecs_crs_alloc_set#:#Kurszuordnungen bearbeiten
 ecs#:#ecs_crs_export#:#Kursfreigaben
@@ -10043,7 +10041,7 @@ itgr#:#itgr_materials#:#Objekte
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird in der Präsentation für Lerner angezeigt.
 jscalendar#:#about_calendar#:#Über den Kalender
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen - Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die Schaltflächen « und » , um das Jahr auszuwählen - Verwenden Sie die Schaltflächen < und > , um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst anzeigen
@@ -10183,7 +10181,7 @@ ldap#:#ldap_role_grp_dn_info#:#Bitte geben Sie den vollständigen "Distinguished
 ldap#:#ldap_role_grp_info#:#Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS-Rolle zugeordnet.
 ldap#:#ldap_role_grp_isdn#:#Attributwert ist DN
 ldap#:#ldap_role_info#:#Bitte geben Sie den Namen der ILIAS-Rolle ein, die die LDAP-Gruppenzugehörigkeit steuern soll.
-ldap#:#ldap_role_mapping#:#Zuordnung ILIAS-Rollen » LDAP-Gruppen
+ldap#:#ldap_role_mapping#:#Zuordnung ILIAS-Rollen ➜ LDAP-Gruppen
 ldap#:#ldap_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein.
 ldap#:#ldap_role_not_exists#:#Eine ILIAS-Rolle mit dem folgenden Namen existiert nicht:
 ldap#:#ldap_role_selection#:#Auswahl der Rollen
@@ -10853,7 +10851,7 @@ mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
 mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
-mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger im «An»-Feld ersetzt.%sBei Empfängern im CC- und BCC-Feld bleiben persönliche Platzhalter erhalten.
+mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger im „An“-Feld ersetzt. %s Bei Empfängern im CC- und BCC-Feld bleiben persönliche Platzhalter erhalten.
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
@@ -10889,7 +10887,7 @@ mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
 mathjax#:#mathjax_enable_server_info#:#Aktiviert eine serverseitige Umwandlung von TeX in Grafiken.
-mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_home_link#:# ➜ MathJax-Webseite
 mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie Sie in Ihrer MathJax-Installation konfiguriert sind.
 mathjax#:#mathjax_mathjax#:#MathJax
@@ -10900,14 +10898,14 @@ mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
 mathjax#:#mathjax_server_cache_size#:#Cache-Größe
 mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
-mathjax#:#mathjax_server_clear_cache#:# » Cache leeren
+mathjax#:#mathjax_server_clear_cache#:# ➜ Jetzt Cache leeren
 mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden
 mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.
 mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden
 mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.
 mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden
 mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.
-mathjax#:#mathjax_server_installation#:# » Installation
+mathjax#:#mathjax_server_installation#:# ➜ Installationsanleitung
 mathjax#:#mathjax_server_timeout#:#Antwortzeit
 mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des MathJax-Servers in Sekunden
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
@@ -16292,7 +16290,7 @@ user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
 user#:#feedhash#:#Newsfeed-Hash
 user#:#has_role#:#Rolle
-user#:#inform_user_mail_info#:#Falls aktiviert, wird eine E-Mail an den Benutzer gesendet. Deren Inhalt kann in 'Administration » Benutzerverwaltung » Einstellungen » Benachrichtigung über Neuanmeldung' definiert werden.
+user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in der Administration: „Konten und Rollen » ILIAS-Konten”, Reiter „Einstellungen : Benachrichtigung über Neuanmeldung”
 user#:#interests#:#Interessen
 user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_looking#:#Suche Hilfe
@@ -16323,7 +16321,7 @@ user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
 user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
+user#:#user_account_code_setting_info#:#Personen können mithilfe eines Registrierungscodes ihr abgelaufenes ILIAS-Konto reaktivieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter ILIAS-Konten werden in „Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes“ erzeugt. Inaktive Konten können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
@@ -16570,7 +16568,7 @@ wiki#:#wiki_other_pages_linking#:#Andere Seiten, die zu dieser Seite verlinken
 wiki#:#wiki_page#:#Seite
 wiki#:#wiki_page_actions#:#Aktionen zur Seite
 wiki#:#wiki_page_already_exists#:#Es existiert bereits eine Seite mit diesem Namen.
-wiki#:#wiki_page_blocked#:#Schreibschutz ist aktiviert. Nur Benutzer mit dem Recht «Einstellungen bearbeiten» haben Schreibzugriff.
+wiki#:#wiki_page_blocked#:#Schreibschutz ist aktiviert. Nur Benutzer mit dem Recht „Einstellungen bearbeiten“ haben Schreibzugriff.
 wiki#:#wiki_page_changes#:#Geänderte Seiten
 wiki#:#wiki_page_deleted#:#Die Wiki-Seite wurde gelöscht.
 wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich löschen?
