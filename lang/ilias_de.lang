@@ -14849,7 +14849,7 @@ skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzstufen im 
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
 skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzstufen benachrichtigt.
 skmg#:#scat#:#Kategorie
-skmg#:#skll#:#Basiskompetenz
+skmg#:#skll#:#Kompetenz
 skmg#:#skmg_360_survey#:#360°-Umfrage
 skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
@@ -14909,7 +14909,7 @@ skmg#:#skmg_hide_profile_self_eval#:#Kompetenzziel nach Selbsteinschätzung anze
 skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird das Kompetenzziel erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_import_skills#:#Importieren
 skmg#:#skmg_input_file#:#Importdatei
-skmg#:#skmg_insert_basic_skill_from_clip#:#Basiskompetenzen aus Zwischenablage einfügen.
+skmg#:#skmg_insert_basic_skill_from_clip#:#Kompetenzen aus Zwischenablage einfügen.
 skmg#:#skmg_insert_please_choose_one_type_only#:#Bitte wählen Sie nur einen Objekttyp aus.
 skmg#:#skmg_insert_skill_category_from_clip#:#Kategorien aus Zwischenablage einfügen.
 skmg#:#skmg_insert_skill_template_from_clip#:#Vorlage aus Zwischenablage einfügen
