@@ -86,38 +86,27 @@ class ilMStListCertificates
             if (!empty($options['sort']['field']) && !empty($options['sort']['direction'])) {
                 if ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedObjectTitles(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "objectTitle" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedObjectTitles(UserDataFilter::SORT_DIRECTION_DESC);
-                }
-                elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "asc") {
+                } elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedIssuedOnTimestamps(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "issuedOnTimestamp" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedIssuedOnTimestamps(UserDataFilter::SORT_DIRECTION_DESC);
-                }
-                elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "asc") {
+                } elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedLogins(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "userLogin" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedLogins(UserDataFilter::SORT_DIRECTION_DESC);
-                }
-                elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "asc") {
+                } elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedFirstNames(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "userFirstName" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedFirstNames(UserDataFilter::SORT_DIRECTION_DESC);
-                }
-                elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "asc") {
+                } elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedLastNames(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "userLastName" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedLastNames(UserDataFilter::SORT_DIRECTION_DESC);
-                }
-                elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "asc") {
+                } elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "asc") {
                     $usr_data_filter = $usr_data_filter->withSortedEmails(UserDataFilter::SORT_DIRECTION_ASC);
-                }
-                elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "desc") {
+                } elseif ($options['sort']['field'] === "userEmail" && $options['sort']['direction'] === "desc") {
                     $usr_data_filter = $usr_data_filter->withSortedEmails(UserDataFilter::SORT_DIRECTION_DESC);
                 }
             }
