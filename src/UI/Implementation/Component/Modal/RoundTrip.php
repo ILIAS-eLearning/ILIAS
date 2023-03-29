@@ -55,8 +55,8 @@ class RoundTrip extends Modal implements M\RoundTrip
     protected Signal $submit_signal;
     protected FormWithoutSubmitButton $form;
     protected string $title;
-    protected string $cancel_button_label = 'cancel';
-    protected string $submit_button_label = 'save';
+    protected ?string $cancel_button_label = null;
+    protected ?string $submit_button_label = null;
 
     /**
      * @param Component[]|Component|null $content
@@ -134,7 +134,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel(): string
+    public function getCancelButtonLabel(): ?string
     {
         return $this->cancel_button_label;
     }

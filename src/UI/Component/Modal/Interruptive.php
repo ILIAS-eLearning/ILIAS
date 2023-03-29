@@ -53,21 +53,20 @@ interface Interruptive extends Modal
     public function withAffectedItems(array $items): Interruptive;
 
     /**
-     * Get the label of the action button in the footer
+     * Get the custom label of the action button in the footer.
      */
-    public function getActionButtonLabel(): string;
+    public function getActionButtonLabel(): ?string;
 
     /**
      * Get a modal like this with the action button labeled
      * according to the parameter.
-     * The label will be translated.
      */
     public function withActionButtonLabel(string $action_label): Interruptive;
 
     /**
-     * Get the label of the cancel button in the footer
+     * Get the custom label of the cancel button in the footer.
      */
-    public function getCancelButtonLabel(): string;
+    public function getCancelButtonLabel(): ?string;
 
     /**
      * Get a modal like this with the cancel button labeled

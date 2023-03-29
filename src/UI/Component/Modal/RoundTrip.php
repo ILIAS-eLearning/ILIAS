@@ -48,15 +48,15 @@ interface RoundTrip extends Modal, Standard
     public function getActionButtons(): array;
 
     /**
-     * Get the label of the cancel button in the footer, as language key
+     * Get the custom label of the cancel button in the footer.
      */
-    public function getCancelButtonLabel(): string;
+    public function getCancelButtonLabel(): ?string;
 
     /**
      * Get a modal like this with the provided action buttons in the footer.
      * Note that the footer always contains a cancel button closing the modal as last button in the footer (on the right).
      *
-     * @param array Button\Button[] $buttons
+     * @param Button\Button[] $buttons
      */
     public function withActionButtons(array $buttons): RoundTrip;
 
