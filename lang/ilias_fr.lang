@@ -7541,7 +7541,7 @@ crs#:#crs_objective_pretest#:#Après test initial
 crs#:#crs_objective_qst_summary#:#Aperçu de l'assignation de la question
 crs#:#crs_objective_random_warn#:#Vous ne pouvez pas utiliser de tests aléatoires en combinaison avec des objectifs d'apprentissage.
 crs#:#crs_objective_result#:#Après le test final
-crs#:#crs_objective_result_details#:#« Show Details###29 07 2022 new variable
+crs#:#crs_objective_result_details#:#⬅︎ Show Details###29 07 2022 new variable
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###29 07 2022 new variable
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###29 07 2022 new variable
 crs#:#crs_objective_saved_sorting#:#Tri enregistré.
