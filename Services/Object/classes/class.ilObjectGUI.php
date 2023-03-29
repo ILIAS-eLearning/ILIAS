@@ -341,19 +341,24 @@ class ilObjectGUI
         }
     }
 
+    protected function createActionDispatcherGUI(): ilCommonActionDispatcherGUI
+    {
+        return new ilCommonActionDispatcherGUI(
+            ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+            $this->access,
+            $this->object->getType(),
+            $this->ref_id,
+            $this->object->getId()
+        );
+    }
+
     /**
      * Add header action menu
      */
     protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         if (!$this->creation_mode && $this->object) {
-            $dispatcher = new ilCommonActionDispatcherGUI(
-                ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-                $this->access,
-                $this->object->getType(),
-                $this->ref_id,
-                $this->object->getId()
-            );
+            $dispatcher = $this->createActionDispatcherGUI();
 
             $dispatcher->setSubObject($sub_type, $sub_id);
 

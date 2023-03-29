@@ -24,7 +24,6 @@
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	width: 100%;
-	background-color: @il-main-dark-bg;
 	position: relative;
 
 	.messageContainer {
@@ -51,13 +50,16 @@
 	}
 }
 
-#message-controls .msg-control {
+.chatroom-centered-checkboxes {
 	label {
-		position: relative;
-		top: 5px;
+		margin: 0 5px 0 0;
 	}
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 5px;
 }
+
 @media only screen and (max-width: @grid-float-breakpoint) {
 	#message-controls .msg-control {
 		display: block;

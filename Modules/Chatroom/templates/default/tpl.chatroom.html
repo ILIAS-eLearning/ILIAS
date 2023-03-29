@@ -31,6 +31,7 @@
 			private_room_entered_user: {LBL_PRIVATE_ROOM_ENTERED_USER},
 			kicked_from_private_room: {LBL_KICKED_FROM_PRIVATE_ROOM},
 			ok: {LBL_OK},
+			'delete': {LBL_DELETE},
 			cancel: {LBL_CANCEL},
 			history_has_been_cleared: {LBL_HISTORY_CLEARED},
 			clear_room_history: {LBL_CLEAR_ROOM_HISTORY},
@@ -56,60 +57,9 @@
 		</ul>
 	</div>
 </div>
-
-<table id="chat_wrapper">
-	<tr id="chat_head_line">
-		<td class="ilValignBottom">
-			<h3 class="ilHeader current_room_title"></h3>
-			<div class="ilHeadAction" id="chat_actions_wrapper">
-				<div class="btn-group" id="chat_actions">
-					<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-						<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
-					</button>
-				</div>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div id="chat_messages"></div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div id="message-controls" class="container-fluid">
-				<div class="row">
-					<div class="msg-control">{TOGGLE_SCROLLING_COMPONENT}</div>
-					<div class="msg-control">{TOGGLE_AUTO_MESSAGE_COMPONENT}</div>
-				</div>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form role="form" class="form-horizontal">
-				<div class="ilFormHeader">
-					<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
-					<div class="ilFormCmds">
-					</div>
-					<div class="help-block"></div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-3">
-						<label class="control-label" for="submit_message_text">
-							<span id="message_recipient_info_all">{LBL_TOALL}</span>
-							<span id="message_recipient_info"></span>
-						</label>
-					</div>
-					<div id="iosChatInputContainer" class="col-sm-9">
-						<textarea autocomplete="off" class="form-control" name="message" id="submit_message_text"></textarea>
-						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
-					</div>
-				</div>
-			</form>
-		</td>
-	</tr>
-</table>
+<h3 id="chat_head_line" class="ilHeader current_room_title"></h3>
+{CHAT_OUTPUT}
+{CHAT_INPUT}
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 

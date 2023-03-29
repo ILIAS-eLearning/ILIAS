@@ -16281,7 +16281,6 @@ li.smallPad {
   -webkit-hyphens: auto;
   hyphens: auto;
   width: 100%;
-  background-color: #f9f9f9;
   position: relative;
 }
 #chat_messages .messageContainer {
@@ -16304,12 +16303,14 @@ li.smallPad {
   text-align: left;
   width: 100%;
 }
-#message-controls .msg-control {
-  display: inline-block;
+.chatroom-centered-checkboxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
-#message-controls .msg-control label {
-  position: relative;
-  top: 5px;
+.chatroom-centered-checkboxes label {
+  margin: 0 5px 0 0;
 }
 @media only screen and (max-width: 768px) {
   #message-controls .msg-control {
@@ -20031,4 +20032,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
