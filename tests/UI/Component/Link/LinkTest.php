@@ -112,4 +112,22 @@ class LinkTest extends ILIAS_UI_TestBase
 
         $this->assertHTMLEquals($expected_html, $html);
     }
+
+    public function testRenderWithHelpTopic(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+            ->withHelpTopics(new \ILIAS\UI\Help\Topic("a"));
+
+        $html = $r->render($c);
+
+        $expected_html = ''
+            . '<div class="c-tooltip__container">'
+            . '<a href="http://www.ilias.de" id="id_2" aria-describedby="id_1">label</a>'
+            . '<div id="id_1" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>'
+            . '</div>';
+
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 }

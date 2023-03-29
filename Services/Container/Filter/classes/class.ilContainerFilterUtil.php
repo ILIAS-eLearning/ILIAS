@@ -153,10 +153,7 @@ class ilContainerFilterUtil
                 switch ($service->advancedMetadata()->getAdvType($field->getFieldId())) {
                     case ilAdvancedMDFieldDefinition::TYPE_SELECT:
                     case ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI:
-                        $options = [];
-                        foreach ($service->advancedMetadata()->getOptions($field->getFieldId()) as $op) {
-                            $options[$op] = $op;
-                        }
+                        $options = $service->advancedMetadata()->getOptions($field->getFieldId());
                         $fields["adv_" . $field->getFieldId()] =
                             $ui->input()->field()->select($title, $options);
                         $fields_act[] = false;

@@ -2069,7 +2069,7 @@ auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
+auth#:#auth_oidc_settings_user_attr#:#Attributname der ILIAS-Konten
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
@@ -3866,23 +3866,23 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive ILIAS-Konten löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
-common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
-common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactive_user_accounts#:#ILIAS-Konten mit lange zurückliegendem Login löschen
+common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
-common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
-common#:#deleted_users#:#Die Benutzer wurden gelöscht.
+common#:#deleted_user#:#Das ILIAS-Konto wurde gelöscht.
+common#:#deleted_users#:#Die ILIAS-Konten wurden gelöscht.
 common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
 common#:#deliver#:#Übung abgeben
 common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
@@ -8917,7 +8917,7 @@ ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
-ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge
+ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Zugänge
 ecs#:#ecs_role#:#Rollenzuordnung
 ecs#:#ecs_role_mapping_value#:#Attributwert
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -10380,7 +10380,7 @@ ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
 ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
 ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
 ldap#:#ldap_update_roles#:#Rollenzuordnungen
-ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
+ldap#:#ldap_user_attribute#:#Attributname der ILIAS-Konten
 ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
 ldap#:#ldap_user_scope#:#Suchbereich
@@ -14247,7 +14247,7 @@ rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_groups#:#Gruppierungen
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
-rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Objekte im Magazin aufgerufen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
 rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referenzen.

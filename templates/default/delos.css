@@ -7278,6 +7278,10 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
   .ilPrintContent {
     padding: 0 15px;
   }
+  .ilAccHideContent {
+    height: auto !important;
+    width: auto !important;
+  }
 }
 @font-face {
   font-family: "Open Sans";
@@ -8614,6 +8618,80 @@ code {
 /*
 * Elements
 */
+.c-tooltip__container {
+  position: relative;
+  display: inline-block;
+}
+
+.c-tooltip__container::before {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 0.5em solid transparent;
+  border-bottom-color: #757575;
+}
+
+.c-tooltip__container::after {
+  position: absolute;
+  right: -20%;
+  top: 100%;
+  left: -20%;
+  display: block;
+  height: 1em;
+}
+
+.c-tooltip__container.c-tooltip--visible::before,
+.c-tooltip__container.c-tooltip--visible::after {
+  content: "";
+}
+
+.c-tooltip__container.c-tooltip--top::before,
+.c-tooltip__container.c-tooltip--top::after,
+.c-tooltip__container.c-tooltip--top [role=tooltip] {
+  top: unset;
+  bottom: 100%;
+}
+
+.c-tooltip__container.c-tooltip--top::before {
+  border-top-color: #757575;
+  border-bottom-color: transparent;
+}
+
+.c-tooltip__container .c-tooltip {
+  position: absolute;
+  top: calc(100% + 1em);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 9px 15px;
+  border: 2px solid #757575;
+  border-radius: 0.25em;
+  color: #161616;
+  background: #f9f9f9;
+  width: max-content;
+  max-width: 50vw;
+  max-height: 40vh;
+  overflow: auto;
+  z-index: 9999;
+  display: none;
+}
+.c-tooltip__container .c-tooltip p:first-child {
+  margin-top: 0;
+}
+.c-tooltip__container .c-tooltip p:last-child {
+  margin-bottom: 0;
+}
+
+.c-tooltip__container.c-tooltip--top [role=tooltip] {
+  bottom: calc(100% + 1em);
+}
+
+/* Shows the tooltip */
+.c-tooltip__container.c-tooltip--visible [role=tooltip] {
+  display: inline-block;
+}
+
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;

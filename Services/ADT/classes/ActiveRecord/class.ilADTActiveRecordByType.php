@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -665,19 +666,13 @@ class ilADTActiveRecordByType
 
     /**
      * Find entries
-     * @param string $a_table
-     * @param string $a_type
-     * @param int    $a_field_id
-     * @param string $a_condition
-     * @param string $a_additional_fields
-     * @return array
      */
     public static function find(
         string $a_table,
         string $a_type,
         int $a_field_id,
         string $a_condition,
-        array $a_additional_fields = null
+        ?string $a_additional_fields = null
     ): ?array {
         global $DIC;
 

@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\HasHelpTopics;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -35,6 +36,7 @@ abstract class Button implements C\Button\Button
     use JavaScriptBindable;
     use Triggerer;
     use Engageable;
+    use HasHelpTopics;
 
     protected string $label;
     protected ?string $action;

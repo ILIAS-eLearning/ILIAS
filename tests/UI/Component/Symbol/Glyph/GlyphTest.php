@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\HelpTextRetriever;
 
 /**
  * Test on glyph implementation.
@@ -429,7 +430,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getJavaScriptBinding(),
             $this->getRefinery(),
             new ilImagePathResolver(),
-            $this->createMock(DataFactory::class)
+            $this->createMock(DataFactory::class),
+            $this->createMock(HelpTextRetriever::class)
         );
         $f = $this->getCounterFactory();
 

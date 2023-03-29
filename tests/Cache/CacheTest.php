@@ -35,7 +35,7 @@ use ILIAS\Cache\Nodes\NullNodeRepository;
 require_once(__DIR__ . '/../../libs/composer/vendor/autoload.php');
 
 /**
- * @@author Fabian Schmid <fabian@sr.solutions>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class CacheTest extends TestCase
 {
@@ -53,6 +53,9 @@ class CacheTest extends TestCase
             new \ILIAS\Data\Factory(),
             $this->language_mock
         );
+        // prevent chached values between tests
+        $static_flush = new PHPStatic($this->getConfig(Config::PHPSTATIC));
+        $static_flush->flush();
     }
 
     /**

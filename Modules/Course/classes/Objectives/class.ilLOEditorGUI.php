@@ -811,7 +811,9 @@ class ilLOEditorGUI
 
     protected function testAssignment(ilPropertyFormGUI $form = null): void
     {
-        $this->setTestType($this->initTestTypeFromQuery());
+        if ($this->getTestType() === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->setTestType($this->initTestTypeFromQuery());
+        }
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
 
         switch ($this->getTestType()) {
@@ -838,7 +840,7 @@ class ilLOEditorGUI
 
     protected function testSettings(ilPropertyFormGUI $form = null): void
     {
-        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
+        $this->ctrl->setParameter($this, 'tt', $this->getTestType());
         switch ($this->getTestType()) {
             case ilLOSettings::TYPE_TEST_INITIAL:
                 $this->tabs->activateSubTab('itest');

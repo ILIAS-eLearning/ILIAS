@@ -237,7 +237,8 @@ class InitUIFramework
                             $c["ui.javascript_binding"],
                             $c["refinery"],
                             $c["ui.pathresolver"],
-                            $c["ui.data_factory"]
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -246,7 +247,8 @@ class InitUIFramework
                             $c["ui.javascript_binding"],
                             $c["refinery"],
                             $c["ui.pathresolver"],
-                            $c["ui.data_factory"]
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
@@ -255,7 +257,8 @@ class InitUIFramework
                             $c["ui.javascript_binding"],
                             $c["refinery"],
                             $c["ui.pathresolver"],
-                            $c["ui.data_factory"]
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -264,7 +267,8 @@ class InitUIFramework
                             $c["ui.javascript_binding"],
                             $c["refinery"],
                             $c["ui.pathresolver"],
-                            $c["ui.data_factory"]
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         )
                     )
                 )
