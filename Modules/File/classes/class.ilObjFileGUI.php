@@ -329,7 +329,6 @@ class ilObjFileGUI extends ilObject2GUI
         // repository only
         if ($this->id_type !== self::WORKSPACE_NODE_ID) {
             $forms[self::CFORM_IMPORT] = $this->initImportForm(ilObjFile::OBJECT_TYPE);
-            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, ilObjFile::OBJECT_TYPE);
         }
 
         return $forms;

@@ -88,9 +88,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $forms[self::CFORM_CUSTOM_NEW] = $this->initCustomCreateForm($a_new_type);
         }
 
-        //$forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type), // no import yet
-        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
-
         return $forms;
     }
 

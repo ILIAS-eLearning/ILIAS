@@ -320,8 +320,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->getSettingsFormValues("create");
 
         $forms = array(self::CFORM_NEW => $this->form_gui,
-                self::CFORM_IMPORT => $this->initImportForm($new_type),
-                self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type));
+                self::CFORM_IMPORT => $this->initImportForm($new_type));
 
         return $forms;
     }

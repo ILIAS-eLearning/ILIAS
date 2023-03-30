@@ -256,8 +256,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $this->initUploadForm();
         $forms[self::CFORM_IMPORT] = $this->form;
 
-        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
-
         return $forms;
     }
 
