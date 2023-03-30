@@ -252,7 +252,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
         $forb_str = "";
         if ($forbidden != "") {
-            $tags_array = unserialize($forbidden, ['allowed_classes' => false]);
+            $tags_array = unserialize((string) $forbidden, ['allowed_classes' => false]);
             $forb_str = implode(" ", $tags_array);
         }
 

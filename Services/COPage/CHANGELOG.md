@@ -5,6 +5,7 @@
 - Removed dependency to include/inc.xsl5compliance.php
 - Moved xslt processing to internal service
 - Dom handling unit tests
+- Removed YUI dependencies from JS code
 
 ## ILIAS 8
  

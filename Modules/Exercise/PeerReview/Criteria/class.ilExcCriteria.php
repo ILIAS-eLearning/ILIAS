@@ -238,7 +238,7 @@ abstract class ilExcCriteria
         $this->setRequired((bool) $a_row["required"]);
         $this->setPosition((int) $a_row["pos"]);
         $this->setDefinition((string) $a_row["def"]
-                ? unserialize($a_row["def"])
+                ? unserialize((string) $a_row["def"])
                 : null);
     }
 
