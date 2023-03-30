@@ -83,23 +83,21 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         return 'pdrecc';
     }
 
-    protected function makeFavourite(): void
-    {
-        $fav_manager = new ilFavouritesManager();
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $fav_manager->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_added_to_favs"), true);
-        $ctrl->returnToParent($this);
-    }
-
-    protected function remove(): void
+    protected function removeRecommendationObject(): void
     {
         $rec_manager = new ilRecommendedContentManager();
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
         $rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_item_removed"), true);
-        $ctrl->returnToParent($this);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("dash_item_removed"), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
+    {
+        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
+        $itemListGui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "removeRecommendation"),
+            "dash_remove_from_list"
+        );
+        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
     }
 }

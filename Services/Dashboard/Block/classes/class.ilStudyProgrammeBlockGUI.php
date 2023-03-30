@@ -191,4 +191,9 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
     {
         return 'pdprg';
     }
+
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
+    {
+        return;
+    }
 }

@@ -84,6 +84,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     abstract public function initData(): void;
 
+    abstract public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void;
+
     abstract public function emptyHandling(): string;
 
     protected function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
@@ -125,6 +127,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
         $itemListGui = $this->byType($data['type']);
+        $this->addCustomCommandsToActionMenu($itemListGui, $data['ref_id']);
         ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
 
         $list_item = $itemListGui->getAsListItem(
@@ -425,6 +428,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return "";
     }
 
+    public function viewDashboardObject(): void
+    {
+        $this->initAndShow();
+    }
+
     public function changePDItemSortingObject(): void
     {
         $this->viewSettings->storeActorSortingMode(
@@ -493,14 +501,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                     $this->lng->txt('pd_remove_multiple'),
                     $this->ui->factory()->legacy($this->manage($replace_signal))
                 );
+                $modal = $modal->withAdditionalOnLoadCode(function ($id) {
+                    return "console.log($id); $('#$id').attr('data-modal-name', 'remove_modal');";
+                });
                 break;
             case 'confirm':
             default:
-                $modal = $this->ui->factory()->modal()->roundtrip(
-                    $this->lng->txt('pd_remove_multiple'),
-                    $this->ui->factory()->legacy($this->confirmRemoveObject())
-                );
-                break;
+                $modal = $this->ui->factory()->legacy($this->confirmRemoveObject());
         }
         echo $this->ui->renderer()->renderAsync($modal);
         exit;
@@ -515,21 +522,34 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $top_tb = new ilToolbarGUI();
         $top_tb->setFormAction($this->ctrl->getFormAction($this, 'confirmRemove'));
         $top_tb->setFormName('pd_remove_multiple');
+        $top_tb->setId('pd_remove_multiple');
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
+        $url = $this->ctrl->getLinkTarget(
+            $this,
+            'removeFromDeskRoundtrip',
+            '',
+            true
+        ) . '&page=confirm';
         $button = $this->ui->factory()->button()->standard($this->lng->txt('pd_unsubscribe_memberships'), '#')
-//        ->withOnLoadCode(function ($id) {
-//            return "$('#{$id}').click(function() { $('form[name=\"pd_remove_multiple\"]').submit(); return false; });";
-//        });
-        ->withOnClick(
-            $replace_signal->withAsyncRenderUrl(
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'removeFromDeskRoundtrip',
-                    '',
-                    true
-                ) . '&page=confirm&replaceSignal=' . $replace_signal->getId()
-            )
-        );
+        ->withOnLoadCode(function ($id) use ($url) {
+            return "
+            $('#$id').on('click', function() {
+            var post_data = $('form[name=\"pd_remove_multiple\"').serializeArray();
+            var selected_ids = [];
+            post_data.forEach(function (item) {
+                selected_ids.push(item.value);
+            });
+            var modal = $('div[data-modal-name=\"remove_modal\"]');
+            post_data = '';
+            for (var i = 0; i < selected_ids.length; i++) {
+                post_data += 'id[]=' + encodeURIComponent(selected_ids[i]) + '&';
+            }
+            post_data = post_data.slice(0, -1); 
+            $('form[name=\"pd_remove_multiple\"').on('submit', function(e) {
+                e.preventDefault();
+            });
+            il.Util.ajaxReplacePostRequestInner('$url', post_data,'pd_unsubscribe_multiple'); return false;})";
+        });
 
         $grouped_items = [];
         $item_groups = $this->getItemGroups();
@@ -554,7 +574,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $bot_tb->addStickyItem($button);
         $bot_tb->setOpenFormTag(false);
 
-        return $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML();
+        $tpl = new ilTemplate('tpl.remove_multiple_modal_id_wrapper.html', true, true, 'Services/Dashboard');
+        $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
+
+        return $tpl->get();
     }
 
     protected function renderManageList(array $grouped_items): string
@@ -625,23 +648,28 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
         $refIds = (array) ($this->http->request()->getParsedBody()['id'] ?? []);
         if (0 === count($refIds)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'manage');
+            $message_box = $this->ui->factory()->messageBox()->info($this->lng->txt('select_one'));
+            return $this->ui->renderer()->render($message_box);
         }
 
         if ($this->viewSettings->isSelectedItemsViewActive()) {
             $question = $this->lng->txt('dash_info_sure_remove_from_favs');
             $cmd = 'confirmedRemove';
+        } elseif ($this->viewSettings->isRecommendedContentViewActive()) {
+            $question = $this->lng->txt('dash_info_sure_remove_from_recommended');
+            $cmd = 'confirmedRemoveRecommendation';
         } else {
             $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
             $cmd = 'confirmedUnsubscribe';
         }
 
+
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt('cancel'), 'manage');
+        $cgui->setCancel($this->lng->txt('cancel'), 'viewDashboard');
         $cgui->setConfirm($this->lng->txt('confirm'), $cmd);
 
         foreach ($refIds as $ref_id) {
@@ -673,7 +701,22 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
-        $this->ctrl->redirect($this, 'manage');
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function confirmedRemoveRecommendationObject(): void
+    {
+        $rec_manager = new ilRecommendedContentManager();
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if (0 === count($refIds)) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
+        foreach ($refIds as $ref_id) {
+            $rec_manager->declineObjectRecommendation($this->user->getId(), (int) $ref_id);
+        }
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
+        $this->ctrl->returnToParent($this);
     }
 
     public function confirmedUnsubscribeObject(): void

@@ -75,6 +75,10 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 continue;
             }
 
+            if (!$this->isRelevantLso($lso_obj)) {
+                continue;
+            }
+
             if (!$this->access->checkAccess('read', '', $lso_ref_id)) {
                 continue;
             }
@@ -112,5 +116,10 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
     public function getBlockType(): string
     {
         return 'pdlern';
+    }
+
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
+    {
+        return;
     }
 }

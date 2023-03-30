@@ -98,6 +98,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $this->getMails();
         $this->setData($this->mails);
+        $this->loadData();
 
         return parent::getHTML();
     }

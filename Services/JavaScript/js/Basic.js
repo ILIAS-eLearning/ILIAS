@@ -138,6 +138,11 @@ il.Util = {
 	{
 		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: true}, this.ajaxReplaceSuccess)
 	},
+
+	ajaxReplacePostRequestInner: function(url, data, el_id)
+	{
+		this.sendAsyncAjaxPostRequestToUrl (url, data, {el_id: el_id, inner: true}, this.ajaxReplaceSuccess);
+	},
 	
 	ajaxReplaceSuccess: function(o)
 	{
@@ -169,6 +174,16 @@ il.Util = {
 			url = url + "&" + k + "=" + par[k];
 		}
 		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
+	},
+
+	sendAsyncAjaxPostRequestToUrl: function(url, data, args, succ_cb) {
+		var cb =
+			{
+				success: succ_cb,
+				failure: this.handleAjaxFailure,
+				argument: args
+			};
+		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb, data);
 	},
 
 	sendAjaxPostRequestToUrl: function(url, data, succ_cb) {
