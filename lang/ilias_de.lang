@@ -1633,8 +1633,8 @@ assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Besten Durchlauf des Tests bewerten
 assessment#:#tst_pass_best_pass_desc#:#Es wird der Durchlauf bewertet, bei dem die höchste Punktezahl erreicht wurde.
 assessment#:#tst_pass_deletion#:#Durchläufe löschen
-assessment#:#tst_pass_deletion_allowed#:#Vorherige Durchläufe, die nicht zur Bewertung verwendet werden, können gelöscht werden.
-assessment#:#tst_pass_deletion_not_allowed#:#Das Löschen vorheriger Durchläufe ist nicht erlaubt.
+assessment#:#tst_pass_deletion_allowed#:#Durchläufe, die nicht zur Bewertung verwendet werden, können gelöscht werden.
+assessment#:#tst_pass_deletion_not_allowed#:#Das Löschen von Durchläufen ist nicht möglich.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
