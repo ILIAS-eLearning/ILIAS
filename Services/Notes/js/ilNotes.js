@@ -1,5 +1,5 @@
 "use strict";
-/* global $, il, YAHOO */
+/* global il */
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +30,7 @@ const ilNotes = {
     e.stopPropagation(); // #11546 - list properties not working
 
     // hide overlays
-    il.Overlay.hideAllOverlays(e, true);
+    //il.Overlay.hideAllOverlays(e, true);
 
     this.hash = hash;
     this.update_code = update_code;
@@ -71,8 +71,10 @@ const ilNotes = {
       header: head_str,
       buttons: {},
     });
-    $("#il_notes_modal .modal-body").html("");
-    $("#il_notes_modal").data("status", "loading");
+    const modalBody = document.querySelector("#il_notes_modal .modal-body");
+    const modal = document.getElementById("il_notes_modal");
+    modalBody.innerHTML = "";
+    modal.dataset.status = "loading";
 
     if (comments) {
       this.sendAjaxGetRequest({ cmd: "getCommentsHTML", cadh: this.hash },
@@ -108,44 +110,50 @@ const ilNotes = {
   },
 
   sendAjaxGetRequestToUrl: function (url, par, args) {
-    var k;
+    let k;
     args.reg_type = "get";
     args.url = url;
-    var cb =
-      {
-        success: this.handleAjaxSuccess,
-        failure: this.handleAjaxFailure,
-        argument: args
-      };
     for (k in par) {
       url = url + "&" + k + "=" + par[k];
     }
-    var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
+    il.repository.core.fetchHtml(url).then((html) => {
+      this.handleAjaxSuccess({
+        argument: args,
+        responseText: html
+      });
+    });
   },
 
   // send request per ajax
   sendAjaxPostRequest: function (form, url, args) {
     args.reg_type = "post";
-    var cb =
-      {
-        success: this.handleAjaxSuccess,
-        failure: this.handleAjaxFailure,
-        argument: args
-      };
-    var form_str = YAHOO.util.Connect.setForm(form);
-    var request = YAHOO.util.Connect.asyncRequest('POST', url, cb);
+    const formData = new FormData(form);
+    let data = {};
+    formData.forEach((value, key) => (data[key] = value));
+    il.repository.core.fetchHtml(url, data, true).then((html) => {
+      this.handleAjaxSuccess({
+        argument: args,
+        responseText: html
+      });
+    });
 
     return false;
   },
 
   inModal: function () {
-    const status = $("#il_notes_modal").data("status");
-    const cs = $("#il_notes_modal").css("display");
-    return ($("#il_notes_modal").length && (status === "loading" || cs !== "none"));
+    const modal = document.getElementById("il_notes_modal");
+    if (!modal) {
+      return false;
+    }
+    const status = modal.dataset.status;
+    const cs = modal.style.display;
+    return (status === "loading" || cs !== "none");
   },
 
   handleAjaxSuccess: function (o) {
-    var t;
+    let t;
+    const modal = document.getElementById("il_notes_modal");
+
     // perform page modification
     if (o.responseText !== undefined) {
       if (o.argument.mode == 'xxx') {
@@ -157,17 +165,21 @@ const ilNotes = {
           il.UICore.setRightPanelContent(o.responseText);
         } else {
           if (t.inModal()) {
-            $("#il_notes_modal").data("status", "");
-            $("#il_notes_modal .modal-body").html(o.responseText);
+            const modalBody = document.querySelector("#il_notes_modal .modal-body");
+            modal.dataset.status = "";
+            il.repository.core.setInnerHTML(modalBody, o.responseText)
             ilNotes.init(document.getElementById("il_notes_modal"));
           } else {
-            $("#notes_embedded_outer").html(o.responseText);
+            const embedOuter = document.getElementById("notes_embedded_outer");
+            il.repository.core.setInnerHTML(embedOuter, o.responseText)
             ilNotes.init(document.getElementById("notes_embedded_outer"));
           }
-          $("#il_notes_modal .modal-header button").focus();
+          const headButton = document.querySelector("#il_notes_modal .modal-header button");
+          if (headButton) {
+            headButton.focus();
+          }
         }
 
-        //				ilNotes.insertPanelHTML(o.responseText);
         if (typeof ilNotes.update_code != "undefined" &&
           ilNotes.update_code != null && ilNotes.update_code !== "") {
           if (o.argument.reg_type === "post" ||
@@ -246,6 +258,6 @@ const ilNotes = {
   }
 }
 
-$(() => {
+il.Util.addOnLoad(() => {
   ilNotes.init(null);
 });
