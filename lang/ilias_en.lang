@@ -1337,8 +1337,8 @@ assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
 assessment#:#tst_back_to_virtual_pass#:#Back to Question Overview
 assessment#:#tst_best_solution_is#:#The best solution is
-assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_block_passes_after_passed#:#Block Additional Attempts After Test Has Been Passed
+assessment#:#tst_block_passes_after_passed_info#:#Prevent participants who have passed the test from making further attempts.
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
@@ -1369,9 +1369,9 @@ assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
-assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
-assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
+assessment#:#tst_count_correct_solutions_desc#:#Participants score the maximum number of points available for a fully correct and complete answer. All other cases, for example incomplete or partially correct answers, score 0 points. This is also the case for questions that normally award points for partial answers.
+assessment#:#tst_count_partial_solutions#:#Incomplete or Partially Incorrect Answers Score Points
+assessment#:#tst_count_partial_solutions_desc#:#If a question type allows the awarding of points for correct partial answers, points gained for incomplete or only partially correct answers are added together.
 assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.
 assessment#:#tst_default_settings#:#Personal Default Settings
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
@@ -1402,9 +1402,9 @@ assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Se
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
-assessment#:#tst_ending_time#:#Finishing Time
+assessment#:#tst_ending_time#:#End
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
-assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
+assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function 'Limit Duration of Test' (see below). Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
@@ -1438,11 +1438,11 @@ assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
-assessment#:#tst_finish_notification_advanced#:#Send complete test result
-assessment#:#tst_finish_notification_content#:#Content of e-mail
-assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
+assessment#:#tst_finish_notification_advanced#:#Complete test result
+assessment#:#tst_finish_notification_content#:#Content of E-Mail
+assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test. The test owner is  listed in the ‘Owner’ subtab of the ‘Permissions’ tab.
 assessment#:#tst_finish_notification_no#:#No e-mail
-assessment#:#tst_finish_notification_simple#:#Send username and finish date
+assessment#:#tst_finish_notification_simple#:#Username and finish date
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis
@@ -1508,34 +1508,34 @@ assessment#:#tst_insert_missing_question#:#Please select at least one question t
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback#:#Instant Feedback
-assessment#:#tst_instant_feedback_answer_generic#:#Feedback on Fully Correct Answer
-assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided is fully correct ILIAS will show one type of feedback upon clicking the ‘Check’ button.  If the answer provided is not fully correct, another type of feedback will be displayed. Both types of feedback have to be prepared in the tab ‘Feedback’ of the respective question.
-assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each Answer provided
-assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
-assessment#:#tst_instant_feedback_contents#:#Included Contents
-assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_answer_generic#:#Correct/Incorrect Answer Feedback
+assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided is fully correct, ILIAS will show the participant the ‘correct solution’ feedback when they click the ‘Check’ button.  If the answer provided is not fully correct, the ‘at least one answer is not correct’ feedback will be displayed instead. Both types of feedback have to be prepared in a question’s ‘Feedback’ tab.
+assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each Answer Provided
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Upon clicking the ‘Check’ button, ILIAS will show participants specific feedback for each individual answer option that they have selected. The feedback has to be prepared along with the question. This specific type of feedback is not supported for all question types.
+assessment#:#tst_instant_feedback_contents#:#Feedback Types
+assessment#:#tst_instant_feedback_desc#:#If questions have feedback included, this feedback is made available to participants during the test.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
-assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
+assessment#:#tst_instant_feedback_results_desc#:#Clicking the ‘Check’ button allows participants to see how many points they would get for the answer they have selected.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
-assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’ button ILIAS will display the best possible answer to the question.
+assessment#:#tst_instant_feedback_solution_desc#:#When participants click on the ‘Check’ button, ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
-assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.
-assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced#:#Automatic Feedback
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#Participants are automatically shown feedback when they answer a question.
+assessment#:#tst_instant_feedback_trigger_manual#:#Manually Triggered Feedback
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is available, but will only be shown if a participant manually triggers it by clicking on the ‘Check’ button.
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message in the ‘Info’ tab of the test. This text is already accessible before the test can be started.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_level#:#Competence Level
-assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
+assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Attempts
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 assessment#:#tst_list_answer_details#:#Show in List Below
 assessment#:#tst_list_of_answers#:#List of Answers
 assessment#:#tst_list_of_answers_show#:#Review of Scored Answers
-assessment#:#tst_list_of_questions_end#:#Show before a participant finishes the test
+assessment#:#tst_list_of_questions_end#:#Show at end of test (give participants overview before final ‘Finish the Test’)
 assessment#:#tst_list_of_questions_start#:#Show prior to the first question
 assessment#:#tst_list_of_questions_with_description#:#Include question descriptions
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
@@ -1548,9 +1548,9 @@ assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s p
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
-assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
-assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
-assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
+assessment#:#tst_mark_create_new_mark_step#:#Create New Grade Category
+assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Pass/Fail Grading System
+assessment#:#tst_mark_minimum_level#:#Minimum Score Required (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short Form
@@ -1595,7 +1595,7 @@ assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
 assessment#:#tst_no_evaluation_data#:#There is no evaluation data available.
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
+assessment#:#tst_no_marks_defined#:#You have not defined any grade categories. Please create at least a simple grading system!
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_scorable_qst_available#:#No question to score available
@@ -1609,10 +1609,10 @@ assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILI
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" committed
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
-assessment#:#tst_nr_of_passes#:#Number of Test Passes
-assessment#:#tst_nr_of_tries#:#Max. Number of Passes
-assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
-assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
+assessment#:#tst_nr_of_passes#:#Number of Test Attempts
+assessment#:#tst_nr_of_tries#:#Max. Number of Attempts
+assessment#:#tst_nr_of_tries_desc#:#Enter the maximum number of attempts a participant is allowed in order to pass the test.
+assessment#:#tst_nr_of_tries_of_user#:#Attempts Already Completed
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_correct_answered_questions#:#Answered Correctly
 assessment#:#tst_num_non_answered_questions_notseen#:#Not Presented, Yet
@@ -1631,53 +1631,53 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
-assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
-assessment#:#tst_pass_deletion#:#Previous Passes
+assessment#:#tst_pass_best_pass_desc#:#The attempt in which a participant has performed best will be be used for scoring purposes. This setting only applies when more than one test attempt is possible.
+assessment#:#tst_pass_deletion#:#Previous Attempts
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
 assessment#:#tst_pass_deletion_not_allowed#:#Non-scoring attempts may not be deleted.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
-assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
+assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Attempt %s
 assessment#:#tst_pass_finished#:#Test pass finished
-assessment#:#tst_pass_finished_on#:#Test pass finished on
-assessment#:#tst_pass_last_pass#:#Score the Last Pass
-assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
+assessment#:#tst_pass_finished_on#:#Test attempt finished on
+assessment#:#tst_pass_last_pass#:#Use Last Attempt’s Score
+assessment#:#tst_pass_last_pass_desc#:#A participant’s last attempt will be used for scoring purposes.
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
-assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
-assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
-assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
+assessment#:#tst_pass_scoring#:#Scoring When Multiple Attempts Allowed
+assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time Between Test Attempts
+assessment#:#tst_pass_waiting_info#:#Require participants to wait for a period of time before they can re-attempt a test.
 assessment#:#tst_pass_waiting_time#:#Waiting Time
 assessment#:#tst_passed#:#Passed
-assessment#:#tst_passes#:#Test Passes
-assessment#:#tst_password#:#Test Password
-assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
+assessment#:#tst_passes#:#Test Attempts
+assessment#:#tst_password#:#Password
+assessment#:#tst_password_details#:#Set a password which all users with access to the test have to enter in order to start or resume the test.
 assessment#:#tst_password_enter#:#Enter Password
-assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
-assessment#:#tst_password_form#:#Enter Test Password
-assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
+assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because the password you have entered is incorrect.
+assessment#:#tst_password_form#:#Enter Password
+assessment#:#tst_password_introduction#:#This test can only be accessed with a password. Please enter the password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
-assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
+assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target container.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone#:#Unanswered Questions
 assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
-assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
+assessment#:#tst_postpone_off_desc#:#Questions that users skip over and/or fail to answer will stay in their positions in the test and will not be moved to the end of the test.
 assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
 assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
-assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
+assessment#:#tst_presentation_properties#:#Administering the Test: Behaviour of the Questions
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
-assessment#:#tst_processing_time#:#Limit Duration of Test
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
-assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
-assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
+assessment#:#tst_processing_time#:#Set Time Limit for Completing Test
+assessment#:#tst_processing_time_desc#:#Use this setting for e-exams/distance exams. Participants are only allowed to work through the test for a specific length of time (specified below). The timer starts (for each participant individually) as soon as they start the test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited (see above), an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
+assessment#:#tst_processing_time_duration#:#Maximum Time Available
+assessment#:#tst_processing_time_duration_desc#:#The maximum amount of time allowed for participants to complete the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
@@ -1717,7 +1717,7 @@ assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is s
 assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been reset.
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
+assessment#:#tst_question_hints_request_confirmation#:#Are you sure you want to request hint %s? For this hint %s point(s) will be deducted.
 assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
@@ -1732,8 +1732,8 @@ assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
-assessment#:#tst_question_mark#:#Mark this question
-assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_mark#:#Flag Question
+assessment#:#tst_question_marked#:#You have flagged the question.
 assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_not_from_pool_info#:#No Pool
@@ -1761,7 +1761,7 @@ assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
-assessment#:#tst_remove_mark#:#Remove this mark
+assessment#:#tst_remove_mark#:#Remove Flag
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -1781,38 +1781,38 @@ assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
-assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
-assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
+assessment#:#tst_reset_processing_time#:#Reset Time Limit for All Test Attempts
+assessment#:#tst_reset_processing_time_desc#:#The time available to complete the test (Time Limit) will be reset to the maximum for each test attempt. This obviously only takes effect if multiple attempts are allowed.
 assessment#:#tst_result#:#Test Result
-assessment#:#tst_result_pass#:#Results of Test Pass
-assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_pass#:#Results of Test Attempt
+assessment#:#tst_result_user_name#:#Results of Test Attempt %s for %s
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access_always#:#Immediately
-assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
-assessment#:#tst_results_access_date#:#Date
-assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
+assessment#:#tst_results_access_always_desc#:#Participants can access their results via the ‘Results’ tab immediately after starting the test and even while still taking the test. Additionally, ILIAS will redirect participants to the 'Results'-tab as soon as they have finished the test.
+assessment#:#tst_results_access_date#:#Access From (Date).
+assessment#:#tst_results_access_date_desc#:#Participants can access their test results via the 'Results' tab from the selected date onwards.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
-assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
-assessment#:#tst_results_access_finished#:#After Test Pass is Finished
-assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
-assessment#:#tst_results_access_passed#:#After Test has been Passed
-assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
-assessment#:#tst_results_access_setting#:#Point in Time
+assessment#:#tst_results_access_enabled_desc#:#Make a 'Results' tab available to participants in which they can access their test results. Exactly which information is included and when this information can be accessed, can be configured in this section and in the sections below.
+assessment#:#tst_results_access_finished#:#After Test Attempt Is Finished
+assessment#:#tst_results_access_finished_desc#:#Participants see their results as soon as a they have finished a test attempt. After finishing the test attempt, participants can also access their test results at any time via the ‘Results’ tab.
+assessment#:#tst_results_access_passed#:#After Test Has Been Passed
+assessment#:#tst_results_access_passed_desc#:#Participants see their test results as soon as they have passed the test. After passing the test participants can access their test results via the 'Results'-tab at any time.
+assessment#:#tst_results_access_setting#:#When Results Can Be Accessed
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
-assessment#:#tst_results_back_overview#:#Back to Results Overview
+assessment#:#tst_results_back_overview#:#Back to Overview of Results
 assessment#:#tst_results_details_options#:#Further Options
 assessment#:#tst_results_gamification#:#Gamification
 assessment#:#tst_results_grading_opt_show_details#:#Show detailed test results
 assessment#:#tst_results_grading_opt_show_details_desc#:#In addition to the summary test result, a "Detailed Results" action is provided. The "Detailed test results" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the "Further options" section.
-assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
-assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
+assessment#:#tst_results_grading_opt_show_mark#:#Show Grade
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Display a participant’s grade in a message at the top of the ‘Results’ tab.
 assessment#:#tst_results_grading_opt_show_status#:#Show ‘Passed’ / ‘Failed’ Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results within the ‘Results’-tab.
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results
+assessment#:#tst_results_grading_opt_show_status_desc#:#Display whether a participant has passed or failed the test in a message at the top of the ‘Results’ tab.
+assessment#:#tst_results_overview#:#Overview of Results
 assessment#:#tst_results_print_best_solution#:#Best Solution
-assessment#:#tst_results_print_best_solution_info#:#Additionally for each question the best possible solution will be displayed.
+assessment#:#tst_results_print_best_solution_info#:#Additionally, display the best possible solution for each question.
 assessment#:#tst_results_print_best_solution_singlepage#:#Best Solution
 assessment#:#tst_results_print_best_solution_singlepage_info#:#Additionally for each question the best possible solution will be displayed.
 assessment#:#tst_results_tax_filters#:#Result Filter
@@ -1831,10 +1831,10 @@ assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pas
 assessment#:#tst_save_thresholds#:#Save Thresholds
 assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
 assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
-assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to ‘0 Points’
-assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
-assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
-assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
+assessment#:#tst_score_cut_question#:#Individual Questions Cannot Score Negative Points
+assessment#:#tst_score_cut_question_desc#:#In some cases, participants may end up scoring negative points for a question that has negative points assigned to individual answer options. This setting ensures that for any given question, a negative score is reset to 0 points.
+assessment#:#tst_score_cut_test#:#Individual Questions Can Score Negative Points
+assessment#:#tst_score_cut_test_desc#:#Participants CAN score negative points in questions. The points scored for all questions are added up. Only if the overall point score for the test is negative, will the point score for the test as a whole be set to 0 points. With this setting, incorrectly or partially incorrectly answered questions can greatly affect the final score (and therefore grade) achieved.
 assessment#:#tst_score_cutting#:#Negative Points
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
@@ -1847,17 +1847,17 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_setting_enable_obligations_info#:#Only if all compulsory questions are answered ths test can be finished. Compulsory questions can be defined in the ‘List view’. For participants the option ‘Show List of Questions’ should be activated.
+assessment#:#tst_setting_enable_obligations_info#:#The test can only be finished if all compulsory questions have been answered. Questions can be set as compulsory in the ‘List View’ subtab of the ‘Questions’ tab. For participants, the option ‘Show List of Questions’ should be activated.
 assessment#:#tst_setting_enable_obligations_label#:#Compulsory Questions
-assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
+assessment#:#tst_setting_offer_hints_info#:#Allow participants to request hints to help them to answer a question. The maximum number of points that can be earned for a question decreases with every hint accessed.
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
-assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
+assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Mechanics
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Suspend Test
-assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
+assessment#:#tst_show_cancel_description#:#Participants are presented with a button that allows them to pause the test and to continue it later. Caution: Suspending the test does not also pause the time available for taking the test (Time Limit). Tests still need to be completed within the time limit available.
 assessment#:#tst_show_comp_results#:#Competence Results
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
@@ -1867,23 +1867,23 @@ assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Onl
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
-assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
+assessment#:#tst_show_solution_details#:#Detailed Information on Individual Questions
+assessment#:#tst_show_solution_details_desc#:#Expand the functionality of the ‘Detailed Results’ tables for individual test attempts, by providing links to pages for each individual question. These pages each contain the question, the answer provided by the participant, information on whether this was the correct answer and the points scored by this answer.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
-assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
+assessment#:#tst_show_solution_feedback_desc#:#Display feedback on the answers provided by the participant. Please bear in mind that this option only takes effect if you have activated ‘Detailed Information on Individual Questions’  and if feedback for the individual questions has been prepared.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
 assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered within the ‘Results’-tab in a subtab 'Review of Scored Answers'.
 assessment#:#tst_show_solution_signature#:#Signature Placeholder
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
 assessment#:#tst_show_solution_suggested#:#Content for Recapitulation
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the ‘Table of Detailed Test Results’-table. Participants get an opportunity for remedial learning. For this option to become effective you have to activate ‘Table of Detailed Test Results’ under ‘Access to Test Results’.
-assessment#:#tst_show_summary#:#Show ‘List of Questions’
-assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button ‘List of Questions’. On that screen the overall status of all questions will be displayed.
+assessment#:#tst_show_summary#:#Show List of Questions
+assessment#:#tst_show_summary_description#:#Participants can click on the button ‘Show List of Questions’ to display a list of all of the questions in the test. This list is shown in a block to the left of the questions being answered and shows which questions the test participant has already answered. You can further configure the behaviour of the ‘Show List of Questions’ function here:
 assessment#:#tst_show_toplist#:#Ranking
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
+assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test attempt.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
 assessment#:#tst_single_results#:#Results by Question
@@ -1900,10 +1900,10 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Questions
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
-assessment#:#tst_start_test#:#Start the Test
+assessment#:#tst_start_test#:#Start Test
 assessment#:#tst_started#:#Test Started
-assessment#:#tst_starting_time#:#Starting Time
-assessment#:#tst_starting_time_desc#:#Time from which the test can be started. From this moment on, clicking the button "Start test" is possible and participants can answer questions.
+assessment#:#tst_starting_time#:#Start
+assessment#:#tst_starting_time_desc#:#Time from which the test can be started. From this moment on, clicking the button "Start Test" is possible and participants can answer questions.
 assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
 assessment#:#tst_stat_result_firstvisit#:#First Visit
 assessment#:#tst_stat_result_lastvisit#:#Last Visit
@@ -1924,15 +1924,15 @@ assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objec
 assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_final_mark#:#Mark
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes
-assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s
+assessment#:#tst_tbl_col_finished_passes#:#Completed Attempts
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s out of %s
 assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access
-assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
+assessment#:#tst_tbl_col_pass_finished#:#Attempt Completed
 assessment#:#tst_tbl_col_passed_status#:#Grading
 assessment#:#tst_tbl_col_percent_result#:#Percent Solved
-assessment#:#tst_tbl_col_reached_points#:#Reached Points
-assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
-assessment#:#tst_tbl_col_started_passes#:#Started Passes
+assessment#:#tst_tbl_col_reached_points#:#Score
+assessment#:#tst_tbl_col_scored_pass#:#Scored Attempt
+assessment#:#tst_tbl_col_started_passes#:#Attempts Started
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
@@ -1940,19 +1940,19 @@ assessment#:#tst_test_contains_obligatory_questions#:#To end this test you have 
 assessment#:#tst_test_result#:#Test Result
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_threshold#:#Thresholds (in %)
-assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
+assessment#:#tst_time_already_spent#:#You started the test at: %s. The maximum time you have available to complete the test is %s.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_title_output#:#Show Question Title
-assessment#:#tst_title_output_full#:#Question Titles and Available Points
-assessment#:#tst_title_output_hide_points#:#Only Question Titles
+assessment#:#tst_title_output#:#Title Display Options
+assessment#:#tst_title_output_full#:#Show Question Titles and Available Points
+assessment#:#tst_title_output_hide_points#:#Show Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_use_previous_answers_description#:#Participants will be shown their answers from previous test attempts. This option has to be activated by individual participants in the test’s Info-tab before starting a test attempt.
+assessment#:#tst_use_previous_answers_user#:#Use your previous answers as default values in future test attempts.
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
@@ -1998,7 +1998,7 @@ assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#use_previous_solution#:#Use Previous Solution
-assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
+assessment#:#use_previous_solution_advice#:#The solution to the question shown, is the solution you gave in a previous test attempt. If you want to use this previous solution without any change, this requires your confirmation via the ‘Use Previous Solution’ button.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
