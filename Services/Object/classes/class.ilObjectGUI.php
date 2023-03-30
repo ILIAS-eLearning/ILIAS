@@ -630,8 +630,7 @@ class ilObjectGUI
     {
         $forms = [
             self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type),
-            self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type)
+            self::CFORM_IMPORT => $this->initImportForm($new_type)
         ];
 
         return $forms;
@@ -1426,29 +1425,6 @@ class ilObjectGUI
         $class = strtolower("ilObj" . $class_name . "GUI");
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $this->ctrl->redirectByClass(array("ilrepositorygui", $class), $cmd);
-    }
-
-    /**
-     * Fill object clone template
-     * This method can be called from any object GUI class that wants to offer object cloning.
-     *
-     * @param ?string template variable name that will be filled
-     * @param string type of new object
-     * @return ?ilPropertyFormGUI
-     */
-    protected function fillCloneTemplate(?string $tpl_name, string $type): ?ilPropertyFormGUI
-    {
-        $cp = new ilObjectCopyGUI($this);
-        $cp->setType($type);
-        $target = $this->request_wrapper->has("ref_id")
-            ? $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
-            : 0;
-        $cp->setTarget($target);
-        if ($tpl_name) {
-            $cp->showSourceSearch($tpl_name);
-        }
-
-        return $cp->showSourceSearch(null);
     }
 
     /**

@@ -503,10 +503,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::redirectToRefId($ref_id, $cmd);
     }
-    final protected function fillCloneTemplate(?string $tpl_varname, string $type): ?ilPropertyFormGUI
-    {
-        return parent::fillCloneTemplate($tpl_varname, $type);
-    }
 
     //	private function setAdminTabs() { return parent::setAdminTabs(); }
     //	final public function getAdminTabs() { return parent::getAdminTabs(); }
