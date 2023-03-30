@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
+    use ilBibliographicSecureString;
     /**
      * Number of maximum allowed characters for attributes in order to fit in the database
      * @var int
@@ -37,10 +38,9 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     protected \ilBiblEntryFactoryInterface $entry_factory;
     protected \ilBiblFieldFactoryInterface $field_factory;
     protected \ilBiblAttributeFactoryInterface $attribute_factory;
-    /**
-     * @var \ILIAS\ResourceStorage\Services
-     */
-    protected $storage;
+
+    protected \ILIAS\ResourceStorage\Services $storage;
+
 
     /**
      * ilBiblFileReaderBase constructor.
@@ -57,6 +57,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         $this->attribute_factory = $attribute_factory;
         $this->storage = $DIC["resource_storage"];
     }
+
 
     public function readContent(ResourceIdentification $identification): bool
     {
@@ -120,8 +121,15 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
             $x = 0;
             $parsed_entry = array();
             foreach ($file_entry as $key => $attribute) {
+                $key = $this->secure($key);
+                if (is_string($attribute)) {
+                    $attribute = $this->secure($attribute);
+                }
                 // if the attribute is an array, make a comma separated string out of it
                 if (is_array($attribute)) {
+                    $attribute = array_map(function (string $a): string {
+                        return $this->secure($a);
+                    }, $attribute);
                     $attribute = implode(", ", $attribute);
                 }
                 // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database

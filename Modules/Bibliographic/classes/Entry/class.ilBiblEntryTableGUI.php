@@ -97,10 +97,11 @@ class ilBiblEntryTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        $ilBiblOverviewGUI = $a_set['overview_gui'];
+        /** @var ilBiblEntryTablePresentationGUI $presentation_gui */
+        $presentation_gui = $a_set['overview_gui'];
         $this->tpl->setVariable(
             'SINGLE_ENTRY',
-            $ilBiblOverviewGUI->getHtml()
+            $presentation_gui->getHtml()
         );
         //Detail-Link
         $this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
@@ -111,7 +112,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         foreach ($libraries as $library) {
             if ($library->getShowInList()) {
                 $presentation = new ilBiblLibraryPresentationGUI($library, $this->facade);
-                $arr_library_link[] = $presentation->getButton($this->facade, $ilBiblOverviewGUI->getEntry());
+                $arr_library_link[] = $presentation->getButton($this->facade, $presentation_gui->getEntry());
             }
         }
         if ($arr_library_link !== []) {
