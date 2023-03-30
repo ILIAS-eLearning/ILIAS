@@ -17,8 +17,6 @@
 
 declare(strict_types=1);
 
-declare(strict_types=1);
-
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -253,5 +251,13 @@ abstract class File implements FileDropzone
     {
         $this->clear_signal = $this->signal_generator->create();
         $this->modal->initSignals();
+    }
+
+    /**
+     * No dedicated name can be set for this subform
+     */
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        return $this;
     }
 }
