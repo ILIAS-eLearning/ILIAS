@@ -48,7 +48,7 @@ abstract class ModalBase extends ILIAS_UI_TestBase
 
     protected function getModalFactory(): I\Component\Modal\Factory
     {
-        return new I\Component\Modal\Factory(new SignalGeneratorMock());
+        return new I\Component\Modal\Factory(new SignalGeneratorMock(), $this->createMock(C\Modal\InterruptiveItem\Factory::class));
     }
 
     protected function getButtonFactory(): I\Component\Button\Factory

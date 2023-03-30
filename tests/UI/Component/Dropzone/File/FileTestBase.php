@@ -55,12 +55,14 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class ($this->generator) extends NoUIFactory {
-            protected I\Component\SignalGeneratorInterface $generator;
-
-            public function __construct(I\Component\SignalGeneratorInterface $generator)
-            {
-                $this->generator = $generator;
+        return new class (
+            $this->generator,
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+        ) extends NoUIFactory {
+            public function __construct(
+                protected I\Component\SignalGeneratorInterface $generator,
+                protected C\Modal\InterruptiveItem\Factory $factory,
+            ) {
             }
 
             public function legacy(string $content): C\Legacy\Legacy
@@ -75,7 +77,10 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
 
             public function modal(): C\Modal\Factory
             {
-                return new I\Component\Modal\Factory($this->generator);
+                return new I\Component\Modal\Factory(
+                    $this->generator,
+                    $this->factory,
+                );
             }
 
             public function symbol(): C\Symbol\Factory

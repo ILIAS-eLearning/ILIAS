@@ -111,7 +111,7 @@ class FooterTest extends ILIAS_UI_TestBase
     {
         $bf = new I\Button\Factory();
         $signalGenerator = new SignalGenerator();
-        $mf = new I\Modal\Factory($signalGenerator);
+        $mf = new I\Modal\Factory($signalGenerator, $this->createMock(C\Modal\InterruptiveItem\Factory::class));
         $legacy = new ILIAS\UI\Implementation\Component\Legacy\Legacy('PhpUnit', $signalGenerator);
 
         $shyButton1 = $bf->shy('Button1', '#');

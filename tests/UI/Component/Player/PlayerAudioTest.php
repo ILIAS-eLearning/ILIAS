@@ -31,10 +31,20 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
 {
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
+        return new class (
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+        ) extends NoUIFactory {
+            public function __construct(
+                protected C\Modal\InterruptiveItem\Factory $factory,
+            ) {
+            }
+
             public function modal(): C\Modal\Factory
             {
-                return new I\Component\Modal\Factory(new I\Component\SignalGenerator());
+                return new I\Component\Modal\Factory(
+                    new I\Component\SignalGenerator(),
+                    $this->factory,
+                );
             }
             public function button(): C\Button\Factory
             {

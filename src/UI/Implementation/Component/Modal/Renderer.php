@@ -53,7 +53,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Modal\Lightbox) {
             return $this->renderLightbox($component, $default_renderer);
         }
-        return '';
+        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
     }
 
     /**
