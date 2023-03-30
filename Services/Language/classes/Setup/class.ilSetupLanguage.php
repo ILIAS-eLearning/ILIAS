@@ -494,9 +494,9 @@ class ilSetupLanguage extends ilLanguage
 
         if (is_file($lang_file)) {
             // initialize the array for updating lng_modules below
-            $lang_array = array();
-            $lang_array["common"] = array();
-
+            $lang_array = [];
+            $lang_array["common"] = [];
+    
             // remove header first
             if ($content = $this->cut_header(file($lang_file))) {
                 // get the local changes from the database
@@ -510,7 +510,7 @@ class ilSetupLanguage extends ilLanguage
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
-    
+        
                 $query_check = false;
                 $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
                 foreach ($content as $key => $val) {
@@ -520,22 +520,22 @@ class ilSetupLanguage extends ilLanguage
                     // [2]:	value
                     // [3]:	comment (optional)
                     $separated = explode($this->separator, trim($val));
-        
+            
                     //get position of the comment_separator
                     $pos = strpos($separated[2], $this->comment_separator);
-        
+            
                     if ($pos !== false) {
                         //cut comment of
                         $separated[2] = substr($separated[2], 0, $pos);
                     }
-        
+            
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
                         $local_value = $local_changes[$separated[0]][$separated[1]] ?? null;
                     } else {
                         $local_value = "";
                     }
-        
+            
                     if (empty($scope)) {
                         if ($local_value != "" && $local_value != $separated[2]) {
                             // keep the locally changed value
@@ -576,10 +576,10 @@ class ilSetupLanguage extends ilLanguage
                         " AND module = " . $ilDB->quote($module, "text");
                     $set = $ilDB->query($q);
                     $row = $ilDB->fetchAssoc($set);
-                    $arr2 = isset($row["lang_array"]) ? unserialize($row["lang_array"], ["allowed_classes" => false]) : "";
+                    $arr2 = isset($row["lang_array"]) ? unserialize($row["lang_array"],
+                        ["allowed_classes" => false]) : "";
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);
-                        $modules_to_delete[] = $module;
                     }
                 }
                 $query .= sprintf(
@@ -588,20 +588,13 @@ class ilSetupLanguage extends ilLanguage
                     $ilDB->quote($lang_key, "text"),
                     $ilDB->quote(serialize($lang_arr), "clob")
                 );
+                $modules_to_delete[] = $module;
             }
     
-            if ($scope === "local") {
-                // delete only modules for which there are language variables in a local language file
-                // see mantis #36972
-                $inModulesToDelete = $ilDB->in('module', $modules_to_delete, false, 'text');
-                $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
-                    $ilDB->quote($lang_key, "text")
-                ));
-            } else {
-                $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s",
-                    $ilDB->quote($lang_key, "text")
-                ));
-            }
+            $inModulesToDelete = $ilDB->in('module', $modules_to_delete, false, 'text');
+            $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+                $ilDB->quote($lang_key, "text")
+            ));
     
             $query = rtrim($query, ",") . ";";
             $ilDB->manipulate($query);
