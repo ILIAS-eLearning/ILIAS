@@ -19,6 +19,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ilObjTestListGUI extends ilObjectListGUI
 {
     protected $command_link_params = array();
+    /** @var null|ilCertificateObjectsForUserPreloader */
+    private $certificate_preloader;
     
     /**
     * constructor
@@ -28,6 +30,15 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         parent::__construct($a_context);
         $this->info_screen_enabled = true;
+    }
+
+    protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader
+    {
+        if (null === $this->certificate_preloader) {
+            $this->certificate_preloader = new ilCertificateObjectsForUserPreloader(new ilUserCertificateRepository());
+        }
+
+        return $this->certificate_preloader;
     }
 
     /**
@@ -100,9 +111,49 @@ class ilObjTestListGUI extends ilObjectListGUI
                 "value" => $onlineaccess);
         }
 
+        if ($this->getCertificatePreloader()->isPreloaded($this->user->getId(), $this->obj_id)) {
+            $lng->loadLanguageModule('certificate');
+            $this->ctrl->setParameterByClass(ilTestEvaluationGUI::class, 'ref_id', $this->ref_id);
+            $props[] = [
+                'alert' => false,
+                'property' => $lng->txt('certificate'),
+                'value' => $DIC->ui()->renderer()->render(
+                    $DIC->ui()->factory()->link()->standard(
+                        $lng->txt('download_certificate'),
+                        $this->ctrl->getLinkTargetByClass(
+                            [
+                                ilObjTestGUI::class,
+                                ilTestEvaluationGUI::class
+                            ],
+                            'outCertificate'
+                        )
+                    )
+                )
+            ];
+            $this->ctrl->setParameterByClass(ilTestEvaluationGUI::class, 'ref_id', null);
+        }
+
         return $props;
     }
 
+
+    public function getAsCard(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title,
+        string $description
+    ) : ?\ILIAS\UI\Component\Card\Card
+    {
+        /** @var \ILIAS\UI\Component\Card\RepositoryObject $card */
+        $card = parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
+
+        if ($this->getCertificatePreloader()->isPreloaded($this->user->getId(), $this->obj_id)) {
+            $card = $card->withCertificateIcon(true);
+        }
+
+        return $card;
+    }
 
     /**
     * Get command link url.

@@ -805,4 +805,13 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         
         return $testOBJ->canShowCertificate($testSession, $testSession->getUserId(), $testSession->getActiveId());
     }
+
+    public static function _preloadData($a_obj_ids, $a_ref_ids): void
+    {
+        global $DIC;
+
+        $repository = new ilUserCertificateRepository();
+        $coursePreload = new ilCertificateObjectsForUserPreloader($repository);
+        $coursePreload->preLoad($DIC->user()->getId(), $a_obj_ids);
+    }
 }
