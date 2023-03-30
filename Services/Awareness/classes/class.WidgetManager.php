@@ -63,60 +63,6 @@ class WidgetManager
         $this->action_collector = \ilUserActionCollector::getInstance($a_user_id, new \ilAwarenessUserActionContext());
     }
 
-    /**
-     * Maximum for online user data
-     */
-    public function getMaxOnlineUserCnt(): int
-    {
-        return 20;
-    }
-
-    /**
-     * Send OSD notification on new users
-     */
-    public function notifyOnNewOnlineContacts(): void
-    {
-        $lng = $this->lng;
-        $awrn_set = $this->settings;
-        if (!$awrn_set->get("use_osd", true)) {
-            return;
-        }
-        $ts = $this->session_repo->getOnlineUsersTS();
-
-        $d = $this->getOnlineUserData($ts);
-        $new_online_users = array();
-        $no_ids = array();
-        foreach ($d as $u) {
-            $uname = "[" . $u->login . "]";
-            if ($u->public_profile) {
-                $uname = $u->lastname . ", " . $u->firstname . " " . $uname;
-            }
-            if (!in_array($u->id, $no_ids)) {
-                $new_online_users[] = new ilNotificationLink(
-                    new ilNotificationParameter($uname),
-                    './goto.php?target=usr_' . $u->id
-                );
-                $no_ids[] = $u->id;
-            }
-        }
-        if (count($new_online_users) == 0) {
-            return;
-        }
-
-        $notification = new ilNotificationConfig('who_is_online');
-        $notification->setTitleVar('awareness_now_online', [], 'awrn');
-        $notification->setShortDescriptionVar('');
-        $notification->setLongDescriptionVar('');
-        $notification->setLinks($new_online_users);
-        $notification->setIconPath('templates/default/images/icon_usr.svg');
-        $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
-        $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-
-        $this->session_repo->setOnlineUsersTS(date("Y-m-d H:i:s", time()));
-
-        $notification->notifyByUsers(array($this->user_id));
-    }
-
     public function isWidgetVisible(): bool
     {
         $awrn_set = $this->settings;
@@ -138,7 +84,6 @@ class WidgetManager
             $counter = $this->getUserCounter();
             $hcnt = $counter->getHighlightCount();
             $cnt = $counter->getCount();
-            $this->notifyOnNewOnlineContacts();
             $this->session_repo->setLastUpdate($now);
             $this->session_repo->setCount($cnt);
             $this->session_repo->setHighlightCount($hcnt);
@@ -188,74 +133,6 @@ class WidgetManager
             count($all_user_ids),
             count($hall_user_ids)
         );
-    }
-
-    /**
-     * Get online user data
-     * @param string $a_ts timestamp
-     * @return array array of data objects
-     */
-    public function getOnlineUserData(string $a_ts = ""): array
-    {
-        $online_user_data = array();
-        $online_users = $this->user_collector->getOnlineUsers();
-        $user_collections = $this->getUserCollections(true);			// get user collections with online users only
-        $all_online_user_ids = array();
-
-        foreach ($user_collections as $uc) {
-            $user_collection = $uc["collection"];
-            $user_ids = $user_collection->getUsers();
-            foreach ($user_ids as $u) {
-                if (!in_array($u, $all_online_user_ids)) {
-                    // check timestamp and limit the max number of user data records received
-                    if (($a_ts == "" || $online_users[$u]["last_login"] > $a_ts)
-                        && count($all_online_user_ids) < $this->getMaxOnlineUserCnt()) {
-                        $all_online_user_ids[] = $u;
-                    }
-                }
-            }
-        }
-
-        $names = \ilUserUtil::getNamePresentation(
-            $all_online_user_ids,
-            true,
-            false,
-            "",
-            false,
-            false,
-            true,
-            true
-        );
-
-        // sort and add online information
-        foreach ($names as $k => $n) {
-            $names[$k]["online"] = true;
-            $names[$k]["last_login"] = $online_users[$n["id"]]["last_login"];
-            $sort_str = "";
-            if ($n["public_profile"]) {
-                $sort_str .= $n["lastname"] . " " . $n["firstname"];
-            } else {
-                $sort_str .= $n["login"];
-            }
-            $names[$k]["sort_str"] = $sort_str;
-        }
-
-        $names = ilArrayUtil::sortArray($names, "sort_str", "asc", false, true);
-
-        foreach ($names as $n) {
-            $obj = new \stdClass();
-            $obj->lastname = $n["lastname"];
-            $obj->firstname = $n["firstname"];
-            $obj->login = $n["login"];
-            $obj->id = $n["id"];
-            $obj->public_profile = $n["public_profile"];
-            $obj->online = $n["online"];
-            $obj->last_login = $n["last_login"];
-
-            $online_user_data[] = $obj;
-        }
-
-        return $online_user_data;
     }
 
     /**
