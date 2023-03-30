@@ -24,11 +24,12 @@ use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\HasHelpTopics;
 
 /**
  * This describes commonalities between standard and primary buttons.
  */
-interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, Engageable
+interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, Engageable, HasHelpTopics
 {
     /**
      * Get the label on the button.

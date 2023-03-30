@@ -168,13 +168,18 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         );
     }
 
-    public function deleteStaleNotificationsForUserAndType(int $user_id, string $type, int $until_timestamp): void
+    public function deleteStaleOSDNotificationsForUserAndType(string $povider_type, int $user_id, int $until_timestamp): void
     {
-        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE usr_id = %s AND type = %s AND time_added < %s';
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE type = %s AND usr_id = %s AND time_added < %s';
         $this->database->manipulateF(
             $query,
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-            [$user_id, $type, $until_timestamp]
+            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$povider_type, $user_id, $until_timestamp]
         );
+    }
+
+    public function deleteAllOSDNotifications(): void
+    {
+        $this->database->manipulate('TRUNCATE TABLE ' . ilNotificationSetupHelper::$tbl_notification_osd_handler);
     }
 }

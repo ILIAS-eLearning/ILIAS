@@ -151,7 +151,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $notifications = $this->handler->getOSDNotificationsForUser($this->user->getId());
 
         $this->assertCount(1, $notifications);
-        $this->assertTrue($this->handler->removeNotification($notifications[0]->getId()));
+        $this->assertTrue($this->handler->removeOSDNotification($notifications[0]->getId()));
         $this->assertCount(0, $this->handler->getOSDNotificationsForUser($this->user->getId()));
     }
 
@@ -159,20 +159,6 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     {
         $this->createDBFunctionCalls(0, 2, 2, 0);
         $this->assertCount(0, $this->handler->getOSDNotificationsForUser($this->user->getId()));
-        $this->assertFalse($this->handler->removeNotification(3));
-    }
-
-    public function testCreateMultipleUniqueNotifications(): void
-    {
-        $this->createDBFunctionCalls(3, 0, 0, 3);
-        $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
-        $config->setTitleVar('Unique Test Notification');
-        $config->setShortDescriptionVar('This is a unqiue test notification');
-        $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
-        $this->handler->notify($test_obj);
-        $this->handler->notify($test_obj);
-        $this->handler->notify($test_obj);
-
-        $this->assertCount(1, $this->database);
+        $this->assertFalse($this->handler->removeOSDNotification(3));
     }
 }

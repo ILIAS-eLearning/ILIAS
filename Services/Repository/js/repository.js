@@ -175,25 +175,36 @@ il.repository.core = (function() {
     return fetch_url;
   }
 
-  function fetchHtml(url = '', params = {}) {
+  function fetchHtml(url = '', params = {}, post = false) {
     let fetch_url = getFetchUrl(url);
+    let formData;
     let url_params = new URLSearchParams(fetch_url.search.slice(1));
-    for (const [key, value] of Object.entries(params)) {
-      url_params.append(key, value);
+    if (!post) {
+      for (const [key, value] of Object.entries(params)) {
+        url_params.append(key, value);
+      }
+    } else {
+      formData = new FormData();
+      for (const [key, value] of Object.entries(params)) {
+        formData.append(key, value);
+      }
     }
     fetch_url.search = url_params;
+
+    const method = (post) ? "POST" : "GET" ;
+    let config = {
+      method: method,
+      mode: 'same-origin',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'same-origin'
+    };
+    if (post) {
+      config.body = formData;
+    }
     return new Promise((resolve, reject) => {
-      fetch(fetch_url.href, {
-        method: 'GET',
-        mode: 'same-origin',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'text/html'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'same-origin'
-      }).then(response => {
+      fetch(fetch_url.href, config).then(response => {
         if (response.ok) {
           //const statusText = response.statusText;
           response.text().then(text =>
@@ -208,6 +219,13 @@ il.repository.core = (function() {
     fetchHtml(url, params)
       .then(html => {
           setInnerHTML(el, html)
+    }).catch();
+  }
+
+  function fetchReplace(el_id, url = '', params = {}) {
+    fetchHtml(url, params)
+    .then(html => {
+      setOuterHTML(el_id, html)
     }).catch();
   }
 
@@ -233,6 +251,7 @@ il.repository.core = (function() {
     setInnerHTML: setInnerHTML,
     setOuterHTML: setOuterHTML,
     fetchHtml: fetchHtml,
+    fetchReplace: fetchReplace,
     fetchReplaceInner: fetchReplaceInner,
     trigger: trigger,
     init: init

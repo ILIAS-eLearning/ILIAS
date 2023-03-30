@@ -1,0 +1,88 @@
+@use "../../010-settings/" as *;
+@use "../../030-tools/tool_typography-mixins" as tool-typography;
+@use "../../050-layout/basics/" as *;
+
+$c-tooltip-max-width: 50vw;
+$c-tooltip-max-height: 40vh;
+$c-tooltip-background-color: $il-main-dark-bg;
+$c-tooltip-texc-color: $il-text-color;
+$c-tooltip-border-color: $il-main-border-dark-color;
+$c-tooltip-arrow-height: .5em;
+$c-tooltip-arrow-background-color: $c-tooltip-border-color;
+$c-tooltip-z-index: 9999;
+
+.c-tooltip__container {
+	position: relative;
+	display: inline-block;
+}
+
+// Arrow
+// attached to the bottom
+.c-tooltip__container::before {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: $c-tooltip-arrow-height solid transparent;
+	border-bottom-color: $c-tooltip-arrow-background-color;
+}
+
+// Invisible bridge so users can move cursor from button to tooltip
+.c-tooltip__container::after {
+	position: absolute;
+	right: -20%;
+	top: 100%;
+	left: -20%;
+	display: block;
+	height: calc($c-tooltip-arrow-height * 2);
+}
+
+// making bridge amd arrow visible
+.c-tooltip__container.c-tooltip--visible::before,
+.c-tooltip__container.c-tooltip--visible::after {
+	content: '';
+}
+
+// switching bridge and arrow position when dropdown switched to top
+.c-tooltip__container.c-tooltip--top::before,
+.c-tooltip__container.c-tooltip--top::after,
+.c-tooltip__container.c-tooltip--top [role="tooltip"] {
+	top: unset;
+	bottom: 100%;
+}
+
+// when arrow is attached to the top
+.c-tooltip__container.c-tooltip--top::before {
+	border-top-color: $c-tooltip-arrow-background-color;
+	border-bottom-color: transparent;
+}
+
+// Styling Tooltip
+.c-tooltip__container .c-tooltip {
+	position: absolute;
+	top: calc(100% + calc($c-tooltip-arrow-height * 2));
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
+	padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+	border: 2px solid $c-tooltip-border-color;
+	border-radius: .25em;
+	color: $c-tooltip-texc-color;
+	background: $c-tooltip-background-color;
+	width: max-content;
+	max-width: $c-tooltip-max-width;
+	max-height: $c-tooltip-max-height;
+	overflow: auto;
+	z-index: $c-tooltip-z-index;
+	display: none;
+	@include tool-typography.strip-paragraph-margin__first-and-last;
+}
+
+.c-tooltip__container.c-tooltip--top [role="tooltip"] {
+	bottom: calc(100% + calc($c-tooltip-arrow-height * 2));
+}
+
+/* Shows the tooltip */
+.c-tooltip__container.c-tooltip--visible [role="tooltip"] {
+	display: inline-block;
+}

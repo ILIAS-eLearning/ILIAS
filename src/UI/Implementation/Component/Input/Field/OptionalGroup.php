@@ -62,6 +62,11 @@ class OptionalGroup extends Group implements Field\OptionalGroup
         return Input::withRequired($is_required);
     }
 
+    public function isRequired(): bool
+    {
+        return $this->is_required;
+    }
+
     /**
      * @inheritdoc
      */

@@ -153,9 +153,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
 
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
-
         $this->tpl->setContent($ml_head . $ctpl->get());
-        $this->tpl->addOnloadCode("window.setTimeout(() => { $('body').trigger('il-lm-editor-tree'); }, 500);");
+        $this->tpl->addOnloadCode("window.setTimeout(() => { il.repository.core.trigger('il-lm-editor-tree'); }, 500);");
     }
 
     /**

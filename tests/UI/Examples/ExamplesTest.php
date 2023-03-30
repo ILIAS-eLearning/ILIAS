@@ -87,6 +87,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->dic["component.factory"] = $component_factory;
 
+        $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
+
         (new InitHttpServices())->init($this->dic);
     }
 
@@ -99,6 +101,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $DIC = $this->dic;
 
         foreach ($this->getEntriesFromCrawler() as $entry) {
+            if ($entry->getNamespace() === "\ILIAS\UI\Help\Topic[]") {
+                continue;
+            }
             if (!$entry->isAbstract()) {
                 $this->assertGreaterThan(
                     0,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,23 +18,20 @@
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component;
+namespace ILIAS\UI\Help;
 
-use ILIAS\Data\LanguageTag;
-
-trait ContentLanguage
+/**
+ * This is just a class that marks a string as a help topic.
+ */
+final class Topic
 {
-    protected ?LanguageTag $content_language = null;
-
-    public function withContentLanguage(LanguageTag $content_language): self
-    {
-        $clone = clone $this;
-        $clone->content_language = $content_language;
-        return $clone;
+    public function __construct(
+        protected string $topic
+    ) {
     }
 
-    public function getContentLanguage(): ?LanguageTag
+    public function get(): string
     {
-        return $this->content_language;
+        return $this->topic;
     }
 }

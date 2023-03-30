@@ -178,6 +178,9 @@ interface Factory
      *      3: >
      *           All Links visible in a view MUST be accessible by keyboard by using the
      *           ‘Tab’-Key.
+     *   composition:
+     *      1: >
+     *           If a link has a help topic, it should be rendered as a tool tip.
      * ---
      * @return  \ILIAS\UI\Component\Link\Factory
      */
@@ -260,6 +263,9 @@ interface Factory
      *          The engaged state MUST be reflected in the "aria-pressed" -, respectively
      *          the "aria-checked"-attribute if active.
      *          If the Button is not engaged (which is the default), the aria-attribute can be omitted.
+     *   composition:
+     *      1: >
+     *           If a button has a help topic, it should be rendered as a tool tip.
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */
@@ -896,4 +902,16 @@ interface Factory
      * @return \ILIAS\UI\Component\Toast\Factory
      */
     public function toast(): C\Toast\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Help Topics can be attached to certain components. They make it possible
+     *     that suitable help texts can be displayed alongside the component.
+     *
+     * ---
+     * @return \ILIAS\UI\Help\Topic[]
+     */
+    public function helpTopics(string ...$topic): array;
 }

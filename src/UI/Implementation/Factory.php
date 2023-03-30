@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Help;
 
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -324,5 +325,13 @@ class Factory implements \ILIAS\UI\Factory
     public function toast(): C\Toast\Factory
     {
         return $this->toast_factory;
+    }
+
+    public function helpTopics(string ...$topics): array
+    {
+        return array_map(
+            fn ($t) => new Help\Topic($t),
+            $topics
+        );
     }
 }

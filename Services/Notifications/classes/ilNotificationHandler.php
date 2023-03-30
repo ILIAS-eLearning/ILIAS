@@ -33,4 +33,8 @@ abstract class ilNotificationHandler
     public function showSettings(ilPropertyFormGUI $form): void
     {
     }
+
+    public function clear(): void
+    {
+    }
 }

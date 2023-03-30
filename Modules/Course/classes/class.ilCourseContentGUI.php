@@ -20,6 +20,8 @@ declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilCourseContentGUI
@@ -46,6 +48,8 @@ class ilCourseContentGUI
     protected ilTree $tree;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {
@@ -64,6 +68,8 @@ class ilCourseContentGUI
         $this->tree = $DIC->repositoryTree();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->container_gui = $container_gui_obj;
         $this->container_obj = $this->container_gui->getObject();
@@ -360,8 +366,12 @@ class ilCourseContentGUI
         $this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->setVariable("HEADER_IMG", ilUtil::getImagePath('icon_usr.svg'));
-        $this->tpl->setVariable("HEADER_ALT", $this->lng->txt('obj_usr'));
+        $usr_icon = $this->ui_factory->symbol()->icon()->standard(
+            'usr',
+            $this->lng->txt('obj_usr'),
+            'large'
+        );
+        $this->tpl->setVariable("HEADER_IMG", $this->ui_renderer->render($usr_icon));
         $this->tpl->setVariable("TABLE_HEADER", $this->lng->txt('timings_of'));
         $name = ilObjUser::_lookupName($this->initMemberIdFromQuery());
         $this->tpl->setVariable("USER_NAME", $name['lastname'] . ', ' . $name['firstname']);

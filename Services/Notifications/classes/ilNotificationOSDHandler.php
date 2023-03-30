@@ -73,12 +73,20 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         return $notifications;
     }
 
+    /**
+     * @deprecated
+     */
     public function deleteStaleNotificationsForUserAndType(int $user_id, string $type): void
     {
-        $this->repo->deleteStaleNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($type, $user_id, $this->clock->now()->getTimestamp());
     }
 
-    public function removeNotification(int $notification_osd_id): bool
+    public function deleteStaleOSDNotificationsForUser(string $provider, int $user_id): void
+    {
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($provider, $user_id, $this->clock->now()->getTimestamp());
+    }
+
+    public function removeOSDNotification(int $notification_osd_id): bool
     {
         return $this->repo->deleteOSDNotificationById($notification_osd_id);
     }
@@ -92,5 +100,10 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         }
 
         return $link;
+    }
+
+    public function clear(): void
+    {
+        $this->repo->deleteAllOSDNotifications();
     }
 }
