@@ -130,7 +130,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
                 $tpl->setVariable(
                     "ON_CLICK",
-                    "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;"
+                    "il.repository.core.fetchReplaceInner( il.Util.ajaxReplaceInner(document.getElementById('il-tag-slate-container'), '$list_cmd'); return false;"
                 );
                 $tpl->setVariable("TAG_TITLE", $tag["tag"]);
                 $tpl->setVariable("HREF_TAG", "#");
@@ -162,7 +162,11 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $tag_cmd = $ctrl->getLinkTarget($this, "showTagCloud", "", true, false);
         $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($tag_cmd) {
             return
-                "$(\"#$id\").click(function() { il.Util.ajaxReplaceInner('$tag_cmd', 'il-tag-slate-container'); return false;});";
+                "document.getElementById('$id').addEventListener('click', function() {
+                const el = document.getElementById('il-tag-slate-container');
+                if (el) {
+                    il.repository.core.fetchReplaceInner(el, '$tag_cmd'); return false;});
+                }";
         });
 
         // resource list
