@@ -1226,7 +1226,7 @@ class ilNoteGUI
             )->withOnLoadCode(function ($id) use ($ctrl, $a_cmd, $note_id) {
                 $ctrl->setParameterByClass("ilnotegui", "note_id", $note_id);
                 return
-                    "$('#$id').on('click', () => { ilNotes.cmdAjaxLink(event, '" .
+                    "document.querySelector('#$id').addEventListener('click', () => { ilNotes.cmdAjaxLink(event, '" .
                     $ctrl->getLinkTargetByClass("ilnotegui", $a_cmd, "", true) .
                     "');});";
             });
@@ -1257,7 +1257,7 @@ class ilNoteGUI
                 "#"
             )->withOnLoadCode(function ($id) use ($ctrl, $a_cmd) {
                 return
-                    "$('#$id').on('click', () => { ilNotes.cmdAjaxLink(event, '" .
+                    "document.querySelector('#$id').addEventListener('click', () => { ilNotes.cmdAjaxLink(event, '" .
                     $ctrl->getLinkTargetByClass("ilnotegui", $a_cmd, "", true) .
                     "');});";
             });
@@ -1336,7 +1336,7 @@ class ilNoteGUI
         if ($cnt > 0) {
             $c = $f->counter()->status((int) $cnt);
             $comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function ($id) use ($hash, $update_url, $widget_el_id) {
-                return "$(\"#$id\").click(function(event) { " . self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"" . $widget_el_id . "\",\"" . $update_url . "\");") . "});";
+                return "document.querySelector('#$id').addEventListener('click', function(event) { " . self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"" . $widget_el_id . "\",\"" . $update_url . "\");") . "});";
             });
             $comps[] = $f->divider()->vertical();
             $tpl->setVariable("GLYPH", $r->render($comps));
@@ -1344,7 +1344,7 @@ class ilNoteGUI
         }
 
         $b = $f->button()->shy($lng->txt("notes_add_edit_comment"), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $update_url, $widget_el_id) {
-            return "$(\"#$id\").click(function(event) { " . self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"" . $widget_el_id . "\",\"" . $update_url . "\");") . "});";
+            return "document.querySelector('#$id').addEventListener('click', function(event) { " . self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"" . $widget_el_id . "\",\"" . $update_url . "\");") . "});";
         });
         if ($ctrl->isAsynch()) {
             $tpl->setVariable("SHY_BUTTON", $r->renderAsync($b));

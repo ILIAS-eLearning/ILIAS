@@ -200,9 +200,8 @@ const ilNotes = {
     console.log("ilNotes.js: Ajax Failure.");
   },
 
-  // FailureHandler
   updateWidget: function (id, url) {
-    il.Util.ajaxReplace(url, id);
+    il.repository.core.fetchReplace(id, url);
   },
 
   init: function (node) {
