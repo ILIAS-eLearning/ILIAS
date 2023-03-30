@@ -33,7 +33,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
         $this->addColumn($this->lng->txt('unambiguousness'), 'unique');
-        $this->addColumn($this->lng->txt('groupings_assigned_obj_' . $type), 'assigned');
+        $this->addColumn($this->lng->txt('groupings_assigned_obj_' . $type), 'assigned_sortable');
         $this->addColumn('', '');
 
         $this->setTitle($this->lng->txt('groupings'));
@@ -67,9 +67,11 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 
             // Assigned items
             $assigned_items = $tmp_obj->getAssignedItems();
+            $data[$grouping_id]['assigned'] = [];
             foreach ($assigned_items as $condition) {
                 $data[$grouping_id]['assigned'][] = ilObject::_lookupTitle($condition['target_obj_id']);
             }
+            $data[$grouping_id]['assigned_sortable'] = implode(' ', $data[$grouping_id]['assigned']);
         }
 
         $this->setData($data);
