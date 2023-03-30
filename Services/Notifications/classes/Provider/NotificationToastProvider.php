@@ -76,10 +76,10 @@ class NotificationToastProvider extends AbstractToastProvider
                     $osd_repository->deleteOSDNotificationById($notification->getId());
                 });
 
-            foreach ($notification->getObject()->links as $link) {
+            foreach ($notification->getObject()->links as $id => $link) {
                 $toast = $toast->withAdditionToastAction(
                     $this->toast_factory->action(
-                        $link->getTitle(),
+                        $notification->getId() . '_link_' . $id,
                         $link->getTitle(),
                         function () use ($link, $osd_repository, $notification): void {
                             $osd_repository->deleteOSDNotificationById($notification->getId());
