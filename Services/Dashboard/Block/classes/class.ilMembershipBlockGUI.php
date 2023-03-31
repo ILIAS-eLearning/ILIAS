@@ -32,10 +32,12 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function emptyHandling(): string
     {
-        return $this->renderer->render($this->factory->panel()->standard(
-            $this->getTitle(),
-            $this->factory->legacy($this->lng->txt("rep_mo_mem_dash"))
-        ));
+        return $this->renderer->render(
+            $this->factory->panel()->standard(
+                $this->getTitle(),
+                $this->factory->legacy($this->lng->txt("rep_mo_mem_dash"))
+            )
+        );
     }
 
     public function initData(): void
@@ -54,5 +56,61 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
     {
         return;
+    }
+
+    public function confirmedRemoveObject(): void
+    {
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if (0 === count($refIds)) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
+        foreach ($refIds as $ref_id) {
+            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
+                switch (ilObject::_lookupType((int) $ref_id, true)) {
+                    case 'crs':
+                        $members = new ilCourseParticipants(ilObject::_lookupObjId((int) $ref_id));
+                        $members->delete($this->user->getId());
+
+                        $members->sendUnsubscribeNotificationToAdmins($this->user->getId());
+                        $members->sendNotification(
+                            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
+                            $this->user->getId()
+                        );
+                        break;
+
+                    case 'grp':
+                        $members = new ilGroupParticipants(ilObject::_lookupObjId((int) $ref_id));
+                        $members->delete($this->user->getId());
+
+                        $members->sendNotification(
+                            ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
+                            $this->user->getId()
+                        );
+                        $members->sendNotification(
+                            ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+                            $this->user->getId()
+                        );
+                        break;
+                    default:
+                        continue 2;
+                }
+
+                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
+            }
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('mmbr_unsubscribed_from_objs'), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return true;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return $this->lng->txt('pd_unsubscribe_multiple_memberships');
     }
 }

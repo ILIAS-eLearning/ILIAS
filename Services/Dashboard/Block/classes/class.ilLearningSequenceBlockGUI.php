@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\MessageBox\MessageBox;
-
 /**
  *
  * @ilCtrl_IsCalledBy ilLearningSequenceBlockGUI: ilColumnGUI
@@ -27,22 +25,17 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
  */
 class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
 {
-    protected function isRelevantLso(ilObjLearningSequence $obj): bool
+    protected function getIcon(string $title): \ILIAS\UI\Component\Symbol\Icon\Standard
     {
-        $relevant = false;
-
-        $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
-        if ($ls_lp_items === []) {
-            return $relevant;
+        if (!isset($this->icon) || is_null($this->icon)) {
+            $this->icon = $this->factory->symbol()->icon()->standard(
+                'lso',
+                $title,
+                'medium'
+            );
         }
 
-        foreach ($ls_lp_items as $item) {
-            if ($item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
-                return true;
-            }
-        }
-
-        return $relevant;
+        return $this->icon;
     }
 
     public function emptyHandling(): string
@@ -83,7 +76,6 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 continue;
             }
 
-
             $data[] = [
                 'title' => $lso_obj->getTitle(),
                 'description' => $lso_obj->getDescription(),
@@ -100,17 +92,22 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $data]);
     }
 
-    protected function getIcon(string $title): \ILIAS\UI\Component\Symbol\Icon\Standard
+    protected function isRelevantLso(ilObjLearningSequence $obj): bool
     {
-        if (!isset($this->icon) || is_null($this->icon)) {
-            $this->icon = $this->factory->symbol()->icon()->standard(
-                'lso',
-                $title,
-                'medium'
-            );
+        $relevant = false;
+
+        $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
+        if ($ls_lp_items === []) {
+            return $relevant;
         }
 
-        return $this->icon;
+        foreach ($ls_lp_items as $item) {
+            if ($item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+                return true;
+            }
+        }
+
+        return $relevant;
     }
 
     public function getBlockType(): string
@@ -121,5 +118,39 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
     {
         return;
+    }
+
+    public function confirmedRemoveObject(): void
+    {
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if (0 === count($refIds)) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
+        foreach ($refIds as $ref_id) {
+            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
+                if (ilObject::_lookupType((int) $ref_id, true) === 'lso') {
+                    $lso = ilObjLearningSequence::getInstanceByRefId((int) $ref_id);
+                    if ($lso instanceof ilObjLearningSequence) {
+                        $lso->getLSRoles()->leave($this->user->getId());
+                    }
+                }
+
+                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
+            }
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('mmbr_unsubscribed_from_objs'), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return true;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return $this->lng->txt('pd_unsubscribe_multiple_memberships');
     }
 }

@@ -23,6 +23,14 @@ declare(strict_types=1);
  */
 class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
+    private ilFavouritesManager $favourites;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->favourites = new ilFavouritesManager();
+    }
+
     public function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
@@ -43,11 +51,20 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         ) . "<br>";
         $txt .= $this->lng->txt("rep_fav_intro3");
         $mbox = $this->ui->factory()->messageBox()->info($txt);
-        $mbox = $mbox->withLinks([$this->ui->factory()->link()->standard($this->getRepositoryTitle(), ilLink::_getStaticLink(1, 'root', true))]);
-        return $this->renderer->render($this->factory->panel()->standard(
-            $this->getTitle(),
-            $this->factory->legacy($this->renderer->render($mbox))
-        ));
+        $mbox = $mbox->withLinks(
+            [
+                $this->ui->factory()->link()->standard(
+                    $this->getRepositoryTitle(),
+                    ilLink::_getStaticLink(1, 'root', true)
+                )
+            ]
+        );
+        return $this->renderer->render(
+            $this->factory->panel()->standard(
+                $this->getTitle(),
+                $this->factory->legacy($this->renderer->render($mbox))
+            )
+        );
     }
 
     public function initData(): void
@@ -66,5 +83,38 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
     {
         return;
+    }
+
+    public function confirmedRemoveObject(): void
+    {
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if (0 === count($refIds)) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
+        foreach ($refIds as $ref_id) {
+            $this->favourites->remove($this->user->getId(), (int) $ref_id);
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function removeFromDeskObject(): void
+    {
+        $this->lng->loadLanguageModule("rep");
+        $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->returnToContext();
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return true;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return $this->lng->txt('pd_remove_multiple');
     }
 }

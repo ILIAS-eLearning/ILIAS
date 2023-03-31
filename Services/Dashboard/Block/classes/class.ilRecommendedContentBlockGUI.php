@@ -20,14 +20,22 @@ declare(strict_types=1);
 
 class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
 {
-    private int $requested_item_ref_id;
+    private ilFavouritesManager $favourites;
 
     public function __construct()
     {
         global $DIC;
         parent::__construct();
         $request = $DIC->repository()->internal()->gui()->standardRequest();
-        $this->requested_item_ref_id = $request->getItemRefId();
+        $this->favourites = new ilFavouritesManager();
+    }
+
+    protected function removeRecommendationObject(): void
+    {
+        $rec_manager = new ilRecommendedContentManager();
+        $rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("dash_item_removed"), true);
+        $this->ctrl->returnToParent($this);
     }
 
     public function initViewSettings(): void
@@ -63,14 +71,14 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
             $obj = ilObjectFactory::getInstanceByRefId($ref_id);
 
             return [
-               'title' => ilObject::_lookupTitle($obj_id),
-               'description' => $desc,
-               'ref_id' => $ref_id,
-               'obj_id' => $obj_id,
-               'url' => '',
-               'obj' => $obj,
-               'type' => ilObject::_lookupType($obj_id),
-               'start' => null,
+                'title' => ilObject::_lookupTitle($obj_id),
+                'description' => $desc,
+                'ref_id' => $ref_id,
+                'obj_id' => $obj_id,
+                'url' => '',
+                'obj' => $obj,
+                'type' => ilObject::_lookupType($obj_id),
+                'start' => null,
                 'end' => null,
             ];
         }, $recommendations);
@@ -83,14 +91,6 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         return 'pdrecc';
     }
 
-    protected function removeRecommendationObject(): void
-    {
-        $rec_manager = new ilRecommendedContentManager();
-        $rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("dash_item_removed"), true);
-        $this->ctrl->returnToParent($this);
-    }
-
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
     {
         $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
@@ -98,6 +98,42 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
             $this->ctrl->getLinkTarget($this, "removeRecommendation"),
             "dash_remove_from_list"
         );
+        $itemListGui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "addToDesk"),
+            "rep_add_to_favourites"
+        );
         $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
+    }
+
+    public function addToDeskObject(): void
+    {
+        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
+        $this->returnToContext();
+    }
+
+    public function confirmedRemoveObject(): void
+    {
+        $rec_manager = new ilRecommendedContentManager();
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if (0 === count($refIds)) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
+        foreach ($refIds as $ref_id) {
+            $rec_manager->declineObjectRecommendation($this->user->getId(), (int) $ref_id);
+        }
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return true;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return $this->lng->txt('pd_remove_multiple');
     }
 }

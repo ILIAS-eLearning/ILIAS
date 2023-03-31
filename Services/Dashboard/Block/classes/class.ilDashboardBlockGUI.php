@@ -26,12 +26,11 @@ use JetBrains\PhpStorm\NoReturn;
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
  * @ilCtrl_Calls ilDashboardBlockGUI: ilCommonActionDispatcherGUI
  */
-abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
+abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
     private string $content;
-    private ilFavouritesManager $favourites;
     private ilRbacSystem $rbacsystem;
-    private int $requested_item_ref_id;
+    protected int $requested_item_ref_id;
     private mixed $object_cache;
     private ilTree $tree;
     private mixed $objDefinition;
@@ -64,7 +63,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->new_rendering = true;
         $this->initViewSettings();
         $this->viewSettings->parse();
-        $this->favourites = new ilFavouritesManager();
         $this->rbacsystem = $DIC->rbac()->system();
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
@@ -381,11 +379,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
 
-        if (!$this->viewSettings->isStudyProgrammeViewActive()) {
+        if ($this->removeMultipleEnabled()) {
             $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
-                $this->viewSettings->isMembershipsViewActive() ?
-                    $this->lng->txt('pd_remove_multiple') :
-                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+                $this->getRemoveMultipleActionText(),
                 $this->ui->factory()->legacy('PH')
             );
             $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
@@ -396,11 +392,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             );
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'manage'),
-                $this->viewSettings->isSelectedItemsViewActive() ||
-                $this->viewSettings->isMembershipsViewActive() ||
-                $this->viewSettings->isRecommendedContentViewActive() ?
-                    $this->lng->txt('pd_remove_multiple') :
-                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+                $this->getRemoveMultipleActionText(),
                 '',
                 $roundtrip_modal
             );
@@ -498,7 +490,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         switch ($page) {
             case 'manage':
                 $modal = $this->ui->factory()->modal()->roundtrip(
-                    $this->lng->txt('pd_remove_multiple'),
+                    $this->getRemoveMultipleActionText(),
                     $this->ui->factory()->legacy($this->manage($replace_signal))
                 );
                 $modal = $modal->withAdditionalOnLoadCode(function ($id) {
@@ -625,22 +617,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return (new ilDashObjectsTableRenderer($this))->render($grouped_items);
     }
 
-    public function addToDeskObject(): void
-    {
-        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
-        $this->returnToContext();
-    }
-
-
-    public function removeFromDeskObject(): void
-    {
-        $this->lng->loadLanguageModule("rep");
-        $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
-        $this->returnToContext();
-    }
-
 
     public function confirmRemoveObject(): string
     {
@@ -652,25 +628,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             return $this->ui->renderer()->render($message_box);
         }
 
-        if ($this->viewSettings->isSelectedItemsViewActive()) {
-            $question = $this->lng->txt('dash_info_sure_remove_from_favs');
-            $cmd = 'confirmedRemove';
-        } elseif ($this->viewSettings->isRecommendedContentViewActive()) {
-            $question = $this->lng->txt('dash_info_sure_remove_from_recommended');
-            $cmd = 'confirmedRemoveRecommendation';
-        } else {
-            $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
-            $cmd = 'confirmedUnsubscribe';
-        }
-
-
+        $question = $this->lng->txt('dash_info_sure_remove_from_favs');
 
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setCancel($this->lng->txt('cancel'), 'viewDashboard');
-        $cgui->setConfirm($this->lng->txt('confirm'), $cmd);
+        $cgui->setConfirm($this->lng->txt('confirm'), 'confirmedRemove');
 
         foreach ($refIds as $ref_id) {
             $obj_id = ilObject::_lookupObjectId((int) $ref_id);
@@ -689,89 +654,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $cgui->getHTML();
     }
 
-    public function confirmedRemoveObject(): void
-    {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            $this->favourites->remove($this->user->getId(), (int) $ref_id);
-        }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
-        $this->ctrl->returnToParent($this);
-    }
-
-    public function confirmedRemoveRecommendationObject(): void
-    {
-        $rec_manager = new ilRecommendedContentManager();
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            $rec_manager->declineObjectRecommendation($this->user->getId(), (int) $ref_id);
-        }
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
-        $this->ctrl->returnToParent($this);
-    }
-
-    public function confirmedUnsubscribeObject(): void
-    {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
-                switch (ilObject::_lookupType((int) $ref_id, true)) {
-                    case 'crs':
-                        $members = new ilCourseParticipants(ilObject::_lookupObjId((int) $ref_id));
-                        $members->delete($this->user->getId());
-
-                        $members->sendUnsubscribeNotificationToAdmins($this->user->getId());
-                        $members->sendNotification(
-                            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
-                            $this->user->getId()
-                        );
-                        break;
-
-                    case 'grp':
-                        $members = new ilGroupParticipants(ilObject::_lookupObjId((int) $ref_id));
-                        $members->delete($this->user->getId());
-
-                        $members->sendNotification(
-                            ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
-                            $this->user->getId()
-                        );
-                        $members->sendNotification(
-                            ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
-                            $this->user->getId()
-                        );
-                        break;
-
-                    case 'lso':
-                        $lso = ilObjLearningSequence::getInstanceByRefId((int) $ref_id);
-                        if ($lso instanceof ilObjLearningSequence) {
-                            $lso->getLSRoles()->leave($this->user->getId());
-                        }
-                        break;
-
-                    default:
-                        continue 2;
-                }
-
-                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
-            }
-        }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('mmbr_unsubscribed_from_objs'), true);
-        $this->ctrl->returnToParent($this);
-    }
+    abstract public function removeMultipleEnabled(): bool;
+    abstract public function getRemoveMultipleActionText(): string;
+    abstract public function confirmedRemoveObject(): void;
 
     protected function getGroupedCommandsForView(
         bool $manage = false
@@ -820,31 +705,28 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         if (count($presentationCommands) > 1) {
             $commandGroups[] = $presentationCommands;
         }
-        $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
-            $this->viewSettings->isMembershipsViewActive() ?
-                $this->lng->txt('pd_remove_multiple') :
-                $this->lng->txt('pd_unsubscribe_multiple_memberships'),
-            $this->ui->factory()->legacy('PH')
-        );
-        $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
-            $this->ctrl->getLinkTarget(
-                $this,
-                'removeFromDeskRoundtrip'
-            ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
-        );
-        $commandGroups[] = [
-            [
-                'txt' => $this->viewSettings->isSelectedItemsViewActive() ||
-                $this->viewSettings->isRecommendedContentViewActive() ||
-                $this->viewSettings->isMembershipsViewActive() ?
-                    $this->lng->txt('pd_remove_multiple') :
-                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
-                'url' => $this->ctrl->getLinkTarget($this, 'manage'),
-                'asyncUrl' => null,
-                'active' => false,
-                'modal' => $roundtrip_modal,
-            ]
-        ];
+
+        if ($this->removeMultipleEnabled()) {
+            $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
+                $this->getRemoveMultipleActionText(),
+                $this->ui->factory()->legacy('PH')
+            );
+            $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    'removeFromDeskRoundtrip'
+                ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+            );
+            $commandGroups[] = [
+                [
+                    'txt' => $this->getRemoveMultipleActionText(),
+                    'url' => $this->ctrl->getLinkTarget($this, 'manage'),
+                    'asyncUrl' => null,
+                    'active' => false,
+                    'modal' => $roundtrip_modal,
+                ]
+            ];
+        }
 
         return $commandGroups;
     }
