@@ -1612,45 +1612,6 @@ class ilObjectGUI
     }
 
     /**
-     * show edit section of custom icons for container
-     */
-    protected function showCustomIconsEditing(
-        $input_colspan = 1,
-        ilPropertyFormGUI $form = null,
-        $as_section = true
-    ): void {
-        if ($this->settings->get("custom_icons")) {
-            if ($form) {
-                $customIcon = $this->custom_icon_factory->getByObjId($this->object->getId(), $this->object->getType());
-
-                if ($as_section) {
-                    $title = new ilFormSectionHeaderGUI();
-                    $title->setTitle($this->lng->txt("icon_settings"));
-                } else {
-                    $title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
-                }
-                $form->addItem($title);
-
-                $caption = $this->lng->txt("cont_custom_icon");
-                $icon = new ilImageFileInputGUI($caption, "cont_icon");
-
-                $icon->setSuffixes($customIcon->getSupportedFileExtensions());
-                $icon->setUseCache(false);
-                if ($customIcon->exists()) {
-                    $icon->setImage($customIcon->getFullPath());
-                } else {
-                    $icon->setImage('');
-                }
-                if ($as_section) {
-                    $form->addItem($icon);
-                } else {
-                    $title->addSubItem($icon);
-                }
-            }
-        }
-    }
-
-    /**
      * Redirect after creation, see https://docu.ilias.de/goto_docu_wiki_wpage_5035_1357.html
      * Should be overwritten and redirect to settings screen.
      */
