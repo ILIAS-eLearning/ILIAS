@@ -50,15 +50,6 @@ class ilTestQuestionSetConfigFactory
      */
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
-        return $this->getQuestionSetConfigByType();
-    }
-
-    /**
-     * creates and returns an instance of a test question set config
-     * that corresponds to the passed question set type (test mode)
-     */
-    public function getQuestionSetConfigByType(): ilTestQuestionSetConfig
-    {
         if ($this->testQuestionSetConfig === null) {
             if ($this->testOBJ->isFixedTest()) {
                 $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(

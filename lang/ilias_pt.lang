@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Marcar como ‘Participante pontuado’
 assessment#:#set_manual_feedback#:#Feedback manual
 assessment#:#shape#:#Forma
 assessment#:#showSuggestedSolution#:#Tipo
+assessment#:#show_all_test_properties_on_info_page#:#Mostrar todas as propriedades de teste
+assessment#:#show_all_test_properties_on_info_page_byline#:#Os utilizadores terão uma lista completa das propriedades do teste no separador ‘Informação’, isto é informação sobre a pontuação e relatórios.
 assessment#:#show_answer_overview#:#Mostrar vista geral de respostas
 assessment#:#show_detailed_results#:#Mostrar resultados detalhados do utilizador (tentativa marcada)
 assessment#:#show_examview_html#:#No ecrã
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
-assessment#:#showinfo#:#Mostrar todas as propriedades de teste
-assessment#:#showinfo_desc#:#Os utilizadores terão uma lista completa das propriedades do teste no separador ‘Informação’, isto é informação sobre a pontuação e relatórios.
 assessment#:#shuffle_answers#:#Misturar respostas
 assessment#:#sign_submission#:#Assinar digitalmente submissões de teste
 assessment#:#sign_submission_info#:#Se estiver ativado e se houver um plugin de assinatura instalado e ativo, os participantes serão solicitados a assinar digitalmente a suas submissões.

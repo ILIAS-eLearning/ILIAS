@@ -1159,13 +1159,13 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#set_manual_feedback#:#Ορίστε χειροκίνητη επανατροφοδότηση
 assessment#:#shape#:#Σχήμα
 assessment#:#showSuggestedSolution#:#Suggested solution###30 04 2009 new variable
+assessment#:#show_all_test_properties_on_info_page#:#Παρουσιάστε την πλήρη σελιδα πληροφοριών
+assessment#:#show_all_test_properties_on_info_page_byline#:#Εάν τικαριστεί, η πλήρης σελίδα πληροφοριών του τέστ θα εμφανιστεί(περιλαμβανομένων των ιδιοτήτων του τέστ). Εάν δέν τικαριστεί, μόνο το εισαγωγικό κείμενο (εφόσον υπάρχει)και οι απαιτούμενες ιδιότητες θα εμφανιστούν στη σελιδα πληροφοριών του τέστ
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Εμφάνιση λεπτομερειών των αποτελεσμάτων του χρήστη (Επιτυχόντος)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Εμφάνιση γενικής εικόνας αποτελεσμάτων του Χρήστη
 assessment#:#show_user_answers#:#Εμφάνιση απαντήσεων του Χρήστη
-assessment#:#showinfo#:#Παρουσιάστε την πλήρη σελιδα πληροφοριών
-assessment#:#showinfo_desc#:#Εάν τικαριστεί, η πλήρης σελίδα πληροφοριών του τέστ θα εμφανιστεί(περιλαμβανομένων των ιδιοτήτων του τέστ). Εάν δέν τικαριστεί, μόνο το εισαγωγικό κείμενο (εφόσον υπάρχει)και οι απαιτούμενες ιδιότητες θα εμφανιστούν στη σελιδα πληροφοριών του τέστ
 assessment#:#shuffle_answers#:#Ανακάτεμα απαντήσεων
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilTestTabsManagerTest
@@ -38,6 +41,12 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->addGlobal_lng();
 
         $this->testObj = new ilTestTabsManager(
+            $this->tabs_mock,
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilCtrl::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+            $this->createMock(ilAccess::class),
             $this->createMock(ilTestAccess::class),
             $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
@@ -93,21 +102,6 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $mock = $this->createMock(ilTestQuestionSetConfig::class);
         $this->testObj->setTestQuestionSetConfig($mock);
         $this->assertEquals($mock, $this->testObj->getTestQuestionSetConfig());
-    }
-
-    public function testHiddenTabs(): void
-    {
-        $expected = ["Test", "Hello", "World"];
-        $this->testObj->setHiddenTabs($expected);
-        $this->assertEquals($expected, $this->testObj->getHiddenTabs());
-    }
-
-    public function testResetHiddenTabs(): void
-    {
-        $expected = ["Test", "Hello", "World"];
-        $this->testObj->setHiddenTabs($expected);
-        $this->testObj->resetHiddenTabs();
-        $this->assertEquals([], $this->testObj->getHiddenTabs());
     }
 
     public function testParentBackLabel(): void

@@ -436,7 +436,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
                 $links[] = $this->DIC->ui()->factory()->link()->standard(
                     $this->DIC->language()->txt('test_edit_settings'),
-                    $this->buildLinkTarget('ilobjtestsettingsgeneralgui')
+                    $this->buildLinkTarget('ilobjtestsettingsmaingui')
                 );
             }
 

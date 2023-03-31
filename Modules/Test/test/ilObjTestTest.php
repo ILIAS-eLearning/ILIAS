@@ -54,7 +54,7 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals(12, $this->testObj->getTmpCopyWizardCopyId());
     }
 
-    public function testIntroductionEnabled(): void
+    /*public function testIntroductionEnabled(): void
     {
         $this->testObj->setIntroductionEnabled(false);
         $this->assertFalse($this->testObj->isIntroductionEnabled());
@@ -77,30 +77,6 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals("Test", $this->testObj->getFinalStatement());
     }
 
-    public function testShowInfo(): void
-    {
-        $this->testObj->setShowInfo(0);
-        $this->assertEquals(0, $this->testObj->getShowInfo());
-
-        $this->testObj->setShowInfo(1);
-        $this->assertEquals(1, $this->testObj->getShowInfo());
-    }
-
-    public function testForceJS(): void
-    {
-        $this->testObj->setForceJS(0);
-        $this->assertEquals(0, $this->testObj->getForceJS());
-
-        $this->testObj->setForceJS(1);
-        $this->assertEquals(1, $this->testObj->getForceJS());
-    }
-
-    public function testCustomStyle(): void
-    {
-        $this->testObj->setCustomStyle("Test");
-        $this->assertEquals("Test", $this->testObj->getCustomStyle());
-    }
-
     public function testShowFinalStatement(): void
     {
         $this->testObj->setShowFinalStatement(0);
@@ -108,7 +84,7 @@ class ilObjTestTest extends ilTestBaseTestCase
 
         $this->testObj->setShowFinalStatement(1);
         $this->assertEquals(1, $this->testObj->getShowFinalStatement());
-    }
+    }*/
 
     public function testTestId(): void
     {
@@ -284,10 +260,10 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testStartingTime(): void
     {
-        $this->testObj->setStartingTime("0");
+        $this->testObj->setStartingTime(0);
         $this->assertEquals(0, $this->testObj->getStartingTime());
 
-        $this->testObj->setStartingTime("1");
+        $this->testObj->setStartingTime(1);
         $this->assertEquals(1, $this->testObj->getStartingTime());
     }
 
@@ -377,11 +353,11 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testPasswordEnabled(): void
     {
-        $this->testObj->setPasswordEnabled(0);
-        $this->assertEquals(0, $this->testObj->isPasswordEnabled());
+        $this->testObj->setPasswordEnabled(false);
+        $this->assertEquals(false, $this->testObj->isPasswordEnabled());
 
-        $this->testObj->setPasswordEnabled(1);
-        $this->assertEquals(1, $this->testObj->isPasswordEnabled());
+        $this->testObj->setPasswordEnabled(true);
+        $this->assertEquals(true, $this->testObj->isPasswordEnabled());
     }
 
     public function testPassword(): void
@@ -398,11 +374,11 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testShuffleQuestions(): void
     {
-        $this->testObj->setShuffleQuestions(0);
-        $this->assertEquals(0, $this->testObj->getShuffleQuestions());
+        $this->testObj->setShuffleQuestions(false);
+        $this->assertEquals(false, $this->testObj->getShuffleQuestions());
 
-        $this->testObj->setShuffleQuestions(1);
-        $this->assertEquals(1, $this->testObj->getShuffleQuestions());
+        $this->testObj->setShuffleQuestions(true);
+        $this->assertEquals(true, $this->testObj->getShuffleQuestions());
     }
 
     public function testListOfQuestionsSettings(): void

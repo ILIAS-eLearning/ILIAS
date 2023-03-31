@@ -53,8 +53,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
     private function findMatch(string $path, array $array): Result
     {
-        return array_reduce($array, fn (Result $result, SimpleAccess $access) => $result->except(
-            fn () => $access->isPermitted($path)
+        return array_reduce($array, fn(Result $result, SimpleAccess $access) => $result->except(
+            fn() => $access->isPermitted($path)
         ), new Error('Not a known path.'));
     }
 
@@ -358,7 +358,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
-            array("permission" => "write", "cmd" => "ilObjTestSettingsGeneralGUI::showForm", "lang_var" => "settings"),
+            array("permission" => "write", "cmd" => "ilObjTestSettingsMainGUI::showForm", "lang_var" => "settings"),
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run",
                 "default" => true),
             //array("permission" => "write", "cmd" => "", "lang_var" => "edit"),

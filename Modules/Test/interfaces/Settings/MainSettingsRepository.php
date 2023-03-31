@@ -16,20 +16,10 @@
  *
  *********************************************************************/
 
-/**
- * GUI class that manages the editing of general test settings/properties
- * shown on "general" subtab
- * @author		Björn Heyser <bheyser@databay.de>
- * @package		Modules/Test
- */
-abstract class ilTestSettingsGUI
-{
-    public function __construct(protected ilObjTest $test_object)
-    {
-    }
+namespace ILIAS\Test;
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
-    {
-        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
-    }
+interface MainSettingsRepository
+{
+    public function getFor(int $test_id): \ilObjTestMainSettings;
+    public function store(\ilObjTestMainSettings $settings): void;
 }

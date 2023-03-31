@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#'Pontozott résztvevő'-ként megjelölés
 assessment#:#set_manual_feedback#:#Manuális visszajelzés
 assessment#:#shape#:#Alakzat
 assessment#:#showSuggestedSolution#:#Típus
+assessment#:#show_all_test_properties_on_info_page#:#Az összes teszttulajdonság megjelenítése
+assessment#:#show_all_test_properties_on_info_page_byline#:#Az összes teszttulajdonság felsorolása jelenik meg először a felhasználónak, mint például információ a pontozásról, vagy az eredmények megjelenítéséről.
 assessment#:#show_answer_overview#:#Válaszok áttekintésének megjelenítése
 assessment#:#show_detailed_results#:#Figyelembe vett tesztkitöltés részletes áttekintése
 assessment#:#show_examview_html#:#Képernyőn
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
 assessment#:#show_user_answers#:#Figyelembe vett tesztkitöltés válaszainak megjelenítése
-assessment#:#showinfo#:#Az összes teszttulajdonság megjelenítése
-assessment#:#showinfo_desc#:#Az összes teszttulajdonság felsorolása jelenik meg először a felhasználónak, mint például információ a pontozásról, vagy az eredmények megjelenítéséről.
 assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
 assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, az aláíró-bővítményt telepítették és az aktív, akkor a résztvevők digitálisan aláírják beadványukat.

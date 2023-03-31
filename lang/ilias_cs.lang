@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Označit jako "Bodovaný účastník"
 assessment#:#set_manual_feedback#:#Manuální ohlas
 assessment#:#shape#:#Tvar
 assessment#:#showSuggestedSolution#:#Typ
+assessment#:#show_all_test_properties_on_info_page#:#Zobrazit úplnou stránku informací
+assessment#:#show_all_test_properties_on_info_page_byline#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#show_answer_overview#:#Zobrazit přehled odpovědí
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzdání testu
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
-assessment#:#showinfo#:#Zobrazit úplnou stránku informací
-assessment#:#showinfo_desc#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
 assessment#:#sign_submission#:#Digitální podpis odevzdaného testu.
 assessment#:#sign_submission_info#:#Pokud je toto aktivováno, je nainstalován plugin podpisu a je aktivní, účastníci budou svá řešení testů zasílat digitálně podepsaná
