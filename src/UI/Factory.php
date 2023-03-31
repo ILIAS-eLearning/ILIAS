@@ -978,4 +978,15 @@ interface Factory
      * @return \ILIAS\UI\Help\Topic[]
      */
     public function helpTopics(string ...$topic): array;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     An EntitityRepresentaion....
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Entity\Factory
+     */
+    public function entity(): C\Entity\Factory;
 }

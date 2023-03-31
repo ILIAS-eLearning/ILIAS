@@ -54,6 +54,7 @@ class InitUIFramework
                 $c["ui.factory.toast"],
                 $c["ui.factory.legacy"],
                 $c["ui.factory.launcher"]
+                $c["ui.factory.entity"]
             );
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
@@ -319,6 +320,8 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Launcher\Factory(
                 $c["ui.factory.modal"]
             );
+        $c["ui.factory.entity"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Entity\Factory();
         };
     }
 }
