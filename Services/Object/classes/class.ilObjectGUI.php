@@ -826,6 +826,7 @@ class ilObjectGUI
             $newObj->setType($this->requested_new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
+            $newObj->processAutoRating();
             $newObj->create();
 
             $this->putObjectInTree($newObj);
@@ -835,7 +836,6 @@ class ilObjectGUI
                 $newObj->applyDidacticTemplate($dtpl);
             }
 
-            $this->handleAutoRating($newObj);
             $this->afterSave($newObj);
         }
 
@@ -1609,20 +1609,6 @@ class ilObjectGUI
     protected function enableDragDropFileUpload(): void
     {
         $this->tpl->setFileUploadRefId($this->ref_id);
-    }
-
-    /**
-     * Activate rating automatically if parent container setting
-     */
-    protected function handleAutoRating(ilObject $new_obj): void
-    {
-        if (
-            ilObject::hasAutoRating($new_obj->getType(), $new_obj->getRefId()) &&
-            method_exists($new_obj, "setRating")
-        ) {
-            $new_obj->setRating(true);
-            $new_obj->update();
-        }
     }
 
     /**

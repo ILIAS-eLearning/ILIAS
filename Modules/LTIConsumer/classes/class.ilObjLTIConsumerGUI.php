@@ -241,9 +241,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 $newObj->applyDidacticTemplate($dtpl);
             }
 
-            // auto rating
-            $this->handleAutoRating($newObj);
-
             $this->afterSave($newObj);
 
             return;
