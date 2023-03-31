@@ -649,48 +649,33 @@ class ilObjectGUI
             }
         }
 
-        // no accordion if there is just one form
-        if (sizeof($forms) == 1) {
-            $form_type = key($forms);
-            $forms = array_shift($forms);
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        $cnt = 1;
+        foreach ($forms as $form_type => $cf) {
+            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
 
-            // see bug #0016217
+            // using custom form titles (used for repository plugins)
+            $form_title = "";
             if (method_exists($this, "getCreationFormTitle")) {
                 $form_title = $this->getCreationFormTitle($form_type);
-                if ($form_title != "") {
-                    $forms->setTitle($form_title);
-                }
             }
-            return $forms->getHTML();
-        } else {
-            $acc = new ilAccordionGUI();
-            $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
-            $cnt = 1;
-            foreach ($forms as $form_type => $cf) {
-                $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-
-                // using custom form titles (used for repository plugins)
-                $form_title = "";
-                if (method_exists($this, "getCreationFormTitle")) {
-                    $form_title = $this->getCreationFormTitle($form_type);
-                }
-                if (!$form_title) {
-                    $form_title = $cf->getTitle();
-                }
-
-                // move title from form to accordion
-                $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
-                $cf->setTitle('');
-                $cf->setTitleIcon('');
-                $cf->setTableWidth("100%");
-
-                $acc->addItem($htpl->get(), $cf->getHTML());
-
-                $cnt++;
+            if (!$form_title) {
+                $form_title = $cf->getTitle();
             }
 
-            return "<div class='ilCreationFormSection'>" . $acc->getHTML() . "</div>";
+            // move title from form to accordion
+            $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
+            $cf->setTitle('');
+            $cf->setTitleIcon('');
+            $cf->setTableWidth("100%");
+
+            $acc->addItem($htpl->get(), $cf->getHTML());
+
+            $cnt++;
         }
+
+        return "<div class='ilCreationFormSection'>" . $acc->getHTML() . "</div>";
     }
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
