@@ -350,7 +350,6 @@ administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
-adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 adn#:#btn_cancel#:#Abbrechen
 adn#:#btn_delete#:#Löschen
@@ -395,6 +394,7 @@ adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung
 adn#:#msg_type_during_event#:#Während Ereignis
 adn#:#msg_type_info#:#Die Wichtigkeit entscheidet über die farbliche Darstellung der Ankündigungen
+adn#adn#:#administrative_notification#:#Administrative Notifications###31 03 2023 new variable
 adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten (Textabgaben)
 adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
@@ -1859,6 +1859,8 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
+assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time###31 03 2023 new variable
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.###31 03 2023 new variable
 assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
@@ -10608,10 +10610,7 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
-lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter
-lti#:#lti_con_prov_dyn_reg_params_info#:#Dies kann die ID einer Ressource (z.B. eines Kurses) sein. Bei aktiviertem 'Deep Linking' ist eine Angabe erforderlich um direkt zur Ressource zu gelangen.
 lti#:#lti_con_prov_dyn_reg_url#:#Registrierungs-URL des Tools
-lti#:#lti_con_prov_dyn_reg_url_info#:#Diese Angabe erhalten Sie vom Anbieter des Tools. Fragen Sie nach der 'Registration URL' oder der 'Registrierungs-URL'.
 lti#:#lti_con_prov_external_provider#:#Externer Provider bzw. Externes Tool
 lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. externem Tool wird den Nutzern ein Hinweis angezeigt. Externe Provider bzw. Tools sind gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider bzw. das Tool. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern bzw. Tools
@@ -10660,7 +10659,6 @@ lti#:#lti_con_tool_url#:#Login URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
-lti#:#lti_con_version_1.3_before_id#:#Wenn keine dynamische Registrierung genutzt wird, erscheinen nach Eingabe der vom Tool bereitgestellten Daten weitere Daten, die beim Tool einzutragen sind.
 lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider bzw. Tools löschen möchten?
 lti#:#lti_consumer#:#Freigegeben für
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
@@ -12580,6 +12578,7 @@ prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich en
 prg#:#content_automation#:#Inhaltsautomatisierung
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#crs_affiliation_to_prg#:#Affiliation to study programmes###31 03 2023 new variable
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#deadline_updated#:#Stichtag aktualisiert
 prg#:#edit_participants#:#Zuweisungen bearbeiten
@@ -12626,6 +12625,7 @@ prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#obj_prg_select#:#-- Please select a study programme --###31 03 2023 new variable
 prg#:#optgrp_label_restart#:#Wiederaufnahme
 prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
@@ -12656,6 +12656,7 @@ prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
+prg#:#prg_copy_threads_info#:#Please decide which Study Programme elements are to be copied, linked or omitted.###31 03 2023 new variable
 prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
@@ -12811,7 +12812,6 @@ prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_view#:#Anzeigen
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
-prg#:#qualification_prg_finalization_error#:#Ein Abschluss des Qualifizierungsprogramms ist für den/die zugewiesene*n Benutzer*in bei den jetzigen Einstellungen nicht möglich.
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation

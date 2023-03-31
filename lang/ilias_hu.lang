@@ -1297,8 +1297,8 @@ assessment#:#tst_activation_online_info#:#Ha online, a résztvevők kitölthetik
 assessment#:#tst_add_quest_cont_edit_mode#:#Szerkesztő
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Egyszerű szöveg használata kérdések és válaszok, ILIAS-lapszerkesztő használata visszajelzések és tippek szerkesztéséhez.
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#A kérdések és a válaszok nem formázható szövegek. LaTex sem használható. Viszont a visszajelzések és a tippek újra felhasználhatóak, ha kérdés beágyazott az ILIAS-tananyagban.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints###31 03 2023 new variable
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#A kérdések, a válaszok, a visszajelzések és a tippek formázható szövegek. Viszont a visszajelzések és a tippek nem használhatóak fel újra, ha kérdés beágyazott az ILIAS-tananyagban.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich Text szerkesztő (TinyMCE) használata kérdések és válaszok, illetve visszajelzések és tippek szerkesztéséhez
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.
@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Nem sikerült
 assessment#:#tst_failed_imp_qst_skl_assign#:#A kérdéseket nem sikerült a következő kompetenciákhoz rendelni. Az érintett kompetenciák nem azonosíthatóak be ebben az ILIAS telepítésben.
 assessment#:#tst_failed_imp_skl_thresholds#:#A következő kompetenciák határértékeinek importálása meghiúsult, mert az érintett kompetenciák eltérő szinteket tartalmaznak ebben az ILIAS telepítésben.
 assessment#:#tst_feedback#:#Visszajelzés
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###31 03 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###31 03 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Szűrés életciklus alapján
 assessment#:#tst_filter_question_type#:#Kérdéstípus
 assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
@@ -1811,6 +1813,8 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen álla
 assessment#:#tst_results_overview#:#Teszteredmények áttekintése
 assessment#:#tst_results_print_best_solution#:#Legjobb megoldás
 assessment#:#tst_results_print_best_solution_info#:#Kérdésenként a lehetséges legjobb megoldás megjelenik.
+assessment#:#tst_results_print_best_solution_singlepage#:#Best Solution###31 03 2023 new variable
+assessment#:#tst_results_print_best_solution_singlepage_info#:#Additionally for each question the best possible solution will be displayed.###31 03 2023 new variable
 assessment#:#tst_results_tax_filters#:#Eredményszűrő
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Teszt folytatása a jelenlegi kérdéskiválasztással
 assessment#:#tst_resume_test#:#Teszt folytatása
@@ -2048,6 +2052,7 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Saját munkamenet id�
 auth#:#auth_oidc_settings_custom_session_duration_type#:#A munkamenet időtartamának beállításai
 auth#:#auth_oidc_settings_default_role#:#Szerep hozzárendelése
 auth#:#auth_oidc_settings_default_role_info#:#Kérem, válasszon ki egy globális szerepet az új ILIAS-fiókhoz
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###31 03 2023 new variable
 auth#:#auth_oidc_settings_discovery_url#:#A szolgáltató URL-jének felderítése
 auth#:#auth_oidc_settings_img#:#Kép
 auth#:#auth_oidc_settings_img_file_info#:#Töltsön fel egy képet, ami a bejelentkezési oldalon fog megjelenni. A szöveget automatikusan hozzáfűzzük a bejelentkezési szkripthez.
@@ -3113,6 +3118,8 @@ cmix#:#conf_launch_mode_review_info#:#This option should provide a user experien
 cmix#:#conf_lrs_endpoint#:#Zárópont
 cmix#:#conf_lrs_key#:#Kulcs / Bejelentkezés
 cmix#:#conf_lrs_secret#:#Titok / Jelszó
+cmix#:#conf_mastery_score#:#Mastery Score###31 03 2023 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###31 03 2023 new variable
 cmix#:#conf_new_window#:#Új ablak
 cmix#:#conf_new_window_info#:#A tartalom új ablakban nyílik meg. A tartalom elhagyásakor ez az ablak bezárul.
 cmix#:#conf_own_window#:#Egy ablak
@@ -3149,6 +3156,8 @@ cmix#:#conf_privacy_setting_default#:#Alapértelmezett beállítások, módosít
 cmix#:#conf_privacy_setting_force#:#Az objektumok beállításai nem módosíthatók
 cmix#:#conf_privacy_setting_info#:#Konfigurációs beállítások az adatvédelmi beállításokhoz
 cmix#:#conf_remarks#:#Belső észrevételek
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###31 03 2023 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###31 03 2023 new variable
 cmix#:#conf_title#:#Cím
 cmix#:#conf_user_ident#:#User identification###XXX
 cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress
@@ -3640,7 +3649,6 @@ common#:#catr_add#:#Kategórialink hozzáadása
 common#:#catr_edit_info#:#Válasszon egy kategóriát új link létrehozásához!
 common#:#catr_new#:#Kategórialink létrehozása
 common#:#catr_settings#:#Kategórialink beállításai
-common#:#cc#:#Másolatot kap (CC)
 common#:#certificate#:#Igazolás
 common#:#certificate_file_already_exists_error#:#Az igazolásfájl már létezik a rendszerben.
 common#:#certificate_file_input_output_error#:#Az igazolásfájl létezik a rendszerben, de nem törölhető. Keresse meg a hibával az üzemeltetőt.
@@ -3706,6 +3714,7 @@ common#:#clientlist_public_access#:#Nyilvános elérés
 common#:#clientlist_start_page#:#Kezdőoldal
 common#:#clipboard#:#Vágólap
 common#:#close#:#Bezárás
+common#:#cmix#:#Object xAPI/cmi5###31 03 2023 new variable
 common#:#cnt_new#:#(%s új)
 common#:#collapse#:#Fa bezárása
 common#:#collapse_all#:#Összes bezárása
@@ -3836,8 +3845,6 @@ common#:#day#:#Nap
 common#:#days#:#Nap
 common#:#db_host#:#Adatbázis-kiszolgáló
 common#:#db_name#:#Adatbázisnév
-common#:#db_need_hotfix#:#A javítások rendelkezésre állnak. Nyissa meg a <a href="./setup/setup.php">»setup</a> programot!
-common#:#db_need_update#:#Az adatbázis frissítésre szorul.
 common#:#db_pass#:#Adatbázis-jelszó
 common#:#db_type#:#Adatbázis-típus
 common#:#db_user#:#Adatbázis-felhasználó
@@ -4508,6 +4515,7 @@ common#:#lso_edit#:#Tanulási sor módosítása
 common#:#lso_import#:#Tanulási sor importálása
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_wizard_page#:#Tanulási sor másolása (2/2 lépés)
+common#:#lti#:#LTI Consumer###31 03 2023 new variable
 common#:#lti_outcome#:#LTI tanulási haladás bejelentése
 common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotát küldjük egy LTI-eszközfogyasztónak.
 common#:#mail#:#Levelek
@@ -5256,6 +5264,7 @@ common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#preferences#:#Beállítások
 common#:#presentation_table_more#:#Több megjelenítése
 common#:#preview#:#Előnézet
+common#:#preview_caption#:#Preview %sof %s###31 03 2023 new variable
 common#:#preview_create#:#Előnézet létrehozása
 common#:#preview_delete#:#Előnézet törlése
 common#:#preview_learner_info#:#A kurzus- és csoportvezető a tagok nézetből is megtekintheti a tartalmat.
@@ -7628,6 +7637,7 @@ crs#:#crs_objective_status#:#Cél állapota
 crs#:#crs_objective_status_configure#:#Kurzus ellenőrzőlistája
 crs#:#crs_objective_status_itest#:#Belépő teszt hozzárendelései
 crs#:#crs_objective_status_materials#:#Kurzustartalom létrehozása
+crs#:#crs_objective_status_materials_info#:#The course is currently empty. Add course materials that can be assigned to learning objectives.###31 03 2023 new variable
 crs#:#crs_objective_status_objective_creation#:#Tanulási cél létrehozása
 crs#:#crs_objective_status_objectives#:#Tanulási célok beállítása
 crs#:#crs_objective_status_qtest#:#Záró teszt hozzárendelései
@@ -8308,6 +8318,7 @@ dateplaner#:#cal_type_remote#:#Webes naptár
 dateplaner#:#cal_type_rl#:#Naptár helye
 dateplaner#:#cal_type_sess#:#Eseménynaptár
 dateplaner#:#cal_type_system#:#Nyilvános naptár
+dateplaner#:#cal_type_tals#:#Talks###31 03 2023 new variable
 dateplaner#:#cal_unshare#:#Megosztás törlése
 dateplaner#:#cal_unshare_cal#:#Megosztás megállítása
 dateplaner#:#cal_unshared_selected_usr#:#Naptármegosztás befejezése a kiválasztott felhasználókkal.
@@ -8960,6 +8971,7 @@ etal#:#change_date_of_talk#:#Megbeszélés dátumának módosítása
 etal#:#date_of_talk#:#Megbeszélés dátuma
 etal#:#etal_add#:#Megbeszélés hozzáadása
 etal#:#etal_add_new_item#:#Új Megbeszélés hozzáadása
+etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
 etal#:#etal_date_appointment_edit#:#Megbeszélés dátuma
 etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
 etal#:#etal_edit#:#Általános
@@ -8988,6 +9000,8 @@ etal#:#talt_add#:#Sablon hozzáadása
 etal#:#talt_edit#:#Általános
 etal#:#talt_etal#:#Munkavállalói megbeszélés
 etal#:#talt_new#:#Új Megbeszélés sablon
+etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
+etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
 exc#:#exc_add_assignment#:#Feladat létrehozása
 exc#:#exc_add_criteria#:#Szempont hozzáadása
 exc#:#exc_add_criteria_catalogue#:#Szempontgyűjtemény hozzáadása
@@ -10761,7 +10775,6 @@ lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
 ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
 ltiv#:#ltiv_create_info#:#Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni
 mail#:#back_to_folder#:#Vissza a mappához
-mail#:#bc#:#Titkos másolat (BCC)
 mail#:#chat_users_have_been_invited#:#Az alábbi felhasználókat hívta meg
 mail#:#chat_users_without_login#:#Az alábbi felhasználóknak nincs ILIAS-fiókja, nem lehetnek meghívva csevegőszobába.
 mail#:#chat_users_without_permission#:#Az alábbi felhasználóknak nincs hozzáférése a kiválasztott csevegőszobához:
@@ -10787,9 +10800,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Rendeljen hozzá egy névjegyet '%s' 
 mail#:#mail_attachment_file_not_exist#:#Legalább az egyik csatolmány nem található: %1$s
 mail#:#mail_attachments#:#Mellékletek
 mail#:#mail_auto_generated_info#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
+mail#:#mail_bcc#:#BCC###31 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Tárgy: %s
 mail#:#mail_bg_task_title#:#E-mail szállítás
 mail#:#mail_both_email#:#Mindkét e-mail cím
+mail#:#mail_cc#:#CC###31 03 2023 new variable
 mail#:#mail_change_to_folder#:#Mappaváltás: %s
 mail#:#mail_create_tpl#:#Szövegminta létrehozása
 mail#:#mail_cronjob_notification_info#:#Periodikus értesítés aktiválása az új e-mailekről
@@ -10852,6 +10867,7 @@ mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
 mail#:#mail_global_reply_to_addr#:#Válaszcím 
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet ('Reply-To') címet.
 mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###31 03 2023 new variable
 mail#:#mail_incoming#:#Beérkező levél
 mail#:#mail_incoming_both#:#Levelek helyi fogadása és továbbküldése
 mail#:#mail_incoming_local#:#Levelek csak helyi fogadása
@@ -11006,6 +11022,7 @@ mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzet
 mail#:#search_content#:#Keresés eredménye
 mail#:#search_recipients#:#Címzettek keresése
 mail#:#second_email_missing_info#:#Ez a kiválasztás nem lehetséges, mert nincs megadva másodlagos e-mail cím.
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###31 03 2023 new variable
 mail#:#send_mail_admins#:#Összes vezető
 mail#:#send_mail_members#:#Összes tag
 mail#:#send_mail_to#:#Címzettek közé
@@ -11199,6 +11216,7 @@ mep#:#mep_master_language_only_no_media#:#Mesternyelv média nélkül
 mep#:#mep_media_files#:#Mediafájlok
 mep#:#mep_media_subtitles#:#Feliratok
 mep#:#mep_mob#:#Mediaobjektum
+mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###31 03 2023 new variable
 mep#:#mep_mpg#:#Tartalom-építőelem
 mep#:#mep_new_content_snippet#:#Új tartalom-építőelem
 mep#:#mep_new_folder#:#Új mappa
@@ -11993,6 +12011,7 @@ mob#:#mob_mime_type_not_allowed#:#A következő mime-típusok nem engedélyezett
 mob#:#mob_multi_srt_files#:#SRT-fájlok
 mob#:#mob_no_fixed_size_map_editing#:#Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni.
 mob#:#mob_object#:#Objektum
+mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###31 03 2023 new variable
 mob#:#mob_really_delete_srt#:#Biztos, hogy törli az alábbi SRT-fájlokat?
 mob#:#mob_srt_files_deleted#:#A felirat fájlt töröltük.
 mob#:#mob_srt_not_allowed#:#.srt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket.
@@ -12057,7 +12076,6 @@ news#:#news_get_feed_title#:#Személyes hírforrás URL-je
 news#:#news_get_feed_url#:#Hírforrás URL-jének kérése
 news#:#news_get_priv_feed_info#:#Ez egy személyes hírforrás URL-je. A hírforrás olyan híreket tartalmaz, amelyeket a szerző személyesnek és nyilvánosnak minősített. Ezt a hírforrást jelszó védi, amely a 'Beállítások' alatt módosítható. Ne ossza meg senkivel ezt az URL-t! Cserélje le -a jelszót- ezen az URL-en az ön hírforrásjelszavával!
 news#:#news_get_priv_feed_title#:#Személyes URL-forrás
-news#:#news_hidden_news_block#:#A blokk jelenleg rejtett a tanulói nézetben.
 news#:#news_hide_news_block#:#Hírblokkok elrejtése
 news#:#news_hide_news_block_info#:#Blokkok elrejtése tanulói nézetben. A hírblokkok csak az írási joggal rendelkező felhasználók számára lesznek láthatóak.
 news#:#news_hide_news_date#:#Kezdő dátum
@@ -12171,17 +12189,21 @@ noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
 noti#:#noti_notification_deactivated#:#Az értesítőt sikeresen kikapcsolta
-notification_adm#:#enable_osd#:#Képernyő-értesítések bekapcsolása
-notification_adm#:#enable_osd_desc#:#A felhasználók értesítése felugró ablakkal.
-notification_adm#:#notification_settings#:#Értesítések beállítása
-notification_adm#:#osd_delay#:#Megjelenítés elhalasztása
-notification_adm#:#osd_delay_desc#:#A láthatóság késleltetése ezredmásodpercben.
-notification_adm#:#osd_interval#:#Frissítési időköz
-notification_adm#:#osd_interval_desc#:#Új értesítések ellenőrzési ideje másodpercekben. Az alacsonyabb értéke gyorsabb értesítést jelent, de növeli a kérések számát és az adatforgalmat.
-notification_adm#:#osd_vanish#:#Megjelenítési idő
-notification_adm#:#osd_vanish_desc#:#Az értesítés megjelenítési ideje másodpercekben.
-notification_adm#:#play_sound#:#Hang lejátszása
-notification_adm#:#play_sound_desc#:#Új értesítés érkezésekor hangot játszunk le.
+notifications_adm#:#enable_osd#:#Enable On-Screen Notifications###31 03 2023 new variable
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###31 03 2023 new variable
+notifications_adm#:#notification_settings#:#Notification Settings###31 03 2023 new variable
+notifications_adm#:#osd_delay#:#Presentation Delay###31 03 2023 new variable
+notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###31 03 2023 new variable
+notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.###31 03 2023 new variable
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.###31 03 2023 new variable
+notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###31 03 2023 new variable
+notifications_adm#:#osd_interval#:#Refreshinterval###31 03 2023 new variable
+notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###31 03 2023 new variable
+notifications_adm#:#osd_play_sound#:#Play a Sound###31 03 2023 new variable
+notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###31 03 2023 new variable
+notifications_adm#:#osd_settings#:#On-Screen Notifications###31 03 2023 new variable
+notifications_adm#:#osd_vanish#:#Presentation Time###31 03 2023 new variable
+notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.###31 03 2023 new variable
 obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
 obj#:#cont_skll_published#:#Az összes hozzárendelést sikeresen közzétette.
 obj#:#cont_skll_published_some_not#:#Az összes megadott hozzárendelést sikeresen közzétette. Néhány felhasználóhoz nincs kompetencia rendelve, náluk nincs mit közzétenni.
@@ -12604,6 +12626,8 @@ prg#:#msg_update_individual_plan_failed#:#Az egyéni terv módosítása sikertel
 prg#:#no_srctype_or_id#:#Az Id vagy a típus üres.
 prg#:#not_a_valid_cat_id#:#%s nem érvényes ref-id-je egy kategóriának sem.
 prg#:#obj_prg_select#:#-- Válasszon képzési programot --
+prg#:#optgrp_label_restart#:#Restart###31 03 2023 new variable
+prg#:#optgrp_label_validity#:#Expiry###31 03 2023 new variable
 prg#:#orgu#:#Szervezeti egység
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Hozzáférés-vezérlés a szervezeti egység pozíciói alapján
@@ -14840,6 +14864,7 @@ skmg#:#skmg_new_level#:#Új szint
 skmg#:#skmg_new_sktr#:#Új kompetenciasablon-hivatkozás
 skmg#:#skmg_next_step#:#Következő lépés
 skmg#:#skmg_no_nodes_selectable#:#Jelenleg nincsenek választható kompetenciák.
+skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.###31 03 2023 new variable
 skmg#:#skmg_no_skills#:#Nincsenek kompetenciák
 skmg#:#skmg_no_skills_selected_info#:#Még nem választott ki és nem is teljesített egy kompetenciát sem. Egy kompetencia kiválasztásához kattintson a "Kompetencia hozzáadása" gombra. Tetszőlege számú kompetenciát hozzáadhat. Azokat a kompetenciákat automatikusan megjelenítjük, melyeket tanulási anyagokkal teljesített.
 skmg#:#skmg_no_trigger#:#Nincs trigger
