@@ -2033,8 +2033,8 @@ auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authen
 auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactivated due to too many incorrect login attempts.
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
-auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginscreen Editor
+auth#:#auth_ldap_server_ds#:#LDAP Server
+auth#:#auth_login_editor#:#Login Screen Editor
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
@@ -2600,7 +2600,7 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Reservation deleted
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
-buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2812,7 +2812,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
-chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
+chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.
 chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants
 chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
@@ -3375,11 +3375,11 @@ cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
-cntr#:#cntr_text_media_editor#:#Customize Page
+cntr#:#cntr_text_media_editor#:#Customise Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
+cntr#:#cntr_view_info_by_type#:#Content is listed by Object type.
+cntr#:#cntr_view_info_sessions#:#Sessions are listed first, in their own list. Other content will be listed below the sessions.
+cntr#:#cntr_view_info_simple#:#All content is listed in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 cntr#:#cont_custom_icon#:#Custom Icon
@@ -3391,9 +3391,9 @@ cntr#:#objects_duplicated#:#Objects copied
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_at_top#:#Top
-cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
-cntr#:#sorting_new_items_order#:#Order for New Objects
-cntr#:#sorting_new_items_position#:#Position for New Objects
+cntr#:#sorting_new_items_direction#:#Direction of Display of New Objects
+cntr#:#sorting_new_items_order#:#Order of New Objects
+cntr#:#sorting_new_items_position#:#Position of New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
