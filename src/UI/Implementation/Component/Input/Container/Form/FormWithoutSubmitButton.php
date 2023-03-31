@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
+use ILIAS\UI\Component\Input\Container\Form\FormWithPostURL;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable as JavaScriptBindableTrait;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -29,9 +30,10 @@ use ILIAS\UI\Component\Signal;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class NoSubmit extends HasAction implements JavaScriptBindable
+class FormWithoutSubmitButton extends Form implements JavaScriptBindable, FormWithPostURL
 {
     use JavaScriptBindableTrait;
+    use HasPostURL;
 
     protected Signal $submit_signal;
 
@@ -42,8 +44,9 @@ class NoSubmit extends HasAction implements JavaScriptBindable
         string $post_url,
         array $inputs
     ) {
-        parent::__construct($input_factory, $name_source, $post_url, $inputs);
+        parent::__construct($input_factory, $name_source, $inputs);
         $this->submit_signal = $signal_generator->create();
+        $this->setPostURL($post_url);
     }
 
     public function getSubmitSignal(): Signal

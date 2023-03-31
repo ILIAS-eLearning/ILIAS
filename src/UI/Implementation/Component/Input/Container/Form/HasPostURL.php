@@ -19,28 +19,20 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class HasAction extends Form
+trait HasPostURL
 {
     protected string $post_url;
-
-    public function __construct(
-        FieldFactory $input_factory,
-        NameSource $name_source,
-        string $post_url,
-        array $inputs
-    ) {
-        parent::__construct($input_factory, $name_source, $inputs);
-        $this->post_url = $post_url;
-    }
 
     public function getPostURL(): string
     {
         return $this->post_url;
+    }
+
+    protected function setPostURL(string $post_url): void
+    {
+        $this->post_url = $post_url;
     }
 }
