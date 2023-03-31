@@ -25,7 +25,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\NoSubmit;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>

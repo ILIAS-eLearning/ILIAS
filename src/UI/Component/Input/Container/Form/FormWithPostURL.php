@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,23 +13,17 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 /**
- * This describes a standard form.
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Standard extends FormWithPostURL
+interface FormWithPostURL extends Form
 {
     /**
-     * Sets the caption of the submit button of the form
+     * Get the URL this form posts its result to.
      */
-    public function withSubmitCaption(string $caption): Standard;
-
-    /**
-     * Gets submit caption of the form
-     */
-    public function getSubmitCaption(): ?string;
+    public function getPostURL(): string;
 }

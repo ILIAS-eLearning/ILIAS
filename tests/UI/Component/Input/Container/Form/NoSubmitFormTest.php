@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\UI\Component\Input\Container\Form;
 
-use ILIAS\UI\Implementation\Component\Input\Container\Form\NoSubmit;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
 use ILIAS\UI\Component\Input\Field\Factory as InputFactory;
@@ -72,7 +72,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $dummy_input = $this->buildInputFactory()->text('test_label');
 
-        $form = new NoSubmit(
+        $form = new FormWithoutSubmitButton(
             $this->signal_generator,
             $this->buildInputFactory(),
             $this->namesource,
@@ -100,7 +100,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $dummy_input = $this->buildInputFactory()->text('test_label')->withRequired(true);
 
-        $form = new NoSubmit(
+        $form = new FormWithoutSubmitButton(
             $this->signal_generator,
             $this->buildInputFactory(),
             $this->namesource,
@@ -136,7 +136,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
             )
         );
 
-        $form = new NoSubmit(
+        $form = new FormWithoutSubmitButton(
             $this->signal_generator,
             $this->buildInputFactory(),
             $this->namesource,

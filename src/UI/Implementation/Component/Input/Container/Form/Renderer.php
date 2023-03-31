@@ -40,7 +40,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderStandard($component, $default_renderer);
         }
 
-        if ($component instanceof Form\NoSubmit) {
+        if ($component instanceof Form\FormWithoutSubmitButton) {
             return $this->renderNoSubmit($component, $default_renderer);
         }
 
@@ -52,7 +52,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
         $this->maybeAddRequired($component, $tpl);
-        $this->maybeAddAction($component, $tpl);
+        $this->addPostURL($component, $tpl);
         $this->maybeAddError($component, $tpl);
 
         $submit_button = $this->getUIFactory()->button()->standard(
@@ -66,19 +66,19 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderNoSubmit(Form\NoSubmit $component, RendererInterface $default_renderer): string
+    protected function renderNoSubmit(Form\FormWithoutSubmitButton $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.no_submit.html", true, true);
 
         $this->maybeAddRequired($component, $tpl);
-        $this->maybeAddAction($component, $tpl);
+        $this->addPostURL($component, $tpl);
         $this->maybeAddError($component, $tpl);
 
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
-        /** @var $component Form\NoSubmit */
+        /** @var $component Form\FormWithoutSubmitButton */
         $enriched_component = $component->withAdditionalOnLoadCode(
-            static function (string $id) use ($component) {
+            static function (string $id) use ($component): string {
                 return "
                     // @TODO: we need to refactor the signal-management to prevent using jQuery here.
                     $(document).on('{$component->getSubmitSignal()}', function () {
@@ -101,7 +101,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeAddAction(Form\HasAction $component, Template $tpl): void
+    protected function addPostURL(Component\Input\Container\Form\FormWithPostURL $component, Template $tpl): void
     {
         if ('' !== ($url = $component->getPostURL())) {
             $tpl->setCurrentBlock("action");
@@ -133,7 +133,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Input\Container\Form\Standard::class,
-            NoSubmit::class,
+            FormWithoutSubmitButton::class,
         ];
     }
 }
