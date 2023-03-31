@@ -2237,7 +2237,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getProcessingTimeAsMinutes()
     {
-        if (strlen($this->processing_time)) {
+        if ($this->processing_time !== null) {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
                 return ($matches[1] * 60) + $matches[2];
             }
