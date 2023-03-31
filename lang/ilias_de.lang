@@ -3559,7 +3559,7 @@ common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
 common#:#auth_soap_allow_local_desc#:#Erlaubt Personen mit SOAP-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort zu authentifizieren/anzumelden.
 common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
-common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
+common#:#auth_soap_auth_desc#:#Diese Einstellungen betreffen nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
 common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Konto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über ein ILIAS-Konto verfügen.
 common#:#auth_soap_namespace#:#Namensraum
 common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET-SOAP-Style genutzt wird.

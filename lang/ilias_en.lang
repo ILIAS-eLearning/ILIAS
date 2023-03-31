@@ -3412,7 +3412,7 @@ common#:#access_scope#:#Access
 common#:#access_unlimited#:#Unlimited
 common#:#access_until#:#Valid Until
 common#:#access_users#:#Logged in Users
-common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
+common#:#accesscount_registered_users#:#Read by … ( Number of Distinct ILIAS Users)
 common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
 common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to ILIAS with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
@@ -3774,8 +3774,8 @@ common#:#country_selection#:#Country (Drop Down Selection)
 common#:#course#:#Course
 common#:#courses#:#Courses
 common#:#create#:#Create
-common#:#create_date#:#Created on
-common#:#create_export_file#:#Create export file
+common#:#create_date#:#Created On
+common#:#create_export_file#:#Create Export File
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications
@@ -4186,12 +4186,12 @@ common#:#group#:#Group
 common#:#group_members#:#Group Members
 common#:#group_name#:#Group Name
 common#:#group_new_registrations#:#Join Requests
-common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password.
+common#:#group_password_registration_msg#:#Please enter the group’s password to join the group. If you don't know the password, please contact a group administrator.
 common#:#group_registration#:#Registration
 common#:#group_registration_mode#:#Registration Procedure
 common#:#group_registration_time#:#Registration Period
-common#:#group_req_direct#:#Join directly
-common#:#group_req_registration_msg#:#You have to request for membership to access this group. Please describe your interest for becoming member in the message form. You will be notified as soon as an administrator has accepted or declined your request.
+common#:#group_req_direct#:#Direct Registration
+common#:#group_req_registration_msg#:#You have to request membership in order to access this group. Please state why you are interested in becoming a member in the message form above. You will be notified as soon as an administrator has accepted or declined your request.
 common#:#group_status#:#Group is
 common#:#groupings#:#Membership Limitations
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
@@ -4201,10 +4201,10 @@ common#:#grp#:#Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
-common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
+common#:#grp_cancel_waiting_list#:#Are you sure you want to remove yourself from the waiting list of group "%s"?
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-common#:#grp_deleted_export_files#:#Deleted selected files.
-common#:#grp_dismiss_member#:#Are you sure you want to unsubscribe the following member(s) from the group?
+common#:#grp_deleted_export_files#:#Selected file(s) successfully deleted.
+common#:#grp_dismiss_member#:#Are you sure you want to remove the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to unsubscribe from this group?
 common#:#grp_edit#:#Edit Group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
@@ -4760,7 +4760,7 @@ common#:#nc_contact_requests_prop_time#:#Time
 common#:#never#:#never
 common#:#new#:#New
 common#:#new_language#:#New Language
-common#:#new_pass_equals_old_pass#:#The new password equals the old one.
+common#:#new_pass_equals_old_pass#:#The new password is identical to the old password. Please use a password that is different to the old one.
 common#:#newline#:#New Line
 common#:#news#:#News
 common#:#next#:#Next
@@ -5044,12 +5044,12 @@ common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_active#:#Calendar
-common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
-common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_active_info#:#Calendar is available.
+common#:#obj_tool_setting_calendar_info#:#Display the ‘Calendar’ block in the ‘Contents’ tab.
 common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#Activation allows custom metadata to be configured in the "Metadata" tab.
+common#:#obj_tool_setting_custom_metadata_info#:#Enable management of Custom Metadata sets in the ‘Metadata‘ tab.
 common#:#obj_tool_setting_news#:#News
-common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_news_info#:#Display the ‘News’ block in the ‘Content’ tab.
 common#:#obj_tos#:#Terms of Service
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_trac#:#Statistics and Learning Progress
@@ -5331,8 +5331,8 @@ common#:#quit#:#Quit
 common#:#quote#:#Quote
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 common#:#read#:#Read
-common#:#readcount_anonymous_users#:#Number of anonymous read accesses
-common#:#readcount_users#:#Number of non-anonymous read accesses
+common#:#readcount_anonymous_users#:#Number of Anonymous Read Accesses
+common#:#readcount_users#:#Number of Non-anonymous Read Accesses
 common#:#recipient#:#Recipient
 common#:#reference_deleted#:#Destination not available
 common#:#reference_of#:#Reference of:
@@ -5404,7 +5404,7 @@ common#:#role_new#:#New Role
 common#:#role_new_search#:#New search
 common#:#role_no_roles_selected#:#Please select a role
 common#:#role_protect_permissions#:#Protect Permissions
-common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.
+common#:#role_protect_permissions_desc#:#The object permissions for this role will, from now on, not be changed by systems operations. Furthermore only administrators of higher levels may change the permissions.
 common#:#role_select_one_item#:#Please select one object.
 common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?
 common#:#role_templates_only#:#Role templates only
@@ -5478,8 +5478,8 @@ common#:#search_new#:#New Search
 common#:#search_result#:#Search Result
 common#:#search_results#:#Search Results
 common#:#search_user#:#Search User
-common#:#seas_max_hits#:#Max hits
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
+common#:#seas_max_hits#:#Max Number of Hits
+common#:#seas_max_hits_info#:#Please enter the maximum number of search results you would like to receive.
 common#:#seas_settings#:#Search settings
 common#:#second#:#Second
 common#:#second_email#:#Second E-Mail
@@ -5547,41 +5547,41 @@ common#:#settings_presentation_header#:#Presentation
 common#:#settings_saved#:#Settings saved
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Enable Shibboleth Support
-common#:#shib_city#:#Attribute for city
-common#:#shib_country#:#Attribute for country
+common#:#shib_city#:#Attribute for City
+common#:#shib_country#:#Attribute for Country
 common#:#shib_data_conv#:#Absolute Path to Data Manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of Your Shibboleth Federation
-common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
+common#:#shib_firstname#:#Attribute for First Name
+common#:#shib_gender#:#Attribute for Salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the %s
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the %s
-common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
-common#:#shib_institution#:#Attribute for institution
-common#:#shib_invalid_home_organization#:#Please choose a valid organization!
-common#:#shib_language#:#Attribute for language
-common#:#shib_lastname#:#Attribute for lastname
-common#:#shib_login#:#Unique Shibboleth attribute
-common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration
-common#:#shib_login_embedded_wayf#:#Design custom login area
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let users choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple consisting of the <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as you intended it to be displayed in the drop-down list.<br>As an optional third parameter, you can add the <strong>location of a Shibboleth session initiator</strong> that is to be used if your ILIAS installation is part of a multi federation setup.
+common#:#shib_institution#:#Attribute for Institution
+common#:#shib_invalid_home_organization#:#Please choose a valid organisation!
+common#:#shib_language#:#Attribute for Language
+common#:#shib_lastname#:#Attribute for Last Name
+common#:#shib_login#:#Unique Shibboleth Attribute
+common#:#shib_login_button#:#Path to the image of a Shibboleth login button used to redirect users to the WAYF specified in the Shibboleth configuration.
+common#:#shib_login_embedded_wayf#:#Design Custom Login Area
 common#:#shib_login_embedded_wayf_description#:#This option allows you to enter any HTML code in the ‘Instructions Shown on Login Page’ text area below in order to, for example, embed your own JavaScript WAYF/Discovery Service or to customise the design of the login area to best suit your needs.
 common#:#shib_login_external_wayf#:#Use External WAYF Service
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF Service
-common#:#shib_login_type#:#Organization selection
+common#:#shib_login_type#:#Organisation selection
 common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#shib_member_of#:#I am a member of ...
-common#:#shib_phone_home#:#Attribute for home phone number
-common#:#shib_phone_mobile#:#Attribute for mobile phone number
-common#:#shib_phone_office#:#Attribute for office phone number
-common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.
-common#:#shib_settings_saved#:#The Shibboleth settings were saved
-common#:#shib_street#:#Attribute for street
-common#:#shib_title#:#Attribute for title
+common#:#shib_phone_home#:#Attribute for Home Phone Number
+common#:#shib_phone_mobile#:#Attribute for Mobile Phone Number
+common#:#shib_phone_office#:#Attribute for Office Phone Number
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organisation from the drop-down list.
+common#:#shib_settings_saved#:#The Shibboleth settings have been saved.
+common#:#shib_street#:#Attribute for Street
+common#:#shib_title#:#Attribute for Title
 common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default Role Assigned to Shibboleth Users
-common#:#shib_zipcode#:#Attribute for zipcode
+common#:#shib_zipcode#:#Attribute for ZUipcode
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
 common#:#show#:#Show
@@ -5615,13 +5615,13 @@ common#:#sort_descending#:#Sort Descending
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_asc#:#Ascending
 common#:#sorting_creation_header#:#By Creation Date
-common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
-common#:#sorting_desc#:#Descendent
-common#:#sorting_direction#:#Sorting Direction
-common#:#sorting_header#:#Content Item Sorting
+common#:#sorting_creation_info#:#Content is arranged automatically by creation date.
+common#:#sorting_desc#:#Descending
+common#:#sorting_direction#:#Direction of Display
+common#:#sorting_header#:#Content Arrangement Order
 common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course/group.
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
-common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
+common#:#sorting_info_manual#:#Content can be manually arranged into any order. Additionally, please set the standard arrangement procedures for new objects.
+common#:#sorting_info_title#:#Content is arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Order
 common#:#sorting_title_header#:#Titles in Alphabetical Order
@@ -5731,7 +5731,7 @@ common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
 common#:#txt_registered#:#You have successfully registered your account with ILIAS. Please click on the button below to log in to ILIAS with your user account.
-common#:#txt_registered_passw_gen#:#YYou have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#You have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
 common#:#txt_submitted#:#You have successfully registered your account with ILIAS. Your account request will be reviewed by our system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
