@@ -94,7 +94,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         }
         // $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
 
-
         // read the lang mode
         $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");
     }
@@ -449,6 +448,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function importObject(): void
     {
+        $form = $this->initNewImportForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    protected function initNewImportForm(): ilPropertyFormGUI
+    {
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -456,6 +461,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $form->addCommandButton("upload", $this->lng->txt("upload"));
 
         $fu = new ilFileInputGUI($this->lng->txt("file"), "userfile");
+        $fu->setRequired(true);
         $form->addItem($fu);
 
         $rg = new ilRadioGroupInputGUI($this->lng->txt("language_mode_existing"), "mode_existing");
@@ -474,9 +480,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $rg->setValue($this->getSession()["import"]["mode_existing"] ?? "keepall");
         $form->addItem($rg);
 
-        $this->tpl->setContent($form->getHTML());
+        return $form;
     }
-
 
     /**
     * Process an uploaded language file
@@ -485,41 +490,46 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
-        // save form inputs for next display
-        $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
-        ilSession::set("lang_ext_maintenance", $tmp);
+        $form = $this->initNewImportForm();
+        if ($form->checkInput()) {
+            $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
+            // save form inputs for next display
+            $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
+            ilSession::set("lang_ext_maintenance", $tmp);
+            try {
+                $upload = $DIC->upload();
+                $upload->process();
 
-        try {
-            $upload = $DIC->upload();
-            $upload->process();
+                if (!$upload->hasUploads()) {
+                    throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                }
+                $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
 
-            if (!$upload->hasUploads()) {
-                throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                $ProcessingStatus = $UploadResult->getStatus();
+                if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+                    throw new ilException($ProcessingStatus->getMessage());
+                }
+
+                // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
+                $tempfile = ilFileUtils::ilTempnam() . ".sec";
+                $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
+                $this->object->importLanguageFile($tempfile, $post_mode_existing);
+
+                $tempfs = $DIC->filesystem()->temp();
+                $tempfs->delete(basename($tempfile));
+            } catch (Exception $e) {
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                $this->ctrl->redirect($this, 'import');
             }
-            $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
 
-            $ProcessingStatus = $UploadResult->getStatus();
-            if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage());
-            }
-
-            // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
-            $tempfile = ilFileUtils::ilTempnam() . ".sec";
-            $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
-            $this->object->importLanguageFile($tempfile, $post_mode_existing);
-
-            $tempfs = $DIC->filesystem()->temp();
-            $tempfs->delete(basename($tempfile));
-        } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
-            $this->ctrl->redirect($this, 'import');
+            $this->tpl->setOnScreenMessage('success',
+                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
+            $this->ctrl->redirect($this, "import");
         }
 
-        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
-        $this->ctrl->redirect($this, "import");
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
     * Show the screen to export a language file
@@ -612,7 +622,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         ilUtil::deliverData($local_file_obj->build(), $filename);
     }
-
 
     /**
     * Process the language maintenance
