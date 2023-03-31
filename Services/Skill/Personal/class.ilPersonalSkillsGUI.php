@@ -2130,7 +2130,7 @@ class ilPersonalSkillsGUI
                 $ref_id = $r["rep_ref_id"];
                 // in containers: filter resources only by objects in sub tree
                 if ($is_container && !in_array($ref_id, $sub_objects)) {
-                    break;
+                    continue;
                 }
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = ilObject::_lookupTitle($obj_id);
