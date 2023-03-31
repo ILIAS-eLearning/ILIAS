@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\NoSubmit;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -53,7 +53,7 @@ class RoundTrip extends Modal implements M\RoundTrip
 
     protected ReplaceSignal $replace_signal;
     protected Signal $submit_signal;
-    protected NoSubmit $form;
+    protected FormWithoutSubmitButton $form;
     protected string $title;
     protected string $cancel_button_label = 'cancel';
     protected string $submit_button_label = 'save';
@@ -76,7 +76,7 @@ class RoundTrip extends Modal implements M\RoundTrip
         $content = (null !== $content) ? $this->toArray($content) : [];
         $this->checkArgListElements('content', $content, [Component::class]);
 
-        $this->form = new NoSubmit(
+        $this->form = new FormWithoutSubmitButton(
             $signal_generator,
             $field_factory,
             $name_source,
@@ -90,7 +90,7 @@ class RoundTrip extends Modal implements M\RoundTrip
         $this->initSignals();
     }
 
-    public function getForm(): NoSubmit
+    public function getForm(): FormWithoutSubmitButton
     {
         return $this->form;
     }
