@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Esta apresentação de conteúdo agrupa primeir
 cntr#:#cntr_view_info_simple#:#Esta apresentação de conteúdo lista todos os itens num bloco.
 cntr#:#cntr_view_sessions#:#Vista de sessões
 cntr#:#cntr_view_simple#:#Vista simples
-cntr#:#cont_custom_icon#:#Ícone personalizado
 cntr#:#container_import_zip_file_invalid#:#O ficheiro carregado não é um ficheiro de exportação ILIAS válido. Para carregar uma estrutura de diretório, use um objeto de ficheiro.
 cntr#:#edit_questions#:#Editar perguntas
 cntr#:#exc_next_deadline_single#:#Prazo
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Todas as atribuições foram publicadas.
 obj#:#cont_skll_published_some_not#:#Todas as atribuições fornecidas foram publicadas. A alguns utilizadores faltam atribuições de competência, e, por isso, não foi possível publicar atribuições para esses.
+obj#:#custom_icon#:#Ícone personalizado
 obj#:#edit_questions#:#Editar perguntas
 obj#:#obj_activate_content_lang#:#Ativar tradução para edição de página
 obj#:#obj_activate_multilang#:#Utilizadores

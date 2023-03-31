@@ -230,7 +230,13 @@ class Container extends \Pimple\Container
 
     public function object(): \ilObjectService
     {
-        return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
+        return new \ilObjectService(
+            $this->database(),
+            $this->language(),
+            $this->filesystem()->web(),
+            $this->upload(),
+            $this['object.customicons.factory']
+        );
     }
 
     public function exercise(): \ILIAS\Exercise\Service

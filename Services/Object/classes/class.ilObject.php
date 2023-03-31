@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+
 /**
  * Class ilObject
  * Basic functions for all objects
@@ -32,8 +35,10 @@ class ilObject
     public const DESC_LENGTH = 128; // (short) description column max length in db
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
-    protected ilLogger $obj_log;
 
+    private ?ilObjectProperties $object_properties = null;
+
+    protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
     protected ?ilObjectDefinition $obj_definition;
     protected ilDBInterface $db;
@@ -46,8 +51,6 @@ class ilObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
 
-    protected int $id;
-    protected bool $referenced;
     protected bool $call_by_reference;
     protected int $max_title = self::TITLE_LENGTH;
     protected int $max_desc = self::DESC_LENGTH;
@@ -81,8 +84,11 @@ class ilObject
      * @param int  $id        reference_id or object_id
      * @param bool $reference bool treat the id as reference_id (true) or object_id (false)
      */
-    public function __construct(int $id = 0, bool $reference = true)
-    {
+    public function __construct(
+        protected int $id = 0,
+        protected bool $referenced = true
+    ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ilias = $DIC["ilias"];
@@ -94,8 +100,7 @@ class ilObject
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
 
-        $this->referenced = $reference;
-        $this->call_by_reference = $reference;
+        $this->call_by_reference = $this->referenced;
 
         if (isset($DIC["lng"])) {
             $this->lng = $DIC["lng"];
@@ -126,6 +131,35 @@ class ilObject
         if ($id != 0) {
             $this->read();
         }
+    }
+
+    private function initializeObjectProperties(
+        Filesystem $filesystem,
+        FileUpload $upload,
+        ilObjectCustomIconFactory $custom_icon_factory
+    ): ilObjectProperties {
+        return (new ilObjectPropertiesAgregator(
+            $this->lng,
+            new ilObjectCorePropertiesDatabaseRepository($this->db),
+            new ilObjectAdditionalPropertiesLegacyRepository(
+                $custom_icon_factory,
+                $filesystem,
+                $upload
+            )
+        ))->getFor($this->getId());
+    }
+
+    public function getObjectProperties(): ilObjectProperties
+    {
+        if ($this->object_properties === null) {
+            global $DIC;
+            $this->object_properties = $this->initializeObjectProperties(
+                $DIC->filesystem()->web(),
+                $DIC->upload(),
+                $DIC['object.customicons.factory']
+            );
+        }
+        return $this->object_properties;
     }
 
     /**
@@ -1571,6 +1605,7 @@ class ilObject
      */
     public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilUser = $DIC["ilUser"];
@@ -1632,12 +1667,11 @@ class ilObject
         $this->db->manipulate($sql);
         // END WebDAV: Clone WebDAV properties
 
-        /** @var ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $DIC['object.customicons.factory'];
         $customIcon = $customIconFactory->getByObjId($this->getId(), $this->getType());
         $customIcon->copy($new_obj->getId());
 
-        $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
+        $tile_image = $this->getObjectProperties()->getPropertyTileImage()->getTileImage();
         $tile_image->copy($new_obj->getId());
 
         $this->app_event_handler->raise(
@@ -1749,7 +1783,6 @@ class ilObject
         }
 
         if ($obj_id && $ilSetting->get('custom_icons')) {
-            /** @var ilObjectCustomIconFactory  $customIconFactory */
             $customIconFactory = $DIC['object.customicons.factory'];
             $customIcon = $customIconFactory->getPresenterByObjId($obj_id, $type);
             if ($customIcon->exists()) {

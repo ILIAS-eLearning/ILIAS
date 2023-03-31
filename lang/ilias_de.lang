@@ -3386,7 +3386,6 @@ cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezei
 cntr#:#cntr_view_info_simple#:#Alle Objekte werden in einer einzigen Liste dargestellt.
 cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
-cntr#:#cont_custom_icon#:#Angepasstes Icon
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
 cntr#:#exc_next_deadline_single#:#Abgabefrist
@@ -12277,6 +12276,7 @@ notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen i
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
+obj#:#custom_icon#:#Angepasstes Icon
 obj#:#edit_questions#:#Fragen bearbeiten
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
 obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren

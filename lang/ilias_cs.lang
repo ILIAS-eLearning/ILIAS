@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Toto zobrazení obsahu nejprve seskupuje všech
 cntr#:#cntr_view_info_simple#:#Toto zobrazení obsahu vypisuje všechny položky v jediném bloku.
 cntr#:#cntr_view_sessions#:#Zobrazit sezení
 cntr#:#cntr_view_simple#:#Jednoduché zobrazení
-cntr#:#cont_custom_icon#:#Vlastní ikona
 cntr#:#container_import_zip_file_invalid#:#Ukládaný soubor není platný exportní soubor ILIAS. K uložení adresářové struktury použijte prosím souborový objekt.
 cntr#:#edit_questions#:#Upravit otázky
 cntr#:#exc_next_deadline_single#:#Konečný termín
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Všechna přiřazení byla publikována.
 obj#:#cont_skll_published_some_not#:#Všechna daná přiřazení byla publikována. Někteří uživatelé nemají přiřazenou způsobilost, takže pro ně nemohla být publikována žádná přiřazení.
+obj#:#custom_icon#:#Vlastní ikona
 obj#:#edit_questions#:#Upravit dotazy
 obj#:#obj_activate_content_lang#:#Aktivovat překlad pro úpravy stránky
 obj#:#obj_activate_multilang#:#Aktivovat vícejazyčnost

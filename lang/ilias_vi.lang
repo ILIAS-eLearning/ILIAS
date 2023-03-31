@@ -3303,7 +3303,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
-cntr#:#cont_custom_icon#:#Custom Icon###27 01 2015 new variable
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.###12 06 2011 new variable
 cntr#:#edit_questions#:#Edit Questions###12 06 2011 new variable
 cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
@@ -12003,6 +12002,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#All assignments have been published.###31 08 2017 new variable
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.###31 08 2017 new variable
+obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

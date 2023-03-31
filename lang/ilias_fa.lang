@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#این نوع ارائه محتوا همه آی
 cntr#:#cntr_view_info_simple#:#این نوع ارائه محتوا همه آیتم ها را در یک بلوک لیست می کند.
 cntr#:#cntr_view_sessions#:#نمای جلسات
 cntr#:#cntr_view_simple#:#نمایش ساده
-cntr#:#cont_custom_icon#:#Custom Icon###27 01 2015 new variable
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#edit_questions#:#ویرایش سوال ها
 cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#All assignments have been published.###31 08 2017 new variable
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.###31 08 2017 new variable
+obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

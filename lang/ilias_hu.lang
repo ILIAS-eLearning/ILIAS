@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Először az eseményeket azok objektumaival, a
 cntr#:#cntr_view_info_simple#:#Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg.
 cntr#:#cntr_view_sessions#:#Események nézete
 cntr#:#cntr_view_simple#:#Egyszerű nézet
-cntr#:#cont_custom_icon#:#Egyéni ikon
 cntr#:#container_import_zip_file_invalid#:#A feltöltött fájl nem érvényes ILIAS-exportfájl. A mappaszerkezet feltöltéséhez használjon fájlobjektumot.
 cntr#:#edit_questions#:#Kérdések módosítása
 cntr#:#exc_next_deadline_single#:#Határidő
@@ -12003,6 +12002,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
 obj#:#cont_skll_published#:#Az összes hozzárendelést sikeresen közzétette.
 obj#:#cont_skll_published_some_not#:#Az összes megadott hozzárendelést sikeresen közzétette. Néhány felhasználóhoz nincs kompetencia rendelve, náluk nincs mit közzétenni.
+obj#:#custom_icon#:#Egyéni ikon
 obj#:#edit_questions#:#Kérdések módosítása
 obj#:#obj_activate_content_lang#:#Lapszerkesztés fordításának bekapcsolása
 obj#:#obj_activate_multilang#:#Többnyelvűség bekapcsolása
