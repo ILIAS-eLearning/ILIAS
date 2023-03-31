@@ -48,8 +48,7 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
     public function getPreconditions(Setup\Environment $environment): array
     {
         return [
-            new \ilDatabaseServerIsConnectableObjective($this->config),
-            new ilDatabaseEnvironmentValidObjective($this->config)
+            new \ilDatabaseServerIsConnectableObjective($this->config)
         ];
     }
 

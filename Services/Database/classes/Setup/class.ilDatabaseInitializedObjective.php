@@ -52,7 +52,6 @@ class ilDatabaseInitializedObjective implements Setup\Objective
 
         $config = $environment->getConfigFor("database");
         return [
-            new ilDatabaseEnvironmentValidObjective(),
             new ilDatabasePopulatedObjective($config),
             new ilDatabaseConfigStoredObjective($config)
         ];

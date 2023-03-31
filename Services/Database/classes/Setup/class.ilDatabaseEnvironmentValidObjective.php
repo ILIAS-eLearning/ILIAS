@@ -45,9 +45,7 @@ class ilDatabaseEnvironmentValidObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment): array
     {
-        return [
-            new ilDatabaseInitializedObjective()
-        ];
+        return [ ];
     }
 
     public function achieve(Setup\Environment $environment): Setup\Environment
@@ -69,20 +67,24 @@ class ilDatabaseEnvironmentValidObjective implements Setup\Objective
 
     protected function checkDefaultEngine(ilDBInterface $db)
     {
-        $default_engine = 'UNKNOWN';
+        $default_engine = 'unknown';
         try {
             $r = $db->query('SHOW ENGINES ');
             while ($d = $db->fetchObject($r)) {
-                if ($d->Support === 'DEFAULT') {
+                if (strtoupper($d->Support) === 'DEFAULT') {
                     $default_engine = strtolower($d->Engine);
                     break;
                 }
             }
         } catch (Throwable $e) {
         }
-        if ($default_engine !== strtoupper(self::INNO_DB)) {
+        $default_engine = strtolower($default_engine);
+
+        if ($default_engine !== strtolower(self::INNO_DB)) {
             throw new Setup\UnachievableException(
-                "The default database engine is not set to '" . self::INNO_DB . "'. Please set the default database engine to '" . self::INNO_DB . " to proceed'."
+                "The default database engine is not set to '" . self::INNO_DB
+                . ", `$default_engine` given'. Please set the default database engine to '"
+                . self::INNO_DB . " to proceed'."
             );
         }
     }
