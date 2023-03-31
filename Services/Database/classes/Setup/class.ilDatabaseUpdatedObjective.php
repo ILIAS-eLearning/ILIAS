@@ -43,12 +43,12 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment): array
     {
-        return [
-            new Setup\Objective\ClientIdReadObjective(),
-            new ilDatabaseEnvironmentValidObjective(),
-            new ilIniFilesPopulatedObjective(),
-            new \ilDatabaseInitializedObjective()
-        ];
+        $preconditions = [];
+        $preconditions[] = new Setup\Objective\ClientIdReadObjective();
+        $preconditions[] = new ilIniFilesPopulatedObjective();
+        $preconditions[] = new ilDatabaseInitializedObjective();
+
+        return $preconditions;
     }
 
     public function achieve(Setup\Environment $environment): Setup\Environment
@@ -63,7 +63,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         // update to run. This is a memento to the fact, that dependency injection
         // is something we want. Currently, every component could just service
         // locate the whole world via the global $DIC.
-        /** @noRector  */
+        /** @noRector */
         $DIC = $GLOBALS["DIC"] ?? [];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["ilDB"] = $db;
@@ -74,16 +74,20 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             {
                 $this->io = $io;
             }
+
             public function write(): void
             {
             }
+
             public function info(): void
             {
             }
+
             public function warning($msg): void
             {
                 $this->io->inform($msg);
             }
+
             public function error($msg): void
             {
                 throw new Setup\UnachievableException(
@@ -106,6 +110,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             public function getStructure(): void
             {
             }
+
             public function setIniFile(): void
             {
             }
