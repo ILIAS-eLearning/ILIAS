@@ -1785,8 +1785,8 @@ assessment#:#tst_reset_processing_time#:#Reset Time Limit for All Test Attempts
 assessment#:#tst_reset_processing_time_desc#:#The time available to complete the test (Time Limit) will be reset to the maximum for each test attempt. This obviously only takes effect if multiple attempts are allowed.
 assessment#:#tst_result#:#Test Result
 assessment#:#tst_result_pass#:#Results of Test Attempt
-assessment#:#tst_result_user_name#:#Results of Test Attempt %s for %s
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
+assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_user_name_pass#:#Results of Test Attempt %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access_always#:#Immediately
 assessment#:#tst_results_access_always_desc#:#Participants can access their results via the ‘Results’ tab immediately after starting the test and even while still taking the test. Additionally, ILIAS will redirect participants to the 'Results'-tab as soon as they have finished the test.
