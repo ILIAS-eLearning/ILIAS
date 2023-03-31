@@ -42,12 +42,15 @@ abstract class TestSettings
         return $clone;
     }
 
+    /**
+     * @return Input|Array<ILIAS\UI\Component\Input\Field\Input>
+     */
     abstract public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input;
+    ): Input|array;
 
     abstract public function toStorage(): array;
 }

@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#"Puanlı Katılımcı" olarak İşaretle
 assessment#:#set_manual_feedback#:#Manuel Geri Bildirim
 assessment#:#shape#:#Şekil
 assessment#:#showSuggestedSolution#:#Tip
+assessment#:#show_all_test_properties_on_info_page#:#Detaylı Bilgi Sayfasını Göster
+assessment#:#show_all_test_properties_on_info_page_byline#:#Seçiliyse, detaylı test bilgi sayfası gösterilir (test özellikleri eklenerek). Eğer işaretli değilse, yalnızca tanıtım mesajı (varsa) ve gerekli özellikler Test Bilgi Sayfası üzerinde gösterilecektir.
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Kullanıcının detaylı sonuçlarını göster (Geçti işaretli)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Geçti İşaretlilere Genel Bakışı Göster
 assessment#:#show_user_answers#:#Kullanıcının işaretli cevaplarını göster
-assessment#:#showinfo#:#Detaylı Bilgi Sayfasını Göster
-assessment#:#showinfo_desc#:#Seçiliyse, detaylı test bilgi sayfası gösterilir (test özellikleri eklenerek). Eğer işaretli değilse, yalnızca tanıtım mesajı (varsa) ve gerekli özellikler Test Bilgi Sayfası üzerinde gösterilecektir.
 assessment#:#shuffle_answers#:#Cevapları Karıştır
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable

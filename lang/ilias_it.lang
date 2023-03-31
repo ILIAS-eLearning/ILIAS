@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Segna questo partecipante come "Partecipante 
 assessment#:#set_manual_feedback#:#Imposta il feedback manuale
 assessment#:#shape#:#Forma
 assessment#:#showSuggestedSolution#:#Soluzione proposta
+assessment#:#show_all_test_properties_on_info_page#:#Mostra la Information Page completa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Se selezionato, la Pagina Info Test viene mostrata (incluse le proprietà del test). Se non selezionato, solo il testo di introduzione (se disponibile) e le proprietà richieste verranno mostrate sulla Pagina Info Test.<br />
 assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
-assessment#:#showinfo#:#Mostra la Information Page completa
-assessment#:#showinfo_desc#:#Se selezionato, la Pagina Info Test viene mostrata (incluse le proprietà del test). Se non selezionato, solo il testo di introduzione (se disponibile) e le proprietà richieste verranno mostrate sulla Pagina Info Test.<br />
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#sign_submission#:#Firma digitale dei test inviati
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.

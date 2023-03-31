@@ -1163,13 +1163,13 @@ assessment#:#set_manscoring_done#:#Označi kot ocenjeno
 assessment#:#set_manual_feedback#:#Ročna povratna informacija
 assessment#:#shape#:#Oblika
 assessment#:#showSuggestedSolution#:#Vrsta
+assessment#:#show_all_test_properties_on_info_page#:#Prikaži lastnosti testa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#show_answer_overview#:#Pokaži pregled odgovorov
 assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravljanje testa)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
-assessment#:#showinfo#:#Prikaži lastnosti testa
-assessment#:#showinfo_desc#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#shuffle_answers#:#Pomešaj odgovore
 assessment#:#sign_submission#:#Digitalni podpis
 assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.

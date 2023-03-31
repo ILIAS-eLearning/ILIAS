@@ -16,20 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * GUI class that manages the editing of general test settings/properties
- * shown on "general" subtab
- * @author		Björn Heyser <bheyser@databay.de>
- * @package		Modules/Test
- */
-abstract class ilTestSettingsGUI
+interface ScoreSettingsRepository
 {
-    public function __construct(protected ilObjTest $test_object)
-    {
-    }
-
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
-    {
-        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
-    }
+    public function getFor(int $test_id): ilObjTestScoreSettings;
+    public function store(ilObjTestScoreSettings $settings): void;
 }

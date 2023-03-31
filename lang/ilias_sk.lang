@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Označit účastníka jako "Bodovaný účast
 assessment#:#set_manual_feedback#:#Nastavit ohlas manuálně
 assessment#:#shape#:#Tvar
 assessment#:#showSuggestedSolution#:#Doporučené řešení
+assessment#:#show_all_test_properties_on_info_page#:#Zobrazit úplnou stránku informací
+assessment#:#show_all_test_properties_on_info_page_byline#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
-assessment#:#showinfo#:#Zobrazit úplnou stránku informací
-assessment#:#showinfo_desc#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable

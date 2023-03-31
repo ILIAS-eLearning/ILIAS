@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Märgi see osaleja kui "punkte saanud osaleja
 assessment#:#set_manual_feedback#:#Määra manuaalne tagasiside
 assessment#:#shape#:#Kuju
 assessment#:#showSuggestedSolution#:#Soovituslik lahendus
+assessment#:#show_all_test_properties_on_info_page#:#Näita kogu testi infolehte
+assessment#:#show_all_test_properties_on_info_page_byline#:#Kui on märgistatud, on kogu testi infoleht kuvatud (k.a testi seaded). Kui on märgistamata, on kuvatud vaid sissejuhatav tekst (kui on olemas) ja seaded on kuvatud testi infolehel.
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgistatud sooritus)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
-assessment#:#showinfo#:#Näita kogu testi infolehte
-assessment#:#showinfo_desc#:#Kui on märgistatud, on kogu testi infoleht kuvatud (k.a testi seaded). Kui on märgistamata, on kuvatud vaid sissejuhatav tekst (kui on olemas) ja seaded on kuvatud testi infolehel.
 assessment#:#shuffle_answers#:#Sega vastuseid
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.

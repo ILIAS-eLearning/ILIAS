@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-interface ScoreSettingsRepository
+declare(strict_types=1);
+
+/**
+ *
+ * @ilCtrl_Calls ilTestPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+ * @ilCtrl_Calls ilTestPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilTestPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ */
+class ilTestPageGUI extends ilPageObjectGUI
 {
-    public function getFor(int $test_id): ilObjTestScoreSettings;
-    public function store(ilObjTestScoreSettings $settings): void;
 }

@@ -1157,13 +1157,13 @@ assessment#:#set_manscoring_done#:#标注这位参与者为“已评分的参与
 assessment#:#set_manual_feedback#:#设置手动反馈
 assessment#:#shape#:#外形
 assessment#:#showSuggestedSolution#:#建议方案
+assessment#:#show_all_test_properties_on_info_page#:#展示完整的信息页面
+assessment#:#show_all_test_properties_on_info_page_byline#:#如果勾选了，将会展示完整的测试页面（包括测试属性）。如果未勾选，则仅在测试信息页面展示介绍文本（如果有效的话）和所需的属性。
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#展示用户的详细结果(已标注通过)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#展示已标注通过的概况
 assessment#:#show_user_answers#:#展示用户的已标注答案
-assessment#:#showinfo#:#展示完整的信息页面
-assessment#:#showinfo_desc#:#如果勾选了，将会展示完整的测试页面（包括测试属性）。如果未勾选，则仅在测试信息页面展示介绍文本（如果有效的话）和所需的属性。
 assessment#:#shuffle_answers#:#简答题
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable

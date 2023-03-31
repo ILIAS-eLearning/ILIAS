@@ -16,20 +16,14 @@
  *
  *********************************************************************/
 
-/**
- * GUI class that manages the editing of general test settings/properties
- * shown on "general" subtab
- * @author		Björn Heyser <bheyser@databay.de>
- * @package		Modules/Test
- */
-abstract class ilTestSettingsGUI
-{
-    public function __construct(protected ilObjTest $test_object)
-    {
-    }
+declare(strict_types=1);
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
-    {
-        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
-    }
+/**
+ *
+ * @ilCtrl_Calls ilTestEditPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+ * @ilCtrl_Calls ilTestEditPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilTestEditPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ */
+class ilTestPageConfig extends ilPageConfig
+{
 }

@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#"Markeer deze deelnemer als ""Scorende Deelne
 assessment#:#set_manual_feedback#:#Handmatige feedback geven
 assessment#:#shape#:#Vorm
 assessment#:#showSuggestedSolution#:#Voorgestelde oplossing
+assessment#:#show_all_test_properties_on_info_page#:#Toon de volledige informatiepagina
+assessment#:#show_all_test_properties_on_info_page_byline#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
 assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
-assessment#:#showinfo#:#Toon de volledige informatiepagina
-assessment#:#showinfo_desc#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
 assessment#:#shuffle_answers#:#Antwoorden mixen
 assessment#:#sign_submission#:#Digitaal handtekening voor voltooien toets
 assessment#:#sign_submission_info#:#Als dit is ingeschakeld, èn een handtekening plugin is geinstalleeerd and geactiveerd, moeten deelnemers de toets digitaal ondertekenen.

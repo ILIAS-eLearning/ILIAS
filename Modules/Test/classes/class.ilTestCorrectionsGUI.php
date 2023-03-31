@@ -418,8 +418,10 @@ class ilTestCorrectionsGUI
 
         // check for empty test and set test offline
         if (!count($this->testOBJ->getTestQuestions())) {
-            $this->testOBJ->setOnline(false);
-            $this->testOBJ->saveToDb(true);
+            $object_properties = $this->testOBJ->getObjectProperties();
+            $object_properties->storePropertyIsOnline(
+                $object_properties->getPropertyIsOnline()->withOffline()
+            );
         }
 
         $this->ctrl->setParameter($this, 'qid', '');
