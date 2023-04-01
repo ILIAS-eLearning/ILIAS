@@ -89,6 +89,9 @@ il.LearningModule = {
 		}, true).then((html) => {
 			const el = document.getElementById("ilrtrpg");
 			this.core.setInnerHTML(el, html);
+			if (typeof WebuiPopovers !== "undefined") {
+				WebuiPopovers.hideAll();
+			}
 		});
 	},
 
