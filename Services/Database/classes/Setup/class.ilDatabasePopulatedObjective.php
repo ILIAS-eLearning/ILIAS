@@ -71,6 +71,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         $io->text("Default DB engine is $default");
 
+
         switch ($default) {
             case 'innodb':
                 $io->text("reading dump file, this may take a while...");
@@ -79,7 +80,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
             default:
                 throw new Setup\UnachievableException(
-                    "Cannot determine database default engine, must be InnoDB"
+                    "Cannot determine database default engine, must be InnoDB, `$default` given."
                 );
         }
 
@@ -149,8 +150,9 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
             $default = '';
             while ($d = $db->fetchObject($r)) {
-                if ($d->Support === 'DEFAULT') {
+                if (strtoupper($d->Support) === 'DEFAULT') {
                     $default = $d->Engine;
+                    break;
                 }
             }
             return strtolower($default);

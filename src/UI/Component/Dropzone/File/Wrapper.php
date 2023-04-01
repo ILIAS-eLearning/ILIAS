@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +28,7 @@ use ILIAS\UI\Implementation\Component\Signal;
  * Dropping the files opens a modal where the user can start the upload process.
  * @author  nmaerchy <nm@studer-raimann.ch>
  */
-interface Wrapper extends File, Triggerable
+interface Wrapper extends File
 {
     /**
      * Get the components being wrapped by this dropzone.
@@ -38,9 +36,4 @@ interface Wrapper extends File, Triggerable
      * @return Component[]
      */
     public function getContent(): array;
-
-    /**
-     * gets the Signal to clear the file-list in the modal of a wrapper dropzone.
-     */
-    public function getClearSignal(): Signal;
 }

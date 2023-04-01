@@ -8,7 +8,8 @@
 		"vendor-dir": "./libs/composer/vendor",
 		"allow-plugins": {
 			"simplesamlphp/composer-module-installer": true,
-			"cweagans/composer-patches": true
+			"cweagans/composer-patches": true,
+			"captainhook/plugin-composer": false
 		}
 	},
 	"scripts": {

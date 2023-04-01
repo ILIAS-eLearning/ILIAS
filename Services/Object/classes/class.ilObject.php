@@ -64,6 +64,8 @@ class ilObject
     protected string $import_id = "";
     protected bool $register = false;	// registering required for object? set to true to implement a subscription interface
 
+    private bool $process_auto_reating = false;
+
 
     /**
     * @var array contains all child objects of current object
@@ -135,6 +137,14 @@ class ilObject
         return ($this->call_by_reference) ? true : $this->referenced;
     }
 
+    /**
+     *
+     * @deprecated: This function will be removed asap.
+     */
+    public function processAutoRating(): void
+    {
+        $this->process_auto_reating = true;
+    }
 
     public function read(): void
     {
@@ -1162,6 +1172,7 @@ class ilObject
     public function putInTree(int $parent_ref_id): void
     {
         $this->tree->insertNode($this->getRefId(), $parent_ref_id);
+        $this->handleAutoRating();
 
         $log_entry = sprintf(
             "ilObject::putInTree(), parent_ref: %s, ref_id: %s, obj_id: %s, type: %s, title: %s",
@@ -1794,6 +1805,48 @@ class ilObject
         return self::getIconForReference(0, $obj_id, $size, $type, $offline);
     }
 
+    protected function handleAutoRating(): void
+    {
+        if ($this->process_auto_reating
+            && $this->hasAutoRating()
+            && method_exists($this, "setRating")
+        ) {
+            $this->setRating(true);
+            $this->update();
+        }
+    }
+
+    protected function hasAutoRating(): bool
+    {
+        $ref_id = $this->getRefId();
+        $type = $this->type;
+
+        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
+            return false;
+        }
+
+        return $this->selfOrParentWithRatingEnabled();
+    }
+
+    public function selfOrParentWithRatingEnabled(): bool
+    {
+        $tree = $this->tree;
+        $ref_id = $this->getRefId();
+        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
+        if (!$parent_ref_id) {
+            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
+        }
+        if ($parent_ref_id) {
+            // get auto rate setting
+            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+            return (bool) ilContainer::_lookupContainerSetting(
+                $parent_obj_id,
+                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+            );
+        }
+        return false;
+    }
+
     /**
      * Collect deletion dependencies. E.g.
      */
@@ -1972,33 +2025,6 @@ class ilObject
         $result = $db->query($sql);
         $rec = $db->fetchAssoc($result);
         return $rec["create_date"];
-    }
-
-    /**
-     * Check if auto rating is active for parent group/course
-     */
-    public static function hasAutoRating(string $type, int $ref_id): bool
-    {
-        global $DIC;
-        $tree = $DIC->repositoryTree();
-
-        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
-            return false;
-        }
-
-        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
-        if (!$parent_ref_id) {
-            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
-        }
-        if ($parent_ref_id) {
-            // get auto rate setting
-            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
-            return (bool) ilContainer::_lookupContainerSetting(
-                $parent_obj_id,
-                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
-            );
-        }
-        return false;
     }
 
     /**

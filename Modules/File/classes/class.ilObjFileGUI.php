@@ -36,7 +36,7 @@ use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 class ilObjFileGUI extends ilObject2GUI
 {
     public const UPLOAD_MAX_FILES = 100;
-    public const PARAM_FILES = Dropzone::FILE_INPUT_KEY;
+    public const PARAM_FILES = 0;
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
     public const UPLOAD_ORIGIN_STANDARD = 'standard';
@@ -366,7 +366,7 @@ class ilObjFileGUI extends ilObject2GUI
         if (self::UPLOAD_ORIGIN_DROPZONE === $origin) {
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
-            $files = $dropzone->getData();
+            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;;
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
             $files = $form->getData()[self::PARAM_FILES] ?? null;

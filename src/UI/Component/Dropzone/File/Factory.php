@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,9 +18,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * Describes a factory for file dropzones.
@@ -42,8 +39,8 @@ interface Factory
      *   composition: >
      *      Standard dropzones consist of a visible area where files can
      *      be dropped. They MUST contain a message explaining that it is possible to
-     *      drop files inside. The dropped files are presented to the user, optionally
-     *      with some button to start the upload process.
+     *      drop files inside. The dropped files are presented to the user in a roundtrip
+     *      modal, which contains a file input.
      *   effect: >
      *      A standard dropzone is highlighted when the user is dragging files
      *      over the dropzone. After dropping, the dropped files are presented
@@ -57,22 +54,22 @@ interface Factory
      *          A file-input can be used instead of this component if other values
      *          have to be submitted at the same time.
      * rules:
-     *   usage:
-     *     1: Standard dropzones MUST contain a message.
      *   accessibility:
      *     1: >
      *        Standard dropzones MUST offer the possibility to select files
      *        manually from the computer.
      * ---
-     * @param UploadHandler $upload_handler for async file upload
-     * @param string        $post_url       for submitting the file data
-     * @param Input|null    $metadata_input optional template for metadata inputs
+     * @param string $title
+     * @param string $message
+     * @param string $post_url
+     * @param FileInput $file_input
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
     public function standard(
-        UploadHandler $upload_handler,
+        string $title,
+        string $message,
         string $post_url,
-        ?Input $metadata_input = null
+        FileInput $file_input
     ): Standard;
 
     /**
@@ -91,7 +88,7 @@ interface Factory
      *   composition: >
      *      A wrapper dropzone contains one or multiple ILIAS UI components.
      *      A roundtrip modal is used to present the dropped files and to initialize
-     *      the upload process.
+     *      the upload process with a file input.
      *   effect: >
      *      All wrapper dropzones on the page are highlighted when the user
      *      dragging files over the browser window. After dropping the files, the
@@ -110,16 +107,16 @@ interface Factory
      *     3: Wrapper dropzones MUST NOT contain any other file dropzones.
      *     4: Wrapper dropzones MUST NOT be used in modals.
      * ---
-     * @param UploadHandler         $upload_handler for async file upload
-     * @param string                $post_url       for submitting the file data
-     * @param Component[]|Component $content        Component(s) wrapped by the dropzone
-     * @param Input|null            $metadata_input optional template for metadata inputs
+     * @param string $title
+     * @param string $post_url
+     * @param Component|Component[] $content
+     * @param FileInput $file_input
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
     public function wrapper(
-        UploadHandler $upload_handler,
+        string $title,
         string $post_url,
         $content,
-        ?Input $metadata_input = null
+        FileInput $file_input
     ): Wrapper;
 }

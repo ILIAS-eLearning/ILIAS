@@ -1785,8 +1785,8 @@ assessment#:#tst_reset_processing_time#:#Reset Time Limit for All Test Attempts
 assessment#:#tst_reset_processing_time_desc#:#The time available to complete the test (Time Limit) will be reset to the maximum for each test attempt. This obviously only takes effect if multiple attempts are allowed.
 assessment#:#tst_result#:#Test Result
 assessment#:#tst_result_pass#:#Results of Test Attempt
-assessment#:#tst_result_user_name#:#Results of Test Attempt %s for %s
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
+assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_user_name_pass#:#Results of Test Attempt %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access_always#:#Immediately
 assessment#:#tst_results_access_always_desc#:#Participants can access their results via the ‘Results’ tab immediately after starting the test and even while still taking the test. Additionally, ILIAS will redirect participants to the 'Results'-tab as soon as they have finished the test.
@@ -2033,8 +2033,8 @@ auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authen
 auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactivated due to too many incorrect login attempts.
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
-auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginscreen Editor
+auth#:#auth_ldap_server_ds#:#LDAP Server
+auth#:#auth_login_editor#:#Login Screen Editor
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
@@ -2600,7 +2600,7 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Reservation deleted
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
-buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2812,7 +2812,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
-chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
+chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.
 chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants
 chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
@@ -3375,11 +3375,11 @@ cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
-cntr#:#cntr_text_media_editor#:#Customize Page
+cntr#:#cntr_text_media_editor#:#Customise Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
+cntr#:#cntr_view_info_by_type#:#Content is listed by Object type.
+cntr#:#cntr_view_info_sessions#:#Sessions are listed first, in their own list. Other content will be listed below the sessions.
+cntr#:#cntr_view_info_simple#:#All content is listed in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 cntr#:#cont_custom_icon#:#Custom Icon
@@ -3391,9 +3391,9 @@ cntr#:#objects_duplicated#:#Objects copied
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_at_top#:#Top
-cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
-cntr#:#sorting_new_items_order#:#Order for New Objects
-cntr#:#sorting_new_items_position#:#Position for New Objects
+cntr#:#sorting_new_items_direction#:#Direction of Display of New Objects
+cntr#:#sorting_new_items_order#:#Order of New Objects
+cntr#:#sorting_new_items_position#:#Position of New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
@@ -3412,7 +3412,7 @@ common#:#access_scope#:#Access
 common#:#access_unlimited#:#Unlimited
 common#:#access_until#:#Valid Until
 common#:#access_users#:#Logged in Users
-common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
+common#:#accesscount_registered_users#:#Read by … ( Number of Distinct ILIAS Users)
 common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
 common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to ILIAS with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
@@ -3774,8 +3774,8 @@ common#:#country_selection#:#Country (Drop Down Selection)
 common#:#course#:#Course
 common#:#courses#:#Courses
 common#:#create#:#Create
-common#:#create_date#:#Created on
-common#:#create_export_file#:#Create export file
+common#:#create_date#:#Created On
+common#:#create_export_file#:#Create Export File
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications
@@ -4186,12 +4186,12 @@ common#:#group#:#Group
 common#:#group_members#:#Group Members
 common#:#group_name#:#Group Name
 common#:#group_new_registrations#:#Join Requests
-common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password.
+common#:#group_password_registration_msg#:#Please enter the group’s password to join the group. If you don't know the password, please contact a group administrator.
 common#:#group_registration#:#Registration
 common#:#group_registration_mode#:#Registration Procedure
 common#:#group_registration_time#:#Registration Period
-common#:#group_req_direct#:#Join directly
-common#:#group_req_registration_msg#:#You have to request for membership to access this group. Please describe your interest for becoming member in the message form. You will be notified as soon as an administrator has accepted or declined your request.
+common#:#group_req_direct#:#Direct Registration
+common#:#group_req_registration_msg#:#You have to request membership in order to access this group. Please state why you are interested in becoming a member in the message form above. You will be notified as soon as an administrator has accepted or declined your request.
 common#:#group_status#:#Group is
 common#:#groupings#:#Membership Limitations
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
@@ -4201,10 +4201,10 @@ common#:#grp#:#Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
-common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
+common#:#grp_cancel_waiting_list#:#Are you sure you want to remove yourself from the waiting list of group "%s"?
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-common#:#grp_deleted_export_files#:#Deleted selected files.
-common#:#grp_dismiss_member#:#Are you sure you want to unsubscribe the following member(s) from the group?
+common#:#grp_deleted_export_files#:#Selected file(s) successfully deleted.
+common#:#grp_dismiss_member#:#Are you sure you want to remove the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to unsubscribe from this group?
 common#:#grp_edit#:#Edit Group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
@@ -4760,7 +4760,7 @@ common#:#nc_contact_requests_prop_time#:#Time
 common#:#never#:#never
 common#:#new#:#New
 common#:#new_language#:#New Language
-common#:#new_pass_equals_old_pass#:#The new password equals the old one.
+common#:#new_pass_equals_old_pass#:#The new password is identical to the old password. Please use a password that is different to the old one.
 common#:#newline#:#New Line
 common#:#news#:#News
 common#:#next#:#Next
@@ -5044,12 +5044,12 @@ common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_active#:#Calendar
-common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
-common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_active_info#:#Calendar is available.
+common#:#obj_tool_setting_calendar_info#:#Display the ‘Calendar’ block in the ‘Contents’ tab.
 common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#Activation allows custom metadata to be configured in the "Metadata" tab.
+common#:#obj_tool_setting_custom_metadata_info#:#Enable management of Custom Metadata sets in the ‘Metadata‘ tab.
 common#:#obj_tool_setting_news#:#News
-common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_news_info#:#Display the ‘News’ block in the ‘Content’ tab.
 common#:#obj_tos#:#Terms of Service
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_trac#:#Statistics and Learning Progress
@@ -5331,8 +5331,8 @@ common#:#quit#:#Quit
 common#:#quote#:#Quote
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 common#:#read#:#Read
-common#:#readcount_anonymous_users#:#Number of anonymous read accesses
-common#:#readcount_users#:#Number of non-anonymous read accesses
+common#:#readcount_anonymous_users#:#Number of Anonymous Read Accesses
+common#:#readcount_users#:#Number of Non-anonymous Read Accesses
 common#:#recipient#:#Recipient
 common#:#reference_deleted#:#Destination not available
 common#:#reference_of#:#Reference of:
@@ -5404,7 +5404,7 @@ common#:#role_new#:#New Role
 common#:#role_new_search#:#New search
 common#:#role_no_roles_selected#:#Please select a role
 common#:#role_protect_permissions#:#Protect Permissions
-common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.
+common#:#role_protect_permissions_desc#:#The object permissions for this role will, from now on, not be changed by systems operations. Furthermore only administrators of higher levels may change the permissions.
 common#:#role_select_one_item#:#Please select one object.
 common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?
 common#:#role_templates_only#:#Role templates only
@@ -5478,8 +5478,8 @@ common#:#search_new#:#New Search
 common#:#search_result#:#Search Result
 common#:#search_results#:#Search Results
 common#:#search_user#:#Search User
-common#:#seas_max_hits#:#Max hits
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
+common#:#seas_max_hits#:#Max Number of Hits
+common#:#seas_max_hits_info#:#Please enter the maximum number of search results you would like to receive.
 common#:#seas_settings#:#Search settings
 common#:#second#:#Second
 common#:#second_email#:#Second E-Mail
@@ -5547,41 +5547,41 @@ common#:#settings_presentation_header#:#Presentation
 common#:#settings_saved#:#Settings saved
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Enable Shibboleth Support
-common#:#shib_city#:#Attribute for city
-common#:#shib_country#:#Attribute for country
+common#:#shib_city#:#Attribute for City
+common#:#shib_country#:#Attribute for Country
 common#:#shib_data_conv#:#Absolute Path to Data Manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of Your Shibboleth Federation
-common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
+common#:#shib_firstname#:#Attribute for First Name
+common#:#shib_gender#:#Attribute for Salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the %s
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the %s
-common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
-common#:#shib_institution#:#Attribute for institution
-common#:#shib_invalid_home_organization#:#Please choose a valid organization!
-common#:#shib_language#:#Attribute for language
-common#:#shib_lastname#:#Attribute for lastname
-common#:#shib_login#:#Unique Shibboleth attribute
-common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration
-common#:#shib_login_embedded_wayf#:#Design custom login area
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let users choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple consisting of the <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as you intended it to be displayed in the drop-down list.<br>As an optional third parameter, you can add the <strong>location of a Shibboleth session initiator</strong> that is to be used if your ILIAS installation is part of a multi federation setup.
+common#:#shib_institution#:#Attribute for Institution
+common#:#shib_invalid_home_organization#:#Please choose a valid organisation!
+common#:#shib_language#:#Attribute for Language
+common#:#shib_lastname#:#Attribute for Last Name
+common#:#shib_login#:#Unique Shibboleth Attribute
+common#:#shib_login_button#:#Path to the image of a Shibboleth login button used to redirect users to the WAYF specified in the Shibboleth configuration.
+common#:#shib_login_embedded_wayf#:#Design Custom Login Area
 common#:#shib_login_embedded_wayf_description#:#This option allows you to enter any HTML code in the ‘Instructions Shown on Login Page’ text area below in order to, for example, embed your own JavaScript WAYF/Discovery Service or to customise the design of the login area to best suit your needs.
 common#:#shib_login_external_wayf#:#Use External WAYF Service
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF Service
-common#:#shib_login_type#:#Organization selection
+common#:#shib_login_type#:#Organisation selection
 common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#shib_member_of#:#I am a member of ...
-common#:#shib_phone_home#:#Attribute for home phone number
-common#:#shib_phone_mobile#:#Attribute for mobile phone number
-common#:#shib_phone_office#:#Attribute for office phone number
-common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.
-common#:#shib_settings_saved#:#The Shibboleth settings were saved
-common#:#shib_street#:#Attribute for street
-common#:#shib_title#:#Attribute for title
+common#:#shib_phone_home#:#Attribute for Home Phone Number
+common#:#shib_phone_mobile#:#Attribute for Mobile Phone Number
+common#:#shib_phone_office#:#Attribute for Office Phone Number
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organisation from the drop-down list.
+common#:#shib_settings_saved#:#The Shibboleth settings have been saved.
+common#:#shib_street#:#Attribute for Street
+common#:#shib_title#:#Attribute for Title
 common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default Role Assigned to Shibboleth Users
-common#:#shib_zipcode#:#Attribute for zipcode
+common#:#shib_zipcode#:#Attribute for ZUipcode
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
 common#:#show#:#Show
@@ -5615,13 +5615,13 @@ common#:#sort_descending#:#Sort Descending
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_asc#:#Ascending
 common#:#sorting_creation_header#:#By Creation Date
-common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
-common#:#sorting_desc#:#Descendent
-common#:#sorting_direction#:#Sorting Direction
-common#:#sorting_header#:#Content Item Sorting
+common#:#sorting_creation_info#:#Content is arranged automatically by creation date.
+common#:#sorting_desc#:#Descending
+common#:#sorting_direction#:#Direction of Display
+common#:#sorting_header#:#Content Arrangement Order
 common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course/group.
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
-common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
+common#:#sorting_info_manual#:#Content can be manually arranged into any order. Additionally, please set the standard arrangement procedures for new objects.
+common#:#sorting_info_title#:#Content is arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Order
 common#:#sorting_title_header#:#Titles in Alphabetical Order
@@ -5731,7 +5731,7 @@ common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
 common#:#txt_registered#:#You have successfully registered your account with ILIAS. Please click on the button below to log in to ILIAS with your user account.
-common#:#txt_registered_passw_gen#:#YYou have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#You have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
 common#:#txt_submitted#:#You have successfully registered your account with ILIAS. Your account request will be reviewed by our system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
@@ -5981,8 +5981,8 @@ cont#:#cont_add_local_profile#:#Add Local Profile
 cont#:#cont_add_skill#:#Add Competence
 cont#:#cont_assign_competence#:#Assign Competences to Members
 cont#:#cont_assign_skills#:#Assign Competences
-cont#:#cont_block_limit#:#Limit Items per Block
-cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.
+cont#:#cont_block_limit#:#Max Number of Items per Block
+cont#:#cont_block_limit_info#:#If a block contains more items then the number entered, a ‘Show More‘ button will be displayed.
 cont#:#cont_cont_skills#:#Assigned Competences of Members
 cont#:#cont_deassign_competence#:#Deassign Competences
 cont#:#cont_filter#:#Filter
@@ -5992,16 +5992,16 @@ cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#List
 cont#:#cont_item_list_info#:#Display content objects in a list.
-cont#:#cont_list_presentation#:#Item Presentation
+cont#:#cont_list_presentation#:#Item Display Options
 cont#:#cont_mem_skills#:#Competences
-cont#:#cont_news_edited#:#Bearbeitet
+cont#:#cont_news_edited#:#Edited
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline#:#News Timeline
 cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
-cont#:#cont_news_timeline_auto_entries_info#:#Include all news that are created automatically, e.g. forum posts, new files, etc.
-cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
+cont#:#cont_news_timeline_auto_entries_info#:#Include all news items that are created automatically, e.g. forum posts, new files, etc.
+cont#:#cont_news_timeline_info#:#Activate News Timeline Tab
 cont#:#cont_news_timeline_landing_page#:#Landing Page
-cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
+cont#:#cont_news_timeline_landing_page_info#:#Set the Timeline tab as the group’s landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
@@ -6045,11 +6045,11 @@ cont#:#cont_std_filter_title_8#:#Object Type
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
 cont#:#cont_tile_size#:#Tile Size
-cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
-cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
-cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
-cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
-cont#:#cont_tile_size_4#:#full (one tile in a row)
+cont#:#cont_tile_size_0#:#normal (up to four tiles per row)
+cont#:#cont_tile_size_1#:#small (up to six tiles per row)
+cont#:#cont_tile_size_2#:#large (up to three tiles per row)
+cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)
+cont#:#cont_tile_size_4#:#full (one tile per row)
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
@@ -6231,14 +6231,14 @@ content#:#cont_commented_by#:#Commented by
 content#:#cont_comments#:#Store Comments
 content#:#cont_comments_info#:#Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments.
 content#:#cont_confirm_delete#:#Do you really want to delete this item(s)?
-content#:#cont_constrain_proportions#:#Constrain Proportions
+content#:#cont_constrain_proportions#:#Maintain Proportions
 content#:#cont_content#:#Content
 content#:#cont_content_popup#:#Content Popup
 content#:#cont_content_popups#:#Content Popups
 content#:#cont_coords#:#Coordinates
 content#:#cont_copy_question_from_pool#:#Copy Question from Pool
 content#:#cont_copy_question_into_page#:#Copy into Page
-content#:#cont_copy_to_clipboard#:#Copy to clipboard
+content#:#cont_copy_to_clipboard#:#Copy to Clipboard
 content#:#cont_correct_after_first#:#First Try Correct
 content#:#cont_correct_answer_also#:#Also correct is:
 content#:#cont_correct_answers_also#:#Also correct are:
@@ -8012,7 +8012,7 @@ dateplaner#:#cal_add_appointment#:#Create Appointment
 dateplaner#:#cal_add_calendar#:#Add Calendar
 dateplaner#:#cal_add_category#:#Create New Calendar
 dateplaner#:#cal_add_milestone#:#Add Milestone
-dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
+dateplaner#:#cal_adm_notification_info#:#Choose this option to send optional mail notifications to course/group members regarding changed appointments.
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_all_day#:#All Day
@@ -8545,7 +8545,7 @@ dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_content_available#:#No data available for export.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
+dcl#:#dcl_no_fields_yet#:#This data set does not yet have any fields. Metadata is entered into one of the various field types. To be able to enter metadata, create at least one data field.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -8715,10 +8715,10 @@ didactic#:#didactic_template_update_import_info#:#Properties will be changed acc
 didactic#:#dtpl_obj_type_info#:#This didactic template can be applied on this object type.
 didactic#:#effective_form#:#Template Effective From
 didactic#:#grp_closed#:#Closed Group
-didactic#:#grp_closed_info#:#Group is not visible for non-members.
+didactic#:#grp_closed_info#:#Group is only visible to members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
-didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+didactic#:#sess_closed_info#:#Session is only visible to participants.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension
@@ -12078,9 +12078,9 @@ news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The f
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL
 news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
-news#:#news_hide_news_date#:#Starting Date
-news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
+news#:#news_hide_news_date#:#Starting Date/Time
+news#:#news_hide_news_per_date#:#Show News Starting From
+news#:#news_hide_news_per_date_info#:#Only news items starting from the date and time entered will be shown.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 news#:#news_internal_news#:#News
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
@@ -12116,7 +12116,7 @@ news#:#news_period_x_days#:#Last %s Days
 news#:#news_period_x_months#:#Last %s Months
 news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
-news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this Mediacast.
+news#:#news_public_feed_info#:#Enable a separate RSS feed for this Mediacast.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 news#:#news_rss#:#RSS
 news#:#news_rss_period#:#RSS Period
@@ -13613,7 +13613,7 @@ rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define
 rbac#:#poll_copy#:#User can copy poll
 rbac#:#poll_delete#:#User can move or delete poll
 rbac#:#poll_edit_permission#:#User can change permission settings
-rbac#:#poll_read#:#User can participate at poll
+rbac#:#poll_read#:#User can participate in poll
 rbac#:#poll_visible#:#Poll is visible
 rbac#:#poll_write#:#User can edit poll settings and content
 rbac#:#positions_override_operations#:#Override global Settings
@@ -13670,15 +13670,15 @@ rbac#:#rbac_add_new_local_role#:#Add New Local Role
 rbac#:#rbac_add_recommended_content#:#Recommended Content
 rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.
 rbac#:#rbac_admin_permissions#:#Administration Permissions
-rbac#:#rbac_auto_global#:#Auto generated global role
-rbac#:#rbac_auto_local#:#Auto generated local role
-rbac#:#rbac_auto_rolt#:#Auto generated role template
+rbac#:#rbac_auto_global#:#Auto-generated global role
+rbac#:#rbac_auto_local#:#Auto-generated local role
+rbac#:#rbac_auto_rolt#:#Auto-generated role template
 rbac#:#rbac_back_to_overview#:#Back to Role List
 rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into item %s.
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please enter a query for selecting the target roles.
+rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the roles to which you wish to copy the permissions.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
@@ -16393,7 +16393,7 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)
 trac#:#trac_log_info_link#:#Update
 trac#:#trac_long_system_load#:#Long term
-trac#:#trac_lp_determination#:#Items Determining the Learning Progress
+trac#:#trac_lp_determination#:#Items That Determine Learning Progress
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
@@ -16430,7 +16430,7 @@ trac#:#trac_mode_cmix_passed_info#:#&nbsp;
 trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
 trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
 trac#:#trac_mode_collection#:#Status is Determined by a Collection of Items
-trac#:#trac_mode_collection_info#:#A user's learning progress status is determined by the learning progress status of a collection of items:  If the status of all items in the collection is ‘Completed’ the overall status is ‘Completed’ .<br />Items can be assigned to the collection on this screen after saving this setting.
+trac#:#trac_mode_collection_info#:#A user's learning progress status is determined by the individual learning progress statuses of a collection of items:  If the statuses of all items in the collection are ‘Completed’, the overall learning progress status is ‘Completed’ .<br />After clicking on ‘Save’, you will be shown an expanded version of this tab, in which you can assign items to the collection.
 trac#:#trac_mode_collection_manual#:#Users Monitor and Set Status per Chapter Themselves
 trac#:#trac_mode_collection_manual_info#:#Users decide themselves if they have accomplished a chapter of the learning module. After completing a chapter, users have to set this chapter's status to ‘Completed’ on the 'Info'-tab. <br />Chapters can be selected as Progress-relevant on this screen after you have saved this setting.
 trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
@@ -16448,7 +16448,7 @@ trac#:#trac_mode_deactivated_info_new#:#The learning progress status is not disp
 trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance
 trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Participants'-tab.
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
-trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplished the excercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
+trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplished the exercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.
 trac#:#trac_mode_lti_outcome#:#Mastery Score Must be reached
@@ -16472,7 +16472,7 @@ trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user
 trac#:#trac_mode_test_finished#:#Test Must be Finished
 trac#:#trac_mode_test_finished_info#:#A user's learning progress status is set to ‘Completed’ after the user clicks 'Finish the Test'. Regardless of whether or not the test was passed, the learning progress will be set to ‘Completed’.
 trac#:#trac_mode_test_passed#:#Test Must be Passed
-trac#:#trac_mode_test_passed_info#:#A user's learning progress status is set to ‘Completed’ after the user passed the test. Thresholds for passing the test can be set in the 'Settings'-tab at the section 'Mark Schema'.
+trac#:#trac_mode_test_passed_info#:#A user's learning progress status is set to ‘Completed’ after the user has passed the test. Thresholds for passing the test can be set in the 'Grading System' subtab of the 'Settings' tab.
 trac#:#trac_mode_tlt#:#Minimally Required Amount of Time Spent on Learning Module
 trac#:#trac_mode_tlt_info#:#The status will be automatically set according to time a user spends working with the learning module. The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time. <br />The Typical Learning Time can be specified in the 'Metadata'-tab.
 trac#:#trac_mode_visited_pages#:#Visiting All Pages
@@ -16724,11 +16724,11 @@ user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_letter_avatars_info#:#Show the username (or the initials of the username) as the user’s profile picture if no public picture has been provided.
 user#:#usr_public_profile_disabled#:#Profile Disabled
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
-user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet
-user#:#usr_public_profile_logged_in#:#Visible for logged in Users
+user#:#usr_public_profile_global#:#WWW / Accessible for all users on the Internet
+user#:#usr_public_profile_logged_in#:#Visible to logged-in users of ILIAS
 usr#:#user_action#:#User Action
 usr#:#user_actions#:#User Actions
-usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
+usr#:#user_actions_activation_info#:#Actions will only be made available to users if the corresponding services are activated and all preconditions are fulfilled (e.g. permissions requirements).
 validation#:#no_array#:#Given value is not an array
 validation#:#not_a_null#:#Value of type '%s' is not a null.
 validation#:#not_a_string#:#Value of type '%s' is not a string.

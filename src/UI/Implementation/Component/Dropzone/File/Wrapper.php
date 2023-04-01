@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,89 +16,51 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
-use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Component;
-use LogicException;
-use ilLanguage;
-use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
+use ILIAS\UI\Component\Component;
 
 /**
- * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Wrapper extends File implements WrapperInterface
+class Wrapper extends File implements WrapperDropzone
 {
-    protected SignalGeneratorInterface $signal_generator;
-    protected \ILIAS\UI\Implementation\Component\Signal $clear_signal;
     /**
      * @var Component[]
      */
-    protected array $components;
+    protected array $content;
 
     /**
-     * @param Component[]|Component $content
+     * @param Component|Component[]
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        InputFactory $input_factory,
-        ilLanguage $language,
-        UploadLimitResolver $upload_limit_resolver,
-        UploadHandler $upload_handler,
-        string $post_url,
+        FieldFactory $field_factory,
+        NameSource $name_source,
+        FileInput $file_input,
+        string $title,
         $content,
-        ?Input $metadata_input
+        string $post_url
     ) {
-        parent::__construct($input_factory, $language, $upload_limit_resolver, $upload_handler, $post_url, $metadata_input);
+        parent::__construct($signal_generator, $field_factory, $name_source, $file_input, $title, $post_url);
 
         $content = $this->toArray($content);
         $this->checkArgListElements('content', $content, [Component::class]);
-        $this->checkEmptyArray($content);
-
-        $this->components = $content;
-        $this->signal_generator = $signal_generator;
-        $this->initSignals();
-    }
-
-    protected function initSignals(): void
-    {
-        $this->clear_signal = $this->signal_generator->create();
-    }
-
-    public function getContent(): array
-    {
-        return $this->components;
-    }
-
-    public function getClearSignal(): Signal
-    {
-        return $this->clear_signal;
-    }
-
-    public function withResetSignals()
-    {
-        $clone = clone $this;
-        $clone->initSignals();
-        return $clone;
+        $this->content = $content;
     }
 
     /**
-     * Checks if the passed array contains at least one element, throws a LogicException otherwise.
-     * @throws LogicException if the passed in argument counts 0
+     * @return Component[]
      */
-    private function checkEmptyArray(array $array): void
+    public function getContent(): array
     {
-        if (count($array) === 0) {
-            throw new LogicException("At least one component from the UI framework is required, otherwise
-			the wrapper dropzone is not visible.");
-        }
+        return $this->content;
     }
 }
