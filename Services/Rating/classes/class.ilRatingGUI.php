@@ -104,7 +104,7 @@ class ilRatingGUI
     ): void {
         $ilUser = $this->user;
 
-        if (!trim($a_sub_obj_type)) {
+        if (!trim((string) $a_sub_obj_type)) {
             $a_sub_obj_type = "-";
         }
 
