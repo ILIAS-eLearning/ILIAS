@@ -218,7 +218,6 @@ class ilNewsTimelineGUI
         $this->lng->toJS("save");
 
         $this->tpl->addJavaScript("./Services/News/js/News.js");
-        ilMediaPlayerGUI::initJavascript($this->tpl);
     }
 
     public function loadMore(): void

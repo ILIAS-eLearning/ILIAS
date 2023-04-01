@@ -164,15 +164,6 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $a_set["mob_id"] > 0 && ilObject::_exists((int) $a_set["mob_id"])) {
             $mob = new ilObjMediaObject((int) $a_set["mob_id"]);
             $med = $mob->getMediaItem("Standard");
-            $mpl = new ilMediaPlayerGUI();
-            $mpl->setFile(ilObjMediaObject::_getDirectory((int) $a_set["mob_id"]) . "/" .
-                $med->getLocation());
-            $this->tpl->setCurrentBlock("player");
-            $this->tpl->setVariable(
-                "PLAYER",
-                $mpl->getMp3PlayerHtml()
-            );
-            $this->tpl->parseCurrentBlock();
         }
 
         // access
