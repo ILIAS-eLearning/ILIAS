@@ -1952,7 +1952,7 @@ abstract class assQuestion
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($DIC->testQuestionPool()->internal()->request()->getRefId())) ? $DIC->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
+        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($this->dic->testQuestionPool()->internal()->request()->getRefId())) ? $this->dic->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
                 $tstamp = 0;
