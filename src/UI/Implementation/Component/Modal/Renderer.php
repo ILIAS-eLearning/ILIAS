@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -181,6 +182,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
+        /** @var $modal RoundTrip */
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
         $tpl->setVariable('ID', $id);
@@ -197,6 +199,24 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('BUTTON', $default_renderer->render($button));
             $tpl->parseCurrentBlock();
         }
+
+        // only render form if it contains any inputs (for now).
+        if (!empty($modal->getInputs())) {
+            // render form in modal body.
+            $tpl->setCurrentBlock('with_form');
+            $tpl->setVariable('FORM', $default_renderer->render($modal->getForm()));
+            $tpl->parseCurrentBlock();
+
+            // render submit in modal footer.
+            $submit = $this->getUIFactory()->button()->standard(
+                $modal->getSubmitCaption(),
+                ''
+            )->withOnClick($modal->getForm()->getSubmitSignal());
+            $tpl->setCurrentBlock('with_submit');
+            $tpl->setVariable('SUBMIT_BUTTON', $default_renderer->render($submit));
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
         return $tpl->get();
     }

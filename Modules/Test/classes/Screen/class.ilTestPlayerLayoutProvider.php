@@ -123,7 +123,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_SHORT_TITLE);
-            if($title == null) {
+            if ($title == null) {
                 $title = '';
             }
             return $this->globalScreen()->layout()->factory()->short_title()
@@ -141,7 +141,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_TITLE);
-            if($title == null) {
+            if ($title == null) {
                 $title = '';
             }
             return $this->globalScreen()->layout()->factory()->view_title()

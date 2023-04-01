@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Component\Input\Container\Form;
+use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
@@ -39,6 +40,10 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderStandard($component, $default_renderer);
         }
 
+        if ($component instanceof Form\FormWithoutSubmitButton) {
+            return $this->renderNoSubmit($component, $default_renderer);
+        }
+
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
@@ -46,29 +51,79 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-        if ($component->getPostURL() != "") {
-            $tpl->setCurrentBlock("action");
-            $tpl->setVariable("URL", $component->getPostURL());
-            $tpl->parseCurrentBlock();
-        }
+        $this->maybeAddRequired($component, $tpl);
+        $this->addPostURL($component, $tpl);
+        $this->maybeAddError($component, $tpl);
 
-        $f = $this->getUIFactory();
-        $submit_button = $f->button()->standard($component->getSubmitCaption() ?? $this->txt("save"), "");
+        $submit_button = $this->getUIFactory()->button()->standard(
+            $component->getSubmitCaption() ?? $this->txt("save"), ""
+        );
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+
+        return $tpl->get();
+    }
+
+    protected function renderNoSubmit(Form\FormWithoutSubmitButton $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.no_submit.html", true, true);
+
+        $this->maybeAddRequired($component, $tpl);
+        $this->addPostURL($component, $tpl);
+        $this->maybeAddError($component, $tpl);
 
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
-        if($component->hasRequiredInputs()) {
+        /** @var $component Form\FormWithoutSubmitButton */
+        $enriched_component = $component->withAdditionalOnLoadCode(
+            static function (string $id) use ($component): string {
+                return "
+                    // @TODO: we need to refactor the signal-management to prevent using jQuery here.
+                    $(document).on('{$component->getSubmitSignal()}', function () {
+                        let form = document.getElementById('$id');
+                        if (!form instanceof HTMLFormElement) {
+                            throw new Error(`Element '$id' is not an instance of HTMLFormElement.`);
+                        }
+                        
+                        // @TODO: we should use the triggering button as an emitter here. When doing
+                        // so, please also change file.js processFormSubmissionHook().
+                        form.requestSubmit();
+                    });
+                ";
+            }
+        );
+
+        $id = $this->bindJavaScript($enriched_component) ?? $this->createId();
+        $tpl->setVariable("ID", $id);
+
+        return $tpl->get();
+    }
+
+    protected function addPostURL(Component\Input\Container\Form\FormWithPostURL $component, Template $tpl): void
+    {
+        if ('' !== ($url = $component->getPostURL())) {
+            $tpl->setCurrentBlock("action");
+            $tpl->setVariable("URL", $url);
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    protected function maybeAddError(Form\Form $component, Template $tpl): void
+    {
+        if (null !== ($error = $component->getError())) {
+            $tpl->setCurrentBlock("error");
+            $tpl->setVariable("ERROR", $error);
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    protected function maybeAddRequired(Form\Form $component, Template $tpl): void
+    {
+        if ($component->hasRequiredInputs()) {
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
-
-        $error = $component->getError();
-        if (!is_null($error)) {
-            $tpl->setVariable("ERROR", $error);
-        }
-        return $tpl->get();
     }
 
     /**
@@ -76,6 +131,9 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function getComponentInterfaceName(): array
     {
-        return array(Component\Input\Container\Form\Standard::class);
+        return [
+            Component\Input\Container\Form\Standard::class,
+            FormWithoutSubmitButton::class,
+        ];
     }
 }

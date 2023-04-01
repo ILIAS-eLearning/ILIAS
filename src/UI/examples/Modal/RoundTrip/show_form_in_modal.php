@@ -7,57 +7,35 @@ namespace ILIAS\UI\examples\Modal\RoundTrip;
 function show_form_in_modal()
 {
     global $DIC;
-    $factory = $DIC->ui()->factory();
+
     $renderer = $DIC->ui()->renderer();
-    $refinery = $DIC->refinery();
-    $post_wrapper = $DIC->http()->wrapper()->post();
+    $request = $DIC->http()->request();
+    $factory = $DIC->ui()->factory();
 
-    // Build the form
-    $form = new \ilPropertyFormGUI();
-    $form->setTitle("");
-    $form->setTarget("");
-    $form->setId(uniqid('form'));
-    $item = new \ilTextInputGUI('Firstname', 'firstname');
-    $item->setRequired(true);
-    $form->addItem($item);
-    $item = new \ilTextInputGUI('Lastname', 'lastname');
-    $item->setRequired(true);
-    $form->addItem($item);
-    $form->setFormAction("");
-    $item = new \ilHiddenInputGUI('cmd');
-    $item->setValue('submit');
-    $form->addItem($item);
+    // declare roundtrip with inputs and form action.
+    $modal = $factory->modal()->roundtrip(
+        'roundtrip with form',
+        null,
+        [
+            $factory->input()->field()->text('some text'),
+            $factory->input()->field()->numeric('some numbere'),
+        ],
+        '#'
+    );
 
-    // Build a submit button (action button) for the modal footer
-    $form_id = 'form_' . $form->getId();
-    $submit = $factory->button()->primary('Submit', '#')
-        ->withOnLoadCode(function ($id) use ($form_id) {
-            return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
-        });
+    // declare something that triggers the modal.
+    $open = $factory->button()->standard('open modal', '#')->withOnClick($modal->getShowSignal());
 
-    // Check if the form was submitted, if validation fails, show it again in a modal
-    $out = '';
-    $valid = true;
-    if ($post_wrapper->has('cmd') && $post_wrapper->retrieve('cmd', $refinery->kindlyTo()->string()) == 'submit') {
-        if ($form->checkInput()) {
-            // TODO PHP8: check superglobal
-            $panel = $factory->panel()->standard('Form validation successful', $factory->legacy(print_r($_POST, true)));
-            $out = $renderer->render($panel);
-        } else {
-            $form->setValuesByPost();
-            $valid = false;
-        }
+    // please use ilCtrl to generate an appropriate link target
+    // and check it's command instead of this.
+    if ('POST' === $request->getMethod()) {
+        $modal = $modal->withRequest($request);
+        $data = $modal->getData();
+    } else {
+        $data = 'no results yet.';
     }
 
-    $modal = $factory->modal()->roundtrip('User Details', $factory->legacy($form->getHTML()))
-        ->withActionButtons([$submit]);
-
-    // The modal triggers its show signal on load if validation failed
-    if (!$valid) {
-        $modal = $modal->withOnLoad($modal->getShowSignal());
-    }
-    $button1 = $factory->button()->standard('Show Form', '#')
-        ->withOnClick($modal->getShowSignal());
-
-    return $renderer->render([$button1, $modal]) . $out;
+    return
+        '<pre>' . print_r($data, true) . '</pre>' .
+        $renderer->render([$open, $modal]);
 }

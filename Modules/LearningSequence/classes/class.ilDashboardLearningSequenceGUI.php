@@ -38,8 +38,8 @@ class ilDashboardLearningSequenceGUI
     /**
      * @var array Object-Ids where user is assigned
      */
-    protected array $assignments = [];
-    protected Icon\Custom $icon;
+    protected ?array $assignments = null;
+    protected ?Icon\Icon $icon = null;
 
     public function __construct()
     {

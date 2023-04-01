@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,73 +16,63 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
-use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
-use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
-use ILIAS\UI\Component\Dropzone\File\Factory as FactoryInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Input;
-use ilLanguage;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Dropzone\File\Factory as FileDropzoneFactory;
+use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
+use ILIAS\UI\Component\Component;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Factory implements FactoryInterface
+class Factory implements FileDropzoneFactory
 {
     protected SignalGeneratorInterface $signal_generator;
-    protected UploadLimitResolver $upload_limit_resolver;
-    protected InputFactory $factory;
-    protected ilLanguage $language;
+    protected FieldFactory $field_factory;
 
-    public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        UploadLimitResolver $upload_limit_resolver,
-        InputFactory $factory,
-        ilLanguage $language
-    ) {
-        $this->upload_limit_resolver = $upload_limit_resolver;
-        $this->factory = $factory;
-        $this->language = $language;
+    public function __construct(SignalGeneratorInterface $signal_generator, FieldFactory $field_factory)
+    {
         $this->signal_generator = $signal_generator;
+        $this->field_factory = $field_factory;
     }
 
-    public function standard(
-        UploadHandler $upload_handler,
-        string $post_url,
-        ?Input $metadata_input = null
-    ): StandardInterface {
+    /**
+     * @inheritDoc
+     */
+    public function standard(string $title, string $message, string $post_url, FileInput $file_input): StandardDropzone
+    {
         return new Standard(
-            $this->factory,
-            $this->language,
-            $this->upload_limit_resolver,
-            $upload_handler,
-            $post_url,
-            $metadata_input
+            $this->signal_generator,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $file_input,
+            $title,
+            $message,
+            $post_url
         );
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function wrapper(
-        UploadHandler $upload_handler,
-        string $post_url,
-        $content,
-        ?Input $metadata_input = null
-    ): WrapperInterface {
+    public function wrapper(string $title, string $post_url, $content, FileInput $file_input): WrapperDropzone
+    {
         return new Wrapper(
             $this->signal_generator,
-            $this->factory,
-            $this->language,
-            $this->upload_limit_resolver,
-            $upload_handler,
-            $post_url,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $file_input,
+            $title,
             $content,
-            $metadata_input
+            $post_url
         );
     }
 }

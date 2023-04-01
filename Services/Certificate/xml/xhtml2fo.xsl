@@ -227,7 +227,14 @@
 					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
 				</xsl:when>
 			</xsl:choose>
-			<xsl:apply-templates select="node()"/>
+			<xsl:choose>
+				<xsl:when test="not(text())">
+					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates select="node()"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</fo:block>
 	</xsl:template>
 

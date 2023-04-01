@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
 
-function base()
+function with_clear_button()
 {
     global $DIC;
 
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
-    $request = $DIC->http()->request();
 
     $dropzone = $factory
         ->dropzone()->file()->wrapper(
@@ -23,15 +22,9 @@ function base()
             )
         );
 
-    // please use ilCtrl to generate an appropriate link target
-    // and check it's command instead of this.
-    if ('POST' === $request->getMethod()) {
-        $dropzone = $dropzone->withRequest($request);
-        $data = $dropzone->getData();
-    } else {
-        $data = 'no results yet.';
-    }
+    $dropzone = $dropzone->withActionButtons([
+        $factory->button()->standard('Clear files!', '#')->withOnClick($dropzone->getClearSignal())
+    ]);
 
-    return '<pre>' . print_r($data, true) . '</pre>' .
-        $renderer->render($dropzone);
+    return $renderer->render($dropzone);
 }
