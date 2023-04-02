@@ -62,6 +62,8 @@ abstract class ilContainerContentGUI
     protected StandardGUIRequest $request;
     protected ItemManager $item_manager;
     protected BlockSessionRepository $block_repo;
+    protected int $block_limit = 0;
+    protected array $type_grps = [];
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {

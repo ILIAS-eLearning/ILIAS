@@ -28,6 +28,7 @@ class ilTaxonomyNode
     public string $title;
     protected int $order_nr = 0;
     protected int $taxonomy_id;
+    protected ?array $data_record = null;
 
     /**
      * Constructor

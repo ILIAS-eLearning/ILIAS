@@ -77,6 +77,8 @@ class ilContainer extends ilObject
     protected bool $use_news = false;
     protected ilRecommendedContentManager $recommended_content_manager;
 
+    protected ?array $type_grps = null;
+
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */

@@ -1909,6 +1909,7 @@ class ilNewsItem
         }
 
         ilUtil::redirect($m_item->getLocation());
+        return true;
     }
 
     /**
