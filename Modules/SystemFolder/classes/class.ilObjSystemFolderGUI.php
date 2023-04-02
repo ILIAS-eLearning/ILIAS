@@ -32,56 +32,17 @@ use ILIAS\Setup\CLI\StatusCommand;
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
-    /**
-     * @var \ILIAS\Style\Content\Object\ObjectFacade
-     */
-    protected $content_style_domain;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilObjectDefinition
-     */
+    protected ilPropertyFormGUI $form;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected ilTabsGUI $tabs;
+    protected ilRbacSystem $rbacsystem;
     protected ilObjectDefinition $obj_definition;
-
-    /**
-     * @var ilErrorHandling
-     */
     protected ilErrorHandling $error;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var ilStyleDefinition
-     */
-    protected $style_definition;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilIniFile
-     */
-    protected $client_ini;
-
-    /**
-     * @var ilBenchmark
-     */
-    protected $bench;
-
+    protected ilDBInterface $db;
+    protected ilStyleDefinition $style_definition;
+    protected ilHelpGUI $help;
+    protected ilIniFile $client_ini;
+    protected ilBenchmark $bench;
     public string $type;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
@@ -399,11 +360,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
     }
 
-    private function saveCheckParamsObject()
+    private function saveCheckParamsObject(): void
     {
         $this->writeCheckParams();
         unset($_POST['mode']);
-        return $this->checkObject();
+        $this->checkObject();
     }
 
     private function writeCheckParams(): void
@@ -434,7 +395,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
     }
 
-    private function saveCheckCronObject()
+    private function saveCheckCronObject(): void
     {
         $ilSetting = $this->settings;
 
@@ -442,7 +403,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting->set('systemcheck_cron', $systemcheck_cron);
 
         unset($_POST['mode']);
-        return $this->checkObject();
+        $this->checkObject();
     }
 
     /**
@@ -708,8 +669,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
     public function viewScanLog(): void
     {
-        $validator = new IlValidator();
-        $scan_log = &$validator->readScanLog();
+        $validator = new ilValidator();
+        $scan_log = $validator->readScanLog();
 
         if (is_array($scan_log)) {
             $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
@@ -1400,7 +1361,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
     * Save header titles
     */
-    public function saveHeaderTitlesObject()
+    public function saveHeaderTitlesObject(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1416,19 +1377,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // default language set?
         if (!isset($_POST["default"]) && count($_POST["lang"]) > 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_default_language"));
-            return $this->showHeaderTitleObject(true);
+            $this->showHeaderTitleObject(true);
+            return;
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_language_selected"));
-            return $this->showHeaderTitleObject(true);
+            $this->showHeaderTitleObject(true);
+            return;
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_multi_language_selected"));
-            return $this->showHeaderTitleObject(true);
+            $this->showHeaderTitleObject(true);
+            return;
         }
 
         // save the stuff

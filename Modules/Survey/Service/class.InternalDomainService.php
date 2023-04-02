@@ -34,6 +34,7 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
+    protected \ilAccessHandler $access;
     protected ModeFactory $mode_factory;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
@@ -46,9 +47,7 @@ class InternalDomainService
         global $DIC;
 
         $this->initDomainServices($DIC);
-        $this->repo_tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
-        $this->lng = $DIC->language();
 
         $this->repo_service = $repo_service;
         $this->data_service = $data_service;

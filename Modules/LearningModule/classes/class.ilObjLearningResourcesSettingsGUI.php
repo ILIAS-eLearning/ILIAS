@@ -203,13 +203,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $form->addItem($cb_prop);
 
         $privacy = ilPrivacySettings::getInstance();
-        $check = new ilCheckboxInputGui($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
+        $check = new ilCheckboxInputGUI($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
         $check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
         $check->setChecked((bool) $privacy->enabledSahsProtocolData());
         $form->addItem($check);
 
         // show and export protocol data with name
-        $check = new ilCheckboxInputGui($this->lng->txt('ps_export_scorm'), 'export_scorm');
+        $check = new ilCheckboxInputGUI($this->lng->txt('ps_export_scorm'), 'export_scorm');
         $check->setInfo($this->lng->txt('enable_export_scorm_desc'));
         $check->setChecked($privacy->enabledExportSCORM());
         $form->addItem($check);

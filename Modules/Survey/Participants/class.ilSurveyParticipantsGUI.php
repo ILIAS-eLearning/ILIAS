@@ -1347,7 +1347,7 @@ class ilSurveyParticipantsGUI
         $form->setTitle($this->lng->txt("survey_360_add_external_rater") .
             ": " . ilUserUtil::getNamePresentation($appr_id));
 
-        $email = new ilEmailInputGUI($this->lng->txt("email"), "email");
+        $email = new ilEMailInputGUI($this->lng->txt("email"), "email");
         $email->setRequired(true);
         $form->addItem($email);
 

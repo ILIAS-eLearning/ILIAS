@@ -23,10 +23,8 @@
  */
 class ilBenchmarkTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected string $mode;
+    protected ilAccessHandler $access;
 
 
     /**

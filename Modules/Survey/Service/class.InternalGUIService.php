@@ -35,11 +35,10 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected \ilLanguage $lng;
+    protected \ilObjectServiceInterface $object_service;
     protected ModeFactory $mode_factory;
     protected InternalDomainService $domain_service;
     protected ServerRequestInterface $request;
-    protected \ilObjUser $user;
 
     public function __construct(
         \ilObjectServiceInterface $object_service,
@@ -53,13 +52,7 @@ class InternalGUIService
         $this->mode_factory = $mode_factory;
         $this->domain_service = $domain_service;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->ui = $DIC->ui();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
         $this->request = $DIC->http()->request();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->http = $DIC->http();
     }
 
     public function surveySettings(\ilObjSurvey $survey): Settings\UIFactory
@@ -105,9 +98,9 @@ class InternalGUIService
         $info_screen = new InfoScreen\InfoScreenGUI(
             $survey_gui,
             $toolbar,
-            $this->user,
-            $this->lng,
-            $this->ctrl,
+            $this->domain_service->user(),
+            $this->domain_service->lng(),
+            $this->ctrl(),
             $this->request,
             $this->domain_service
         );
@@ -123,7 +116,7 @@ class InternalGUIService
 
     public function lng(): \ilLanguage
     {
-        return $this->lng;
+        return $this->domain_service->lng();
     }
 
     public function print(): PrintView\GUIService

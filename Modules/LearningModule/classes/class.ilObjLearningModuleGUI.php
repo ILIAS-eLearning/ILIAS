@@ -25,8 +25,6 @@
 */
 class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 {
-    protected ilLMTree $lm_tree;
-
     /**
      * @param mixed $a_data
      */

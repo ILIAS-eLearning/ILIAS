@@ -22,6 +22,7 @@
  */
 class ilBookCronNotification extends ilCronJob
 {
+    protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
     protected ilLogger $book_log;
