@@ -1968,11 +1968,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->viewThreadObject();
     }
 
-    public function addActivationFormModal(): ILIAS\UI\Component\Button\Standard
+    public function addActivationFormModal(ilForumPost $node): ILIAS\UI\Component\Button\Standard
     {
         $form = new ilPropertyFormGUI();
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+        $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+        $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
         $this->ctrl->setParameter(
             $this,
             'orderby',
@@ -1980,7 +1980,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         $form->setFormAction($this->ctrl->getFormAction($this, 'performPostActivation'));
         $this->ctrl->clearParameters($this);
-        $form->setId('frm_activate_post_' . $this->objCurrentPost->getId());
+        $form->setId('frm_activate_post_' . $node->getId());
         $form_id = $form->getId();
         $message = $this->uiFactory->messageBox()->confirmation($this->lng->txt('activate_post_txt'));
         $submitBtn = $this->uiFactory->button()->primary(
@@ -5636,7 +5636,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $render_content = [$action_menu];
             if (isset($primary_action, $primary_action_language_id)) {
                 if ($primary_action_language_id === 'activate_post') {
-                    $action_button = $this->addActivationFormModal();
+                    $action_button = $this->addActivationFormModal($node);
                 } else {
                     $action_button = $this->uiFactory->button()->standard(
                         $this->lng->txt($primary_action_language_id),
