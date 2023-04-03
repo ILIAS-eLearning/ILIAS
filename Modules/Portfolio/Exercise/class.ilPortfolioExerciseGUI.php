@@ -226,7 +226,7 @@ class ilPortfolioExerciseGUI
 
         if ($tooltip) {
             $modal = $ui->factory()->modal()->roundtrip($lng->txt("exc_instruction"), $ui->factory()->legacy($tooltip))
-                ->withCancelButtonLabel("close");
+                ->withCancelButtonLabel($lng->txt("close"));
             $elements[] = $modal;
             $buttons[] = $ui->factory()->button()->standard($lng->txt("exc_instruction"), '#')
                 ->withOnClick($modal->getShowSignal());

@@ -5618,7 +5618,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                 $this->lng->txt('forums_info_delete_post'),
                             $url
                         )->withActionButtonLabel(
-                            str_contains($url, 'deletePostingDraft') ? 'deletePostingDraft' : 'deletePosting'
+                            $this->lng->txt(str_contains($url, 'deletePostingDraft') ? 'deletePostingDraft' : 'deletePosting')
                         );
 
                         $deleteAction = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(

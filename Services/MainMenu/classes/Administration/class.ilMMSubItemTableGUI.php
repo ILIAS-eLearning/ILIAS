@@ -222,7 +222,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                                  $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE),
                                  $action
                              )
-                             ->withActionButtonLabel(ilMMSubItemGUI::CMD_MOVE)
+                             ->withActionButtonLabel($this->lng->txt(ilMMSubItemGUI::CMD_MOVE))
                              ->withAffectedItems([$ditem]);
                 $items[] = $factory->button()->shy(
                     $this->lng->txt(ilMMSubItemGUI::CMD_MOVE . '_to_top_item'),

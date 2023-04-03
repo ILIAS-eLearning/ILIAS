@@ -135,7 +135,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->lng->txt('mail_tpl_sure_delete_entry'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
                 )->withActionButtonLabel(
-                    'deleteTemplate'
+                    $this->lng->txt('deleteTemplate')
                 );
 
             $this->uiComponents[] = $deleteModal;
