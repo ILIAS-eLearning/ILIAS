@@ -184,7 +184,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->field()
             ->select($this->lng->txt("dash_default_sortation"), $options)
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
-            ->withRequired(false)
+            ->withRequired(true)
             ->withAdditionalOnLoadCode(
                 static fn (string $id) =>
                     "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"

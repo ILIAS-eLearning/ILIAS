@@ -62,21 +62,12 @@ function ensureLastOptionNotDeselectable(checkboxInput) {
     }
 }
 
-function disableMinusOption(selectionInput) {
-    const minusOption = selectionInput.querySelector('option[value=\"\"]');
-    if (minusOption) {
-        minusOption.setAttribute('disabled', 'disabled');
-        minusOption.style.display = 'none';
-    }
-}
-
 /**
  * @param {int} view
  */
 function handleUserInputForSortationsByView(view) {
     const selectionInput = document.querySelector('[data-select="sorting' + view + '"]');
     const checkboxInput = document.querySelector('[data-checkbox="activeSorting' + view + '"]');
-    disableMinusOption(selectionInput);
     updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
     const selectedOption = selectionInput.querySelector('option[selected=\"selected\"]');
     if (selectedOption) {
