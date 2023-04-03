@@ -1,0 +1,33 @@
+@use "../050-layout/basics/" as *;
+
+$l-bar__element__margin-bottom: $il-margin-xxlarge-vertical; // this margin separates stacking elements on small screens
+
+.l-bar__container,
+.l-bar__group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.l-bar__container {
+    margin-bottom: -($l-bar__element__margin-bottom); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
+    &.l-bar__container--space-between {
+        justify-content: space-between;
+    }
+}
+
+.l-bar__group {
+    margin-right: $il-margin-xxlarge-horizontal;
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.l-bar__element {
+    margin-right: $il-margin-large-horizontal;
+    margin-bottom: $l-bar__element__margin-bottom; 
+    &:last-child {
+        margin-right: 0;
+    }
+}

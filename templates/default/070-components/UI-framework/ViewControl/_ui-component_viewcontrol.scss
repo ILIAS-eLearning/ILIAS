@@ -15,6 +15,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	&:before {
 		content: "\21f5";
 	}
+	display: inline;
 	border: none;
 	vertical-align: initial;
 	width: 8px;
@@ -23,23 +24,40 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 
 .il-viewcontrol-pagination .dropdown {
+	display: inline-block;
+}
+
+.il-viewcontrol-pagination__num-of-pages .dropdown-toggle .caret {
+	&:before {
+		font-family: il-icons;
+		content: "\e900";
+	}
 	display: inline;
+	border: none;
+	vertical-align: initial;
+	width: 8px;
+	height: 8px;
+}
+
+.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+	&:before {
+		font-family: "Glyphicons Halflings";
+		content: "\e105";
+	}
+	display: inline;
+	border: none;
+	vertical-align: initial;
+	width: 8px;
+	height: 8px;
 }
 
 .il-viewcontrol-pagination .btn {
-	vertical-align: top;
-
 	&.engaged {
 		background-color: $il-vc-pagination-btn-active-bg;
 		padding: 0px $il-padding-small-horizontal 0px $il-padding-small-horizontal;
 		border: 1px solid $il-main-color;
 		font-weight: $il-font-weight-base;
 	}
-}
-
-.il-viewcontrol-pagination .dropdown-toggle {
-	padding-top: 0;
-	padding-bottom: 0;
 }
 
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
