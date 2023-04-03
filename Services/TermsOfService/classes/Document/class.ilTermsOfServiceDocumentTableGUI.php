@@ -200,7 +200,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 $this->lng->txt('tos_sure_delete_documents_s'),
                 $this->ctrl->getFormAction($this->getParentObject(), 'deleteDocument')
             )
-            ->withActionButtonLabel('deleteDocument');
+            ->withActionButtonLabel($this->lng->txt('deleteDocument'));
 
         $deleteBtn = $this->uiFactory
             ->button()
@@ -255,7 +255,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                     $this->lng->txt('tos_doc_sure_detach_crit'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'detachCriterionAssignment')
                 )
-                ->withActionButtonLabel('detachCriterionAssignment');
+                ->withActionButtonLabel($this->lng->txt('detachCriterionAssignment'));
 
             $deleteBtn = $this->uiFactory
                 ->button()
