@@ -115,7 +115,7 @@ abstract class AbstractBaseItem implements isItem
         if (is_callable($this->visiblility_callable)) {
             $callable = $this->visiblility_callable;
 
-            $value = $callable();
+            $value = (bool) $callable();
 
             return $this->is_visible_static = $value;
         }
@@ -145,7 +145,7 @@ abstract class AbstractBaseItem implements isItem
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
 
-            return $callable();
+            return (bool) $callable();
         }
 
         return true;
