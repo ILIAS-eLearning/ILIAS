@@ -841,7 +841,7 @@ class Renderer extends AbstractComponentRenderer
     ): Template {
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()
+            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
         ));
 
         if (null !== $file_info) {
@@ -856,10 +856,10 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->expand()
+                $this->getUIFactory()->symbol()->glyph()->expand()->withAction("#")
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->collapse()
+                $this->getUIFactory()->symbol()->glyph()->collapse()->withAction("#")
             ));
         }
 
