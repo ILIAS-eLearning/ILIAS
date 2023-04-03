@@ -91,7 +91,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         return 'pdrecc';
     }
 
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
         $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
         $itemListGui->addCustomCommand(

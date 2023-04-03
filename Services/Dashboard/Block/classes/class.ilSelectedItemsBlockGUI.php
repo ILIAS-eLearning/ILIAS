@@ -80,7 +80,7 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         return 'pditems';
     }
 
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
         return;
     }

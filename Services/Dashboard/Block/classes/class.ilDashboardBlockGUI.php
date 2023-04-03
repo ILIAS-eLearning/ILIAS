@@ -82,7 +82,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     abstract public function initData(): void;
 
-    abstract public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, mixed $ref_id): void;
+    abstract public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void;
 
     abstract public function emptyHandling(): string;
 
