@@ -68,11 +68,11 @@ function ensureLastOptionNotDeselectable(checkboxInput) {
 function handleUserInputForSortationsByView(view) {
     const selectionInput = document.querySelector('[data-select="sorting' + view + '"]');
     const checkboxInput = document.querySelector('[data-checkbox="activeSorting' + view + '"]');
-    updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
     const selectedOption = selectionInput.querySelector('option[selected=\"selected\"]');
     if (selectedOption) {
         selectedOption.setAttribute('default', 'default');
     }
+    updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
     ensureLastOptionNotDeselectable(checkboxInput);
     checkboxInput.onchange = function () {
         updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
