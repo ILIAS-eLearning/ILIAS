@@ -69,6 +69,11 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
+    protected function brutallyTrimHTML(string $html): string
+    {
+        $html = str_replace(" />", "/>", $html);
+        return parent::brutallyTrimHTML($html);
+    }
 
     protected function buildFactory(): I\Input\Field\Factory
     {
@@ -168,10 +173,10 @@ class FileInputTest extends ILIAS_UI_TestBase
             <div class="form-group row">
                 <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_3" class="ui-input-file">
+                    <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
                     </div>
@@ -195,16 +200,14 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div class="help-block alert alert-danger" aria-describedby="id_3" role="alert">an_error</div>
-                    <div id="id_3" class="ui-input-file">
+                    <div class="help-block alert alert-danger" aria-describedby="id_4" role="alert">an_error</div>
+                    <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
-                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                        </div>
+                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                     <div class="help-block">byline</div>
                 </div>
@@ -224,15 +227,13 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_3" class="ui-input-file">
+                    <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
-                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                        </div>
+                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>
@@ -261,38 +262,28 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($file_input));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_4" class="ui-input-file">
+                    <div id="id_6" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
-                                <div class="ui-input-file-info">
-                                    <span data-action="expand">
-                                    </span>
-                                    <span data-action="collapse">
-                                    </span>
-                                    <span data-dz-name>test file name 1</span>
-                                    <span data-dz-size>1 KB</span>
-                                    <span data-action="remove">
-                                    <a class="glyph" aria-label="close">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                                </div>
-                                <div class="ui-input-file-metadata" style="display: none;">
-                                    <input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1" />
-                                </div>
+                                <div class="ui-input-file-info"><span data-action="expand"></span><span
+                                        data-action="collapse"></span><span data-dz-name>test file name 1</span><span data-dz-size>1 KB</span><span
+                                        data-action="remove"><a tabindex="0" class="glyph" href="#" aria-label="close"
+                                                                id="id_1"><span class="glyphicon glyphicon-remove"
+                                                                                aria-hidden="true"></span></a></span><span
+                                        class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                                <div class="ui-input-file-metadata" style="display: none;"><input id="id_2" type="hidden"
+                                                                                                  name="name_0[form_input_0][]"
+                                                                                                  value="test_file_id_1" /></div>
                                 <div class="ui-input-file-input-progress-container">
                                     <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
-                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                        </div>
+                            <button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>
@@ -324,44 +315,37 @@ class FileInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_6" class="ui-input-file">
+                    <div id="id_12" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
-                                <div class="ui-input-file-info">
-                                    <span data-action="expand">
-                                    <a class="glyph" aria-label="expand_content">
-                                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span data-action="collapse">
-                                    <a class="glyph" aria-label="collapse_content">
-                                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span data-dz-name></span>
-                                    <span data-dz-size></span>
-                                    <span data-action="remove">
-                                    <a class="glyph" aria-label="close">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                                </div>
+                                <div class="ui-input-file-info"><span data-action="expand"><a tabindex="0" class="glyph" href="#"
+                                                                                              aria-label="expand_content" id="id_2"><span
+                                        class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a></span><span
+                                        data-action="collapse"><a tabindex="0" class="glyph" href="#" aria-label="collapse_content"
+                                                                  id="id_3"><span class="glyphicon glyphicon-triangle-bottom"
+                                                                                  aria-hidden="true"></span></a></span><span
+                                        data-dz-name></span><span data-dz-size></span><span data-action="remove"><a tabindex="0"
+                                                                                                                    class="glyph"
+                                                                                                                    href="#"
+                                                                                                                    aria-label="close"
+                                                                                                                    id="id_1"><span
+                                        class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span><span
+                                        class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                                 <div class="ui-input-file-metadata" style="display: none;">
-                                    <div class="form-group row">
-                                        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
-                                        <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input id="id_1" type="text" name="name_0[form_input_1][]" class="form-control form-control-sm" />
-                                        </div>
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_4" type="text"
+                                                                                        name="name_0[form_input_1][]"
+                                                                                        class="form-control form-control-sm"/></div>
                                     </div>
-                                    <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id" />
-                                </div>
+                                    <input id="id_5" type="hidden" name="name_0[form_input_2][]" value="file_id"/></div>
                                 <div class="ui-input-file-input-progress-container">
                                     <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                        <div class="ui-input-file-input-dropzone">
+                            <button class="btn btn-link" data-action="#" id="id_11">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>
@@ -402,44 +386,35 @@ class FileInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_6" class="ui-input-file">
+                    <div id="id_12" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
-                                <div class="ui-input-file-info">
-                                    <span data-action="expand">
-                                    <a class="glyph" aria-label="expand_content">
-                                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span data-action="collapse">
-                                    <a class="glyph" aria-label="collapse_content">
-                                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span data-dz-name>test file name 1</span>
-                                    <span data-dz-size>1 MB</span>
-                                    <span data-action="remove">
-                                    <a class="glyph" aria-label="close">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </a>
-                                    </span>
-                                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                                </div>
+                                <div class="ui-input-file-info"><span data-action="expand"><a tabindex="0" class="glyph" href="#"
+                                                                                              aria-label="expand_content" id="id_2"><span
+                                        class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a></span><span
+                                        data-action="collapse"><a tabindex="0" class="glyph" href="#" aria-label="collapse_content"
+                                                                  id="id_3"><span class="glyphicon glyphicon-triangle-bottom"
+                                                                                  aria-hidden="true"></span></a></span><span
+                                        data-dz-name>test file name 1</span><span data-dz-size>1 MB</span><span
+                                        data-action="remove"><a tabindex="0" class="glyph" href="#" aria-label="close"
+                                                                id="id_1"><span class="glyphicon glyphicon-remove"
+                                                                                aria-hidden="true"></span></a></span><span
+                                        class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                                 <div class="ui-input-file-metadata" style="display: none;">
-                                    <div class="form-group row">
-                                        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
-                                        <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <input id="id_1" type="text" value="test" name="name_0[form_input_1][]" class="form-control form-control-sm" />
-                                        </div>
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_4" type="text" value="test"
+                                                                                        name="name_0[form_input_1][]"
+                                                                                        class="form-control form-control-sm"/></div>
                                     </div>
-                                    <input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1" />
-                                </div>
+                                    <input id="id_5" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1"/></div>
                                 <div class="ui-input-file-input-progress-container">
                                     <div class="ui-input-file-input-progress-indicator"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                        <div class="ui-input-file-input-dropzone">
+                            <button class="btn btn-link" data-action="#" id="id_11">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>
@@ -459,15 +434,13 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_3" class="ui-input-file">
+                    <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
-                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                        </div>
+                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>
@@ -488,12 +461,11 @@ class FileInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_3" class="ui-input-file">
+                    <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
-                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
-                        </div>
+                            <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
             </div>

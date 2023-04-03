@@ -352,7 +352,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"id_1\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
 
@@ -370,8 +370,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = "<a class=\"glyph disabled\" aria-label=\"$aria_label\" " .
-                    "aria-disabled=\"true\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph disabled\" aria-label=\"$aria_label\" " .
+                    "aria-disabled=\"true\" id=\"id_1\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
 
@@ -390,7 +390,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
-        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"id_1\">" .
                     "<span class=\"$css_classes\" aria-hidden=\"true\"></span>" .
                     "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-$type\">42</span></span>" .
                     "<span class=\"il-counter-spacer\">42</span>" .
@@ -411,7 +411,7 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
-        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
                     "<span class=\"$css_classes\" aria-hidden=\"true\"></span>" .
                     "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-status\">7</span></span>" .
                     "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-novelty\">42</span></span>" .
@@ -460,7 +460,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $id = $ids[0];
-        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
 
@@ -479,7 +479,37 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testTabbableGlyph(): void
+    {
+        $f = $this->getGlyphFactory();
+        $r = $this->getDefaultRenderer();
+
+        // Glyph without Action or Signal
+        $c = $f->user();
+        $expected = '<a class="glyph" aria-label="show_who_is_online"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+        $html = $this->normalizeHTML($r->render($c));
+        $this->assertEquals($expected, $html);
+
+        // Glyph with Action
+        $c = $f->user()->withAction("#");
+        $expected = '<a tabindex="0" class="glyph" href="#" aria-label="show_who_is_online" id="id_1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+        $html = $this->normalizeHTML($r->render($c));
+        $this->assertEquals($expected, $html);
+
+        // Glyph with Signal
+        $c = $f->user()->withOnClick(new I\Signal("id_1", "click"));
+        $expected = '<a tabindex="0" class="glyph" aria-label="show_who_is_online" id="id_2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+        $html = $this->normalizeHTML($r->render($c));
+        $this->assertEquals($expected, $html);
+
+        // Glyph with Action and Signal
+        $c = $f->user()->withAction("#")->withOnClick(new I\Signal("id_1", "click"));
+        $expected = '<a tabindex="0" class="glyph" href="#" aria-label="show_who_is_online" id="id_3"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
+        $html = $this->normalizeHTML($r->render($c));
         $this->assertEquals($expected, $html);
     }
 }

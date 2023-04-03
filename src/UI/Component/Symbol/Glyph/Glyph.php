@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Symbol\Glyph;
 
@@ -129,4 +129,10 @@ interface Glyph extends Symbol, Clickable
     * Get a Glyph like this with an action.
     */
     public function withAction(string $action): Glyph;
+
+    /**
+     * @return bool Whether the glyph is tabbable (e.g. for screen readers). This is true if a Glyph has
+     * an action or a onClock Signal.
+     */
+    public function isTabbable(): bool;
 }
