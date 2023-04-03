@@ -109,7 +109,7 @@ class BaseTypeRenderer implements TypeRenderer
         if ($item instanceof hasSymbol && $item->hasSymbol()) {
             $c = $item->getSymbolDecorator();
             if ($c !== null) {
-                return $c($item->getSymbol());
+                return $this->applySymbolDecorator($item->getSymbol(), $item);
             }
 
             return $item->getSymbol();

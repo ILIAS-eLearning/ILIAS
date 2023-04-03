@@ -32,7 +32,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;

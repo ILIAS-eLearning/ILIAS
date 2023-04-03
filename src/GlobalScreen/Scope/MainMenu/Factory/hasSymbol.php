@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use Closure;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 
 /**
  * Interface hasSymbol
@@ -49,7 +51,7 @@ interface hasSymbol extends isItem
      * @param Closure $symbol_decorator
      * @return hasSymbol
      */
-    public function addSymbolDecorator(Closure $symbol_decorator): hasSymbol;
+    public function addSymbolDecorator(Closure $symbol_decorator): isGlobalScreenItem;
 
     /**
      * @return Closure|null
