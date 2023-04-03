@@ -22,6 +22,7 @@ namespace ILIAS\GlobalScreen\Collector\Renderer;
 
 use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Trait ComponentDecoratorApplierTrait
@@ -37,5 +38,15 @@ trait ComponentDecoratorApplierTrait
         }
 
         return $component;
+    }
+
+    public function applySymbolDecorator(Symbol $symbol, isGlobalScreenItem $item): Symbol
+    {
+        $c = $item->getSymbolDecorator();
+        if ($c !== null) {
+            return $c($symbol);
+        }
+
+        return $symbol;
     }
 }

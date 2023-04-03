@@ -75,4 +75,17 @@ class LostIdentification implements IdentificationInterface
     {
         return "Lost";
     }
+
+    /**
+     * @return array{data: string}
+     */
+    public function __serialize(): array
+    {
+        return ['data' => $this->serialize()];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->unserialize($data['data']);
+    }
 }

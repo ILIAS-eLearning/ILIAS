@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
@@ -68,9 +69,8 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
     public function getComponentForItem(isItem $item): Component
     {
         $component = $this->getSpecificComponentForItem($item);
-        $component = $this->applyDecorator($component, $item);
 
-        return $component;
+        return $this->applyDecorator($component, $item);
     }
 
     abstract protected function getSpecificComponentForItem(isItem $item): Component;
@@ -79,10 +79,10 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
      * @param isItem $item
      * @return Symbol
      */
-    protected function getStandardSymbol(isItem $item): Symbol
+    protected function buildIcon(isItem $item): Symbol
     {
         if ($item instanceof hasSymbol && $item->hasSymbol()) {
-            return $item->getSymbol();
+            return $this->applySymbolDecorator($item->getSymbol(), $item);
         }
         if ($item instanceof hasTitle) {
             $abbr = strtoupper(substr($item->getTitle(), 0, 1));

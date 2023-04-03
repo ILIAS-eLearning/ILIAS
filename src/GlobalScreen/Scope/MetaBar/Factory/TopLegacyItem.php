@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -30,6 +31,8 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
 {
+    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
+
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected ?Legacy $content = null;

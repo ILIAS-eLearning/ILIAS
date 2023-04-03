@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
 /**
  * Class LinkItem
@@ -30,6 +31,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol, isChild
 {
+    use SymbolDecoratorTrait;
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected string $action = "";
