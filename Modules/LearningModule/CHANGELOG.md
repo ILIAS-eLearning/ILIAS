@@ -3,6 +3,7 @@
 ## ILIAS 9
 
 - Removed YUI and jQuery use
+- Added PRIVACY.md
 
 ## ILIAS 8
  
