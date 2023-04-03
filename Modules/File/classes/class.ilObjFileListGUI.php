@@ -55,10 +55,25 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     protected function getTileImagePath(): string
     {
-        if ($this->use_flavor_for_cards) {
-            return $this->getCardImageFallbackPath($this->obj_id, $this->type);
+        if (!$this->use_flavor_for_cards) {
+            return parent::getTileImagePath();
         }
-        return parent::getTileImagePath();
+        // First we use a configured Tile Image
+        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($this->obj_id);
+        if ($img->exists()) {
+            return $img->getFullPath();
+        }
+
+        // Fallback to use a flavour as tile image
+        if ($this->use_flavor_for_cards && ($flavour_path = $this->getCardImageFallbackPath(
+            $this->obj_id,
+            $this->type
+        )) !== '') {
+            return $flavour_path;
+        }
+
+        // Fallback to use a default tile image
+        return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
     }
 
     /**
@@ -74,7 +89,7 @@ class ilObjFileListGUI extends ilObjectListGUI
                         $rid,
                         $this->crop_definition
                     )
-                )->getURLs()->current();
+                )->getURLs(false)->current();
                 if ($url !== null) {
                     return $url;
                 }
@@ -85,7 +100,7 @@ class ilObjFileListGUI extends ilObjectListGUI
                         $rid,
                         $this->extract_definition
                     )
-                )->getURLs()->current();
+                )->getURLs(false)->current();
                 if ($url !== null) {
                     return $url;
                 }
