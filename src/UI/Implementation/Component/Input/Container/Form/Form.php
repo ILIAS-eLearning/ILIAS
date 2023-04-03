@@ -59,6 +59,7 @@ abstract class Form implements C\Input\Container\Form\Form
         $this->input_group = $field_factory->group(
             $inputs
         )
+       ->withDedicatedName('form')
        ->withNameFrom($name_source);
 
         $this->transformation = null;
