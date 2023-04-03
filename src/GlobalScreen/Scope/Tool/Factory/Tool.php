@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
 use Closure;
@@ -11,6 +28,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
+use LogicException;
 
 /**
  * Class Tool
@@ -18,29 +36,28 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
 {
-
-    /**
-     * @var Closure
-     */
-    protected $terminated_callback;
-    /**
-     * @var Symbol
-     */
-    protected $symbol;
-    /**
-     * @var Component
-     */
-    protected $content;
-    /**
-     * @var Closure
-     */
-    protected $content_wrapper;
     /**
      * @var string
      */
     protected $title;
     /**
-     * @var Closure
+     * @var \Closure|null
+     */
+    protected $terminated_callback;
+    /**
+     * @var \ILIAS\UI\Component\Symbol\Symbol|null
+     */
+    protected $symbol;
+    /**
+     * @var \ILIAS\UI\Component\Component|null
+     */
+    protected $content;
+    /**
+     * @var \Closure|null
+     */
+    protected $content_wrapper;
+    /**
+     * @var \Closure|null
      */
     protected $close_callback;
 
@@ -108,7 +125,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
             ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
         $clone = clone($this);

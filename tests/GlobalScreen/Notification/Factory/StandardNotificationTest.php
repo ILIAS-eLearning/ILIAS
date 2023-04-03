@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationRenderer;
 
@@ -9,7 +26,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class StandardNotificationTest extends BaseNotificationSetUp
 {
-    public function testConstructByFactory()
+    public function testConstructByFactory() : void
     {
         $standard_notification = $this->factory->standard($this->id);
 
@@ -17,7 +34,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
         $this->assertEquals($this->id, $standard_notification->getProviderIdentification());
     }
 
-    public function testWithNotificationItem()
+    public function testWithNotificationItem() : void
     {
         $icon = $this->getUIFactory()->symbol()->icon()->standard("mail", "mail");
         $item = $this->getUIFactory()->item()->notification("hello", $icon);
@@ -26,7 +43,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
         $this->assertEquals($item, $standard_notification->getNotificationItem());
     }
 
-    public function testWithNewAmout()
+    public function testWithNewAmout() : void
     {
         $standard_notification = $this->factory->standard($this->id);
 
@@ -35,7 +52,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
         $this->assertEquals(13, $standard_notification->getNewAmount());
     }
 
-    public function testWithOldAmout()
+    public function testWithOldAmout() : void
     {
         $standard_notification = $this->factory->standard($this->id);
 
@@ -47,13 +64,13 @@ class StandardNotificationTest extends BaseNotificationSetUp
     /**
      * Tests on AbstractBaseNotification
      */
-    public function testGetProviderIdentification()
+    public function testGetProviderIdentification() : void
     {
         $standard_notification = $this->factory->standard($this->id);
         $this->assertEquals($this->id, $standard_notification->getProviderIdentification());
     }
 
-    public function testGetRenderer()
+    public function testGetRenderer() : void
     {
         $standard_notification = $this->factory->standard($this->id);
         $this->assertInstanceOf(
@@ -62,20 +79,20 @@ class StandardNotificationTest extends BaseNotificationSetUp
         );
     }
 
-    public function testWithOpenedCallable()
+    public function testWithOpenedCallable() : void
     {
-        $callable = function () {
+        $callable = function () : string {
             return "something";
         };
         $standard_notification = $this->factory->standard($this->id);
-        $this->assertEquals(function () {
+        $this->assertEquals(function () : void {
         }, $standard_notification->getOpenedCallable());
         $standard_notification = $standard_notification->withOpenedCallable($callable);
         $this->assertEquals($callable, $standard_notification->getOpenedCallable());
     }
-    public function testWithClosedCallable()
+    public function testWithClosedCallable() : void
     {
-        $callable = function () {
+        $callable = function () : string {
             return "something";
         };
         $standard_notification = $this->factory->standard($this->id);
@@ -83,9 +100,9 @@ class StandardNotificationTest extends BaseNotificationSetUp
         $standard_notification = $standard_notification->withClosedCallable($callable);
         $this->assertEquals($callable, $standard_notification->getClosedCallable());
     }
-    public function testHasClosedCallable()
+    public function testHasClosedCallable() : void
     {
-        $callable = function () {
+        $callable = function () : string {
             return "something";
         };
         $standard_notification = $this->factory->standard($this->id);

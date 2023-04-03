@@ -1,21 +1,40 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\NotificationCenterRenderer;
+use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem as isNotificationItem;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class NotificationCenter
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
+class NotificationCenter extends AbstractBaseItem implements hasSymbol
 {
-
+    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
     /**
      * Amount of notifications already consulted by the user (will spawn
      * status counters)
-     *
      * @var int
      */
     private $amount_of_old_notifications = 0;
@@ -23,17 +42,15 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     /**
      * Amount of notifications not yet consulted by the user (will spawn
      * novelty counters)
-     *
      * @var int
      */
     private $amount_of_new_notifications = 0;
 
     /**
      * Set of notifications in the center.
-     * @var isItem[]
+     * @var isNotificationItem[]
      */
     private $notifications = [];
-
 
     /**
      * @inheritDoc
@@ -44,13 +61,10 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         $this->renderer = new NotificationCenterRenderer();
     }
 
-
     /**
-     * @param isItem[] $notifications
-     *
-     * @return NotificationCenter
+     * @param isNotificationItem[] $notifications
      */
-    public function withNotifications(array $notifications) : NotificationCenter
+    public function withNotifications(array $notifications) : self
     {
         $clone = clone($this);
         $clone->notifications = $notifications;
@@ -58,15 +72,13 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         return $clone;
     }
 
-
     /**
-     * @return isItem[]
+     * @return isNotificationItem[]
      */
     public function getNotifications() : array
     {
         return $this->notifications;
     }
-
 
     /**
      * @inheritDoc
@@ -76,7 +88,6 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -84,7 +95,6 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     {
         return true;
     }
-
 
     /**
      * @return Symbol
@@ -103,7 +113,6 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         return $glyph;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -114,11 +123,8 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
 
     /**
      * Get a Center like this, but with a given amount of old notifications
-     *
-     * @param int $amount
-     * @return NotificationCenter
      */
-    public function withAmountOfOldNotifications(int $amount) : NotificationCenter
+    public function withAmountOfOldNotifications(int $amount) : self
     {
         $clone = clone($this);
         $clone->amount_of_old_notifications = $amount;
@@ -128,7 +134,6 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
 
     /**
      * Get the amount of old notifications
-     *
      * @return int
      */
     public function getAmountOfOldNotifications() : int
@@ -138,11 +143,8 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
 
     /**
      * Get a Center like this, but with a given amount of new notifications
-     *
-     * @param int $amount
-     * @return NotificationCenter
      */
-    public function withAmountOfNewNotifications(int $amount) : NotificationCenter
+    public function withAmountOfNewNotifications(int $amount) : self
     {
         $clone = clone($this);
         $clone->amount_of_new_notifications = $amount;
@@ -152,7 +154,6 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
 
     /**
      * Get the amount of new notifications
-     *
      * @return int
      */
     public function getAmountOfNewNotifications() : int

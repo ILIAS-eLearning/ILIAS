@@ -1,16 +1,29 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -24,21 +37,20 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class FactoryImplTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
     /**
-     * @var IdentificationInterface
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     protected $id;
     /**
-     * @var StaticMainMenuProvider
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider
      */
     protected $provider;
     /**
-     * @var IdentificationFactory
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationFactory
      */
     protected $identification;
     /**
-     * @var MainMenuItemFactory
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory
      */
     protected $factory;
 
@@ -51,8 +63,7 @@ class FactoryImplTest extends TestCase
         parent::setUp();
 
         $this->identification = new IdentificationFactory(new NullProviderFactory());
-        $this->provider = \Mockery::mock(StaticMainMenuProvider::class);
-        $this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
+        $this->provider = $this->getMockBuilder(StaticMainMenuProvider::class)->getMock();
 
         $this->id = $this->identification->core($this->provider)->identifier('dummy');
 
@@ -60,7 +71,7 @@ class FactoryImplTest extends TestCase
     }
 
 
-    public function testAvailableMethods()
+    public function testAvailableMethods() : void
     {
         $r = new ReflectionClass($this->factory);
 
@@ -70,7 +81,6 @@ class FactoryImplTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods,
             [
                 0 => 'complex',
                 1 => 'custom',
@@ -80,12 +90,13 @@ class FactoryImplTest extends TestCase
                 5 => 'separator',
                 6 => 'topLinkItem',
                 7 => 'topParentItem',
-            ]
+            ],
+            $methods
         );
     }
 
 
-    public function testInterchangeableContraints()
+    public function testInterchangeableContraints() : void
     {
         $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->topLinkItem($this->id));
         $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->topParentItem($this->id));

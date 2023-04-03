@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
@@ -12,22 +31,16 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
 /**
  * Class MainMenuItemFactory
- *
  * This factory provides you all available types for MainMenu GlobalScreen Items.
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MainMenuItemFactory
 {
-
     /**
      * Returns you a GlobalScreen TopParentItem which can be added to the MainMenu. TopItems are
      * always at the first level in the MainMenu and can contain other
      * entries (e.g. Links).
-     *
-     *
      * @param IdentificationInterface $identification
-     *
      * @return TopParentItem
      */
     public function topParentItem(IdentificationInterface $identification) : TopParentItem
@@ -35,13 +48,10 @@ class MainMenuItemFactory
         return new TopParentItem($identification);
     }
 
-
     /**
      * Returns you a GlobalScreen TopLinkItem which can be added to the MainMenu. TopLinkItem are
      * always at the first level in the MainMenu and have an action
-     *
      * @param IdentificationInterface $identification
-     *
      * @return TopLinkItem
      */
     public function topLinkItem(IdentificationInterface $identification) : TopLinkItem
@@ -49,12 +59,9 @@ class MainMenuItemFactory
         return new TopLinkItem($identification);
     }
 
-
     /**
      * Returns you s GlobalScreen Link which can be added to Slates.
-     *
      * @param IdentificationInterface $identification
-     *
      * @return Link
      */
     public function link(IdentificationInterface $identification) : Link
@@ -62,13 +69,10 @@ class MainMenuItemFactory
         return new Link($identification);
     }
 
-
     /**
      * Returns you a GlobalScreen Separator which is used to separate to other entries in a
      * optical way.
-     *
      * @param IdentificationInterface $identification
-     *
      * @return Separator
      */
     public function separator(IdentificationInterface $identification) : Separator
@@ -76,13 +80,10 @@ class MainMenuItemFactory
         return new Separator($identification);
     }
 
-
     /**
      * Returns you a GlobalScreen Complex Item which is used to generate complex
      * content from a Async-URL
-     *
      * @param IdentificationInterface $identification
-     *
      * @return Complex
      */
     public function complex(IdentificationInterface $identification) : Complex
@@ -90,12 +91,9 @@ class MainMenuItemFactory
         return new Complex($identification);
     }
 
-
     /**
      * Returns you a GlobalScreen RepositoryLink Item which is used to generate URLs to Ref-IDs
-     *
      * @param IdentificationInterface $identification
-     *
      * @return RepositoryLink
      */
     public function repositoryLink(IdentificationInterface $identification) : RepositoryLink
@@ -103,12 +101,9 @@ class MainMenuItemFactory
         return new RepositoryLink($identification);
     }
 
-
     /**
      * Returns you a GlobalScreen LinkList Item which is used to group multiple Links
-     *
      * @param IdentificationInterface $identification
-     *
      * @return LinkList
      */
     public function linkList(IdentificationInterface $identification) : LinkList
@@ -116,11 +111,9 @@ class MainMenuItemFactory
         return new LinkList($identification);
     }
 
-
     /**
      * @param string                  $class_name
      * @param IdentificationInterface $identification
-     *
      * @return isItem
      */
     public function custom(string $class_name, IdentificationInterface $identification) : isItem

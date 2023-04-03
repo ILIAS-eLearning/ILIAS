@@ -1,35 +1,48 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
 use Closure;
 use LogicException;
 use ReflectionFunction;
+use ReflectionException;
 
 /**
  * Class AbstractLayoutModification
- *
  * @package ILIAS\GlobalScreen\Scope\Layout\Factory
  */
 abstract class AbstractLayoutModification implements LayoutModification
 {
-
     /**
      * @var int
      */
     private $priority;
     /**
-     * @var Closure
+     * @var \Closure|null
      */
-    private $modification = null;
+    private $modification;
 
-
-    /**
-     * @inheritDoc
-     */
     public function isFinal() : bool
     {
         return false;
     }
-
 
     /**
      * @inheritDoc
@@ -38,7 +51,6 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return $this->priority ?? LayoutModification::PRIORITY_LOW;
     }
-
 
     /**
      * @inheritDoc
@@ -54,7 +66,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -65,7 +76,6 @@ abstract class AbstractLayoutModification implements LayoutModification
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -78,10 +88,8 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @param Closure $closure
-     *
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     final public function withModification(Closure $closure) : LayoutModification
@@ -92,7 +100,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -101,7 +108,6 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $this->modification;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -109,7 +115,6 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return ($this->modification instanceof Closure && $this->checkClosure());
     }
-
 
     /**
      * @return bool
@@ -140,7 +145,7 @@ abstract class AbstractLayoutModification implements LayoutModification
                     return false;
                 }
             }
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return false;
         }
 

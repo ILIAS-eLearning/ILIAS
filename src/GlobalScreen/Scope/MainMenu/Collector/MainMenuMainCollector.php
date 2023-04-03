@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
@@ -18,9 +37,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Iterator;
+use Throwable;
+use Generator;
 
 /**
  * Class MainMenuMainCollector
@@ -31,21 +52,20 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  */
 class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollector
 {
-
     /**
-     * @var TypeInformationCollection
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection
      */
     private $type_information_collection;
     /**
-     * @var ItemInformation|null
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation|null
      */
     private $information;
     /**
-     * @var array|Provider[]
+     * @var Provider[]
      */
     protected $providers;
     /**
-     * @var Map
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map
      */
     private $map;
 
@@ -53,7 +73,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * MainMenuMainCollector constructor.
      * @param array                $providers
      * @param ItemInformation|null $information
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __construct(array $providers, MainMenuItemFactory $factory, ItemInformation $information = null)
     {
@@ -64,9 +84,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @return \Generator|StaticMainMenuProvider[]
+     * @return Iterator <\ILIAS\GlobalScreen\Provider\Provider[]>
      */
-    private function getProvidersFromList() : \Generator
+    private function getProvidersFromList() : Iterator
     {
         yield from $this->providers;
     }
@@ -111,8 +131,12 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
     public function prepareItemsForUIRepresentation() : void
     {
-        $this->map->walk(function (isItem & $item) : isItem {
-            $item->setTypeInformation($this->getTypeInformationForItem($item));
+        $this->map->walk(function (isItem &$item) : isItem {
+            if (is_null($item->getTypeInformation())) {
+                $item->setTypeInformation(
+                    $this->getTypeInformationForItem($item)
+                );
+            }
 
             // Apply the TypeHandler
             $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
@@ -147,7 +171,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function cleanupItemsForUIRepresentation() : void
     {
         // Remove not visible children
-        $this->map->walk(function (isItem & $item) : isItem {
+        $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
                     if (!$this->map->existsInFilter($child->getProviderIdentification())) {
@@ -157,8 +181,8 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
-    
-        $this->map->walk(static function (isItem & $i) : void {
+
+        $this->map->walk(static function (isItem &$i) : void {
             if ($i instanceof isParent && count($i->getChildren()) === 0) {
                 $i = $i->withAvailableCallable(static function () {
                     return false;
@@ -167,7 +191,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 });
             }
         });
-        
+
         // filter empty slates
         $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
@@ -187,9 +211,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * This will return all available isTopItem (and moved isInterchangeableItem),
      * stacked based on the configuration in "Administration" and for the
      * visibility of the currently user.
-     * @return \Generator|isTopItem[]|isInterchangeableItem[]
+     * @return Generator|isTopItem[]|isInterchangeableItem[]
      */
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation() : Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
             if ($item->isTop()) {
@@ -199,26 +223,27 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @return \Generator|isItem[]
+     * @return Iterator <Generator&isItem[]>
      */
-    public function getRawItems() : \Generator
+    public function getRawItems() : Iterator
     {
         yield from $this->map->getAllFromFilter();
     }
 
     /**
-     * @return \Generator|isItem[]
+     * @return Iterator <Generator&isItem[]>
      */
-    public function getRawUnfilteredItems() : \Generator
+    public function getRawUnfilteredItems() : Iterator
     {
         yield from $this->map->getAllFromRaw();
     }
+
 
     public function hasItems() : bool
     {
         return $this->map->has();
     }
-    
+
     public function hasVisibleItems() : bool
     {
         if (!$this->hasItems()) {
@@ -266,9 +291,8 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
     /**
      * @param isItem $item
-     * @return ItemInformation
      */
-    public function getItemInformation() : ItemInformation
+    public function getItemInformation() : ?ItemInformation
     {
         return $this->information;
     }

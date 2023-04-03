@@ -1,19 +1,39 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
 /**
  * Class LinkItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol, isChild
 {
-
+    use SymbolDecoratorTrait;
     /**
-     * @var Symbol
+     * @var \ILIAS\UI\Component\Symbol\Symbol|null
      */
     protected $symbol;
     /**
@@ -25,7 +45,6 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     protected $action = "";
 
-
     /**
      * @inheritDoc
      */
@@ -35,20 +54,13 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
         $this->renderer = new LinkItemRenderer();
     }
 
-
-    /**
-     * @param string $action
-     *
-     * @return LinkItem
-     */
-    public function withAction(string $action) : LinkItem
+    public function withAction(string $action) : self
     {
         $clone = clone($this);
         $clone->action = $action;
 
         return $clone;
     }
-
 
     /**
      * @return string
@@ -57,7 +69,6 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     {
         return $this->action;
     }
-
 
     /**
      * @inheritDoc
@@ -70,15 +81,13 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getSymbol() : \ILIAS\UI\Component\Symbol\Symbol
+    public function getSymbol() : Symbol
     {
         return $this->symbol;
     }
-
 
     /**
      * @inheritDoc
@@ -87,7 +96,6 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     {
         return ($this->symbol instanceof Symbol);
     }
-
 
     /**
      * @inheritDoc
@@ -99,7 +107,6 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc

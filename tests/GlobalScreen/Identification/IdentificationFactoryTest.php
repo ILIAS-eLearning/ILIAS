@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\CoreIdentification;
@@ -9,7 +25,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 use ilPlugin;
 use InvalidArgumentException;
 use Mockery;
@@ -34,7 +49,7 @@ require_once('./libs/composer/vendor/autoload.php');
 class IdentificationFactoryTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
-    const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
+    public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
      * @var Mockery\MockInterface|ProviderFactory
      */
@@ -48,7 +63,7 @@ class IdentificationFactoryTest extends TestCase
      */
     protected $plugin_mock;
     /**
-     * @var IdentificationFactory
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationFactory
      */
     protected $identification;
 
@@ -74,7 +89,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testAvailableMethods()
+    public function testAvailableMethods() : void
     {
         $r = new ReflectionClass($this->identification);
 
@@ -84,26 +99,26 @@ class IdentificationFactoryTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods,
             [
                 0 => '__construct',
                 1 => 'core',
                 2 => 'fromSerializedIdentification',
                 3 => 'plugin',
                 4 => 'tool'
-            ]
+            ],
+            $methods
         );
     }
 
 
-    public function testCore()
+    public function testCore() : void
     {
         $this->assertInstanceOf(IdentificationProviderInterface::class, $this->identification->core($this->provider_mock));
         $this->assertInstanceOf(IdentificationInterface::class, $this->identification->core($this->provider_mock)->identifier('dummy'));
     }
 
 
-    public function testPlugin()
+    public function testPlugin() : void
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
         $identification_provider = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock);
@@ -113,7 +128,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testSerializingCore()
+    public function testSerializingCore() : void
     {
         $identification = $this->identification->core($this->provider_mock)->identifier('dummy');
         $this->assertInstanceOf(Serializable::class, $identification);
@@ -121,7 +136,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingCore()
+    public function testUnserializingCore() : void
     {
         $identification = $this->identification->core($this->provider_mock)->identifier('dummy');
         $serialized_identification = $identification->serialize();
@@ -131,7 +146,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingPlugin()
+    public function testUnserializingPlugin() : void
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
         $identification = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock)->identifier('dummy');
@@ -142,7 +157,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingFailsSinceNobpbyCanhandleTheString()
+    public function testUnserializingFailsSinceNobpbyCanhandleTheString() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Nobody can handle serialized identification 'ThisStringWillNobodyHandle'.");
@@ -150,12 +165,12 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testFactoryMustReturnCorrectTypeCore()
+    public function testFactoryMustReturnCorrectTypeCore() : void
     {
         $class_name = self::MOCKED_PROVIDER_CLASSNAME;
         $internal_identifier = "internal_identifier";
 
-        $string_core = "{$class_name}|{$internal_identifier}";
+        $string_core = "$class_name|$internal_identifier";
         $identification = $this->identification->fromSerializedIdentification($string_core);
 
         $this->assertInstanceOf(CoreIdentification::class, $identification);
@@ -164,13 +179,13 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testFactoryMustReturnCorrectTypePlugin()
+    public function testFactoryMustReturnCorrectTypePlugin() : void
     {
         $class_name = self::MOCKED_PROVIDER_CLASSNAME;
         $internal_identifier = "internal_identifier";
 
         // $this->markTestSkipped('I currently have absolutely no idea why this test does not work since this seems to be identical zo the test testUnserializingCore :(');
-        $string_plugin = "xdemo|{$class_name}|{$internal_identifier}";
+        $string_plugin = "xdemo|$class_name|$internal_identifier";
         $identification = $this->identification->fromSerializedIdentification($string_plugin);
 
         $this->assertInstanceOf(PluginIdentification::class, $identification);

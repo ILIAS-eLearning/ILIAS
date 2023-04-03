@@ -1,22 +1,35 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext\Stack;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 
 /**
  * Class ContextCollection
- *
  * @package ILIAS\GlobalScreen\Scope\Tool\ScreenContext\Stack
  */
 class ContextCollection
 {
-    const C_MAIN = 'main';
-    const C_DESKTOP = 'desktop';
-    const C_REPO = 'repo';
-    const C_ADMINISTRATION = 'administration';
-    const C_MAIL = 'mail';
     /**
-     * @var ContextRepository
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextRepository
      */
     protected $repo;
     /**
@@ -24,10 +37,8 @@ class ContextCollection
      */
     protected $stack = [];
 
-
     /**
      * ContextCollection constructor.
-     *
      * @param ContextRepository $context_repository
      */
     public function __construct(ContextRepository $context_repository)
@@ -35,24 +46,25 @@ class ContextCollection
         $this->repo = $context_repository;
     }
 
-
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context)
+    public function push(ScreenContext $context) : void
     {
-        array_push($this->stack, $context);
+        $this->stack[] = $context;
     }
-
 
     /**
      * @return ScreenContext
      */
-    public function getLast() : ScreenContext
+    public function getLast() : ?ScreenContext
     {
-        return end($this->stack);
+        $last = end($this->stack);
+        if ($last) {
+            return $last;
+        }
+        return null;
     }
-
 
     /**
      * @return ScreenContext[]
@@ -61,7 +73,6 @@ class ContextCollection
     {
         return $this->stack;
     }
-
 
     /**
      * @return array
@@ -76,15 +87,13 @@ class ContextCollection
         return $return;
     }
 
-
     /**
      * @param ContextCollection $other_collection
-     *
      * @return bool
      */
     public function hasMatch(ContextCollection $other_collection) : bool
     {
-        $mapper = function (ScreenContext $c) {
+        $mapper = function (ScreenContext $c) : string {
             return $c->getUniqueContextIdentifier();
         };
         $mine = array_map($mapper, $this->getStack());
@@ -93,13 +102,7 @@ class ContextCollection
         return (count(array_intersect($mine, $theirs)) > 0);
     }
 
-    //
-    //
-    //
-    /**
-     * @return ContextCollection
-     */
-    public function main() : ContextCollection
+    public function main() : self
     {
         $context = $this->repo->main();
         $this->push($context);
@@ -107,66 +110,42 @@ class ContextCollection
         return $this;
     }
 
-
-    /**
-     * @return ContextCollection
-     */
-    public function desktop() : ContextCollection
+    public function desktop() : self
     {
         $this->push($this->repo->desktop());
 
         return $this;
     }
 
-
-    /**
-     * @return ContextCollection
-     */
-    public function repository() : ContextCollection
+    public function repository() : self
     {
         $this->push($this->repo->repository());
 
         return $this;
     }
 
-
-    /**
-     * @return ContextCollection
-     */
-    public function administration() : ContextCollection
+    public function administration() : self
     {
         $this->push($this->repo->administration());
 
         return $this;
     }
 
-
-    /**
-     * @return ContextCollection
-     */
-    public function internal() : ContextCollection
+    public function internal() : self
     {
         $this->push($this->repo->internal());
 
         return $this;
     }
 
-
-    /**
-     * @return ContextCollection
-     */
-    public function external() : ContextCollection
+    public function external() : self
     {
         $this->push($this->repo->external());
 
         return $this;
     }
 
-
-    /**
-    * @return ContextCollection
-    */
-    public function lti() : ContextCollection
+    public function lti() : self
     {
         $this->push($this->repo->lti());
         return $this;
