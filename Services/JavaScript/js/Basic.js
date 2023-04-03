@@ -401,22 +401,6 @@ il.Object = {
 	}
 }
 
-/* Main menu handling */
-il.MainMenu = {
-	
-	removeLastVisitedItems: function (url) {
-		
-		$('.ilLVNavEnt').remove();
-		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, this.dummyCallback);
-		
-		return false;
-	},
-	
-	dummyCallback: function () {
-	}
-}
-
-
 
 /* UICore */
 il.UICore = {
