@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -31,6 +32,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return "tpl.glyph.standard.html";
     }
+
 
     /**
      * @inheritdocs
@@ -46,6 +48,10 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate($tpl_file, true, true);
 
         $tpl = $this->renderAction($component, $tpl);
+
+        if ($component->isTabbable() && !$this instanceof ButtonContextRenderer) { // Buttons are already tabbable itself
+            $tpl->touchBlock("tabbable");
+        }
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
