@@ -1,7 +1,7 @@
 <tr class="{CSS_ROW}" >
 	<td class="std">
 		<!-- BEGIN tpl_check -->
-		<input type="checkbox" name="tpls[]" value="{VAL_ID}" />
+		<input aria-label="{VAL_ID} checkbox" type="checkbox" name="tpls[]" value="{VAL_ID}" />
 		<!-- END tpl_check -->
 	</td>
 	<td class="std">
@@ -14,7 +14,7 @@
 		{VAL_TITLE}
 		<!-- END title_plain -->
 		<!-- BEGIN title_linked -->
-		<a href="{VAL_LINK}">{VAL_TITLE_LINKED}</a>
+		<a aria-label="{VAL_TITLE_LINKED}" href="{VAL_LINK}">{VAL_TITLE_LINKED}</a>
 		<!-- END title_linked -->
 		<!-- BEGIN desc -->
 		<div class="il_Description">{VAL_DESC}</div>
@@ -39,7 +39,7 @@
 		<!-- BEGIN scope_list -->
 		<ul class="std">
 			<!-- BEGIN scope_entry -->
-			<li class="std"><a href="{LINK_HREF}">{LINK_NAME}</a></li>
+			<li class="std"><a aria-label="{LINK_NAME}" href="{LINK_HREF}">{LINK_NAME}</a></li>
 			<!-- END scope_entry -->
 		</ul>
 		<!-- END scope_list -->

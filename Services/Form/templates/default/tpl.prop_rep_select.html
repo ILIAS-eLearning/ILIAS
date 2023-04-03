@@ -1,4 +1,6 @@
-<input type="hidden" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
-<div><a name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a></div>
-<a href="{HREF_SELECT}">{TXT_SELECT}</a><br />
-<a href="{HREF_RESET}">{TXT_RESET}</a>
+<input aria-hidden="true" type="hidden" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
+<div>
+    <a aria-label="{TXT_ITEM}" name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a>
+</div>
+<a aria-label="{TXT_SELECT}" href="{HREF_SELECT}">{TXT_SELECT}</a><br />
+<a aria-label="{TXT_RESET}" href="{HREF_RESET}">{TXT_RESET}</a>

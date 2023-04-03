@@ -2,7 +2,8 @@
 <div class="ilFormInnerCol">
 	<div class="form-group form-inline">		
 		<div class="input-group">		
-			<input type="checkbox" name="{DATE_TOGGLE_ID}" id="{FULLDAY_TOGGLE_ID}" value="1"{FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
+			<input aria-label="{DATE_TOGGLE_ID}" type="checkbox" name="{DATE_TOGGLE_ID}" id="{FULLDAY_TOGGLE_ID}"
+				   value="1"{FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
 		</div>
 		<label class=control-label" for="{FULLDAY_TOGGLE_ID}">{TXT_TOGGLE_FULLDAY}</label>
 	</div>
@@ -12,8 +13,12 @@
 	<div class="form-group form-inline">
 		<!-- BEGIN start_label_bl -->
 		<!-- END start_label_bl -->
-		<div class="input-group date<!-- BEGIN start_width_bl --> noop<!-- END start_width_bl -->" id="{DATEPICKER_START_ID}">
-			<input aria-label="{START_ARIA_LABEL}" aria-describedby="start_date_desc_{DATE_START_ID}" type="text" class="form-control" style="min-width:120px" placeholder="{START_PLACEHOLDER}" value="{DATEPICKER_START_VALUE}" id="{DATE_START_ID}" name="{DATE_START_ID}"{DATEPICKER_START_DISABLED} {START_REQUIRED}/>
+		<div class="input-group date<!-- BEGIN start_width_bl --> noop<!-- END start_width_bl -->"
+			 id="{DATEPICKER_START_ID}">
+			<input aria-label="{START_ARIA_LABEL}" aria-describedby="start_date_desc_{DATE_START_ID}"
+				   type="text" class="form-control" style="min-width:120px" placeholder="{START_PLACEHOLDER}"
+				   value="{DATEPICKER_START_VALUE}" id="{DATE_START_ID}" name="{DATE_START_ID}"
+				   {DATEPICKER_START_DISABLED} {START_REQUIRED}/>
 			<p class="sr-only" id="start_date_desc_{DATE_START_ID}">{DESCRIPTION}</p>
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-calendar"></span>
@@ -26,8 +31,11 @@
 	<div class="form-group form-inline">
 		<!-- BEGIN end_label_bl -->
 		<!-- END end_label_bl -->
-		<div class="input-group date<!-- BEGIN end_width_bl --> noop<!-- END end_width_bl -->" id="{DATEPICKER_END_ID}">
-			<input aria-label="{END_ARIA_LABEL}" aria-describedby="end_date_desc_{DATE_END_ID}" type="text" class="form-control" style="min-width:120px" placeholder="{END_PLACEHOLDER}" value="{DATEPICKER_END_VALUE}" name="{DATE_END_ID}"{DATEPICKER_END_DISABLED} {END_REQUIRED} />
+		<div class="input-group date<!-- BEGIN end_width_bl --> noop<!-- END end_width_bl -->"
+			 id="{DATEPICKER_END_ID}">
+			<input aria-label="{END_ARIA_LABEL}" aria-describedby="end_date_desc_{DATE_END_ID}"
+				   type="text" class="form-control" style="min-width:120px" placeholder="{END_PLACEHOLDER}"
+				   value="{DATEPICKER_END_VALUE}" name="{DATE_END_ID}"{DATEPICKER_END_DISABLED} {END_REQUIRED} />
 			<p class="sr-only" id="end_date_desc_{DATE_END_ID}">{DESCRIPTION}</p>
 			<span class="input-group-addon">
 				<span class="glyphicon glyphicon-calendar"></span>

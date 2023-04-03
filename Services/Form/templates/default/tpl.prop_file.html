@@ -1,16 +1,19 @@
 <!-- BEGIN filename -->
-		<div style="margin-bottom:3px"><input type="text" id="{FILENAME_ID}" size="30" maxlength="70" name="{POST_FILENAME}" value="{VAL_FILENAME}" /></div>
+		<div style="margin-bottom:3px"><input type="text" id="{FILENAME_ID}" size="30" maxlength="70" name="{POST_FILENAME}"
+											  aria-label="{POST_FILENAME}" value="{VAL_FILENAME}" /></div>
 		<div class="help-block">{TXT_FILENAME_HINT}</div>
 <!--  END filename -->
-		<!-- BEGIN prop_file_propval --><div style="margin-bottom:3px; margin-left:3px;"><span class="subtitle">{FILE_VAL}</span></div><!-- END prop_file_propval -->
+<!-- BEGIN prop_file_propval -->
+<div style="margin-bottom:3px; margin-left:3px;"><span class="subtitle">{FILE_VAL}</span></div>
+<!-- END prop_file_propval -->
 		
 		<div class="input-group">
 			<span class="input-group-btn">
-				<span class="btn btn-default btn-file">
-					{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
+				<span role="button" class="btn btn-default btn-file">
+					{TXT_BROWSE}<input aria-label="{POST_VAR}" type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
 				</span>
 			</span>
-			<input tabindex="-1" type="text" class="form-control" readonly="readonly"{DISABLED}>
+			<input aria-hidden="true" type="text" class="form-control" readonly="readonly"{DISABLED}>
 		</div>
 				
 		<!--<input type="file" id="{ID}" name="{POST_VAR}" size="{SIZE}"{DISABLED} />-->
@@ -23,4 +26,8 @@
 <!-- BEGIN allowed_suffixes -->
 		<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
 <!-- END allowed_suffixes -->
-<!-- BEGIN delete_bl --><input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /> <label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br /><!-- END delete_bl -->
+<!-- BEGIN delete_bl -->
+<input aria-label="{POST_VAR_D}_delete" type="checkbox" name="{POST_VAR_D}_delete"
+							   id="{POST_VAR_D}_delete" value="1" /> <label for="{POST_VAR_D}_delete">
+	{TXT_DELETE_EXISTING}
+</label><br /><!-- END delete_bl -->

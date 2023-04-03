@@ -1,12 +1,12 @@
 <div class="input-group">
 	<span class="input-group-btn">
 		<span class="btn btn-default btn-file">
-			{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
+			{TXT_BROWSE}<input aria-label="{POST_VAR}" type="file" id="{ID}"
+							   name="{POST_VAR}"{DISABLED}/>
 		</span>
 	</span>
-	<input tabindex="-1" type="text" class="form-control" readonly="readonly"{DISABLED}>
+	<input aria-hidden="true" type="text" class="form-control" readonly="readonly"{DISABLED}>
 </div>
-
 <!--<input type="file" id="{ID}" name="{POST_VAR}" size="30" {DISABLED}/>-->
 <div class="help-block">{TXT_MAX_SIZE}</div>
 <!-- BEGIN allowed_image_suffixes -->
@@ -16,11 +16,12 @@
 <img style="margin: 5px 0; max-width: 25%; height: auto;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} />
 <!-- BEGIN delete_bl -->
 <div class="checkbox">
-<label><input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" />
+<label><input aria-label="{POST_VAR_D}_delete" type="checkbox" name="{POST_VAR_D}_delete"
+			  id="{POST_VAR_D}_delete" value="1" />
 	{TXT_DELETE_EXISTING}</label></div>
 <!-- END delete_bl -->
 <!-- BEGIN has_value -->
-<input type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
+<input aria-hidden="true" type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
 <!-- END has_value -->
 <!-- END image -->
 <!-- BEGIN pending -->

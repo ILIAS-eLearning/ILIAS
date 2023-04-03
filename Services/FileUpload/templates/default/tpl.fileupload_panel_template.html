@@ -4,13 +4,15 @@
         <i class="ilFileUploadPanelClose ilFileUploadCancel"></i>
     </div>
     <div class="ilFileUploadToolbar">
-        <input class="btn btn-default ilFileUploadStart" type="button" name="cmd[uploadFiles]" value="{TXT_SUBMIT}" disabled="">
-        <input class="btn btn-default ilFileUploadCancel" type="button" name="cmd[cancel]" value="{TXT_CANCEL}">
+        <input role="button" class="btn btn-default ilFileUploadStart" type="button"
+               name="cmd[uploadFiles]" aria-label="{TXT_SUBMIT}" value="{TXT_SUBMIT}" disabled="">
+        <input role="button" class="btn btn-default ilFileUploadCancel" type="button"
+               name="cmd[cancel]" aria-label="{TXT_CANCEL}" value="{TXT_CANCEL}">
         <div class="ilFileUploadToggleOptions">
-            <a class="ilFileUploadShowOptions" href="#">
+            <a aria-label="{TXT_SHOW_ALL_DETAILS}" class="ilFileUploadShowOptions" href="#">
                 {TXT_SHOW_ALL_DETAILS}
             </a>
-            <a class="ilFileUploadHideOptions" href="#">
+            <a aria-label="{TXT_HIDE_ALL_DETAILS}" class="ilFileUploadHideOptions" href="#">
                 {TXT_HIDE_ALL_DETAILS}
             </a>
         </div>
@@ -18,7 +20,9 @@
     <div id="ilFileUploadLists">
     </div>
     <div class="ilFileUploadToolbar">
-        <input class="btn btn-default ilFileUploadStart" type="button" name="cmd[uploadFiles]" value="{TXT_SUBMIT}" disabled="">
-        <input class="btn btn-default ilFileUploadCancel" type="button" name="cmd[cancel]" value="{TXT_CANCEL}">
+        <input role="button" class="btn btn-default ilFileUploadStart"
+               type="button" name="cmd[uploadFiles]" aria-label="{TXT_SUBMIT}" value="{TXT_SUBMIT}" disabled="">
+        <input role="button" class="btn btn-default ilFileUploadCancel"
+               type="button" name="cmd[cancel]" aria-label="{TXT_CANCEL}" value="{TXT_CANCEL}">
     </div>
 </div>

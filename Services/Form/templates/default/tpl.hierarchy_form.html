@@ -10,13 +10,15 @@
 <div class="ilHFormHeader">
 		<div class="ilFormCmds">
 			<!-- BEGIN cmd2 -->
-			<input class="btn btn-default" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<input role="button" class="btn btn-default" type="submit" aria-label="cmd[{CMD}]"
+				   name="cmd[{CMD}]" value="{CMD_TXT}" />
 			<!-- END cmd2 -->
 		</div>
 		<!-- BEGIN multi_cmds2 -->
 		<img alt="{MCMD_ALT}" src="{MCMD_IMG}" />
 		<!-- BEGIN multi_cmd2 -->
-		<input class="btn btn-default" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<input role="button" class="btn btn-default" type="submit" aria-label="cmd[{MULTI_CMD}]"
+			   name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
 		<!-- END multi_cmd2 -->
 		<!-- END multi_cmds2 -->
 </div>
@@ -28,13 +30,15 @@
 <div class="ilHFormFooter">
 		<div class="ilFormCmds">
 			<!-- BEGIN cmd1 -->
-			<input class="btn btn-default" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<input role="button" class="btn btn-default" type="submit" aria-label="cmd[{CMD}]"
+				   name="cmd[{CMD}]" value="{CMD_TXT}" />
 			<!-- END cmd1 -->
 		</div>
 		<!-- BEGIN multi_cmds1 -->
 		<img alt="{MCMD_ALT}" src="{MCMD_IMG}" />
 		<!-- BEGIN multi_cmd1 -->
-		<input class="btn btn-default" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<input role="button" class="btn btn-default" type="submit" aria-label="cmd[{MULTI_CMD}]"
+			   name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
 		<!-- END multi_cmd1 -->
 		<!-- END multi_cmds1 -->
 </div>
@@ -44,13 +48,15 @@
 <!-- BEGIN disambiguation_menu -->
 <div style="position:absolute;left:0;top:0;visibility:hidden;" id="diss_menu_{DNODE_ID}_{GRP}">
 <table class="il_editmenu" cellspacing="0" cellpadding="3">
+<tbody>
 <!-- BEGIN dmenu_cmd -->
 <tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{SUBITEM}');">
-{TXT_MENU_CMD}
-</td>
+	<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{SUBITEM}');">
+		{TXT_MENU_CMD}
+	</td>
 </tr>
 <!-- END dmenu_cmd -->
+</tbody>
 </table>
 </div>
 <!-- END disambiguation_menu -->

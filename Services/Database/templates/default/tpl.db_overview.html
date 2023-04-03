@@ -91,17 +91,20 @@
 <h2 class="il_db_table_name">{TXT_TABLE_NAME} <span class="il_db_seq">({TXT_SEQUENCE})</span></h2>
 <!-- BEGIN field_table -->
 <table class="il_db_table_table" cellspacing="0">
+<thead>
 <tr>
-	<th>Field</th>
-	<th>Type</th>
-	<th>Length</th>
-	<th>Default</th>
-	<th>Not Null</th>
-	<th>Fixed</th>
-	<th>Unsigned</th>
-	<th>Native Type</th>
-	<th>Alternative Types</th>
+	<th scope="col">Field</th>
+	<th scope="col">Type</th>
+	<th scope="col">Length</th>
+	<th scope="col">Default</th>
+	<th scope="col">Not Null</th>
+	<th scope="col">Fixed</th>
+	<th scope="col">Unsigned</th>
+	<th scope="col">Native Type</th>
+	<th scope="col">Alternative Types</th>
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN field -->
 <tr>
 	<td>{VAL_FIELD}</td>
@@ -115,39 +118,48 @@
 	<td>{VAL_ALTERNATIVE_TYPES}</td>
 </tr>
 <!-- END field -->
+</tbody>
 </table>
 <!-- END field_table -->
 <!-- BEGIN index_table -->
 <table class="il_db_table_table">
+<thead>
 <tr>
-	<th>Index</th>
-	<th>Fields</th>
+	<th scope="col">Index</th>
+	<th scope="col">Fields</th>
 </tr>
+</thead>
+<tbody>
 <!-- BEGIN index -->
 <tr>
 	<td>{VAL_INDEX}</td>
 	<td>{VAL_FIELDS}</td>
 </tr>
 <!-- END index -->
+</tbody>
 </table>
 <!-- END index_table -->
 <!-- BEGIN constraint_table -->
 <table class="il_db_table_table">
+<thead>
 <tr>
-	<th>Constraint</th>
-	<th>Type</th>
-	<th>Fields</th>
+	<th scope="col">Constraint</th>
+	<th scope="col">Type</th>
+	<th scope="col">Fields</th>
 </tr>
+</thead>
 <!-- BEGIN constraint -->
+<tbody>
 <tr>
 	<td>{VAL_CONSTRAINT}</td>
 	<td>{VAL_CTYPE}</td>
 	<td>{VAL_CFIELDS}</td>
 </tr>
+</tbody>
 <!-- END constraint -->
 </table>
 <!-- END constraint_table -->
-<div class="il_cnt">{VAL_CNT}</div>
+<div role="status" class="il_cnt">{VAL_CNT}</div>
 </div>
 <!-- END table -->
 </body>

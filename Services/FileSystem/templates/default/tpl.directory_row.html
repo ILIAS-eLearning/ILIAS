@@ -1,13 +1,17 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN select_bl -->
 	<td class="std" valign="top">
-		<!-- BEGIN checkbox --><input type="checkbox" name="file[{CHECKBOX_ORDER_ID}]" value="{CHECKBOX_ID}" {CHECKED}/><!-- END checkbox -->
+		<!-- BEGIN checkbox -->
+		<input aria-label="{CHECKBOX_ID} checkbox" type="checkbox"
+			   name="file[{CHECKBOX_ORDER_ID}]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<!-- END checkbox -->
 		<!-- BEGIN no_checkbox -->&nbsp;<!-- END no_checkbox -->
 	</td>
 	<!-- END select_bl -->
 	<!-- BEGIN Order -->
 	<td class="std small">
-		<input class="form-control" type="text" size="4" maxlength="4" name="order[{ID}]" value="{ORDER_VAL}" />
+		<input aria-label="{ORDER_VAL}" class="form-control"
+			   type="text" size="4" maxlength="4" name="order[{ID}]" value="{ORDER_VAL}" />
 	</td>
 	<!-- END Order -->
 	<td class="std" valign="top">
@@ -15,7 +19,7 @@
 	</td>
 	<td class="std" valign="top">
 		<!-- BEGIN FileLink -->
-		<a href="{LINK_FILENAME}">{TXT_FILENAME}</a>
+		<a aria-label="{TXT_FILENAME}" href="{LINK_FILENAME}">{TXT_FILENAME}</a>
 		<!-- END FileLink -->
 		<!-- BEGIN File -->
 		{TXT_FILENAME2}

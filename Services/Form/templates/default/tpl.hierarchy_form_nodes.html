@@ -2,36 +2,44 @@
      the table is at least responsive and allows proper rtl support
 -->
 <table>
+<tbody>
 <!-- BEGIN element -->
 <!-- BEGIN drop_area -->
 <tr>
 	<td colspan="3"></td>
 	<td>
-		<div class="il_droparea {NO_CONTENT_CLASS} ilHFormDropArea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, '');" onMouseOut="doMouseOut(this.id, '');"><span class="glyphicon glyphicon-plus"></span>{NO_CONTENT_TXT}</div>
+		<div class="il_droparea {NO_CONTENT_CLASS} ilHFormDropArea" id="droparea_{DNODE_ID}"
+			 onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, '');"
+			 onMouseOut="doMouseOut(this.id, '');"><span class="glyphicon glyphicon-plus"></span>{NO_CONTENT_TXT}
+		</div>
 	</td>
 </tr>
 <!-- END drop_area -->
 <!-- BEGIN drop_area_menu -->
-<tr><td>
-	<div style="position:absolute;left:0;top:0;visibility:hidden;" id="dropareamenu_{MNODE_ID}">
-	<table class="il_editmenu ilOverlay" cellspacing="0" cellpadding="3">
-	<!-- BEGIN menu_cmd -->
-	<tr>
-	<td class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_0" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, 1);">
-	{TXT_MENU_CMD}
-	</td>
-	<!-- BEGIN multi_add -->
-	<td class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_{MA_NUM}" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, {MA_NUM});">&nbsp;{MA_NUM}&nbsp;</td>
-	<!-- END multi_add -->
-	<!-- BEGIN multi_buffer -->
-	<td class="il_editmenu" colspan="{BUF_SPAN}">&nbsp;</td>
-	<!-- END multi_buffer -->
-	</tr>
-	<!-- END menu_cmd -->
-	</table>
-	</div>
-	</div>
-</td></tr>
+<tr>
+	<td>
+		<div style="position:absolute;left:0;top:0;visibility:hidden;" id="dropareamenu_{MNODE_ID}">
+			<ul class="il_editmenu ilOverlay" cellspacing="0" cellpadding="3">
+				<!-- BEGIN menu_cmd -->
+				<div>
+					<div role="button" aria-label="{TXT_MENU_CMD}" class="il_editmenu" style="white-space:nowrap;"
+						 id="hftd_{CMD_NODE}t{MCNT}_0" onMouseOver="M_in(this);"
+						 onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, 1);">
+						{TXT_MENU_CMD}
+					</div>
+					<!-- BEGIN multi_add -->
+					<div role="button" class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_{MA_NUM}" onMouseOver="M_in(this);"
+						 onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, {MA_NUM});">&nbsp;{MA_NUM}&nbsp;</div>
+					<!-- END multi_add -->
+					<!-- BEGIN multi_buffer -->
+					<div class="il_editmenu" colspan="{BUF_SPAN}">&nbsp;</div>
+					<!-- END multi_buffer -->
+				</div>
+				<!-- END menu_cmd -->
+			</ul>
+		</div>
+		</div>
+	</td></tr>
 <!-- END drop_area_menu -->
 <!-- BEGIN list_item -->
 <tr>
@@ -51,10 +59,10 @@
 		<!-- END img -->
 	</td>
 	<td class="ilHFormInput">
-	<!-- BEGIN text --><input id="inp{TNODE_ID}" class="form-control" name="title[{TNODE_ID}]" {CLASS} type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+		<!-- BEGIN text --><input id="inp{TNODE_ID}" class="form-control" name="title[{TNODE_ID}]" {CLASS} type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
 	</td>
 	<td class="ilHFormItemCmd"><!-- BEGIN node_cmd --><a class="il_ContainerItemCommand2" href="{HREF_NODE_CMD}">{TXT_NODE_CMD}</a><!-- END node_cmd -->
-	<!-- BEGIN node_info --><div class="subtitle">{NODE_INFO}</div><!-- END node_info -->
+		<!-- BEGIN node_info --><div class="subtitle">{NODE_INFO}</div><!-- END node_info -->
 	</td>
 </tr>
 <tr>
@@ -63,6 +71,7 @@
 </tr>
 <!-- END list_item -->
 <!-- END element -->
+</tbody>
 </table>
 <!-- BEGIN focus -->
 <script>

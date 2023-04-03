@@ -1,8 +1,11 @@
 <div class="form-inline">	
 	<div>
-		<input type="text" class="form-control" id="{MAP_ID}_lat" size="14" maxlength="18" name="{POST_VAR}[latitude]" value="{PROPERTY_VALUE_LAT}"
+		<input aria-label="{POST_VAR}[latitude]" type="text" class="form-control" id="{MAP_ID}_lat"
+			   size="14" maxlength="18"
+			   name="{POST_VAR}[latitude]" value="{PROPERTY_VALUE_LAT}"
 			onchange="ilUpdateMap('{MAP_ID}');" /> /
-		<input type="text" class="form-control" id="{MAP_ID}_lng" size="14" maxlength="18" name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}"
+		<input aria-label="{POST_VAR}[longitude]" type="text" class="form-control" id="{MAP_ID}_lng" size="14" maxlength="18"
+			   name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}"
 			onchange="ilUpdateMap('{MAP_ID}');" />
 		&nbsp;&nbsp;<label for="{MAP_ID}_zoom">{TXT_ZOOM}</label>: {ZOOM_SELECT}
 	</div>
@@ -11,15 +14,20 @@
 	</div>
 	<!-- BEGIN address_input -->
 	<div>
-		<input id="{MAP_ID_ADDR}_addr" type="text" class="form-control" name="{POST_VAR_ADDR}[address]" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').val()); return false;}"/>
-		<input class="btn btn-default" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').val());" />
+		<input aria-label="{POST_VAR_ADDR}[address]" id="{MAP_ID_ADDR}_addr" type="text" class="form-control"
+			   name="{POST_VAR_ADDR}[address]" value="{TXT_ADDRESS}" size="50"
+			   onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID_ADDR}',
+			   $('#{MAP_ID_ADDR}_addr').val()); return false;}"/>
+		<input role="button" aria-label="{MAP_ID_ADDR}" class="btn btn-default" type="button" value="{TXT_LOOKUP}"
+			   onclick="ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').val());" />
 	</div>
 	<!-- END address_input -->
 	<!-- BEGIN alert -->
 	<!-- 'inspired' by ilUtils info...  -->
 	<div class="alert alert-danger" role="alert">
 	<h5 class="ilAccHeadingHidden"></h5>
-	{TEXT}</div>
+	{TEXT}
+	</div>
 	<!-- END alert -->
 	<div class="help-block">
 		<label for="{MAP_ID}_addr">{TXT_ADDR}</label>
