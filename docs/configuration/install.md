@@ -257,6 +257,10 @@ security relevant configuration.
 
 Remember to reload your web server configuration to apply those changes.
 
+Please ensure that PHP is compiled with `libargon2`. This is mostly the case
+for common distributions, but if you compile PHP yourself it must be build
+with `--with-password-argon2[=DIR]` (see: https://www.php.net/manual/en/password.installation.php).
+
 <a name="database-installationconfiguration"></a>
 ### Database Installation/Configuration
 
