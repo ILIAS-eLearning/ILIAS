@@ -53,4 +53,23 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    /**
+     * Modifies the 'passwd' field in table 'usr_data' to accept longer passwords
+     */
+    public function step_2(): void
+    {
+        if (!$this->db->tableColumnExists('usr_data', 'passwd')) {
+            $this->db->modifyTableColumn(
+                'usr_data',
+                'passwd',
+                [
+                    'type'    => 'text',
+                    'length'  => 100,
+                    'notnull' => false,
+                    'default' => null
+                ]
+            );
+        }
+    }
 }
