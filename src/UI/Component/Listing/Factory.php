@@ -121,4 +121,20 @@ interface Factory
      * @return \ILIAS\UI\Component\Listing\Entity\Factory
      */
     public function entity(): Entity\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     ...
+     *   composition: >
+     *     ...
+     *   rivals:
+     *      Panel: >
+     *        .
+     *        .
+     * ----
+     * @return \ILIAS\UI\Component\Listing\Property
+     */
+    public function property(): Property;
 }

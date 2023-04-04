@@ -71,4 +71,9 @@ class Factory implements L\Factory
     {
         return new Entity\Factory();
     }
+
+    public function property(): L\Property
+    {
+        return new Property();
+    }
 }

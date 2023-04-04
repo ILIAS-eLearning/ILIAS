@@ -10,8 +10,6 @@ function base()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $flatten = fn ($ar): string => implode(' - ', array_map(fn ($pair) => implode(': ', array_filter($pair)), $ar));
-
     $secondary_id = $f->symbol()->icon()->standard('crs', 'some course', 'medium');
     $actions = [
         $f->button()->shy("ILIAS", "https://www.ilias.de"),
@@ -28,18 +26,18 @@ function base()
         $f->button()->tag('tag', '#')
     ];
 
-    $details = $flatten([
-        ['detail', '7'],
-        ['', 'unlabled detail'],
-        ['another detail', 'anothervalue']
-    ]);
-
+    $details = $f->listing()->property()
+        ->withProperty('detail: ', '7')
+        ->withProperty('detail2', 'unlabled detail', false)
+        ->withProperty('another detail: ', 'anothervalue');
 
     $status = [
         $f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'),
         $f->legacy('personal status')
     ];
 
+    $availability = $f->listing()->property()
+        ->withProperty('available', 'until 2024/12/24');
 
     $entity = $f->entity()->standard(
         'primary id',
@@ -49,7 +47,7 @@ function base()
     ->withMainDetails('This is a descriptive text. This is a descriptive text. This is a descriptive text.')
     ->withBlockingAvailabilityConditions('there are blocking conditions!')
     ->withPersonalStatus($status)
-    ->withAvailability('available: until 2024/12/24')
+    ->withAvailability($availability)
     ->withDetails($details)
     ->withPrioritizedReactions($prio_reactions)
     ->withReactions($reactions)

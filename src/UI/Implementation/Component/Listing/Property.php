@@ -21,26 +21,18 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Class Listing
+ * Property listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Listing implements C\Listing\Listing
+class Property extends Listing implements C\Listing\Property
 {
-    use ComponentHelper;
-
-    protected array $items;
-
-    /**
-     * Listing constructor.
-     */
-    public function __construct(array $items)
+    public function __construct()
     {
-        $types = array('string',C\Component::class);
-        $this->checkArgListElements("items", $items, $types);
-        $this->items = $items;
+        //$types = array('string',C\Component::class);
+        //$this->checkArgListElements("items", $items, $types);
+        $this->items = [];
     }
 
     /**
@@ -48,19 +40,18 @@ class Listing implements C\Listing\Listing
      */
     public function withItems(array $items): C\Listing\Listing
     {
-        $types = array('string',C\Component::class);
-        $this->checkArgListElements("items", $items, $types);
+        //$types = array('string',C\Component::class);
+        //$this->checkArgListElements("items", $items, $types);
 
         $clone = clone $this;
         $clone->items = $items;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getItems(): array
+    public function withProperty(string $label, $value, bool $show_label = true)
     {
-        return $this->items;
+        $clone = clone $this;
+        $clone->items[] = [$label, $value, $show_label];
+        return $clone;
     }
 }
