@@ -21,12 +21,14 @@ il.Group = il.Group || {};
 
 			setCreationSubmit: function () {
 				$('#il_grp_action_modal_content form').on("submit", function(e) {
-					var values;
-
 					e.preventDefault();
-					values = $('#il_grp_action_modal_content form').serializeArray();
-					il.Util.sendAjaxPostRequestToUrl($(this).attr('action'), values, function (o) {
-						$('#il_grp_action_modal_content').html(o);
+					const form = document.querySelector("#il_grp_action_modal_content form");
+					const formData = new FormData(form);
+					let data = {};
+					formData.forEach((value	, key) => (data[key] = value));
+					il.repository.core.fetchHtml(form.action, data, true). then(function (o) {
+						const contentEl = document.getElementById("il_grp_action_modal_content");
+						il.repository.core.setInnerHTML(contentEl, o);
 						il.Group.UserActions.setCreationSubmit();
 					});
 				});
@@ -35,9 +37,13 @@ il.Group = il.Group || {};
 
 			createGroup: function (e) {
 				e.preventDefault();
-				values = $('#il_grp_action_modal_content form').serializeArray();
-				il.Util.sendAjaxPostRequestToUrl($('#il_grp_action_modal_content form').attr('action'), values, function (o) {
-					$('#il_grp_action_modal_content').html(o);
+				const form = document.querySelector("#il_grp_action_modal_content form");
+				const formData = new FormData(form);
+				let data = {};
+				formData.forEach((value, key) => (data[key] = value));
+				il.repository.core.fetchHtml(form.action, data, true). then(function (o) {
+					const contentEl = document.getElementById("il_grp_action_modal_content");
+					il.repository.core.setInnerHTML(contentEl, o);
 				});
 			},
 
