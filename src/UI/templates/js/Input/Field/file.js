@@ -595,17 +595,24 @@ il.UI.Input = il.UI.Input || {};
 			let file_inputs = current_form.find(SELECTOR.file_input);
 			current_dropzone_count = file_inputs.length;
 
-			// in case multiple file-inputs were added to ONE form, they
-			// all need to be processed.
-			if (Array.isArray(file_inputs)) {
-				for (let i = 0; i < file_inputs.length; i++) {
-					let input_id = file_inputs[i].attr('id');
-					let dropzone = dropzones[input_id];
-					processRemovals(input_id, event);
-					dropzone.processQueue();
-				}
-			} else {
-				let input_id = file_inputs.attr('id');
+            if (typeof file_inputs[Symbol.iterator] === 'function') {
+                let to_process = 0;
+                for (let i = 0; i < file_inputs.length; i++) {
+                    let input_id = file_inputs[i].id;
+                    let dropzone = dropzones[input_id];
+                    processRemovals(input_id, event);
+                    to_process += dropzone.files.length;
+                    if (dropzone.files.length !== 0) {
+                        dropzone.processQueue();
+                    } else {
+                        current_dropzone++;
+                    }
+                }
+                if (to_process === 0) {
+                    current_form.submit();
+                }
+            } else {
+                let input_id = file_inputs.attr('id');
 				let dropzone = dropzones[input_id];
 				processRemovals(input_id, event);
 				if (0 !== dropzone.files.length) {
@@ -613,7 +620,7 @@ il.UI.Input = il.UI.Input || {};
 				} else {
 					current_form.submit();
 				}
-			}
+            }
 		}
 
 		/**
