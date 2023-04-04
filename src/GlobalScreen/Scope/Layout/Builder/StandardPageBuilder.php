@@ -78,7 +78,9 @@ class StandardPageBuilder implements PageBuilder
             $view_title
         );
 
-        $standard = $standard->withResponsiveLogo($parts->getResponsiveLogo());
+        if (($responsive_logo = $parts->getResponsiveLogo()) !== null) {
+            $standard = $standard->withResponsiveLogo($responsive_logo);
+        }
 
         foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
             $standard = $standard->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
