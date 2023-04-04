@@ -50,6 +50,7 @@ class Renderer extends AbstractComponentRenderer
         'l' => 'dddd',
         'D' => 'dd',
         'S' => 'o',
+        'i' => 'mm',
         'W' => '',
         'm' => 'MM',
         'F' => 'MMMM',
