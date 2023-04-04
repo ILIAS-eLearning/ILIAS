@@ -58,6 +58,7 @@ class Renderer extends AbstractComponentRenderer
         $set_values = $component->getValue() ? array_filter(explode(',', $component->getValue())) : [];
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
+            $tpl->setVariable("OPTION_ID", $this->getJavascriptBinding()->createId());
             $tpl->setVariable("OPTION_VALUE", $opt_value);
             $tpl->setVariable("OPTION_LABEL", $opt_label);
             if (in_array($opt_value, $set_values)) {
