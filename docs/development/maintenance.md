@@ -142,8 +142,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Badges)
 
 * **Badges**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html); from
-	  v.9 [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
