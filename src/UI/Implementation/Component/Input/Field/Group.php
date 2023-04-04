@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -72,10 +71,10 @@ class Group extends Input implements C\Input\Field\Group
         return $clone;
     }
 
-    public function withRequired(bool $is_required): C\Input\Field\Input
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): C\Input\Field\Input
     {
-        $clone = parent::withRequired($is_required);
-        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required), $this->inputs);
+        $clone = parent::withRequired($is_required, $requirement_constraint);
+        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
         return $clone;
     }
 
