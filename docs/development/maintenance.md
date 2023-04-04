@@ -1034,8 +1034,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **User Service**
 	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
