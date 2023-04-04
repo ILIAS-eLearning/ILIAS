@@ -1348,7 +1348,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
             $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
         } else {
-            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"]);
+            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
             if (!isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"])) {
                 $qtiParser->setIgnoreItemsEnabled(true);
             }

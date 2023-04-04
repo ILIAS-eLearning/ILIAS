@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
@@ -57,7 +58,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     {
         $f = $this->ui->factory();
 
-        $center = $f->mainControls()->slate()->combined($this->lng->txt("noc"), $item->getSymbol())
+        $center = $f->mainControls()->slate()->combined($this->lng->txt("noc"), $this->buildIcon($item))
                     ->withEngaged(false);
 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {
@@ -65,9 +66,8 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         }
 
         $center = $this->attachJSShowEvent($center);
-        $center = $this->attachJSRerenderEvent($center);
 
-        return $center;
+        return $this->attachJSRerenderEvent($center);
     }
 
     /**
@@ -82,7 +82,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         $toggle_signal = $center->getToggleSignal();
         $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildShowQuery();
 
-        $center = $center->withAdditionalOnLoadCode(
+        return $center->withAdditionalOnLoadCode(
             function ($id) use ($toggle_signal, $url) {
                 return "
                 $(document).on('$toggle_signal', function(event, signalData) {
@@ -90,8 +90,6 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
                 });";
             }
         );
-
-        return $center;
     }
 
     /**

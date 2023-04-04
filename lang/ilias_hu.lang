@@ -20,7 +20,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	8.x 2023-02-13
+* @version	8.x 2023-04-03
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -931,7 +931,7 @@ assessment#:#msg_selected_for_move#:#Kérdés(ek) kiválasztva áthelyezéshez.
 assessment#:#new_category#:#Új mértékegység-kategória
 assessment#:#new_unit#:#Új mértékegység
 assessment#:#next_question#:#Következő
-assessment#:#next_question_rows#:#Kérdések %d - %d (összesen: %d) >>
+assessment#:#next_question_rows#:#Kérdések %d - %d (összesen: %d) →
 assessment#:#no_passed_mark#:#Legalább egy értékelésnek sikeres teljesítésnek kell lennie. Az értékeléssémát nem mentettük.
 assessment#:#no_question_selected_for_move#:#Legalább egy kérdést jelöljön ki az áthelyezéshez!
 assessment#:#no_questions_available#:#Nincsenek elérhető kérdések.
@@ -1297,8 +1297,8 @@ assessment#:#tst_activation_online_info#:#Ha online, a résztvevők kitölthetik
 assessment#:#tst_add_quest_cont_edit_mode#:#Szerkesztő
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Egyszerű szöveg használata kérdések és válaszok, ILIAS-lapszerkesztő használata visszajelzések és tippek szerkesztéséhez.
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#A kérdések és a válaszok nem formázható szövegek. LaTex sem használható. Viszont a visszajelzések és a tippek újra felhasználhatóak, ha kérdés beágyazott az ILIAS-tananyagban.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints###31 03 2023 new variable
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#A kérdések, a válaszok, a visszajelzések és a tippek formázható szövegek. Viszont a visszajelzések és a tippek nem használhatóak fel újra, ha kérdés beágyazott az ILIAS-tananyagban.
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich Text szerkesztő (TinyMCE) használata kérdések és válaszok, illetve visszajelzések és tippek szerkesztéséhez
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.
@@ -1337,7 +1337,7 @@ assessment#:#tst_back_to_question_list#:#Vissza kérdéslistához
 assessment#:#tst_back_to_top#:#Vissza a tetejére
 assessment#:#tst_back_to_virtual_pass#:#Vissza a kérdésáttekintéshez
 assessment#:#tst_best_solution_is#:#A legjobb megoldás
-assessment#:#tst_block_passes_after_passed#:#További kitöltések tiltás sikeres kitöltés után
+assessment#:#tst_block_passes_after_passed#:#További próbálkozások tiltás sikeres kitöltés után
 assessment#:#tst_block_passes_after_passed_info#:#A résztvevő sikeres kitöltés után már nem töltheti ki többször a tesztet.
 assessment#:#tst_browse_for_qpl_questions#:#Hozzáadás kérdésgyűjteményből
 assessment#:#tst_browse_for_tst_questions#:#Hozzáadás másik tesztből
@@ -1372,7 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Csak a teljesen hibátlan megoldások
 assessment#:#tst_count_correct_solutions_desc#:#A tökéletes, teljesen hibátlan megoldás maximális pontszámot, minden egyéb 0 pontot ér. Ez azokra a kérdésekre is érvényes, melyeknél részmegoldásért is járna pont.
 assessment#:#tst_count_partial_solutions#:#Nem teljes vagy részben hibás megoldások is érnek pontot
 assessment#:#tst_count_partial_solutions_desc#:#A részmegoldásért jár pont. A helyes részmegoldások pontszámai összeadódnak: a résztvevők pontot kapnak a nem teljes vagy részben hibás megoldásokért ezeknél a kérdéseknél.
-assessment#:#tst_current_run_no_longer_valid#:#A jelenlegi teszkitöltése nem érvényes. <br>Vélhetően már befejezték vagy a tutor lezárta.
+assessment#:#tst_current_run_no_longer_valid#:#A jelenlegi próbálkozása nem érvényes. <br>Vélhetően már befejezték vagy a tutor lezárta.
 assessment#:#tst_default_settings#:#Saját alapbeállítások teszthez
 assessment#:#tst_defaults_applied#:#A kiválasztott alapbeállítást sikeresen alkalmazta a tesztre.
 assessment#:#tst_defaults_apply_not_possible#:#Az ILIAS nem tudja beállítani a kiválasztott alapbeállítás értékeit ehhez a teszthez! Lehet, hogy a tesztet már töltik.
@@ -1426,8 +1426,8 @@ assessment#:#tst_failed#:#Nem sikerült
 assessment#:#tst_failed_imp_qst_skl_assign#:#A kérdéseket nem sikerült a következő kompetenciákhoz rendelni. Az érintett kompetenciák nem azonosíthatóak be ebben az ILIAS telepítésben.
 assessment#:#tst_failed_imp_skl_thresholds#:#A következő kompetenciák határértékeinek importálása meghiúsult, mert az érintett kompetenciák eltérő szinteket tartalmaznak ebben az ILIAS telepítésben.
 assessment#:#tst_feedback#:#Visszajelzés
-assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###31 03 2023 new variable
-assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###31 03 2023 new variable
+assessment#:#tst_feedback_is_given_inline#:#A visszajelzés a válaszával együtt jelenik meg.
+assessment#:#tst_feedback_not_available_for_answer#:#Válaszához nincs visszajelzés.
 assessment#:#tst_filter_lifecycle_enabled#:#Szűrés életciklus alapján
 assessment#:#tst_filter_question_type#:#Kérdéstípus
 assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
@@ -1440,9 +1440,9 @@ assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, elér
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content#:#E-mail tartalma
-assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
+assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését. A 'Jogosultság' fül 'Tulajdonos' lapján található a teszt tulajdonosa. 
 assessment#:#tst_finish_notification_no#:#Nincs e-mail
-assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum küldése
+assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum
 assessment#:#tst_finished#:#Befejezve
 assessment#:#tst_form_dynamic_question_set_config#:#Folyamatos kérdéskiválasztás
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
@@ -1508,22 +1508,22 @@ assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a 
 assessment#:#tst_insert_questions#:#Biztos, hogy beilleszti az alábbi kérdés(eke)t a tesztbe?
 assessment#:#tst_insert_questions_and_results#:#Ezt a tesztet %s felhasználó már kitöltötte. A kérdések beillesztésével törli ezen felhasználók minden teszteredményét is. Biztos, hogy beilleszti az alábbi kérdéseket a tesztbe?
 assessment#:#tst_instant_feedback#:#Azonnali visszajelzés
-assessment#:#tst_instant_feedback_answer_generic#:#Visszajelzés teljesen hibátlan válasz esetén
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Amennyiben a válasz tökéletes, az 'Ellenőrzés' gombra kattintáskor visszajelzést jelenít meg. Amennyiben a válasz nem teljesen hibátlan, másfajta visszajelzés jelenik meg. Mindkét típust az adott kérdés 'Tanulói visszajelzés' fülénél kell meghatározni.
+assessment#:#tst_instant_feedback_answer_generic#:#Helyes/Nem helyes válaszra visszajelzés
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Amennyiben a válasz tökéletes, az 'Ellenőrzés' gombra kattintáskor a helyes megoldás jelenik meg. Amennyiben a válasz nem teljesen hibátlan, a 'Legalább egy válasz nem helyes' visszajelzés jelenik meg. Mindkét típust az adott kérdés 'Visszajelzés' fülénél kell meghatározni.
 assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti visszajelzés
-assessment#:#tst_instant_feedback_answer_specific_desc#:#Az <i>Ellenőrzés</i> gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott akármelyik válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
-assessment#:#tst_instant_feedback_contents#:#Belefoglalt tartalmak
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Az 'Ellenőrzés' gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
+assessment#:#tst_instant_feedback_contents#:#Visszajelzés típusai
 assessment#:#tst_instant_feedback_desc#:#Amikor a kérdéseket visszajelzéssel állítják be, az a résztvevőknek a teszt kitöltése alatt jelenik meg.
 assessment#:#tst_instant_feedback_forced#:#Azonnali visszajelzés kikényszerítése
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
-assessment#:#tst_instant_feedback_results_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik az erre a kérdésre adott válaszra kapott pontszám.
+assessment#:#tst_instant_feedback_results_desc#:#Az 'Ellenőrzés' gombra kattintva megjelenik, mennyi pontot kapna erre válaszra.
 assessment#:#tst_instant_feedback_solution#:#Legjobb lehetséges válasz megjelenítése
-assessment#:#tst_instant_feedback_solution_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik erre a kérdésre adható legjobb válasz.
+assessment#:#tst_instant_feedback_solution_desc#:#Az 'Ellenőrzés' gombra kattintva megjelenítik erre a kérdésre adható legjobb válasz.
 assessment#:#tst_instant_feedback_trigger#:#Mi váltsa ki a visszajelzést
-assessment#:#tst_instant_feedback_trigger_forced#:#A visszajelzést a kérdés megválaszolása váltja ki
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#A visszajelzés akkor jelenik meg, amikor a résztvevő megválaszol egy kérdést.
-assessment#:#tst_instant_feedback_trigger_manual#:#A résztvevők a visszajelzést manuálisan idézik elő
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#A visszajelzés elérhető, de csak akkor jelenik meg, amikor a résztvevő azt manuális előidézi.
+assessment#:#tst_instant_feedback_trigger_forced#:#Automatikus visszajelzés
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#A visszajelzés automatikusan, válaszadáskor jelenik meg.
+assessment#:#tst_instant_feedback_trigger_manual#:#Manuális visszajelzés
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#A visszajelzés az 'Ellenőrzés' gombra kattintva jelenik meg.
 assessment#:#tst_introduction#:#Bevezető üzenet
 assessment#:#tst_introduction_desc#:#Bevezető üzenet megjelenítése a teszt információs oldalán. Ez a szöveg már elérhető a teszt megkezdése előtt.
 assessment#:#tst_introduction_text#:#Bevezető üzenet
@@ -1540,7 +1540,7 @@ assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az el
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírásokat is tartalmazza
 assessment#:#tst_man_scoring_by_part#:#Rendezés résztvevők szerint
 assessment#:#tst_man_scoring_by_qst#:#Rendezés válaszok szerint
-assessment#:#tst_man_scoring_only_answered#:#Only answered###29 06 2022 new variable
+assessment#:#tst_man_scoring_only_answered#:#Csak a megválaszoltak
 assessment#:#tst_manage_competence_assigns#:#Kompetencia-összerendelések kezelése
 assessment#:#tst_manscoring_input_max_points_for_question#:#Válaszért adható maximális pontszám
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Kérdés és<br/>a felhasználó válasza
@@ -1549,7 +1549,7 @@ assessment#:#tst_manscoring_question_section_header#:#Kérdés: <i>%s</i>
 assessment#:#tst_manscoring_user_notification#:#Értesítés küldése
 assessment#:#tst_mark#:#Jegy
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
-assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű értékelésséma visszaállítása
+assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
 assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
 assessment#:#tst_mark_official_form#:#Hivatalos forma
 assessment#:#tst_mark_passed#:#Sikeres teljesítés-e
@@ -1609,10 +1609,10 @@ assessment#:#tst_notification_explanation_admin#:#Ezt a levelet azért kapta, me
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Ezt az értesítést azért kapta, mert résztvevő ebben a tesztben.
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#'%s' teszthez manuális pontozás
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#ezúton tájékoztatjuk, hogy az alábbi teszthez a manuális pontozás közzétették:
-assessment#:#tst_nr_of_passes#:#Tesztkitöltések száma
+assessment#:#tst_nr_of_passes#:#Próbálkozások száma
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
-assessment#:#tst_nr_of_tries_desc#:#Egy résztvevő maximális kitöltéseinek száma.
-assessment#:#tst_nr_of_tries_of_user#:#Eddigi kitöltések
+assessment#:#tst_nr_of_tries_desc#:#Egy résztvevő maximális próbálkozásainak száma.
+assessment#:#tst_nr_of_tries_of_user#:#Befejezett próbálkozások száma
 assessment#:#tst_num_all_questions#:#Összes kérdés száma
 assessment#:#tst_num_correct_answered_questions#:#Hibátlanul megválaszoltak
 assessment#:#tst_num_non_answered_questions_notseen#:#Még meg sem nyitottak
@@ -1632,37 +1632,37 @@ assessment#:#tst_participant_status#:#Résztvevő állapota
 assessment#:#tst_participating_users#:#Felhasználók
 assessment#:#tst_pass_best_pass#:#Legnagyobb elért pontszám számít
 assessment#:#tst_pass_best_pass_desc#:#Amennyiben többször töltheti ki egy résztvevő a tesztet, a legjobb eredményét vesszük figyelembe.
-assessment#:#tst_pass_deletion#:#Előző próbálkozások kezelése
-assessment#:#tst_pass_deletion_allowed#:#Az előző próbálkozások törlése engedélyezett
-assessment#:#tst_pass_deletion_not_allowed#:#Az előző próbálkozások törlése nem engedélyezett
+assessment#:#tst_pass_deletion#:#Korábbi próbálkozások kezelése
+assessment#:#tst_pass_deletion_allowed#:#A még nem pontozott próbálkozások törölhetők.
+assessment#:#tst_pass_deletion_not_allowed#:#A még nem pontozott próbálkozások nem törölhetők.
 assessment#:#tst_pass_details#:#Részletes eredmények
 assessment#:#tst_pass_details_header_lo_initial#:#A Tanulási célkitűzések Belépő tesztjének eredményei<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#A Tanulási célkitűzések Záró tesztjének eredményei<br />%s - %s
-assessment#:#tst_pass_details_overview_table_title#:#%s. tesztkitöltés válaszainak részletes áttekintése
-assessment#:#tst_pass_finished#:#A tesztkitöltés befejeződött
-assessment#:#tst_pass_finished_on#:#Tesztkitöltés befejezésének időpontja
-assessment#:#tst_pass_last_pass#:#Utolsó kitöltés pontszáma számít
-assessment#:#tst_pass_last_pass_desc#:#Minden résztvevőnél a legutolsó tesztkitöltését vesszük figyelembe.
+assessment#:#tst_pass_details_overview_table_title#:#%s. próbálkozás válaszainak részletes áttekintése
+assessment#:#tst_pass_finished#:#A próbálkozás befejeződött
+assessment#:#tst_pass_finished_on#:#Próbálkozás befejezésének időpontja
+assessment#:#tst_pass_last_pass#:#Utolsó próbálkozás pontszáma számít
+assessment#:#tst_pass_last_pass_desc#:#Minden résztvevőnél a legutolsó próbálkozását vesszük figyelembe.
 assessment#:#tst_pass_overview_for_participant#:#<i>%s</i> teszt-sorszámai
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#'%s' kurzus Tanulási célkitűzéseinek<br />Belépő tesztjének eredményei
 assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#'%s' kurzus Tanulási célkitűzésének<br />Belépő tesztjének eredményei
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#'%s' kurzus Tanulási célkitűzéseinek<br />Záró tesztjének eredményei
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#'%s' kurzus Tanulási célkitűzésének<br />Záró tesztjének eredményei
-assessment#:#tst_pass_scoring#:#Több kitöltés esetén a pontszámítás
-assessment#:#tst_pass_waiting_enabled#:#Várakozási idő kikényszerítése kitöltések között
-assessment#:#tst_pass_waiting_info#:#További kitöltés nem indítható, amíg a megadott idő el nem telik az utolsó kitöltés befejezése óta.
+assessment#:#tst_pass_scoring#:#Több próbálkozás esetén a pontszámítás
+assessment#:#tst_pass_waiting_enabled#:#Várakozási idő kikényszerítése próbálkozások között
+assessment#:#tst_pass_waiting_info#:#További próbálkozás nem indítható, amíg a megadott idő el nem telik az utolsó próbálkozás befejezése óta.
 assessment#:#tst_pass_waiting_time#:#Várakozási idő
 assessment#:#tst_passed#:#Sikeresen teljesítette
-assessment#:#tst_passes#:#Tesztkitöltések
+assessment#:#tst_passes#:#Próbálkozások
 assessment#:#tst_password#:#Tesztjelszó
-assessment#:#tst_password_details#:#Ha adott meg tesztjelszót, a tesztbe belépni szándékozóknak meg kell adniuk azt a teszt elkezdéséhez.
+assessment#:#tst_password_details#:#Ha adott meg tesztjelszót, a teszt elkezdéséhez, illetve folytatásához azt meg kell adni.
 assessment#:#tst_password_enter#:#Adja meg jelszavát
 assessment#:#tst_password_entered_wrong_password#:#Nem kezdheti meg a tesztet, mert rossz jelszót adott meg.
 assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password_introduction#:#Ez a teszt csak tesztjelszóval érhető el. Adja meg a teszthez tartozó jelszót a teszt elkezdéséhez!
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_player_answer_saved_and_locked#:#Mentett és zárolt válasz nem módosítható
-assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a cél tárolót.
+assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a céltárolót.
 assessment#:#tst_position#:#%s / %s kérdés
 assessment#:#tst_position_without_total#:#%s. kérdés
 assessment#:#tst_postpone#:#Megválaszolatlan kérdések
@@ -1675,9 +1675,9 @@ assessment#:#tst_presentation_settings_section#:#Megjelenítés
 assessment#:#tst_print#:#Teszt és értékelés nyomtatási nézete
 assessment#:#tst_proceed#:#Folytatás
 assessment#:#tst_processing_time#:#Elhasználható idő korlátja
-assessment#:#tst_processing_time_desc#:#A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a 'Műszerfal' fül alatt.
+assessment#:#tst_processing_time_desc#:#E-vizsgákhoz/távvizsgákhoz hasznos beálltás. A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a 'Műszerfal' fül alatt.
 assessment#:#tst_processing_time_duration#:#Maximális feldolgozási idő
-assessment#:#tst_processing_time_duration_desc#:#Meghatározza a teszt futtatásának maximális időhosszát
+assessment#:#tst_processing_time_duration_desc#:#Meghatározza a teszt befejezésének maximális időhosszát
 assessment#:#tst_qbt_filter_question_title#:#Kérdés címe
 assessment#:#tst_qst_added_to_pool_p#:#A kérdéseket sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez.
 assessment#:#tst_qst_added_to_pool_s#:#A kérdést sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez.
@@ -1761,7 +1761,7 @@ assessment#:#tst_random_nr_of_questions#:#Hány darab kérdés?
 assessment#:#tst_random_select_questionpool#:#Válassza ki a kérdésgyűjteményt, hogy választhasson a kérdések közül
 assessment#:#tst_reached_points#:#Elért pontszám
 assessment#:#tst_reached_points_of_max#:#%s / %s
-assessment#:#tst_remove_mark#:#Ennek a jelnek az eltávolítása
+assessment#:#tst_remove_mark#:#Megjelölés eltávolítása
 assessment#:#tst_remove_question#:#Biztos, hogy eltávolítja az alábbi kérdéseket a tesztből?
 assessment#:#tst_remove_questions#:#Biztos, hogy eltávolítja az alábbi kérdéseket a tesztből?
 assessment#:#tst_remove_questions_and_results#:#Ezt a tesztet %s felhasználó már kitöltötte. A kérdések eltávolításával törli ezen felhasználók minden teszteredményét is. Biztos, hogy eltávolítja az alábbi kérdés(eke)t?
@@ -1781,22 +1781,22 @@ assessment#:#tst_res_tab_msg_res_after_date_no_res#:#A teszt kitöltésekor itt 
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#Itt mutatjuk meg az eredményeket a teszt befejezése után.
 assessment#:#tst_res_tab_msg_res_after_taking_test#:#Itt mutatjuk meg az eredményeket a teszt megkezdése után.
 assessment#:#tst_res_tab_msg_res_after_test_passed#:#Itt mutatjuk meg az eredményeket a teszt sikeres kitöltése után.
-assessment#:#tst_reset_processing_time#:#A kitöltési idő visszaállítása minden tesztkitöltéshez
-assessment#:#tst_reset_processing_time_desc#:#A kitöltési idő értéke visszaáll a megadott maximális kitöltési idő értékére. Ez a beállítás csak akkor működik, ha engedélyezett a többszörös tesztkitöltés.
+assessment#:#tst_reset_processing_time#:#Az összes próbálkozás kitöltési időkorlátjának reszetelése
+assessment#:#tst_reset_processing_time_desc#:#A kitöltési időkorlát értéke visszaáll a megadott maximális értékre. Ez a beállítás csak akkor működik, ha a teszt többszörös kitölthető.
 assessment#:#tst_result#:#Teszteredmény
-assessment#:#tst_result_pass#:#Tesztkitöltés végeredményei
+assessment#:#tst_result_pass#:#Próbálkozás végeredményei
 assessment#:#tst_result_user_name#:#%s eredményei:
-assessment#:#tst_result_user_name_pass#:#%s. tesztkitöltés eredménye, %s
+assessment#:#tst_result_user_name_pass#:#%s. próbálkozás eredményei, %s
 assessment#:#tst_results#:#Teszteredmények
 assessment#:#tst_results_access_always#:#Azonnal
 assessment#:#tst_results_access_always_desc#:#A résztvevők elérhetik eredményeiket az 'Eredmények' fül alatt a tesztkitöltésük ideje alatt, továbbá a teszt befejezése után átirányítjuk őket az 'Eredmények' fülre.
-assessment#:#tst_results_access_date#:#Időpont
+assessment#:#tst_results_access_date#:#Elérhető ettől (dátum)
 assessment#:#tst_results_access_date_desc#:#A résztvevők a megadott időpont után érhetik el eredményüket az 'Eredmények' fül alatt.
 assessment#:#tst_results_access_enabled#:#Hozzáférés a teszteredményekhez
 assessment#:#tst_results_access_enabled_desc#:#A résztvevők számára elérhetővé válik az 'Eredmények' fül. Ebben és a következő részekben határozhatja meg, hogy a jelentés mikortól legyen elérhető és milyen információkat tartalmazzon.
-assessment#:#tst_results_access_finished#:#A tesztkitöltés befejezése után
-assessment#:#tst_results_access_finished_desc#:#A végeredmény a teszt befejezése után rögtön megjelenik. A teszt befejezése után a résztvevők bármikor elérhetik eredményeiket az 'Eredmények' fül alatt.
-assessment#:#tst_results_access_passed#:#A teszt sikeres kitöltése után
+assessment#:#tst_results_access_finished#:#A próbálkozás befejezése után
+assessment#:#tst_results_access_finished_desc#:#A végeredmény a próbálkozás befejezése után azonnal megjelenik. A próbálkozás befejezése után a résztvevők bármikor elérhetik eredményeiket az 'Eredmények' fül alatt.
+assessment#:#tst_results_access_passed#:#A próbálkozás sikeres kitöltése után
 assessment#:#tst_results_access_passed_desc#:#A végeredmény a teszt sikeres kitöltése után jelenik meg. A teszt sikeres kitöltés után a résztvevők bármikor elérhetik eredményeiket az 'Eredmények' fül alatt.
 assessment#:#tst_results_access_setting#:#Időpont
 assessment#:#tst_results_aggregated#:#Összesített teszteredmény
@@ -1812,9 +1812,9 @@ assessment#:#tst_results_grading_opt_show_status#:#Sikeres/Sikertelen állapot m
 assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen állapotról az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Eredmények' fül alatt.<br />
 assessment#:#tst_results_overview#:#Teszteredmények áttekintése
 assessment#:#tst_results_print_best_solution#:#Legjobb megoldás
-assessment#:#tst_results_print_best_solution_info#:#Kérdésenként a lehetséges legjobb megoldás megjelenik.
-assessment#:#tst_results_print_best_solution_singlepage#:#Best Solution###31 03 2023 new variable
-assessment#:#tst_results_print_best_solution_singlepage_info#:#Additionally for each question the best possible solution will be displayed.###31 03 2023 new variable
+assessment#:#tst_results_print_best_solution_info#:#Kérdésenként a lehetséges legjobb megoldás jelenik meg.
+assessment#:#tst_results_print_best_solution_singlepage#:#Legjobb megoldás
+assessment#:#tst_results_print_best_solution_singlepage_info#:#Kérdésenként a lehetséges legjobb megoldás jelenik meg.
 assessment#:#tst_results_tax_filters#:#Eredményszűrő
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Teszt folytatása a jelenlegi kérdéskiválasztással
 assessment#:#tst_resume_test#:#Teszt folytatása
@@ -1832,9 +1832,9 @@ assessment#:#tst_save_thresholds#:#Küszöbértékek mentése
 assessment#:#tst_saved_manscoring_by_question_successfully#:#%s tesztkitöltésének %s kérdéséhez a manuális pontozás mentése sikerült.
 assessment#:#tst_saved_manscoring_successfully#:#%s. %s tesztkitöltéséhez a manuális pontozás mentése sikerült.
 assessment#:#tst_score_cut_question#:#Az összes kérdésnél a negatív pontszám 0-ra módosítása
-assessment#:#tst_score_cut_question_desc#:#Előfordulhat, hogy egy résztvevők hibás válaszával negatív pontszámot kapna egy kérdésre. Evvel ezt elkerülheti, így minden egyes kérdésre a legkisebb elérhető pontszám 0 lesz.
+assessment#:#tst_score_cut_question_desc#:#Előfordulhat, hogy egy résztvevő hibás válaszával negatív pontszámot kapna egy kérdésre. Evvel ezt elkerülheti, így minden egyes kérdésre a legkisebb elérhető pontszám 0 lesz.
 assessment#:#tst_score_cut_test#:#Negatív pontszámú végeredmény 0-ra módosítása
-assessment#:#tst_score_cut_test_desc#:#Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a negatív pontszámok nagy hangsúlyt kapnak.
+assessment#:#tst_score_cut_test_desc#:#Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a hibás, illetve a részben hibás válaszok negatív pontszámai nagy hangsúlyt kaphatnak a végős pontszámban, eredményben.
 assessment#:#tst_score_cutting#:#Negatív pontszámok
 assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről
 assessment#:#tst_score_reporting_date#:#Eredmény megjelenítésének dátuma
@@ -1847,7 +1847,7 @@ assessment#:#tst_sequence_postpone#:#Kérdések elhalaszthatók a tesztkitölté
 assessment#:#tst_sequence_properties#:#Teszt felügyelete: Felhasználók számára elérhető funkcionalitások
 assessment#:#tst_session_settings#:#Munkamenet-beállítások
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#A teszt offline lett, mert a teszt-mód beállítása megváltozott. Új teszt-módot szükséges beállítani a kérdésbeállításnak megfelelően, mielőtt a teszt ismét online-ra állítható.
-assessment#:#tst_setting_enable_obligations_info#:#Az összes kötelező kérdés megválaszolás után lehet a tesztet befejezni. A kötelező kérdéseket a 'Listanézetben' határozhatja meg. Célszerű a résztvevőknek bekapcsolni a 'Kérdéslista megjelenítése' opciót.
+assessment#:#tst_setting_enable_obligations_info#:#Az összes kötelező kérdés megválaszolás után lehet csak a próbálkozást befejezni. A kötelező kérdéseket a 'Listanézetben' határozhatja meg. Célszerű a résztvevőknek bekapcsolni a 'Kérdéslista megjelenítése' opciót.
 assessment#:#tst_setting_enable_obligations_label#:#Kötelező kérdések
 assessment#:#tst_setting_offer_hints_info#:#A résztvevők a kérdés megválaszolásához segítségeket kérhetnek. A megszerezhető pontszám minden segítségkéréssel csökken.
 assessment#:#tst_setting_offer_hints_label#:#Segítség
@@ -1867,12 +1867,12 @@ assessment#:#tst_show_solution_answers_only#:#Eredmények nyomtatási előnézet
 assessment#:#tst_show_solution_answers_only_desc#:#A 'Tartalom módosítása' fülön a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót.
 assessment#:#tst_show_solution_compare#:#Legjobb megoldás megjelenítése a 'Részletes teszteredmények'-ben
 assessment#:#tst_show_solution_compare_desc#:#A résztvevők összehasonlíthatják saját megoldásikat a legjobb megoldással. Ez az 'Információs' fülön lévő 'Teszteredmények megjelenítése' linkkel elérhető 'Részletes teszteredmények'-ben jelenik meg, a nyomtatható 'Válaszok felsorolása' részben viszont nem.
-assessment#:#tst_show_solution_details#:#Megoldások megjelenítése a teszteredményekben
-assessment#:#tst_show_solution_details_desc#:#A 'Részletes teszteredmények táblázata' lehetőséggel kiegészül a válaszok felsorolása.
+assessment#:#tst_show_solution_details#:#Részletes információk a kérdésekhez
+assessment#:#tst_show_solution_details_desc#:#A próbálkozások 'Részletes teszteredmények táblázata' kiegészül a kérdésekre mutató linkekkel. Ezek a lapok megjelenítik a kérdést, az adott választ, azt, hogy a válasz helyes-e, továbbá a válaszra kapott pontszámot.
 assessment#:#tst_show_solution_details_singlepage#:#Pontozott válaszok egyetlen oldalon
 assessment#:#tst_show_solution_details_singlepage_desc#:#A résztvevők minden kérdéshez külön-külön hozzáférhetnek, és megnézhetik, hogy helyesek voltak-e a válaszaik, illetve, hogy hány pontot szereztek.
 assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszajelzés megjelenítése a teszteredményekben
-assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.
+assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció csak akkor működik, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekhez elkészült.
 assessment#:#tst_show_solution_printview#:#Válaszok listájának megjelenítése
 assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás az 'Eredmények' fül 'Pontozott válaszok áttekintése' alfül alatt érhető el.
 assessment#:#tst_show_solution_signature#:#Aláírás-helyőrző megjelenítése
@@ -1880,10 +1880,10 @@ assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik n
 assessment#:#tst_show_solution_suggested#:#Ismétlő összefoglaló tartalom megjelenítése
 assessment#:#tst_show_solution_suggested_desc#:#Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez megjelenik a 'Részletes teszteredmények táblázata' tartalmában. A résztvevők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a 'Hozzáférés a teszteredményekhez' fül alatt a 'Részletes teszteredmények táblázata' opciót.
 assessment#:#tst_show_summary#:#Kérdéslista megjelenítése
-assessment#:#tst_show_summary_description#:#A résztvevő számára megjelenik a 'Kérdéslista' gomb, amivel bekapcsolhatják az összes kérdés felsorolását. Ekkor a képernyőn az összesített állapot is megjelenik.
+assessment#:#tst_show_summary_description#:#A résztvevő számára megjelenik a 'Kérdéslista' gomb, amivel bekapcsolhatják az összes kérdések felsorolását, ahol látszódik, melyikre adtak már választ. További beállítási lehetőséget alább talál. 
 assessment#:#tst_show_toplist#:#Rangsor
 assessment#:#tst_shuffle_questions#:#Kérdések összekeverése
-assessment#:#tst_shuffle_questions_description#:#Kérdéssorrend keverése minden tesztkitöltéshez.
+assessment#:#tst_shuffle_questions_description#:#A kérdések sorrendje elterő lesz minden próbálkozásnál.
 assessment#:#tst_signature#:#Aláírás
 assessment#:#tst_single_answer_details#:#Egyszeres válasz megjelenítése
 assessment#:#tst_single_results#:#Eredmények kérdések szerint
@@ -1924,15 +1924,15 @@ assessment#:#tst_tab_results_objective_oriented#:#Végeredmények tanulási cél
 assessment#:#tst_tab_results_pass_oriented#:#Végeredmények próbálkozások szerint
 assessment#:#tst_tbl_col_answered_questions#:#Megválaszolt kérdések
 assessment#:#tst_tbl_col_final_mark#:#Érdemjegy
-assessment#:#tst_tbl_col_finished_passes#:#Finished Passes###31 08 2022 new variable
-assessment#:#tst_tbl_col_finished_passes_num_of#:#%s of %s###31 08 2022 new variable
-assessment#:#tst_tbl_col_last_scored_access#:#Last Scored Access###31 08 2022 new variable
+assessment#:#tst_tbl_col_finished_passes#:#Próbálkozások befejezése
+assessment#:#tst_tbl_col_finished_passes_num_of#:#%s / %s
+assessment#:#tst_tbl_col_last_scored_access#:#Utolsó pontozott hozzáférés
 assessment#:#tst_tbl_col_pass_finished#:#Befejezte a kitöltést
 assessment#:#tst_tbl_col_passed_status#:#Értékelés
 assessment#:#tst_tbl_col_percent_result#:#Elért százalék
 assessment#:#tst_tbl_col_reached_points#:#Elért pontszám
 assessment#:#tst_tbl_col_scored_pass#:#Elért pontszám
-assessment#:#tst_tbl_col_started_passes#:#Started Passes###31 08 2022 new variable
+assessment#:#tst_tbl_col_started_passes#:#Megkezdett próbálkozások
 assessment#:#tst_tbl_invited_users#:#Manuálisan kiválasztott résztvevők
 assessment#:#tst_tbl_participants#:#Résztevők
 assessment#:#tst_tbl_results_grades#:#Eredmények és érdemjegyek
@@ -1951,8 +1951,8 @@ assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_unchanged_answer_is_correct#:#A jelenlegi válasz helyes.
 assessment#:#tst_unchanged_order_is_correct#:#A jelenlegi sorrend helyes.
 assessment#:#tst_use_previous_answers#:#Korábbi válaszok használata
-assessment#:#tst_use_previous_answers_description#:#A résztvevők számára korábbi tesztkitöltéseik válaszai megjelennek. Ezt a lehetőséget a résztvevők saját maguknak tudják bekapcsolni az 'Információ' fülön a kitöltés megkezdése előtt.
-assessment#:#tst_use_previous_answers_user#:#Használja korábbi válaszaimat alapértelmezett értékként a jövőbeni tesztkitöltésekhez.
+assessment#:#tst_use_previous_answers_description#:#A résztvevők számára korábbi próbálkozásainak válaszai megjelennek. Ezt a lehetőséget a résztvevők saját maguknak tudják bekapcsolni az 'Információ' fülön a próbálkozás indítása előtt.
+assessment#:#tst_use_previous_answers_user#:#Használja korábbi válaszaimat alapértelmezett értékként a jövőbeni próbálkozásokhoz.
 assessment#:#tst_user_finished_test#:#'%s' tesztet egy felhasználó befejezte
 assessment#:#tst_view_competence_assign#:#Összerendelési tulajdonságok megtekintése
 assessment#:#tst_virtual_pass_header_lo_initial#:#A Tanulási célkitűzés Belépő tesztjének eredményei<br />%s
@@ -1998,7 +1998,7 @@ assessment#:#unlock#:#Zárolás feloldása
 assessment#:#uploaded_material#:#Feltöltött anyag
 assessment#:#use_ects_fx#:#'FX' osztályzat használata
 assessment#:#use_previous_solution#:#Előző megoldás használata
-assessment#:#use_previous_solution_advice#:#A jelenleg látszódó megoldás az Ön egy korábbi megoldása. A megoldás elfogadását meg kell erősítenie, ha azt módosítás nélkül szeretné használni.
+assessment#:#use_previous_solution_advice#:#A jelenleg látszódó megoldás egy korábbi próbálkozása során adott válasza. Ha módosítás nélkül szeretné ezt a korábbi megoldását használni, erősítse azt meg a 'Előző megoldás használata' gombbal.
 assessment#:#user_has_finished_a_test#:#Egy résztvevő befejezte a tesztet.
 assessment#:#user_not_invited#:#Önnek nem kell elvégeznie ezt a tesztet.
 assessment#:#user_wrong_clientip#:#Nincs megfelelő IP-je ennek a tesztnek a használatához.
@@ -2052,8 +2052,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Saját munkamenet id�
 auth#:#auth_oidc_settings_custom_session_duration_type#:#A munkamenet időtartamának beállításai
 auth#:#auth_oidc_settings_default_role#:#Szerep hozzárendelése
 auth#:#auth_oidc_settings_default_role_info#:#Kérem, válasszon ki egy globális szerepet az új ILIAS-fiókhoz
-auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###31 03 2023 new variable
-auth#:#auth_oidc_settings_discovery_url#:#A szolgáltató URL-jének felderítése
+auth#:#auth_oidc_settings_discovery_error#:#Felderítési URL lekérése sikertelen: %s
+auth#:#auth_oidc_settings_discovery_url#:#A szolgáltató Felderítési URL-je
 auth#:#auth_oidc_settings_img#:#Kép
 auth#:#auth_oidc_settings_img_file_info#:#Töltsön fel egy képet, ami a bejelentkezési oldalon fog megjelenni. A szöveget automatikusan hozzáfűzzük a bejelentkezési szkripthez.
 auth#:#auth_oidc_settings_invalid_scopes#:#Az következő értékek nem valós hatókörök: %s
@@ -2242,7 +2242,7 @@ bgtask#:#bgtask_download_too_large#:#A letöltés átlépi a korlátot (%s).
 bgtask#:#bgtask_empty_folder#:#A jelenlegi kiválasztása nem tartalmaz letölthető objektumokat.
 bgtask#:#bgtask_failure#:#Hiba
 bgtask#:#bgtask_processing#:#Letöltés létrehozása
-bgtask#:#bgtask_setting#:#«Letöltés háttérben» bekapcsolása
+bgtask#:#bgtask_setting#:#'Letöltés háttérben' bekapcsolása
 bgtask#:#bgtask_setting_info#:#A ZIP fájl létrehozása aszinkron módon történik, bármikor megszakítható.
 bgtask#:#bgtask_setting_limit#:#Globális korlát
 bgtask#:#bgtask_setting_limit_info#:#Letöltés csak akkor lehetséges, ha a fájlok összmérete ezen érték alatt van.
@@ -2809,7 +2809,7 @@ chatroom#:#banned#:#Kitiltották ebből a csevegőszobából
 chatroom#:#bans#:#Kizártak
 chatroom#:#chat_address#:#Címzés
 chatroom#:#chat_anonymous_not_allowed#:#A csevegés használatához jelentkezzen be.
-chatroom#:#chat_auth_token_info#:#Kérem, egyedi sztringeket hozzon létre. Ezeket a sztringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a sztringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliens id-nek <b>egyedinek</b> kell lennie.
+chatroom#:#chat_auth_token_info#:#Kérem, egyedi sztringeket hozzon létre. Ezeket a sztringeket az ILIAS hitelesítési célokra használja, amikor kéréseket küld a chatszervernek. A megfelelő gombra kattintva automatikusan létrehozhatja ezeket a sztringeket. Kérem, figyeljen arra, hogy a chatszerver több ILIAS klienssel képes kommunikálni, ezért az összes kliensnévnek <b>egyedinek</b> kell lennie.
 chatroom#:#chat_ban#:#Kizárás
 chatroom#:#chat_broadcast_typing#:#Gépelés műsorszórása
 chatroom#:#chat_broadcast_typing_info#:#A gépelési folyamat megjelenítése a beszélgetés, illetve a csevegőszoba résztvevőnél.
@@ -3118,8 +3118,8 @@ cmix#:#conf_launch_mode_review_info#:#This option should provide a user experien
 cmix#:#conf_lrs_endpoint#:#Zárópont
 cmix#:#conf_lrs_key#:#Kulcs / Bejelentkezés
 cmix#:#conf_lrs_secret#:#Titok / Jelszó
-cmix#:#conf_mastery_score#:#Mastery Score###31 03 2023 new variable
-cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###31 03 2023 new variable
+cmix#:#conf_mastery_score#:#Mastery pontszám
+cmix#:#conf_mastery_score_info#:#Ezt az értéket a rendszer indításkor átadja a cmi5 tanulási modulnak a teljesítéshez szükséges pontszám meghatározásához. Ha magasabb (vagy azzal egyenlő) értéket kapunk, a tananyagnak továbbítania kell a 'megfelelt' állapotot.
 cmix#:#conf_new_window#:#Új ablak
 cmix#:#conf_new_window_info#:#A tartalom új ablakban nyílik meg. A tartalom elhagyásakor ez az ablak bezárul.
 cmix#:#conf_own_window#:#Egy ablak
@@ -3156,8 +3156,8 @@ cmix#:#conf_privacy_setting_default#:#Alapértelmezett beállítások, módosít
 cmix#:#conf_privacy_setting_force#:#Az objektumok beállításai nem módosíthatók
 cmix#:#conf_privacy_setting_info#:#Konfigurációs beállítások az adatvédelmi beállításokhoz
 cmix#:#conf_remarks#:#Belső észrevételek
-cmix#:#conf_switch_to_review#:#Switch to Review Mode###31 03 2023 new variable
-cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###31 03 2023 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###XXX
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.
 cmix#:#conf_title#:#Cím
 cmix#:#conf_user_ident#:#User identification###XXX
 cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress
@@ -3360,7 +3360,7 @@ cmxv#:#cmxv_create#:#Tanúsítvány létrehozása a xAPI/cmi5-objektumhoz
 cmxv#:#cmxv_create_info#:#Válassza ki a teljesített xAPI/cmi5-objektumot, melyhez tanúsítványt kíván generálni
 cntr#:#cntr_add_new_item#:#Új objektum létrehozása
 cntr#:#cntr_adopt_content#:#Tartalom örökítése
-cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumonként csak kategóriák, kurzusok, csoportok, mappák, illetve képzési programok másolhatóak. Csak egy elemet válasszon.
+cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumonként csak kategóriák, kurzusok, csoportok, mappák, tanulási sorok, illetve képzési programok másolhatóak. Csak egy elemet válasszon.
 cntr#:#cntr_copy_crs_grp#:#Kurzusaim és csoportjaim
 cntr#:#cntr_copy_repo_tree#:#Tartalomtár
 cntr#:#cntr_hide_title_and_icon#:#Cím és ikon elrejtése
@@ -3412,10 +3412,10 @@ common#:#access_scope#:#Hozzáférés
 common#:#access_unlimited#:#korlátlan
 common#:#access_until#:#Érvényes eddig
 common#:#access_users#:#Bejelentkezett felhasználók
-common#:#accesscount_registered_users#:#Ennyi ILIAS-felhasználó tekintette meg
+common#:#accesscount_registered_users#:#Olvasta … (különböző ILIAS-felhasználók száma)
 common#:#accessibility_control_concept#:#Hozzáférhetőség
 common#:#account#:#Fiókom
-common#:#account_expires_body#:#Hozzáférése korlátozott, lejárati dátuma:
+common#:#account_expires_body#:#%s helyen % ILIAS-fiókja hozzáférése korlátozott, lejárati dátuma: %s. Lejárt után ILIAS-fiókjával nem tud bejelentkezni. Személyes dokumentumait, igazolásait még időben töltse le.
 common#:#account_expires_subject#:#Hozzáférése hamarosan lejár
 common#:#action#:#Művelet
 common#:#action_aborted#:#Művelet megszakítva.
@@ -3714,7 +3714,7 @@ common#:#clientlist_public_access#:#Nyilvános elérés
 common#:#clientlist_start_page#:#Kezdőoldal
 common#:#clipboard#:#Vágólap
 common#:#close#:#Bezárás
-common#:#cmix#:#Object xAPI/cmi5###31 03 2023 new variable
+common#:#cmix#:#xAPI/cmi5 objektum
 common#:#cnt_new#:#(%s új)
 common#:#collapse#:#Fa bezárása
 common#:#collapse_all#:#Összes bezárása
@@ -3949,7 +3949,7 @@ common#:#enable_fora_statistics_desc#:#Ha nem engedélyezett, senki nem éri el 
 common#:#enable_hide_user_toggle#:#A tagnak nem engedélyezett az értesítés letiltása
 common#:#enable_hist_user_comments#:#Felhasználói megjegyzések engedélyezése az 'Előzmények'-ben
 common#:#enable_hist_user_comments_desc#:#A szerzők megjegyzéseket tehetnek a lapok történelmeihez. Válassza ezt a módot, ha több szerző dolgozik, és tájékoztatni szeretnék egymást a változásokról.
-common#:#enable_multi_download#:#«Több objektum letöltése» engedélyezése
+common#:#enable_multi_download#:#'Több objektum letöltése' engedélyezése
 common#:#enable_multi_download_info#:#Több mappa/fájl zip-archívumként történő letöltésének engedélyezése.
 common#:#enable_password_assistance#:#Jelszósegédlet engedélyezése
 common#:#enable_preview#:#Előnézet engedélyezése
@@ -4203,7 +4203,7 @@ common#:#grp_added#:#Sikeresen létrehozott egy csoportot.
 common#:#grp_btn_unsubscribe#:#Kilépés a csoportból
 common#:#grp_cancel_waiting_list#:#Biztos, hogy leveszi magát a(z) '%s' csoport várólistájáról?
 common#:#grp_copy_threads_info#:#Döntse el, mely segédanyagok lesznek másolva, csatolva vagy kihagyva.
-common#:#grp_deleted_export_files#:#Kiválasztott fájlokat sikeresen törölte.
+common#:#grp_deleted_export_files#:#Kiválasztott fájl(oka)t sikeresen törölte.
 common#:#grp_dismiss_member#:#Biztos, hogy eltávolítja a csoportból alábbi tagokat?
 common#:#grp_dismiss_myself#:#Biztos, hogy leiratkozik a csoportból?
 common#:#grp_edit#:#Csoport módosítása
@@ -4515,9 +4515,9 @@ common#:#lso_edit#:#Tanulási sor módosítása
 common#:#lso_import#:#Tanulási sor importálása
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_wizard_page#:#Tanulási sor másolása (2/2 lépés)
-common#:#lti#:#LTI Consumer###31 03 2023 new variable
-common#:#lti_outcome#:#LTI tanulási haladás bejelentése
-common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotát küldjük egy LTI-eszközfogyasztónak.
+common#:#lti#:#LTI-Fogyasztó
+common#:#lti_outcome#:#LTI Tanulási haladási értesítő
+common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotának megküldése LTI-eszközfogyasztó / LTI-Platform részére..
 common#:#mail#:#Levelek
 common#:#mail_addressbook#:#Címtár
 common#:#mail_at_the_ilias_installation#:#%1$s új levelet kapott a(z) %2$s ILIAS-ban.
@@ -4760,7 +4760,7 @@ common#:#nc_contact_requests_prop_time#:#Időpont
 common#:#never#:#soha
 common#:#new#:#Új
 common#:#new_language#:#Új nyelv
-common#:#new_pass_equals_old_pass#:#Az új jelszó megegyezik a régivel.
+common#:#new_pass_equals_old_pass#:#Az új jelszó megegyezik a régivel, használjon attól eltérőt.
 common#:#newline#:#Új sor
 common#:#news#:#Hírek
 common#:#next#:#Következő
@@ -5047,9 +5047,9 @@ common#:#obj_tool_setting_calendar_active#:#Naptár
 common#:#obj_tool_setting_calendar_active_info#:#A naptár elérhető.
 common#:#obj_tool_setting_calendar_info#:#A 'Naptár' blokk megjelenik a 'Tartalom' fül alatt.
 common#:#obj_tool_setting_custom_metadata#:#Egyéni metaadat
-common#:#obj_tool_setting_custom_metadata_info#:#A metaadatok konfigurálhatók.
+common#:#obj_tool_setting_custom_metadata_info#:#A 'Metaadat' fülön egyéni metaadatok hozhatók létre.
 common#:#obj_tool_setting_news#:#Hírek megjelenítése
-common#:#obj_tool_setting_news_info#:#A 'Hír' blokk megjelenik a 'Tartalom' fül alatt.
+common#:#obj_tool_setting_news_info#:#A 'Hír' blokk megjelenik a 'Tartalom' fülön.
 common#:#obj_tos#:#Szolgáltatási feltételek
 common#:#obj_tos_desc#:#Szolgáltatási feltételek beállításai
 common#:#obj_trac#:#Statisztikák és tanulási haladás
@@ -5264,7 +5264,7 @@ common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#preferences#:#Beállítások
 common#:#presentation_table_more#:#Több megjelenítése
 common#:#preview#:#Előnézet
-common#:#preview_caption#:#Preview %sof %s###31 03 2023 new variable
+common#:#preview_caption#:#%s / %s előnézet
 common#:#preview_create#:#Előnézet létrehozása
 common#:#preview_delete#:#Előnézet törlése
 common#:#preview_learner_info#:#A kurzus- és csoportvezető a tagok nézetből is megtekintheti a tartalmat.
@@ -5345,7 +5345,7 @@ common#:#reg_account_confirmation_successful#:#ILIAS-fiókját aktiválták.
 common#:#reg_goto_parent_membership_info#:#Csak tagok érhetik el a célobjektumot.
 common#:#reg_mail_body_2_confirmation#:#A link csak eddig működik: %s, után az elejéről kell kezdenie a regisztrációs folyamatot.
 common#:#reg_mail_body_3_confirmation#:#Ha ez a levél nem jelent Önnek semmit, lehet hogy valaki más is belépett az Ön postafiókjába szándékosan vagy véletlenül. Kérjük, tekintse semmisnek ezt a levelet!
-common#:#reg_mail_body_forgot_password_info#:#Ehhez az ILIAS-fiókhoz új jelszó kéréséhez használja a bejelentkező képernyőn található « Elfelejtette jelszavát? » linket.
+common#:#reg_mail_body_forgot_password_info#:#Ehhez az ILIAS-fiókhoz új jelszó kéréséhez használja a bejelentkező képernyőn található 'Elfelejtette jelszavát?' linket.
 common#:#reg_mail_body_salutation#:#Tisztelt
 common#:#reg_mail_body_text1#:#üdvözöljük ILIAS e-learning rendszerünkben!
 common#:#reg_mail_body_text2#:#Az ILIAS-t az alábbi adatokkal érheti el:
@@ -5404,7 +5404,7 @@ common#:#role_new#:#Új szerep
 common#:#role_new_search#:#Új keresés
 common#:#role_no_roles_selected#:#Válasszon ki egy szerepet!
 common#:#role_protect_permissions#:#Jogosultságok megvédése
-common#:#role_protect_permissions_desc#:#Az objektum jogosultsági beállításai rendszerművelettel már nem módosítható. A rendszergazda magasabb szinten továbbra is módosíthatja a jogosultságokat.
+common#:#role_protect_permissions_desc#:#Az objektum jogosultsági beállításai rendszerművelettel már nem módosíthatók evvel a szereppel. A rendszergazdák magasabb szinten továbbra is módosíthatják a jogosultságokat.
 common#:#role_select_one_item#:#Egy objektumot válasszon!
 common#:#role_sure_delete_desk_items#:#Biztos, hogy törli az alábbi munkaasztal-linkeket?
 common#:#role_templates_only#:#Csak szerepminták
@@ -5478,8 +5478,8 @@ common#:#search_new#:#Új keresés
 common#:#search_result#:#Keresési találat
 common#:#search_results#:#Keresési találatok
 common#:#search_user#:#Felhasználó keresése
-common#:#seas_max_hits#:#Maximális találat
-common#:#seas_max_hits_info#:#Adja meg a keresési találatok maximális számát!
+common#:#seas_max_hits#:#Találatok maximális száma
+common#:#seas_max_hits_info#:#Adja meg, maximum hány találatot szeretne kapni.
 common#:#seas_settings#:#Keresési beállítások
 common#:#second#:#másodperc
 common#:#second_email#:#Másodlagos e-mail cím
@@ -5619,7 +5619,7 @@ common#:#sorting_creation_info#:#Az objektumokat a létrehozásuk ideje szerint 
 common#:#sorting_desc#:#Csökkenő
 common#:#sorting_direction#:#Rendezés iránya
 common#:#sorting_header#:#Rendezés
-common#:#sorting_info_inherit#:#A rendezés típusát a kurzustárolótól/csoporttárolótól vesszük át.
+common#:#sorting_info_inherit#:#A rendezés típusát a szülő kurzustárolótól/csoporttárolótól vesszük át.
 common#:#sorting_info_manual#:#Objektumok sorrendjének kézi beállítása a Tartalom » Rendezés alatt. Továbbá kérjük, adja meg az új objektumok alapértelmezett rendezési szempontját.
 common#:#sorting_info_title#:#Az objektumokat a címük szerint rendezzük.
 common#:#sorting_manual_header#:#Kézi
@@ -6001,7 +6001,7 @@ cont#:#cont_news_timeline_auto_entries#:#Automatikus bejegyzések is megjelenjen
 cont#:#cont_news_timeline_auto_entries_info#:#Összes automatikusan létrehozott hír is megjelenjen, mint például fórumhozzászólások, fájlok létrehozása.
 cont#:#cont_news_timeline_info#:#Hírek idővonal fülének bekapcsolása
 cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
-cont#:#cont_news_timeline_landing_page_info#:#Idővonal lesz a kezdőoldal.
+cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal fül lesz a kezdőoldal.
 cont#:#cont_news_timeline_tab#:#Idővonal
 cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, ...)
 cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
@@ -6045,11 +6045,11 @@ cont#:#cont_std_filter_title_8#:#Objektumtípus
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
 cont#:#cont_tile_size#:#Csempeméret
-cont#:#cont_tile_size_0#:#normal (egy sorban 1-4 csemp)
-cont#:#cont_tile_size_1#:#kicsi (egy sorban 1-6 csemp)
-cont#:#cont_tile_size_2#:#nagy (egy sorban 1-3 csempe)
-cont#:#cont_tile_size_3#:#extra nagy (egy sorban 1-2 csempe)
-cont#:#cont_tile_size_4#:#teljes (egy sorban 1 csempe)
+cont#:#cont_tile_size_0#:#normal (soronként 1-4 csemp)
+cont#:#cont_tile_size_1#:#kicsi (soronként 1-6 csemp)
+cont#:#cont_tile_size_2#:#nagy (soronként 1-3 csempe)
+cont#:#cont_tile_size_3#:#extra nagy (soronként 1-2 csempe)
+cont#:#cont_tile_size_4#:#teljes (soronként 1 csempe)
 cont#:#cont_tile_view#:#Csempék
 cont#:#cont_tile_view_info#:#Tartalomobjektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
@@ -7092,7 +7092,7 @@ content#:#cont_update_verification#:#Igazolás módosítása
 content#:#cont_upload_dir#:#Feltöltési mappa
 content#:#cont_upload_dir_info#:#A szerver egy mappája, amelyből nagy méretű SCORM- és HTML-csomagok másolhatók feltöltés helyett. Csak ILIAS-rendszergazdák fogják látni a kiválasztott fájlokat ebből a mappából. Adja meg a teljes elérési utat záró perjel nélkül.
 content#:#cont_upload_file#:#Fájl feltöltése
-content#:#cont_upload_multi_srt_howto#:#Ennek a funkciónak a használatával lehetősége van a tananyag médiaobjektumaihoz többnyelvű feliratok (SRT-fájlok) feltöltésére ZIP-fájlban. A .zip fájl ne tartalmazzon mappát, egyik .srt fájl se legyen mappában. Az összes SRT-fájl vége legyen '_&lt;nyelvi kód&gt;.srt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' -> 'video_hu.srt'.
+content#:#cont_upload_multi_srt_howto#:#Ennek a funkciónak a használatával lehetősége van a tananyag médiaobjektumaihoz többnyelvű feliratok (SRT-fájlok) feltöltésére ZIP-fájlban. A .zip fájl ne tartalmazzon mappát, egyik .srt fájl se legyen mappában. Az összes SRT-fájl vége legyen '_&lt;nyelvi kód&gt;.srt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' ➜ 'video_hu.srt'.
 content#:#cont_uploaded_file#:#Létező fájl.
 content#:#cont_url_info#:#Médiafájl vagy Youtube URL.
 content#:#cont_usage#:#Felhasználás
@@ -7628,7 +7628,7 @@ crs#:#crs_objective_pretest#:#Belépő teszt után
 crs#:#crs_objective_qst_summary#:#Kérdés-hozzárendelés áttekintése
 crs#:#crs_objective_random_warn#:#Nem használhat véletlen-kiválasztásos tesztet tanulási célokkal kombinálva.
 crs#:#crs_objective_result#:#Befejezőteszt után
-crs#:#crs_objective_result_details#:#« Eredmények megjelenítése
+crs#:#crs_objective_result_details#:#⬅︎ Eredmények megjelenítése
 crs#:#crs_objective_result_summary_initial#:#Belépő teszt: %1$s (%2$s kötelező)
 crs#:#crs_objective_result_summary_qualifying#:#Elővizsga belépő teszt: %1$s (%2$s kötelező)
 crs#:#crs_objective_saved_sorting#:#Mentett csoportosítás.
@@ -7637,7 +7637,7 @@ crs#:#crs_objective_status#:#Cél állapota
 crs#:#crs_objective_status_configure#:#Kurzus ellenőrzőlistája
 crs#:#crs_objective_status_itest#:#Belépő teszt hozzárendelései
 crs#:#crs_objective_status_materials#:#Kurzustartalom létrehozása
-crs#:#crs_objective_status_materials_info#:#The course is currently empty. Add course materials that can be assigned to learning objectives.###31 03 2023 new variable
+crs#:#crs_objective_status_materials_info#:#A kurzus jelenleg még üres. Adjon hozzá a tanulási célokhoz rendelhető segédanyagokat.
 crs#:#crs_objective_status_objective_creation#:#Tanulási cél létrehozása
 crs#:#crs_objective_status_objectives#:#Tanulási célok beállítása
 crs#:#crs_objective_status_qtest#:#Záró teszt hozzárendelései
@@ -8318,7 +8318,7 @@ dateplaner#:#cal_type_remote#:#Webes naptár
 dateplaner#:#cal_type_rl#:#Naptár helye
 dateplaner#:#cal_type_sess#:#Eseménynaptár
 dateplaner#:#cal_type_system#:#Nyilvános naptár
-dateplaner#:#cal_type_tals#:#Talks###31 03 2023 new variable
+dateplaner#:#cal_type_tals#:#Megbeszélések
 dateplaner#:#cal_unshare#:#Megosztás törlése
 dateplaner#:#cal_unshare_cal#:#Megosztás megállítása
 dateplaner#:#cal_unshared_selected_usr#:#Naptármegosztás befejezése a kiválasztott felhasználókkal.
@@ -8329,7 +8329,7 @@ dateplaner#:#cal_user_notification_info#:#A megadott felhasználóknak e-mail é
 dateplaner#:#cal_user_settings#:#Naptárbeállítások
 dateplaner#:#cal_user_time_format#:#Időformátum
 dateplaner#:#cal_user_timezone#:#ILIAS-időzóna
-dateplaner#:#cal_usr_info#:#Kinevezési információk
+dateplaner#:#cal_usr_info#:#Találkozó információi
 dateplaner#:#cal_usr_show_weeks#:#Hetek oszlop megjelenítése
 dateplaner#:#cal_usr_show_weeks_info#:#Az oldalsó naptár blokkban aktiválja a hetek oszlopot.
 dateplaner#:#cal_webcal_sync#:#Külső naptár szinkronizációja
@@ -8545,7 +8545,7 @@ dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
 dcl#:#dcl_no_export_content_available#:#Nincs exportálható bejegyzés.
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
 dcl#:#dcl_no_export_fields_available#:#Nincs exportálhatóként megjelölt mező. Jelöljön meg legalább egy mezőt exportálhatóként a <a href="%s">táblázat beállításaiban</a>.
-dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
+dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A metaadatokat a különböző mezőtípusok egyikébe kell bevinni. A metaadatok megadásához hozzon létre legalább egy adatmezőt.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
@@ -8715,10 +8715,10 @@ didactic#:#didactic_template_update_import_info#:#Tulajdonságok ettől az impor
 didactic#:#dtpl_obj_type_info#:#Az a didaktikai sablon nem alkalmazható erre az objektumtípusra.
 didactic#:#effective_form#:#Sablon hatályos innentől:
 didactic#:#grp_closed#:#Zárt csoport
-didactic#:#grp_closed_info#:#Akik nem tagok, nem láthatják a csoportot.
+didactic#:#grp_closed_info#:#A csoportot csak tagjaik láthatják.
 didactic#:#more_translations#:#További fordítások
 didactic#:#sess_closed#:#Zárt esemény
-didactic#:#sess_closed_info#:#Az eseményt csak a résztvevők láthatják.
+didactic#:#sess_closed_info#:#Az eseményt csak a résztvevőik láthatják.
 ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
 ecs#:#ecs_abr#:#Rövidítés
 ecs#:#ecs_account_duration#:#Aktiválási időszak meghosszabbítása
@@ -8801,7 +8801,7 @@ ecs#:#ecs_communities#:#Résztvevők
 ecs#:#ecs_confirm_delete_tree#:#Biztos, hogy törli ennek a campus-menedzsment fának minden hozzárendelését?
 ecs#:#ecs_connection_settings#:#Kapcsolódási beállítások
 ecs#:#ecs_cron_task_scheduler#:#ECS-feladatütemező
-ecs#:#ecs_cron_task_scheduler_info#:#Az ECS-feladatütemező a beállításai szerint fog lefutni. Ez csak akkor szükséges, amikor be van állítva ECS-szerver.
+ecs#:#ecs_cron_task_scheduler_info#:#Az ECS-feladatütemező a beállításai szerint fog lefutni. Ez csak akkor lehtséges, amikor be van állítva ECS-szerver.
 ecs#:#ecs_crs_alloc#:#Kurzus lefoglalása
 ecs#:#ecs_crs_alloc_set#:#Kurzusfoglalás módosítása
 ecs#:#ecs_crs_export#:#Kurzuskiadás
@@ -8964,14 +8964,14 @@ ecs#:#ecs_wiki_export_enabled#:#Ezen wiki kiadása
 ecs#:#ecs_wiki_export_obj_settings#:#Wikikiadás beállításai
 error#:#error_back_to_repository#:#Vissza a Tartalomtárba
 error#:#error_sry_error#:#Sajnáljuk, hiba történt.
-etal#:#appointments#:#Kinevezések
+etal#:#appointments#:#Találkozók
 etal#:#cal_type_tals#:#Megbeszélések
 etal#:#change_date_of_series#:#Megbeszéléssorozat dátumának módosítása
 etal#:#change_date_of_talk#:#Megbeszélés dátumának módosítása
 etal#:#date_of_talk#:#Megbeszélés dátuma
 etal#:#etal_add#:#Megbeszélés hozzáadása
 etal#:#etal_add_new_item#:#Új Megbeszélés hozzáadása
-etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 03 2023 new variable
+etal#:#etal_create_invalid_template_ref#:#Érvénytelen Megbeszéléssablon ID
 etal#:#etal_date_appointment_edit#:#Megbeszélés dátuma
 etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
 etal#:#etal_edit#:#Általános
@@ -9000,8 +9000,8 @@ etal#:#talt_add#:#Sablon hozzáadása
 etal#:#talt_edit#:#Általános
 etal#:#talt_etal#:#Munkavállalói megbeszélés
 etal#:#talt_new#:#Új Megbeszélés sablon
-etal#:#will_update_series_info_lock#:#Lock the editing of all appointments in this series###31 03 2023 new variable
-etal#:#will_update_series_info_title#:#Changes to the title will be made to all appointments in this series.###31 03 2023 new variable
+etal#:#will_update_series_info_lock#:#A sorozat összes időpontjának szerkesztésének zárolása
+etal#:#will_update_series_info_title#:#A sorozat összes talákozójának címének módosítása.
 exc#:#exc_add_assignment#:#Feladat létrehozása
 exc#:#exc_add_criteria#:#Szempont hozzáadása
 exc#:#exc_add_criteria_catalogue#:#Szempontgyűjtemény hozzáadása
@@ -10205,7 +10205,7 @@ ldap#:#ldap_deleted_role_mapping#:#Összerendelés törlése
 ldap#:#ldap_deleted_rule#:#Kiválasztott összerendelését sikeresen törölte.
 ldap#:#ldap_dn_info#:#Adja meg az LDAP-csoport megkülönböztető nevét.
 ldap#:#ldap_edit_role_ass_rule#:#Szerep-összerendelési szabály módosítása
-ldap#:#ldap_edit_role_assignment#:#Szerep módosítása -> Csoporthoz rendelés
+ldap#:#ldap_edit_role_assignment#:#Szerep módosítása ➜ Csoporthoz rendelés
 ldap#:#ldap_err_missing_plugin_id#:#Valós bővítmény azonosítót adjon meg!
 ldap#:#ldap_escapedn#:#DN maszkolása
 ldap#:#ldap_escapedn_info#:#A felhasználói fiókok 'Megkülönböztetett név (DN)'-ében lévő speciális karaktereket maszkoljuk a csoporttagság lekérdézésében.
@@ -10245,7 +10245,7 @@ ldap#:#ldap_memberisdn#:#Attribútum értéke DN
 ldap#:#ldap_missing_bind_user#:#A 'Kapcsolódás felhasználónévvel' opciót választotta. Adjon meg egy érvényes LDAP-felhasználónevet és jelszót!
 ldap#:#ldap_missing_role_assignment#:#Válasszon egy globális szerepet, amelyhez hozzárendelésre kerülnek majd az új felhasználók!
 ldap#:#ldap_moment_sync#:#Szinkronizáció típusa
-ldap#:#ldap_new_role_assignment#:#Új szerep hozzáadása -> Csoport-összerendelés
+ldap#:#ldap_new_role_assignment#:#Új szerep hozzáadása ➜ Csoport-összerendelés
 ldap#:#ldap_plugin#:#Összerendelés bővítménnyel
 ldap#:#ldap_plugin_id#:#Bővítmény azonosító
 ldap#:#ldap_plugin_info#:#Szerep-összerendelés érvényesítése bővítménnyel. Adjon meg egy valós bővítmény azonosítót!
@@ -10264,13 +10264,13 @@ ldap#:#ldap_role_bind_user_info#:#Adjon meg egy egyedi LDAP felhasználónevet! 
 ldap#:#ldap_role_by_attribute#:#LDAP-tulajdonság
 ldap#:#ldap_role_by_group#:#Csoporttagság
 ldap#:#ldap_role_by_plugin#:#Bővítménnyel
-ldap#:#ldap_role_group_assignments#:#Létező szerep -> Csoport-összerendelések
+ldap#:#ldap_role_group_assignments#:#Létező szerep ➜ Csoport-összerendelések
 ldap#:#ldap_role_grp_at#:#Tulajdonság
 ldap#:#ldap_role_grp_dn_info#:#Adja meg az LDAP-csoport megkülönböztető nevét!
 ldap#:#ldap_role_grp_info#:#A megadott LDAP-csoport tagjai hozzárendelésre fognak kerülni az adott ILIAS-szerephez.
 ldap#:#ldap_role_grp_isdn#:#Attribútum értéke DN
 ldap#:#ldap_role_info#:#Adjon meg egy ILIAS-szerepet, amely felügyeli az LDAP-csoport tagságot.
-ldap#:#ldap_role_mapping#:#LDAP-szerep -> LDAP-leképezés
+ldap#:#ldap_role_mapping#:#LDAP-szerep ➜ LDAP-leképezés
 ldap#:#ldap_role_name_info#:#Válasszon egy globális szerepet, vagy adja meg egy helyi szerep nevét.
 ldap#:#ldap_role_not_exists#:#Nem létezik ilyen névvel szerep
 ldap#:#ldap_role_selection#:#Szerepkiválasztás
@@ -10425,7 +10425,7 @@ lso#:#lso_mail_unsubscribe_member_bod#:#ezúton megerősítjük, hogy '%s' tanul
 lso#:#lso_mail_unsubscribe_member_sub#:#'%s' tanulási sorra tagság lemondása
 lso#:#lso_mail_wl_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sor várólistájára felkerült. Jelenleg %s. helyet foglalja el a listán.  Levélben értesítjük, amikor csatlakozási kérését elfogadják vagy elutasítják.
 lso#:#lso_mail_wl_sub#:#'%s' tanulási sorhoz regisztrációja
-lso#:#lso_mainbar_button_label_curriculum#:#Tanterv
+lso#:#lso_mainbar_button_label_curriculum#:#Tanulási sor
 lso#:#lso_mainbar_button_label_toc#:#Tartalom
 lso#:#lso_mem_tbl_header#:#Tanulási sor tagja
 lso#:#lso_member_administration#:#Résztvevők módosítása
@@ -10800,11 +10800,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Rendeljen hozzá egy névjegyet '%s' 
 mail#:#mail_attachment_file_not_exist#:#Legalább az egyik csatolmány nem található: %1$s
 mail#:#mail_attachments#:#Mellékletek
 mail#:#mail_auto_generated_info#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
-mail#:#mail_bcc#:#BCC###31 03 2023 new variable
+mail#:#mail_bcc#:#Titkos másolat (BCC)
 mail#:#mail_bg_task_desc#:#Tárgy: %s
 mail#:#mail_bg_task_title#:#E-mail szállítás
 mail#:#mail_both_email#:#Mindkét e-mail cím
-mail#:#mail_cc#:#CC###31 03 2023 new variable
+mail#:#mail_cc#:#Másolatot kap (CC)
 mail#:#mail_change_to_folder#:#Mappaváltás: %s
 mail#:#mail_create_tpl#:#Szövegminta létrehozása
 mail#:#mail_cronjob_notification_info#:#Periodikus értesítés aktiválása az új e-mailekről
@@ -10867,7 +10867,7 @@ mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
 mail#:#mail_global_reply_to_addr#:#Válaszcím 
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet ('Reply-To') címet.
 mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
-mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###31 03 2023 new variable
+mail#:#mail_hint_add_placeholder_x#:#Adja a(z) '%s' helyőrzőt a levél szövegéhez.
 mail#:#mail_incoming#:#Beérkező levél
 mail#:#mail_incoming_both#:#Levelek helyi fogadása és továbbküldése
 mail#:#mail_incoming_local#:#Levelek csak helyi fogadása
@@ -11018,11 +11018,11 @@ mail#:#only_inbox_trash#:#Csak Beérkező / Kuka
 mail#:#only_inbox_trash_info#:#Csak a Beérkező levelekben és a Kukában lévőket töröljük. Különben mappától függetlenül töröljük a leveleket.
 mail#:#orphaned_mail_body#:#Az alábbi levelezési fiókokban régi vagy gazdátlan levelek hevernek. Ezeket a leveleket automatikus töröljük hamarosan.
 mail#:#orphaned_mail_subject#:#Értesítés gazdátlan levelekről
-mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzett mezőben oldjuk fel.%sA Másolat (CC) és a Titkos másolat (BCC) mezőkben levőket nem módosítjuk.
+mail#:#placeholders_advise#:#A címzettek személyes helyőrzőit csak a Címzett mezőben oldjuk fel, %s személyes helyőrzőket a Másolat (CC) és a Titkos másolat (BCC) mezőkben nem, azok ugyanúgy maradnak.
 mail#:#search_content#:#Keresés eredménye
 mail#:#search_recipients#:#Címzettek keresése
 mail#:#second_email_missing_info#:#Ez a kiválasztás nem lehetséges, mert nincs megadva másodlagos e-mail cím.
-mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###31 03 2023 new variable
+mail#:#select_mail_with_subject_x#:#'%s' tárgyú levél kiválasztása
 mail#:#send_mail_admins#:#Összes vezető
 mail#:#send_mail_members#:#Összes tag
 mail#:#send_mail_to#:#Címzettek közé
@@ -11054,7 +11054,7 @@ mathjax#:#mathjax_enable_client#:#MathJax engedélyezése a böngészőben
 mathjax#:#mathjax_enable_client_info#:#A TeX-ek kliens-oldali renderelése a böngészőben, így a MathJax script-eké is. Bár a Mathjax 3 támogatott, de a MathJax 2-t javasoljuk.
 mathjax#:#mathjax_enable_server#:#MathJax engedélyezése a szerveren
 mathjax#:#mathjax_enable_server_info#:#Aktiválja a TeX szerveroldali képpé renderelését.
-mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_home_link#:# ➜︎ MathJax weboldal
 mathjax#:#mathjax_limiter#:#Beágyazott határolójelek
 mathjax#:#mathjax_limiter_info#:#Válassza ki a beágyazott határolójeleket, ahogy azok az Ön MathJax installációjában konfiguráltak.
 mathjax#:#mathjax_mathjax#:#MathJax
@@ -11070,14 +11070,14 @@ mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
 mathjax#:#mathjax_server_cache_size#:#Gyorsítótár mérete
 mathjax#:#mathjax_server_cache_size_info#:#Renderelt képek gyorsítótárazására használható lemezterület mérete.
-mathjax#:#mathjax_server_clear_cache#:# » Gyorsítótár ürítése
+mathjax#:#mathjax_server_clear_cache#:# ➜ Gyorsítótár ürítése most
 mathjax#:#mathjax_server_for_browser#:#Használat böngészőhöz
 mathjax#:#mathjax_server_for_browser_info#:#A TeX SVG képként jelenik meg, így nem szükséges a MathJax engedélyezése a böngészőben.
 mathjax#:#mathjax_server_for_export#:#Használat HTML exporthoz
 mathjax#:#mathjax_server_for_export_info#:#Tananyagok HTML exportálásakor a TeX-et SVG képként exportáljuk.
 mathjax#:#mathjax_server_for_pdf#:#Használat PDF generáláshoz
 mathjax#:#mathjax_server_for_pdf_info#:#A szervert használjuk PDF fájl előállításához.
-mathjax#:#mathjax_server_installation#:# » Telepítés
+mathjax#:#mathjax_server_installation#:# ➜ Telepítési Kézikönyv
 mathjax#:#mathjax_server_timeout#:#Időtúllépés
 mathjax#:#mathjax_server_timeout_info#:#A MathJax szerver hívásának időtúllépése másodpercben
 mathjax#:#mathjax_settings#:#MathJax beállítások
@@ -11216,7 +11216,7 @@ mep#:#mep_master_language_only_no_media#:#Mesternyelv média nélkül
 mep#:#mep_media_files#:#Mediafájlok
 mep#:#mep_media_subtitles#:#Feliratok
 mep#:#mep_mob#:#Mediaobjektum
-mep#:#mep_move_select_insert#:#Navigate to target folder and click "Insert"###31 03 2023 new variable
+mep#:#mep_move_select_insert#:#Navigáljon a célmappába és kattintson a 'Beillesztés'-re
 mep#:#mep_mpg#:#Tartalom-építőelem
 mep#:#mep_new_content_snippet#:#Új tartalom-építőelem
 mep#:#mep_new_folder#:#Új mappa
@@ -12011,7 +12011,7 @@ mob#:#mob_mime_type_not_allowed#:#A következő mime-típusok nem engedélyezett
 mob#:#mob_multi_srt_files#:#SRT-fájlok
 mob#:#mob_no_fixed_size_map_editing#:#Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni.
 mob#:#mob_object#:#Objektum
-mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.###31 03 2023 new variable
+mob#:#mob_please_select_pool#:#Kérem, válaszon ki egy médiagyűjteményt.
 mob#:#mob_really_delete_srt#:#Biztos, hogy törli az alábbi SRT-fájlokat?
 mob#:#mob_srt_files_deleted#:#A felirat fájlt töröltük.
 mob#:#mob_srt_not_allowed#:#.srt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket.
@@ -12078,9 +12078,9 @@ news#:#news_get_priv_feed_info#:#Ez egy személyes hírforrás URL-je. A hírfor
 news#:#news_get_priv_feed_title#:#Személyes URL-forrás
 news#:#news_hide_news_block#:#Hírblokkok elrejtése
 news#:#news_hide_news_block_info#:#Blokkok elrejtése tanulói nézetben. A hírblokkok csak az írási joggal rendelkező felhasználók számára lesznek láthatóak.
-news#:#news_hide_news_date#:#Kezdő dátum
+news#:#news_hide_news_date#:#Kezdő dátum/időpont
 news#:#news_hide_news_per_date#:#Későbbi hírek megjelenítése, mint
-news#:#news_hide_news_per_date_info#:#Csak azok a hírek lesznek megjelenítve, amelyek újabbak egy megadott dátumnál.
+news#:#news_hide_news_per_date_info#:#Csak a megadott dátumnál újabb hírek jelennek meg.
 news#:#news_inactive_private_feed_info#:#Az Ön privát hírcsatornája nincs engedélyezve. Kérem, adjon meg egy jelszót a beállításokban.
 news#:#news_internal_news#:#Hírek
 news#:#news_keep_minimal_x_items#:#Legalább x elem megtartása
@@ -12189,21 +12189,21 @@ noti#:#noti_activate_notification#:#Értesítés bekapcsolása
 noti#:#noti_deactivate_notification#:#Értesítés kikapcsolása
 noti#:#noti_notification_activated#:#Az értesítőt sikeresen bekapcsolta
 noti#:#noti_notification_deactivated#:#Az értesítőt sikeresen kikapcsolta
-notifications_adm#:#enable_osd#:#Enable On-Screen Notifications###31 03 2023 new variable
-notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###31 03 2023 new variable
-notifications_adm#:#notification_settings#:#Notification Settings###31 03 2023 new variable
-notifications_adm#:#osd_delay#:#Presentation Delay###31 03 2023 new variable
-notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.###31 03 2023 new variable
-notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_interval#:#Refreshinterval###31 03 2023 new variable
-notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###31 03 2023 new variable
-notifications_adm#:#osd_play_sound#:#Play a Sound###31 03 2023 new variable
-notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###31 03 2023 new variable
-notifications_adm#:#osd_settings#:#On-Screen Notifications###31 03 2023 new variable
-notifications_adm#:#osd_vanish#:#Presentation Time###31 03 2023 new variable
-notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.###31 03 2023 new variable
+notifications_adm#:#enable_osd#:#Képernyő-értesítések bekapcsolása
+notifications_adm#:#enable_osd_desc#:#A felhasználók értesítése felugró ablakban.
+notifications_adm#:#notification_settings#:#Értesítés beállításai
+notifications_adm#:#osd_delay#:#Megjelenítés elhalasztása
+notifications_adm#:#osd_delay_desc#:#A láthatóság késleltetése ezredmásodpercben.
+notifications_adm#:#osd_error_presentation_time_too_small#:#A megjelenítési idő legalább 1000 ezredmásodperc lehet.
+notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#A frissítési időköznek nagyobbnak kell lennie, mint a megjelenítés elhalasztása és a megjelenítési idő összege.
+notifications_adm#:#osd_error_refresh_interval_too_small#:#A frissítési időköz legalább 3000 ezredmásodperc lehet.
+notifications_adm#:#osd_interval#:#Frissítési időköz
+notifications_adm#:#osd_interval_desc#:#Új értesítések ellenőrzési ideje másodpercekben. Az alacsonyabb értéke gyorsabb értesítést jelent, de növeli a kérések számát és az adatforgalmat.
+notifications_adm#:#osd_play_sound#:#Hang lejátszása
+notifications_adm#:#osd_play_sound_desc#:#Új értesítéskor hangot játszunk le.
+notifications_adm#:#osd_settings#:#Képernyőértesítések
+notifications_adm#:#osd_vanish#:#Megjelenítési idő
+notifications_adm#:#osd_vanish_desc#:#Az értesítés megjelenítési ideje másodpercekben.
 obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
 obj#:#cont_skll_published#:#Az összes hozzárendelést sikeresen közzétette.
 obj#:#cont_skll_published_some_not#:#Az összes megadott hozzárendelést sikeresen közzétette. Néhány felhasználóhoz nincs kompetencia rendelve, náluk nincs mit közzétenni.
@@ -12242,7 +12242,7 @@ obj#:#obj_show_header_actions#:#Fejlécműveletek megjelenítése
 obj#:#obj_show_title_and_icon#:#A cím és az ikon is jelenjen meg
 obj#:#obj_target_location#:#Célhely
 obj#:#obj_tile_image#:#Csempekép
-obj#:#obj_tile_image_info#:#Ez a kép az objektum miniatűr-stílusú képe (csempeképe), az objektumot abban a tárolóban ábrázolja (például kategória, mappacsoport stb.), amelyben az megtalálható, és a tároló tartalmának megjeleítése nem felsorolásra, hanem csempére van állítva. A teljesítménnyel kapcsolatos problémák elkerülése érdekében csak 72 dpi felbontású és 1000 px-nél kisebb szélességű fájlokat töltsön fel.
+obj#:#obj_tile_image_info#:#Ez a kép az objektum miniatűr-stílusú képe (csempeképe), az objektumot abban a tárolóban ábrázolja (például kategória, mappacsoport stb.), amelyben az megtalálható, és a tároló tartalmának megjelenítése nem felsorolásra, hanem csempére van állítva. A teljesítménnyel kapcsolatos problémák elkerülése érdekében csak 72 dpi felbontású és 1000 px-nél kisebb szélességű fájlokat töltsön fel.
 obj#:#obj_tool_booking#:#Erőforrásfoglalás
 obj#:#obj_tool_booking_info#:#Foglalásgyűjtemények használata (például termek foglalásához).
 obj#:#obj_tool_ext_mail_subject_prefix#:#E-mail tárgyának előtagja
@@ -12626,8 +12626,8 @@ prg#:#msg_update_individual_plan_failed#:#Az egyéni terv módosítása sikertel
 prg#:#no_srctype_or_id#:#Az Id vagy a típus üres.
 prg#:#not_a_valid_cat_id#:#%s nem érvényes ref-id-je egy kategóriának sem.
 prg#:#obj_prg_select#:#-- Válasszon képzési programot --
-prg#:#optgrp_label_restart#:#Restart###31 03 2023 new variable
-prg#:#optgrp_label_validity#:#Expiry###31 03 2023 new variable
+prg#:#optgrp_label_restart#:#Újraindítás
+prg#:#optgrp_label_validity#:#Lejárat
 prg#:#orgu#:#Szervezeti egység
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Hozzáférés-vezérlés a szervezeti egység pozíciói alapján
@@ -13678,7 +13678,7 @@ rbac#:#rbac_cant_import_role_wrong_type#:#'%s' elemből '%s' elembe szabály nem
 rbac#:#rbac_change_existing_confirm_tbl#:#Beállítások a 'Már létező objektumokra is' opcióhoz
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Ennek a szerepnek a jogosultsági beállításait a már összes létező objektumra alkalmazzunk.
 rbac#:#rbac_changes#:#Változtatások
-rbac#:#rbac_choose_copy_targets#:#Adjon meg egy lekérdezést a célszerep kiválasztásához.
+rbac#:#rbac_choose_copy_targets#:#Adjon meg egy kifejezést, mellyel megtalálható az a célszerep, amelyekre másolni kívánja jogosultságokat.
 rbac#:#rbac_condition_delete_sure#:#Biztos, hogy törli az alábbi előfeltételeket?
 rbac#:#rbac_context_global#:#Globális
 rbac#:#rbac_copy_behaviour#:#Szerepmásolási beállítások
@@ -14047,7 +14047,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#A visszaigazoló link n
 registration#:#reg_confirmation_hash_life_time_info#:#Visszaigazoló linkek élettartamának megadása (másodpercben). Az ajánlott érték 1800 másodperc.
 registration#:#reg_confirmation_hash_not_found#:#Ehhez a visszaigazoló linkhez nem tartozik ILIAS-fiók.
 registration#:#reg_confirmation_hash_not_passed#:#A visszaigazoló link nem teljes.
-registration#:#reg_confirmation_link_successful#:#Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt.<br/>20 másodperc múlva átirányításra kerül a <a href="%s" title="login screen">bejelentkező képernyőre</a>.
+registration#:#reg_confirmation_link_successful#:#Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt.
 registration#:#reg_default#:#Alapértelmezett
 registration#:#reg_deleted_assignment#:#Törölt összerendelés(ek)
 registration#:#reg_direct#:#Közvetlen regisztráció
@@ -14183,7 +14183,7 @@ rep#:#rep_new_item_group_unassigned#:#Nincs hozzárendelve
 rep#:#rep_new_item_group_unassigned_subitems#:#Hozzá nem rendelt objektumok száma: %s
 rep#:#rep_new_item_groups#:#Csoportosítás
 rep#:#rep_new_item_menu#:#'Új objektum létrehozása'-Menü
-rep#:#rep_no_last_visited_mess#:#Egy erőforrást sem látogatott még meg.
+rep#:#rep_no_last_visited_mess#:#Még a Tartalmotár egy objektumát sem látogatta meg.
 rep#:#rep_no_permission_to_delete#:#Nincs törlési jogosultság
 rep#:#rep_object_lists#:#Objektum listák
 rep#:#rep_object_references_cannot_be_read#:#Nincs több hivatkozásra engedélye ehhez: %s.
@@ -14785,7 +14785,7 @@ skll#:#skll_new_skill_achievements#:#Új kompetenciaszinteket ért el %1$s - %2$
 skll#:#skll_skill_notification#:#Kompetenciaértesítések
 skll#:#skll_skill_notification_desc#:#Felhasználó értesítése új kompetenciaszint beállításáról.
 skmg#:#scat#:#Kompetenciakategória
-skmg#:#skll#:#Alapkompetencia
+skmg#:#skll#:#Kompetencia
 skmg#:#skmg_360_survey#:#360°-os kérdőív
 skmg#:#skmg_add_assignment#:#Szerepek / felhasználók hozzáadása
 skmg#:#skmg_add_level#:#Kompetenciaszint létrehozása
@@ -14845,7 +14845,7 @@ skmg#:#skmg_hide_profile_self_eval#:#Önértékelés nélküli profil célszintj
 skmg#:#skmg_hide_profile_self_eval_info#:#A profil célszintje nem jelenik meg a felhasználónak, amíg nem értékelte önmagát ebből a kompetenciából.
 skmg#:#skmg_import_skills#:#Importálás
 skmg#:#skmg_input_file#:#Importfájl
-skmg#:#skmg_insert_basic_skill_from_clip#:#Alapkompetenciákat beillesztette a vágólapról
+skmg#:#skmg_insert_basic_skill_from_clip#:#Kompetenciák beillesztése a vágólapról
 skmg#:#skmg_insert_please_choose_one_type_only#:#Csak azonos típusból objektumokat válasszon!
 skmg#:#skmg_insert_skill_category_from_clip#:#Kompetenciakategóriákat beillesztette a vágólapról
 skmg#:#skmg_insert_skill_template_from_clip#:#Kompetenciasablon-kategória beszúrása vágólapról
@@ -14864,7 +14864,7 @@ skmg#:#skmg_new_level#:#Új szint
 skmg#:#skmg_new_sktr#:#Új kompetenciasablon-hivatkozás
 skmg#:#skmg_next_step#:#Következő lépés
 skmg#:#skmg_no_nodes_selectable#:#Jelenleg nincsenek választható kompetenciák.
-skmg#:#skmg_no_skill_entries#:#You do not have any entries for this competence yet.###31 03 2023 new variable
+skmg#:#skmg_no_skill_entries#:#Ennek a kompetenciának még egy bejegyzése sincs.
 skmg#:#skmg_no_skills#:#Nincsenek kompetenciák
 skmg#:#skmg_no_skills_selected_info#:#Még nem választott ki és nem is teljesített egy kompetenciát sem. Egy kompetencia kiválasztásához kattintson a "Kompetencia hozzáadása" gombra. Tetszőlege számú kompetenciát hozzáadhat. Azokat a kompetenciákat automatikusan megjelenítjük, melyeket tanulási anyagokkal teljesített.
 skmg#:#skmg_no_trigger#:#Nincs trigger
@@ -16430,7 +16430,7 @@ trac#:#trac_mode_cmix_passed_info#:#&nbsp;
 trac#:#trac_mode_cmix_passed_with_failed#:#Sikeresen teljesítette, amikor 'sikeresen teljesítette' vagy 'elégedett' értéket küld.  A 'nem teljesítette' küldése az ILIAS-állapot 'nem teljesítette' értékűre állítja.
 trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
 trac#:#trac_mode_collection#:#Az állapotot kiválasztott elemek határozzák meg
-trac#:#trac_mode_collection_info#:#A felhasználó tanulási haladási állapotát a kiválasztott elemek tanulási haladási állapota határozza meg: amikor az összes kiválasztott elem tanulási haladási állapota 'Teljesített'-re vált, akkor lesz az összesítő állapot értéke 'Teljesített'.<br />A beállítás mentése után lehet kiválasztani az elemeket.
+trac#:#trac_mode_collection_info#:#A felhasználó tanulási haladási állapotát a kiválasztott elemek tanulási haladási állapota határozza meg: amikor az összes kiválasztott elem tanulási haladási állapota 'Teljesített'-re vált, akkor lesz az összesítő állapot értéke 'Teljesített'.<br />A beállítás mentése után kibővül ez a fül, azaz a mentés után lehet kiválasztani az elemeket.
 trac#:#trac_mode_collection_manual#:#Felhasználók saját maguk fejezetenként vizsgálják és döntenek az állapotról
 trac#:#trac_mode_collection_manual_info#:#A felhasználók maguk döntik el, mikor sajátították el a tananyag fejezetét. Amikor ezt megtették, állítsák be állapotukat 'Teljesített'-re az 'Információ' fülön.<br />A beállítás mentése után határozhatja meg, mely fejezetek befolyásolják a tanulási haladást.
 trac#:#trac_mode_collection_mobs#:#Médiaobjektumok gyűjteménye
@@ -16448,7 +16448,7 @@ trac#:#trac_mode_deactivated_info_new#:#A tanulási haladás állapota nem jelen
 trac#:#trac_mode_event#:#Vezetők/Tutorok vizsgálják és rögzítik a jelenléteket
 trac#:#trac_mode_event_info#:#Tutorok/Vezetők ellenőrzik, hogy ki vett részt az eseményen, és kézzel rögzítik azt a 'Résztvevők' fülön.
 trac#:#trac_mode_exercise_returned#:#Vezetők/Tutorok vizsgálják és döntenek a teljesítettségéről
-trac#:#trac_mode_exercise_returned_info#:#Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e az elvárásokat, manuálisan állítják a felhasználók összesített állapotát (például 'Teljesített'-re vagy 'Nem teljesített'-re).
+trac#:#trac_mode_exercise_returned_info#:#Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e a feladatokat, manuálisan állítják a felhasználók összesített állapotát (például 'Teljesített'-re vagy 'Nem teljesített'-re).
 trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
 trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a személyes értékelést.
 trac#:#trac_mode_lti_outcome#:#A Mastery Score-t el kell érni
@@ -16642,7 +16642,7 @@ user#:#user_account_code_generated#:#Generálás napja
 user#:#user_account_code_generated_all#:#Összes dátum
 user#:#user_account_code_not_valid#:#Az adott regisztrációs kód nem érvényes vagy már felhasználták.
 user#:#user_account_code_setting#:#ILIAS-fiók újraaktiválásának engedélyezése kóddal
-user#:#user_account_code_setting_info#:#Az inaktív ILIAS-fiókokat újra aktiválhatják a felhasználók az előre definiált kódokkal.
+user#:#user_account_code_setting_info#:#A lejárt ILIAS-fiókokat újra aktiválhatják a felhasználók egy előre megadott kódoddal. Ezek a kódok Rendszerbeállítások » ILIAS-fiókok kezelése »  Hitelesítés és regisztráció » ILIAS hitelesítés / Regisztráció » Regisztrációs kódok alatt hozhatók létre.
 user#:#user_account_code_used#:#Felhasználás dátuma
 user#:#user_account_code_valid_until#:#Érvényességi idő
 user#:#user_account_code_valid_until_dynamic#:#Napok száma
@@ -16892,7 +16892,7 @@ wiki#:#wiki_other_pages_linking#:#Erre a lapra linkelő más lapok
 wiki#:#wiki_page#:#Lap
 wiki#:#wiki_page_actions#:#Laptevékenységek
 wiki#:#wiki_page_already_exists#:#Már van ilyen című lap.
-wiki#:#wiki_page_blocked#:#A wikilap írásvédett. Csak a «Beállítások módosítása» joggal rendelkezőknek van írási joguk hozzá.
+wiki#:#wiki_page_blocked#:#A wikilap írásvédett. Csak a 'Beállítások módosítása' joggal rendelkezők tudják módosítani.
 wiki#:#wiki_page_changes#:#Lapmódosítások
 wiki#:#wiki_page_deleted#:#A wikilapot sikeresen törölte.
 wiki#:#wiki_page_deletion_confirmation#:#Biztos, hogy törli ezt a wikilapot?

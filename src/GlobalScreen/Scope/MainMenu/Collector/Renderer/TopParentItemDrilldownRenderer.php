@@ -43,13 +43,11 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
 
         $dd = $this->ui_factory->menu()->drilldown($item->getTitle(), $entries);
 
-        $slate = $this->ui_factory->mainControls()->slate()->drilldown(
+        return $this->ui_factory->mainControls()->slate()->drilldown(
             $item->getTitle(),
             $this->getStandardSymbol($item),
             $dd
         );
-
-        return $slate;
     }
 
     protected function buildEntry(AbstractChildItem $item): Component
@@ -59,7 +57,6 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         $type = get_class($item);
 
         switch ($type) {
-
             case Link::class:
                 $act = $this->getDataFactory()->uri(
                     $this->getBaseURL()
@@ -72,9 +69,7 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
             case LinkList::class:
                 $links = [];
                 foreach ($item->getLinks() as $child) {
-                    if ($child->isVisible()) {
-                        $links[] = $this->buildEntry($child);
-                    }
+                    $links[] = $this->buildEntry($child);
                 }
                 $entry = $this->ui_factory->menu()->sub($title, $links);
                 break;
