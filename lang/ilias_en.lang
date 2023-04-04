@@ -1634,7 +1634,6 @@ assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The attempt in which a participant has performed best will be be used for scoring purposes. This setting only applies when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Attempts
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
-assessment#:#tst_pass_deletion_not_allowed#:#Non-scoring attempts may not be deleted.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
