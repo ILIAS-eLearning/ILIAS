@@ -38,6 +38,6 @@ class DynamicInputsNameSource extends FormInputNameSource
 
     public function getNewName(): string
     {
-        return $this->parent_input_name . '/' . parent::getNewName() . "[]";
+        return "$this->parent_input_name[" . parent::getNewName() . "][]";
     }
 }
