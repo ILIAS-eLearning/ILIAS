@@ -76,12 +76,15 @@ interface Glyph extends Symbol, Clickable
     public const LISTINDENT = "listindent";
     public const LISTOUTDENT = "listoutdent";
     public const FILTER = "filter";
+<<<<<<< HEAD
     public const HEADER = "header";
     public const BOLD = "bold";
     public const ITALIC = "italic";
     public const LINK = "link";
     public const LAUNCH = "launch";
     public const SORTATION = "sortation";
+=======
+>>>>>>> 94726cdb7a (UI/ViewControl: remove glyphs from dropdowns)
 
     /**
      * Get the type of the glyph.

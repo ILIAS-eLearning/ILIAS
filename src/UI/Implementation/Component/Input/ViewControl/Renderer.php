@@ -53,7 +53,6 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.vc_fieldselection.html", true, true);
         $ui_factory = $this->getUIFactory();
-        $icon = $ui_factory->symbol()->glyph()->bulletlist(); //->withHighlight();
 
         $set_values = $component->getValue() ? array_filter(explode(',', $component->getValue())) : [];
         foreach ($component->getOptions() as $opt_value => $opt_label) {
@@ -97,7 +96,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $component->getLabel());
-        $tpl->setVariable("CONTROL_LABEL", $default_renderer->render($icon));
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("VALUE", $component->getValue());
@@ -113,7 +111,6 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.vc_sortation.html", true, true);
         $ui_factory = $this->getUIFactory();
-        $icon = $ui_factory->symbol()->glyph()->sortation();
 
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $internal_signal = $component->getInternalSignal();
@@ -143,7 +140,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $component->getLabel());
-        $tpl->setVariable("CONTROL_LABEL", $default_renderer->render($icon));
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("VALUE", $component->getValue());
 
@@ -210,8 +206,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $icon = $ui_factory->symbol()->glyph()->numberedlist();
-        $tpl->setVariable("CONTROL_LABEL_LIMIT", $default_renderer->render($icon));
         foreach ($component->getLimitOptions() as $option) {
             $signal = clone $internal_signal;
             $signal->addOption('offset', $offset);
@@ -246,7 +240,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ARIA_LABEL_OFFSET", $component->getLabel());
         $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
         $tpl->setVariable("ARIA_LABEL_LIMIT", $component->getLabelLimit());
-        $tpl->setVariable("CONTROL_LABEL", $default_renderer->render($icon));
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("VALUE", $component->getValue());
 
