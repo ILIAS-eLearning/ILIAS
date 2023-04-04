@@ -739,7 +739,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function checkFilters(): void
     {
-        if (strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId()) {
+        if ($this->getAnswerStatusFilter() !== null && !$this->getAnswerStatusActiveId()) {
             throw new ilTestQuestionPoolException(
                 'No active id given! You cannot use the answer status filter without giving an active id.'
             );
