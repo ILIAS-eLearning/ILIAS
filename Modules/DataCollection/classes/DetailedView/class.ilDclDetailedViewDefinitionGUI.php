@@ -34,12 +34,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     public function __construct(int $tableview_id)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        $this->ctrl = $ilCtrl;
+
         $this->tableview_id = $tableview_id;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -58,16 +53,16 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         parent::__construct("dclf", $tableview_id);
 
         // Add JavaScript
-        $tpl->addJavascript('Modules/DataCollection/js/single_view_listener.js');
+        $this->tpl->addJavascript('Modules/DataCollection/js/single_view_listener.js');
 
         // content style (using system defaults)
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
-        $tpl->parseCurrentBlock();
+        $this->tpl->setCurrentBlock("SyntaxStyle");
+        $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
+        $this->tpl->parseCurrentBlock();
 
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-        $tpl->parseCurrentBlock();
+        $this->tpl->setCurrentBlock("ContentStyle");
+        $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->parseCurrentBlock();
     }
 
     /**
@@ -77,14 +72,13 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
-        $lng = $DIC['lng'];
 
         $next_class = $this->ctrl->getNextClass($this);
 
         $viewdef = $this->getPageObject();
         if ($viewdef) {
             $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
-            $title = $lng->txt("dcl_view_viewdefinition");
+            $title = $this->lng->txt("dcl_view_viewdefinition");
         }
 
         switch ($next_class) {
@@ -102,16 +96,11 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
     public function showPage(): string
     {
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
         if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
             $delete_button = ilLinkButton::getInstance();
             $delete_button->setCaption('dcl_empty_detailed_view');
             $delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
-            $ilToolbar->addButtonInstance($delete_button);
+            $this->toolbar->addButtonInstance($delete_button);
 
             $activation_button = ilLinkButton::getInstance();
             if ($this->getPageObject()->getActive()) {
@@ -122,7 +111,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
                 $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'activate'));
             }
 
-            $ilToolbar->addButtonInstance($activation_button);
+            $this->toolbar->addButtonInstance($activation_button);
 
             $legend = $this->getPageObject()->getAvailablePlaceholders();
             if (sizeof($legend)) {
@@ -154,46 +143,32 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
     public function confirmDelete(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this));
-        $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
+        $conf->setFormAction($this->ctrl->getFormAction($this));
+        $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $this->lng->txt('dcl_confirm_delete_detailed_view_text'));
 
-        $conf->setConfirm($lng->txt('delete'), 'deleteView');
-        $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+        $conf->setConfirm($this->lng->txt('delete'), 'deleteView');
+        $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 
-        $tpl->setContent($conf->getHTML());
+        $this->tpl->setContent($conf->getHTML());
     }
 
     public function cancelDelete(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->redirect($this, "edit");
+        $this->ctrl->redirect($this, "edit");
     }
 
     public function deleteView(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         if ($this->tableview_id && ilDclDetailedViewDefinition::exists($this->tableview_id)) {
             $pageObject = new ilDclDetailedViewDefinition($this->tableview_id);
             $pageObject->delete();
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
-
-        // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
-        $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->ctrl->redirectByClass(self::class, "edit");
     }
 
     /**
@@ -202,13 +177,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      */
     public function releasePageLock(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $this->getPageObject()->releasePageLock();
-        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
-        $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_page_lock_released"), true);
+        $this->ctrl->redirectByClass('ilDclTableViewGUI', "show");
     }
 
     /**
