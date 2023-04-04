@@ -1,6 +1,6 @@
 @use "../050-layout/basics/" as *;
 
-$l-bar__element__margin-bottom: $il-margin-xxlarge-vertical; // this margin separates stacking elements on small screens
+$l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separates stacking elements on small screens
 
 .l-bar__container,
 .l-bar__group {
@@ -18,15 +18,15 @@ $l-bar__element__margin-bottom: $il-margin-xxlarge-vertical; // this margin sepa
 }
 
 .l-bar__group {
-    margin-right: $il-margin-xxlarge-horizontal;
+    margin-right: $il-margin-xlarge-horizontal;
     &:last-child {
         margin-right: 0;
     }
 }
 
 .l-bar__element {
-    margin-right: $il-margin-large-horizontal;
-    margin-bottom: $l-bar__element__margin-bottom; 
+    margin-right: $il-margin-xs-horizontal;
+    margin-bottom: $l-bar__element__margin-bottom;
     &:last-child {
         margin-right: 0;
     }

@@ -11,44 +11,41 @@ $il-vc-glyph-hover-bg: lighten($il-main-color, 5%);
 $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
 
+// to set pagination inline next to arrows
+.il-viewcontrol-pagination {
+	display: flex;
+	align-items: center; // more accurate center than with inline-block vertical-align
+	> * + * {
+		margin-left: $il-margin-xs-horizontal; // so we are not dependend on browser base inline space
+	}
+}
+
+// View control buttons with only glyph and no text
+.il-viewcontrol-sortation .dropdown-toggle .caret,
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret,
+.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+	display: inline;
+	border: none;
+	vertical-align: initial;
+}
 .il-viewcontrol-sortation .dropdown-toggle .caret {
 	&:before {
 		content: "\21f5";
 	}
-	display: inline;
-	border: none;
-	vertical-align: initial;
-	width: 8px;
-	height: 8px;
 }
-
-
-.il-viewcontrol-pagination .dropdown {
-	display: inline-block;
-}
-
-.il-viewcontrol-pagination__num-of-pages .dropdown-toggle .caret {
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret {
 	&:before {
 		font-family: il-icons;
+		font-size: .8rem;
 		content: "\e900";
 	}
-	display: inline;
-	border: none;
-	vertical-align: initial;
-	width: 8px;
-	height: 8px;
 }
-
 .il-viewcontrol-fieldselection .dropdown-toggle .caret {
 	&:before {
 		font-family: "Glyphicons Halflings";
+		font-size: .8rem;
 		content: "\e105";
 	}
-	display: inline;
-	border: none;
-	vertical-align: initial;
-	width: 8px;
-	height: 8px;
 }
 
 .il-viewcontrol-pagination .btn {
