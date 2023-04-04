@@ -318,6 +318,7 @@ class ilBadgeManagementGUI
             $img_upload = new ilImageFileInputGUI($lng->txt("image"), "img");
             $img_upload->setSuffixes(["png", "svg"]);
             $img_upload->setAllowDeletion(false);
+            $img_upload->setUseCache(false);
             $form->addItem($img_upload);
         }
 
