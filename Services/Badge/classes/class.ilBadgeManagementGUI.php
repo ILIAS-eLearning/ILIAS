@@ -143,7 +143,7 @@ class ilBadgeManagementGUI
             $handler = ilBadgeHandler::getInstance();
             $valid_types = $handler->getAvailableTypesForObjType($this->parent_obj_type);
             if ($valid_types) {
-                $options = array();
+                $options = [];
                 foreach ($valid_types as $id => $type) {
                     $options[$id] = ($this->parent_obj_type !== "bdga")
                         ? ilBadge::getExtendedTypeCaption($type)
@@ -167,7 +167,7 @@ class ilBadgeManagementGUI
                     $ilToolbar->addSeparator();
                 }
 
-                $tt = array();
+                $tt = [];
                 foreach ($this->getValidBadgesFromClipboard() as $badge) {
                     $tt[] = $badge->getTitle();
                 }
@@ -187,7 +187,7 @@ class ilBadgeManagementGUI
                         " (" . count($tt) . ")",
                     $ilCtrl->getLinkTarget($this, "pasteBadges"),
                     "",
-                    "",
+                    null,
                     "",
                     $ttid
                 );
@@ -292,14 +292,14 @@ class ilBadgeManagementGUI
 
             $img_upload = new ilImageFileInputGUI($lng->txt("file"), "img");
             $img_upload->setRequired(true);
-            $img_upload->setSuffixes(array("png", "svg"));
+            $img_upload->setSuffixes(["png", "svg"]);
             $img_mode_up->addSubItem($img_upload);
 
             // templates
 
             $valid_templates = ilBadgeImageTemplate::getInstancesByType($a_type_unique_id);
             if (count($valid_templates)) {
-                $options = array();
+                $options = [];
                 $options[""] = $lng->txt("please_select");
                 foreach ($valid_templates as $tmpl) {
                     $options[$tmpl->getId()] = $tmpl->getTitle();
@@ -316,7 +316,7 @@ class ilBadgeManagementGUI
             }
         } else {
             $img_upload = new ilImageFileInputGUI($lng->txt("image"), "img");
-            $img_upload->setSuffixes(array("png", "svg"));
+            $img_upload->setSuffixes(["png", "svg"]);
             $img_upload->setAllowDeletion(false);
             $form->addItem($img_upload);
         }
@@ -513,7 +513,7 @@ class ilBadgeManagementGUI
 
         foreach ($badge_ids as $badge_id) {
             $badge = new ilBadge($badge_id);
-            $confirmation_gui->addItem("id[]", $badge_id, $badge->getTitle() .
+            $confirmation_gui->addItem("id[]", (string) $badge_id, $badge->getTitle() .
                 " (" . count(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")");
         }
 
@@ -756,10 +756,10 @@ class ilBadgeManagementGUI
             $ilCtrl->redirect($this, "listUsers");
         }
 
-        $new_badges = array();
+        $new_badges = [];
         foreach ($user_ids as $user_id) {
-            if (!ilBadgeAssignment::exists($badge_id, $user_id)) {
-                $ass = new ilBadgeAssignment($badge_id, $user_id);
+            if (!ilBadgeAssignment::exists($badge_id, (int) $user_id)) {
+                $ass = new ilBadgeAssignment($badge_id, (int) $user_id);
                 $ass->setAwardedBy($ilUser->getId());
                 $ass->store();
 
@@ -833,7 +833,7 @@ class ilBadgeManagementGUI
         }
 
         foreach ($user_ids as $user_id) {
-            $ass = new ilBadgeAssignment($badge_id, $user_id);
+            $ass = new ilBadgeAssignment($badge_id, (int) $user_id);
             $ass->delete();
         }
 
