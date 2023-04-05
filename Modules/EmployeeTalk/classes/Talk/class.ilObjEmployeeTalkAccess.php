@@ -204,7 +204,19 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      */
     public function canDelete(int $refId): bool
     {
-        return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::CREATE);
+        $talk = new ilObjEmployeeTalk($refId);
+        $user = $this->getCurrentUsersId();
+        if ($user === $talk->getOwner()) {
+            return true;
+        }
+        // global admins can delete
+        if ($this->container->rbac()->review()->isAssigned(
+            $user,
+            SYSTEM_ROLE_ID
+        )) {
+            return true;
+        }
+        return false;
     }
 
     private function isPermittedToExecuteOperation(int $refId, string $operation): bool
