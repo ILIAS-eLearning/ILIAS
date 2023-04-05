@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 
 /**
  * Interface InterruptiveItem
  *
  * Represents an item to be displayed inside an interruptive modal
  */
-interface InterruptiveItem extends Component
+interface InterruptiveItem extends HasDynamicInputs
 {
     /**
      * Return an ID of the item
