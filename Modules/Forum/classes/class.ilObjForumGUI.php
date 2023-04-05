@@ -2981,10 +2981,32 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ->context()
             ->current();
 
+        $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentTopic);
+
+        $threadContentTemplate = new ilTemplate(
+            'tpl.forums_threads_view.html',
+            true,
+            true,
+            'Modules/Forum'
+        );
+
+
+        if ($this->selectedSorting === ilForumProperties::VIEW_TREE) {
+            $order_field = 'frm_posts_tree.rgt';
+            $this->objCurrentTopic->setOrderDirection('DESC');
+            $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$this->selectedSorting]);
+        } else {
+            $order_field = 'frm_posts.pos_date';
+            $this->objCurrentTopic->setOrderDirection(
+                $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC ? 'DESC' : 'ASC'
+            );
+            $threadContentTemplate->setVariable('LIST_TYPE', $this->sortationOptions[$this->selectedSorting]);
+        }
+        $this->objCurrentTopic->setOrderField($order_field);
+
         $additionalDataExists = $toolContext->getAdditionalData()->exists(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
         $subtree_nodes = $this->objCurrentTopic->getPostTree($firstNodeInThread);
         $numberOfPostings = count($subtree_nodes);
-        // TODO
         if ($numberOfPostings > 0 && !$additionalDataExists && $this->selectedSorting === ilForumProperties::VIEW_TREE) {
             $toolContext
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true)
@@ -2994,9 +3016,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::FORUM_BASE_CONTROLLER, $this)
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::PAGE, $pageIndex);
         }
-
-        $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentTopic);
-
         // Set context for login
         $append = '_' . $this->objCurrentTopic->getId() .
             ($this->objCurrentPost->getId() !== 0 ? '_' . $this->objCurrentPost->getId() : '');
@@ -3027,26 +3046,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->prepareThreadScreen($forumObj);
 
-        $threadContentTemplate = new ilTemplate(
-            'tpl.forums_threads_view.html',
-            true,
-            true,
-            'Modules/Forum'
-        );
 
         if (isset($this->httpRequest->getQueryParams()['anchor'])) {
             $threadContentTemplate->setVariable('JUMP2ANCHOR_ID', (int) $this->httpRequest->getQueryParams()['anchor']);
-        }
-        if ($this->selectedSorting === ilForumProperties::VIEW_TREE) {
-            $orderField = 'frm_posts_tree.rgt';
-            $this->objCurrentTopic->setOrderDirection('DESC');
-            $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$this->selectedSorting]);
-        } else {
-            $orderField = 'frm_posts.pos_date';
-            $this->objCurrentTopic->setOrderDirection(
-                $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC ? 'DESC' : 'ASC'
-            );
-            $threadContentTemplate->setVariable('LIST_TYPE', $this->sortationOptions[$this->selectedSorting]);
         }
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
 
@@ -3108,7 +3110,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_thread_marked'), true);
             }
 
-            $this->objCurrentTopic->setOrderField($orderField);
 
             if (
                 $firstNodeInThread instanceof ilForumPost &&
