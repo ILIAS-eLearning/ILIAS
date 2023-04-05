@@ -180,7 +180,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
     public function confirmedDeleteObject(): void
     {
-        if ($this->isReadonly) {
+        if (!$this->talkAccess->canDelete($this->ref_id)) {
             ilSession::clear("saved_post");
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
