@@ -1,19 +1,22 @@
 <tr class="{CSS_ROW}">
 <td class="std">
-<input type="checkbox" name="check[{NR}]" value="1" />
+<input type="checkbox" aria-label="check[{NR}] checkbox" name="check[{NR}]" value="1" />
 </td>
 <td class="std">
 {LANG_SELECT}
 </td>
 <td class="std">
-<input type="radio" name="default" value="{NR}" {DEF_CHECKED} />
+<input type="radio" aria-label="default" name="default" value="{NR}" {DEF_CHECKED} />
 </td>
 <td class="std">
-<input type="text" class="form-control" name="title[{NR}]" value="{VAL_TITLE}" size="30" maxlength="128" />
+<input type="text" class="form-control" aria-label="title[{NR}]" name="title[{NR}]"
+       value="{VAL_TITLE}" size="30" maxlength="128" />
 </td>
 <!-- BEGIN desc_row -->
 <td class="std">
-<textarea name="desc[{DNR}]" cols="30" rows="2" >{VAL_DESC}</textarea>
+<textarea aria-multiline="true" aria-label="desc[{DNR}]" name="desc[{DNR}]" cols="30" rows="2" >
+    {VAL_DESC}
+</textarea>
 </td>
 <!-- END desc_row -->
 <!--<td class="std">

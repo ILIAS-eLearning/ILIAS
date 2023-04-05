@@ -13,7 +13,9 @@
 			<!-- END is_type -->
 		</td>
 		<td>
-			<a href="{LINK}" target="{TARGET}"> {TITLE}</a>
+			<a aria-label="{TITLE}" href="{LINK}" target="{TARGET}">
+				{TITLE}
+			</a>
 		</td>
 		<td width="20%" align="right">
                     <!-- BEGIN relevance -->
@@ -26,11 +28,16 @@
 	<tr>
 		<td>
 			<!-- BEGIN is_linked_image -->
-			<a href="{LINKED_LINK}" target="{LINKED_TARGET}">{LINKED_IMAGE}</a>
+			<a aria-labelledby="{LINKED_IMAGE}" aria-label="{LINKED_IMAGE}"
+			   href="{LINKED_LINK}" target="{LINKED_TARGET}">
+				{LINKED_IMAGE}
+			</a>
 			<!-- END is_linked_image -->
 		</td>
 		<td>
-			<!-- BEGIN sea_fragment  --><div class="il_SearchFragment ilPreventBreakOut">{TXT_FRAGMENT} ...</div><!-- END sea_fragment -->
+			<!-- BEGIN sea_fragment  --><div class="il_SearchFragment ilPreventBreakOut">
+			{TXT_FRAGMENT} ...
+		</div><!-- END sea_fragment -->
 		</td>
 		<td></td>
 	</tr>
@@ -40,7 +47,9 @@
 <!-- BEGIN choose_details -->
 <div style="margin: 5px 2em; padding-top:5px;">
 <hr width="60%" align="left" size="1px" color="lightgrey" />
-	<a href="{LUC_DETAILS_LINK}"><strong>{LUC_NUM_HITS}</strong></a>
+	<a aria-label="{LUC_NUM_HITS}" href="{LUC_DETAILS_LINK}">
+		<strong>{LUC_NUM_HITS}</strong>
+	</a>
 </div>
 <!-- END choose_details -->
 </div>

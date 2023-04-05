@@ -1,13 +1,13 @@
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
-		<input class="{CSS_ROW}" type="checkbox" name="file[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<input class="{CSS_ROW}" type="checkbox" aria-label="file[]" name="file[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
 	<td class="std" valign="top">
 		{ICON}
 	</td>
 	<td class="std" valign="top">
 		<!-- BEGIN FileLink -->
-		<a href="{LINK_FILENAME}">{TXT_FILENAME}</a>
+		<a aria-label="{TXT_FILENAME}" href="{LINK_FILENAME}">{TXT_FILENAME}</a>
 		<!-- END FileLink -->
 		<!-- BEGIN File -->
 		{TXT_FILENAME2}

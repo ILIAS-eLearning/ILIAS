@@ -1,10 +1,13 @@
 <!-- BEGIN mejs_video -->
-<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" aria-label="{TXT_PLAY}">
+<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0"
+	 aria-label="{TXT_PLAY}">
 	<!-- BEGIN preview -->
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
 		<div class="ilPlayerPreviewDescription">
-		<!-- BEGIN download --><div class="ilPlayerPreviewDescriptionDownload"><a href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END download -->
+		<!-- BEGIN download --><div class="ilPlayerPreviewDescriptionDownload">
+			<a aria-label="{TXT_DOWNLOAD}" href="{HREF_DOWNLOAD}">
+			{TXT_DOWNLOAD}</a></div><!-- END download -->
 		{PTITLE}</div>
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
@@ -13,9 +16,11 @@
 	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
 		<div>
-			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}"></video>
+			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls"
+				   preload="none" class="{CLASS}"></video>
 			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
-				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
+				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;"
+				   class="ilMediaLightboxClose">{CLOSE}</a>
 				<p>{TITLE}</p>
 				<div>{DESCRIPTION}</div>
 			</div>
@@ -34,16 +39,20 @@
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
 		<div class="ilPlayerPreviewDescription">
-			<!-- BEGIN ytdownload --><div class="ilPlayerPreviewDescriptionDownload"><a href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END ytdownload -->
+			<!-- BEGIN ytdownload --><div class="ilPlayerPreviewDescriptionDownload">
+			<a aria-label="{TXT_DOWNLOAD}" href="{HREF_DOWNLOAD}">
+			{TXT_DOWNLOAD}</a></div><!-- END ytdownload -->
 			{PTITLE}</div>
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END ytpreview -->
 	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
-		<iframe id="player_{PLAYER_NR}" frameborder="0" allowfullscreen="1" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" src="https://www.youtube.com/embed/{PV}">
+		<iframe id="player_{PLAYER_NR}" frameborder="0" allowfullscreen="1" width="{DISPLAY_WIDTH}"
+				height="{DISPLAY_HEIGHT}" src="https://www.youtube.com/embed/{PV}">
 		</iframe>
 		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
-			<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
+			<a aria-label="{TITLE}" href="#" onclick="il.MediaObjects.processCloseIcon(); return false;"
+			   class="ilMediaLightboxClose">{CLOSE}</a>
 			<p>{TITLE}</p>
 			<div>{DESCRIPTION}</div>
 		</div>
@@ -65,7 +74,8 @@
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
 		<div class="ilPlayerPreviewDescription">
-			<!-- BEGIN adownload --><div class="ilPlayerPreviewDescriptionDownload"><a href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END adownload -->
+			<!-- BEGIN adownload --><div class="ilPlayerPreviewDescriptionDownload">
+			<a aria-label="{TXT_DOWNLOAD}" href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END adownload -->
 			{PTITLE}</div>
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
@@ -97,7 +107,11 @@
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
 		<div class="ilPlayerPreviewDescription">
-			<!-- BEGIN idownload --><div class="ilPlayerPreviewDescriptionDownload"><a href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END idownload -->
+			<!-- BEGIN idownload -->
+			<div class="ilPlayerPreviewDescriptionDownload">
+				<a aria-label="{TXT_DOWNLOAD}" href="{HREF_DOWNLOAD}">
+				{TXT_DOWNLOAD}
+			</a></div><!-- END idownload -->
 			{PTITLE}</div>
 		<!-- <div class="ilPlayerPreviewPlayButton"></div> -->
 	</div>
@@ -106,7 +120,8 @@
 	<div id="player_{IPLAYER_NR}_vtwrap" class="ilPlayerImage ilNoDisplay" width="{IWIDTH}" style="max-width:100%;">	
 		<img src="{IFILE}" alt="{IMG_ALT}" style="max-width:100%;"/>
 		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
-				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{ICLOSE}</a>
+				<a aria-label="{ICLOSE}" href="#" onclick="il.MediaObjects.processCloseIcon(); return false;"
+				   class="ilMediaLightboxClose">{ICLOSE}</a>
 				<p>{ITITLE}</p>
 				<div>{IDESCRIPTION}</div>
 		</div>

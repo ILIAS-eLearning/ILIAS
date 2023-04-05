@@ -35,11 +35,14 @@ a.il_PrintBack
 </style>
 <!-- END print_style -->
 <!-- BEGIN print_back -->
-<a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
+<a aria-label="{TXT_BACK}" class="il_PrintBack" href="{LINK_BACK}">
+	{TXT_BACK}
+</a>
 <!-- END print_back -->
 <div class="ilNotesHeader">
 	<!-- BEGIN close_img -->
-	<!-- <a id="ilRightPanelClose" class="btn btn-link" onclick="il.UICore.hideRightPanel(event); return false;" href="#">
+	<!-- <a id="ilRightPanelClose" class="btn btn-link" onclick="il.UICore.hideRightPanel(event);
+	return false;" href="#">
 		{CLOSE_IMG}
 	</a>-->
 	<!-- END close_img -->
@@ -60,8 +63,8 @@ a.il_PrintBack
 <!-- BEGIN edit_note_form -->
 <tr>
 	<td>
-	<a id="note_edit"></a>
-	{EDIT_FORM}
+	<a aria-label="{EDIT_FORM}" id="note_edit"></a>
+		{EDIT_FORM}
 	</td>
 </tr>
 <!-- END edit_note_form -->
@@ -69,7 +72,10 @@ a.il_PrintBack
 <tr>
 	<td>
 		<div class="il_ContainerItemCommands2">
-			<a {ON_CLICK_SORT_LIST} href="{LINK_SORT_LIST}" class="il_ContainerItemCommand2">{TXT_SORT_LIST}</a>
+			<a aria-label="{TXT_SORT_LIST}" {ON_CLICK_SORT_LIST}
+			   href="{LINK_SORT_LIST}" class="il_ContainerItemCommand2">
+				{TXT_SORT_LIST}
+			</a>
 		</div>
 	</td>
 </tr>
@@ -78,14 +84,21 @@ a.il_PrintBack
 <tr>
 	<td class="ilNoteList">
 	<!-- BEGIN checkbox_col -->
-	<input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
+	<input aria-label="{CHK_NOTE}" type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
 	<!-- END checkbox_col -->
 
-	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
+	<!-- BEGIN delete_ids -->
+		<input type="hidden" aria-label="{HID_NOTE}" name="{HID_NOTE}" value="{HID_NOTE_ID}"/>
+	<!-- END delete_ids -->
 
 	<div class="ilComment">
-		<!-- BEGIN user_img --><div class="ilNotesUImage"><img alt="{USR_ALT}" title="{USR_ALT}" src="{USR_IMG}" /></div><!-- END user_img -->
-		<a id="note_{NOTE_ID}">{EXP_ICON}</a>
+		<!-- BEGIN user_img -->
+		<div class="ilNotesUImage"><img alt="{USR_ALT}" title="{USR_ALT}" src="{USR_IMG}" /
+		></div>
+		<!-- END user_img -->
+		<a aria-label="{EXP_ICON}" id="note_{NOTE_ID}">
+			{EXP_ICON}
+		</a>
 		<span class="small light">{TXT_USR} {TXT_CREATED} {VAL_DATE} {TXT_LAST_EDIT} {DATE_LAST_EDIT}</span>
 		<!-- BEGIN author --><!-- END author -->  
 		<div class="ilNoteText">{VAL_SUBJECT} {NOTE_TEXT}</div>
@@ -94,10 +107,15 @@ a.il_PrintBack
 
 	<div class="il_ContainerItemCommands2" style="text-align:right; margin: 3px 0px;">
 		<!-- BEGIN delete_note -->
-		<a class="il_ContainerItemCommand2" {ON_CLICK_DELETE_NOTE} href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>
+		<a aria-label="{TXT_DELETE_NOTE}"
+		   class="il_ContainerItemCommand2" {ON_CLICK_DELETE_NOTE} href="{LINK_DELETE_NOTE}">
+			{TXT_DELETE_NOTE}
+		</a>
 		<!-- END delete_note -->
 		<!-- BEGIN edit_note -->
-		<a class="il_ContainerItemCommand2" {ON_CLICK_EDIT_NOTE} href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
+		<a aria-label="{TXT_EDIT_NOTE}" class="il_ContainerItemCommand2" {ON_CLICK_EDIT_NOTE} href="{LINK_EDIT_NOTE}">
+			{TXT_EDIT_NOTE}
+		</a>
 		<!-- END edit_note -->
 	</div>
 	</td>
@@ -107,24 +125,30 @@ a.il_PrintBack
 <!-- BEGIN multiple_commands -->
 <tr>
 	<td>
-	<input type="checkbox" name="all" value="check_all" onClick="il.Util.setChecked('ilNotes', '', this.checked)" />
+	<input type="checkbox" aria-label="all checkbox" name="all" value="check_all"
+		   onClick="il.Util.setChecked('ilNotes', '', this.checked)" />
 	{TXT_SELECT_ALL}
 	</td>
 </tr>
 <tr>
 	<td>
 		<img src="{IMG_ARROW}" alt="{ALT_ARROW}" />
-		<!-- BEGIN delete_cmd --><input type="submit" class="btn btn-default" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" /><!-- END delete_cmd -->
-		<input type="submit" class="btn btn-default" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
-		<input type="submit" class="btn btn-default" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
+		<!-- BEGIN delete_cmd -->
+		<input role="button" type="submit" class="btn btn-default" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" />
+		<!-- END delete_cmd -->
+		<input role="button" type="submit" class="btn btn-default"
+			   name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
+		<input role="button" type="submit" class="btn btn-default" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
 	</td>
 </tr>
 <!-- END multiple_commands -->
 <!-- BEGIN delete_cancel -->
 <tr>
 	<td>
-		<input type="submit" class="btn btn-default" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
-		<input type="submit" class="btn btn-default" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
+		<input role="button" type="submit" class="btn btn-default"
+			   name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
+		<input role="button" type="submit" class="btn btn-default"
+			   name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
 	</td>
 </tr>
 <!-- END delete_cancel -->

@@ -1,12 +1,19 @@
 <!-- BEGIN copyright_selection -->
 <div class="radio">
-	<label class="radio-inline"><input type="radio" name="{SPOST_VAR}[sel]" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
+	<label class="radio-inline">
+		<input type="radio" aria-label="{SPOST_VAR}[sel]"
+			   name="{SPOST_VAR}[sel]" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
 		{COPYRIGHT_TITLE}
 		<div class="help-block">{COPYRIGHT_DESCRIPTION}</div>
 	</label>
 </div>
 <!-- END copyright_selection -->
 <!-- BEGIN prop_copyright -->
-<textarea class="form-control" name="{POST_VAR}[ta]" id="{ID}" wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
+<textarea aria-multiline="true" aria-label="{POST_VAR}[ta]" class="form-control"
+		  name="{POST_VAR}[ta]" id="{ID}" wrap="virtual"
+<!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}"
+<!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->
+{DISABLED}>{PROPERTY_VALUE}
+</textarea>
 <!-- END prop_copyright -->
 {HIDDEN_INPUT}

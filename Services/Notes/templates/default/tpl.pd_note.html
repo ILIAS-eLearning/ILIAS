@@ -4,7 +4,9 @@
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
-	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" /><!-- END note_img --></a>
+	<a aria-label="{EXP_ICON}" name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img -->
+		<img src="{IMG_NOTE}" aria-hidden="true" title="{ALT_NOTE}" />
+		<!-- END note_img --></a>
 	<b>{VAL_SUBJECT}  
 		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
 	<div class="subtitle" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />

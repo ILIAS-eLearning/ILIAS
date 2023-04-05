@@ -16,11 +16,20 @@
 		  <td class="option_value" nowrap="nowrap">
 			<!-- BEGIN identifier_delete -->
 			<div class="il_ContainerItemCommands ilFloatRight">
-			  <a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a>
+			  <a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">
+				  {IDENTIFIER_LOOP_TXT_DELETE}
+			  </a>
 			</div>
 			<!-- END identifier_delete -->
-			<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]" {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"> /
-			<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]" {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}">
+			<input type="text" maxlength="200"
+				   aria-label="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]"
+				   name="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]"
+				   {DISABLE_IDENT}
+				   value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"> /
+			<input type="text" maxlength="200"
+				   aria-label="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]"
+				   name="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]" {DISABLE_IDENT}
+				   value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}">
 		  </td>
 		</tr>
 		<!-- END identifier_loop -->
@@ -28,7 +37,9 @@
 		<tr>
 		  <td class="option" colspan="1"><div align="left">{TXT_TITLE}</div></td>
 		  <td class="option_value">
-			<input type="text" maxlength="200" size="54" name="gen_title" value="{VAL_TITLE}">
+			<input type="text" maxlength="200" size="54"
+				   aria-label="gen_title"
+				   name="gen_title" value="{VAL_TITLE}">
 			{VAL_TITLE_LANGUAGE}
 		  </td>
 		</tr>
@@ -48,7 +59,10 @@
 		  <td class="option_value">
 			<!-- BEGIN language_delete -->
 			<div class="il_ContainerItemCommands ilFloatRight">
-			  <a class="il_ContainerItemCommand" href="{LANGUAGE_LOOP_ACTION_DELETE}">{LANGUAGE_LOOP_TXT_DELETE}</a>
+			  <a aria-label="{LANGUAGE_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				 href="{LANGUAGE_LOOP_ACTION_DELETE}">
+				  {LANGUAGE_LOOP_TXT_DELETE}
+			  </a>
 			</div>
 			<!-- END language_delete -->
 			{LANGUAGE_LOOP_VAL_LANGUAGE}
@@ -61,12 +75,19 @@
 		  <td class="option" colspan="1">
 			<div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION}<br>
 			  <!-- BEGIN description_delete -->
-			  <a class="il_ContainerItemCommand" href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a>
+			  <a aria-label="{DESCRIPTION_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				 href="{DESCRIPTION_LOOP_ACTION_DELETE}">
+				  {DESCRIPTION_LOOP_TXT_DELETE}
+			  </a>
 			  <!-- END description_delete -->
 			</div>
 		  </td>
 		  <td class="option_value">
-			<textarea rows="4" cols="50" name="gen_description[{DESCRIPTION_LOOP_NO}][description]">{DESCRIPTION_LOOP_VAL}</textarea>
+			<textarea aria-label="gen_description[{DESCRIPTION_LOOP_NO}][description]"
+					  aria-multiline="true"
+					  rows="4" cols="50" name="gen_description[{DESCRIPTION_LOOP_NO}][description]">
+				{DESCRIPTION_LOOP_VAL}
+			</textarea>
 			<br />{DESCRIPTION_LOOP_VAL_LANGUAGE}
 		  </td>
 		</tr>
@@ -89,11 +110,17 @@
 		  <td class="option_value">
 			<!-- BEGIN keyword_delete -->
 			<div class="il_ContainerItemCommands ilFloatRight">
-			  <a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a>
+			  <a aria-label="{KEYWORD_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				 href="{KEYWORD_LOOP_ACTION_DELETE}">
+				  {KEYWORD_LOOP_TXT_DELETE}
+			  </a>
 			</div>
 			<!-- END keyword_delete -->
-			<textarea rows="4" cols="50" name="keywords[value][{LANG}]">{KEYWORD_LOOP_VAL}</textarea>
-			<!--<input type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]" value="{KEYWORD_LOOP_VAL}">
+			<textarea aria-multiline="true" aria-label="keywords[value][{LANG}]"
+					  rows="4" cols="50" name="keywords[value][{LANG}]">
+				{KEYWORD_LOOP_VAL}
+			</textarea>
+	<!--<input type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]" value="{KEYWORD_LOOP_VAL}">
 			-->
 			{KEYWORD_LOOP_VAL_LANGUAGE}
 		  </td>
@@ -105,8 +132,13 @@
 			<div class="il_Description">{TXT_COMMA_SEP}</div>
 		  </td>
 		  <td class="option_value">
-			<textarea rows="2" cols="50" name="life_experts">{EXPERTS_VAL}</textarea>
-			<input class="submit" type="submit" name="cmd[updateQuickEdit_scorm_prop_expert]" value="{TXT_SCOPROP_EXPERT}" />
+			<textarea rows="2" cols="50" aria-multiline="true"
+					  aria-label="life_experts"
+					  name="life_experts">{EXPERTS_VAL}</textarea>
+			<input class="submit" type="submit"
+				   role="button"
+				   name="cmd[updateQuickEdit_scorm_prop_expert]"
+				   value="{TXT_SCOPROP_EXPERT}" />
 		  </td>
 		</tr>
 		<tr>
@@ -115,8 +147,17 @@
 			<div class="il_Description">{TXT_COMMA_SEP}</div>
 		  </td>
 		  <td class="option_value">
-			<textarea rows="2" cols="50" name="life_designers">{DESIGNERS_VAL}</textarea>
-			<input class="submit" type="submit" name="cmd[updateQuickEdit_scorm_prop_designer]" value="{TXT_SCOPROP_DESIGNERS}" />
+			<textarea rows="2" cols="50"
+					  aria-label="life_designers"
+					  aria-multiline="true"
+					  name="life_designers">
+				{DESIGNERS_VAL}
+			</textarea>
+			<input class="submit" type="submit"
+				   aria-label="cmd[updateQuickEdit_scorm_prop_designer]"
+				   role="button"
+				   name="cmd[updateQuickEdit_scorm_prop_designer]"
+				   value="{TXT_SCOPROP_DESIGNERS}" />
 		  </td>
 		</tr>
 		<tr>
@@ -125,8 +166,11 @@
 			<div class="il_Description">{TXT_COMMA_SEP}</div>
 		  </td>
 		  <td class="option_value">
-			<textarea rows="2" cols="50" name="life_poc">{POC_VAL}</textarea>
-			<input class="submit" type="submit" name="cmd[updateQuickEdit_scorm_prop_poc]" value="{TXT_SCOPROP_POC}" />
+			<textarea rows="2" aria-label="life_poc" aria-multiline="true" cols="50" name="life_poc">
+				{POC_VAL}
+			</textarea>
+			<input class="submit" type="submit" name="cmd[updateQuickEdit_scorm_prop_poc]"
+				   value="{TXT_SCOPROP_POC}" />
 		  </td>
 		</tr>
 		<tr>
@@ -143,7 +187,8 @@
 		  </td>
 		  <td class="option_value">
 		  	<!-- BEGIN copyright_selection -->
-				<input type="radio" name="copyright_id" id="cp_{COPYRIGHT_ID}" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
+				<input type="radio" name="copyright_id" id="cp_{COPYRIGHT_ID}"
+					   value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
 					<label for="cp_{COPYRIGHT_ID}">
 						{COPYRIGHT_TITLE}				
 						<div class="il_Description">{COPYRIGHT_DESCRIPTION}</div>
@@ -166,7 +211,7 @@
 		<tr>
 		  <td class="submit" colspan="2">
 			<div align="right">
-			  <input class="submit" type="submit" name="cmd[updateQuickEdit_scorm]" value="{TXT_SAVE}"/>
+			  <input role="button" class="submit" type="submit" name="cmd[updateQuickEdit_scorm]" value="{TXT_SAVE}"/>
 			</div>
 		  </td>
 		</tr>

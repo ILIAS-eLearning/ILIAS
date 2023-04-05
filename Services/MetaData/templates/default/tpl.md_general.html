@@ -21,11 +21,18 @@
 			<td class="option_value" nowrap="nowrap">
 				<!-- BEGIN identifier_delete -->
 				<div class="il_ContainerItemCommands ilFloatRight">
-				<a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a>
+				<a aria-label="{IDENTIFIER_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				   href="{IDENTIFIER_LOOP_ACTION_DELETE}">
+					{IDENTIFIER_LOOP_TXT_DELETE}
+				</a>
 				</div>
 				<!-- END identifier_delete -->
-				<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]" {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"> /
-				<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]" {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}">
+				<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]"
+					   aria-label="gen_identifier[{IDENTIFIER_LOOP_NO}][Catalog]"
+					   {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"> /
+				<input type="text" maxlength="200" name="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]"
+					   aria-label="gen_identifier[{IDENTIFIER_LOOP_NO}][Entry]"
+					   {DISABLE_IDENT} value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}">
 			</td>
 		  </tr>
 		  <!--
@@ -46,7 +53,9 @@
 		  <tr>
 			<td class="option" colspan="1"><div align="left">{TXT_TITLE} <span class="asterisk">*</span></div></td>
 			<td class="option_value">
-				<input type="text" size="40" maxlength="128" name="gen_title" value="{VAL_TITLE}">
+				<input type="text" size="40" maxlength="128"
+					   aria-label="gen_title"
+					   name="gen_title" value="{VAL_TITLE}">
 				{VAL_TITLE_LANGUAGE}
 				</td>
 		  </tr>
@@ -66,7 +75,9 @@
 			<td class="option_value">
 				<!-- BEGIN language_delete -->
 				<div style="float:right;" class="il_ContainerItemCommands">
-				<a class="il_ContainerItemCommand" href="{LANGUAGE_LOOP_ACTION_DELETE}">{LANGUAGE_LOOP_TXT_DELETE}</a>
+				<a class="il_ContainerItemCommand" href="{LANGUAGE_LOOP_ACTION_DELETE}">
+					{LANGUAGE_LOOP_TXT_DELETE}
+				</a>
 				</div>
 				<!-- END language_delete -->
 				{LANGUAGE_LOOP_VAL_LANGUAGE}
@@ -79,12 +90,17 @@
 			<td class="option" colspan="1">
 			  <div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION}<br>
 				<!-- BEGIN description_delete -->
-				<a class="il_ContainerItemCommand" href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a>
+				<a class="il_ContainerItemCommand" aria-label="{DESCRIPTION_LOOP_TXT_DELETE}"
+				   href="{DESCRIPTION_LOOP_ACTION_DELETE}">
+					{DESCRIPTION_LOOP_TXT_DELETE}
+				</a>
 				<!-- END description_delete -->
 			  </div>
 			</td>
 			<td class="option_value">
-				<textarea rows="4" cols="50" name="gen_description[{DESCRIPTION_LOOP_NO}][description]">{DESCRIPTION_LOOP_VAL}</textarea>
+				<textarea rows="4" cols="50" name="gen_description[{DESCRIPTION_LOOP_NO}][description]">
+					{DESCRIPTION_LOOP_VAL}
+				</textarea>
 				<br />{DESCRIPTION_LOOP_VAL_LANGUAGE}
 				</td>
 		  </tr>
@@ -106,10 +122,15 @@
 			<td class="option_value">
 				<!-- BEGIN keyword_delete -->
 				<div style="float:right;" class="il_ContainerItemCommands">
-				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a>
+				<a aria-label="{KEYWORD_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				   href="{KEYWORD_LOOP_ACTION_DELETE}">
+					{KEYWORD_LOOP_TXT_DELETE}
+				</a>
 				</div>
 				<!-- END keyword_delete -->
-				<input type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]" value="{KEYWORD_LOOP_VAL}">
+				<input aria-label="gen_keyword[{KEYWORD_LOOP_NO}][keyword]"
+						type="text" maxlength="200" name="gen_keyword[{KEYWORD_LOOP_NO}][keyword]"
+					   value="{KEYWORD_LOOP_VAL}">
 				{KEYWORD_LOOP_VAL_LANGUAGE}
 			</td>
 		  </tr>
@@ -125,14 +146,15 @@
 			  <div align="left">{COVERAGE_LOOP_TXT_COVERAGE}</div>
 			</td>
 			<td class="option_value">
-				<input type="text" maxlength="200" name="gen_coverage" value="{COVERAGE_LOOP_VAL}">
+				<input aria-label=""gen_coverage" type="text" maxlength="200"
+				name="gen_coverage" value="{COVERAGE_LOOP_VAL}">
 				{COVERAGE_LOOP_VAL_LANGUAGE}
 			</td>
 		  </tr>
 		  <tr>
 			<td class="option" colspan="1">{TXT_STRUCTURE}</td>
 			<td class="option_value">
-			  <select name="gen_structure" size="1">
+			  <select aria-haspopup="true" name="gen_structure" size="1">
 				<option value="">{TXT_PLEASE_SELECT}</option>
 				<option value="Atomic"{STRUCTURE_VAL_ATOMIC}>{TXT_ATOMIC}</option>
 				<option value="Collection"{STRUCTURE_VAL_COLLECTION}>{TXT_COLLECTION}</option>
@@ -151,7 +173,8 @@
 		  <tr>
 			<td class="submit" colspan="2">
 			  <div align="right">
-				<input class="submit" type="submit" name="cmd[updateGeneral]" value="{TXT_SAVE}"/>
+				<input role="button" aria-label="cmd[updateGeneral]" class="submit" type="submit"
+					   name="cmd[updateGeneral]" value="{TXT_SAVE}"/>
 			  </div>
 			</td>
 		  </tr>

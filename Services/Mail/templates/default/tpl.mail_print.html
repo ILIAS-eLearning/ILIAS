@@ -5,6 +5,7 @@
 </head>
 <body onload="window.print();">
 <table class="fullwidth">
+	<tbody>
 	<tr>
 		<td id="header-from" align="right"><strong>{TXT_FROM}:</strong></td>
 		<td headers="header-from">{FROM}</td>
@@ -33,14 +34,19 @@
 		<td id="header-date" align="right"><strong>{TXT_DATE}:</strong></td>
 		<td headers="header-date">{DATE}</td>
 	</tr>
+	</tbody>
 </table>
 <table class="fullwidth">
+	<thead>
 	<tr colspan="2">
-		<td id="header-message" align="left"><strong>{TXT_MESSAGE}:</strong></td>
+		<th id="header-message" align="left"><strong>{TXT_MESSAGE}:</strong></th>
 	</tr>
+	</thead>
+	<tbody>
 	<tr>
 		<td headers="header-message" colspan="2">{MAIL_MESSAGE}</td>
 	</tr>
+	</tbody>
 </table>
 <!-- BEGIN on_load_code -->
 <script>

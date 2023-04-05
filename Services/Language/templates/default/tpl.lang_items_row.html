@@ -7,15 +7,17 @@
         <div style="width:10em; word-wrap: break-word;">{TOPIC}</div>
     </td>
     <td class="std">
-        <textarea style="word-wrap: break-word;" name="{T_NAME}" rows="{T_ROWS}" cols="{T_SIZE}">{T_USER_VALUE}</textarea>
+        <textarea aria-multiline="true" style="word-wrap: break-word;" name="{T_NAME}" rows="{T_ROWS}"
+                  cols="{T_SIZE}">{T_USER_VALUE}</textarea>
         <!-- BEGIN comment -->
         <div class="il_ItemNotice">
         <label for="{COM_ID}">{TXT_COMMENT}</label>
-        <input type="text" id="{COM_ID}" name="{COM_NAME}" value="{COM_VALUE}" size="{COM_SIZE}" maxlength="{COM_MAX}" />
+        <input type="text" id="{COM_ID}" name="{COM_NAME}" value="{COM_VALUE}"
+               size="{COM_SIZE}" maxlength="{COM_MAX}" />
         </div>
         <!-- END comment -->
         <!-- BEGIN hidden_comment -->
-        <input type="hidden" name="{COM_NAME}" value="{COM_VALUE}" />
+        <input aria-hidden="true" type="hidden" name="{COM_NAME}" value="{COM_VALUE}" />
         <!-- END hidden_comment -->
     </td>
     <td class="std">

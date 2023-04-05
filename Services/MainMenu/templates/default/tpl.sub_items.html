@@ -10,7 +10,7 @@
 		{PARENT}
 	</td>
 	<td class="std small">
-		<input type="text"  name="{IDENTIFIER}[{ID}][position]" value="{POSITION}" size="2">
+		<input role="button" type="text"  name="{IDENTIFIER}[{ID}][position]" value="{POSITION}" size="2">
 		<span class="hidden">{NATIVE_POSITION}</span>
 		<span class="hidden">/</span>
 		<span class="hidden">{SAVED_POSITION}</span>
@@ -22,7 +22,10 @@
 		{TYPE}
 	</td>
 	<td class="std small">
-		<input type="checkbox" name="{IDENTIFIER}[{ID}][active]" value="1" <!-- BEGIN is_active -->checked="checked"<!-- END is_active --> <!-- BEGIN is_active_blocked -->disabled="disabled"<!-- END is_active_blocked -->>
+		<input aria-label="{IDENTIFIER}[{ID}" type="checkbox" name="{IDENTIFIER}[{ID}][active]" value="1"
+		<!-- BEGIN is_active -->
+		checked="checked"<!-- END is_active --> <!-- BEGIN is_active_blocked -->disabled="disabled"
+		<!-- END is_active_blocked -->>
 	<td class="std small">
 		{STATUS}
 	</td>

@@ -9,11 +9,11 @@
 		<tr class="tblheader">
 		  <td class="std" colspan="4">
 			<div style="float:left">{TXT_CLASSIFICATION}
-			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
-			  <a class="il_ContainerItemCommand" href="{ACTION_ADD}">{TXT_ADD}</a>
+			  <a aria-label="{TXT_DELETE}" class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+			  <a aria-label="{TXT_ADD}" class="il_ContainerItemCommand" href="{ACTION_ADD}">{TXT_ADD}</a>
 			</div>
 			<div style="text-align:right;">
-			  <select name="section_element" size="1">
+			  <select aria-haspopup="true" name="section_element" size="1">
 				<option value="TaxonPath_{CLASS_ID}"{META_NAME_VAL_TAXONPATH}>{TXT_TAXONPATH}</option>
 				<option value="Keyword_{CLASS_ID}"{META_NAME_VAL_KEYWORD}>{TXT_KEYWORD}</option>
 			  </select>
@@ -24,13 +24,17 @@
 		<tr>
 		  <td class="option" colspan="3">{TXT_PURPOSE}</td>
 		  <td class="option_value">
-			<select name="classification[{CLASS_ID}][Purpose]" size="1">
+			<select aria-haspopup="true" name="classification[{CLASS_ID}][Purpose]" size="1">
 			  <option value="">{TXT_PLEASE_SELECT}</option>
 			  <option value="Discipline"{VAL_PURPOSE_DISCIPLINE}>{TXT_DISCIPLINE}</option>
 			  <option value="Idea"{VAL_PURPOSE_IDEA}>{TXT_IDEA}</option>
 			  <option value="Prerequisite"{VAL_PURPOSE_PREREQUISITE}>{TXT_PREREQUISITE}</option>
-			  <option value="EducationalObjective"{VAL_PURPOSE_EDUCATIONALOBJECTIVE}>{TXT_EDUCATIONALOBJECTIVE}</option>
-			  <option value="AccessibilityRestrictions"{VAL_PURPOSE_ACCESSIBILITYRESTRICTIONS}>{TXT_ACCESSIBILITYRESTRICTIONS}</option>
+			  <option value="EducationalObjective"{VAL_PURPOSE_EDUCATIONALOBJECTIVE}>
+				  {TXT_EDUCATIONALOBJECTIVE}
+			  </option>
+			  <option value="AccessibilityRestrictions"{VAL_PURPOSE_ACCESSIBILITYRESTRICTIONS}>
+				  {TXT_ACCESSIBILITYRESTRICTIONS}
+			  </option>
 			  <option value="EducationalLevel"{VAL_PURPOSE_EDUCATIONALLEVEL}>{TXT_EDUCATIONALLEVEL}</option>
 			  <option value="SkillLevel"{VAL_PURPOSE_SKILLLEVEL}>{TXT_SKILLLEVEL}</option>
 			  <option value="SecurityLevel"{VAL_PURPOSE_SECURITYLEVEL}>{TXT_SECURITYLEVEL}</option>
@@ -43,9 +47,15 @@
 		  <td class="option" colspan="3">
 			<div style="float:left">{TAXONPATH_LOOP_TXT_TAXONPATH}
 			  <!-- BEGIN taxonpath_delete -->
-			  <a class="il_ContainerItemCommand" href="{TAXONPATH_LOOP_ACTION_DELETE}">{TAXONPATH_LOOP_TXT_DELETE}</a>
+			  <a aria-label="{TAXONPATH_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				 href="{TAXONPATH_LOOP_ACTION_DELETE}">
+				  {TAXONPATH_LOOP_TXT_DELETE}
+			  </a>
 			  <!-- END taxonpath_delete -->
-			  <a class="il_ContainerItemCommand" href="{TAXONPATH_LOOP_ACTION_ADD}">{TAXONPATH_LOOP_TXT_ADD}</a>
+			  <a aria-label="{TAXONPATH_LOOP_TXT_ADD}" class="il_ContainerItemCommand"
+				 href="{TAXONPATH_LOOP_ACTION_ADD}">
+				  {TAXONPATH_LOOP_TXT_ADD}
+			  </a>
 			</div>
 		  </td>
 		  <td class="option_value">&nbsp;</td>
@@ -54,7 +64,11 @@
 			<td class="sub_option" colspan="2">
 			  <div align="left">{TAXONPATH_LOOP_TXT_SOURCE}</div>
 			</td>
-			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][{TAXONPATH_LOOP_NO}][Source][Value]" value="{TAXONPATH_LOOP_VAL_SOURCE}"></td>
+			<td class="option_value">
+				<input type="text" maxlength="200"
+					   aria-label="classification[TaxonPath][{TAXONPATH_LOOP_NO}][Source][Value]"
+					   name="classification[TaxonPath][{TAXONPATH_LOOP_NO}][Source][Value]"
+											value="{TAXONPATH_LOOP_VAL_SOURCE}"></td>
 		  </tr>
 		  <tr>
 			<td class="sub_option" width="10">&nbsp;</td>
@@ -66,11 +80,23 @@
 			<td class="sub_option" colspan="2">
 			  <div align="left">{TAXONPATH_TAXON_LOOP_TXT_TAXON}
 				<!-- BEGIN taxon_delete -->
-				<a class="il_ContainerItemCommand" href="{TAXONPATH_TAXON_LOOP_ACTION_DELETE}">{TAXONPATH_TAXON_LOOP_TXT_DELETE}</a>
+				<a aria-label="{TAXONPATH_TAXON_LOOP_TXT_DELETE}"
+				   class="il_ContainerItemCommand" href="{TAXONPATH_TAXON_LOOP_ACTION_DELETE}">
+					{TAXONPATH_TAXON_LOOP_TXT_DELETE}
+				</a>
 				<!-- END taxon_delete -->
-				<a class="il_ContainerItemCommand" href="{TAXONPATH_TAXON_LOOP_ACTION_ADD}">{TAXONPATH_TAXON_LOOP_TXT_ADD}</a></div>
+				<a aria-label="{TAXONPATH_TAXON_LOOP_TXT_ADD}" class="il_ContainerItemCommand"
+				   href="{TAXONPATH_TAXON_LOOP_ACTION_ADD}">
+					{TAXONPATH_TAXON_LOOP_TXT_ADD}
+				</a>
+			  </div>
 			</td>
-			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Value]" value="{TAXONPATH_TAXON_LOOP_VAL_TAXON}"></td>
+			<td class="option_value">
+				<input type="text" maxlength="200"
+			    aria-label="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Value]"
+				name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Value]"
+					   value="{TAXONPATH_TAXON_LOOP_VAL_TAXON}">
+			</td>
 		  </tr>
 		  <tr>
 			<td class="sub_option" width="10" rowspan="2">&nbsp;</td>
@@ -79,7 +105,10 @@
 		  </tr>
 		  <tr>
 			<td class="option">{TAXONPATH_TAXON_LOOP_TXT_ID}</td>
-			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Id]" value="{TAXONPATH_TAXON_LOOP_VAL_ID}"></td>
+			<td class="option_value"><input type="text" maxlength="200"
+			aria-label="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Id]"
+			name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Id]"
+			value="{TAXONPATH_TAXON_LOOP_VAL_ID}"></td>
 		  </tr>
 		  <!-- END taxonpath_taxon_loop -->
 		  <!-- END taxonpath_loop -->
@@ -88,7 +117,12 @@
 			<td class="option" colspan="3">
 			  <div align="left">{TXT_DESCRIPTION}</div>
 			</td>
-			<td class="option_value"><textarea name="classification[{CLASS_ID}][Description]">{VAL_DESCRIPTION}</textarea></td>
+			<td class="option_value">
+				<textarea aria-multiline="true"
+						  aria-label="classification[{CLASS_ID}][Description]"
+						  name="classification[{CLASS_ID}][Description]">
+					{VAL_DESCRIPTION}
+				</textarea></td>
 		  </tr>
 		  <tr>
 			<td class="option"width="10">&nbsp;</td>
@@ -101,12 +135,21 @@
 			<td class="option" colspan="3">
 			  <div align="left">{KEYWORD_LOOP_TXT_KEYWORD}
 				<!-- BEGIN keyword_delete -->
-				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a>
+				<a aria-label="{KEYWORD_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+				   href="{KEYWORD_LOOP_ACTION_DELETE}">
+					{KEYWORD_LOOP_TXT_DELETE}
+				</a>
 				<!-- END keyword_delete -->
-				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_ADD}">{KEYWORD_LOOP_TXT_ADD}</a>
+				<a aria-label="{KEYWORD_LOOP_TXT_ADD}" class="il_ContainerItemCommand"
+				   href="{KEYWORD_LOOP_ACTION_ADD}">
+					{KEYWORD_LOOP_TXT_ADD}
+				</a>
 			  </div>
 			</td>
-			<td class="option_value"><input type="text" maxlength="200" name="classification[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}"></td>
+			<td class="option_value">
+				<input type="text" maxlength="200"
+					   aria-label="classification[Keyword][{KEYWORD_LOOP_NO}][Value]"
+					   name="classification[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}"></td>
 		  </tr>
 		  <tr>
 			<td class="option"width="10">&nbsp;</td>
@@ -116,7 +159,11 @@
 		  <!-- END keyword_loop -->
 		  <!-- END classification_loop -->
 		  <tr>
-			<td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateClassification]" value="{TXT_SAVE}"/></div></td>
+			<td class="submit" colspan="4"><div align="right"><input class="submit" type="submit"
+			 aria-label="cmd[updateClassification]"
+			 name="cmd[updateClassification]" value="{TXT_SAVE}"/>
+			</div>
+			</td>
 		  </tr>
 	  </table>
 	</form>

@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
 <td class="std" style="vertical-align:top;">
-<input type="checkbox" name="news_id[]" value="{VAL_ID}" />
+<input type="checkbox" aria-label="news_id[] checkbox" name="news_id[]" value="{VAL_ID}" />
 </td>
 <td class="std">
 {VAL_TITLE}
@@ -28,6 +28,9 @@
 	<!-- BEGIN ni_update -->{VAL_LAST_UPDATE}<!-- END ni_update -->
 </td>
 <td class="std">
-	<!-- BEGIN edit --><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a><!-- END edit -->
+	<!-- BEGIN edit -->
+	<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand" href="{CMD_EDIT}">
+		{TXT_EDIT}
+	</a><!-- END edit -->
 </td>
 </tr>

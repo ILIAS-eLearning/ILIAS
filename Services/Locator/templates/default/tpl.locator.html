@@ -3,10 +3,11 @@
 	<!-- BEGIN locator_item -->
 	<!-- BEGIN locator_separator_prefix -->
 	<!-- END locator_separator_prefix -->
-	{PREFIX}<!-- BEGIN locator_img --><!-- <img src="{IMG_SRC}" alt="{IMG_ALT}" border="0" /> --><!-- END locator_img -->
+	{PREFIX}<!-- BEGIN locator_img -->
+	<!-- <img src="{IMG_SRC}" alt="{IMG_ALT}" border="0" /> --><!-- END locator_img -->
 	<li>
 		<!-- BEGIN with_link -->
-		<a href="{LINK_ITEM}" {LINK_TARGET}>{ITEM}</a>
+		<a aria-label="{ITEM}" href="{LINK_ITEM}" {LINK_TARGET}>{ITEM}</a>
 		<!-- END with_link -->
 		<!-- BEGIN no_link -->
 		{ITEM_READ_ONLY}

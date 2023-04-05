@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input type="checkbox" name="field_ids[]" value="{VAL_ID}" />
+		<input aria-label="field_ids[]" type="checkbox" name="field_ids[]" value="{VAL_ID}" />
 	</td>
 	<td class="std">
 		<span class="small">{VAL_NAME}</span>
@@ -9,11 +9,11 @@
 		<span class="small">{VAL_TYPE}</span>
 	</td>
 	<td class="std">
-		<input type="checkbox" name="required[{VAL_ID}]" value="1" {REQUIRED_CHECKED} />
+		<input aria-label="{VAL_ID}" type="checkbox" name="required[{VAL_ID}]" value="1" {REQUIRED_CHECKED} />
 	</td>
 	<td class="std">
 		<div style="float:right;">
-			<a class="il_ContainerItemCommand2" href="{EDIT_LINK}">{TXT_EDIT}</a>&nbsp;&nbsp;
+			<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand2" href="{EDIT_LINK}">{TXT_EDIT}</a>&nbsp;&nbsp;
 		</div>
 	</td>
 </tr>

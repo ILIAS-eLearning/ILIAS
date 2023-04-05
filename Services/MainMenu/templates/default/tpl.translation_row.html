@@ -1,11 +1,12 @@
 <tr class="{CSS_ROW}">
 	<td class="std small position">
-		<input type="checkbox" name="delete[]" value="{ID}">
+		<input aria-label="delete" type="checkbox" name="delete[]" value="{ID}">
 	</td>
 	<td class="std small">
 		{LANGUAGE}
 	</td>
 	<td class="std small">
-		<input type="text" class="input" name="translations[{ID}][translation]" value="{TEXT}">
+		<input aria-label="translations[{ID}][translation]" type="text" class="input"
+			   name="translations[{ID}][translation]" value="{TEXT}">
 	</td>
 </tr>

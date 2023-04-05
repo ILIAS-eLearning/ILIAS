@@ -8,19 +8,26 @@
 		</div>
 		<div class="light small ilNewsTimelineEditInfo">
 			{TXT_USR} - {TIME}
-			<!-- BEGIN edited --><br />{TXT_EDITED}: {TXT_USR_EDITED} {TIME_EDITED}<!-- END edited -->
+			<!-- BEGIN edited -->
+			<br />
+			{TXT_EDITED}: {TXT_USR_EDITED} {TIME_EDITED}
+			<!-- END edited -->
 		</div>
 		<h4 class="ilNewsTimelineTruncatedText">{TITLE}</h4>
 		<!-- BEGIN object -->
 		<p class="ilNewsTimelineObjHead ilNewsTimelineTruncatedText">
-			<a href="{OBJ_HREF}"><img src="{OBJ_IMG}" /> {OBJ_TITLE}</a>
+			<a href="{OBJ_HREF}">
+				<img src="{OBJ_IMG}" alt="{OBJ_TITLE}" />
+				{OBJ_TITLE}
+			</a>
 		</p>
 		<!-- END object -->
 		<div class="js-dynamic-height dynamic-max-height" data-maxheight="370" style="position: relative; z-index:500;">
 			<div class="dynamic-height-wrap">
 				{CONTENT}
 			</div>
-			<button class="js-dynamic-show-hide dynamic-show-more button btn btn-default" title="Show more" data-replace-text="Show less">Show more</button>
+			<button  aria-label="Show more" class="js-dynamic-show-hide dynamic-show-more button btn btn-default"
+					title="Show more" data-replace-text="Show less">Show more</button>
 		</div>
 		<!-- BEGIN player -->
 		<div class="ilNewsTimelinePlayer">{PLAYER}</div>

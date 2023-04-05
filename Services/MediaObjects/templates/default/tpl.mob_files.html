@@ -5,10 +5,11 @@
 		{TXT_NEW_DIRECTORY}
 		</td>
 		<td class="option_value">
-		<input type="text" name="new_dir" size="30" maxlength="80">
+		<input aria-label="new_dir" type="text" name="new_dir" size="30" maxlength="80">
 		</td>
 		<td class="submit">
-		<input class="submit" type="submit" name="cmd[{CMD_NEW_DIR}]" value="{BTN_NEW_DIR}" />
+		<input aria-label="{CMD_NEW_DIR}" class="submit"
+			   type="submit" name="cmd[{CMD_NEW_DIR}]" value="{BTN_NEW_DIR}" />
 		</td>
 	</tr>
 	<tr>
@@ -16,10 +17,11 @@
 		{TXT_NEW_FILE}
 		</td>
 		<td class="option_value">
-		<input type="file" name="new_file" size="30">
+		<input aria-label="new_file" type="file" name="new_file" size="30">
 		</td>
 		<td class="submit">
-		<input class="submit" type="submit" name="cmd[{CMD_NEW_FILE}]" value="{BTN_NEW_FILE}" />
+		<input aria-label="{CMD_NEW_FILE}" class="submit"
+			   type="submit" name="cmd[{CMD_NEW_FILE}]" value="{BTN_NEW_FILE}" />
 		</td>
 	</tr>
 </table>

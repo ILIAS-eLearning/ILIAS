@@ -4,14 +4,16 @@
 	<!-- BEGIN warning -->
 	<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
 	<div class="ilFailureMessage">
-		<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+		<h5 class="ilAccHeadingHidden"><a aria-label="{MESSAGE_HEADING}" id="il_message_focus"
+										  name="il_message_focus">{MESSAGE_HEADING}</a></h5>
 		{TXT_MSG_LOGIN_FAILED}
 	</div>
 	<!-- END warning -->
 	<!-- BEGIN success -->
 	<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
 	<div class="ilSuccessMessage">
-		<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+		<h5 class="ilAccHeadingHidden"><a aria-label="{MESSAGE_HEADING}" id="il_message_focus"
+										  name="il_message_focus">{MESSAGE_HEADING}</a></h5>
 		{TXT_MSG_LOGIN_SUCCESS}
 	</div>
 	<!-- END success -->
@@ -19,7 +21,9 @@
 
 <ul id="ilTopBarNav" class="">
     <!-- BEGIN lang_select -->
-    <li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
+    <li class="dropdown">
+		<a aria-label="{TXT_LANGSELECT}" id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT}
+			<span class="caret"></span></a>
         {LANG_SELECT}
     </li>
     <!-- END lang_select -->
@@ -29,7 +33,7 @@
 <!-- BEGIN links_bl -->
 <div class="ilCenter" style="padding-top: 25px">
 	<!-- BEGIN link_item_bl -->
-	<a class="il_ContainerItemCommand" href="{LINK_URL}">{LINK_TXT}</a>
+	<a aria-label="{LINK_TXT}" class="il_ContainerItemCommand" href="{LINK_URL}">{LINK_TXT}</a>
 	<!-- END link_item_bl -->
 </div>
 <!-- END links_bl -->

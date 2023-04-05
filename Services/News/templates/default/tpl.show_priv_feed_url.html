@@ -3,7 +3,10 @@
 <p><b>{TXT_TITLE}</b></p>
 <p>{TXT_INFO}</p>
 <p>{TXT_FEED_URL}:<br />
-<a class="small" target="_blank" href="{VAL_FEED_URL}">{VAL_FEED_URL_TXT}</a></p>
+    <a aria-label="{VAL_FEED_URL_TXT}" class="small" target="_blank" href="{VAL_FEED_URL}">
+        {VAL_FEED_URL_TXT}
+    </a>
+</p>
 <br />
 </td>
 </tr>
@@ -13,10 +16,16 @@
 <p>{TXT_PRIV_INFO}</p>
 <!-- BEGIN priv_url_bl -->
 <p>{TXT_PRIV_FEED_URL}:<br />
-<a class="small" target="_blank" href="{VAL_PRIV_FEED_URL}">{VAL_PRIV_FEED_URL_TXT}</a></p>
+    <a aria-label="{VAL_PRIV_FEED_URL_TXT}" class="small" target="_blank" href="{VAL_PRIV_FEED_URL}">
+        {VAL_PRIV_FEED_URL_TXT}
+    </a>
+</p>
 <!-- END priv_url_bl -->
 <!-- BEGIN priv_inactive_bl -->
-<a class="small" href="{EDIT_SETTINGS_URL}">{EDIT_SETTINGS_TXT}</a></p>
+        <a aria-label="{EDIT_SETTINGS_TXT}" class="small" href="{EDIT_SETTINGS_URL}">
+            {EDIT_SETTINGS_TXT}
+        </a>
+    </p>
 <!-- END priv_inactive_bl -->
 <br />
 </td>

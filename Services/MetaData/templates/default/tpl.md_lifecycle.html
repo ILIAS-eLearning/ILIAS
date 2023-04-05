@@ -7,10 +7,11 @@
 		  <tr class="tblheader">
 			<td class="std" colspan="4">
 			  <div class="ilFloatLeft">{TXT_LIFECYCLE}
-				<a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+				<a aria-label="{TXT_DELETE}" class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
 			  </div>
 			  <div class="ilRight"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
-			  	<input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
+			  	<input role="button" class="submit" aria-label="cmd[addSectionElement]"
+					   type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
 			  </div>
 			</td>
 		  </tr>
@@ -20,7 +21,8 @@
 		  </tr>
 		  <tr>
 			<td class="option" colspan="3"><div align="left">{TXT_VERSION}</div></td>
-			<td class="option_value"><input type="text" maxlength="200" name="lif_version" value="{VAL_VERSION}">
+			<td class="option_value">
+				<input type="text" aria-label="lif_version" maxlength="200" name="lif_version" value="{VAL_VERSION}">
 				{VAL_VERSION_LANGUAGE}
 			</td>
 		  </tr>
@@ -29,9 +31,14 @@
 			<td class="option" colspan="4">
 				<div class="ilFloatLeft">
 			  {CONTRIBUTE_LOOP_TXT_CONTRIBUTE}
-					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_ADD}">{CONTRIBUTE_ENTITY_LOOP_TXT_ADD}</a>
+					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_ADD}">
+						{CONTRIBUTE_ENTITY_LOOP_TXT_ADD}
+					</a>
 					<!-- BEGIN contribute_delete -->
-					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_LOOP_ACTION_DELETE}">{CONTRIBUTE_LOOP_TXT_DELETE}</a>
+					<a aria-label="{CONTRIBUTE_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+					   href="{CONTRIBUTE_LOOP_ACTION_DELETE}">
+						{CONTRIBUTE_LOOP_TXT_DELETE}
+					</a>
 					<!-- END contribute_delete -->
 				</div>
 			</td>
@@ -49,23 +56,34 @@
 			<td class="option_value">
 				<!-- BEGIN contribute_entity_delete -->
 				<div class="il_ContainerItemCommands ilFloatRight">
-					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE}">{CONTRIBUTE_ENTITY_LOOP_TXT_DELETE}</a>
+					<a aria-label="{CONTRIBUTE_ENTITY_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+					   href="{CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE}">
+						{CONTRIBUTE_ENTITY_LOOP_TXT_DELETE}
+					</a>
 				</div>
 				<!-- END contribute_entity_delete -->
-			  <input type="text" maxlength="200" name="met_entity[{CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO}][{CONTRIBUTE_ENTITY_LOOP_NO}][Entity]" value="{CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY}">
+			  <input type="text" maxlength="200"
+					 aria-label="met_entity[{CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO}][{CONTRIBUTE_ENTITY_LOOP_NO}][Entity]"
+					 name="met_entity[{CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO}][{CONTRIBUTE_ENTITY_LOOP_NO}][Entity]"
+					 value="{CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY}">
 			</td>
 		  </tr>
 		  <!-- END contribute_entity_loop -->
 		  <tr>
 			<td class="sub_option" colspan="2">{CONTRIBUTE_LOOP_TXT_DATE}</td>
-			<td class="option_value"><input type="text" maxlength="200" name="met_contribute[{CONTRIBUTE_LOOP_NO}][Date]" value="{CONTRIBUTE_LOOP_VAL_DATE}"></td>
+			<td class="option_value">
+				<input type="text" maxlength="200"
+					   aria-label="met_contribute[{CONTRIBUTE_LOOP_NO}][Date]"
+					   name="met_contribute[{CONTRIBUTE_LOOP_NO}][Date]"
+					   value="{CONTRIBUTE_LOOP_VAL_DATE}">
+			</td>
 		  </tr>
 		  <!-- END contribute_loop -->
 
 		  <tr>
 			<td class="submit" colspan="4">
 			  <div class="ilRight">
-				<input class="submit" type="submit" name="cmd[updateLifecycle]" value="{TXT_SAVE}"/>
+				<input role="button" class="submit" type="submit" name="cmd[updateLifecycle]" value="{TXT_SAVE}"/>
 			  </div>
 			</td>
 		  </tr>

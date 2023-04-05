@@ -51,7 +51,8 @@ var OSDNotifier, OSDNotifications = function (settings) {
 
 				var parts = ns.split('.', 2);
 				if (parts.length > 1) {
-					return (!params[parts[0]] || typeof params[parts[0]][parts[1]] === 'undefined') ? defaultValue : params[parts[0]][parts[1]];
+					return (!params[parts[0]] || typeof params[parts[0]][parts[1]] === 'undefined') ?
+						defaultValue : params[parts[0]][parts[1]];
 				}
 				else {
 					return (!params[ns]) ? defaultValue : params[ns];
@@ -70,16 +71,24 @@ var OSDNotifier, OSDNotifications = function (settings) {
 						}
 					} else {
 						var id = this.notification_osd_id;
-						if ($('#osdNotification_' + id).length == 0 && (this.valid_until > currentTime || this.valid_until == 0)) {
+						if ($('#osdNotification_' + id).length == 0 && (this.valid_until > currentTime ||
+							this.valid_until == 0)) {
 							newItems = true;
 							var newElement = $(
 								'<div class="osdNotification" id="osdNotification_' + this.notification_osd_id + '">'
-									+ ((getParam(this.data.handlerParams, 'osd.closable', true)) ? ('<div class="btn-link" style="float: right" onclick="OSDNotifier.removeNotification(' + this.notification_osd_id + ')">' + settings.closeHtml + '</div>') : '')
+									+ ((getParam(this.data.handlerParams, 'osd.closable', true)) ?
+									('<div class="btn-link" style="float: right" ' +
+										'onclick="OSDNotifier.removeNotification(' + this.notification_osd_id + ')">'
+										+ settings.closeHtml + '</div>') : '')
 									+ '<div class="osdNotificationTitle">'
-									+ (this.data.iconPath ? '<img class="osdNotificationIcon" src="' + this.data.iconPath + '" alt="" />' : '')
-									+ (this.data.link ? ('<a class="target_link" href="' + this.data.link + '" target="' + this.data.linktarget + '">' + this.data.title + '</a>') : this.data.title)
+									+ (this.data.iconPath ? '<img class="osdNotificationIcon" src="'
+									+ this.data.iconPath + '" alt="" />' : '')
+									+ (this.data.link ? ('<a class="target_link" href="' + this.data.link + '" ' +
+									'target="' + this.data.linktarget + '">' + this.data.title + '</a>') :
+									this.data.title)
 									+ '</div>'
-									+ '<div class="osdNotificationShortDescription">' + this.data.shortDescription + '</div>'
+									+ '<div class="osdNotificationShortDescription">' +
+								this.data.shortDescription + '</div>'
 									+ '</div>'
 							);
 							
@@ -93,7 +102,8 @@ var OSDNotifier, OSDNotifications = function (settings) {
 								});
 							}
 
-							newElement.find('.osdNotificationShortDescription a').on("click", function () {
+							newElement.find('.osdNotificationShortDescription a').
+							on("click", function () {
 								me.removeNotification(id);
 							});
 
@@ -129,7 +139,8 @@ var OSDNotifier, OSDNotifications = function (settings) {
 									p.then(function() {
 										console.log("Played sound successfully!");
 									}).catch(function(e) {
-										console.log("Could not play sound, autoplay policy changes: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes");
+										console.log("Could not play sound, autoplay policy changes: " +
+											"https://developers.google.com/web/updates/2017/09/autoplay-policy-changes");
 									});
 								}
 							});

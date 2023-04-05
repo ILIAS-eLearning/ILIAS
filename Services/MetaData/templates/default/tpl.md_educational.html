@@ -1,5 +1,7 @@
 <!-- BEGIN no_educational -->
-{TXT_NO_EDUCATIONAL} <a class="il_ContainerItemCommand" href="{ACTION_ADD_EDUCATIONAL}">{TXT_ADD_EDUCATIONAL}</a>
+{TXT_NO_EDUCATIONAL}
+<a aria-label="{TXT_ADD_EDUCATIONAL}" class="il_ContainerItemCommand"
+   href="{ACTION_ADD_EDUCATIONAL}">{TXT_ADD_EDUCATIONAL}</a>
 <!-- END no_educational -->
 <!-- BEGIN educational -->
 <form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
@@ -7,21 +9,31 @@
 <tr class="tblheader">
 	<td class="std" colspan="3">
 		<div class="ilFloatLeft">{TXT_EDUCATIONAL}
-		<a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a></div>
+		<a aria-label="{TXT_DELETE}" class="il_ContainerItemCommand" href="{ACTION_DELETE}">
+			{TXT_DELETE}
+		</a>
+		</div>
 		<div class="ilRight">
-		<select name="section_element" size="1">
-			<option value="educational_typical_age_range"{META_NAME_VAL_TYPICALAGERANGE}>{TXT_TYPICALAGERANGE}</option>
-			<option value="meta_description"{META_NAME_VAL_DESCRIPTION}>{TXT_DESCRIPTION}</option>
-			<option value="meta_language"{META_NAME_VAL_LANGUAGE}>{TXT_LANGUAGE}</option>
+		<select aria-haspopup="true" name="section_element" size="1">
+			<option value="educational_typical_age_range"{META_NAME_VAL_TYPICALAGERANGE}>
+				{TXT_TYPICALAGERANGE}
+			</option>
+			<option value="meta_description"{META_NAME_VAL_DESCRIPTION}>
+				{TXT_DESCRIPTION}
+			</option>
+			<option value="meta_language"{META_NAME_VAL_LANGUAGE}>
+				{TXT_LANGUAGE}
+			</option>
 		</select>
-		<input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
+		<input aria-label="cmd[addSectionElement]" class="submit" type="submit"
+			   name="cmd[addSectionElement]" value="{TXT_ADD}"/>
 		</div>
 	</td>
 </tr>
 <tr>
 	<td class="option" colspan="2">{TXT_INTERACTIVITYTYPE}</td>
 	<td class="option_value">
-		<select name="educational[InteractivityType]" size="1">
+		<select aria-haspopup="true" name="educational[InteractivityType]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="Active"{VAL_INTERACTIVITYTYPE_ACTIVE}>{TXT_ACTIVE}</option>
 			<option value="Expositive"{VAL_INTERACTIVITYTYPE_EXPOSITIVE}>{TXT_EXPOSITIVE}</option>
@@ -32,7 +44,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_LEARNINGRESOURCETYPE}</td>
 	<td class="option_value">
-		<select name="educational[LearningResourceType]" size="1">
+		<select aria-haspopup="true" name="educational[LearningResourceType]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="Exercise"{VAL_LEARNINGRESOURCETYPE_EXERCISE}>{TXT_EXERCISE}</option>
 			<option value="Simulation"{VAL_LEARNINGRESOURCETYPE_SIMULATION}>{TXT_SIMULATION}</option>
@@ -55,7 +67,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_INTERACTIVITYLEVEL}</td>
 	<td class="option_value">
-		<select name="educational[InteractivityLevel]" size="1">
+		<select aria-haspopup="true" name="educational[InteractivityLevel]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="VeryLow"{VAL_INTERACTIVITYLEVEL_VERYLOW}>{TXT_VERYLOW}</option>
 			<option value="Low"{VAL_INTERACTIVITYLEVEL_LOW}>{TXT_LOW}</option>
@@ -68,7 +80,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_SEMANTICDENSITY}</td>
 	<td class="option_value">
-		<select name="educational[SemanticDensity]" size="1">
+		<select aria-haspopup="true" name="educational[SemanticDensity]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="VeryLow"{VAL_SEMANTICDENSITY_VERYLOW}>{TXT_VERYLOW}</option>
 			<option value="Low"{VAL_SEMANTICDENSITY_LOW}>{TXT_LOW}</option>
@@ -81,7 +93,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_INTENDEDENDUSERROLE}</td>
 	<td class="option_value">
-		<select name="educational[IntendedEndUserRole]" size="1">
+		<select aria-haspopup="true" name="educational[IntendedEndUserRole]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="Teacher"{VAL_INTENDEDENDUSERROLE_TEACHER}>{TXT_TEACHER}</option>
 			<option value="Author"{VAL_INTENDEDENDUSERROLE_AUTHOR}>{TXT_AUTHOR}</option>
@@ -93,7 +105,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_CONTEXT}</td>
 	<td class="option_value">
-		<select name="educational[Context]" size="1">
+		<select aria-haspopup="true" name="educational[Context]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="School"{VAL_CONTEXT_SCHOOL}>{TXT_SCHOOL}</option>
 			<option value="HigherEducation"{VAL_CONTEXT_HIGHEREDUCATION}>{TXT_HIGHEREDUCATION}</option>
@@ -105,7 +117,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_DIFFICULTY}</td>
 	<td class="option_value">
-		<select name="educational[Difficulty]" size="1">
+		<select aria-haspopup="true" name="educational[Difficulty]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="VeryEasy"{VAL_DIFFICULTY_VERYEASY}>{TXT_VERYEASY}</option>
 			<option value="Easy"{VAL_DIFFICULTY_EASY}>{TXT_EASY}</option>
@@ -126,11 +138,16 @@
 	<td class="option_value" nowrap="nowrap">
 		<!-- BEGIN typicalagerange_delete -->
 		<div style="float:right;" class="il_ContainerItemCommands">
-		<a class="il_ContainerItemCommand" href="{TYPICALAGERANGE_LOOP_ACTION_DELETE}">{TYPICALAGERANGE_LOOP_TXT_DELETE}</a>
+		<a aria-label="{TYPICALAGERANGE_LOOP_TXT_DELETE}"  class="il_ContainerItemCommand"
+		   href="{TYPICALAGERANGE_LOOP_ACTION_DELETE}">
+			{TYPICALAGERANGE_LOOP_TXT_DELETE}
+		</a>
 		</div>
 		<!-- END typicalagerange_delete -->
 
-		<input type="text" maxlength="200" name="educational[TypicalAgeRange][{TYPICALAGERANGE_LOOP_NO}][Value]" value="{TYPICALAGERANGE_LOOP_VAL}">
+		<input type="text" maxlength="200" name="educational[TypicalAgeRange][{TYPICALAGERANGE_LOOP_NO}][Value]"
+			   aria-label="educational[TypicalAgeRange][{TYPICALAGERANGE_LOOP_NO}][Value]"
+			   value="{TYPICALAGERANGE_LOOP_VAL}">
 		{TYPICALAGERANGE_LOOP_VAL_LANGUAGE}&nbsp;
 	</td>
 </tr>
@@ -155,9 +172,15 @@
 	<!-- END desc_head -->
 	<td class="option_value">
 		<div style="float:right;" class="il_ContainerItemCommands">
-			<a class="il_ContainerItemCommand" href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a>
+			<a aria-label="{DESCRIPTION_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+			   href="{DESCRIPTION_LOOP_ACTION_DELETE}">
+				{DESCRIPTION_LOOP_TXT_DELETE}
+			</a>
 		</div>
-		<textarea name="educational[Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea>
+		<textarea aria-multiline="true" aria-label="educational[Description][{DESCRIPTION_LOOP_NO}][Value]"
+				  name="educational[Description][{DESCRIPTION_LOOP_NO}][Value]">
+			{DESCRIPTION_LOOP_VAL}
+		</textarea>
 		<br />{DESCRIPTION_LOOP_VAL_LANGUAGE}</td>
 </tr>
 <!-- END description_loop -->
@@ -171,14 +194,20 @@
 	<!-- END language_head -->
 	<td class="option_value">
 		<div style="float:right;" class="il_ContainerItemCommands">
-			<a class="il_ContainerItemCommand" href="{LANGUAGE_LOOP_ACTION_DELETE}">{LANGUAGE_LOOP_TXT_DELETE}</a>
+			<a aria-label="{LANGUAGE_LOOP_TXT_DELETE}" class="il_ContainerItemCommand"
+			   href="{LANGUAGE_LOOP_ACTION_DELETE}">
+				{LANGUAGE_LOOP_TXT_DELETE}</a>
 		</div>
 		{LANGUAGE_LOOP_VAL_LANGUAGE}</td>
 </tr>
 <!-- END language_loop -->
 
 <tr>
-	<td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateEducational]" value="{TXT_SAVE}"/></div></td>
+	<td class="submit" colspan="4"><div align="right">
+		<input class="submit" aria-label="cmd[updateEducational]" type="submit" name="cmd[updateEducational]"
+			   value="{TXT_SAVE}"/>
+	</div>
+	</td>
 </tr>
 </table>
 </form>

@@ -2,13 +2,17 @@
 <div class="{CSS_ROW}">
 	<div class="il_ContainerItemCommands" style="float:right;">
 	<!-- BEGIN edit_note -->
-	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
+	<a aria-label="{TXT_EDIT_NOTE}" class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">
+		{TXT_EDIT_NOTE}
+	</a>
 	<!-- END edit_note -->
 	</div>
 	<div class="small">
 	<!--  <img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}"
 		style="vertical-align: text-top;"/>-->
-	<a href="{HREF_SHOW_NOTE}">{VAL_SUBJECT}</a>
+	<a aria-label="{VAL_SUBJECT}" href="{HREF_SHOW_NOTE}">
+		{VAL_SUBJECT}
+	</a>
 	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->
 	</div>
 	<!-- BEGIN details -->
@@ -16,6 +20,8 @@
 	</div>
 	<!-- END details -->
 	{TARGET_OBJECTS}
-	<div class="il_BlockInfo" style="text-align:right;">{VAL_DATE}</div>
+	<div class="il_BlockInfo" style="text-align:right;">
+		{VAL_DATE}
+	</div>
 </div>
 <!-- END note -->

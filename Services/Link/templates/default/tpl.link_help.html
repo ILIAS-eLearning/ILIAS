@@ -31,12 +31,16 @@
 								</tr>
 								<tr>
 									<td class="submit">
-									<input type="submit" class="submit" name="cmd[{CMD_CHANGETYPE}]" value="{BTN_CHANGETYPE}" />
+									<input aria-label="{CMD_CHANGETYPE}" type="submit" class="submit"
+										   name="cmd[{CMD_CHANGETYPE}]"
+										   value="{BTN_CHANGETYPE}" />
 									<!-- BEGIN buttonclose -->
-									<input type="submit" class="submit" name="cmd[{CMD_CLOSE}]" value="{BTN_CLOSE}" />
+									<input aria-label="{CMD_CLOSE}" type="submit" class="submit" name="cmd[{CMD_CLOSE}]"
+										   value="{BTN_CLOSE}" />
 									<!-- END buttonclose -->
 									<!-- BEGIN buttonclosejs -->
-									<input type="button" class="submit" value="{BTN_CLOSE_JS}" onClick="window.close();" />
+									<input aria-label="{BTN_CLOSE}" type="button" class="submit" value="{BTN_CLOSE_JS}"
+										   onClick="window.close();" />
 									<!-- END buttonclosejs -->
 									</td>
 								</tr>
@@ -55,10 +59,13 @@
 								<tr>
 									<td class="submit" colspan="{COLSPAN}">
 									<!-- BEGIN change_cont_obj -->
-									<input type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}" />
+									<input aria-label="{CMD_CHANGE_CONT_OBJ}" type="submit"
+										   class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]"
+										   value="{BTN_CHANGE_CONT_OBJ}" />
 									<!-- END change_cont_obj -->
 									<!-- BEGIN new_mob -->
-									<input type="submit" class="submit" name="cmd[{CMD_NEW_MOB}]" value="{BTN_NEW_MOB}" />
+									<input type="submit" class="submit" name="cmd[{CMD_NEW_MOB}]"
+										   value="{BTN_NEW_MOB}" />
 									<!-- END new_mob -->
 									</td>
 								</tr>
@@ -66,7 +73,8 @@
 								<!-- BEGIN chapter_row -->
 								<tr class="{ROWCLASS}">
 									<!-- BEGIN thumbnail -->
-									<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<td>{NO_THUMB}<!-- BEGIN thumb -->
+										<img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
 									<!-- END thumbnail -->
 									<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
 									<!-- BEGIN anchor_link -->
@@ -78,10 +86,13 @@
 								<!-- BEGIN chapter_row_js -->
 								<tr class="{ROWCLASS}">
 									<!-- BEGIN thumbnail_js -->
-									<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<td>{NO_THUMB}<!-- BEGIN thumb -->
+										<img src="{SRC_THUMB}" alt="THUMB" /><!-- END thumb --></td>
 									<!-- END thumbnail_js -->
 									<td class="std">
-										<a href="#" onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER_JS}', event);setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a>
+										<a aria-label="{TXT_CHAPTER}" href="#"
+										   onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER_JS}',
+										   event);setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a>
 										<!-- BEGIN anchor_link_js -->
 										<div style="padding-left:20px;" class="small"><a href="#" onClick="parent.content.addInternalLink('{HREF_LINK}','{TXT_LINK}', event);setTimeout('window.close()',300);return(false);">{TXT_LINK}</a></div>
 										<!-- END anchor_link_js -->
@@ -91,15 +102,17 @@
 								<!-- BEGIN link_row -->
 								<tr class="{ROWCLASS}">
 									<!-- BEGIN thumbnail_link -->
-									<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<td width="1">{NO_THUMB}<!-- BEGIN thumb -->
+										<img src="{SRC_THUMB}" alt="THUMB" /><!-- END thumb --></td>
 									<!-- END thumbnail_link -->
 									<!-- BEGIN icon -->
 										<td class="std ilWhiteSpaceNowrap" width="1">
-										<img src="{ICON_SRC}" alt="" />
+										<img src="{ICON_SRC}" alt="ICON" />
 										</td>
 									<!-- END icon -->
 									<td class="stdilWhiteSpaceNowrap">
-									<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
+									<a aria-label="{TXT_CHAPTER}" href="{LINK}"
+									   target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
 								</tr>
 								<!-- END link_row -->
 

@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input type="checkbox" name="subscribers[]" value="{VAL_ID}" />
+		<input aria-label="subscribers[]" type="checkbox" name="subscribers[]" value="{VAL_ID}" />
 	</td>
 	<td class="std">
 		{VAL_NAME}
@@ -29,7 +29,9 @@
 			<!-- BEGIN as_link -->
 			<div class="il_ContainerItemCommands2">
 			<!-- BEGIN link -->
-				<a class="il_ContainerItemCommand2" href="{MAIL_LINK}">{MAIL_TITLE}</a><br />
+				<a aria-label="{MAIL_TITLE}" class="il_ContainerItemCommand2" href="{MAIL_LINK}">
+					{MAIL_TITLE}
+				</a><br />
 		 	<!-- END link -->
 				<!-- BEGIN as_menu -->
 				{ACTION_USER}

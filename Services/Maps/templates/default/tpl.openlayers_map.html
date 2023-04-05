@@ -1,13 +1,15 @@
 <script type="text/javascript">
 	//<![CDATA[
-	ilOLMapData["{MAP_ID}"] = new Array({LAT}, {LONG}, {ZOOM}, {CENTRAL_MARKER}, {NAV_CONTROL}, {REPLACE_MARKER}, {TILES}, "{GEOLOCATION}");
+	ilOLMapData["{MAP_ID}"] = new Array({LAT}, {LONG}, {ZOOM}, {CENTRAL_MARKER}, {NAV_CONTROL},
+			{REPLACE_MARKER}, {TILES}, "{GEOLOCATION}");
 	ilOLUserMarkers["{MAP_ID}"] = new Array();
 
 	ilOLInvalidAddress = "{INVALID_ADDRESS_STRING}";
 
 	<!-- BEGIN user_marker -->
 	ilOLUserMarkers["{UMAP_ID}"][{CNT}] = new Array({ULONG}, {ULAT},
-			"<img style='float:right; margin-right:10px; margin-left:10px;' class='ilUserXXSmall' src='{IMG_USER}'\/><span class='small'>{USER_INFO}<\/span>");
+			"<img alt='user image' style='float:right; margin-right:10px; margin-left:10px;' class='ilUserXXSmall' " +
+			"src='{IMG_USER}'\/><span class='small'>{USER_INFO}<\/span>");
 	<!-- END user_marker -->
 	//]]>
 </script>

@@ -4,7 +4,11 @@
 		<b>{TXT_USE_PLACEHOLDERS}</b>:<br />
 		{TXT_PLACEHOLDERS_ADVISE}<br />
 		<!-- BEGIN man_placeholder -->
-		<b><a href="#" onclick="il.Mail.insertTextIntoTextField('m_message', this.innerHTML); return false;">[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}<br />
+		<b>
+			<a aria-label="{MANUAL_PLACEHOLDER}" href="#" onclick="il.Mail.
+			insertTextIntoTextField('m_message', this.innerHTML); return false;">
+				[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}
+		<br />
 		<!-- END man_placeholder -->
 	</div>
 </div>

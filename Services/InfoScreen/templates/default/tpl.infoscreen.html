@@ -11,7 +11,9 @@
 		<div class="il_InfoScreenProperty control-label col-xs-3">{TXT_PROPERTY}</div>
 		<div class="il_InfoScreenPropertyValue col-xs-9">
 			<!-- BEGIN pv -->{TXT_PROPERTY_VALUE}<!-- END pv -->
-			<!-- BEGIN lpv --><a href="{LINK_PROPERTY_VALUE}">{TXT_PROPERTY_LVALUE}</a><!-- END lpv -->
+			<!-- BEGIN lpv -->
+			<a aria-label="{TXT_PROPERTY_LVALUE}" href="{LINK_PROPERTY_VALUE}">{TXT_PROPERTY_LVALUE}</a>
+			<!-- END lpv -->
 		</div>
 	</div>
 	<!-- END property_row -->
@@ -23,7 +25,7 @@
 </div>
 <!-- END row -->
 <!-- BEGIN hidden_element -->
-<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<input aria-label="{HIDDEN_NAME}" type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
 <!-- END hidden_element -->
 <!-- BEGIN formbottom -->
 </form>
