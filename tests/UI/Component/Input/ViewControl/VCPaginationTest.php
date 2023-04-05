@@ -85,38 +85,31 @@ class VCPaginationTest extends VCBaseTest
             ->withValue('40:20');
 
         $expected = $this->brutallyTrimHTML('
-<div class="il-viewcontrol il-viewcontrol-pagination" id="">
+<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="">
     <a class="glyph" aria-label="back" id="id_4">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     </a>
-    <div class="dropdown">
+    <div class="dropdown il-viewcontrol-pagination__pages">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination offset" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_offset">22-42<span class="caret"></span></button>
-        <div id="_ctrl_offset" class="dropdown-menu">
-            <ul>
-                <li><button class="btn btn-link" id="id_1">1-21</button></li>
-                <li><button class="btn btn-link" id="id_2">22-42</button></li>
-            </ul>
-        </div>
+        <ul id="_ctrl_offset" class="dropdown-menu">
+            <li><button class="btn btn-link" id="id_1">1-21</button></li>
+            <li><button class="btn btn-link" id="id_2">22-42</button></li>
+        </ul>
     </div>
     <a class="glyph" aria-label="next" id="id_3">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     </a>
 
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_limit">
-            <span><a class="glyph" aria-label="numberedlist">
-                <span class="glyphicon glyphicon-numberedlist" aria-hidden="true"></span>
-            </a></span>
-        </button>
-        <div id="_ctrl_limit" class="dropdown-menu">
-            <ul>
-                <li><button class="btn btn-link" id="id_5">10</button></li>
-                <li><button class="btn btn-link" id="id_6">20</button></li>
-                <li><button class="btn btn-link" id="id_7">30</button></li>
-            </ul>
-        </div>
+    <div class="dropdown il-viewcontrol-pagination__num-of-items">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_limit"><span class="caret"></span></button>
+        <ul id="_ctrl_limit" class="dropdown-menu">
+            <li><button class="btn btn-link" id="id_5">10</button></li>
+            <li><button class="btn btn-link" id="id_6">20</button></li>
+            <li><button class="btn btn-link" id="id_7">30</button></li>
+        </ul>
     </div>
-    <div class="il-viewcontrol-value"><input type="hidden" name="" value="40:20" /></div>
+
+    <div class="il-viewcontrol-value hidden" role="none"><input type="hidden" name="" value="40:20" /></div>
 </div>
 ');
 

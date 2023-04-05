@@ -89,17 +89,13 @@ class VCSortationTest extends VCBaseTest
         $vc = $this->buildVCFactory()->sortation($options);
 
         $expected = $this->brutallyTrimHTML('
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation" id="">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">
-        <span><a class="glyph" aria-label="sortation"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></span>
-    </button>
-    <div id="_ctrl" class="dropdown-menu">
-        <ul>
-            <li><button class="btn btn-link" id="id_1">A</button></li>
-            <li><button class="btn btn-link" id="id_2">B</button></li>
-        </ul>
-    </div>
-    <div class="il-viewcontrol-value"><input type="hidden" name="" value="" /></div>
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
+    <ul id="_ctrl" class="dropdown-menu">
+        <li><button class="btn btn-link" id="id_1">A</button></li>
+        <li><button class="btn btn-link" id="id_2">B</button></li>
+    </ul>
+    <div class="il-viewcontrol-value" role="none"><input type="hidden" name="" value="" /></div>
 </div>
 ');
         $html = $this->brutallyTrimHTML($r->render($vc));
