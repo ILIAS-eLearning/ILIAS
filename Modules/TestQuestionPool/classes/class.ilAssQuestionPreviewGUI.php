@@ -495,7 +495,15 @@ class ilAssQuestionPreviewGUI
             $cssClass = ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG;
         }
 
-        if (strlen($feedback)) {
+        if (str_contains($feedback, '<!--COPage-PageTop-->')) {
+            $start_tag = '<!--COPage-PageTop-->';
+            $end_tag = '<div style="clear:both;"><!--Break-->';
+            $content = substr($feedback, strpos($feedback, $start_tag) + strlen($start_tag), strpos($feedback, $end_tag) - strpos($feedback, $start_tag) - strlen($start_tag));
+        } else {
+            $content = $feedback;
+        }
+
+        if ($content !== '') {
             $tpl->setCurrentBlock('instant_feedback_generic');
             $tpl->setVariable('GENERIC_FEEDBACK', $feedback);
             $tpl->setVariable('ILC_FB_CSS_CLASS', $cssClass);
