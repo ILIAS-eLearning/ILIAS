@@ -1440,6 +1440,8 @@ assessment#:#tst_failed#:#Nem sikerült
 assessment#:#tst_failed_imp_qst_skl_assign#:#A kérdéseket nem sikerült a következő kompetenciákhoz rendelni. Az érintett kompetenciák nem azonosíthatóak be ebben az ILIAS telepítésben.
 assessment#:#tst_failed_imp_skl_thresholds#:#A következő kompetenciák határértékeinek importálása meghiúsult, mert az érintett kompetenciák eltérő szinteket tartalmaznak ebben az ILIAS telepítésben.
 assessment#:#tst_feedback#:#Visszajelzés
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Szűrés életciklus alapján
 assessment#:#tst_filter_question_type#:#Kérdéstípus
 assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
@@ -3855,8 +3857,6 @@ common#:#day#:#Nap
 common#:#days#:#Nap
 common#:#db_host#:#Adatbázis-kiszolgáló
 common#:#db_name#:#Adatbázisnév
-common#:#db_need_hotfix#:#A javítások rendelkezésre állnak. Nyissa meg a <a href="./setup/setup.php">»setup</a> programot!
-common#:#db_need_update#:#Az adatbázis frissítésre szorul.
 common#:#db_pass#:#Adatbázis-jelszó
 common#:#db_type#:#Adatbázis-típus
 common#:#db_user#:#Adatbázis-felhasználó
@@ -5263,6 +5263,7 @@ common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#preferences#:#Beállítások
 common#:#presentation_table_more#:#Több megjelenítése
 common#:#preview#:#Előnézet
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Előnézet létrehozása
 common#:#preview_delete#:#Előnézet törlése
 common#:#preview_learner_info#:#Ha be van kapcsolva, a kurzus- és csoportvezető a tagok nézetből is megtekintheti a tartalmat.
@@ -10701,6 +10702,7 @@ mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
 mail#:#mail_global_reply_to_addr#:#Válaszcím 
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet ('Reply-To') címet.
 mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Beérkező levél
 mail#:#mail_incoming_both#:#helyi és továbbküldendő
 mail#:#mail_incoming_local#:#csak helyi

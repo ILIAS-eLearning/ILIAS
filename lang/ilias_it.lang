@@ -1440,6 +1440,8 @@ assessment#:#tst_failed#:#Fallito
 assessment#:#tst_failed_imp_qst_skl_assign#:#Non è stato possibile creare le assegnazioni delle domande alle seguenti competenze. Le competenze corrispondenti non possono essere identificate all'interno del sistema locale.
 assessment#:#tst_failed_imp_skl_thresholds#:#L’importazione dei limiti per le seguenti competenze è stata ignorata, perché le competenze concesse all’interno del sistema locale sono configurate con una diversa lista di livelli.
 assessment#:#tst_feedback#:#Feedback
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Usa ciclo di vita come filtro
 assessment#:#tst_filter_question_type#:#Tipo di domanda
 assessment#:#tst_filter_question_type_enabled#:#Utilizza Tipo di domanda come filtro
@@ -3855,8 +3857,6 @@ common#:#day#:#Giorno
 common#:#days#:#Giorni
 common#:#db_host#:#Macchina con il database
 common#:#db_name#:#Nome del database
-common#:#db_need_hotfix#:#Aggiornamento rapido disponibile. Si prega di aprire il programma di installazione.
-common#:#db_need_update#:#Occorre aggiornare il database!
 common#:#db_pass#:#Password del database
 common#:#db_type#:#Tipo del database
 common#:#db_user#:#Utente del database
@@ -5263,6 +5263,7 @@ common#:#predefined_template#:#Template di ruolo predefiniti
 common#:#preferences#:#Preferenze definite dall'utente
 common#:#presentation_table_more#:#Di Più
 common#:#preview#:#Anteprima
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Crea anteprima
 common#:#preview_delete#:#Elimina anteprima
 common#:#preview_learner_info#:#Se abilitati, Corsi e Gruppi amministrazione, hanno la possibilita' di visualizzare il contenuto dalla prospettiva dell'utente.<br /><br />If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
@@ -10701,6 +10702,7 @@ mail#:#mail_generic_rcp_error#:#Ha avuto luogo un errore durante la convalida de
 mail#:#mail_global_reply_to_addr#:#Rispondi a
 mail#:#mail_global_reply_to_addr_info#:#Inserisci l'indirizzo a cui desideri ricevere la risposta
 mail#:#mail_grp_roles#:#Invia mail ai ruoli del gruppo
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#E-Mail in arrivo
 mail#:#mail_incoming_both#:#Interna a ILIAS ed inoltro alle mail principali
 mail#:#mail_incoming_local#:#Solamente interna a ILIAS

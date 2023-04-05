@@ -1440,6 +1440,8 @@ assessment#:#tst_failed#:#Ni opravljeno
 assessment#:#tst_failed_imp_qst_skl_assign#:#Dodelitve vprašanj naslednjim kompetencam z uvozom ni bilo mogoče ustvariti. V lokalnem sistemu ni bilo mogoče identificirati ustreznih kompetenc.
 assessment#:#tst_failed_imp_skl_thresholds#:#Uvoz mejnih vrednosti za naslednje kompetence je bil preskočen, ker so ustrezne kompetence v lokalnem sistemu konfigurirane z drugačnim seznamom ravni.
 assessment#:#tst_feedback#:#Povratna informacija
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_filter_question_type#:#Tip vprašanja
 assessment#:#tst_filter_question_type_enabled#:#Uporabite filter za tip vprašanja
@@ -3855,8 +3857,6 @@ common#:#day#:#Dan
 common#:#days#:#Dnevi
 common#:#db_host#:#Gostitelj baze podatkov
 common#:#db_name#:#Ime baze podatkov
-common#:#db_need_hotfix#:#Popravek hotfix je na voljo. Odprite <a href="./setup/setup.php">»Setup</a>!
-common#:#db_need_update#:#Bazo podatkov je treba posodobiti!
 common#:#db_pass#:#Geslo za bazo podatkov
 common#:#db_type#:#Tip baze podatkov
 common#:#db_user#:#Uporabnik baze podatkov
@@ -5263,6 +5263,7 @@ common#:#predefined_template#:#Vnaprej določena predloga vlog
 common#:#preferences#:#Uporabniške nastavitve
 common#:#presentation_table_more#:#Prikaži več
 common#:#preview#:#Predogled
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Ustvari predogled
 common#:#preview_delete#:#Izbriši predogled
 common#:#preview_learner_info#:#Če je aktivirano, imajo administratorji tečajev in skupin možnost za opazovanje tečaja ali skupine z vidika fiktivnega udeleženca tečaja oz. skupine.
@@ -10701,6 +10702,7 @@ mail#:#mail_generic_rcp_error#:#Pri preverjanju prejemnika je prišlo do napake:
 mail#:#mail_global_reply_to_addr#:#Reply-To###19 08 2022 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###19 08 2022 new variable
 mail#:#mail_grp_roles#:#Pošlji e-pošto naslednjim vlogam v skupini
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Prejeta e-pošta
 mail#:#mail_incoming_both#:#Lokalno in posredovanje na e-pošto
 mail#:#mail_incoming_local#:#Prejeto samo lokalno

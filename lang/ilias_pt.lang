@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Não foi possível criar as atribuições das pergunta
 assessment#:#tst_failed_imp_qst_skl_assign#:#Taxonomia
 assessment#:#tst_failed_imp_skl_thresholds#:#A importação de limites para as seguintes competências foi ignorada porque as correspondentes competências dentro do sistema local estão configuradas com uma lista diferente de níveis.
 assessment#:#tst_feedback#:#Feedback
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Tipo de pergunta
 assessment#:#tst_filter_question_type_enabled#:#Usar tipo de pergunta como filtro
@@ -3841,8 +3843,6 @@ common#:#day#:#Gerar
 common#:#days#:#Glossário
 common#:#db_host#:#Predefinição global
 common#:#db_name#:#Global fixada
-common#:#db_need_hotfix#:#Hotfix disponível. Abra o programa de instalação.
-common#:#db_need_update#:#Definições globais
 common#:#db_pass#:#Utilizadores globais
 common#:#db_type#:#Glossários
 common#:#db_user#:#Glossário
@@ -5249,6 +5249,7 @@ common#:#predefined_template#:#Modelo de função predefinido
 common#:#preferences#:#Importar mail
 common#:#presentation_table_more#:#Os meus Tags
 common#:#preview#:#Pré-visualização
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Criar pré-visualização
 common#:#preview_delete#:#Apagar pré-visualização
 common#:#preview_learner_info#:#Se estiver ativado, os administrador do grupo e do curso têm a possibilidade de ver o conteúdo do ponto de vista de um aluno.
@@ -10687,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#Ocorreu um erro enquanto validava os destinatár
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Enviar mail para funções de grupo
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Último ano
 mail#:#mail_incoming_both#:#Últimos %s dias
 mail#:#mail_incoming_local#:#Últimos %s meses

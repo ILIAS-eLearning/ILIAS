@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###31 08 2017 new variable
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###31 08 2017 new variable
 assessment#:#tst_feedback#:#Feedback###27 01 2015 new variable
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Question Type###31 08 2017 new variable
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter###31 08 2017 new variable
@@ -3841,8 +3843,6 @@ common#:#day#:#Dag
 common#:#days#:#Dage
 common#:#db_host#:#Databaseudbyder
 common#:#db_name#:#Databasenavn
-common#:#db_need_hotfix#:#Hotfix findes. Gå til setup-programmet.
-common#:#db_need_update#:#Databasen behøver en opdatering!
 common#:#db_pass#:#Databasepassword
 common#:#db_type#:#Databasetype
 common#:#db_user#:#Databasebruger
@@ -5249,6 +5249,7 @@ common#:#predefined_template#:#Fordefineret rolleskabelon
 common#:#preferences#:#Brugerdefinerede ønsker
 common#:#presentation_table_more#:#more###10 11 2018 new variable
 common#:#preview#:#Preview###16 09 2013 new variable
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Create Preview###16 09 2013 new variable
 common#:#preview_delete#:#Delete Preview###16 09 2013 new variable
 common#:#preview_learner_info#:#Hvis aktiveret har kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det.
@@ -10687,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Levering af indgående post
 mail#:#mail_incoming_both#:#Gem lokalt og videresend kopi
 mail#:#mail_incoming_local#:#Lokal levering
