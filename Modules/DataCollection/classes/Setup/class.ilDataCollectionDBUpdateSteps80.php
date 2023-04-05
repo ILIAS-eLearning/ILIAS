@@ -76,4 +76,15 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
         }
     }
+
+    public function step_6(): void
+    {
+        $this->db->modifyTableColumn(
+            'il_dcl_sel_opts',
+            'value',
+            [
+                "length" => 4000,
+            ]
+        );
+    }
 }
