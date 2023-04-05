@@ -26,10 +26,15 @@ declare(strict_types=1);
  */
 class ilObjCertificateSettings extends ilObject
 {
+    private ilLogger $cert_logger;
+
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
+        global $DIC;
+
         parent::__construct($a_id, $a_reference);
         $this->type = "cert";
+        $this->cert_logger = $DIC->logger()->cert();
     }
 
     /**
@@ -41,7 +46,7 @@ class ilObjCertificateSettings extends ilObject
      */
     public function uploadBackgroundImage(string $image_tempfilename): bool
     {
-        if (!empty($image_tempfilename)) {
+        if ($image_tempfilename !== '') {
             $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
             $imagepath = $this->getBackgroundImageDefaultFolder();
             if (!is_dir($imagepath)) {
@@ -53,8 +58,15 @@ class ilObjCertificateSettings extends ilObject
                 basename($this->getDefaultBackgroundImageTempfilePath()),
                 $this->getDefaultBackgroundImageTempfilePath()
             )) {
+                $this->cert_logger->error(sprintf(
+                    "Could not upload certificate background image from '%s' to temporary file '%s' (name: '%s')",
+                    $image_tempfilename,
+                    $this->getDefaultBackgroundImageTempfilePath(),
+                    basename($this->getDefaultBackgroundImageTempfilePath())
+                ));
                 return false;
             }
+
             // convert the uploaded file to JPEG
             ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
@@ -67,19 +79,40 @@ class ilObjCertificateSettings extends ilObject
                 "JPEG",
                 '100'
             );
-            // something went wrong converting the file. use the original file and hope, that PDF can work with it
-            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilFileUtils::moveUploadedFile(
-                $this->getDefaultBackgroundImageTempfilePath(),
-                $convert_filename,
-                $this->getDefaultBackgroundImagePath()
-            )) {
-                return false;
+
+            if (!is_file($this->getDefaultBackgroundImagePath())) {
+                // Something went wrong converting the file. Use the original file and hope, that PDF can work with it.
+                $this->cert_logger->error(sprintf(
+                    "Could not convert certificate background image from '%s' as JPEG to '%s', trying fallbacj ...",
+                    $this->getDefaultBackgroundImageTempfilePath(),
+                    $this->getDefaultBackgroundImagePath()
+                ));
+                if (!ilFileUtils::moveUploadedFile(
+                    $this->getDefaultBackgroundImageTempfilePath(),
+                    $convert_filename,
+                    $this->getDefaultBackgroundImagePath()
+                )) {
+                    $this->cert_logger->error(sprintf(
+                        "Could not upload certificate background image from '%s' to final file '%s' (name: '%s')",
+                        $this->getDefaultBackgroundImageTempfilePath(),
+                        $this->getDefaultBackgroundImagePath(),
+                        $convert_filename
+                    ));
+                    return false;
+                }
             }
+
             unlink($this->getDefaultBackgroundImageTempfilePath());
             if (is_file($this->getDefaultBackgroundImagePath()) && filesize($this->getDefaultBackgroundImagePath()) > 0) {
                 return true;
             }
+
+            $this->cert_logger->error(sprintf(
+                "Final background image '%s' does not exist or is empty",
+                $this->getDefaultBackgroundImagePath()
+            ));
         }
+
         return false;
     }
 
