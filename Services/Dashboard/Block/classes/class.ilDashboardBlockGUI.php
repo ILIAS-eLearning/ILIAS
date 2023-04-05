@@ -494,8 +494,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                     $this->ui->factory()->legacy($this->manage($replace_signal))
                 );
                 $modal = $modal->withAdditionalOnLoadCode(function ($id) {
-                    return "console.log($id); $('#$id').attr('data-modal-name', 'remove_modal');";
-                });
+                    return "
+                    $('#$id').attr('data-modal-name', 'remove_modal');
+                    $('#$id').find('.modal-footer').remove();
+                    ";
+                })->withCancelButtonLabel('');
                 break;
             case 'confirm':
             default:
