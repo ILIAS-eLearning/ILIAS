@@ -4678,6 +4678,8 @@ common#:#msg_deleted_roles_rolts#:#Roles and Role Templates deleted
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_is_last_role#:#You removed the last global role from the following users
@@ -9422,8 +9424,6 @@ exc#:#feedback_received#:#Feedback received
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
-exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 exc#:#not_yet#:#not yet
 exc#:#submissions_feedback#:#Submissions and Peer Feedback
 exc#:#submissions_only#:#Submissions Only
