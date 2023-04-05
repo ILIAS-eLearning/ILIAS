@@ -496,9 +496,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                 $modal = $modal->withAdditionalOnLoadCode(function ($id) {
                     return "
                     $('#$id').attr('data-modal-name', 'remove_modal');
-                    $('#$id').find('.modal-footer').remove();
                     ";
-                })->withCancelButtonLabel('');
+                });
                 break;
             case 'confirm':
             default:
@@ -525,7 +524,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             '',
             true
         ) . '&page=confirm';
-        $button = $this->ui->factory()->button()->standard($this->lng->txt('pd_unsubscribe_memberships'), '#')
+        $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
         ->withOnLoadCode(function ($id) use ($url) {
             return "
             $('#$id').on('click', function() {
@@ -543,6 +542,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $('form[name=\"pd_remove_multiple\"').on('submit', function(e) {
                 e.preventDefault();
             });
+            modal.find('.modal-footer').remove();
             il.Util.ajaxReplacePostRequestInner('$url', post_data,'pd_unsubscribe_multiple'); return false;})";
         });
 
