@@ -37,7 +37,7 @@ function is_copyright_valid() {
   local file="${1}"
 
   if ! [ -f "${file}" ]; then
-    printf "Internal Error: please provide is_copyright_valid with a valid file.\n"
+    printf "Internal Error (is_copyright_valid): ${file} is not a valid file.\n"
     exit 1
   fi
 
@@ -79,18 +79,18 @@ function is_copyright_valid() {
 }
 
 # DESC: prints all .php and .js files of the provided directory,
-#       ignoring the /libs folders.
+#       ignoring the /libs and /node_modules folders.
 #
 # ARGS: [<string>] directory to scan
 function get_supported_files_of_dir() {
   local directory="${1}"
 
   if ! [ -d "${directory}" ]; then
-    printf "Internal Error: please provide get_supported_files_of_dir with a valid directory.\n"
+    printf "Internal Error (get_supported_files_of_dir): ${directory} is not a valid directory.\n"
     exit 1
   fi
 
-  find "${directory}" \( -name "*.php" -or -name "*.js" \) -and -not -path "./libs*"
+  find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/libs/*"
 }
 
 # DESC: returns 0 if the given path is located in the examples
@@ -100,6 +100,12 @@ function get_supported_files_of_dir() {
 function is_ui_example() {
   local file="${1}"
 
+  if ! [ -f "${file}" ]; then
+    printf "Internal Error (is_ui_example): ${file} is not a valid file.\n"
+    exit 1
+  fi
+
+  file="$(realpath ${file})"
   if [[ "${file}" == *"src/UI/examples"* ]]; then
     return 0
   fi
@@ -139,10 +145,10 @@ function perform_copyright_check() {
 
   local exit_status=0
   for file in ${files[@]}; do
-    is_copyright_valid "$(pwd)/${file}"
+    is_copyright_valid "${file}"
     local is_valid="${?}"
 
-    is_ui_example "$(pwd)/${file}"
+    is_ui_example "${file}"
     local is_example="${?}"
 
     # invert the copyright-check for UI examples, because we
