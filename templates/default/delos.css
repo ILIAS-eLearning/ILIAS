@@ -8719,7 +8719,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   margin: 5px 0;
 }
 .il-table-presentation-row .il-table-presentation-actions:not(:empty) + .il-table-presentation-row-header {
-  max-width: calc(100% - 120px);
+  max-width: calc(100% - 11rem);
 }
 .il-table-presentation-row .il-table-presentation-row-header {
   min-height: 34px;
