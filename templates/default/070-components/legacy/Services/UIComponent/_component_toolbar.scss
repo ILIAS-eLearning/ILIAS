@@ -1,5 +1,8 @@
 @use "../../../../010-settings/" as *;
 @use "../../../../030-tools/tool_focus-outline" as *;
+@use "../../../../030-tools/tool_clearfix" as *;
+@use "../../../../030-tools/legacy-bootstrap-mixins/nav-divider" as *;
+@use "../../../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
 @use "../../../../050-layout/basics" as *;
 
 /* Services/UIComponent/Toolbar */
@@ -7,25 +10,200 @@
 //== Toolbar
 //
 //##
+$nav-link-padding: $il-padding-large-vertical $il-padding-large-horizontal;
+$nav-link-hover-bg: $il-main-dark-bg;
+$nav-disabled-link-color: $il-main-dark-bg;
+$nav-disabled-link-hover-color: $il-main-dark-bg;
+$cursor-disabled: not-allowed;
+$nav-tabs-active-link-hover-bg: $il-main-bg;
+$nav-tabs-active-link-hover-color: $il-neutral-light-color;
+$nav-tabs-active-link-hover-border-color: $il-main-bg;
+$nav-pills-border-radius: $il-border-radius-base;
+$nav-pills-active-link-hover-bg: $il-main-color;
+$nav-pills-active-link-hover-color: $il-text-color-invert;
+
 $il-toolbar-margin: $il-margin-xlarge-horizontal;
 $il-toolbar-bg: $il-main-dark-bg;
 $il-toolbar-border: 1px solid $il-main-border-color;
+
+// legacy bootstrap 3
+
+//
+// Navs
+// --------------------------------------------------
+
+
+// Base class
+// --------------------------------------------------
+
+.nav {
+	padding-left: 0; // Override default ul/ol
+	margin-bottom: 0;
+	list-style: none;
+	@include clearfix;
+
+	>li {
+		position: relative;
+		display: block;
+
+		>a {
+			position: relative;
+			display: block;
+			padding: $nav-link-padding;
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
+				background-color: $nav-link-hover-bg;
+			}
+		}
+
+		// Disabled state sets text to gray and nukes hover/tab effects
+		&.disabled>a {
+			color: $nav-disabled-link-color;
+
+			&:hover,
+			&:focus {
+				color: $nav-disabled-link-hover-color;
+				text-decoration: none;
+				cursor: $cursor-disabled;
+				background-color: transparent;
+			}
+		}
+	}
+
+	// Open dropdowns
+	.open>a {
+
+		&,
+		&:hover,
+		&:focus {
+			background-color: $nav-link-hover-bg;
+			border-color: $il-link-color;
+		}
+	}
+
+	// Nav dividers (deprecated with v3.0.1)
+	//
+	// This should have been removed in v3 with the dropping of `.nav-list`, but
+	// we missed it. We don't currently support this anywhere, but in the interest
+	// of maintaining backward compatibility in case you use it, it's deprecated.
+	.nav-divider {
+		@include nav-divider;
+	}
+
+	// Prevent IE8 from misplacing imgs
+	//
+	// See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
+	>li>a>img {
+		max-width: none;
+	}
+}
+
+
+// Tabs
+// -------------------------
+
+// Give the tabs something to sit on
+.nav-tabs {
+	border-bottom: 1px solid $il-main-border-color;
+
+	>li {
+		float: left;
+		// Make the list-items overlay the bottom border
+		margin-bottom: -1px;
+
+		// Actual tabs (as links)
+		>a {
+			margin-right: 2px;
+			line-height: $il-line-height-base;
+			border: 1px solid transparent;
+			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
+
+			&:hover {
+				border-color: $il-main-bg $il-main-bg $il-main-bg;
+			}
+		}
+
+		// Active state, and its :hover to override normal :hover
+		&.active>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $nav-tabs-active-link-hover-color;
+				cursor: default;
+				background-color: $nav-tabs-active-link-hover-bg;
+				border: 1px solid $nav-tabs-active-link-hover-border-color;
+				border-bottom-color: transparent;
+			}
+		}
+	}
+}
+
+
+// Pills
+// -------------------------
+.nav-pills {
+	>li {
+		float: left;
+
+		// Links rendered as pills
+		>a {
+			border-radius: $nav-pills-border-radius;
+		}
+
+		+li {
+			margin-left: 2px;
+		}
+
+		// Active state
+		&.active>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $nav-pills-active-link-hover-color;
+				background-color: $nav-pills-active-link-hover-bg;
+			}
+		}
+	}
+}
+
+
+// Dropdowns
+// -------------------------
+
+// Specific dropdowns
+.nav-tabs .dropdown-menu {
+	// make dropdown border overlap tab border
+	margin-top: -1px;
+	// Remove the top rounded corners here since there is a hard edge above the menu
+	@include border-top-radius(0);
+}
+
+
+// Delos
 
 .ilToolbar {
 	.container-fluid {
 		padding-left: 0;
 	}
+
 	&.navbar {
 		border: 0 none;
 		background-color: $il-toolbar-bg;
 	}
+
 	.navbar-toggle {
 		@include il-focus();
 	}
+
 	.ilToolbarItems {
 		padding: 0;
 	}
-	.form-control{
+
+	.form-control {
 		width: auto;
 		display: inline-block;
 		vertical-align: middle;
@@ -33,16 +211,21 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 	.input-group  {
 		vertical-align: middle;
 	}
+
 	input[type="file"] {
 		display: inline-block;
 	}
+
 	li {
 		border: 0 none;
 		margin-right: $il-toolbar-margin;
-		.dropdown-header{
+
+		.dropdown-header {
 			border-bottom: 1px solid $il-main-border-color;
 		}
-		.navbar-form, .navbar-text {
+
+		.navbar-form,
+		.navbar-text {
 			padding: 0;
 			border: 0 none;
 			margin-left: 0;
@@ -50,20 +233,27 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 			display: inline-block;
 			color: $il-text-color;
 		}
+
 		&.navbar-text {
 			margin-left: 0;
 		}
+
 		&.ilToolbarSeparator {
 			border-left: $il-toolbar-border;
 			height: $il-toolbar-height;
 		}
+
 		&.ilToolbarGroup {
-			.navbar-form, .navbar-text {
+
+			.navbar-form,
+			.navbar-text {
 				margin-left: ($il-toolbar-margin * 0.5);
+
 				&:first-child {
 					margin-left: 0;
 				}
 			}
+
 			.navbar-text {
 				margin-right: 0;
 			}
@@ -73,34 +263,40 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 		vertical-align: middle;
 	}
 
-	.btn[disabled]{
-		padding:  $il-padding-small-vertical $il-padding-small-horizontal;
+	.btn[disabled] {
+		padding: $il-padding-small-vertical $il-padding-small-horizontal;
 	}
 
 	.ilToolbarStickyItems {
 		float: left;
 		margin-left: $il-toolbar-margin;
+
 		&.navbar-nav {
 			margin-top: 0;
 			margin-bottom: 0;
-			.open .dropdown-menu > li > a {
+
+			.open .dropdown-menu>li>a {
 				padding-left: $il-padding-large-horizontal;
 			}
 		}
-		> li {
+
+		>li {
 			float: left;
 			margin-right: $il-toolbar-margin;
+
 			.navbar-form {
 				border: 0 none;
 			}
+
 			&.ilToolbarStickyItem {
 				border: 0 none;
 			}
 		}
 	}
+
 	ul {
 		&.dropdown-menu {
-			> li {
+			>li {
 				border: 0 none;
 				margin-right: 0;
 			}
@@ -121,22 +317,26 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 	}
 
 }
+
 //See #https://mantis.ilias.de/view.php?id=30615
-.ilToolbarContainer + .ilFilterContainer{
+.ilToolbarContainer+.ilFilterContainer {
 	margin-top: -$il-line-height-computed;
 }
+
 @media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	.ilToolbar {
 		.container-fluid {
 			padding-left: $il-padding-xlarge-horizontal;
 		}
+
 		li {
 			border-bottom: $il-toolbar-border;
 			margin-right: 0;
 		}
+
 		.ilToolbarStickyItems {
 			&.navbar-nav {
-				.open .dropdown-menu > li > a {
+				.open .dropdown-menu>li>a {
 					padding-left: 0;
 				}
 			}
