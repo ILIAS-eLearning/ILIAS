@@ -102,8 +102,8 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     public function setValueByArray(array $a_values): void
     {
         $this->values = [
-            self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1],
-            self::NAME_AUTH_PROP_2 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_2]
+            self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1] ?? '',
+            self::NAME_AUTH_PROP_2 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_2]?? ''
         ];
 
         foreach ($this->getSubItems() as $item) {
