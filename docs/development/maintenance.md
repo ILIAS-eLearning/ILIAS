@@ -6,11 +6,11 @@ modules of ILIAS.
 
 # Special Roles
 
-* **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
-* **Testcase Management**: [Fabian Kruse]
-* **Technical Documentation**: [Ann-Christin Gruber]
-* **Online Help**: [Alexandra Tödt]
+* **Product Management**: [Matthias Kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+* **Technical Board**: [Michael Jansen](https://docu.ilias.de/goto_docu_usr_8784.html), [Stephan Kergomard](https://docu.ilias.de/goto_docu_usr_44474.html), [Richard Klees](https://docu.ilias.de/goto_docu_usr_34047.html), [Nico Roeser](https://docu.ilias.de/goto_docu_usr_72730.html), [Fabian Schmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+* **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+* **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/goto_docu_usr_94205.html)
+* **Online Help**: [Alexandra Tödt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
 # Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS 
@@ -89,9 +89,9 @@ file containes the following fields:
     An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
 * **"[issue_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** :
   An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
-* **"tester"**: One entry in the form `<username> (<userid>)` pointing to a valid user on
+* **"tester"**: One entry in the form `<username>(<userid>)` pointing to a valid user on
   https://docu.ilias.de.
-* **"testcase_writer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on
+* **"testcase_writer"**: One entry in the form `<username>(<userid>)` pointing to a valid user on
   https://docu.ilias.de.
 
 ## Current Maintainerships
@@ -219,16 +219,6 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
 [//]: # (END Chat)
-
-[//]: # (BEGIN CloudObject)
-
-* **Cloud Object**
-	* 1st Maintainer: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
-	* 2nd Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* Testcases: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
-	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-
-[//]: # (END CloudObject)
 
 [//]: # (BEGIN cmi5AndxAPIObject)
 
@@ -370,6 +360,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 [//]: # (END ECSInterface)
+
+[//]: # (BEGIN EmployeeTalk)
+
+* **EmployeeTalk**
+	* 1st Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+	* 2nd Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+	* Testcases: N.A.
+	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+
+[//]: # (END EmployeeTalk)
 
 [//]: # (BEGIN Exercise)
 
@@ -743,6 +743,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END OnlineHelp)
 
+[//]: # (BEGIN OpenIdConect)
+
+* **Open ID Connect**
+	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: N.A.
+	* Tester: N.A.
+
+[//]: # (END OpenIdConect)
+
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
@@ -844,26 +854,6 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END SAML)
 
-[//]: # (BEGIN SCORMOfflinePlayer)
-
-* **SCORM Offline Player**
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-	* Testcases: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-	* Tester: [sschneider](https://docu.ilias.de/goto_docu_usr_21741.html)
-
-[//]: # (END SCORMOfflinePlayer)
-
-[//]: # (BEGIN SCORMOnlineEditor)
-
-* **SCORM Online Editor**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-	* Tester: [Hester](https://docu.ilias.de/goto_docu_usr_31687.html)
-
-[//]: # (END SCORMOnlineEditor)
-
 [//]: # (BEGIN Search)
 
 * **Search**
@@ -917,8 +907,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Staff)
 
 * **Staff**
-	* 1st Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* 2nd Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
 
@@ -968,7 +958,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **Tagging**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
 
@@ -1054,7 +1044,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **Virus Scanner**
 	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
@@ -1200,20 +1190,11 @@ the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs
 	* Used in Directories: src/UI
 
 [//]: # (END UI-Service)
-The following directories are currently maintained under
-the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
-
-* src/Refinery
-* src/UI
 
 ## Unmaintained Components
 
 The following directories are currently unmaintained:
 
-* Services/DiskQuota
-* Services/Membership
-* Services/OpenIdConnect
-* Services/PHPUnit
+* Services/CSV
 * Services/QTI
 * Services/Randomization
-* src/ArtifactBuilder
