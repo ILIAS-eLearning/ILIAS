@@ -562,6 +562,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function deleteVersions($a_hist_entry_ids = null): void
     {
         $this->implementation->deleteVersions($a_hist_entry_ids);
+        // update file object as the deletion of versions might affect its attributes (title, max_version etc.)
+        if ($this->getResourceId() && $rid = $this->manager->find($this->getResourceId())) {
+            $latest_revision = $this->manager->getCurrentRevision($rid);
+            $this->updateObjectFromRevision($latest_revision);
+        }
     }
 
     public function sendFile(?int $a_hist_entry_id = null): void
