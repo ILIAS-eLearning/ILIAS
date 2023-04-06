@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Notifications\Model;
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\ilNotificationSystem;
 use ilObjUser;
 use stdClass;
@@ -45,13 +46,17 @@ class ilNotificationConfig
     /** @var array<string, array<string, string>> */
     private array $handlerParams = [];
 
-    public function __construct(private readonly string $type)
+    public function __construct(private readonly string $provider, private ?NotificationIdentification $identification = null)
     {
+        if ($identification === null) {
+            $identification = new NotificationIdentification($provider, 'default');
+        }
+        $this->identification = $identification;
     }
 
     public function getType(): string
     {
-        return $this->type;
+        return $this->provider;
     }
 
     public function setAutoDisable(bool $value): void
@@ -168,6 +173,9 @@ class ilNotificationConfig
         return $this->visibleForSeconds;
     }
 
+    /**
+     * @deprecated since notifications are no longer used for popup presentation. See the GS Scope Toast for more information.
+     */
     public function setVisibleForSeconds(int $visibleForSeconds): void
     {
         $this->visibleForSeconds = $visibleForSeconds;
@@ -300,5 +308,15 @@ class ilNotificationConfig
     public function unsetHandlerParam(string $name): void
     {
         unset($this->handlerParams[$name]);
+    }
+
+    public function setIdentification(NotificationIdentification $identification): void
+    {
+        $this->identification = $identification;
+    }
+
+    public function getIdentification(): NotificationIdentification
+    {
+        return $this->identification;
     }
 }
