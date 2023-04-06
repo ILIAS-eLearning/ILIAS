@@ -22,6 +22,7 @@ namespace ILIAS\Notifications\Repository;
 
 use ilDBInterface;
 use ILIAS\DI\Container;
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\ilNotificationSetupHelper;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
@@ -62,7 +63,8 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             $now,
             $base->getValidForSeconds() ? $base->getValidForSeconds() + $now : 0,
             $base->getVisibleForSeconds(),
-            $base->getType()
+            $base->getType(),
+            $base->getIdentification()
         );
 
         if (in_array($notification->getType(), self::UNIQUE_TYPES)) {
@@ -79,6 +81,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
                 'visible_for' => [ilDBConstants::T_INTEGER, $notification->getVisibleFor()],
                 'type' => [ilDBConstants::T_TEXT, $notification->getType()],
                 'time_added' => [ilDBConstants::T_INTEGER, $notification->getTimeAdded()],
+                'identification' => [ilDBConstants::T_TEXT, (string) $notification->getIdentification()]
             ]
         );
 
@@ -130,7 +133,8 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
                 (int) $row['time_added'],
                 (int) $row['valid_until'],
                 (int) $row['visible_for'],
-                $row['type']
+                $row['type'],
+                new NotificationIdentification($row['type'], $row['identification'])
             );
 
             $notifications[] = $notification;
@@ -156,6 +160,19 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
             [$user_id, $type]
         );
+    }
+
+    public function deleteOSDNotificationByIdentification(string $povider_type, string $identification, int $user_id = 0): bool
+    {
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE type = %s AND identification = %s';
+        $keys = [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT];
+        $values = [$povider_type, $identification];
+        if ($user_id > 0) {
+            $query .= ' AND user_id = %s';
+            $keys[] = ilDBConstants::T_INTEGER;
+            $values[] = $user_id;
+        }
+        return (1 === $this->database->manipulateF($query, $keys, $values));
     }
 
     public function deleteStaleOSDNotificationsForUserAndType(string $povider_type, int $user_id, int $until_timestamp): void

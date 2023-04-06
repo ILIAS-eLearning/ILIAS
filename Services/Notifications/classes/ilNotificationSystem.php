@@ -61,7 +61,7 @@ class ilNotificationSystem
     /**
      * @param int[] $users
      */
-    private function toUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false): void
+    public function toUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false): void
     {
         if ($processAsync === false) {
             $adminConfig = ilNotificationDatabaseHandler::loadUserConfig(-1);
@@ -149,6 +149,7 @@ class ilNotificationSystem
     }
 
     /**
+     * @deprecated
      * @param int[] $users
      */
     public static function sendNotificationToUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false): void
