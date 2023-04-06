@@ -987,9 +987,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 is_array($solution[0]) &&
                 strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
             ) {
-                $worksheet->setCell($startrow + $i, $col + 1, 1);
+                $worksheet->setCell($startrow + $i, $col + 2, 1);
             } else {
-                $worksheet->setCell($startrow + $i, $col + 1, 0);
+                $worksheet->setCell($startrow + $i, $col + 2, 0);
             }
             $i++;
         }

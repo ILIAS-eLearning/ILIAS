@@ -823,7 +823,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         if (array_key_exists(0, $solutions) && strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, $col + 1, html_entity_decode($solutions[0]["value1"]));
+            $worksheet->setCell($startrow + $i, $col + 2, html_entity_decode($solutions[0]["value1"]));
         }
         $i++;
 

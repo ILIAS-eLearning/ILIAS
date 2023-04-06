@@ -803,10 +803,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                             if ($value == -1) {
                                 $value = '';
                             }
-                            $worksheet->setCell($startrow + $i, $col + 1, $value);
+                            $worksheet->setCell($startrow + $i, $col + 2, $value);
                             break;
                         case self::ANSWER_TYPE_TEXT_VAL:
-                            $worksheet->setCell($startrow + $i, $col + 1, $solutionvalue["value2"]);
+                            $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue["value2"]);
                             break;
                     }
                 }
