@@ -656,7 +656,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
         $ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"), $this->object->key));
         $rg->addOption($ro);
-        $rg->setValue($this->getSession()["maintain"] ?? "");
+        $rg->setValue($this->getSession()["maintain"] ?? "load");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -750,11 +750,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $this->ctrl->redirect($this, "maintain");
     }
-
+    
+    /**
+     * View the language settings
+     */
+    public function settingsObject(): void
+    {
+        $form = $this->initNewSettingsForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+    
     /**
     * Set the language settings
     */
-    public function settingsObject(): void
+    public function saveSettingsObject(): void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -763,25 +772,36 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $post_translation = $this->http->request()->getParsedBody()['translation'] ?? "";
         // save and get the page translation setting
-        if (!empty($post_translation)) {
+        $translate = $ilSetting->get($translate_key, '0');
+        if (!is_null($post_translation) && $post_translation != $translate) {
             $ilSetting->set($translate_key, $post_translation);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
-        $translate = (bool) $ilSetting->get($translate_key, '0');
+        $form = $this->initNewSettingsForm();
 
+        $this->tpl->setContent($form->getHTML());
+    }
+    
+    protected function initNewSettingsForm(): ilPropertyFormGUI
+    {
+        global $DIC;
+        $ilSetting = $DIC->settings();
+        $translate_key = "lang_translate_" . $this->object->key;
+        $translate = (bool) $ilSetting->get($translate_key, '0');
+        
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));
         $form->setPreventDoubleSubmission(false);
-        $form->addCommandButton('settings', $this->lng->txt("language_change_settings"));
-
+        $form->addCommandButton('saveSettings', $this->lng->txt("language_change_settings"));
+    
         $ci = new ilCheckboxInputGUI($this->lng->txt("language_translation_enabled"), "translation");
         $ci->setChecked($translate);
         $ci->setInfo($this->lng->txt("language_note_translation"));
         $form->addItem($ci);
-
-        $this->tpl->setContent($form->getHTML());
+        
+        return $form;
     }
 
     /**

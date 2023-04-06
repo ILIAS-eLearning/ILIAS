@@ -15022,7 +15022,7 @@ li.ilModeratorPosting {
 }
 
 li.ilPostingNeedsActivation {
-  border-left: 6px solid #82639e;
+  border-left: 6px solid #B54F00;
 }
 
 .ilFrmBottomToolbar {
@@ -15031,6 +15031,10 @@ li.ilPostingNeedsActivation {
 
 .ilForumTreeTitle {
   display: inline-block;
+}
+
+.ilFrmPostActivationStatus {
+  color: #B54F00;
 }
 
 .ilForumTreeTitleUnread {
@@ -15058,6 +15062,14 @@ li.ilPostingNeedsActivation {
 
 .ilForumDraftHistoryEntry {
   padding: 5px;
+}
+
+.ilForumInlineCommandContainer {
+  display: flex;
+}
+
+.ilForumInlineCommandContainer > div {
+  margin-left: 10px;
 }
 
 /* Modules/LearningModule */

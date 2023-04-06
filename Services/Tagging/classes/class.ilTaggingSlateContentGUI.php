@@ -130,7 +130,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
                 $tpl->setVariable(
                     "ON_CLICK",
-                    "il.repository.core.fetchReplaceInner( il.Util.ajaxReplaceInner(document.getElementById('il-tag-slate-container'), '$list_cmd'); return false;"
+                    "il.repository.core.fetchReplaceInner(document.getElementById('il-tag-slate-container'), '$list_cmd'); return false;"
                 );
                 $tpl->setVariable("TAG_TITLE", $tag["tag"]);
                 $tpl->setVariable("HREF_TAG", "#");

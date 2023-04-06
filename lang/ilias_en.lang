@@ -4678,6 +4678,8 @@ common#:#msg_deleted_roles_rolts#:#Roles and Role Templates deleted
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_is_last_role#:#You removed the last global role from the following users
@@ -9422,8 +9424,6 @@ exc#:#feedback_received#:#Feedback received
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
-exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 exc#:#not_yet#:#not yet
 exc#:#submissions_feedback#:#Submissions and Peer Feedback
 exc#:#submissions_only#:#Submissions Only
@@ -9705,6 +9705,8 @@ forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
 forum#:#frm_copy#:#Copy Forum
 forum#:#frm_default_view#:#Default View
 forum#:#frm_edit_title#:#Edit Title
+forum#:#frm_enable_print_option#:#Enable print option
+forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the print option in Forum.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age
@@ -9788,6 +9790,7 @@ forum#:#post_activation_desc#:#Before being published all postings need to be ap
 forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
 forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
 forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
+forum#:#post_draft_info#:#This posting draft is only visible for you.
 forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re(%s):
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"

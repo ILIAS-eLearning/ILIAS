@@ -19,7 +19,10 @@
 						<!-- BEGIN update_usr_name -->{UPDATE_USR_NAME} | <!-- END update_usr_name -->{UPDATE_AUTHOR}
 						<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br/><span
 								class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span>
-						<!-- END post_not_activated_yet --></span>
+						<!-- END post_not_activated_yet -->
+						<!-- BEGIN post_is_draft --><br/><span
+								class="ilFrmPostActivationStatus">{POST_DRAFT_TEXT}</span>
+						<!-- END post_is_draft --></span>
 
 					<div class="ilFrmPostTitle">{SUBJECT}</div>
 				</div><!-- BEGIN censorship_advice -->
@@ -37,7 +40,7 @@
 			</div>
 		</div>
 		<div class="ilFrmPostClear"></div><!-- BEGIN commands_block -->
-		<div class="ilFrmPostCommands">{COMMANDS}</div><!-- END commands_block -->
+		<div class="ilFrmPostCommands ilForumInlineCommandContainer">{COMMANDS}</div><!-- END commands_block -->
 		<div class="ilFrmPostClear"></div>
 		<!-- BEGIN edit_draft_anchor --><a id="{EDIT_DRAFT_ANCHOR}"></a><!-- END edit_draft_anchor -->
 		{DRAFT_FORM}

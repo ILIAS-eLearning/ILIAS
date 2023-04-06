@@ -116,6 +116,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         }
 
         $frma_set = new ilSetting('frma');
+        $this->settings->set('forum_enable_print', (string) $form->getInput('forum_enable_print'));
         $this->settings->set('file_upload_allowed_fora', (string) ((int) $form->getInput('file_upload_allowed_fora')));
         $this->settings->set('send_attachments_by_mail', (string) ((int) $form->getInput('send_attachments_by_mail')));
         $this->settings->set('enable_fora_statistics', (string) ((int) $form->getInput('fora_statistics')));
@@ -139,6 +140,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frma_set = new ilSetting('frma');
 
         $form->setValuesByArray([
+            'forum_enable_print' => (bool) $this->settings->get('forum_enable_print', '0'),
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics'),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora'),
             'forum_notification' => (int) $this->settings->get('forum_notification', '0') === 1,
@@ -158,6 +160,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
         $form->setTitle($this->lng->txt('settings'));
+
+        $print_cb = new ilCheckboxInputGUI($this->lng->txt('frm_enable_print_option'), 'forum_enable_print');
+        $print_cb->setValue('1');
+        $print_cb->setInfo($this->lng->txt('frm_enable_print_option_desc'));
+        $form->addItem($print_cb);
 
         $check = new ilCheckboxInputGUI($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
         $check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
