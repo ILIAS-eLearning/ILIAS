@@ -1218,7 +1218,9 @@ Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/b
 
 The following directories are currently unmaintained:
 
+* Services/Context
 * Services/CSV
+* Services/EventHandling
+* Services/Excel
 * Services/QTI
 * Services/Randomization
-
