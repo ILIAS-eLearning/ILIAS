@@ -25,6 +25,8 @@ interface ilContentPageObjectConstants
 {
     public const OBJ_TYPE = 'copa';
 
+    public const HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT = 'page_editor_style';
+
     public const UI_CMD_VIEW = 'view';
     public const UI_CMD_EDIT = 'edit';
     public const UI_CMD_UPDATE = 'update';
@@ -33,6 +35,9 @@ interface ilContentPageObjectConstants
     public const UI_CMD_COPAGE_DISPLAY_FULLSCREEN = 'displayMediaFullscreen';
     public const UI_CMD_COPAGE_DISPLAY_MEDIA = 'displayMedia';
     public const UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH = 'download_paragraph';
+    public const UI_CMD_COPAGE_EDIT = 'edit';
+
+    public const UI_CMD_STYLES_EDIT = 'editStyleProperties';
 
     public const UI_TAB_ID_CONTENT = 'content';
     public const UI_TAB_ID_INFO = 'info_short';
