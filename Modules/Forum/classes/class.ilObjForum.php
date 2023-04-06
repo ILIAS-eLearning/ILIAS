@@ -36,6 +36,7 @@ class ilObjForum extends ilObject
     private static array $forum_last_post_cache = [];
     private \ILIAS\DI\RBACServices $rbac;
     private ilLogger $logger;
+    private ilSetting $settings;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
@@ -47,7 +48,7 @@ class ilObjForum extends ilObject
         $this->rbac = $DIC->rbac();
         $this->logger = $DIC->logger()->root();
 
-        $settings = $DIC->settings();
+        $this->settings = $DIC->settings();
         $this->Forum = new ilForum();
     }
 
@@ -56,7 +57,7 @@ class ilObjForum extends ilObject
         $id = parent::create();
 
         $properties = ilForumProperties::getInstance($this->getId());
-        $properties->setDefaultView(ilForumProperties::VIEW_DATE_ASC);
+        $properties->setDefaultView((int) $this->settings->get('forum_default_view', (string) ilForumProperties::VIEW_DATE_ASC));
         $properties->setAnonymisation(false);
         $properties->setStatisticsStatus(false);
         $properties->setPostActivation(false);
