@@ -777,7 +777,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $i = 1;
         foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, $col, $solution["value1"]);
+            $worksheet->setCell($startrow + $i, $col + 2, $solution["value1"]);
             $i++;
         }
 

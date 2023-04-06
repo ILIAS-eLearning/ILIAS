@@ -905,7 +905,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 }
             }
 
-            $worksheet->setCell($startrow + $i, $col + 1, $cellValue);
+            $worksheet->setCell($startrow + $i, $col + 2, $cellValue);
 
             $i++;
         }

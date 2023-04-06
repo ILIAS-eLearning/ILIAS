@@ -1199,15 +1199,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             if (strpos($solutionvalue["value1"], "_unit")) {
                 $unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
                 if (is_object($unit)) {
-                    $worksheet->setCell($startrow + $i, $col + 1, $unit->getUnit());
+                    $worksheet->setCell($startrow + $i, $col + 2, $unit->getUnit());
                 }
             } else {
-                $worksheet->setCell($startrow + $i, $col + 1, $solutionvalue["value2"]);
+                $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue["value2"]);
             }
             if (preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches)) {
                 $var = $this->getVariable($solutionvalue["value1"]);
                 if (is_object($var) && (is_object($var->getUnit()))) {
-                    $worksheet->setCell($startrow + $i, $col + 2, $var->getUnit()->getUnit());
+                    $worksheet->setCell($startrow + $i, $col + 3, $var->getUnit()->getUnit());
                 }
             }
             $i++;
