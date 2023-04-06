@@ -49,7 +49,6 @@ class ilMath
     public static function _mod($operand, $modulu)
     {
         $adapter = static::getDefaultAdapter();
-
         return $adapter->mod($operand, $modulu);
     }
 
@@ -77,6 +76,35 @@ class ilMath
         $adapter = static::getDefaultAdapter();
 
         return $adapter->pow($left_operand, $right_operand, $scale);
+    }
+
+    /**
+     * @param int|float $left_operand
+     * @param int|float $right_operand
+     * @return mixed
+     */
+    public static function _and($left_operand, $right_operand)
+    {
+        return $left_operand & $right_operand;
+    }
+
+    /**
+     * @param int|float $left_operand
+     * @param int|float $right_operand
+     * @return mixed
+     */
+    public static function _or($left_operand, $right_operand)
+    {
+        return $left_operand | $right_operand;
+    }
+
+    /**
+     * @param int|float $operand
+     * @return mixed
+     */
+    public static function _not($operand)
+    {
+        return ~$operand;
     }
 
     /**

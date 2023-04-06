@@ -338,10 +338,9 @@ class EvalMath
         }
     
         $stack = new EvalMathStack;
-        
         foreach ($tokens as $token) { // nice and easy
             // if the token is a binary operator, pop two values off the stack, do the operation, and push the result back on
-            if (in_array($token, array('+', '-', '*', '/', '^'))) {
+            if (in_array($token, array('+', '-', '*', '/', '^','&','|'))) {
                 if (is_null($op2 = $stack->pop())) {
                     return $this->trigger("internal error");
                 }
@@ -363,6 +362,10 @@ class EvalMath
                                             $stack->push(ilMath::_div($op1, $op2)); break;
                                         case '^':
                                             $stack->push(ilMath::_pow($op1, $op2)); break;
+                                        case '&':
+                                            $stack->push(ilMath::_and($op1, $op2)); break;
+                                        case '|':
+                                            $stack->push(ilMath::_or($op1, $op2)); break;
                 }
                 // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
