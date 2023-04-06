@@ -12,7 +12,7 @@ class Tooltip {
      * The container of the tooltip and the trigger element.
      * @type {Element}
      */
-    #container:
+    #container;
 
     /**
      * The HTMLDocument this all exists inside.
