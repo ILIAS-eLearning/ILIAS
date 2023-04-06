@@ -1062,10 +1062,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             foreach ($solutions as $solution) {
                 if ($solution["value1"] == $idx) {
                     $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
+                    $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
                 }
             }
             $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($idx);
-            $worksheet->setCell($startrow + $i, 1, $element->getContent());
+            $worksheet->setCell($startrow + $i, 2, $element->getContent());
             $i++;
         }
 

@@ -484,7 +484,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         $errortext = $this->createErrorTextExport($selections);
         $i++;
-        $worksheet->setCell($startrow + $i, 0, $errortext);
+        $worksheet->setCell($startrow + $i, 2, $errortext);
         $i++;
 
         return $startrow + $i + 1;
