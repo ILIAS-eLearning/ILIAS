@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
 /**
  * Class AbstractChildItem
@@ -28,6 +29,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 abstract class AbstractChildItem extends AbstractBaseItem implements isItem, isChild
 {
+    use SymbolDecoratorTrait;
     /**
      * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface|null
      */

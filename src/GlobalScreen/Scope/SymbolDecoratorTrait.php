@@ -26,7 +26,6 @@ use LogicException;
 use ReflectionFunction;
 use ReflectionType;
 use Throwable;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\isGlobalScreenItem;
 
 /**
