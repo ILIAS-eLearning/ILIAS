@@ -14,7 +14,6 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
     /** @var string */
     protected $language = '-';
     /** @var \ILIAS\DI\UIServices */
-    private $ui_services;
 
     /**
      * ilContentPagePageGUI constructor.
@@ -25,10 +24,6 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
      */
     public function __construct($a_id = 0, $a_old_nr = 0, $isEmbeddedMode = false, $language = '')
     {
-        global $DIC;
-
-        $this->ui_services = $DIC->ui();
-
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(false);
