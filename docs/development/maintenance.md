@@ -1064,7 +1064,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **Virus Scanner**
 	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
