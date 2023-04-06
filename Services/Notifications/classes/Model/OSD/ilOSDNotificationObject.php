@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Notifications\Model\OSD;
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationObject;
 
 /**
@@ -34,7 +35,8 @@ class ilOSDNotificationObject
         protected ?int $time_added = 0,
         protected ?int $valid_until = 0,
         protected ?int $visible_for = 0,
-        protected ?string $type = ''
+        protected ?string $type = '',
+        protected ?NotificationIdentification $identification = null
     ) {
     }
 
@@ -91,5 +93,15 @@ class ilOSDNotificationObject
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    public function getIdentification(): NotificationIdentification
+    {
+        return $this->identification;
+    }
+
+    public function setIdentification(NotificationIdentification $identification): void
+    {
+        $this->identification = $identification;
     }
 }
