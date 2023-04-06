@@ -1427,6 +1427,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###31 08 2017 new variable
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###31 08 2017 new variable
 assessment#:#tst_feedback#:#Feedback###27 01 2015 new variable
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Question Type###31 08 2017 new variable
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter###31 08 2017 new variable
@@ -3842,8 +3844,6 @@ common#:#day#:#Ημέρα
 common#:#days#:#Ημέρες
 common#:#db_host#:#Κόμβος βάσης δεδομένων
 common#:#db_name#:#Όνομα βάσης δεδομένων
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
-common#:#db_need_update#:#Η βάση δεδομένων χρειάζεται ενημέρωση!
 common#:#db_pass#:#Κωδικός Βάσης Δεδομένων
 common#:#db_type#:#Τύπος βάσης δεδομένων
 common#:#db_user#:#Χρήστης βάσης δεδομένων
@@ -5250,6 +5250,7 @@ common#:#predefined_template#:#Προκαθορισμένο πρότυπο ρό�
 common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#presentation_table_more#:#more###10 11 2018 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
@@ -10688,6 +10689,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Εισερχόμενα mail
 mail#:#mail_incoming_both#:#τοπικό και προωθημένο
 mail#:#mail_incoming_local#:#μόνο τοπικό

@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Nije prošao
 assessment#:#tst_failed_imp_qst_skl_assign#:#Dodjela pitanja sljedećim kompetencijama nije se mogla kreirati. Odgovarajuće kompetencije nisu se mogle identificirati u lokalnom sustavu.
 assessment#:#tst_failed_imp_skl_thresholds#:#Uvoz pragova za sljedeće kompetencije je preskočen jer su odgovarajuće kompetencije unutar lokalnog sustava konfigurirane s različitim popisom razina.
 assessment#:#tst_feedback#:#Povratne informacije
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###04 06 2021 new variable
 assessment#:#tst_filter_question_type#:#Tip pitanja
 assessment#:#tst_filter_question_type_enabled#:#Koristi filtar za tip pitanja
@@ -3841,8 +3843,6 @@ common#:#day#:#Dan
 common#:#days#:#Dani
 common#:#db_host#:#Domaćin baze podataka
 common#:#db_name#:#Naziv baze podataka
-common#:#db_need_hotfix#:#Dostupna je hotfix (hitna ispravka). Otvorite <a href="./setup/setup.php"> »Postavljanje </a>!
-common#:#db_need_update#:#Bazu podataka treba ažurirati!
 common#:#db_pass#:#Lozinka baze podataka
 common#:#db_type#:#Tip baze podataka
 common#:#db_user#:#Korisnik baze podataka
@@ -5249,6 +5249,7 @@ common#:#predefined_template#:#Preddefinirani predložak uloge
 common#:#preferences#:#Korisničke postavke
 common#:#presentation_table_more#:#Prikaži više
 common#:#preview#:#Pregled
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Kreiraj pregled
 common#:#preview_delete#:#Izbriši pregled
 common#:#preview_learner_info#:#Ako je omogućeno, administratori tečaja i skupine mogu vidjeti sadržaj iz perspektive sudionika tečaja odn. skupine.
@@ -10687,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#Došlo je do pogreške prilikom provjere valjano
 mail#:#mail_global_reply_to_addr#:#Reply-To###04 06 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###04 06 2021 new variable
 mail#:#mail_grp_roles#:#Pošaljite poštu ulogama grupe
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Dolazna pošta
 mail#:#mail_incoming_both#:#lokalno i prosljeđivanje
 mail#:#mail_incoming_local#:#samo lokalni

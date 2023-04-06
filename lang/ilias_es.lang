@@ -1428,6 +1428,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#Se ha omitido la importación de umbrales para las competencias siguientes, porque las competencias correspondientes en el sistema local están configuradas con una lista de niveles diferente.
 assessment#:#tst_feedback#:#Comentarios del tutor
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Tipo de pregunta
 assessment#:#tst_filter_question_type_enabled#:#Usar tipo de pregunta como filtro
@@ -3843,8 +3845,6 @@ common#:#day#:#Día
 common#:#days#:#Días
 common#:#db_host#:#host Base de Datos
 common#:#db_name#:#nombre de la Base de Datos
-common#:#db_need_hotfix#:#Actualización BBDD disponible. Por favor, ejecute el programa de configuración.
-common#:#db_need_update#:#La Base de Datos necesita una actualización!
 common#:#db_pass#:#contraseña de la base de datos
 common#:#db_type#:#tipo de base de datos
 common#:#db_user#:#usuario de conexión
@@ -5251,6 +5251,7 @@ common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#preferences#:#Preferencias definidas por usuario
 common#:#presentation_table_more#:#more
 common#:#preview#:#Avance
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Crear vista previa
 common#:#preview_delete#:#Eliminar vista previa
 common#:#preview_learner_info#:#Si está habilitado, los administradores del curso y grupo tienen la posibilidad de ver el formulario de contenido desde la perspectiva de un alumno.
@@ -10689,6 +10690,7 @@ mail#:#mail_generic_rcp_error#:#Se produjo un error mientras se validaban los re
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Enviar correo a roles del grupo
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Correos recibidos
 mail#:#mail_incoming_both#:#local y reenvío
 mail#:#mail_incoming_local#:#sólo local

@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#Nie udało się w drodze importu przyporządkować pytań do następujących kompetencji. Nie udało się zidentyfikować odpowiednich kompetencji w tym systemie.
 assessment#:#tst_failed_imp_skl_thresholds#:#Import wartości progowych dla następujących kompetencji został pominięty, ponieważ w systemie lokalnym przynależna kompetencja wykazuje listę z innymi poziomami.
 assessment#:#tst_feedback#:#Komunikat zwrotny
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Typ pytania
 assessment#:#tst_filter_question_type_enabled#:#Użyj filtra dla typu pytań
@@ -3841,8 +3843,6 @@ common#:#day#:#Dzień
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
-common#:#db_need_hotfix#:#Hotfix jest dostępny. Otwórz <a href="setup/setup.php">»Setup</a>!
-common#:#db_need_update#:#Baza danych wymaga uaktualnienia!
 common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#Użytkownik bazy danych
@@ -5249,6 +5249,7 @@ common#:#predefined_template#:#Predefiniowany szablon roli
 common#:#preferences#:#Preferencje
 common#:#presentation_table_more#:#more
 common#:#preview#:#Podgląd
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Utwórz podgląd
 common#:#preview_delete#:#Usuń podgląd
 common#:#preview_learner_info#:#Jeśli opcja jest włączona, to administratorzy kursów i grup mają możliwość obejrzenia określonej zawartości z perspektywy uczącego się.
@@ -10687,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#Wystąpił błąd przy walidacji odbiorców: %1$
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Wyślij wiadomość mailową do następujących ról grupy
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Poczta przychodząca
 mail#:#mail_incoming_both#:#Lokalna i przesyłana dalej
 mail#:#mail_incoming_local#:#Tylko lokalna

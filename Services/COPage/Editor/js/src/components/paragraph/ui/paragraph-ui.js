@@ -1087,7 +1087,12 @@ export default class ParagraphUI {
     if (i === "") {
       i = il.Language.txt("cont_no_block");
     } else {
-      i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
+      const dropdownEl = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i);
+      if (dropdownEl) {
+        i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
+      } else {
+        i = "";
+      }
     }
     const fc = document.querySelector(".ilSectionClassSelector .dropdown button");
     if (fc) {

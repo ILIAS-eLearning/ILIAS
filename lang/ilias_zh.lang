@@ -1425,6 +1425,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###31 08 2017 new variable
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###31 08 2017 new variable
 assessment#:#tst_feedback#:#Feedback###27 01 2015 new variable
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Question Type###31 08 2017 new variable
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter###31 08 2017 new variable
@@ -3840,8 +3842,6 @@ common#:#day#:#天
 common#:#days#:#天
 common#:#db_host#:#数据库主机
 common#:#db_name#:#数据库名称
-common#:#db_need_hotfix#:#热修复补丁有效。请打开安装程序。
-common#:#db_need_update#:#数据库需要更新！
 common#:#db_pass#:#数据库口令
 common#:#db_type#:#数据库类型
 common#:#db_user#:#数据库用户
@@ -5248,6 +5248,7 @@ common#:#predefined_template#:#预定义的角色模板
 common#:#preferences#:#用户定义偏好
 common#:#presentation_table_more#:#more###10 11 2018 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
 common#:#preview_learner_info#:#如果启用，课程和组管理员有可能从一个学习者的角度去查看内容。
@@ -10686,6 +10687,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#进入的邮件
 mail#:#mail_incoming_both#:#本地的和转发的
 mail#:#mail_incoming_local#:#只是本地的

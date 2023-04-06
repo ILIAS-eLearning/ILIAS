@@ -95,4 +95,12 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 
         return $this->ui->factory()->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
     }
+
+    /**
+     * @deprecated use buildIcon() instead
+     */
+    protected function getStandardSymbol(isItem $item) : Symbol
+    {
+        return $this->buildIcon($item);
+    }
 }

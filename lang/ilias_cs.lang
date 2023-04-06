@@ -1426,6 +1426,8 @@ assessment#:#tst_failed#:#Nepodařilo se
 assessment#:#tst_failed_imp_qst_skl_assign#:#Nemohla být vytvořena přiřazení otázek k následujícím způsobilostem. V lokálním systému nemohly být identifikovány příslušené způsobilosti.
 assessment#:#tst_failed_imp_skl_thresholds#:#Byl přeskočen import prahových hodnot pro následující způsobilosti, protože v lokálním systému jsou konfigurovány příslušné kompetence s jiným seznamem úrovní.
 assessment#:#tst_feedback#:#Zpětná vazba
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Typ otázky
 assessment#:#tst_filter_question_type_enabled#:#Použít typ otázky jako filtr
@@ -3841,8 +3843,6 @@ common#:#day#:#Den
 common#:#days#:#Dny
 common#:#db_host#:#Hostitel databáze
 common#:#db_name#:#Název databáze
-common#:#db_need_hotfix#:#Hotfix dostupný. Otevřete prosím setup program.
-common#:#db_need_update#:#Databáze vyžaduje aktualizaci!
 common#:#db_pass#:#Heslo k databázi
 common#:#db_type#:#Typ databáze
 common#:#db_user#:#Uživatel databáze
@@ -5249,6 +5249,7 @@ common#:#predefined_template#:#Předdefinovaná šablona role
 common#:#preferences#:#Uživatelsky definované preference
 common#:#presentation_table_more#:#více
 common#:#preview#:#Náhled
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Vytvořit náhled
 common#:#preview_delete#:#Smazat náhled
 common#:#preview_learner_info#:#Je-li zapnuto, administrátoři kurzů a skupin mají možnost zobrazit formulář obsahu příslušným uživatelům.
@@ -10687,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#Při ověřování příjemců došlo k chybě: 
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Odeslat poštu rolím ve skupině
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Příchozí pošta
 mail#:#mail_incoming_both#:#lokální a přeposílaná
 mail#:#mail_incoming_local#:#pouze lokální

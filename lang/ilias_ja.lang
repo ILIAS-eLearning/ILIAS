@@ -1295,10 +1295,10 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints###05 04 2023 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints###05 04 2023 new variable
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
-assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#正解と完全解答得点のみ
 assessment#:#tst_count_correct_solutions_desc#:#受験者点数、完全解答で全正解の最高点または他のどこかが0点のどちらかの受験者点数。
 assessment#:#tst_count_partial_solutions#:#不完全もしくは部分不正解の点数
 assessment#:#tst_count_partial_solutions_desc#:#部分解答の正解点数が追加されます: 受験者は不正解または部分不正解を得点できます。
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###05 04 2023 new variable
 assessment#:#tst_default_settings#:#パーソナル初期設定
 assessment#:#tst_defaults_applied#:#選択したテストの初期設定が適用されました。
 assessment#:#tst_defaults_apply_not_possible#:#ILIASはこのテストへ選択された初期設定を適用できませんでした!　問題もしくは一部データセットがすでに混在している可能性があります。
@@ -1425,6 +1426,8 @@ assessment#:#tst_failed#:#Failed
 assessment#:#tst_failed_imp_qst_skl_assign#:#次のコンピーテンスへの問題の割当ては作成することができませんでした。習得のコンピーテンスはローカルシステム内で識別することができませんでした。
 assessment#:#tst_failed_imp_skl_thresholds#:#ローカルシステムに沿ったコンピーテンスはレベルの別リストと一緒に構成されるので、次のコンピーテンスのスレッショールドのインポートはスキップされました。
 assessment#:#tst_feedback#:#フィードバック
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#フィルターをライフサイクルへ利用
 assessment#:#tst_filter_question_type#:#質問タイプ
 assessment#:#tst_filter_question_type_enabled#:#フィルターとして質問タイプを使用
@@ -2027,6 +2030,7 @@ auth#:#auth_info_migrate#:#既にILIASのアカウントがあれば、パーソ
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#ログインスクリーンエディタ
 auth#:#auth_oidc#:#OpenIdコンテンツ
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###05 04 2023 new variable
 auth#:#auth_oidc_login_element_info#:#OpenID Connect経由でILIASへログイン
 auth#:#auth_oidc_mapping_table#:#ILIASユーザーデータのOpenIdコンテンツ属性への割り当て
 auth#:#auth_oidc_profile#:#プロファイルデータの割当
@@ -2042,6 +2046,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#自身のセッショ
 auth#:#auth_oidc_settings_custom_session_duration_type#:#セッション期間の設定
 auth#:#auth_oidc_settings_default_role#:#役割の割り当て
 auth#:#auth_oidc_settings_default_role_info#:#新しいILIASユーザーのためのグローバル役割を選択してください
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###05 04 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###05 04 2023 new variable
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#ログインページに表示する写真をアップロードします。画像は自動的にOpenId コンテンツログインスクリプトにリンクします。
 auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s 
@@ -2066,6 +2072,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#ログインページに表示される
 auth#:#auth_oidc_settings_user_attr#:#ユーザーアクセスの属性名
 auth#:#auth_oidc_settings_user_sync#:#自動同期
 auth#:#auth_oidc_settings_user_sync_info#:#有効にした場合、Open IDコンテンツに対して正常に認証されたがILIASユーザーアカウントを持っていないユーザーは自動的に新しいユーザーアカウントを作成します。
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###05 04 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###05 04 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###05 04 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###05 04 2023 new variable
 auth#:#auth_oidc_update_field_info#:#自動的に更新します。
 auth#:#auth_oidc_update_role_info#:#初回ログイン時にのみ使用します（自動同期）
 auth#:#auth_oidconnect#:#OpenIdコンテンツ
@@ -2505,6 +2515,7 @@ book#:#book_no_preferences_for_you#:#preferenceが何も保存されていませ
 book#:#book_not#:#不明
 book#:#book_not_enough_preferences#:#十分なpreferenceが選択されました。preferenceはまだ保存されていません。
 book#:#book_notification#:#予約通知を送信
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###05 04 2023 new variable
 book#:#book_notification_info#:#翌日の予約リストをユーザ(自己予約)と管理者(有効の場合)へ送る。
 book#:#book_nr_of_preferences#:#Preference数
 book#:#book_nr_of_preferences_info#:#各受験者のPreferences数を表示できます。
@@ -3640,7 +3651,6 @@ common#:#categories_imported#:#カテゴリのインポートを完了
 common#:#catr#:#カテゴリリンク
 common#:#catr_edit_info#:#新しいリンクを作成するためにカテゴリを一つ選択してください。
 common#:#catr_new#:#新しいカテゴリリンクを作成
-common#:#cc#:#CC
 common#:#certificate#:#証明書
 common#:#certificate_file_already_exists_error#:#証明書ファイルは既にファイルシステムに存在します。
 common#:#certificate_file_input_output_error#:#証明書ファイルは見つかりましたが内部エラーにより削除できませんでした。管理者へ連絡願います。
@@ -3833,8 +3843,6 @@ common#:#day#:#日
 common#:#days#:#日
 common#:#db_host#:#データベースホスト
 common#:#db_name#:#データベース名
-common#:#db_need_hotfix#:#Hotfixが利用可能です。セットアッププログラムを開いてください。
-common#:#db_need_update#:#データベースの更新が必要です!
 common#:#db_pass#:#データベースのパスワード
 common#:#db_type#:#データベースのタイプ
 common#:#db_user#:#データベースのユーザ
@@ -5241,6 +5249,7 @@ common#:#predefined_template#:#事前定義の役割テンプレート
 common#:#preferences#:#プレファレンス
 common#:#presentation_table_more#:#詳しく見る
 common#:#preview#:#プレビュー
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#プレビューを作成
 common#:#preview_delete#:#プレビューを削除
 common#:#preview_learner_info#:#有効にすると、コースやグループ管理者が学習者の透視コンテンツフォームを表示する可能性があります。
@@ -5932,7 +5941,7 @@ common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利�
 common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
-common#:#withdrawal_sure_account_no_consent_ye#:#本当に使用許諾を承認しませんか? 
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###05 04 2023 new variable
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
 common#:#write#:#書込み
@@ -5962,6 +5971,7 @@ cont#:#cont_filter_fields#:#フィルタ－フィールド
 cont#:#cont_filter_record#:#記録
 cont#:#cont_found_objects#:#見つかったオブジェクト
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.###05 04 2023 new variable
 cont#:#cont_list_presentation#:#アイテム表示形式
 cont#:#cont_mem_skills#:#能力
 cont#:#cont_news_edited#:#未加工
@@ -6015,6 +6025,7 @@ cont#:#cont_std_filter_title_8#:#オブジェクトタイプ
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#標準
 cont#:#cont_tile_view#:#タイル
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###05 04 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#コンタクトを承認しました
 contact#:#contact_awrn_ap_contacts_info#:#ユーザの承認した全てのコンタクトが表示されます。
 contact#:#contact_awrn_req_contacts#:#コンタクト要求
@@ -10588,7 +10599,6 @@ lti#:#user_provider_subtab#:#ユーザ別プロバイダー定義
 ltiv#:#ltiv_create#:#LTI Consumerオブジェクト用の証明書を作成
 ltiv#:#ltiv_create_info#:#証明書作成用の完了したLTI consumerオブジェクトを選択
 mail#:#back_to_folder#:#フォルダへ戻る
-mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#ユーザは招待されています。
 mail#:#chat_users_without_login#:#次のユーザはILIAS アカウントがなく、チャットルームへ招待することはできません。
 mail#:#chat_users_without_permission#:#次のユーザは選択したチャットルームへアクセスできません。
@@ -10613,9 +10623,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#メーリングリストに連絡先�
 mail#:#mail_attachment_file_not_exist#:#次の添付のいずれかがありません: %1$s
 mail#:#mail_attachments#:#添付
 mail#:#mail_auto_generated_info#:#これは自動送信メールです。ILIASシステム %s, %s
+mail#:#mail_bcc#:#BCC###05 04 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail 配信
 mail#:#mail_both_email#:#両方のemailアドレス
+mail#:#mail_cc#:#CC###05 04 2023 new variable
 mail#:#mail_change_to_folder#:#フォルダ切替: %s
 mail#:#mail_create_tpl#:#Textテンプレートを作成
 mail#:#mail_cronjob_notification_info#:#ここで新しいメールに関する定期的な通知を有効にできます。
@@ -10676,6 +10688,7 @@ mail#:#mail_generic_rcp_error#:#受信者: %1$sを有効期間中にエラーが
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#希望する'Reply-To'アドレスを入力してください。
 mail#:#mail_grp_roles#:#グループ役割へメールを送信
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#受信メール
 mail#:#mail_incoming_both#:#ローカル受信と転送
 mail#:#mail_incoming_local#:#ローカル受信のみ
@@ -10829,6 +10842,7 @@ mail#:#placeholders_advise#:#孤立メールに関する通知
 mail#:#search_content#:#結果を検索
 mail#:#search_recipients#:#宛先を検索
 mail#:#second_email_missing_info#:#第2emailアドレスが入力されていないので選択はできません。
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###05 04 2023 new variable
 mail#:#send_mail_admins#:#全ての管理者
 mail#:#send_mail_members#:#全てのメンバー
 mail#:#send_mail_to#:#Mail to
