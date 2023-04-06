@@ -182,19 +182,7 @@ il.Util = {
 		console.log(o);
 	},
 	
-	// Screen reader related functions
-	
-	// Set focus for screen reader per element id
-	setScreenReaderFocus: function(id)
-	{
-		var obj = document.getElementById(id);
-		if (obj)
-		{
-			obj.focus();
-			self.location.hash = id;
-		}
-	},
-	
+
 	/**
 	 * Get region information (coordinates + size) for an element
 	 */

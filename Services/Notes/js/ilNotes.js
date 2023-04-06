@@ -156,41 +156,34 @@ const ilNotes = {
 
     // perform page modification
     if (o.responseText !== undefined) {
-      if (o.argument.mode == 'xxx') {
+      t = ilNotes;
+
+      // default action: replace html
+      if (t.inModal()) {
+        const modalBody = document.querySelector("#il_notes_modal .modal-body");
+        modal.dataset.status = "";
+        il.repository.core.setInnerHTML(modalBody, o.responseText)
+        ilNotes.init(document.getElementById("il_notes_modal"));
       } else {
-        t = ilNotes;
+        const embedOuter = document.getElementById("notes_embedded_outer");
+        il.repository.core.setInnerHTML(embedOuter, o.responseText)
+        ilNotes.init(document.getElementById("notes_embedded_outer"));
+      }
+      const headButton = document.querySelector("#il_notes_modal .modal-header button");
+      if (headButton) {
+        headButton.focus();
+      }
+    }
 
-        // default action: replace html
-        if (t.old) {
-          il.UICore.setRightPanelContent(o.responseText);
-        } else {
-          if (t.inModal()) {
-            const modalBody = document.querySelector("#il_notes_modal .modal-body");
-            modal.dataset.status = "";
-            il.repository.core.setInnerHTML(modalBody, o.responseText)
-            ilNotes.init(document.getElementById("il_notes_modal"));
-          } else {
-            const embedOuter = document.getElementById("notes_embedded_outer");
-            il.repository.core.setInnerHTML(embedOuter, o.responseText)
-            ilNotes.init(document.getElementById("notes_embedded_outer"));
-          }
-          const headButton = document.querySelector("#il_notes_modal .modal-header button");
-          if (headButton) {
-            headButton.focus();
-          }
-        }
-
-        if (typeof ilNotes.update_code != "undefined" &&
-          ilNotes.update_code != null && ilNotes.update_code !== "") {
-          if (o.argument.reg_type === "post" ||
-            (typeof o.argument.url == "string" &&
-              (o.argument.url.indexOf("cmd=activateComments") !== -1 ||
-                o.argument.url.indexOf("cmd=deactivateComments") !== -1 ||
-                o.argument.url.indexOf("cmd=confirmDelete") !== -1
-              ))) {
-            eval(ilNotes.update_code);
-          }
-        }
+    if (typeof ilNotes.update_code != "undefined" &&
+      ilNotes.update_code != null && ilNotes.update_code !== "") {
+      if (o.argument.reg_type === "post" ||
+        (typeof o.argument.url == "string" &&
+          (o.argument.url.indexOf("cmd=activateComments") !== -1 ||
+            o.argument.url.indexOf("cmd=deactivateComments") !== -1 ||
+            o.argument.url.indexOf("cmd=confirmDelete") !== -1
+          ))) {
+        eval(ilNotes.update_code);
       }
     }
   },
