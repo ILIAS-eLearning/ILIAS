@@ -40,7 +40,7 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var initNodesForActions = function (tree_dom) {
-			tree_dom.find('.il-tree-node .node-line .node-label a').click(
+			tree_dom.find('.c-tree__node .c-tree__node__line .tree__node__line a').click(
 				function(e) {
 					let href = $(this).attr('href');
 
