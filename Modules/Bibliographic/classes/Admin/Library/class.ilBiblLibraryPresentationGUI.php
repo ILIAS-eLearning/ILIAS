@@ -22,16 +22,16 @@
  */
 class ilBiblLibraryPresentationGUI
 {
-    protected \ilBiblLibraryInterface $library;
-    protected \ilBiblFactoryFacade $facade;
-
     /**
      * ilBiblLibraryPresentationGUI constructor.
      */
-    public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
-    {
-        $this->library = $library;
-        $this->facade = $facade;
+    public function __construct(
+        protected \ilBiblLibraryInterface $library,
+        protected \ilBiblFactoryFacade $facade,
+        protected \ilCtrlInterface $ctrl,
+        protected \ilLanguage $lng,
+        protected \ILIAS\DI\UIServices $ui
+    ) {
     }
 
     /**
@@ -102,19 +102,22 @@ class ilBiblLibraryPresentationGUI
      */
     public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry)
     {
-        if ($this->library->getImg()) {
-            $button = ilImageLinkButton::getInstance();
-            $button->setImage($this->library->getImg(), false);
-            $button->addCSSClass("btn");
-            $button->addCSSClass("btn-default");
+        $action = $this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation());
+        if (null !== ($img_path = $this->library->getImg())) {
+            $icon = $this->ui->factory()->symbol()->icon()->custom($img_path, "");
+            $btn_online_link = $this->ui->factory()->button()->bulky(
+                $icon,
+                $this->lng->txt('bibl_link_online'),
+                $action
+            );
         } else {
-            $button = ilLinkButton::getInstance();
+            $btn_online_link = $this->ui->factory()->button()->standard(
+                $this->lng->txt('bibl_link_online'),
+                $action
+            );
         }
-        $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
-        $button->setTarget('_blank');
-        $button->setCaption('bibl_link_online');
 
-        return $button->render();
+        return $this->ui->renderer()->render($btn_online_link);
     }
 
     /**

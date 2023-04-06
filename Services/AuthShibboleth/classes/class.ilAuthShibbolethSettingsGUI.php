@@ -151,7 +151,7 @@ class ilAuthShibbolethSettingsGUI
 
         $rule_ids = $this->wrapper->post()->retrieve(
             'rule_ids',
-            $this->refinery->to()->listOf($this->refinery->to()->int())
+            $this->refinery->to()->listOf($this->refinery->kindlyTo()->int())
         );
         foreach ($rule_ids as $rule_id) {
             $rule = new ilShibbolethRoleAssignmentRule($rule_id);

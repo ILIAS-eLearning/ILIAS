@@ -4058,7 +4058,7 @@ common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#File uploaded
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
-common#:#file_confirm_delete_versions#:#Are you sure to delete the following file versions?
+common#:#file_confirm_delete_versions#:#Are you sure you want to delete the following file version(s)?
 common#:#file_created#:#File has been added.
 common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information

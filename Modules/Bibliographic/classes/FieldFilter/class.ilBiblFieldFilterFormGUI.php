@@ -41,7 +41,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
         $this->parent_gui = $parent_gui;
         $q = $this->http()->wrapper()->query();
         $this->filter_id = $q->has(ilBiblFieldFilterGUI::FILTER_ID)
-            ? $q->retrieve(ilBiblFieldFilterGUI::FILTER_ID, $this->dic()->refinery()->to()->int())
+            ? $q->retrieve(ilBiblFieldFilterGUI::FILTER_ID, $this->dic()->refinery()->kindlyTo()->int())
             : null;
 
         $this->lng()->loadLanguageModule('bibl');
