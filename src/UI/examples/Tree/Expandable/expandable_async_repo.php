@@ -49,7 +49,7 @@ function expandable_async_repo($ref = null)
                 . ' (' . $record['type'] . ', ' . $ref_id . ')';
 
             $icon = $environment['icon_factory']->standard($record["type"], '');
-            $url = $this->getAsyncURL($environment, $ref_id);
+            $url = $this->getAsyncURL($environment, (string) $ref_id);
 
             $node = $factory->simple($label, $icon)
                 ->withAsyncURL($url);

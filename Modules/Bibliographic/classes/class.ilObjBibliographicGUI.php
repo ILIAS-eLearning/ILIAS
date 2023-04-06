@@ -61,10 +61,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     protected \ilBiblFieldFactory $field_factory;
     protected \ilBiblFieldFilterFactory $filter_factory;
     protected \ilBiblTypeFactory $type_factory;
-    /**
-     * @var Services
-     */
-    protected $storage;
+
+    protected ilHelpGUI $help;
+    protected Services $storage;
     protected \ilObjBibliographicStakeholder $stakeholder;
     protected ?string $cmd = self::CMD_SHOW_CONTENT;
 
@@ -72,6 +71,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     {
         global $DIC;
 
+        $this->help = $DIC['ilHelp'];
         $this->storage = $DIC['resource_storage'];
         $this->stakeholder = new ilObjBibliographicStakeholder();
 
@@ -483,13 +483,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         if (($read_access && $online) || $write_access) {
             $DIC->tabs()->activateTab(self::TAB_CONTENT);
 
-            $b = ilLinkButton::getInstance();
-            $b->setCaption('download_original_file');
-            $b->setUrl($DIC->ctrl()->getLinkTargetByClass(self::class, self::CMD_SEND_FILE));
-            $b->setPrimary(true);
-            $DIC->toolbar()->addButtonInstance($b);
+            $btn_download_original_file = $this->ui()->factory()->button()->primary(
+                $this->lng->txt('download_original_file'),
+                $this->ctrl()->getLinkTargetByClass(self::class, self::CMD_SEND_FILE)
+            );
+            $this->toolbar->addComponent($btn_download_original_file);
 
-            $table = new ilBiblEntryTableGUI($this, $this->facade);
+            $table = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
             $html = $table->getHTML();
             $DIC->ui()->mainTemplate()->setContent($html);
 
@@ -509,7 +509,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
     protected function applyFilter(): void
     {
-        $table = new ilBiblEntryTableGUI($this, $this->facade);
+        $table = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
         $table->writeFilterToSession();
         $table->resetOffset();
         $this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
@@ -517,7 +517,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
     protected function resetFilter(): void
     {
-        $table = new ilBiblEntryTableGUI($this, $this->facade);
+        $table = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
         $table->resetFilter();
         $table->resetOffset();
         $this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
@@ -561,7 +561,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
             $entry = $this->facade->entryFactory()
                                   ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
-            $bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade);
+            $bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade, $this->ctrl(), $this->help, $this->lng(), $this->tpl(), $this->tabs(), $this->ui());
 
             $DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
         } else {

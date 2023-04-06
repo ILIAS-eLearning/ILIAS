@@ -118,9 +118,9 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="treeitem">
-				<span class="node-line">
-					<span class="node-label">simple</span>
+			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">simple</span>
 				</span>
 			</li>
 EOT;
@@ -141,11 +141,11 @@ EOT;
 
         $expected = <<<EOT
 			<li id=""
-				 class="il-tree-node node-simple expandable"
+				 class="c-tree__node c-tree__node--simple expandable"
 				 role="treeitem" aria-expanded="false"
 				 data-async_url="something.de" data-async_loaded="false">
-				<span class="node-line">
-					<span class="node-label">simple</span>
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">simple</span>
 				</span>
 				<ul role="group"></ul>
 			</li>
@@ -166,9 +166,9 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="treeitem">
-				<span class="node-line">
-					<span class="node-label">
+			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">
 						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
 						label
 					</span>

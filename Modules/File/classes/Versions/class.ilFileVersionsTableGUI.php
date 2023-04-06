@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * Class ilFileVersionsTableGUI
@@ -27,16 +29,24 @@ class ilFileVersionsTableGUI extends ilTable2GUI
     private Container $dic;
     private int $current_version;
     private \ilObjFile $file;
+    protected \ILIAS\DI\UIServices $ui;
     protected bool $has_been_migrated = false;
+
+    /**
+     * @var Modal[]
+     */
+    protected array $modals = [];
 
     /**
      * ilFileVersionsTableGUI constructor.
      */
-    public function __construct(ilFileVersionsGUI $calling_gui_class, string $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT)
-    {
+    public function __construct(
+        ilFileVersionsGUI $calling_gui_class,
+        string $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT
+    ) {
         global $DIC;
         $this->dic = $DIC;
-
+        $this->ui = $DIC->ui();
         $this->setId(self::class);
         parent::__construct($calling_gui_class, $a_parent_cmd, "");
         $this->file = $calling_gui_class->getFile();
@@ -57,6 +67,8 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
         $this->setSelectAllCheckbox("hist_id[]");
+        //TODO: Use ilFileVersionsGUI::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL instead of ilFileVersionsGUI::CMD_DELETE_VERSIONS as soon as new table gui is introduced.
+        // ilFileVersionsGUI::CMD_DELETE_VERSIONS and its deprecated ilConfirmationGUI are only needed because the old ilTable2GUI doesn't support calling modals from its MultiCommands
         $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
         $this->addMultiCommand(
             ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
@@ -84,7 +96,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         foreach ($this->file->getVersions() as $version) {
             $versions[] = $version->getArrayCopy();
         }
-        usort($versions, static fn (array $i1, array $i2): int => $i2['version'] - $i1['version']);
+        usort($versions, static fn(array $i1, array $i2): int => $i2['version'] - $i1['version']);
 
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
@@ -120,21 +132,30 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $link = $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DOWNLOAD_VERSION);
 
         // build actions
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setId($hist_id);
-        $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->addItem(
-            $this->dic->language()->txt("delete"),
-            "",
-            $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DELETE_VERSIONS)
+        $pseudo_modal = $this->ui->factory()->modal()->interruptive('', '', '')->withAsyncRenderUrl(
+            $this->ctrl->getLinkTargetByClass(
+                ilFileVersionsGUI::class,
+                ilFileVersionsGUI::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL,
+                null,
+                true
+            )
         );
+        $action_entries['delete'] = $this->dic->ui()->factory()->button()->shy(
+            $this->dic->language()->txt("delete"),
+            ''
+        )->withOnClick(
+            $pseudo_modal->getShowSignal()
+        );
+        $this->modals[] = $pseudo_modal;
         if ($this->current_version !== (int) $version) {
-            $actions->addItem(
+            $action_entries['file_rollback'] = $this->dic->ui()->factory()->button()->shy(
                 $this->dic->language()->txt("file_rollback"),
-                "",
                 $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION)
             );
         }
+        $actions = $this->dic->ui()->renderer()->render(
+            $this->dic->ui()->factory()->dropdown()->standard($action_entries)->withLabel("Actions")
+        );
 
         // reset history parameter
         $this->dic->ctrl()->setParameter($this->parent_obj, ilFileVersionsGUI::HIST_ID, "");
@@ -162,8 +183,19 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
         $this->tpl->setCurrentBlock("version_actions");
 
-        $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+        $this->tpl->setVariable("ACTIONS", $actions);
 
         $this->tpl->parseCurrentBlock();
+    }
+
+    /**
+     * Enables rendering modals OUTSIDE of the table. This is required because
+     * this table uses multi-actions, which will render the table inside a form.
+     * Since modals can contain forms as well, this would lead to invalid HTML
+     * markup.
+     */
+    public function getHTML(): string
+    {
+        return parent::getHTML() . $this->ui->renderer()->render($this->modals);
     }
 }

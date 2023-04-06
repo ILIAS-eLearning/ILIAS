@@ -648,19 +648,19 @@ class ilObjFileGUI extends ilObject2GUI
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
-            $button = ilLinkButton::getInstance();
-            $button->setTarget('_blank');
-            $button->setCaption("file_download");
-            $button->setPrimary(true);
-
             // get permanent download link for repository
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $button->setUrl(ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
+                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
             } else {
-                $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
+                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
             }
 
-            $this->toolbar->addButtonInstance($button);
+            // add download button
+            $btn_download = $this->ui->factory()->button()->primary(
+                $this->lng->txt('file_download'),
+                $download_target
+            );
+            $this->toolbar->addComponent($btn_download);
         }
 
         $info->enablePrivateNotes();

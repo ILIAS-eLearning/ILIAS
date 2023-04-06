@@ -202,7 +202,7 @@ class IconListingUI
             $this->lng->txt('msg_confirm_entry_deletion'),
             $target
         )->withAffectedItems([
-            $this->ui_factory->modal()->interruptiveItem(
+            $this->ui_factory->modal()->interruptiveItem()->standard(
                 $rid,
                 $txt_suffixes,
                 $img_icon

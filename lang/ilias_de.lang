@@ -4058,7 +4058,7 @@ common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
 common#:#file_added#:#Datei hochgeladen
 common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_confirm_delete_all_versions#:#Sie haben alle Dateiversionen ausgewählt. Daher wird das ganze Datei-Objekt gelöscht. Wollen Sie fortfahren?
-common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass folgende Dateiversionen gelöscht werden sollen?
+common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass Sie die folgende(n) Dateiversion(en) löschen wollen?
 common#:#file_created#:#Die Datei wurde hinzugefügt.
 common#:#file_edit#:#Dateieinstellungen bearbeiten
 common#:#file_info#:#Dateiinformation
