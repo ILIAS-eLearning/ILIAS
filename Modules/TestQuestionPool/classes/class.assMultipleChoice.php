@@ -1013,9 +1013,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 }
             }
             if ($checked) {
-                $worksheet->setCell($startrow + $i, 1, 1);
+                $worksheet->setCell($startrow + $i, 2, 1);
             } else {
-                $worksheet->setCell($startrow + $i, 1, 0);
+                $worksheet->setCell($startrow + $i, 2, 0);
             }
             $i++;
         }

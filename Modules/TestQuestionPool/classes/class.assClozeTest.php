@@ -1621,11 +1621,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
                         switch ($gap->getType()) {
                             case CLOZE_SELECT:
-                                $worksheet->setCell($startrow + $i, 1, $gap->getItem($solutionvalue["value2"])->getAnswertext());
+                                $worksheet->setCell($startrow + $i, 2, $gap->getItem($solutionvalue["value2"])->getAnswertext());
                                 break;
                             case CLOZE_NUMERIC:
                             case CLOZE_TEXT:
-                                $worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
+                                $worksheet->setCell($startrow + $i, 2, $solutionvalue["value2"]);
                                 break;
                         }
                     } finally {

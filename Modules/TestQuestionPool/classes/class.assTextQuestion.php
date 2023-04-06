@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -835,7 +836,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         if (array_key_exists(0, $solutions) && strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, 1, html_entity_decode($solutions[0]["value1"]));
+            $worksheet->setCell($startrow + $i, 2, html_entity_decode($solutions[0]["value1"]));
         }
         $i++;
 

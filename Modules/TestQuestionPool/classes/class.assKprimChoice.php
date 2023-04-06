@@ -1042,7 +1042,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                     break;
                 }
             }
-            $worksheet->setCell($startrow + $i, 1, $correctness);
+            $worksheet->setCell($startrow + $i, 2, $correctness);
             $i++;
         }
 
