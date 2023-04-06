@@ -1203,7 +1203,7 @@ class ilUtil
     {
         $test_str = explode('_', $ilias_id);
 
-        $parsed_inst_id = (int) $test_str[1] ?? 0;
+        $parsed_inst_id = (int) ($test_str[1] ?? 0);
         $prefix = $test_str[0] ?? '';
 
         if ($prefix === 'il' && $parsed_inst_id === $inst_id && count($test_str) === 4) {
