@@ -8,14 +8,18 @@ interface ilContentPageObjectConstants
 {
     const OBJ_TYPE = 'copa';
 
+    const HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT = 'page_editor_style';
+
     const UI_CMD_VIEW = 'view';
     const UI_CMD_EDIT = 'edit';
     const UI_CMD_UPDATE = 'update';
 
+    const UI_CMD_COPAGE_EDIT = 'edit';
     const UI_CMD_COPAGE_DOWNLOAD_FILE = 'downloadFile';
     const UI_CMD_COPAGE_DISPLAY_FULLSCREEN = 'displayMediaFullscreen';
     const UI_CMD_COPAGE_DISPLAY_MEDIA = 'displayMedia';
     const UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH = 'download_paragraph';
+    const UI_CMD_STYLES_EDIT = 'editStyleProperties';
 
     const UI_TAB_ID_CONTENT = 'content';
     const UI_TAB_ID_INFO = 'info_short';

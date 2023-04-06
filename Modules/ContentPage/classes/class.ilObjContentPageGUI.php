@@ -53,6 +53,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     /** @var ilHelp */
     protected $help;
+    /** @var bool */
+    private $in_page_editor_style_context = false;
 
     /**
      * @inheritdoc
@@ -88,10 +90,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             );
         }
 
+        $this->in_page_editor_style_context = (
+            $this->dic->http()->request()->getQueryParams()[self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT] ?? null
+        );
+
         $this->pageMetricsService = new PageMetricsService(
             new PageMetricsRepositoryImp($DIC->database()),
             $DIC->refinery()
         );
+
+        $this->ctrl->saveParameter($this, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT);
     }
 
     /**
@@ -150,6 +158,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     public function setTabs()
     {
         $this->help->setScreenIdComponent($this->object->getType());
+
+        if ($this->in_page_editor_style_context) {
+            return;
+        }
 
         if ($this->checkPermissionBool('read')) {
             $this->tabs->addTab(
@@ -214,6 +226,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->addToNavigationHistory();
 
         if (
+            !$this->in_page_editor_style_context &&
             strtolower($nextClass) !== strtolower(ilObjStyleSheetGUI::class) &&
             (
                 strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) ||
@@ -673,10 +686,31 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     {
         $this->checkPermission('write');
 
-        $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
-        $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+        if (!$this->in_page_editor_style_context) {
+            $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
+            $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+        }
 
         $form = $this->buildStylePropertiesForm();
+
+        if ($this->in_page_editor_style_context) {
+            $this->tabs->setBackTarget(
+                $this->lng->txt('back'),
+                $this->ctrl->getLinkTargetByClass(ilContentPagePageGUI::class, 'edit')
+            );
+
+            $forwarder = new ilContentPagePageCommandForwarder(
+                $this->request,
+                $this->ctrl,
+                $this->tabs,
+                $this->lng,
+                $this->object,
+                $this->user
+            );
+            $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PREVIEW);
+            $forwarder->forward('');
+            $this->tabs->setTabActive('obj_sty');
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -774,6 +808,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         }
 
-        $this->ctrl->redirect($this, 'editStyleProperties');
+        $this->ctrl->redirect($this, self::UI_CMD_STYLES_EDIT);
     }
 }
