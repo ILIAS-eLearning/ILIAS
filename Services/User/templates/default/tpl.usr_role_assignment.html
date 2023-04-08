@@ -1,6 +1,10 @@
 <!-- BEGIN form_filter -->
 <form action="{FILTER_ACTION}" method="post">
-	<b>{FILTER_TXT_FILTER}</b>&nbsp;{SELECT_FILTER}&nbsp;<input class="submit" type="submit" name="cmd[{FILTER_NAME}]" value="{FILTER_VALUE}"/>&nbsp;
+	<b>{FILTER_TXT_FILTER}</b>&nbsp;
+	{SELECT_FILTER}&nbsp;
+	<input class="submit" type="submit" role="button"
+		   aria-label="cmd[{FILTER_NAME}]"
+		   name="cmd[{FILTER_NAME}]" value="{FILTER_VALUE}"/>&nbsp;
 </form>
 <!-- END form_filter -->
 {ROLES_TABLE}

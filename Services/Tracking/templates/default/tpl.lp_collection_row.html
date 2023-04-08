@@ -5,12 +5,19 @@
 	<td class="std" valign="top">
 		<div>
 			<!-- BEGIN item_row -->
-			<img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" class="ilListItemIcon" /> <a href="{COLL_LINK}" target="{COLL_FRAME}">{COLL_TITLE}</a>
+			<img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" class="ilListItemIcon" />
+			<a aria-label="{COLL_TITLE}" href="{COLL_LINK}" target="{COLL_FRAME}">
+				{COLL_TITLE}
+			</a>
 			<!-- BEGIN description -->
 			<div class="il_Description_no_margin">{COLL_DESC}</div>
 			<!-- END description -->
 			<!-- BEGIN mode_inline_bl -->
-			<div class="il_info">{COLL_MODE_LABEL}: {COLL_MODE_INLINE}<span class="il_ItemAlertProperty">{COLL_MODE_DEACTIVATED_INLINE} {ANONYMIZED_INLINE}</span></div>
+			<div class="il_info">{COLL_MODE_LABEL}: {COLL_MODE_INLINE}
+				<span class="il_ItemAlertProperty">
+				{COLL_MODE_DEACTIVATED_INLINE} {ANONYMIZED_INLINE}
+			</span>
+			</div>
 			<!-- END mode_inline_bl -->			
 			<div class="il_info">{COLL_PATH}</div>			
 			<br />
@@ -18,16 +25,22 @@
 		</div>
 		<!-- BEGIN num_passed_items -->
 		<span>
-			{MIN_PASSED_TXT} <input type="text" size="1" maxlength="2" name="grp[{GRP_ID}]" value="{NUM_OBLIGATORY}" />
+			{MIN_PASSED_TXT}
+			<input type="text" size="1" aria-label="grp[{GRP_ID}]" maxlength="2"
+			name="grp[{GRP_ID}]" value="{NUM_OBLIGATORY}" />
 		</span>
 		<!-- END num_passed_items -->
 	</td>
 	<!-- BEGIN mode_bl -->
 	<td class="std" valign="top">
-		{COLL_MODE}<span class="il_ItemAlertProperty">{COLL_MODE_DEACTIVATED} {ANONYMIZED}</span>
+		{COLL_MODE}
+		<span class="il_ItemAlertProperty">
+			{COLL_MODE_DEACTIVATED} {ANONYMIZED}
+		</span>
 	</td>
 	<!-- END mode_bl -->
 	<td class="std" valign="top">
-		<img src="{ASSIGNED_IMG_OK}" alt="{ASSIGNED_STATUS}" title="{ASSIGNED_STATUS}" border="0" vspace="0" align="center" />
+		<img src="{ASSIGNED_IMG_OK}" alt="{ASSIGNED_STATUS}" title="{ASSIGNED_STATUS}"
+			 border="0" vspace="0" align="center" />
 	</td>
 </tr>

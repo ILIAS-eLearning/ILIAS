@@ -5,12 +5,16 @@
 	<div class="form-group">
 		<!-- BEGIN text_login -->
 		<div class="col-sm-12">
-			<a href="{SCRIPT_OIDCONNECT_T}">{TXT_OIDC}</a>
+			<a aria-label="{TXT_OIDC}" href="{SCRIPT_OIDCONNECT_T}">
+				{TXT_OIDC}
+			</a>
 		</div>
 		<!-- END text_login -->
 		<!-- BEGIN image_login -->
 		<div class="col-sm-12">
-			<a href="{SCRIPT_OIDCONNECT_I}"><img src="{IMG_SOURCE}" /></a>
+			<a aria-label="image login" href="{SCRIPT_OIDCONNECT_I}">
+				<img aria-hidden="true" src="{IMG_SOURCE}" />
+			</a>
 		</div>
 		<!-- BEGIN image_login -->
 	</div>

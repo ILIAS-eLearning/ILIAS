@@ -1,5 +1,6 @@
 <div id="progress_container_{PROGRESS_ID}" class="progress">
-	<div id="progress_div_{PROGRESS_ID}" class="progress-bar {CSS}"  valmax="{MAX}" role="progressbar" aria-valuenow="{CURRENT_INT}" aria-valuemin="{MIN}" aria-valuemax="{MAX}" style="width: {CURRENT_INT}%">
+	<div id="progress_div_{PROGRESS_ID}" class="progress-bar {CSS}"  valmax="{MAX}" role="progressbar"
+		 aria-valuenow="{CURRENT_INT}" aria-valuemin="{MIN}" aria-valuemax="{MAX}" style="width: {CURRENT_INT}%">
 		<!-- BEGIN hide_caption_in_bl -->
 		<span class="sr-only">
 			<!-- END hide_caption_in_bl -->
@@ -14,13 +15,10 @@
 	<img src="{ICON_OK}" />
 </span>
 <script>
-
 	il.Util.addOnLoad(function() {
-			
 		var interval_reference = null;
-			
 		var refresh = function() {
-				
+
 			var status = $.ajax({
 				type:		'GET',
 				cache:		false,
@@ -56,11 +54,9 @@
 				$('#progress_div_' + response.id).css('width', percentage + '%');
 				$('#progress_div_' + response.id).text(percentage + '%');
 				$('#progress_div_' + response.id).attr('aria-valuenow', percentage);
-
 			}
 			)
 		};
-
 		interval_reference = setInterval(refresh, '{AJAX_TIMEOUT}');
 	});
 </script>

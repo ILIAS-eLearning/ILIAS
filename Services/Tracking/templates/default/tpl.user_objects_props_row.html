@@ -2,7 +2,9 @@
 <td class="std">
 <span class="small"><img src="{ICON}" alt="{ICON_ALT}" title="{ICON_ALT}" />
 <!-- BEGIN title_linked -->
-<a href="{URL_TITLE}">{VAL_TITLE}</a>
+<a aria-label="{VAL_TITLE" href="{URL_TITLE}">
+	{VAL_TITLE}
+</a>
 <!-- END title_linked -->
 <!-- BEGIN title_plain -->
 {VAL_TITLE}
@@ -26,7 +28,9 @@
 <!-- END user_field -->
 <td class="std">
 	<!-- BEGIN item_command -->
-	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+	<a aria-label="{TXT_COMMAND}" class="il_ContainerItemCommand" href="{HREF_COMMAND}">
+		{TXT_COMMAND}
+	</a>
 	<!-- END item_command -->
 </td>
 </tr>

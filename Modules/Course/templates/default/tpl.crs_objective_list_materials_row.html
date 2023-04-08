@@ -1,6 +1,7 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input type="checkbox" name="materials[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
+		<input type="checkbox" aria-label="materials[] checkbox"
+			   name="materials[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
 	</td>	
 	<td class="std ilCenter">
   		<label for="{VAL_ID}">
@@ -10,7 +11,11 @@
 	<td class="std">
   		<label for="{VAL_ID}">
 			{VAL_TITLE}
-			<!-- BEGIN row_desc --><div class="il_Description">{VAL_DESC}</div><!-- END row_desc -->
+			<!-- BEGIN row_desc -->
+			<div class="il_Description">
+				{VAL_DESC}
+			</div>
+			<!-- END row_desc -->
 		</label>
 		<!-- BEGIN chapters -->
 		<div>
@@ -19,7 +24,8 @@
 				<!-- BEGIN chapter -->
 				<!--  BEGIN begin_depth --><div class="listIndent"><!--  END begin_depth -->
 				<li>
-					<input type="checkbox" name="chapters[]" value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED} />
+					<input type="checkbox" aria-label="chapters[] checkbox" name="chapters[]"
+						   value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED} />
 					<label for="{CHAP_ID}"> 
 						<img src="{CHAP_TYPE_IMG}" alt="{CHAP_TYPE_ALT}" title="{CHAP_TYPE_ALT}" />
 						{CHAPTER_TITLE}

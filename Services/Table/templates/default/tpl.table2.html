@@ -1,19 +1,35 @@
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="{FORMNAME}" id="{FORMNAME}" method="post" class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->" <!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
+<form action="{FORMACTION}" name="{FORMNAME}" id="{FORMNAME}" method="post"
+	  class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->"
+<!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
 <!-- END tbl_form_header -->
 <!-- BEGIN outer_start_1 --><div class="ilTableOuter"><!-- END outer_start_1 -->
 <!-- BEGIN tbl_header_title -->
 <div class="ilTableHeaderTitle{BLK_CLASS}">
 	<div class="ilFloatRight">
-	<!-- BEGIN head_cmd --><a class="il_ContainerItemCommand" href="{HREF_HEAD_CMD}">{TXT_HEAD_CMD}</a><!-- END head_cmd -->
+	<!-- BEGIN head_cmd -->
+		<a class="il_ContainerItemCommand" aria-label="{TXT_HEAD_CMD}" href="{HREF_HEAD_CMD}">
+			{TXT_HEAD_CMD}
+		</a>
+		<!-- END head_cmd -->
 	<!-- BEGIN tbl_header_html -->{HEADER_HTML}<!-- END tbl_header_html -->
     <!-- BEGIN tbl_header_img_link -->
-	<a href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}><img alt="{ALT_IMG_LINK}" src="{SRC_IMG_LINK}" /></a><!-- END tbl_header_img_link -->
+	<a aria-label="{ALT_IMG_LINK}" href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}>
+		<img aria-hidden="true" src="{SRC_IMG_LINK}" />
+	</a><!-- END tbl_header_img_link -->
 	</div>
-<!-- BEGIN tbl_header_title_icon --><!--<img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />-->
-<!-- END tbl_header_title_icon --><h2 class="ilHeader ilTableHeaderTitle{BLK_CLASS}"><a class="ilAccAnchor" id="{TOP_ANCHOR}">{TBL_TITLE}</a></h2>
+<!-- BEGIN tbl_header_title_icon -->
+	<!--<img src="{TBL_TITLE_IMG}" style="vertical-align:middle"
+	alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />-->
+<!-- END tbl_header_title_icon -->
+	<h2 class="ilHeader ilTableHeaderTitle{BLK_CLASS}">
+		<a class="ilAccAnchor" aria-label="{TBL_TITLE}" id="{TOP_ANCHOR}">
+			{TBL_TITLE}
+		</a>
+	</h2>
 </div>
-<!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="ilHeaderDesc">{TBL_DESCRIPTION}</div>
+<!-- END tbl_header_title --><!-- BEGIN tbl_header_description -->
+	<div class="ilHeaderDesc">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
 <!-- BEGIN filter_section -->
 <div class="ilTableFilterSec" id = "tfil_{FIL_ID}" style="display:none;">
@@ -21,10 +37,15 @@
 <legend class="ilTableFilter sr-only">{TXT_FILTER}
 </legend>
 <!-- BEGIN filter_deactivation --><div class="ilFloatRight">
-<button href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button></div>
+<button aria-label="{TXT_HIDE}" href="#" class="ilTableFilterDeactivator btn btn-link" id="dtfil_{FILD_ID}"
+		onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">
+	{TXT_HIDE}
+</button>
+</div>
 <!-- END filter_deactivation -->
 <!-- BEGIN filter_select -->
-<input type="submit" class="btn btn-default" name="cmd[{HIDDEN_CMD_APPLY}]" style="display:none;" />
+<input aria-label="cmd[{HIDDEN_CMD_APPLY}]" role="button"
+	   type="submit" class="btn btn-default" name="cmd[{HIDDEN_CMD_APPLY}]" style="display:none;" />
 <div class="small" style="margin-bottom:5px;">{FILTER_SELECTOR}</div>
 <!-- END filter_select -->
 <table class="ilTableFilter">
@@ -48,8 +69,11 @@
 <!-- END optional_filter_hint -->
 </table>
 <!-- BEGIN filter_buttons -->
-<span><input type="submit" class="btn btn-default" name="cmd[{CMD_APPLY}]" value="{TXT_APPLY}" />
-<input type="submit" class="btn btn-default" name="cmd[{CMD_RESET}]" value="{TXT_RESET}" /></span>
+<span>
+	<input type="submit" class="btn btn-default" name="cmd[{CMD_APPLY}]" value="{TXT_APPLY}" />
+	<input type="submit" role="button" class="btn btn-default" aria-label="cmd[{CMD_RESET}]"
+		   name="cmd[{CMD_RESET}]" value="{TXT_RESET}" />
+</span>
 <!-- END filter_buttons -->
 </fieldset>
 </div>
@@ -67,7 +91,12 @@
 	</td>
 	<td class="ilWhiteSpaceNowrap ilRight">
 	<!-- BEGIN filter_activation -->
-	<button class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button>
+	<button class="btn btn-link ilTableFilterActivator"
+			aria-label="{TXT_ACTIVATE_FILTER}"
+			id="atfil_{FILA_ID}" href="#" onclick="return
+			ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">
+		{TXT_ACTIVATE_FILTER}
+	</button>
 	<!-- END filter_activation -->
 	<!-- BEGIN filter_hidden -->
 	<script>
@@ -84,7 +113,9 @@
 		<div id="{TEMPLATE_CREATE_ID}" class="ilOverlay" style="padding:10px; margin-top:27px;">
 			{TXT_TEMPLATE_CREATE}:<br />
 			<input type="text" id="{TEMPLATE_CREATE_ID}_name" name="tbltplcrt" style="width:150px" />
-			<input type="submit" class="btn btn-default" name="cmd[{TEMPLATE_CREATE_CMD}]" value="{TXT_TEMPLATE_CREATE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_CREATE_ID}_name').value == '') { return false; }" />
+			<input role="button" type="submit" class="btn btn-default"
+				   name="cmd[{TEMPLATE_CREATE_CMD}]" value="{TXT_TEMPLATE_CREATE_SUBMIT}"
+				   onclick="if (document.getElementById('{TEMPLATE_CREATE_ID}_name').value == '') { return false; }" />
 		</div>
 	</div>
 	<!-- END template_editor -->
@@ -92,16 +123,23 @@
 	<div class="ilFloatRight">
 		<div id="{TEMPLATE_DELETE_ID}" class="ilOverlay" style="padding:10px; margin-top:27px;">
 			{TXT_TEMPLATE_DELETE}:<br />
-			<select name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name" style="width:150px">
-			<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION_VALUE}">{TEMPLATE_DELETE_OPTION}</option><!-- END template_editor_delete_item -->
+			<select aria-haspopup="true" name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name" style="width:150px">
+			<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION_VALUE}">
+				{TEMPLATE_DELETE_OPTION}
+			</option>
+				<!-- END template_editor_delete_item -->
 			</select>
-			<input type="submit" class="btn btn-default" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_DELETE_ID}_name').value == '') { return false; }" />
+			<input type="submit" class="btn btn-default"
+				   aria-label="cmd[{TEMPLATE_DELETE_CMD}]"
+				   name="cmd[{TEMPLATE_DELETE_CMD}]"
+				   value="{TXT_TEMPLATE_DELETE_SUBMIT}"
+				   onclick="if (document.getElementById('{TEMPLATE_DELETE_ID}_name').value == '') { return false; }" />
 		</div>
 	</div>
     <!-- END template_editor_delete -->
-	
 	</td>
-	</tr></table>
+	</tr>
+	</table>
 </div>
 <!-- END top_navigation -->
 <!-- BEGIN outer_start_2 --><div class="ilTableOuter"><!-- END outer_start_2 -->
@@ -112,14 +150,19 @@
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;"  />
 <!-- END tbl_top_action_img_arrow -->
 <!-- BEGIN mi_top_sel_button -->
-	{MI_BUTTON_SELECT} <input class="btn btn-default" type="submit" name="table_top_cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
+	{MI_BUTTON_SELECT}
+			<input class="btn btn-default" type="submit"
+								aria-label="table_top_cmd[{MI_BTN_NAME}]"
+							  name="table_top_cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
 <!-- END mi_top_sel_button -->
 <!-- BEGIN tbl_top_cmd_select -->
 		  {SELECT_CMDS}
 		  <!-- BEGIN tbl_top_cmd_select_all -->
-		  <input type="checkbox" name="select_cmd_all2" value="1" /> {TXT_SELECT_CMD_ALL}
+		  <input type="checkbox" aria-label="select_cmd_all2" name="select_cmd_all2" value="1" /> {TXT_SELECT_CMD_ALL}
 		  <!-- END tbl_top_cmd_select_all -->
-		  <input class="btn btn-default" type="submit" name="select_cmd2" value="{TXT_EXECUTE}" />
+		  <input role="button" class="btn btn-default" type="submit"
+				 aria-label="select_cmd2"
+				 name="select_cmd2" value="{TXT_EXECUTE}" />
 <!-- END tbl_top_cmd_select -->
 <!-- BEGIN tbl_top_single_cmd -->
 		  <input class="btn btn-default" type="submit" name="cmd[{SINGLE_CMD}]" value="{TXT_SINGLE_CMD}" />
@@ -128,10 +171,17 @@
 <!-- BEGIN top_buttons -->
 <div class="ilRight">
 <!-- BEGIN sel_top_button -->
-	{SBUTTON_SELECT} <input class="btn btn-default" type="submit" name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
+	{SBUTTON_SELECT}
+	<input  class="btn btn-default"
+			role="button" aria-label="cmd[{SBTN_NAME}]"
+			type="submit" name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
 <!-- END sel_top_button -->
 <!-- BEGIN plain_top_button -->
-	<input class="btn btn-default" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" <!-- BEGIN top_cmdonclick -->onclick="{CMD_ONCLICK}" <!-- END top_cmdonclick -->/>
+	<input class="btn btn-default"
+		   aria-label="btn btn-default"
+		   role="button"
+		   type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}"
+	<!-- BEGIN top_cmdonclick -->onclick="{CMD_ONCLICK}" <!-- END top_cmdonclick -->/>
 <!-- END plain_top_button -->
 	{BUTTON_TOP_OBJ}
 </div>
@@ -157,15 +207,22 @@
 	  <!-- BEGIN tbl_header_top_select_all -->
 	  <th>
 		  <input type="checkbox" name="{HEAD_CHECKBOXNAME}" id="{HEAD_CHECKBOXNAME}" value="1"
-				 onClick="il.Util.setChecked('{HEAD_SELECT_ALL_FORM_NAME}', '{HEAD_SELECT_ALL_CHECKBOX_NAME}', document.forms['{HEAD_SELECT_ALL_FORM_NAME}'].elements['{HEAD_CHECKBOXNAME}'].checked);" />
+				 onClick="il.Util.setChecked('{HEAD_SELECT_ALL_FORM_NAME}', '{HEAD_SELECT_ALL_CHECKBOX_NAME}',
+				 document.forms['{HEAD_SELECT_ALL_FORM_NAME}'].elements['{HEAD_CHECKBOXNAME}'].checked);" />
 	  </th>
 	  <!-- END tbl_header_top_select_all -->
 <!-- BEGIN tbl_header_no_link -->
-		<th {TBL_COLUMN_WIDTH_NO_LINK} {TBL_COLUMN_CLASS_NO_LINK}><span id="{HEAD_CELL_NL_ID}">{TBL_HEADER_CELL_NO_LINK}</span></th>
+		<th {TBL_COLUMN_WIDTH_NO_LINK} {TBL_COLUMN_CLASS_NO_LINK}>
+			<span id="{HEAD_CELL_NL_ID}">
+			{TBL_HEADER_CELL_NO_LINK}
+		</span></th>
 <!-- END tbl_header_no_link -->
 <!-- BEGIN tbl_header_cell -->
     <th {TBL_COLUMN_WIDTH} {TBL_COLUMN_CLASS}>
-	  <a class="tblheader" href="{TBL_ORDER_LINK}" title="{TBL_ORDER_ALT}"><span id="{HEAD_CELL_ID}">{TBL_HEADER_CELL}</span>
+	  <a aria-label="{TBL_HEADER_CELL}" class="tblheader" href="{TBL_ORDER_LINK}" title="{TBL_ORDER_ALT}">
+		  <span id="{HEAD_CELL_ID}">
+		  {TBL_HEADER_CELL}
+	  </span>
 <!-- BEGIN tbl_order_image -->
 		  <span class="{ORDER_CLASS}"><span class="sr-only">{ORDER_TXT}</span></span>
 <!-- END tbl_order_image -->
@@ -201,12 +258,14 @@
 <!-- END tbl_table_end -->
 <!-- BEGIN tbl_hidden_row -->
 <!-- BEGIN tbl_hidden_field -->
-	<input type="hidden" name="{FIELD_NAME}" value="{FIELD_VALUE}" />
+	<input aria-hidden="true" type="hidden" name="{FIELD_NAME}" value="{FIELD_VALUE}" />
 <!-- END tbl_hidden_field -->
 <!-- END tbl_hidden_row -->
 <!-- BEGIN select_all_checkbox -->
 <div class="ilTableSelectAll">
-	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.forms['{SELECT_ALL_FORM_NAME}'].elements['{CHECKBOXNAME}'].checked);" />
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1"
+		   onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}',
+		   document.forms['{SELECT_ALL_FORM_NAME}'].elements['{CHECKBOXNAME}'].checked);" />
 	<label for="{CHECKBOXNAME}">{SELECT_ALL_TXT_SELECT_ALL}</label>
 </div>
 <!-- END select_all_checkbox -->
@@ -217,26 +276,36 @@
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;"  />
 <!-- END tbl_action_img_arrow -->
 <!-- BEGIN mi_sel_button -->
-	{MI_BUTTON_SELECT} <input class="btn btn-default" type="submit" name="cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
+	{MI_BUTTON_SELECT}
+			<input class="btn btn-default" type="submit"
+				   aria-label="cmd[{MI_BTN_NAME}]"
+				   name="cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
 <!-- END mi_sel_button -->
 <!-- BEGIN tbl_cmd_select -->
 		  {SELECT_CMDS}
 		  <!-- BEGIN tbl_cmd_select_all -->
-		  <input type="checkbox" name="select_cmd_all" value="1" /> {TXT_SELECT_CMD_ALL}
+		  <input aria-label="{TXT_SELECT_CMD_ALL}" type="checkbox" name="select_cmd_all" value="1" />
+			{TXT_SELECT_CMD_ALL}
 		  <!-- END tbl_cmd_select_all -->
-		  <input class="btn btn-default" type="submit" name="select_cmd" value="{TXT_EXECUTE}" />
+		  <input role="button" class="btn btn-default" type="submit" name="select_cmd" value="{TXT_EXECUTE}" />
 <!-- END tbl_cmd_select -->
 <!-- BEGIN tbl_single_cmd -->
-		  <input class="btn btn-default" type="submit" name="cmd[{SINGLE_CMD}]" value="{TXT_SINGLE_CMD}" />
+		  <input role="button" class="btn btn-default" type="submit" name="cmd[{SINGLE_CMD}]" value="{TXT_SINGLE_CMD}" />
 <!-- END tbl_single_cmd -->
 		</div>
 <!-- BEGIN buttons -->
 <div class="ilRight">
 <!-- BEGIN sel_button -->
-	{SBUTTON_SELECT} <input class="btn btn-default" type="submit" name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
+	{SBUTTON_SELECT}
+	<input role="button" class="btn btn-default" type="submit"
+		   aria-label="cmd[{SBTN_NAME}]"
+		   name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
 <!-- END sel_button -->
 <!-- BEGIN plain_button -->
-	<input {PBID} class="btn btn-default" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" <!-- BEGIN cmdonclick -->onclick="{CMD_ONCLICK}" <!-- END cmdonclick -->/>
+	<input {PBID} role="button" class="btn btn-default" type="submit"
+		   aria-label="cmd[{PBTN_NAME}]"
+		   name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}"
+	<!-- BEGIN cmdonclick -->onclick="{CMD_ONCLICK}" <!-- END cmdonclick -->/>
 <!-- END plain_button -->
 	{BUTTON_OBJ}
 </div>
@@ -249,7 +318,9 @@
 <div class="ilTableNav{BLK_CLASS} hidden-print">
 	<div class="ilLeft" style="margin-top:5px;">
 	<!-- BEGIN tbl_footer_numinfo -->
-	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+	<span class="ilTableFootLight">
+		{NUMINFO}
+	</span>&nbsp;&nbsp;&nbsp;
 	<!-- END tbl_footer_numinfo -->
 	<!-- BEGIN tbl_footer_linkbar -->
 	{LINKBAR}
@@ -261,7 +332,7 @@
 <!-- END tbl_footer -->
 <!-- BEGIN save_object -->
 <br />
-<input class="btn btn-default" type="submit" value="{BTN_VALUE}" />
+<input role="button" class="btn btn-default" type="submit" value="{BTN_VALUE}" />
 <!-- END save_object -->
 <!-- BEGIN tbl_form_footer -->
 </form>

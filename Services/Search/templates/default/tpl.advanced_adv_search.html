@@ -3,9 +3,16 @@
 	  <br />
 	  <!--  BEGIN prev_next -->
 	  <center>{SEARCH_PAGE} 
-	  <!--  BEGIN prev --><a href="{PREV_LINK}">{TXT_PREV} </a><!--  END prev -->
+	  <!--  BEGIN prev -->
+		  <a aria-label="{TXT_PREV}" href="{PREV_LINK}">
+			  {TXT_PREV}
+		  </a>
+		  <!--  END prev -->
 	  <!-- BEGIN pages_link -->{NUMBER} <!-- END pages_link -->
-	  <!-- BEGIN next --><a href="{NEXT_LINK}">{TXT_NEXT}</a><!-- END next -->
+	  <!-- BEGIN next -->
+		  <a aria-label="{TXT_NEXT}" href="{NEXT_LINK}">
+			  {TXT_NEXT}
+		  </a><!-- END next -->
 	   	</center>
 		<br />
 		<!--  END prev_next -->	  

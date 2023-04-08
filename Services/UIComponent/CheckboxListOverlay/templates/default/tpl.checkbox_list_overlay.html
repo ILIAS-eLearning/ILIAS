@@ -5,9 +5,13 @@
 		
 	<ul id="chkbxlstovl_{ID}" class="dropdown-menu <!-- BEGIN pr -->pull-right<!-- END pr -->" role="menu" style="padding:10px;">
 		<!-- BEGIN list_entry -->
-		<li style="white-space: nowrap"><input id="{VAR}_{IDX_ENTRY}" type="checkbox" name="{VAR}[]" value="{VAL_ENTRY}" {CHECKED}/> <label for="{VAR}_{IDX_ENTRY}">{TXT_ENTRY}</label></li>
+		<li style="white-space: nowrap">
+			<input id="{VAR}_{IDX_ENTRY}" type="checkbox" aria-label="{VAR}[] checkbox"
+				   name="{VAR}[]" value="{VAL_ENTRY}" {CHECKED}/>
+			<label for="{VAR}_{IDX_ENTRY}">{TXT_ENTRY}</label></li>
 		<!-- END list_entry -->
-		<li> <input type="submit" class="btn btn-default" {ONCLICK} value="{VAL_SUBMIT}" name="cmd[{CMD_SUBMIT}]" /></li>
+		<li> <input type="submit" role="button" class="btn btn-default"
+					{ONCLICK} value="{VAL_SUBMIT}" name="cmd[{CMD_SUBMIT}]" /></li>
 	</ul>
 	
 	<input type="hidden" name="{HIDDEN_VAR}" value="1"/>

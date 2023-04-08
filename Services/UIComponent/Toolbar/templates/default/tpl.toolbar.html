@@ -1,16 +1,21 @@
 <!-- todo: proper id support, spacer?, separator?, emph classes -->
 
-<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm<!-- BEGIN form_class --> {FORM_CLASS}<!-- END form_class -->"><!-- END form_open -->
+<!-- BEGIN form_open -->
+<form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME}
+	  class="ilForm<!-- BEGIN form_class --> {FORM_CLASS}<!-- END form_class -->"><!-- END form_open -->
 <h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
 <nav class="ilToolbar navbar navbar-default {HIDDEN_CLASS}" {ID}>
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<!-- BEGIN lead_image --><span style="margin-left:0px;" class="navbar-brand"><img src="{IMG_SRC}" alt="{IMG_ALT}" /></span><!-- END lead_image -->
+			<!-- BEGIN lead_image --><span style="margin-left:0px;" class="navbar-brand">
+			<img src="{IMG_SRC}" alt="{IMG_ALT}" /></span>
+			<!-- END lead_image -->
 			<!-- BEGIN sticky_items -->
 			{STICKY_ITEMS}
 			<!-- END sticky_items -->
-			<button type="button" class="navbar-toggle{HIDE_TOGGLE_CLASS}" data-toggle="collapse" data-target="#tb-collapse-{TOOLBAR_ID}">
+			<button aria-label="toggle navbar" type="button" class="navbar-toggle{HIDE_TOGGLE_CLASS}"
+					data-toggle="collapse" data-target="#tb-collapse-{TOOLBAR_ID}">
 				<span class="sr-only">More Actions</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>

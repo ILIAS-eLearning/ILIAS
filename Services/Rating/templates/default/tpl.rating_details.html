@@ -5,8 +5,10 @@
 <p>
 <div id="{TTID}">
 <!-- BEGIN rating_link_simple -->
-<a class="ilRating" href="{HREF_RATING}" {ONCLICK_RATING}>
-<!-- BEGIN rating_mark_simple --><img class="ilRatingMarker" src="{SRC_MARK_SIMPLE}" alt="{ALT_MARK_SIMPLE}" style="position:absolute;" border="0" /><!-- END rating_mark_simple -->
+<a aria-label="{ONCLICK_RATING}" class="ilRating" href="{HREF_RATING}" {ONCLICK_RATING}>
+<!-- BEGIN rating_mark_simple -->
+    <img class="ilRatingMarker" src="{SRC_MARK_SIMPLE}" alt="{ALT_MARK_SIMPLE}" style="position:absolute;" border="0" />
+    <!-- END rating_mark_simple -->
 <img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
 <!-- END rating_link_simple -->
@@ -15,7 +17,9 @@
 </p>
 <!-- BEGIN rating_simple_del_bl -->
 <p>
-<a class="small" href="{HREF_RATING_DEL}"{ONCLICK_RATING_DEL}>{CAPTION_RATING_DEL}</a>
+<a aria-label="{CAPTION_RATING_DEL}" class="small" href="{HREF_RATING_DEL}"{ONCLICK_RATING_DEL}>
+    {CAPTION_RATING_DEL}
+</a>
 </p>
 <!-- END rating_simple_del_bl -->
 <!-- END user_rating_simple -->
@@ -39,11 +43,14 @@
 <div id="{CAT_TTID}">
 <!-- BEGIN user_rating_icon -->
 <a href="#" onclick="{HREF_RATING}" style="text-decoration:none;"{ICON_MOUSEACTION}>
-<!-- BEGIN rating_mark --><img class="ilRatingMarker" src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" /><!-- END rating_mark -->
-<img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}" border="0" id="{JS_ID}rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
+<!-- BEGIN rating_mark --><img class="ilRatingMarker" src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" />
+    <!-- END rating_mark -->
+<img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}"
+     border="0" id="{JS_ID}rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
 </a>
 <!-- END user_rating_icon -->
-<input type="hidden" id="{JS_ID}rating_value_{CATEGORY_ID}" name="rating[{CATEGORY_ID}]" value="{CATEGORY_VALUE}" />
+<input type="hidden" id="{JS_ID}rating_value_{CATEGORY_ID}" aria-label="rating[{CATEGORY_ID}]"
+       name="rating[{CATEGORY_ID}]" value="{CATEGORY_VALUE}" />
 </div>
 </td>
 <!-- END user_rating_category_column -->
@@ -56,7 +63,9 @@
 <p><input type="submit" class="btn btn-link" value="{TXT_SUBMIT}" name="cmd[{CMD_SUBMIT}]" /></p>
 <!-- BEGIN user_rating_categories_del_bl -->
 <p>
-<a class="btn btn-link" href="{HREF_RATING_DEL_CAT}">{CAPTION_RATING_DEL_CAT}</a>
+<a class="btn btn-link" href="{HREF_RATING_DEL_CAT}" aria-label="{CAPTION_RATING_DEL_CAT}">
+    {CAPTION_RATING_DEL_CAT}
+</a>
 </p>
 <!-- END user_rating_categories_del_bl -->
 </td>
@@ -64,7 +73,9 @@
 <!-- END user_rating_submit -->
 <!-- BEGIN votes_number_bl -->
 <tr>
-<td class="small" colspan="2">&nbsp;{NUMBER_VOTES}</td>
+<td class="small" aria-label="{NUMBER_VOTES}" colspan="2">&nbsp
+    {NUMBER_VOTES}
+</td>
 </tr>
 <!-- END votes_number_bl -->
 </table>

@@ -1,7 +1,7 @@
 <!-- BEGIN navigation_select -->
 <div class="ilBlogSideBlockNavigationSelection">
 	<form method="post" action="{FORM_ACTION}" name="bmsel">
-		<select class="form-control" name="bmn" onchange="this.form.submit();">
+		<select aria-haspopup="true" class="form-control" name="bmn" onchange="this.form.submit();">
 			<!-- BEGIN option_bl -->
 			<option value="{OPTION_VALUE}"{OPTION_SEL}>{OPTION_CAPTION}</option>
 			<!-- END option_bl -->
@@ -14,12 +14,19 @@
 	<a href="{URL_MONTH}">{NAV_MONTH}</a>
 	<ul class="ilBlogSideBlockNavigation">		
 		<!-- BEGIN navigation_item -->				
-		<li class="small"><a href="{NAV_ITEM_URL}">{NAV_ITEM_CAPTION}</a>
+		<li class="small">
+			<a aria-label="{NAV_ITEM_CAPTION}" href="{NAV_ITEM_URL}">
+				{NAV_ITEM_CAPTION}
+			</a>
 			<!-- BEGIN navigation_item_draft -->
-			<span class="ilBlogNavigationItemDraft">({NAV_ITEM_DRAFT})</span>
+			<span class="ilBlogNavigationItemDraft">
+				({NAV_ITEM_DRAFT})
+			</span>
 			<!-- END navigation_item_draft -->
 			<!-- BEGIN navigation_item_approval -->
-			<span class="ilBlogNavigationItemDraft">({NAV_ITEM_APPROVAL})</span>
+			<span class="ilBlogNavigationItemDraft">
+				({NAV_ITEM_APPROVAL})
+			</span>
 			<!-- END navigation_item_approval -->
 		</li>
 		<!-- END navigation_item -->

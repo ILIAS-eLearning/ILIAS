@@ -9,8 +9,12 @@
 <table class="fullwidth" style="clear: both;">
 	<tr>
 		<td class="submit" align="right">
-			<input class="btn btn-default submit" name="cmd[updateCommunities]" value="{TXT_SAVE}" type="submit">
-			<input class="btn btn-default submit" name="cmd[overview]" value="{TXT_CANCEL}" type="submit">
+			<input role="button" class="btn btn-default submit"
+				   aria-label="cmd[updateCommunities]"
+				   name="cmd[updateCommunities]" value="{TXT_SAVE}" type="submit">
+			<input class="btn btn-default submit"
+				   aria-label="cmd[overview]" role="button"
+				   name="cmd[overview]" value="{TXT_CANCEL}" type="submit">
 		</td>
 	</tr>
 </table>

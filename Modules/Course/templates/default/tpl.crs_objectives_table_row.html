@@ -1,19 +1,28 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
-		<input type="checkbox" name="objective[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
+		<input type="checkbox" aria-label="objective[] checkbox"
+			   name="objective[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
 	</td>
 	<td class="std">
-		<input type="text" name="position[{VAL_ID}]" value="{VAL_POSITION}" size="2" maxlength="5" />
+		<input type="text"
+			   aria-label="position[{VAL_ID}]"
+			   name="position[{VAL_ID}]" value="{VAL_POSITION}" size="2" maxlength="5" />
 	</td>
 	<td class="std">
   		<label for="{VAL_ID}">
-			<a href="{VAL_TITLE_LINKED}">{VAL_TITLE}</a>
+			<a aria-label="{VAL_TITLE}" href="{VAL_TITLE_LINKED}">
+				{VAL_TITLE}
+			</a>
 			<!-- BEGIN desc -->
-			<div class="il_Description">{VAL_DESC}</div>
+			<div class="il_Description">
+				{VAL_DESC}
+			</div>
 			<!-- END desc -->
 			<!-- BEGIN limited_passes -->
 			<div>
-				<span class="small">{PASSES_TXT} {PASSES_VAL}</span>
+				<span class="small">
+					{PASSES_TXT} {PASSES_VAL}
+				</span>
 			</div>
 			<!-- END limited_passes -->
 			<div>
@@ -40,7 +49,10 @@
 	<td class="std">
 		<!-- BEGIN self_qst_row --><p>{SELF_QST_TITLE}</p><!-- END self_qst_row -->
 		<!-- BEGIN initial_test_per_objective -->
-		<img src="{IT_IMG}" alt="{IT_ALT}" title="{IT_ALT}" /> <a href="{IT_TITLE_LINK}">{IT_TITLE}</a>
+		<img src="{IT_IMG}" alt="{IT_ALT}" title="{IT_ALT}" />
+		<a aria-label="{IT_TITLE}" href="{IT_TITLE_LINK}">
+			{IT_TITLE}
+		</a>
 		<!-- END initial_test_per_objective -->
 	</td>
 	<!-- END with_self_test -->

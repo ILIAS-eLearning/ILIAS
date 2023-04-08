@@ -32,9 +32,17 @@
 <div class="ilSkillSuggRes">
     <p class="light">{SUGGESTED_MAT_MESS}</p>
     <!-- BEGIN resources_list -->
-    <!-- BEGIN resources_list_level --><p class="light small">{TXT_LEVEL}: {LEVEL_NAME}</p><!-- END resources_list_level -->
+    <!-- BEGIN resources_list_level -->
+	<p class="light small">{TXT_LEVEL}: {LEVEL_NAME}</p>
+	<!-- END resources_list_level -->
     <ul class="small">
-    <!-- BEGIN resource_item --><li><a href="{HREF_RES}">{TXT_RES}</a></li><!-- END resource_item -->
+    <!-- BEGIN resource_item -->
+		<li>
+			<a aria-label="{TXT_RES}" href="{HREF_RES}">
+				{TXT_RES}
+			</a>
+		</li>
+		<!-- END resource_item -->
     </ul>
     <!-- END resources_list -->
 </div>

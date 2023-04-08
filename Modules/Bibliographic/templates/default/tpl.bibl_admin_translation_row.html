@@ -1,15 +1,19 @@
 <tr class="{CSS_ROW}">
 	<td class="std small position">
-		<input type="checkbox" name="delete[]" value="{ID}">
+		<input type="checkbox" aria-label="delete[] checkbox" name="delete[]" value="{ID}">
 	</td>
 	<td class="std small">
 		{LANGUAGE}
 	</td>
 	<td class="std small">
-		<input type="text" class="input" name="translations[{ID}][translation]" value="{TEXT}">
+		<input type="text" class="input" aria-label="translations[{ID}][translation]"
+			   name="translations[{ID}][translation]" value="{TEXT}">
 	</td>
 	<td class="std small">
-		<textarea class="input" name="translations[{ID}][description]">{DESCRIPTION}</textarea>
+		<textarea aria-haspopup="true" aria-label="translations[{ID}][description]" class="input"
+				  name="translations[{ID}][description]">
+			{DESCRIPTION}
+		</textarea>
 	</td>
 	<!--<td class="std small">{VAL_ACTIONS}</td>-->
 </tr>

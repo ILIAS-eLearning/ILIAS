@@ -39,46 +39,57 @@ function displayAccessLimitationSelectionForm(select,role_id)
 
 	<form class="il_Form" name="cmd" method="post" action="{FORMACTION}">
 	  <table class="fullwidth" >
-		  <tr class="std">
+		<thead>
+		<tr class="std">
 			<th class="std" colspan="3">
-			  <div class="ilFloatLeft">{TXT_REG_ROLE_ACCESS_LIMITATIONS}</div>
+				<div class="ilFloatLeft">
+					{TXT_REG_ROLE_ACCESS_LIMITATIONS}
+				</div>
 			</th>
-		  </tr>
-		  <tr class="tblheader">
+		</tr>
+		<tr class="tblheader">
 			<th class="std" nowrap="nowrap">{TXT_ROLE}</th>
 			<th class="std" colspan="2">{TXT_ACCESS_LIMITATION_MODE}</th>
-		  </tr>
-		  <!-- BEGIN roles -->
-		  <tr>
-			<td class="{CSSROW}" width="10%">
-			  {ROLE_TITLE}
-			</td>
-			<td class="{CSSROW}" width="20%">
-			  <div class="ilFloatLeft">
-			  {SEL_ACCESS_LIMITATION}
-			  </div>
-			</td>
-			<td class="{CSSROW}">
-      		<div id="display_unlimited_{ROLE_ID}" style="display:{CSS_DISPLAY_UNLIMITED}">
-      		{TXT_ACCESS_LIMITATION_UNLIMITED}
-      		</div>
-      		<div id="display_absolute_{ROLE_ID}" style="display:{CSS_DISPLAY_ABSOLUTE}">
-      		{SEL_ACCESS_LIMITATION_ABSOLUTE}
-      		</div>
-      		<div id="display_relative_{ROLE_ID}" style="display:{CSS_DISPLAY_RELATIVE}">
-      		<input type="text" size="3" name="access_limitation_relative_{ROLE_ID}[d]" value="{DAYS}"/>{TXT_DAYS}&nbsp;
-      		<input type="text" size="3" name="access_limitation_relative_{ROLE_ID}[m]" value="{MONTHS}"/>{TXT_MONTHS}&nbsp;
-      		<input type="text" size="3" name="access_limitation_relative_{ROLE_ID}[y]" value="{YEARS}"/>{TXT_YEARS}
-      		</div>
-			</td>
-		  </tr>
-		  <!-- END roles -->
-		  <tr>
-			<td class="submit" colspan="3">
-			  <div class="ilRight">
-				<input type="submit" class="submit" name="cmd[saveRoleAccessLimitations]" value="{BTN_SAVE}" />
-				<input type="submit" class="submit" name="cmd[view]" value="{BTN_CANCEL}" />
-			  </div>
-			</td>
-		  </tr>
+		</tr>
+		</thead>
+		 <tbody>
+		 <!-- BEGIN roles -->
+		 <tr>
+			 <td class="{CSSROW}" width="10%">
+				 {ROLE_TITLE}
+			 </td>
+			 <td class="{CSSROW}" width="20%">
+				 <div class="ilFloatLeft">
+					 {SEL_ACCESS_LIMITATION}
+				 </div>
+			 </td>
+			 <td class="{CSSROW}">
+				 <div id="display_unlimited_{ROLE_ID}" style="display:{CSS_DISPLAY_UNLIMITED}">
+					 {TXT_ACCESS_LIMITATION_UNLIMITED}
+				 </div>
+				 <div id="display_absolute_{ROLE_ID}" style="display:{CSS_DISPLAY_ABSOLUTE}">
+					 {SEL_ACCESS_LIMITATION_ABSOLUTE}
+				 </div>
+				 <div id="display_relative_{ROLE_ID}" style="display:{CSS_DISPLAY_RELATIVE}">
+					 <input type="text" size="3" aria-label="access_limitation_relative_{ROLE_ID}[d]"
+							name="access_limitation_relative_{ROLE_ID}[d]" value="{DAYS}"/>{TXT_DAYS}&nbsp;
+					 <input type="text" size="3" aria-label="access_limitation_relative_{ROLE_ID}[m]"
+							name="access_limitation_relative_{ROLE_ID}[m]" value="{MONTHS}"/>{TXT_MONTHS}&nbsp;
+					 <input type="text" size="3" aria-label="access_limitation_relative_{ROLE_ID}[y]"
+							name="access_limitation_relative_{ROLE_ID}[y]" value="{YEARS}"/>{TXT_YEARS}
+				 </div>
+			 </td>
+		 </tr>
+		 <!-- END roles -->
+		 <tr>
+			 <td class="submit" colspan="3">
+				 <div class="ilRight">
+					 <input role="button" type="submit" class="submit" name="cmd[saveRoleAccessLimitations]"
+							aria-label="cmd[saveRoleAccessLimitations]" value="{BTN_SAVE}" />
+					 <input type="submit" aria-label="cmd[view]"
+							role="button" class="submit" name="cmd[view]" value="{BTN_CANCEL}" />
+				 </div>
+			 </td>
+		 </tr>
+		 </tbody>
 	  </table>

@@ -9,7 +9,7 @@
 			{VAL_TITLE}
 			<!-- BEGIN row_desc --><div class="il_Description">{VAL_DESC}</div><!-- END row_desc -->
 			<!-- BEGIN row_qst --><div class="il_Description">{VAL_QST_TXT}</div><!-- END row_qst -->
-			<!-- BEGIN row_warn --><div class="smallred">{VAL_WARN}</div><!-- END row_warn -->
+			<!-- BEGIN row_warn --><div role="alert" class="smallred">{VAL_WARN}</div><!-- END row_warn -->
 		</label>
 		<!-- BEGIN chapters -->
 		<div>
@@ -18,10 +18,15 @@
 				<!-- BEGIN qst -->
 				<div class="listIndent">
 				<li>
-					<input type="checkbox" name="questions[]" value="{QST_ID}" id="{QST_ID}" {QST_CHECKED} />
+					<input type="checkbox" aria-label="questions[] checkbox" name="questions[]"
+						   value="{QST_ID}" id="{QST_ID}" {QST_CHECKED} />
 					<label for="{QST_ID}"> 
 						{QST_TITLE}
-					<!-- BEGIN qst_desc --><div class="il_Description">{QST_DESCRIPTION}</div><!-- END qst_desc -->
+					<!-- BEGIN qst_desc -->
+						<div class="il_Description">
+							{QST_DESCRIPTION}
+						</div>
+					<!-- END qst_desc -->
 					</label>
 				</li>
 				</div>

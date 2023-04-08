@@ -2,7 +2,9 @@
 <br />
 <form action="{TFORM_ACTION}" id="map" method="post">
 	<div style="width: 100%; padding: 20px; border: 1px solid">
-		<input class="submit" type="submit" name="cmd[dMap]" value="Mapping durchführen" />
+		<input class="submit" type="submit"
+			   aria-label="cmd[dMap]" role="button"
+			   name="cmd[dMap]" value="Mapping durchführen" />
 		<span class="small">
 			{LEGEND}:
 			<span style="font-weight: bold">{PENDING_UNMAPPED}</span>

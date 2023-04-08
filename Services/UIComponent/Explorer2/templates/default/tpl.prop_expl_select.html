@@ -2,10 +2,15 @@
 <div id="{ID}_cont_txt" <!-- BEGIN tiny_presentation -->style="white-space: normal; max-width: 150px; max-height: 75px; overflow: auto;"<!-- END tiny_presentation -->>{VAL_TXT}</div>
 <div><a name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a></div>
 <!-- BEGIN txt_select -->
-<a href="#" id="{ID_TXT_SELECT}_select">{TXT_SELECT}</a><br />
+<a aria-label="{TXT_SELECT}" href="#" id="{ID_TXT_SELECT}_select">
+    {TXT_SELECT}
+</a>
+<br />
 <!-- END txt_select -->
 <!-- BEGIN txt_reset -->
-<a href="#" id="{ID_TXT_RESET}_reset">{TXT_RESET}</a>
+<a aria-label="{TXT_RESET}" href="#" id="{ID_TXT_RESET}_reset">
+    {TXT_RESET}
+</a>
 <!-- END txt_reset -->
 <script>
 il.Util.addOnLoad(function() {
@@ -13,7 +18,8 @@ il.Util.addOnLoad(function() {
 });
 </script>
 </div>
-<div id="{ID}_hid"><!-- BEGIN node_hid --><input type="hidden" name="{HID_NAME}" value="{HID_VAL}" /><!-- END node_hid --></div>
+<div id="{ID}_hid"><!-- BEGIN node_hid --><input type="hidden" name="{HID_NAME}" value="{HID_VAL}" />
+    <!-- END node_hid --></div>
 <div id="{ID}_expl_wrapper" class="ilNoDisplay">
 <div id="{ID}_expl_content" style="padding:20px;">
 {TOP_TB}

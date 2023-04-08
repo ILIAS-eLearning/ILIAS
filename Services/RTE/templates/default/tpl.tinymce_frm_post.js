@@ -114,7 +114,8 @@ function ilTinyMCEImagePickerCallback(cb, value, meta) {
 
 function UploadHandler(blobInfo, success, failure, progress) {
     var xhr, formData;
-    var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
+    var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' +
+        obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
     xhr.open('POST', uploadUrl);
     //xhr.withCredentials = settings.credentials;
@@ -160,7 +161,8 @@ tinymce.init({
     file_picker_types: "image",
     automatic_uploads: true,
     images_upload_handler: UploadHandler,
-    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
+    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id +
+        '&obj_type=' + obj_type + '&update=' + image_update,
     ilimgupload_file_extensions: "{TXT_ALLOWED_FILE_EXTENSIONS}",
     ilimgupload_maxsize: "{TXT_MAX_SIZE}",
     importcss_append: true,
@@ -178,12 +180,16 @@ tinymce.init({
     fix_list_elements: true,
     valid_elements: "{VALID_ELEMENTS}",
     <!-- BEGIN formelements -->
-    extended_valid_elements: "form[name|id|action|method|enctype|accept-charset|onsubmit|onreset|target],input[id|name|type|value|size|maxlength|checked|accept|s rc|width|height|disabled|readonly|tabindex|accessk ey|onfocus|onblur|onchange|onselect],textarea[id|name|rows|cols|disabled|readonly|tabindex|acces skey|onfocus|onblur|onchange|onselect],option[name|id|value],select[id|name|type|value|size|maxlength|checked|accept|s rc|width|height|disabled|readonly|tabindex|accessk ey|onfocus|onblur|onchange|onselect|length|options |selectedIndex]",
+    extended_valid_elements: "form[name|id|action|method|enctype|accept-charset|onsubmit|onreset|target]," +
+        "input[id|name|type|value|size|maxlength|checked|accept|s rc|width|height|disabled|readonly|tabindex" +
+        "|accessk ey|onfocus|onblur|onchange|onselect],textarea[id|name|rows|cols|disabled|readonly|tabindex|acces " +
+        "skey|onfocus|onblur|onchange|onselect],option[name|id|value],select[id|name|type|value|size|max" +
+        "length|checked|accept|s rc|width|height|disabled|readonly|tabindex|accessk ey|onfocus|onblur" +
+        "|onchange|onselect|length|options |selectedIndex]",
     <!-- END formelements -->
     <!-- BEGIN forced_root_block -->forced_root_block : '{FORCED_ROOT_BLOCK}',<!-- END forced_root_block -->
     setup: function(ed) {
         ed.on('init', ilTinyMceInitCallback);
-
     },
 
 });

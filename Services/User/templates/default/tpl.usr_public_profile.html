@@ -3,10 +3,10 @@
 <div style="margin-bottom: 15px;"><a href="{HREF_BACK}" class="submit">{TXT_BACK}</a></div>
 <!-- END back_url -->
 	<div class="row">
-
 		<div class="col-sm-6">
-
-			<h3 class="ilProfileName">{SALUTATION}{FIRSTNAME} {LASTNAME}</h3>
+			<h3 class="ilProfileName">
+				{SALUTATION}{FIRSTNAME} {LASTNAME}
+			</h3>
 			{BUDDY_HTML}
 			<!-- BEGIN bday_bl -->
 			<div class="ilProfileSection">
@@ -57,21 +57,31 @@
 			<!-- END udf_data -->
 			<!-- BEGIN map -->
 			<div class="ilProfileSection" style="clear:both;">
-				<h3 class="ilProfileSectionHead">{TXT_LOCATION}</h3>
+				<h3 class="ilProfileSectionHead">
+					{TXT_LOCATION}
+				</h3>
 				{MAP_CONTENT}
 			</div>
 			<!-- END map -->
 			<!-- BEGIN portfolios -->
 			<div class="ilProfileSection">
-				<h3 class="ilProfileSectionHead">{TXT_PORTFOLIO}</h3>
+				<h3 class="ilProfileSectionHead">
+					{TXT_PORTFOLIO}
+				</h3>
 				<!-- BEGIN portfolio -->
-				<div><a href="{HREF_PORTFOLIO}">{TITLE_PORTFOLIO}</a></div>
+				<div>
+					<a aria-label="{TITLE_PORTFOLIO}" href="{HREF_PORTFOLIO}">
+						{TITLE_PORTFOLIO}
+					</a>
+				</div>
 				<!-- END portfolio -->
 			</div>
 			<!-- END portfolios -->
 			<!-- BEGIN badges_row -->
 			<div class="ilProfileSection">
-				<h3 class="ilProfileSectionHead">{TXT_BADGES}</h3>
+				<h3 class="ilProfileSectionHead">
+					{TXT_BADGES}
+				</h3>
 				<div>
 					<!-- BEGIN badge_bl -->
 					<span class="ilProfileBadge">{BADGE}</span>
@@ -85,8 +95,16 @@
 				</div>
 				<!-- BEGIN badge_hidden_bl -->
 				<!-- BEGIN badge_hidden_actions_bl -->
-				<a href="#" id="ilbdgprfhdm" class="btn btn-default" onclick="ilbdgprfhdtgl();">{BADGE_HIDDEN_TXT_MORE}</a>
-				<a href="#" id="ilbdgprfhdl" class="btn btn-default" onclick="ilbdgprfhdtgl();" style="display:none">{BADGE_HIDDEN_TXT_LESS}</a>
+				<a href="#" id="ilbdgprfhdm" aria-label="{BADGE_HIDDEN_TXT_MORE}"
+				   role="button"
+				   class="btn btn-default" onclick="ilbdgprfhdtgl();">
+					{BADGE_HIDDEN_TXT_MORE}
+				</a>
+				<a href="#" id="ilbdgprfhdl" role="button" class="btn btn-default"
+				   aria-label="{BADGE_HIDDEN_TXT_LESS}"
+				   onclick="ilbdgprfhdtgl();" style="display:none">
+					{BADGE_HIDDEN_TXT_LESS}
+				</a>
 				<!-- END badge_hidden_actions_bl -->
 			</div>
 			<!-- END badges_row -->
@@ -102,11 +120,12 @@
 			<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
 			<!-- END mail -->
 			<!-- BEGIN vcard -->
-			<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->{TXT_DOWNLOAD_VCARD}</a>
+			<a aria-label="{TXT_DOWNLOAD_VCARD}" class="il_ContainerItemCommand" href="{HREF_VCARD}">
+				<!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->
+				{TXT_DOWNLOAD_VCARD}
+			</a>
 			<!-- END vcard -->
 		</div>
-
-
 	</div>
 	<div style="clear:both;"></div>
 </div>

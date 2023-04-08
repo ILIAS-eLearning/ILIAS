@@ -1,7 +1,7 @@
 <tr class="{CSS_ROW}">
 <!-- BEGIN cb_bl -->
 <td class="std">
-   <input type="checkbox" name="uid[]" value="{USER_ID}" />
+   <input type="checkbox" aria-label="uid[]" name="uid[]" value="{USER_ID}" />
 </td>
 <!-- END cb_bl -->
 <!-- BEGIN user_field -->
@@ -20,7 +20,9 @@
 <!-- END user_field -->
 <td class="std">
 	<!-- BEGIN item_command -->
-	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+	<a class="il_ContainerItemCommand" aria-label="{TXT_COMMAND}" href="{HREF_COMMAND}">
+		{TXT_COMMAND}
+	</a>
 	<!-- END item_command -->
 </td>
 </tr>

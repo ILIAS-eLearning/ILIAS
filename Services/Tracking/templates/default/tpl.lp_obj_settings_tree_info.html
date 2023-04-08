@@ -6,7 +6,9 @@
 	<span{PARENT_STYLE}>{PARENT_NOLINK_TITLE}</span>
 	<!-- END parent_nolink_bl -->
 	<!-- BEGIN parent_link_bl -->
-	<a href="{PARENT_URL}"{PARENT_STYLE}>{PARENT_LINK_TITLE}</a>
+	<a aria-label="{PARENT_LINK_TITLE}" href="{PARENT_URL}"{PARENT_STYLE}>
+		{PARENT_LINK_TITLE}
+	</a>
 	<!-- END parent_link_bl -->		
 	<!-- BEGIN parent_active_bl -->
 	<span class="small">*</span>
@@ -19,7 +21,9 @@
 		{GROUP_ITEM_NOLINK_TITLE}
 		<!-- END group_item_nolink_bl -->	
 		<!-- BEGIN group_item_link_bl -->
-		<a href="{GROUP_ITEM_URL}"> {GROUP_ITEM_LINK_TITLE}</a>
+		<a aria-label="{GROUP_ITEM_LINK_TITLE}" href="{GROUP_ITEM_URL}">
+			{GROUP_ITEM_LINK_TITLE}
+		</a>
 		<!-- END group_item_link_bl -->		
 		<!-- END group_item_bl -->
 		</span>

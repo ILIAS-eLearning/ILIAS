@@ -1,7 +1,7 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN column_checkbox -->
 	<td class="std" style="vertical-align:top;">
-	<input type="checkbox" name="item_id[]" value="{OBJ_ID}" />
+	<input type="checkbox" aria-label="item_id[]" name="item_id[]" value="{OBJ_ID}" />
 	</td>
 	<!-- END column_checkbox -->
 	<td class="std">
@@ -48,7 +48,9 @@
 	<!-- BEGIN column_action -->
 	<td class="std" nowrap="nowrap">
 	<!-- BEGIN item_command -->
-	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+	<a aria-label="{TXT_COMMAND}" class="il_ContainerItemCommand" href="{HREF_COMMAND}">
+		{TXT_COMMAND}
+	</a>
 	<!-- END item_command -->
 	</td>
 	<!-- END column_action -->

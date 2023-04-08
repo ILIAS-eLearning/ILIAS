@@ -6,7 +6,8 @@
 	<!-- END cb -->
 	<!-- BEGIN nr -->
 	<td class="std small">
-		<input type="text" class="form-control" name="order[{ORD_ID}]" value="{VAL_NR}" size="4" max_length="4" />
+		<input type="text" class="form-control" aria-label="order[{ORD_ID}]"
+			   name="order[{ORD_ID}]" value="{VAL_NR}" size="4" max_length="4" />
 	</td>
 	<!-- END nr -->
 	<td class="std small">
@@ -23,10 +24,16 @@
 	</td> -->
 	<td class="std small">
 		<!-- BEGIN ressource_bl -->
-		<a href="{RSRC_URL}">{RSRC_IMG} {RSRC_TITLE}</a><br />
+		<a aria-label="{RSRC_IMG} {RSRC_TITLE}" href="{RSRC_URL}">
+			{RSRC_IMG} {RSRC_TITLE}
+		</a>
+		<br />
 		<!-- END ressource_bl -->
 	</td>
 	<td class="std small">
-	<!-- BEGIN cmd --><a href="{HREF_CMD}">{TXT_CMD}</a><!-- END cmd -->
+	<!-- BEGIN cmd -->
+		<a aria-label="{TXT_CMD}" href="{HREF_CMD}">
+			{TXT_CMD}
+		</a><!-- END cmd -->
 	</td>
 </tr>

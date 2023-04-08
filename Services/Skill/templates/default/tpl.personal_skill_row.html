@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
 <td class="std">
-	<input type="checkbox" name="id[]" value="{SKL_NODE_ID}" />
+	<input type="checkbox" aria-label="id[] checkbox" name="id[]" value="{SKL_NODE_ID}" />
 </td>
 <td class="std">
 	{TITLE}
@@ -9,6 +9,12 @@
 	{MATERIALS}
 </td>
 <td class="std small">
-	<!-- BEGIN cmd --><div><a href="{HREF_CMD}">{TXT_CMD}</a></div><!-- END cmd -->
+	<!-- BEGIN cmd -->
+	<div>
+		<a aria-label="{TXT_CMD}" href="{HREF_CMD}">
+			{TXT_CMD}
+		</a>
+	</div>
+	<!-- END cmd -->
 </td>
 </tr>

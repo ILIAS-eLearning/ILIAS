@@ -1,53 +1,61 @@
 	<form class="il_Form" name="cmd" method="post" action="{FORMACTION}">
 	  <table class="fullwidth" >
+		  <thead>
 		  <tr class="std">
-			<th class="std" colspan="3">
-			  <div class="ilFloatLeft">{TXT_EMAIL_ROLE_ASSIGN}</div>
-			</th>
+			  <th class="std" colspan="3">
+				  <div class="ilFloatLeft">
+					  {TXT_EMAIL_ROLE_ASSIGN}
+				  </div>
+			  </th>
 		  </tr>
 		  <tr class="tblheader">
-			<th class="std"></th>
-			<th class="std" nowrap="nowrap">{TXT_DOMAIN}&nbsp;&nbsp;&nbsp;</th>
-			<th class="std">{TXT_ROLE}</th>
+			  <th class="std"></th>
+			  <th class="std" nowrap="nowrap">{TXT_DOMAIN}&nbsp;&nbsp;&nbsp;</th>
+			  <th class="std">{TXT_ROLE}</th>
 		  </tr>
+		  </thead>
+		  <tbody>
 		  <!-- BEGIN roles -->
 		  <tr>
-			<td class="{CSSROW}" width="1%">
-			  {CHECK_ROLE}
-			</td>
-			<td class="{CSSROW}" width="10%">
-			  <input type="text" name="domain[{ASSIGN_ID}][domain]" value="{DOMAIN}" size="32" maxlength="127" />
-			</td>
-			<td class="{CSSROW}">
-			  <div class="ilFloatLeft">
-				{ROLE_SEL}
-			  </div>
-			</td>
+			  <td class="{CSSROW}" width="1%">
+				  {CHECK_ROLE}
+			  </td>
+			  <td class="{CSSROW}" width="10%">
+				  <input type="text" name="domain[{ASSIGN_ID}][domain]"
+						 value="{DOMAIN}" size="32" maxlength="127" />
+			  </td>
+			  <td class="{CSSROW}">
+				  <div class="ilFloatLeft">
+					  {ROLE_SEL}
+				  </div>
+			  </td>
 		  </tr>
 		  <!-- END roles -->
 		  <tr>
-			<td class="{DEF_CSSROW}" width="1%">
-			</td>
-			<td class="{DEF_CSSROW}" width="10%">
-			  {TXT_DEFAULT}
-			</td>
-			<td class="{DEF_CSSROW}">
-			  <div class="ilFloatLeft">
-				{DEF_ROLE}
-			  </div>
-			</td>
+			  <td class="{DEF_CSSROW}" width="1%">
+			  </td>
+			  <td class="{DEF_CSSROW}" width="10%">
+				  {TXT_DEFAULT}
+			  </td>
+			  <td class="{DEF_CSSROW}">
+				  <div class="ilFloatLeft">
+					  {DEF_ROLE}
+				  </div>
+			  </td>
 		  </tr>
 		  <tr>
-			<td class="submit" colspan="3">
-			  <div class="ilFloatLeft">
-				<img border="0" src="{ARR_DOWNRIGHT}" alt="{ACTIONS}" />
-				<input type="submit" class="submit" name="cmd[deleteAssignment]" value="{BTN_DELETE}" />
-			  </div>
-			  <div class="ilRight">
-				<input type="submit" class="submit" name="cmd[saveAssignment]" value="{BTN_SAVE}" />
-				<input type="submit" class="submit" name="cmd[addAssignment]" value="{BTN_ADD}" />
-				<input type="submit" class="submit" name="cmd[view]" value="{BTN_CANCEL}" />
-			  </div>
-			</td>
+			  <td class="submit" colspan="3">
+				  <div class="ilFloatLeft">
+					  <img border="0" src="{ARR_DOWNRIGHT}" alt="{ACTIONS}" />
+					  <input type="submit" class="submit" aria-label="cmd[deleteAssignment]"
+							 name="cmd[deleteAssignment]" value="{BTN_DELETE}" />
+				  </div>
+				  <div class="ilRight">
+					  <input role="button" type="submit" class="submit" name="cmd[saveAssignment]" value="{BTN_SAVE}" />
+					  <input role="button" type="submit" class="submit" name="cmd[addAssignment]" value="{BTN_ADD}" />
+					  <input role="button" type="submit" class="submit" name="cmd[view]" value="{BTN_CANCEL}" />
+				  </div>
+			  </td>
 		  </tr>
+		  </tbody>
 	  </table>

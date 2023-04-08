@@ -1,9 +1,13 @@
 <form name="cmd" method="post" action="{FORMACTION}" class="form-inline">
-<p><select name="export_type" class="form-control">
-<!-- BEGIN option -->
+<p>
+	<select aria-haspopup="true" name="export_type" class="form-control">
+	<!-- BEGIN option -->
 	<option value="{OPTION_VALUE}">{OPTION_TEXT}</option>
 <!-- END option -->
-</select> <input class="btn btn-default" type="submit" name="cmd[export]" value="{EXPORT_BUTTON}" /></p>
+</select>
+	<input role="button" class="btn btn-default" type="submit"
+		   aria-label="cmd[export]"
+		   name="cmd[export]" value="{EXPORT_BUTTON}" /></p>
 {EXPORT_FILES}
 </form>
 

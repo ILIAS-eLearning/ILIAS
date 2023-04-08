@@ -42,7 +42,8 @@
 			dateformat                 :{LBL_DATEFORMAT}
 		};
 		var initial = {INITIAL_DATA};
-		$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
+		$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}',
+				'{SCOPE}', '{POSTURL}', initial);
 	});
 
 </script>
@@ -69,17 +70,25 @@
 		var minutes = date.getMinutes();
 		var seconds = date.getSeconds();
 
-		return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" + (seconds < 10? "0": "") + seconds;
+		return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" +
+				(seconds < 10? "0": "") + seconds;
 	};
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">
 	<div>
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
+		<input type="radio" aria-label="invite_users_type" name="invite_users_type" id="invite_users_in_room"/>
+		<span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
+		<input type="radio" aria-label="invite_users_type" name="invite_users_type" id="invite_users_global"/>
+		{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
-		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input autocomplete="off" type="text" class="form-control" id="invite_user_text" /></p>
+		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">
+			{LBL_USER_TEXT}:
+		</label>
+			<input autocomplete="off" aria-label="{LBL_USER_TEXT}"
+				   type="text" class="form-control" id="invite_user_text" />
+		</p>
 		<ul id="invite_users_available">
 			<li></li>
 		</ul>
@@ -87,13 +96,20 @@
 </div>
 
 <table id="chat_wrapper">
+	<tbody>
 	<tr id="chat_head_line">
 		<td class="ilValignBottom">
 			<h3 class="ilHeader current_room_title"></h3>
 			<div class="ilHeadAction" id="chat_actions_wrapper">
 				<div class="btn-group" id="chat_actions">
-					<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-						<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
+					<button aria-label="{ACTIONS}" onclick="this.blur(); return false;"
+							type="button" class="btn btn-default dropdown-toggle btn-sm"
+							data-toggle="dropdown" data-container="body">
+						<span id="chat_actions_title">
+							{ACTIONS}
+						</span>
+						<span class="caret" alt="">
+					</span>
 					</button>
 				</div>
 			</div>
@@ -130,17 +146,25 @@
 						</label>
 					</div>
 					<div id="iosChatInputContainer" class="col-sm-9">
-						<textarea autocomplete="off" class="form-control" name="message" id="submit_message_text"></textarea>
-						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
+						<textarea aria-multiline="true" autocomplete="off" class="form-control"
+								  aria-label="message"
+								  name="message" id="submit_message_text">
+						</textarea>
+						<input role="button" type="button" class="btn btn-default btn-sm"
+							   value="{LBL_SEND}" id="submit_message"/>
 					</div>
 				</div>
 			</form>
 		</td>
 	</tr>
+	</tbody>
 </table>
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
 <div class="ilNoDisplayChat" id="create_private_room_dialog">
-	<label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
+	<label for="new_room_name">
+		{LBL_CREATE_PRIVATE_ROOM_TEXT}:
+	</label>
+	<input aria-label="{LBL_CREATE_PRIVATE_ROOM_TEXT}" class="form-control" type="text" id="new_room_name" />
 </div>

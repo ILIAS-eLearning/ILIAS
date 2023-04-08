@@ -2,7 +2,8 @@
 	<!-- BEGIN mod_bl -->
 	<td class="std" valign="top">
 		{GROUP_SEL}
-		<input type="text" class="form-control" name="{VAR_POS}" value="{VAL_POS}" size="3" maxlength="3" />
+		<input type="text" class="form-control" name="{VAR_POS}" aria-label="{VAR_POS}"
+			   value="{VAL_POS}" size="3" maxlength="3" />
 	</td>
 	<td class="std" valign="top">{DUMMY}
 		<!-- BEGIN rep_object -->
@@ -21,7 +22,9 @@
 		<!-- END group -->
 	</td>		
 	<td class="std" valign="top">
-		<input type="checkbox" value="1" name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
+		<input type="checkbox" value="1"
+			   aria-label="{VAR_DISABLE_CREATION}"
+			   name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
 	</td>
 	<!-- END mod_bl -->
 	<!-- BEGIN pos_grp_bl -->

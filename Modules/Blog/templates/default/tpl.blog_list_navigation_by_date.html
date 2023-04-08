@@ -1,12 +1,19 @@
 <!-- BEGIN navigation_month_details -->
 <div>
 	<!-- BEGIN navigation_year_details -->		
-	<h4 class="ilBlogSideBlockNavigationYear">{YEAR}</h4>
+	<h4 class="ilBlogSideBlockNavigationYear">
+		{YEAR}
+	</h4>
 	<!-- END navigation_year_details -->
-	<a href="{URL_MONTH}">{NAV_MONTH}</a>
+	<a aria-label="{NAV_MONTH}" href="{URL_MONTH}">
+		{NAV_MONTH}
+	</a>
 	<ul class="ilBlogSideBlockNavigation">		
 		<!-- BEGIN navigation_item -->				
-		<li class="small"><a href="{NAV_ITEM_URL}">{NAV_ITEM_CAPTION}</a>
+		<li class="small">
+			<a aria-label="{NAV_ITEM_CAPTION}" href="{NAV_ITEM_URL}">
+				{NAV_ITEM_CAPTION}
+			</a>
 			<!-- BEGIN navigation_item_draft -->
 			<span class="ilBlogNavigationItemDraft">({NAV_ITEM_DRAFT})</span>
 			<!-- END navigation_item_draft -->
@@ -21,8 +28,12 @@
 <!-- BEGIN navigation_month -->
 <div>
 	<!-- BEGIN navigation_year -->		
-	<h4 class="ilBlogSideBlockNavigationYear">{YEAR}</h4>
+	<h4 class="ilBlogSideBlockNavigationYear">
+		{YEAR}
+	</h4>
 	<!-- END navigation_year -->
-	<a href="{URL_MONTH}">{MONTH_NAME}</a> ({MONTH_COUNT})
+	<a aria-label="{MONTH_NAME}" href="{URL_MONTH}">
+		{MONTH_NAME}
+	</a> ({MONTH_COUNT})
 </div>
 <!-- END navigation_month -->	

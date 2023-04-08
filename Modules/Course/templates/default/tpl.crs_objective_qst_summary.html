@@ -1,8 +1,10 @@
 <table class="fullwidth_invisible">
+	<tbody>
 	<!-- BEGIN tst -->
 	<tr>
 		<td class="std" colspan="2">
-			<img src="{TST_TYPE_IMG}" alt="{TST_TYPE_ALT}" title="{TST_TYPE_ALT}" /> {TST_TITLE}
+			<img src="{TST_TYPE_IMG}" alt="{TST_TYPE_ALT}" title="{TST_TYPE_ALT}" />
+			{TST_TITLE}
 		</td>
 	</tr>
 	<!-- BEGIN row_desc -->
@@ -16,7 +18,11 @@
 	<tr>
 		<td class="std listIndent">
 			{QST_TITLE}
-			<!-- BEGIN qst_desc --><div class="il_Description">{QST_DESCRIPTION}</div><!-- END qst_desc -->
+			<!-- BEGIN qst_desc -->
+			<div class="il_Description">
+				{QST_DESCRIPTION}
+			</div>
+			<!-- END qst_desc -->
 		</td>
 		<td class="std ilRight ilWhiteSpaceNowrap">
 			<strong>{QST_POINTS}</strong>
@@ -34,4 +40,5 @@
 			<strong>{POINTS} {TXT_POINTS}</strong>
 		</td>
 	</tr>
+	</tbody>
 </table>
