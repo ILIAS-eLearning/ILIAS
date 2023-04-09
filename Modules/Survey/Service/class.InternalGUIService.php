@@ -35,13 +35,13 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjectService $object_service;
     protected ModeFactory $mode_factory;
     protected InternalDomainService $domain_service;
     protected ServerRequestInterface $request;
 
     public function __construct(
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         ModeFactory $mode_factory,
         InternalDomainService $domain_service
     ) {
