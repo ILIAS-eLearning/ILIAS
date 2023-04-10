@@ -18647,6 +18647,13 @@ a#ilHelpClose {
 @media only screen and (max-width: 768px) {
   .ilStartupSection {
     padding-top: 15px;
+    width: auto;
+  }
+  .ilStartupSection .control-label {
+    width: auto;
+  }
+  .ilStartupSection .control-label + div {
+    width: auto;
   }
 }
 
