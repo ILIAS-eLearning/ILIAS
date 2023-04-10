@@ -10,17 +10,38 @@
 				<!-- BEGIN post_anchor --><a id="{POST_ANKER}"></a><!-- END post_anchor -->
 				<!-- BEGIN draft_anchor --><a id="{DRAFT_ANCHOR}"></a><!-- END draft_anchor -->
 				<div class="ilFrmPostHeader">
-					<span class="small"><!-- BEGIN usr_name -->{USR_NAME} | <!-- END usr_name -->{AUTHOR} <!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<br /><!-- BEGIN post_update -->{POST_UPDATE_TXT}  <!-- BEGIN update_usr_name -->{UPDATE_USR_NAME} | <!-- END update_usr_name -->{UPDATE_AUTHOR}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
+					<span class="small"><!-- BEGIN usr_name -->{USR_NAME} |
+						<!-- END usr_name -->{AUTHOR} <!-- BEGIN role --> ({ROLE})
+						<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})
+						<!-- END pseudonym --> | {POST_DATE}<br /><!-- BEGIN post_update -->
+						{POST_UPDATE_TXT}
+						<!-- BEGIN update_usr_name -->{UPDATE_USR_NAME} |
+						<!-- END update_usr_name -->{UPDATE_AUTHOR}
+						<!-- END post_update --><!-- BEGIN post_not_activated_yet -->
+						<br />
+						<span class="ilFrmPostActivationStatus">
+							{POST_NOT_ACTIVATED_YET}
+						</span>
+						<!-- END post_not_activated_yet --></span>
 					<div class="ilFrmPostTitle">{SUBJECT}</div>
 				</div><!-- BEGIN censorship_advice -->
-				<div class="ilFrmPostCensorshipAdvice">{TXT_CENSORSHIP_ADVICE}:</div><!-- END censorship_advice -->
-				<div class="ilFrmPostContent">{POST}</div>
+				<div class="ilFrmPostCensorshipAdvice">
+					{TXT_CENSORSHIP_ADVICE}:
+				</div>
+				<!-- END censorship_advice -->
+				<div class="ilFrmPostContent">
+					{POST}
+				</div>
 				<div class="ilFrmPostClear"></div>
 				<!-- BEGIN attachments -->
 				<div class="ilFrmPostAttachmentsContainer small">
 					{DOWNLOAD_IMG}
 					{TXT_ATTACHMENTS_DOWNLOAD}<!-- BEGIN attachment_download_row -->
-					<br /><a href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">{TXT_FILENAME}</a><!-- END attachment_download_row -->
+					<br />
+					<a aria-label="{TXT_FILENAME}" href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">
+						{TXT_FILENAME}
+					</a>
+					<!-- END attachment_download_row -->
 					<br />{DOWNLOAD_ZIP}
 				</div>
 				<!-- END attachments -->
@@ -29,16 +50,28 @@
 		<div class="ilFrmPostClear"></div><!-- BEGIN commands_block -->
 		<div class="ilFrmPostCommands">{COMMANDS}</div><!-- END commands_block -->
 		<div class="ilFrmPostClear"></div>
-		<!-- BEGIN edit_draft_anchor --><a id="{EDIT_DRAFT_ANCHOR}"></a><!-- END edit_draft_anchor -->
+		<!-- BEGIN edit_draft_anchor -->
+		<a aria-label="{EDIT_DRAFT_ANCHOR}" id="{EDIT_DRAFT_ANCHOR}">
+
+		</a><!-- END edit_draft_anchor -->
 		{DRAFT_FORM}
-		<!-- BEGIN reply_anchor --><a id="{REPLY_ANKER}"></a><!-- END reply_anchor -->
+		<!-- BEGIN reply_anchor -->
+		<a aria-label="{REPLY_ANKER}" id="{REPLY_ANKER}">
+
+		</a><!-- END reply_anchor -->
 		{FORM}
 		{FORM_ADDITIONAL_JS}
 	</li>
 	<!-- END posts_row -->
-	<!-- BEGIN posts_no --><li>{TXT_MSG_NO_POSTS_AVAILABLE}</li><!-- END posts_no -->
+	<!-- BEGIN posts_no -->
+	<li>
+		{TXT_MSG_NO_POSTS_AVAILABLE}
+	</li>
+	<!-- END posts_no -->
 </ul>
-<a id="frm_page_bottom"></a>
+<a aria-label="{BOTTOM_FORM}" id="frm_page_bottom">
+
+</a>
 {BOTTOM_FORM}
 {BOTTOM_FORM_ADDITIONAL_JS}
 

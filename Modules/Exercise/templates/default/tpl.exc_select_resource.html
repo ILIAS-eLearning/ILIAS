@@ -1,11 +1,13 @@
 <form name="tree" method="POST" action="{FORM_ACTION}">
 <!-- BEGIN item -->
-<input type="radio" name="item" value="{ITEM_ID}" /> {ITEM_TITLE}<br />
+<input type="radio"
+	   aria-label="item"
+	   name="item" value="{ITEM_ID}" /> {ITEM_TITLE}<br />
 <!-- END item -->
 {TREE}
 <div class="ilLeft" style="margin-top: 15px;">
-	<input type="submit" class="btn btn-default" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
-	<input type="submit" class="btn btn-default" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
+	<input  type="submit" class="btn btn-default" role="button" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input role="button" type="submit" class="btn btn-default" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
 </div>
 </form>
 

@@ -1,9 +1,13 @@
 <tr>
 	<td>
-		<input class="form-control" type="checkbox" name="id[]" value="{ID}" />
+		<input class="form-control" type="checkbox"
+			   aria-label="id[] checkbox"
+			   name="id[]" value="{ID}" />
 	</td>
 	<td>
-		<input class="form-control" type="text" size="3" name="pos[{ID}]" value="{POS}" />
+		<input class="form-control" type="text" size="3"
+			   aria-label="pos[{ID}]"
+			   name="pos[{ID}]" value="{POS}" />
 	</td>	
 	<td>
 		{TITLE}
@@ -13,7 +17,10 @@
 	</td>	
 	<td>
 		<!-- BEGIN action_bl -->	
-		<a href="{ACTION_URL}">{ACTION_TXT}</a><br />
+		<a aria-label="{ACTION_TXT}" href="{ACTION_URL}">
+			{ACTION_TXT}
+		</a>
+		<br />
 		<!-- END action_bl -->	
 	</td>
 </tr>

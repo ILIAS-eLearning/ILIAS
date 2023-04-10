@@ -1,7 +1,8 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
-		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
-		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />		
+		<input type="checkbox" aria-label="{VAL_POSTNAME}[] checkbox"
+			   name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input aria-hidden="true" type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />
 	</td>
 	<td class="std">
 		{VAL_NAME}
@@ -34,8 +35,10 @@
 	<!--  END access_time -->
 	<td class="std">
 		<!--  BEGIN grade -->
-		<input type="checkbox" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
-		<!--  END grade -->{VAL_PASSED_TXT}
+		<input type="checkbox" aria-label="passed[] checkbox" name="passed[]"
+			   value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
+		<!--  END grade -->
+		{VAL_PASSED_TXT}
 	</td>
 	<!-- BEGIN passed_info_col -->
 	<td class="std">
@@ -44,28 +47,35 @@
 	<!-- END passed_info_col -->
 	<td class="std">
                 <!-- BEGIN with_contact -->
-		<input type="checkbox" name="contact[]" value="{VAL_CONTACT_ID}" {VAL_CONTACT_CHECKED} />
+		<input type="checkbox" aria-label="contact[] checkbox" name="contact[]"
+			   value="{VAL_CONTACT_ID}" {VAL_CONTACT_CHECKED} />
                 <!-- END with_contact -->
 	</td>
 	<td class="std">
                 <!-- BEGIN with_blocked -->
-		<input type="checkbox" name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
+		<input type="checkbox" aria-label="blocked[] checkbox"
+			   name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
                 <!-- END with_blocked -->
 	</td>
 	<td class="std">
                 <!-- BEGIN with_notification -->
-		<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+		<input type="checkbox" name="notification[]"
+			   aria-label="notification[] checkbox"
+			   value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
                 <!-- END with_notification -->
 	</td>
 	<td class="std">
 			<!-- BEGIN as_link -->
 			<div class="il_ContainerItemCommands2">
 			<!-- BEGIN link -->
-				<a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a><br />
+				<a aria-label="{LINK_TXT}" class="il_ContainerItemCommand2" href="{LINK_NAME}">
+					{LINK_TXT}
+				</a>
+				<br />
 		 	<!-- END link -->
-				<!-- BEGIN as_menu -->
-				{ACTION_USER}
-				<!-- END as_menu -->
+			<!-- BEGIN as_menu -->
+			{ACTION_USER}
+			<!-- END as_menu -->
 		 	</div>
 			<!-- END as_link -->
 	</td>

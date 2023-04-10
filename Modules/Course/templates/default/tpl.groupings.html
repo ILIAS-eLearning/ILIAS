@@ -1,6 +1,6 @@
 <tr class="{CSS_ROW}">
   	<td class="std">
-  		<input type="checkbox" name="grouping[]" value="{ID}" />
+  		<input type="checkbox" aria-label="grouping[] checkbox" name="grouping[]" value="{ID}" />
 	</td>
 	<td class="std">
   		{TXT_TITLE}
@@ -23,7 +23,9 @@
 	</td>
 	<td class="std">
 		<div class="ilFloatRight">
-			<a class="il_ContainerItemCommand2" href="{EDIT_LINK}">{TXT_EDIT}</a>&nbsp;&nbsp;
+			<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand2" href="{EDIT_LINK}">
+				{TXT_EDIT}
+			</a>&nbsp;&nbsp;
 		</div>
 	</td>
 </tr>

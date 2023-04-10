@@ -3,12 +3,23 @@
 		<!-- BEGIN input -->
 		<div style="display:inline-block">{CONTENT}</div>
 		<!-- END input -->
-
 		<!-- BEGIN multi_icons -->
-			<button type="button" class="add_button ilWzdBtn_add btn btn-link"><span class="sr-only"></span>{IMAGE_PLUS}</button>
-			<button type="button" class="remove_button ilWzdBtn_remove btn btn-link"><span class="sr-only"></span>{IMAGE_MINUS}</button>
-			<button type="button" class="up_button ilWzdBtn_up btn btn-link"><span class="sr-only"></span>{IMAGE_UP}</button>
-			<button type="button" class="down_button ilWzdBtn_down btn btn-link"><span class="sr-only"></span>{IMAGE_DOWN}</button>
+			<button aria-label="{IMAGE_PLUS}" type="button" class="add_button ilWzdBtn_add btn btn-link">
+				<span class="sr-only"></span>
+				{IMAGE_PLUS}
+			</button>
+			<button aria-label="{IMAGE_MINUS}" type="button" class="remove_button ilWzdBtn_remove btn btn-link">
+				<span class="sr-only"></span>
+				{IMAGE_MINUS}
+			</button>
+			<button aria-label="{IMAGE_UP}" type="button" class="up_button ilWzdBtn_up btn btn-link">
+				<span class="sr-only"></span>
+				{IMAGE_UP}
+			</button>
+			<button aria-label="{IMAGE_DOWN}" type="button" class="down_button ilWzdBtn_down btn btn-link">
+				<span class="sr-only"></span>
+				{IMAGE_DOWN}
+			</button>
 		<!-- END multi_icons -->
 	</div>
     <!-- BEGIN input_label -->

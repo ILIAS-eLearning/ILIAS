@@ -1,12 +1,16 @@
 <tr class="{CSS_ROW}">
     <td class="std">
         <!-- BEGIN FIELD_ID -->
-        <input type="checkbox" name="dcl_field_ids[]" value="{FIELD_ID}">
+        <input type="checkbox"
+               aria-label="dcl_field_ids[] checkbox"
+               name="dcl_field_ids[]" value="{FIELD_ID}">
         <!-- END FIELD_ID -->
     </td>
     <!-- BEGIN order -->
 	<td class="name">
-        <input type="text" size="3" maxlength="4" name="{ORDER_NAME}" value="{ORDER_VALUE}">
+        <input type="text" size="3" maxlength="4"
+               aria-label="{ORDER_NAME}"
+               name="{ORDER_NAME}" value="{ORDER_VALUE}">
     </td>
     <!-- END order -->
     <!-- BEGIN no_order -->
@@ -26,8 +30,12 @@
         {NO_FILTER_EXPORTABLE}
     </td>
     <!-- END no_filter_exportable -->
-	<td class="desc">{DESCRIPTION}</td>
-	<td class="datatype">{DATATYPE}</td>
+	<td class="desc">
+        {DESCRIPTION}
+    </td>
+	<td class="datatype">
+        {DATATYPE}
+    </td>
     <!-- BEGIN unique -->
     <td class="uniq">
         <img src="{UNIQUE}">

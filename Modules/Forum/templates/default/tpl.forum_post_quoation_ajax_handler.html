@@ -8,7 +8,8 @@
 			console.log(response);
 			if (typeof response !== "undefined") {
 				var uid = 'frm_quote_' + new Date().getTime();
-				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed, response) + '<p id="' + uid + '">&nbsp;</p>');
+				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed,
+                    response) + '<p id="' + uid + '">&nbsp;</p>');
 
 				var rng = tinymce.DOM.createRng();
 				var newNode = ed.dom.select('#' + uid)[0];

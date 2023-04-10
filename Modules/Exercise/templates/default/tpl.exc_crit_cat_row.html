@@ -1,9 +1,13 @@
 <tr>
 	<td>
-		<input class="form-control" type="checkbox" name="id[]" value="{ID}" />
+		<input class="form-control" type="checkbox"
+			   aria-label="id[] checkbox"
+			   name="id[]" value="{ID}" />
 	</td>
 	<td>
-		<input class="form-control" type="text" size="3" name="pos[{ID}]" value="{POS}" />
+		<input class="form-control" type="text" size="3"
+			   aria-label="pos[{ID}] checkbox"
+			   name="pos[{ID}]" value="{POS}" />
 	</td>
 	<td>
 		{TITLE}
@@ -12,7 +16,9 @@
 		<!-- BEGIN crit_list_bl -->	
 		<ul>
 			<!-- BEGIN crit_bl -->	
-			<li>{CRIT_TITLE} ({CRIT_TYPE})</li>
+			<li>
+				{CRIT_TITLE} ({CRIT_TYPE})
+			</li>
 			<!-- END crit_bl -->	
 		</ul>
 		<!-- END crit_list_bl -->	
@@ -21,14 +27,19 @@
 		<!-- BEGIN ass_bl -->
 		{ASS_TITLE}
 			<!-- BEGIN ass_protected_bl -->
-			<span class="ilAlert small">({ASS_PROTECTED})</span>
+			<span class="ilAlert small">
+				({ASS_PROTECTED})
+			</span>
 			<!-- END ass_protected_bl -->
 		<br />
 		<!-- END ass_bl -->
 	</td>	
 	<td>
 		<!-- BEGIN action_bl -->	
-		<a href="{ACTION_URL}">{ACTION_TXT}</a><br />
+		<a aria-label="{ACTION_TXT}" href="{ACTION_URL}">
+			{ACTION_TXT}
+		</a>
+		<br />
 		<!-- END action_bl -->	
 	</td>
 </tr>

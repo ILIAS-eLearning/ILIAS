@@ -1,7 +1,9 @@
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
-		<input type="hidden" name="id[{VAL_ID}]" value = "1" />
-		<a href="{LINK_NAME}">{TXT_NAME}</a>
+		<input aria-hidden="true" type="hidden" name="id[{VAL_ID}]" value = "1" />
+		<a aria-label="{TXT_NAME}" href="{LINK_NAME}">
+			{TXT_NAME}
+		</a>
 	</td>
 	<!-- BEGIN grade -->
 	<td class="std small">
@@ -15,13 +17,17 @@
 		</div>
 		<div class="small ilWhiteSpaceNowrap" style="margin-top:5px;">
 		<!-- BEGIN mark_input -->
-		{TXT_MARK}: <input class="form-control" type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="4" maxlength="32" />
+		{TXT_MARK}: <input class="form-control" type="text"
+				   name="{NAME_MARK}" value="{VAL_MARK}" size="4" maxlength="32" />
 		<!-- END mark_input -->
 		{VAL_ONLY_MARK}
 		</div>
 	</td>
 	<!-- END grade -->
 	<td class="std small">
-	<textarea class="form-control" rows="3" style="width: 100%;" name="lcomment[{ID_COMMENT}]">{VAL_COMMENT}</textarea>
+	<textarea aria-multiline="true" aria-label="lcomment[{ID_COMMENT}]" class="form-control" rows="3"
+			  style="width: 100%;" name="lcomment[{ID_COMMENT}]">
+		{VAL_COMMENT}
+	</textarea>
 	</td>
 </tr>

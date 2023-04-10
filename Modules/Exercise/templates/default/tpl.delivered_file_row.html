@@ -1,12 +1,26 @@
 <tr class="{CSS_ROW}">
-<td class="std"><input type="checkbox" name="delivered[]" value="{FILE_ID}" /></td>
-<td class="std">{DELIVERED_FILE}</td>
+<td class="std">
+    <input type="checkbox" aria-label="delivered[] checkbox" name="delivered[]" value="{FILE_ID}" />
+</td>
+<td class="std">
+    {DELIVERED_FILE}
+</td>
 <!-- BEGIN owner_bl -->
-<td class="std">{DELIVERED_OWNER}</td>
+<td class="std">
+    {DELIVERED_OWNER}
+</td>
 <!-- END owner_bl -->
-<td class="std">{DELIVERED_DATE}</td>
+<td class="std">
+    {DELIVERED_DATE}
+</td>
 <!-- BEGIN late_bl -->
-<td class="std">{DELIVERED_LATE}</td>
+<td class="std">
+    {DELIVERED_LATE}
+</td>
 <!-- END late_bl -->
-<td class="std"><a href="{ACTION_URL}">{ACTION_TXT}</a></td>
+<td class="std">
+    <a aria-label="{ACTION_TXT}" href="{ACTION_URL}">
+        {ACTION_TXT}
+    </a>
+</td>
 </tr>

@@ -2,9 +2,11 @@
 	
   <td class="std">
 	<!-- BEGIN multi_bl -->
-	<input type="checkbox" name="{NAME_ID}[{VAL_ID}]" value="1" />
-	<input type="hidden" name="id[{VAL_ID}]" value = "1" />
-	<input type="hidden" name="idlid[{VAL_ID}]" value="{VAL_IDL_ID}" />
+	<input type="checkbox"
+		   aria-label="{NAME_ID}[{VAL_ID}] checkbox"
+		   name="{NAME_ID}[{VAL_ID}]" value="1" />
+	<input aria-hidden="true" type="hidden" name="id[{VAL_ID}]" value = "1" />
+	<input aria-hidden="true" type="hidden" name="idlid[{VAL_ID}]" value="{VAL_IDL_ID}" />
 	<!-- END multi_bl -->
   </td>
   
@@ -54,13 +56,17 @@
 	  </span>
 	  <!-- END team_access_warning -->
 	  <!-- BEGIN team_member_removal_bl -->
-	  <a href="{URL_TEAM_MEMBER_REMOVAL}">{TXT_TEAM_MEMBER_REMOVAL}</a>
+	  <a aria-label="{TXT_TEAM_MEMBER_REMOVAL}" href="{URL_TEAM_MEMBER_REMOVAL}">
+		  {TXT_TEAM_MEMBER_REMOVAL}
+	  </a>
 	  <!-- END team_member_removal_bl -->	 	
 	  <br />
 	  <!-- END team_member -->
 	  <!-- BEGIN team_log -->
 	  <div>
-		  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
+		  <a aria-label="{TXT_LOG}" href="{HREF_LOG}" class="il_ContainerItemCommand">
+			  {TXT_LOG}
+		  </a>
 	  </div>
 	  <!-- END team_log -->
 	  <!-- BEGIN team_info -->	  
@@ -85,7 +91,9 @@
   <td class="std small">
 	{VAL_SUBMISSION}
 	<!-- BEGIN late_bl -->
-	<div class="warning">{TXT_LATE}</div>
+	<div class="warning">
+		{TXT_LATE}
+	</div>
 	<!-- END late_bl -->
   </td>
   <!-- END submission -->
@@ -104,7 +112,8 @@
   
   <!-- BEGIN status -->
   <td class="std small">
-	<select class="form-control" name="status[{VAL_ID}]" >
+	<select aria-haspopup="true" class="form-control" aria-label="status[{VAL_ID}]"
+			name="status[{VAL_ID}]" >
 		<option value="notgraded" {SEL_NOTGRADED}>{TXT_NOTGRADED}</option>
 		<option value="passed" {SEL_PASSED}>{TXT_PASSED}</option>
 		<option value="failed" {SEL_FAILED}>{TXT_FAILED}</option>
@@ -114,7 +123,8 @@
   
   <!-- BEGIN mark -->
   <td class="std small">
-	<input class="form-control" type="text" name="mark[{VAL_ID}]" value="{VAL_MARK}" size="4" maxlength="32" />
+	<input class="form-control" type="text" aria-label="mark[{VAL_ID}]" name="mark[{VAL_ID}]"
+		   value="{VAL_MARK}" size="4" maxlength="32" />
   </td>
   <!-- END mark -->
   
@@ -144,7 +154,8 @@
   
   <!-- BEGIN notice -->
   <td class="std small">
-	  <input class="form-control" type="text" name="notice[{VAL_ID}]" value="{VAL_NOTICE}" size="25" maxlength="200" />
+	  <input class="form-control" type="text" name="notice[{VAL_ID}]" aria-label="notice[{VAL_ID}]"
+			 value="{VAL_NOTICE}" size="25" maxlength="200" />
   </td>
   <!-- END notice -->
   

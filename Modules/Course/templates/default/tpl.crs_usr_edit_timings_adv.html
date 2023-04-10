@@ -1,42 +1,77 @@
 <div class="ilTableHeaderTitle">
 	<div class="ilRight">
-		<a class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">{SHOW_HIDE_TEXT}</a>	    
+		<a aria-label="{SHOW_HIDE_TEXT}" class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">
+			{SHOW_HIDE_TEXT}
+		</a>
 	</div>
 	<!-- <img src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" /> -->
-	<h3 class="ilHeader ilTableHeaderTitle">{BLOCK_HEADER_CONTENT}</h3>
+	<h3 class="ilHeader ilTableHeaderTitle">
+		{BLOCK_HEADER_CONTENT}
+	</h3>
 </div>
 <form action="{FORMACTION}" method="post">
 	<div class="form-inline table-responsive">
 	  <table class="table table-striped">
-		  <thead>
+	  <thead>
 		<tr>
-		  <th class="std"><div style="margin-left:26px">{TXT_TITLE}</div><div class="subtitle">&nbsp;</div></th>
-		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
-		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
-		  <th class="std">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
+		  <th scope="col" class="std">
+		  	<div style="margin-left:26px">
+			  {TXT_TITLE}
+		  	</div>
+		  	<div class="subtitle">
+	  		&nbsp;</div>
+		  </th>
+		  <th scope="col" class="std">
+			  {TXT_START_END}
+			  <div class="subtitle">
+				  {TXT_INFO_START_END}
+			  </div>
+		  </th>
+		  <th scope="col" class="std">
+			  {TXT_DURATION}
+			  <div class="subtitle">
+				  {TXT_INFO_DURATION}
+			  </div>
+		  </th>
+		  <th scope="col" class="std">
+			  {TXT_OWN_PRESETTING}
+			  <div class="subtitle">
+				  {TXT_INFO_OWN_PRESETTING}
+			  </div>
+		  </th>
 		</tr>
 	  </thead>
 	  <tbody>
 		<!-- BEGIN container_standard_row -->
 		<tr class="{ROWCLASS}">
 		  <td>
-			<!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+			<!-- BEGIN start_indent -->
+			  <div style="padding-left:26px">
+				  <!-- END start_indent -->
 			  <div class="ilFloatLeft">
 				<img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" />
 			  </div>
 			  <div class="ilFloatLeft" style="padding-left:5px">
 				<!-- BEGIN title_as_link -->
-				<a class="il_ContainerItemTitle" href="{TITLE_LINK}" target="_top">{TITLE_NAME}</a>
+				<a aria-label="{TITLE_NAME}" class="il_ContainerItemTitle" href="{TITLE_LINK}" target="_top">
+					{TITLE_NAME}
+				</a>
 				<!-- END title_as_link -->
 				<!-- BEGIN title_plain -->
-				<b>{TITLE}</b>
+				<b>
+					{TITLE}
+				</b>
 				<!-- END title_plain -->
 				<!-- BEGIN item_description -->
-				<div class="il_Description" >{DESC}</div>
+				<div class="il_Description" >
+					{DESC}
+				</div>
 				<!-- END item_description -->
 				<!-- BEGIN tlt -->
 				<div class="il_ItemProperties">
-				  <div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+				  <div class="il_ItemProperty">
+					  {TXT_TLT}: {TLT_VAL}
+				  </div>
 				</div>
 				<!-- END tlt -->
 			  </div>
@@ -48,7 +83,9 @@
 		  </td>
 		  <td>
 			<!-- BEGIN input_duration -->
-			<input type="text" class="form-control" name="{NAME_DURATION}" value="{VAL_DURATION}" size="2" maxlength="3" />
+			<input type="text" class="form-control" name="{NAME_DURATION}"
+				   aria-label="{NAME_DURATION}"
+				   value="{VAL_DURATION}" size="2" maxlength="3" />
 			<!-- END input_duration -->
 		  </td>
 		  <td class="ilWhiteSpaceNowrap">
@@ -62,8 +99,10 @@
 		<tr class="tblfooter">
 		  <td class="std" colspan="5">
 			<div class="ilRight">
-			  <input class="btn btn-default" type="submit" name="cmd[updateUserTimings]" value="{TXT_BTN_UPDATE}" />
-			  <input class="btn btn-default" type="submit" name="cmd[editUserTimings]" value="{TXT_CANCEL}" />
+			  <input role="button" class="btn btn-default" type="submit" name="cmd[updateUserTimings]"
+					 value="{TXT_BTN_UPDATE}" />
+			  <input role="button" class="btn btn-default" type="submit" name="cmd[editUserTimings]"
+					 value="{TXT_CANCEL}" />
 			</div>
 		  </td>
 		</tr>

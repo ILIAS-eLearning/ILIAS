@@ -1,13 +1,13 @@
 <tr class="{CSS_ROW}">
     <!-- BEGIN version_selection -->
     <td class="std">
-        <input type="checkbox" name="hist_id[]" value="{OBJ_ID}" {DISABLED} />
+        <input type="checkbox" aria-label="hist_id[]" name="hist_id[]" value="{OBJ_ID}" {DISABLED} />
     </td>
     <!-- END version_selection -->
     <td class="std ilRight">
         {TXT_VERSION}
         <!-- BEGIN version_id -->
-        <input type="hidden" name="hist_id[]" value="{OBJ_ID}" />
+        <input aria-hidden="true" type="hidden" name="hist_id[]" value="{OBJ_ID}" />
         <!-- END version_id -->
     </td>
     <td class="std">
@@ -17,7 +17,9 @@
         {TXT_UPLOADED_BY}
     </td>
     <td class="std">
-        <a href="{DL_LINK}">{TXT_FILENAME}</a>
+        <a aria-label="{TXT_FILENAME}" href="{DL_LINK}">
+            {TXT_FILENAME}
+        </a>
     </td>
     <td class="std">
         {TXT_VERSIONNAME}
