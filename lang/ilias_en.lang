@@ -804,7 +804,7 @@ assessment#:#for#:#for
 assessment#:#forcejs#:#Force JavaScript output for test questions
 assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.
 assessment#:#formula#:#Formula
-assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), & (logical and), | (logical or), the constants ‘pi’ for pi and ‘e’ for euler's constant, as well as the functions ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ and ‘log’.
+assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), & (bitwise and), | (bitwise or), the constants ‘pi’ for pi and ‘e’ for euler's constant, as well as the functions ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ and ‘log’.
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results.
