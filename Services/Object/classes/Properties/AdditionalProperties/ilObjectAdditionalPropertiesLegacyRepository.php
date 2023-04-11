@@ -103,11 +103,6 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
         );
     }
 
-    private function areCustomIconsEnabled(): bool
-    {
-        return (bool) ilSetting::_lookupValue('common', 'custom_icons');
-    }
-
     private function getTitleAndIconVisibility(int $object_id): bool
     {
         return !((bool) ilContainer::_lookupContainerSetting($object_id, 'hide_header_icon_and_title'));
@@ -148,6 +143,11 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
                 $property_tile_image->getTempFileName()
             );
         }
+    }
+
+    private function areCustomIconsEnabled(): bool
+    {
+        return (bool) ilSetting::_lookupValue('common', 'custom_icons');
     }
 
     private function storeIcon(ilObjectPropertyIcon $property_icon): void

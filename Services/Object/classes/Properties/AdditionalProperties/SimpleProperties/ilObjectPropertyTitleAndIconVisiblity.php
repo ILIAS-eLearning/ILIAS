@@ -51,7 +51,7 @@ class ilObjectPropertyTitleAndIconVisibility implements ilObjectProperty
             }
         );
 
-        return $header_action_visibility_input = $field_factory->checkbox($language->txt(self::INPUT_LABEL))
+        return $field_factory->checkbox($language->txt(self::INPUT_LABEL))
             ->withAdditionalTransformation($trafo)
             ->withValue($this->getVisibility());
     }

@@ -73,7 +73,10 @@ class ilObjectPropertyIcon implements ilObjectProperty
         \ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery
-    ): File {
+    ): ?File {
+        if (!$this->custom_icons_enabled) {
+            return null;
+        }
         $trafo = $refinery->custom()->transformation(
             function ($v): ?ilObjectProperty {
                 $property_icon = new ilObjectPropertyIcon(

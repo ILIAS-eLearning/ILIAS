@@ -88,16 +88,6 @@ class ilObjectAdditionalProperties
         return $this->property_tile_image_updated;
     }
 
-    public function withResetUpdatedFlags(): self
-    {
-        $clone = clone $this;
-        $clone->property_title_and_icon_visibility_updated = false;
-        $clone->property_header_action_visibility_updated = false;
-        $clone->property_icon_updated = false;
-        $clone->property_tile_image_updated = false;
-        return $clone;
-    }
-
     public function withPropertyTileImage(ilObjectPropertyTileImage $property_tile_image): self
     {
         $clone = clone $this;
@@ -121,6 +111,16 @@ class ilObjectAdditionalProperties
         $clone = clone $this;
         $clone->property_icon = $property_icon;
         $clone->property_icon_updated = true;
+        return $clone;
+    }
+
+    public function withResetUpdatedFlags(): self
+    {
+        $clone = clone $this;
+        $clone->property_title_and_icon_visibility_updated = false;
+        $clone->property_header_action_visibility_updated = false;
+        $clone->property_icon_updated = false;
+        $clone->property_tile_image_updated = false;
         return $clone;
     }
 }
