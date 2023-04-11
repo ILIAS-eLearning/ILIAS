@@ -34,20 +34,10 @@ class ilObjectPropertiesAgregator
     public function getFor(int $object_id): ilObjectProperties
     {
         return new ilObjectProperties(
-            $this->language,
             $this->core_properties_repository->getFor($object_id),
+            $this->core_properties_repository,
             $this->additional_properties_repository->getFor($object_id),
-            $this
+            $this->additional_properties_repository
         );
-    }
-
-    public function storeCoreProperties(ilObjectCoreProperties $properties): ilObjectCoreProperties
-    {
-        return $this->core_properties_repository->store($properties);
-    }
-
-    public function storeAdditionalProperties(ilObjectAdditionalProperties $properties): ilObjectAdditionalProperties
-    {
-        return $this->additional_properties_repository->store($properties);
     }
 }

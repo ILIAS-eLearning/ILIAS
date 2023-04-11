@@ -21,10 +21,10 @@ declare(strict_types=1);
 class ilObjectProperties
 {
     public function __construct(
-        private ilLanguage $language,
         private ilObjectCoreProperties $core_properties,
+        private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalProperties $additional_properties,
-        private ilObjectPropertiesAgregator $agregator
+        private ilObjectAdditionalPropertiesRepository $additional_properties_repository
     ) {
     }
 
@@ -36,7 +36,7 @@ class ilObjectProperties
     public function storePropertyTitleAndDescription(
         ilObjectPropertyTitleAndDescription $property_title_and_description
     ): void {
-        $this->core_properties = $this->agregator->storeCoreProperties(
+        $this->core_properties = $this->core_properties_repository->store(
             $this->core_properties
             ->withPropertyTitleAndDescription($property_title_and_description)
         );
@@ -49,7 +49,7 @@ class ilObjectProperties
 
     public function storePropertyIsOnline(ilObjectPropertyIsOnline $property_is_online): void
     {
-        $this->core_properties = $this->agregator->storeCoreProperties(
+        $this->core_properties = $this->core_properties_repository->store(
             $this->core_properties->withPropertyIsOnline($property_is_online)
         );
     }
@@ -62,7 +62,7 @@ class ilObjectProperties
     public function storePropertyTitleAndIconVisibility(
         ilObjectPropertyTitleAndIconVisibility $property_title_and_icon_visibility
     ): void {
-        $this->additional_properties = $this->agregator->storeAdditionalProperties(
+        $this->additional_properties = $this->additional_properties_repository->store(
             $this->additional_properties
             ->withPropertyTitleAndIconVisibility($property_title_and_icon_visibility)
         );
@@ -76,7 +76,7 @@ class ilObjectProperties
     public function storePropertyHeaderActionVisibility(
         ilObjectPropertyHeaderActionVisibility $property_header_action_visibility
     ): void {
-        $this->additional_properties = $this->agregator->storeAdditionalProperties(
+        $this->additional_properties = $this->additional_properties_repository->store(
             $this->additional_properties
             ->withPropertyHeaderActionVisibility($property_header_action_visibility)
         );
@@ -90,7 +90,7 @@ class ilObjectProperties
     public function storePropertyTileImage(
         ilObjectPropertyTileImage $property_tile_image
     ): void {
-        $this->additional_properties = $this->agregator->storeAdditionalProperties(
+        $this->additional_properties = $this->additional_properties_repository->store(
             $this->additional_properties
             ->withPropertyTileImage($property_tile_image)
         );
@@ -104,7 +104,7 @@ class ilObjectProperties
     public function storePropertyIcon(
         ilObjectPropertyIcon $property_icon
     ): void {
-        $this->additional_properties = $this->agregator->storeAdditionalProperties(
+        $this->additional_properties = $this->additional_properties_repository->store(
             $this->additional_properties
             ->withPropertyIcon($property_icon)
         );
