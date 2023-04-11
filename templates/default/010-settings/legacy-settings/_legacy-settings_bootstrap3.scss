@@ -81,9 +81,6 @@ $border-radius-small:       $il-border-radius-small;
 $grid-float-breakpoint-max: $il-grid-float-breakpoint-max;
 
 $grid-gutter-width:         2*$il-padding-xlarge-horizontal;
-$navbar-padding-horizontal:        math.floor(math.div($grid-gutter-width, 2));
-$navbar-height: rem-to-pixel($il-standard-page-small-mainbar-height);
-// $navbar-padding-vertical:          calc(($navbar-height - $line-height-computed) / 2);
 
 //== Icons
 //
@@ -179,17 +176,6 @@ $panel-default-heading-bg:    $il-main-dark-bg;
 $panel-primary-text:          $il-text-color;
 $panel-primary-border:        none;
 $panel-primary-heading-bg:    $il-main-dark-bg;
-
-//== DropDowns
-//
-//##
-// Dropdowns
-$dropdown-bg: $il-main-bg;
-$dropdown-link-color: $il-text-color;
-$dropdown-link-hover-color: $il-text-hover-color;
-$dropdown-link-hover-bg: $il-highlight-bg;
-
-$navbar-height: $il-toolbar-height;
 
 //== Type
 //
