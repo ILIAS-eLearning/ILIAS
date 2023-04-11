@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * This class represents a block method of a block.
@@ -884,7 +885,7 @@ abstract class ilBlockGUI
                 });
             }
 
-            if (isset($command['modal']) && $command['modal'] instanceof \ILIAS\UI\Component\Modal\Modal) {
+            if (isset($command['modal']) && $command['modal'] instanceof Modal) {
                 $button = $button->withOnClick($command["modal"]->getShowSignal());
                 $modals[] = $command['modal'];
             }

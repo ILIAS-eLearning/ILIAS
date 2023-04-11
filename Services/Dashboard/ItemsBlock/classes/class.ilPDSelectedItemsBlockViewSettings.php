@@ -470,17 +470,17 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enableRecommendedContent(bool $status): void
     {
-        $this->settings->set('enable_recommended_content', (string) !$status);
+        $this->settings->set('enable_recommended_content', $status ? "0" : "1");
     }
 
     public function enableLearningSequences(bool $status): void
     {
-        $this->settings->set('enable_learning_sequences', (string) !$status);
+        $this->settings->set('enable_learning_sequences', $status ? "0" : "1");
     }
 
     public function enableStudyProgrammes(bool $status): void
     {
-        $this->settings->set('enable_study_programmes', (string) !$status);
+        $this->settings->set('enable_study_programmes', $status ? "0" : "1");
     }
 
     public function getViewName(int $view): string

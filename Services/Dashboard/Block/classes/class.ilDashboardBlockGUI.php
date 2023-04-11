@@ -437,7 +437,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     public function changePDItemPresentationObject(): void
     {
         $this->viewSettings->storeActorPresentationMode(
-            \ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
+            ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
         $this->initAndShow();
     }
