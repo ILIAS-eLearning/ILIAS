@@ -61,8 +61,8 @@ class ilObjectPropertyTitleAndDescription implements ilObjectProperty
             function ($vs): ilObjectProperty {
                 list($title, $long_description) = $vs;
                 return new ilObjectPropertyTitleAndDescription(
-                    htmlspecialchars($title),
-                    htmlspecialchars($long_description)
+                    $title,
+                    $long_description
                 );
             }
         );
