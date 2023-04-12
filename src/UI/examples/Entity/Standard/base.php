@@ -37,37 +37,26 @@ function base()
     * Logic for Pulling Availabilty Properties to Blocking Conditions
     */
 
-    $availability_input = ['Available Seats' => 0, 'Available' => 'until 24.12.2023', 'Expected Preconditions' => 'UI Design 101', 'Passed Courses' => 'Painting'];
+    $av_data = ['Available Seats' => 4, 'Available' => 'until 24.12.2023', 'Expected Preconditions' => 'UI Design 101', 'Passed Courses' => 'Painting'];
 
     $blocking = $f->listing()->property();
     $availability = $f->listing()->property();
 
-    foreach ($availability_input as $key => $value) {
-        switch($key) {
-            case 'Expected Preconditions':
-                if ($value !== $availability_input['Passed Courses']) {
-                    $blocking = $blocking->withProperty($key, $f->button()->shy("Preconditions", "http://www.ilias.de"), false);
-                }
-                break;
+    $precondition_link = $f->button()->shy("Preconditions", "http://www.ilias.de");
 
-            case 'Available Seats':
-                if ($value === 0) {
-                    $blocking = $blocking->withProperty($key, "No seats available", false);
-                } else {
-                    $availability = $availability->withProperty($key, (string)$value);
-                }
-                break;
+    // If preconditions aren't met
+    $blocking = ($av_data['Expected Preconditions'] === $av_data['Passed Courses'])
+        ? $blocking : $blocking->withProperty("Preconditions", $precondition_link, false);
 
-            case 'Passed Courses':
-                // are not displayed anywhere
-                break;
+    // If no more seats are available
+    $blocking = ($av_data['Available Seats'] === 0)
+        ? $blocking->withProperty("Available Seats", (string)$av_data['Available Seats']) : $blocking;
+    $availability = ($av_data['Available Seats'] > 0)
+        ? $availability->withProperty("Available Seats", (string)$av_data['Available Seats']) : $availability;
 
-            default:
-                $availability = $availability->withProperty($key, $value);
-                break;
-        }
-    };
     // all remaining availability properties
+    $availability = $availability->withProperty("Available", $av_data['Available']);
+
     $entity = $entity
         ->withBlockingAvailabilityConditions($blocking)
         ->withAvailability($availability);
