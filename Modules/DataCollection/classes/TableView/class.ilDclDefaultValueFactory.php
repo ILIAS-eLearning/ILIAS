@@ -14,4 +14,17 @@ class ilDclDefaultValueFactory
         $class = self::STORAGE_LOCATION_MAPPING[$storage_location];
         return new $class();
     }
+
+    public function createByTableName(string $table_name): ilDclTableViewBaseDefaultValue
+    {
+        switch ($table_name) {
+            case ilDclTableViewTextDefaultValue::returnDbTableName():
+                return new ilDclTableViewTextDefaultValue();
+            case ilDclTableViewNumberDefaultValue::returnDbTableName():
+                return new ilDclTableViewNumberDefaultValue();
+            case ilDclTableViewDateDefaultValue::returnDbTableName():
+            default:
+                return new ilDclTableViewDateDefaultValue();
+        }
+    }
 }
