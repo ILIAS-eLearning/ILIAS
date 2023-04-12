@@ -1,23 +1,36 @@
+@use "sass:math";
+@use "../../../010-settings/" as s;
+@use "../../../050-layout/basics/" as l;
+
 .c-entity {
     &.__container {
         display: grid;
         grid-template-areas:
             "f-blocking f-blocking f-blocking f-blocking actions"
-            "second-id f-prop f-prop f-prop f-prop"
-            "second-id prim-id prim-id prim-id prim-id"
+            "second-id f-prop f-prop f-prop actions"
+            "second-id prim-id prim-id prim-id actions"
             "second-id status status status status"
             "second-id f-details f-details f-details f-details"
             "second-id availab availab availab availab"
             "second-id details details details details"
             "second-id reaction reaction f-reaction f-reaction";
         grid-template-columns: min-content auto auto min-content min-content;
+        border: s.$il-main-border;
+        background-color: s.$il-main-bg;
+        padding: math.div(l.$il-margin-xlarge-vertical, 2) math.div(l.$il-margin-xlarge-horizontal, 2);
+        > *:not(:empty) {
+            padding: math.div(l.$il-margin-xlarge-vertical, 2) math.div(l.$il-margin-xlarge-horizontal, 2);
+        }
     }
 
     &.__blocking-conditions {
         grid-area: f-blocking;
+        font-size: s.$il-font-size-xlarge;
     }
 
     &.__actions {
+        display: flex;
+        justify-content: end;
         grid-area: actions;
     }
 
@@ -27,10 +40,13 @@
 
     &.__primary-identifier {
         grid-area: prim-id;
+        font-weight: s.$il-font-weight-bold;
+        font-size: s.$il-font-size-xxlarge;
     }
 
     &.__featured {
         grid-area: f-prop;
+        font-size: s.$il-font-size-xlarge;
     }
 
     &.__personal-status {
@@ -50,14 +66,15 @@
     }
 
     &.__reactions {
-        display: flex;
-        flex-direction: row;
+        // display: flex;
+        // flex-direction: row;
         grid-area: reaction;
     }
 
     &.__featured-reactions {
         display: flex;
-        flex-direction: row;
+        justify-content: end;
         grid-area: f-reaction;
+        min-width: max-content;
     }
 }
