@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\CI\Rector\ReplaceWithDIC;
 
 class Example
@@ -23,16 +25,22 @@ class Example
     public function __construct()
     {
     }
-    
-    protected function foo()
+
+    protected function foo(): string
     {
-        \ilUtil::sendFailure('my_text', true);
-        \ilUtil::sendSuccess('my_text', true);
-        \ilUtil::sendQuestion('my_text', true);
+        global $DIC;
+        return $DIC->ui()->renderer()->render([
+            $DIC->ui()->factory()->messageBox()->failure('my_text'),
+            $DIC->ui()->factory()->messageBox()->success('my_text'),
+            $DIC->ui()->factory()->messageBox()->confirmation('my_text')
+        ]);
     }
-    
-    protected static function bar()
+
+    protected static function bar(): string
     {
-        \ilUtil::sendInfo('my_text', true);
+        global $DIC;
+        return $DIC->ui()->renderer()->render([
+            $DIC->ui()->factory()->messageBox()->info('my_text')
+        ]);
     }
 }
