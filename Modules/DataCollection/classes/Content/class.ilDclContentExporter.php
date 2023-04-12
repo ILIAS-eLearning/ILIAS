@@ -48,7 +48,7 @@ class ilDclContentExporter
     private ilGlobalTemplateInterface $main_tpl;
     protected array $tables;
 
-    public function __construct(int $ref_id, ?int $table_id, array $filter = array())
+    public function __construct(int $ref_id, ?int $table_id, array $filter = [])
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -59,7 +59,7 @@ class ilDclContentExporter
         $this->filter = $filter;
 
         $this->dcl = new ilObjDataCollection($ref_id);
-        $this->tables = ($table_id) ? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
+        $this->tables = ($table_id) ? [$this->dcl->getTableById($table_id)] : $this->dcl->getTables();
 
         $lng->loadLanguageModule('dcl');
         $this->lng = $lng;
@@ -71,7 +71,7 @@ class ilDclContentExporter
      */
     public function sanitizeFilename(string $filename): string
     {
-        $dangerous_filename_characters = array(" ", '"', "'", "&", "/", "\\", "?", "#", "`");
+        $dangerous_filename_characters = [" ", '"', "'", "&", "/", "\\", "?", "#", "`"];
 
         return str_replace($dangerous_filename_characters, "_", iconv("utf-8", "ascii//TRANSLIT", $filename));
     }
@@ -155,7 +155,7 @@ class ilDclContentExporter
             foreach ($this->tables as $table) {
                 ilDclCache::resetCache();
 
-                $list = $table->getPartialRecords('id', 'asc', null, 0, $this->filter);
+                $list = $table->getPartialRecords($this->dcl->getRefId(), 'id', 'asc', null, 0, $this->filter);
                 $data_available = $data_available || ($list['total'] > 0);
                 $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
                 if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
@@ -225,7 +225,7 @@ class ilDclContentExporter
 
         $method = self::SOAP_FUNCTION_NAME;
 
-        $soap_params = array($this->dcl->getRefId());
+        $soap_params = [$this->dcl->getRefId()];
         array_push($soap_params, $this->table_id, $format, $filepath);
 
         $new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);

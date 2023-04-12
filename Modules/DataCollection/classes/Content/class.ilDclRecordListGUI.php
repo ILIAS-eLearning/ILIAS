@@ -46,7 +46,7 @@ class ilDclRecordListGUI
     protected int $obj_id;
     protected ilObjDataCollectionGUI $parent_obj;
     protected ?int $tableview_id;
-    protected static array $available_modes = array(self::MODE_VIEW, self::MODE_MANAGE);
+    protected static array $available_modes = [self::MODE_VIEW, self::MODE_MANAGE];
     private ilDataCollectionUiPort $dclUi;
     private ilDataCollectionAccessPort $dclAccess;
 
@@ -430,7 +430,7 @@ class ilDclRecordListGUI
     /**
      * Delete multiple records
      */
-    public function deleteRecords(array $record_ids = array()): void
+    public function deleteRecords(array $record_ids = []): void
     {
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
@@ -514,7 +514,7 @@ class ilDclRecordListGUI
         } else {
             $tables = $this->parent_obj->object->getVisibleTables();
         }
-        $options = array();
+        $options = [];
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }
@@ -543,6 +543,7 @@ class ilDclRecordListGUI
         $offset = $list->getOffset();
 
         $num_records = count($table_obj->getPartialRecords(
+            $this->table_obj->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -557,6 +558,7 @@ class ilDclRecordListGUI
         }
 
         $data = $table_obj->getPartialRecords(
+            $this->table_obj->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -597,7 +599,7 @@ class ilDclRecordListGUI
         }
 
         //tableview switcher
-        $options = array();
+        $options = [];
         foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()) as $tableview) {
             $options[$tableview->getId()] = $tableview->getTitle();
         }

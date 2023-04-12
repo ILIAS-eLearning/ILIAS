@@ -34,7 +34,7 @@ class ilDclDetailedViewGUI
     protected int $next_record_id = 0;
     protected int $prev_record_id = 0;
     protected int $current_record_position = 0;
-    protected array $record_ids = array();
+    protected array $record_ids = [];
     protected bool $is_enabled_paging = true;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
@@ -225,13 +225,13 @@ class ilDclDetailedViewGUI
             $pattern = '/\[dclrefln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dclrefln\]/';
             if (preg_match($pattern, $html)) {
                 $this->currentField = $field;
-                $html = preg_replace_callback($pattern, array($this, "doReplace"), $html);
+                $html = preg_replace_callback($pattern, [$this, "doReplace"], $html);
             }
 
             $pattern = '/\[ext tableOf="' . preg_quote($field->getTitle(), "/") . '" field="(.*?)"\]/';
             if (preg_match($pattern, $html)) {
                 $this->currentField = $field;
-                $html = preg_replace_callback($pattern, array($this, "doExtReplace"), $html);
+                $html = preg_replace_callback($pattern, [$this, "doExtReplace"], $html);
             }
 
             $html = str_ireplace(
@@ -307,12 +307,12 @@ class ilDclDetailedViewGUI
     {
         $ref_rec_ids = $this->record_obj->getRecordFieldValue($this->currentField->getId());
         if (!is_array($ref_rec_ids)) {
-            $ref_rec_ids = array($ref_rec_ids);
+            $ref_rec_ids = [$ref_rec_ids];
         }
         if (!count($ref_rec_ids) || !$ref_rec_ids) {
             return null;
         }
-        $ref_recs = array();
+        $ref_recs = [];
         foreach ($ref_rec_ids as $ref_rec_id) {
             $ref_recs[] = ilDclCache::getRecordCache($ref_rec_id);
         }
@@ -350,7 +350,7 @@ class ilDclDetailedViewGUI
     protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
-            return $this->notesGUI->getCommentsHtml();
+            return $this->notesGUI->getCommentsHTML();
         } else {
             return $this->notesGUI->editNoteForm();
         }
@@ -423,7 +423,7 @@ class ilDclDetailedViewGUI
      */
     private function setOptions(string $link_name): array
     {
-        $options = array();
+        $options = [];
         $options['link']['display'] = true;
         $options['link']['name'] = $link_name;
 
@@ -444,6 +444,7 @@ class ilDclDetailedViewGUI
         );
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords(
+            $this->table->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $list->getLimit(),
