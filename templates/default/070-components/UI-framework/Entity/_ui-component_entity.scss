@@ -1,0 +1,63 @@
+.c-entity {
+    &.__container {
+        display: grid;
+        grid-template-areas:
+            "f-blocking f-blocking f-blocking f-blocking actions"
+            "second-id f-prop f-prop f-prop f-prop"
+            "second-id prim-id prim-id prim-id prim-id"
+            "second-id status status status status"
+            "second-id f-details f-details f-details f-details"
+            "second-id availab availab availab availab"
+            "second-id details details details details"
+            "second-id reaction reaction f-reaction f-reaction";
+        grid-template-columns: min-content auto auto min-content min-content;
+    }
+
+    &.__blocking-conditions {
+        grid-area: f-blocking;
+    }
+
+    &.__actions {
+        grid-area: actions;
+    }
+
+    &.__secondary-identifier {
+        grid-area: second-id;
+    }
+
+    &.__primary-identifier {
+        grid-area: prim-id;
+    }
+
+    &.__featured {
+        grid-area: f-prop;
+    }
+
+    &.__personal-status {
+        grid-area: status;
+    }
+
+    &.__main-details {
+        grid-area: f-details;
+    }
+
+    &.__availability {
+        grid-area: availab;
+    }
+
+    &.__details {
+        grid-area: details;
+    }
+
+    &.__reactions {
+        display: flex;
+        flex-direction: row;
+        grid-area: reaction;
+    }
+
+    &.__featured-reactions {
+        display: flex;
+        flex-direction: row;
+        grid-area: f-reaction;
+    }
+}
