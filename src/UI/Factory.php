@@ -983,8 +983,43 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An EntitityRepresentaion....
+     *     An Entitity Representation displays information about entities within
+     *     the system, such as Repository Objects, Users, OrgUnits, etc, when the
+     *     purpose is to represent the entity itself.
+     *     Properties and relations of the entity are arranged in semantic groups
+     *     to structure and prioritize information.
+     *   composition:
+     *     Entities will have a primary and secondary Identifier, which may be
+     *     a string or Symbol or Image. Other semantic groups may also hold basic
+     *     string information or more sophisticated components.
+     *     Items in 'Reactions', i.e. interactive aspects of the entity, are
+     *     expressed by Glyphs and Tags.
+     *   effect:
+     *     Entities themselves are not Clickable; however, there may be actions on
+     *     their primary and secondary identifiers or elements in certain groups.
+     *   rivals:
+     *     Item: >
+     *       The Entity Representation is meant to replace the Item.
+     *       Use Entity Representation when possible.
      *
+     * background: ./docu/UI-Repository-Item_proposal.md
+     *
+     * context:
+     *   Use Entities in Entity Listings as an item of many.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Properties of an Entity Represenstation MUST be unique within the
+     *       Entity Represenstation instance: you MUST NOT list the same
+     *       information in more than one place.
+     *     2: >
+     *       Entity Represenstations SHOULD be part of a listing of (possibly)
+     *       other entities; they are not meant as the sole content of a page.
+     *   wording:
+     *     1: >
+     *       Primary and secondary identifier MUST give ample information to
+     *       identify the entity and tell it apart from others.
      * ---
      * @return \ILIAS\UI\Component\Entity\Factory
      */

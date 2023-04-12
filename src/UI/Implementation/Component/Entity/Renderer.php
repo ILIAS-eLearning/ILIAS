@@ -59,6 +59,7 @@ class Renderer extends AbstractComponentRenderer
         if ($prio_reactions = $component->getPrioritizedReactions()) {
             $tpl->setVariable('PRIO_REACTIONS', $default_renderer->render($prio_reactions));
         }
+
         return $tpl->get();
     }
 

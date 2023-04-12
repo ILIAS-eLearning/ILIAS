@@ -26,6 +26,8 @@ use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Button\Tag;
+use ILIAS\UI\Component\Link\Standard as ShyLink;
+
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 abstract class Entity implements I\Entity
@@ -43,29 +45,29 @@ abstract class Entity implements I\Entity
     protected $actions = [];
 
     public function __construct(
-        protected Symbol|Image|string $primary_identifier,
-        protected Symbol|Image|string $secondary_identifier
+        protected Symbol|Image|Shy|ShyLink|string $primary_identifier,
+        protected Symbol|Image|Shy|ShyLink|string $secondary_identifier
     ) {
     }
 
-    public function withPrimaryIdentifier(Symbol|Image|string $primary_identifier): self
+    public function withPrimaryIdentifier(Symbol|Image|Shy|ShyLink|string $primary_identifier): self
     {
         $clone = clone $this;
         $clone->primary_identifier = $primary_identifier;
         return $clone;
     }
-    public function getPrimaryIdentifier(): Symbol|Image|string
+    public function getPrimaryIdentifier(): Symbol|Image|Shy|ShyLink|string
     {
         return $this->primary_identifier;
     }
 
-    public function withSecondaryIdentifier(Symbol|Image|string $secondary_identifier): self
+    public function withSecondaryIdentifier(Symbol|Image|Shy|ShyLink|string $secondary_identifier): self
     {
         $clone = clone $this;
         $clone->secondary_identifier = $secondary_identifier;
         return $clone;
     }
-    public function getSecondaryIdentifier(): Symbol|Image|string
+    public function getSecondaryIdentifier(): Symbol|Image|Shy|ShyLink|string
     {
         return $this->secondary_identifier;
     }

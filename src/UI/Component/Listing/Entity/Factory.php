@@ -28,7 +28,8 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       ...
+     *     The Entity Listing yields uniform Entity Representations according
+     *     to a consumer defined concept and lists them one after the other.
      *
      * ---
      * @return \ILIAS\UI\Component\Listing\Entity\Standard

@@ -22,12 +22,14 @@ namespace ILIAS\UI\Implementation\Component\Entity;
 use ILIAS\UI\Component\Entity as I;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Button\Shy as ShyButton;
+use ILIAS\UI\Component\Link\Standard as ShyLink;
 
 class Factory implements I\Factory
 {
     public function standard(
-        Symbol|Image|string $primary_identifier,
-        Symbol|Image|string $secondary_identifier
+        Symbol|Image|ShyButton|ShyLink|string $primary_identifier,
+        Symbol|Image|ShyButton|ShyLink|string $secondary_identifier
     ): Standard {
         return new Standard($primary_identifier, $secondary_identifier);
     }

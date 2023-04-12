@@ -110,13 +110,10 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     ...
+     *     The Entity Listing yields Entity Representations according to a
+     *     consumer defined concept and lists them one after the other.
      *   composition: >
-     *     ...
-     *   rivals:
-     *      Panel: >
-     *        .
-     *        .
+     *     The Entity Listing will provide Entities.
      * ----
      * @return \ILIAS\UI\Component\Listing\Entity\Factory
      */
@@ -126,13 +123,18 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     ...
+     *     Property Listings will list characteristic, labled values in a space
+     *     saving manner. Property listing is ideal, when there are many values
+     *     of reasonable, but not specific or primarily relevant importance.
      *   composition: >
-     *     ...
+     *     Entries are listed as label/value pair in one line.
+     *     The visibility of the label is optional.
      *   rivals:
-     *      Panel: >
-     *        .
-     *        .
+     *      CharacteristicValue: >
+     *        In CharakteristicValues, label/value pairs are displayed in a
+     *        tabular way; labels cannot be omitted for display.
+     *      Descriptive: >
+     *        The Descriptive's (visual) emphasis is on the key, not the value.
      * ----
      * @return \ILIAS\UI\Component\Listing\Property
      */

@@ -26,4 +26,6 @@ use ILIAS\UI\Component\Component;
  */
 interface EntityListing extends Component
 {
+    public function withData(mixed $data): self;
+    public function getEntities(\ILIAS\UI\Factory $ui_factory): \Generator;
 }

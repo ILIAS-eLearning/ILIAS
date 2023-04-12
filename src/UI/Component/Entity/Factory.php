@@ -21,9 +21,11 @@ namespace ILIAS\UI\Component\Entity;
 
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Button\Shy as ShyButton;
+use ILIAS\UI\Component\Link\Standard as ShyLink;
 
 /**
- * This is what a factory for Entities looks like
+ * This is the factory for Entities
  */
 interface Factory
 {
@@ -31,13 +33,13 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       ...
-     *
+     *     The Standard Entity Representation can (and should) be used to
+     *     list system entities such as repository objects, users and similar.
      * ---
      * @return \ILIAS\UI\Component\Entity\Standard
      */
     public function standard(
-        Symbol|Image|string $primary_identifier,
-        Symbol|Image|string $secondary_identifier
+        Symbol|Image|ShyButton|ShyLink|string $primary_identifier,
+        Symbol|Image|ShyButton|ShyLink|string $secondary_identifier
     ): Standard;
 }

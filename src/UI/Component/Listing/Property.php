@@ -25,5 +25,5 @@ namespace ILIAS\UI\Component\Listing;
  */
 interface Property extends Listing
 {
-    public function withProperty(string $label, $value, bool $show_label = true);
+    public function withProperty(string $label, $value, bool $show_label = true): self;
 }

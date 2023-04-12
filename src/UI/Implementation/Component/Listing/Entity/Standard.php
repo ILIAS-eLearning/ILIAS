@@ -24,5 +24,4 @@ use ILIAS\UI\Component\Entity as IEntity;
 
 class Standard extends EntityListing implements I\Standard
 {
-    //use ComponentHelper;
 }

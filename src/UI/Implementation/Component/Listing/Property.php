@@ -30,8 +30,6 @@ class Property extends Listing implements C\Listing\Property
 {
     public function __construct()
     {
-        //$types = array('string',C\Component::class);
-        //$this->checkArgListElements("items", $items, $types);
         $this->items = [];
     }
 
@@ -40,15 +38,15 @@ class Property extends Listing implements C\Listing\Property
      */
     public function withItems(array $items): C\Listing\Listing
     {
-        //$types = array('string',C\Component::class);
-        //$this->checkArgListElements("items", $items, $types);
-
         $clone = clone $this;
-        $clone->items = $items;
+        $clone->items = [];
+        foreach ($items as $item) {
+            $clone = $clone->withProperty(...$item);
+        }
         return $clone;
     }
 
-    public function withProperty(string $label, $value, bool $show_label = true)
+    public function withProperty(string $label, $value, bool $show_label = true): self
     {
         $clone = clone $this;
         $clone->items[] = [$label, $value, $show_label];

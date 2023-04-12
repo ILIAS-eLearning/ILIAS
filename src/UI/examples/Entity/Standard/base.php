@@ -100,16 +100,31 @@ function base()
             ->withCounter($f->counter()->status(7))
     ];
 
-    $main_detail_1 = $f->listing()->property()
-        ->withProperty('Room', '7')
-    ;
-    $main_detail_2 = $f->listing()->property()
-        ->withProperty('Description', 'This lecture is an introduction to basic concepts fundamental for an intuitive user experience. These basic principles are not directly connected to the visual design, yet they help us to discover a hierarchy in relevance that needs to be respected for the visual appearance.', false)
-    ;
+    $details = $f->listing()->property()
+        ->withProperty('detail: ', '7')
+        ->withProperty('detail2', 'unlabled detail', false);
 
-    $entity = $entity
-    ->withFeaturedProperties($featured_properties)
-    ->withMainDetails([$main_detail_1, $main_detail_2])
+    $details2 = $f->listing()->property()
+        ->withProperty('another detail: ', 'anothervalue');
+
+    $status = [
+        $f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'),
+        $f->legacy('personal status')
+    ];
+
+    $availability = $f->listing()->property()
+        ->withProperty('available', 'until 2024/12/24');
+
+    $entity = $f->entity()->standard(
+        'primary id',
+        $secondary_id
+    )
+    ->withFeaturedProperties('Status: offline')
+    ->withMainDetails('This is a descriptive text. This is a descriptive text. This is a descriptive text.')
+    ->withBlockingAvailabilityConditions('there are blocking conditions!')
+    ->withPersonalStatus($status)
+    ->withAvailability($availability)
+    ->withDetails([$details, $details2])
     ->withPrioritizedReactions($prio_reactions)
     ;
 

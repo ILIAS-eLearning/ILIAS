@@ -39,7 +39,7 @@ abstract class EntityListing implements I\EntityListing
         return $clone;
     }
 
-    public function getEntities($ui_factory): \Generator
+    public function getEntities(\ILIAS\UI\Factory $ui_factory): \Generator
     {
         return $this->entity_factory->get($ui_factory, $this->data);
     }
