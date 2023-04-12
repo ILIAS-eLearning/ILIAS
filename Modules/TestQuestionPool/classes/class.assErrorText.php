@@ -52,16 +52,17 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     }
 
     /**
-    * Returns true, if a single choice question is complete for use
+    * Returns true, if an error text question is complete for use
     *
-    * @return boolean True, if the single choice question is complete for use, otherwise false
+    * @return boolean True, if the error text question is complete for use, otherwise false
     */
     public function isComplete()
     {
         if (strlen($this->title)
             && ($this->author)
             && ($this->question)
-            && ($this->getMaximumPoints() > 0)) {
+            && ($this->getMaximumPoints() > 0)
+            && (!empty($this->getErrorData()) || !empty($this->getErrorsFromText($_POST['errortext'])))) {
             return true;
         } else {
             return false;

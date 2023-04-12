@@ -115,7 +115,15 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         $this->populateQuestionSpecificFormPart($form);
 
-        if (count($this->object->getErrorData()) || $checkonly) {
+        if ($save || $checkonly) {
+            $this->writePostData(true);
+            $this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
+            if (empty($this->object->getErrorData())) {
+                ilUtil::sendFailure($this->lng->txt('errortext_info'), true);
+            }
+        }
+
+        if (count($this->object->getErrorData())) {
             $this->populateAnswerSpecificFormPart($form);
         }
 
