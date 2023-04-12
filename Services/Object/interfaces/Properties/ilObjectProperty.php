@@ -30,5 +30,5 @@ interface ilObjectProperty
         ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery
-    ): Input;
+    ): ?Input;
 }
