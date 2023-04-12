@@ -96,7 +96,7 @@ class ilSoapAdministration
             $set = new ilSetting();
             $this->setMessage('SOAP is not enabled in ILIAS administration for this client');
             $this->setMessageCode('Server');
-            return (int) $set->get("soap_user_administration", '0') === 1;
+            return ((int) $set->get("soap_user_administration", '0')) === 1;
         }
 
         return true;
