@@ -465,7 +465,21 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
                     $ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $a_set["child"]);
                     $ilCtrl->setParameterByClass("ilobjmediapoolgui", "id", $a_set["child"]);
+
                     $actions[$lng->txt("edit")] = $ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit");
+
+                    $mdgui = new ilObjectMetaDataGUI(
+                        $this->media_pool,
+                        "mpg",
+                        $a_set["child"]
+                    );
+                    $mdtab = $mdgui->getTab("ilmediapoolpagegui");
+                    if ($mdtab) {
+                        $actions[$lng->txt("meta_data")] = $mdtab;
+                    }
+
+                    $actions[$lng->txt("cont_usage")] = $ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "showMediaPoolPageUsages");
+                    $actions[$lng->txt("settings")] = $ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "editMediaPoolPage");
                     $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $this->request->getItemId());
                     $actions[$lng->txt("move")] = $ilCtrl->getLinkTarget($this->parent_obj, "move");
                     $actions[$lng->txt("remove")] = $ilCtrl->getLinkTarget($this->parent_obj, "confirmRemove");

@@ -184,7 +184,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             case 'ilmediapoolpagegui':
                 $this->checkPermission("write");
                 $this->prepareOutput();
-                $this->addHeaderAction();
+                //$this->addHeaderAction();
                 $ilTabs->clearTargets();
                 $ilCtrl->setReturn($this, "returnFromItem");
                 $mep_page_gui = new ilMediaPoolPageGUI(
