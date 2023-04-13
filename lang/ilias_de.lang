@@ -2556,6 +2556,8 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Eine Liste der eigenen Buchungen wird automatisch verschickt. Benutzer mit dem Recht „Einstellungen bearbeiten“ erhalten eine Gesamtliste aller anstehenden Buchungen.
 book#:#book_reminder_days#:#Tage vor der Reservierung
 book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
+book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
+book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle Reservierungen entfernen um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
