@@ -216,6 +216,8 @@ select.form-control {
     //line-height: 24px;
     padding-bottom: ($il-padding-base-vertical + 1);
     min-height: ($il-line-height-computed + rem-to-pixel($il-font-size-base));
+    overflow-wrap: break-word;
+    
     @media only screen and (max-width: $il-grid-float-breakpoint-max) {
       min-height: auto;
       padding-bottom: 0;
