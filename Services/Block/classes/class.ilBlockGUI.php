@@ -21,6 +21,9 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Dropdown\Dropdown;
+use ILIAS\UI\Component\ViewControl;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
@@ -42,6 +45,16 @@ abstract class ilBlockGUI
     private int $refid;
     private string $rowtemplatename;
     private string $rowtemplatedir;
+    /** @var Modal[]  */
+    private array $modals = [];
+    /** @var <string, string> */
+    private array $sort_options = [];
+    /** @var <string, string> */
+    private array $presentations = [];
+    private string $activePresentation = '';
+    private string $activeSortOption = '';
+    private string $sort_target = '';
+    protected \ILIAS\UI\Factory $factory;
     protected object $gui_object;
     protected \ILIAS\Block\StandardGUIRequest $request;
     protected \ILIAS\Block\BlockManager $block_manager;
@@ -78,7 +91,9 @@ abstract class ilBlockGUI
     public function __construct()
     {
         global $DIC;
-
+        global $DIC;
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->http = $DIC->http();
         $block_service = new ILIAS\Block\Service($DIC);
@@ -618,22 +633,6 @@ abstract class ilBlockGUI
     }
 
     /**
-     * Get view controls
-     *
-     * @return array
-     */
-    protected function getViewControls(): array
-    {
-        if ($this->getPresentation() == self::PRES_SEC_LIST) {
-            $pg_view_control = $this->getPaginationViewControl();
-            if (!is_null($pg_view_control)) {
-                return [$pg_view_control];
-            }
-        }
-        return [];
-    }
-
-    /**
      * Get list item for data array
      *
      * @param array $data
@@ -820,9 +819,6 @@ abstract class ilBlockGUI
 
     public function getHTMLNew(): string
     {
-        global $DIC;
-        $factory = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
         $access = $this->access;
         $panel = null;
 
@@ -838,22 +834,22 @@ abstract class ilBlockGUI
 
         switch ($this->getPresentation()) {
             case self::PRES_SEC_LEG:
-                $panel = $factory->panel()->secondary()->legacy(
+                $panel = $this->factory->panel()->secondary()->legacy(
                     $this->getTitle(),
-                    $factory->legacy($this->getLegacyContent())
+                    $this->factory->legacy($this->getLegacyContent())
                 );
                 break;
 
             case self::PRES_MAIN_LEG:
-                $panel = $factory->panel()->standard(
+                $panel = $this->factory->panel()->standard(
                     $this->getTitle(),
-                    $factory->legacy($this->getLegacyContent())
+                    $this->factory->legacy($this->getLegacyContent())
                 );
                 break;
 
             case self::PRES_SEC_LIST:
                 $this->handleNavigation();
-                $panel = $factory->panel()->secondary()->listing(
+                $panel = $this->factory->panel()->secondary()->listing(
                     $this->getTitle(),
                     $this->getListItemGroups()
                 );
@@ -862,72 +858,48 @@ abstract class ilBlockGUI
             case self::PRES_MAIN_TILE:
             case self::PRES_MAIN_LIST:
                 $this->handleNavigation();
-                $panel = $factory->panel()->listing()->standard(
+                $panel = $this->factory->panel()->listing()->standard(
                     $this->getTitle(),
                     $this->getListItemGroups()
                 );
                 break;
         }
 
-        // actions
-        $actions = [];
-        $modals = [];
-
-        foreach ($this->getBlockCommands() as $command) {
-            $href = ($command["onclick"] != "")
-                ? ""
-                : $command["href"];
-            $button = $factory->button()->shy($command["text"], $href);
-            if ($command["onclick"]) {
-                $button = $button->withOnLoadCode(function ($id) use ($command) {
-                    return
-                        "$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
-                        "','" . $command["onclick"] . "');});";
-                });
-            }
-
-            if (isset($command['modal']) && $command['modal'] instanceof Modal) {
-                $button = $button->withOnClick($command["modal"]->getShowSignal());
-                $modals[] = $command['modal'];
-            }
-            $actions[] = $button;
-        }
-
         // check for empty list panel
         if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST]) &&
             (count($panel->getItemGroups()) == 0 || (count($panel->getItemGroups()) == 1 && count($panel->getItemGroups()[0]->getItems()) == 0))) {
             if ($this->getPresentation() == self::PRES_SEC_LIST) {
-                $panel = $factory->panel()->secondary()->legacy(
+                $panel = $this->factory->panel()->secondary()->legacy(
                     $this->getTitle(),
-                    $factory->legacy($this->getNoItemFoundContent())
+                    $this->factory->legacy($this->getNoItemFoundContent())
                 );
             } else {
-                $panel = $factory->panel()->standard(
+                $panel = $this->factory->panel()->standard(
                     $this->getTitle(),
-                    $factory->legacy($this->getNoItemFoundContent())
+                    $this->factory->legacy($this->getNoItemFoundContent())
                 );
             }
         }
 
-
-        if (count($actions) > 0) {
-            $actions = $factory->dropdown()->standard($actions)
-                ->withAriaLabel(sprintf(
-                    $this->lng->txt('actions_for'),
-                    htmlspecialchars($this->getTitle())
-                ));
+        $actions = $this->getActionsForPanel();
+        if ($actions !== null) {
             $panel = $panel->withActions($actions);
         }
-
-        // view controls
-        if (count($this->getViewControls()) > 0) {
-            $panel = $panel->withViewControls($this->getViewControls());
+        $viewControls = $this->getViewControlsForPanel();
+        if ($viewControls !== [] &&
+            (
+                $panel instanceof \ILIAS\UI\Component\Panel\Standard ||
+                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Listing ||
+                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Legacy
+            )
+        ) {
+            $panel = $panel->withViewControls($viewControls);
         }
 
         if ($ctrl->isAsynch()) {
-            $html = $renderer->renderAsync([$panel, ...$modals]);
+            $html = $this->renderer->renderAsync([$panel, ...$this->modals]);
         } else {
-            $html = $renderer->render([$panel, ...$modals]);
+            $html = $this->renderer->render([$panel, ...$this->modals]);
         }
 
 
@@ -940,6 +912,99 @@ abstract class ilBlockGUI
         }
 
         return $html;
+    }
+
+    protected function getActionsForPanel(): ?Dropdown
+    {
+        // actions
+        $actions = [];
+        $modals = [];
+
+        foreach ($this->getBlockCommands() as $command) {
+            $href = ($command["onclick"] !== "")
+                ? ""
+                : $command["href"];
+            $button = $this->factory->button()->shy($command["text"], $href);
+            if ($command["onclick"]) {
+                $button = $button->withOnLoadCode(function ($id) use ($command) {
+                    return
+                        "$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
+                        "','" . $command["onclick"] . "');});";
+                });
+            }
+
+            if (isset($command['modal']) && $command['modal'] instanceof Modal) {
+                $button = $button->withOnClick($command["modal"]->getShowSignal());
+                $this->modals[] = $command['modal'];
+            }
+            $actions[] = $button;
+        }
+
+        if (count($actions) > 0) {
+            $actions = $this->factory->dropdown()->standard($actions)
+                               ->withAriaLabel(sprintf(
+                                   $this->lng->txt('actions_for'),
+                                   htmlspecialchars($this->getTitle())
+                               ));
+            return $actions;
+        }
+        return null;
+    }
+
+    /** @return ViewControl\Sortation[]|ViewControl\Pagination[] */
+    public function getViewControlsForPanel(): array
+    {
+        $viewControls = [];
+        $sortation = $this->factory->viewControl()->sortation(
+            $this->sort_options
+        )->withTargetURL(
+            $this->sort_target,
+            'sorting'
+        )->withLabel(
+            $this->activeSortOption
+        );
+        $viewControls[] = $sortation;
+        $presentation = $this->factory->viewControl()->mode(
+            $this->presentations,
+            'label'
+        )->withActive($this->activePresentation);
+        $viewControls[] = $presentation;
+
+
+        if ($this->getPresentation() === self::PRES_SEC_LIST) {
+            $pg_view_control = $this->getPaginationViewControl();
+            if (!is_null($pg_view_control)) {
+                $viewControls[] = $pg_view_control;
+            }
+        }
+        return $viewControls;
+    }
+
+    public function sortObject(): string
+    {
+        return $this->getHTML();
+    }
+
+    public function addSortOption(string $option, string $label, bool $active): void
+    {
+        if ($active) {
+            $this->activeSortOption = $label;
+        } else {
+            $this->sort_options[$option] = $label;
+        }
+    }
+
+    public function setSortTarget(string $target): void
+    {
+        $this->sort_target = $target;
+    }
+
+    public function addPresentation(string $label, string $target, bool $active): void
+    {
+        $this->presentations[$label] = $target;
+        if ($active) {
+            $this->activePresentation = $label;
+        }
     }
 
     /**
