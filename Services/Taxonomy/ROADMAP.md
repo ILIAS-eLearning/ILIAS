@@ -2,8 +2,6 @@
 
 ## Short Term
 
-- Add PRIVACY.md
-
 ## Mid Term
 
 - Add a decent internal service structure

@@ -4,6 +4,7 @@
 
 - Added CHANGELOG.md
 - Added ROADMAP.md
+- Added PRIVACY.md
 
 ## ILIAS 8
 
