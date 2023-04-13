@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -125,7 +126,7 @@ abstract class ilECSObjectSettings
     public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type): bool
     {
         $export_manager = ilECSExportManager::getInstance();
-        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($type);
+        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
 
         if (!$this->ecsIsActivatableForObject($export_manager, $exportable_participants)) {
             return false;
@@ -336,7 +337,7 @@ abstract class ilECSObjectSettings
     {
         $ecs_export = (bool) $_POST['ecs_export'];
         $selected_receivers = (array) $_POST['ecs_sid'];
-        $this->handleSettings($ecs_export, $selected_receivers);
+        return $this->handleSettings($ecs_export, $selected_receivers);
     }
 
 
