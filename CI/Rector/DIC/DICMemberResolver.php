@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\CI\Rector\DIC;
 
 use Rector\Transform\NodeTypeAnalyzer\TypeProvidingExprFromClassResolver;
@@ -36,9 +38,9 @@ use PhpParser\Node\Stmt\Class_;
 
 final class DICMemberResolver
 {
-    const DIC = 'DIC';
-    const THIS = 'this';
-    const GLOBALS = 'GLOBALS';
+    public const DIC = 'DIC';
+    public const THIS = 'this';
+    public const GLOBALS = 'GLOBALS';
     protected TypeProvidingExprFromClassResolver $typeProvidingExprFromClassResolver;
     protected DICDependencyManipulator $dicDependencyManipulator;
     protected PropertyToAddCollector $propertyToAddCollector;
@@ -49,7 +51,7 @@ final class DICMemberResolver
     protected ConstructorClassMethodFactory $constructClassMethodFactory;
     protected \Rector\Core\NodeDecorator\PropertyTypeDecorator $propertyTypeDecorator;
     protected \Rector\ChangesReporting\Collector\RectorChangeCollector $rectorChangeCollector;
-    
+
     public function __construct(
         TypeProvidingExprFromClassResolver $typeProvidingExprFromClassResolver,
         DICDependencyManipulator $classDependencyManipulator,
@@ -72,7 +74,7 @@ final class DICMemberResolver
         $this->rectorChangeCollector = $rectorChangeCollector;
         $this->DICMemberMap = new DICMemberMap();
     }
-    
+
     /**
      * @param DICMember $DICMember
      * @return Expr|MethodCall
@@ -81,7 +83,7 @@ final class DICMemberResolver
         DICMember $DICMember,
         Class_ $class,
         ClassMethod $classMethod
-    ) {
+    ): \PhpParser\Node\Expr\Variable {
         // $DIC;
         $dic_variable = $this->dicDependencyManipulator->ensureGlobalDICinMethod($classMethod, $class);
         // new variable like $main_tpl;
@@ -101,17 +103,17 @@ final class DICMemberResolver
             $class,
             $property_assign
         );
-        
+
         return $dic_dependenc_variable;
     }
-    
+
     public function ensureDICDependency(
         string $name,
         Class_ $class,
         ClassMethod $classMethod
-    ) : Expr {
+    ): Expr {
         $DICMember = $this->getDICMemberByName($name);
-        
+
         // return simple $GLOBALS access in static methods or
         // return simple $GLOBALS access in static methods if we are in
         // constructor itself, since currently we have problems to assign the
@@ -121,7 +123,7 @@ final class DICMemberResolver
             || $classMethodName === \Rector\Core\ValueObject\MethodName::CONSTRUCT) {
             return $this->getStaticDICCall($DICMember, $class, $classMethod);
         }
-        
+
         // Test primary class
         $primary = $DICMember->getMainClass();
         $dicPropertyFetch = $this->typeProvidingExprFromClassResolver->resolveTypeProvidingExprFromClass(
@@ -132,7 +134,7 @@ final class DICMemberResolver
         if ($dicPropertyFetch instanceof PropertyFetch) {
             return $dicPropertyFetch;
         }
-        
+
         // try alternatives
         $alternatives = $DICMember->getAlternativeClasses();
         foreach ($alternatives as $alternative) {
@@ -145,14 +147,14 @@ final class DICMemberResolver
                 return $dicPropertyFetch;
             }
         }
-        
+
         // Add property
         $this->propertyToAddCollector->addPropertyWithoutConstructorToClass(
             $DICMember->getPropertyName(),
             $this->getObjectType($primary),
             $class
         );
-        
+
         $dicPropertyFetch = new PropertyFetch(
             new Variable(self::THIS),
             $DICMember->getPropertyName()
@@ -177,10 +179,10 @@ final class DICMemberResolver
             $class,
             $property_assign
         );
-        
+
         return $dicPropertyFetch;
     }
-    
+
     private function appendDICMethods(DICMember $m, Expr $methodCall)
     {
         foreach ($m->getDicServiceMethod() as $call) {
@@ -191,13 +193,13 @@ final class DICMemberResolver
         }
         return $methodCall;
     }
-    
-    private function getDICMemberByName(string $name) : DICMember
+
+    private function getDICMemberByName(string $name): DICMember
     {
         return $this->DICMemberMap->getByName($name);
     }
-    
-    private function getObjectType(string $name) : ObjectType
+
+    private function getObjectType(string $name): ObjectType
     {
         return new ObjectType($name);
     }

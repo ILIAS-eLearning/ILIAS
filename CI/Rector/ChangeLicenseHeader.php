@@ -86,7 +86,7 @@ final class ChangeLicenseHeader extends AbstractRector
         $current = $node;
         $previous = $node->getAttribute(AttributeKeys::PREVIOUS_NODE);
         while (is_object($previous) && in_array(get_class($previous), $this->previous_search)) {
-            if (get_class($previous) === Node\Name::class) {
+            if ($previous instanceof \PhpParser\Node\Name) {
                 $previous = $previous->getAttribute(AttributeKeys::PARENT_NODE);
             }
             $current = $previous;

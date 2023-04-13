@@ -7,13 +7,13 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Set\ValueObject\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator) : void {
+return static function (ContainerConfigurator $containerConfigurator): void {
     // basic rules
-    $basic = include "basic_rector.php";
+    $basic = include __DIR__ . "/basic_rector.php";
     $basic($containerConfigurator);
 
     // language level
-    $language_level = include "language_level.php";
+    $language_level = include __DIR__ . "/language_level.php";
     $language_level($containerConfigurator);
 
     // After that, you can try to introduce TypeDeclarations in your component
