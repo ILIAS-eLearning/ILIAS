@@ -1856,7 +1856,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance($c->database());
         };
 
         $c["bt.injector"] = function ($c) {
