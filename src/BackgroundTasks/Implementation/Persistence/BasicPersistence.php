@@ -1,21 +1,5 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -27,7 +11,6 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucketMeta;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 class BasicPersistence implements Persistence
 {
@@ -40,10 +23,6 @@ class BasicPersistence implements Persistence
      * @var Bucket[]
      */
     protected static $buckets = [];
-    /**
-     * @var \ilDBInterface
-     */
-    private $db;
     /**
      * @var \SplObjectStorage
      */
@@ -70,8 +49,6 @@ class BasicPersistence implements Persistence
      */
     protected function __construct()
     {
-        global $DIC;
-        $this->db = $DIC->database();
         $this->valueHashToValueContainerId = new \SplObjectStorage();
         $this->bucketHashToObserverContainerId = new \SplObjectStorage();
         $this->taskHashToTaskContainerId = new \SplObjectStorage();
@@ -85,18 +62,9 @@ class BasicPersistence implements Persistence
 
         return self::$instance;
     }
+    
+    
 
-    /**
-     * @return void
-     */
-    protected function gc() : void
-    {
-        $this->db->manipulateF(
-            "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
-            ['integer', 'integer', 'integer'],
-            [ANONYMOUS_USER_ID, State::FINISHED, State::USER_INTERACTION]
-        );
-    }
 
     /**
      * Currently for testing only.
@@ -152,9 +120,6 @@ class BasicPersistence implements Persistence
      */
     public function getBucketIdsOfUser($user_id, $order_by = "id", $order_direction = "ASC")
     {
-        // Garbage Collection
-        $this->gc();
-
         return BucketContainer::where(['user_id' => $user_id])
             ->orderBy($order_by, $order_direction)
             ->getArray(null, 'id');
