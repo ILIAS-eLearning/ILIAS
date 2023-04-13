@@ -51,9 +51,6 @@ abstract class Action implements I\Action
         return $this->parameter_name;
     }
 
-    /*
-     * @inheritdoc
-     */
     public function getTarget(): Signal|URI
     {
         return $this->target;

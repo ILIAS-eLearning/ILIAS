@@ -58,7 +58,7 @@ var data = function($, params, kbnav) {
                 modal_close.click();
                 doAction(table_id, signal_data, ['ALL_OBJECTS']) ;
             }
-    };
+    },
 
     collectSelectedRowIds = function(table_id) {
         var table = document.getElementById(table_id),
@@ -90,7 +90,7 @@ var data = function($, params, kbnav) {
             selector_all.style.display='block';
             selector_none.style.display='none';
         }
-    }
+    },
 
     public_interface = {
         registerAction: registerAction,

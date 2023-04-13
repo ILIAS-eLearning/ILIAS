@@ -30,6 +30,11 @@ class Number extends Column implements C\Number
     protected string $delim_decimal = ',';
     protected string $delim_thousands = '';
 
+    private const POSSIBLE_UNIT_POSITIONS = [
+        self::UNIT_POSITION_FORE,
+        self::UNIT_POSITION_AFT
+    ];
+
     public function withDecimals(int $number_of_decimals): self
     {
         $clone = clone $this;
@@ -44,12 +49,12 @@ class Number extends Column implements C\Number
 
     public function withUnit(string $unit, string $unit_position = self::UNIT_POSITION_AFT): self
     {
-        if (!in_array($unit_position, [
-            self::UNIT_POSITION_FORE,
-            self::UNIT_POSITION_AFT
-        ])) {
-            throw new \InvalidArgumentException('Use $unit_position = \'UNIT_POSITION_FORE\'/, \'UNIT_POSITION_AFT\'');
-        }
+        $this->checkArgIsElement(
+            'unit_position',
+            $unit_position,
+            self::POSSIBLE_UNIT_POSITIONS,
+            'UNIT_POSITION_FORE | UNIT_POSITION_AFT'
+        );
 
         $clone = clone $this;
         $clone->unit = $unit;

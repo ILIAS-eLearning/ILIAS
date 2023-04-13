@@ -19,8 +19,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use Exception;
-
 interface DataRowFactory
 {
     public function standard(string $id, array $record): DataRow;

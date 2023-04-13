@@ -22,14 +22,13 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-//use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
-
 abstract class Table implements T\Table
 {
     use ComponentHelper;
 
-    public function __construct(protected string $title)
-    {
+    public function __construct(
+        protected string $title
+    ) {
     }
 
     /**

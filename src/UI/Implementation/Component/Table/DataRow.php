@@ -30,12 +30,12 @@ class DataRow implements T\DataRow
      * @var mixed[]
      */
     public $record;
-    protected array $disabled_actions = [];
 
     /**
-     * @param mixed[] $columns
-     * @param mixed[] $actions
+     * @var array<string, bool>
      */
+    protected array $disabled_actions = [];
+
     public function __construct(
         protected bool $table_has_singleactions,
         protected bool $table_has_multiactions,
@@ -80,7 +80,7 @@ class DataRow implements T\DataRow
     {
         return array_filter(
             $this->actions,
-            function ($id): bool {
+            function (string $id): bool {
                 return !array_key_exists($id, $this->disabled_actions);
             },
             ARRAY_FILTER_USE_KEY

@@ -26,19 +26,13 @@ use ILIAS\UI\Component\Table\Action\Action;
 class DataRowFactory implements T\DataRowFactory
 {
     /**
-     * @param <string, Column> $columns
-     * @param <string, Action> $single_actions
+     * @param array <string, Column> $columns
+     * @param array <string, Action> $single_actions
      */
     public function __construct(
         protected bool $table_has_singleactions,
         protected bool $table_has_multiactions,
-        /**
-         * @var <string, Column>
-         */
         protected array $columns,
-        /**
-         * @var <string, Action>
-         */
         protected array $row_actions
     ) {
     }

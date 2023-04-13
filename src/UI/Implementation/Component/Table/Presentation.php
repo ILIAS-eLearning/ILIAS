@@ -46,7 +46,7 @@ class Presentation extends Table implements T\Presentation
         Closure $row_mapping,
         SignalGeneratorInterface $signal_generator
     ) {
-        $this->title = $title;
+        parent::__construct($title);
         $this->view_controls = $view_controls;
         $this->row_mapping = $row_mapping;
         $this->signal_generator = $signal_generator;

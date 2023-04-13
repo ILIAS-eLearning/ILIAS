@@ -26,14 +26,14 @@ use Closure;
 
 /**
  * Implementation of factory for tables
- *
- * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
 class Factory implements T\Factory
 {
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
-        protected DataFactory $data_factory
+        protected DataFactory $data_factory,
+        protected T\Column\Factory $column_factory,
+        protected T\Action\Factory $action_factory
     ) {
     }
 
@@ -67,7 +67,7 @@ class Factory implements T\Factory
      */
     public function column(): T\Column\Factory
     {
-        return new Column\Factory();
+        return $this->column_factory;
     }
 
     /**
@@ -75,6 +75,6 @@ class Factory implements T\Factory
      */
     public function action(): T\Action\Factory
     {
-        return new Action\Factory();
+        return $this->action_factory;
     }
 }

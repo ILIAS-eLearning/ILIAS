@@ -36,7 +36,9 @@ class DataTest extends ILIAS_UI_TestBase
     {
         return new C\Table\Factory(
             new C\SignalGenerator(),
-            new \ILIAS\Data\Factory()
+            new \ILIAS\Data\Factory(),
+            new C\Table\Column\Factory(),
+            new C\Table\Action\Factory()
         );
     }
 

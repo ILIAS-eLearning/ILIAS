@@ -90,7 +90,8 @@ class DataRendererTest extends ILIAS_UI_TestBase
             $this->getJavaScriptBinding(),
             $this->getRefinery(),
             new ilImagePathResolver(),
-            new \ILIAS\Data\Factory()
+            new \ILIAS\Data\Factory(),
+            new \ILIAS\UI\Help\TextRetriever\Echoing()
         );
     }
 
@@ -127,7 +128,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
             {
                 return new I\Table\Factory(
                     new I\SignalGenerator(),
-                    new \ILIAS\Data\Factory()
+                    new \ILIAS\Data\Factory(),
+                    new I\Table\Column\Factory(),
+                    new I\Table\Action\Factory()
                 );
             }
             public function divider(): ILIAS\UI\Component\Divider\Factory
@@ -255,7 +258,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
             <tr class="c-table-data__header c-table-data__row" role="rowgroup">
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
                     <div class="c-table-data__header__resize-wrapper">
-                        <a class="glyph" href="http://localhost:80?tsort_f=f1&tsort_d=DESC" aria-label="sort_ascending"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                        <a tabindex="0" class="glyph" href="http://localhost:80?tsort_f=f1&tsort_d=DESC" aria-label="sort_ascending"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
                         <button class="btn btn-link" data-action="http://localhost:80?tsort_f=f1&tsort_d=DESC" id="id_1">Field 1</button>
                     </div>
                 </th>

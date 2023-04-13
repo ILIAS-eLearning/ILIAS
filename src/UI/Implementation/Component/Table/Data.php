@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -34,10 +35,8 @@ class Data extends Table implements T\Data, JSBindable
 {
     use JavaScriptBindable;
 
-    protected string $title;
-
     /**
-     * @var array <string, Column>
+     * @var array<string, Column>
      */
     protected $columns = [];
 
@@ -64,50 +63,40 @@ class Data extends Table implements T\Data, JSBindable
         array $columns,
         protected T\DataRetrieval $data_retrieval
     ) {
-        parent::__construct($title);
-        $this->multi_action_signal = $signal_generator->create();
-        $this->selection_signal = $signal_generator->create();
-        $this->setEnumeratedColumns($columns);
-        $this->initializeVisibleColumns();
-        $this->initializeViewDefaults();
-    }
-
-    protected function setEnumeratedColumns(array $columns): void
-    {
+        $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
             throw new \InvalidArgumentException('cannot construct a table without columns.');
         }
-        $counter = 0;
-        foreach ($columns as $id => $column) {
-            if (!is_a($column, T\Column\Column::class)) {
-                throw new \InvalidArgumentException($id . ' is not a column.');
-            }
-            $this->columns[$id] = $column->withIndex($counter);
-            $counter++;
+
+        parent::__construct($title);
+        $this->multi_action_signal = $signal_generator->create();
+        $this->selection_signal = $signal_generator->create();
+
+        $idx = 0;
+        foreach ($columns as $id => $col) {
+            $this->columns[$id] = $col->withIndex($idx++);
         }
+
+        $this->selected_optional_column_ids = array_keys(array_filter(
+            $columns,
+            static fn ($c): bool => $c->isInitiallyVisible()
+        ));
+
+        $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);
+        $this->range = $data_factory->range(0, $this->number_of_rows);
     }
 
-    protected function initializeVisibleColumns(): void
+    protected function initialOrder(): string
     {
-        $this->selected_optional_column_ids = array_keys(
-            array_filter(
-                $this->getColumns(),
-                fn ($c) => $c->isInitiallyVisible()
-            )
-        );
-    }
-
-    protected function initializeViewDefaults(): void
-    {
-        $this->range = $this->data_factory->range(0, $this->number_of_rows);
-
+        $visible_cols = $this->getVisibleColumns();
         $sortable_visible_cols = array_filter(
-            $this->getVisibleColumns(),
-            fn ($c) => $c->isSortable()
+            $visible_cols,
+            static fn ($c): bool => $c->isSortable()
         );
-
-        $order_by = current(array_keys($sortable_visible_cols));
-        $this->order = $this->data_factory->order($order_by, \ILIAS\Data\Order::ASC);
+        if ($sortable_visible_cols === []) {
+            return array_key_first($visible_cols);
+        }
+        return array_key_first($sortable_visible_cols);
     }
 
     public function getColumns(): array
@@ -238,7 +227,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return array_filter(
             $this->getActions(),
-            function ($action) use ($exclude): bool {
+            static function ($action) use ($exclude): bool {
                 return !is_a($action, $exclude);
             }
         );
@@ -272,13 +261,13 @@ class Data extends Table implements T\Data, JSBindable
     }
 
     /**
-     * @return <string, Column\Column>
+     * @return array<string, Column>
      */
     public function getVisibleColumns(): array
     {
         return array_filter(
             $this->getColumns(),
-            fn ($col, $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids),
+            fn (Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids, true),
             ARRAY_FILTER_USE_BOTH
         );
     }

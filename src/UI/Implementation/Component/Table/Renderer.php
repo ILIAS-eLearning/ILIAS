@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\Data\Order;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -40,16 +41,12 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderPresentationRow($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Data) {
-            /*
-            if(!$component->getRequest()) {
-                return 'Render Data Table with Request to use View Controls!';
-            }
-            */
             return $this->renderDataTable($component, $default_renderer);
         }
         if ($component instanceof Component\Table\DataRow) {
-            return $this->renderStandardRow($component, $default_renderer);
+            return $this->renderStandardDataRow($component, $default_renderer);
         }
+        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
     }
 
     protected function renderPresentationTable(
@@ -168,11 +165,11 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "il.UI.table.data.initKeyboardNavigation('{$id}');"
+            static fn ($id): string => "il.UI.table.data.initKeyboardNavigation('{$id}');"
         );
         if ($component->hasMultiActions()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "il.UI.table.data.selectAll('{$id}', false);"
+                static fn ($id): string => "il.UI.table.data.selectAll('{$id}', false);"
             );
         }
 
@@ -256,9 +253,6 @@ class Renderer extends AbstractComponentRenderer
             ->withAdditionalParameters($additional_parameters);
     }
 
-    /**
-     * @param Column\Column[]
-     */
     protected function renderTableHeader(
         RendererInterface $default_renderer,
         Component\Table\Data $component,
@@ -271,15 +265,15 @@ class Renderer extends AbstractComponentRenderer
         $columns = $component->getVisibleColumns();
 
         foreach ($columns as $col_id => $col) {
-            $param_sort_direction = $order::ASC;
+            $param_sort_direction = Order::ASC;
             $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
-                if ($sort_direction === $order::ASC) {
+                if ($sort_direction === Order::ASC) {
                     $sortation = 'ascending';
                     $sortation_glyph = $glyph_factory->sortAscending("#");
-                    $param_sort_direction = $order::DESC;
+                    $param_sort_direction = Order::DESC;
                 }
-                if ($sort_direction === $order::DESC) {
+                if ($sort_direction === Order::DESC) {
                     $sortation = 'decending';
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
@@ -317,9 +311,9 @@ class Renderer extends AbstractComponentRenderer
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
-            $select_all = $glyph_factory->add('')->withOnClick($sig_all);
+            $select_all = $glyph_factory->add()->withOnClick($sig_all);
             $signal->addOption('select', false);
-            $select_none = $glyph_factory->close('')->withOnClick($signal);
+            $select_none = $glyph_factory->close()->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
         }
@@ -354,14 +348,14 @@ class Renderer extends AbstractComponentRenderer
         $select = $f->input()->field()->select(
             "action",
             array_map(
-                fn ($action) => $action->getLabel(),
+                static fn ($action): string => $action->getLabel(),
                 $actions
             ),
             ""
         );
         $submit = $f->button()->primary('Do for all objects!', '#')
             ->withOnLoadCode(
-                fn ($id) => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
+                static fn ($id): string => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
             );
         $modal = $f->modal()
             ->roundtrip('MultiAction', [$msg, $select])
@@ -390,13 +384,12 @@ class Renderer extends AbstractComponentRenderer
         $buttons[] =  $f->divider()->horizontal();
         $buttons[] =  $f->button()->shy('all objects', '#')->withOnClick($modal_signal);
 
-        $dropdown = $f->dropdown()->standard($buttons);
-        return $dropdown;
+        return $f->dropdown()->standard($buttons);
     }
 
     protected function getMultiActionHandler(Component\Signal $action_signal): \Closure
     {
-        return function ($id) use ($action_signal) {
+        return static function ($id) use ($action_signal): string {
             return "
                 $(document).on('{$action_signal}', function(event, signal_data) {
                     il.UI.table.data.doAction('{$id}', signal_data, il.UI.table.data.collectSelectedRowIds('{$id}'));
@@ -407,7 +400,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function getSelectionHandler(Component\Signal $selection_signal): \Closure
     {
-        return function ($id) use ($selection_signal) {
+        return static function ($id) use ($selection_signal): string {
             return "
                 $(document).on('{$selection_signal}', function(event, signal_data) {
                     il.UI.table.data.selectAll('{$id}', signal_data.options.select);
@@ -433,14 +426,14 @@ class Renderer extends AbstractComponentRenderer
             ]);
         }
 
-        return function ($id) use ($action_id, $type, $target, $parameter_name) {
+        return static function ($id) use ($action_id, $type, $target, $parameter_name): string {
             return "
                 il.UI.table.data.registerAction('{$id}', '{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
             ";
         };
     }
 
-    public function renderStandardRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
+    public function renderStandardDataRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();
@@ -482,8 +475,7 @@ class Renderer extends AbstractComponentRenderer
             }
             $buttons[] = $f->button()->shy($act->getLabel(), $target);
         }
-        $dropdown = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
-        return $dropdown;
+        return $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
     }
 
     /**
@@ -501,9 +493,12 @@ class Renderer extends AbstractComponentRenderer
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
         $toggle = $component->getToggleSignal();
-        return $component->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
-        "$(document).on('$close', function() { il.UI.table.presentation.collapseRow('$id'); return false; });" .
-        "$(document).on('$toggle', function() { il.UI.table.presentation.toggleRow('$id'); return false; });");
+        return $component->withAdditionalOnLoadCode(
+            static fn ($id): string =>
+            "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
+            "$(document).on('$close', function() { il.UI.table.presentation.collapseRow('$id'); return false; });" .
+            "$(document).on('$toggle', function() { il.UI.table.presentation.toggleRow('$id'); return false; });"
+        );
     }
 
     /**
