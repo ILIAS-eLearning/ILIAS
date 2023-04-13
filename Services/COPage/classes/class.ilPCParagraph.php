@@ -838,7 +838,8 @@ class ilPCParagraph extends ilPageContent
                     $a_text,
                     [
                         "Target" => "il_" . $inst_str . "_wpage_" . $attribs['wpage'],
-                        "Type" => "WikiPage"
+                        "Type" => "WikiPage",
+                        "Anchor" => $attribs["anchor"] ?? ""
                     ]
                 );
             }
@@ -1207,7 +1208,10 @@ class ilPCParagraph extends ilPageContent
 
                 case "WikiPage":
                     $tframestr = "";
-                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "wpage=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
+                    $ancstr = (!empty($attribs["Anchor"]))
+                        ? ' anchor="' . $attribs["Anchor"] . '"'
+                        : "";
+                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "wpage=\"" . $target_id . "\"" . $tframestr . $ancstr . "]", $a_text);
                     break;
 
                 case "PortfolioPage":

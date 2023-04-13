@@ -602,10 +602,10 @@ class ilInternalLinkGUI
                         $wpage["id"],
                         "WikiPage",
                         "wpage",
-                        "wpage"
+                        "wpage",
+                        ilPCParagraph::_readAnchors("wpg", $wpage["id"], "")
                     );
                 }
-
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->parseCurrentBlock();
                 break;
