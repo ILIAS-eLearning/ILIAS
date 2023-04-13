@@ -129,10 +129,4 @@ interface Glyph extends Symbol, Clickable
     * Get a Glyph like this with an action.
     */
     public function withAction(string $action): Glyph;
-
-    /**
-     * @return bool Whether the glyph is tabbable (e.g. for screen readers). This is true if a Glyph has
-     * an action or a onClock Signal.
-     */
-    public function isTabbable(): bool;
 }

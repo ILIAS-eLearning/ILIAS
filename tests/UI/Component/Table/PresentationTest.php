@@ -161,12 +161,12 @@ class PresentationTest extends ILIAS_UI_TestBase
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -239,12 +239,12 @@ EXP;
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
