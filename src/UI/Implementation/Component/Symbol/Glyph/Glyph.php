@@ -204,8 +204,13 @@ class Glyph implements C\Symbol\Glyph\Glyph
         return $clone;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isTabbable(): bool
     {
-        return (isset($this->triggered_signals['click']) && $this->triggered_signals['click'] !== null) || ($this->action !== null && $this->action !== "");
+        $has_action = ($this->action !== null && $this->action !== "");
+        $has_signal = isset($this->triggered_signals['click']) && $this->triggered_signals['click'] !== null;
+        return  ($has_signal || $has_action) && $this->isActive();
     }
 }

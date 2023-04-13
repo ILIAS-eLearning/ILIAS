@@ -53,7 +53,7 @@ class ModeInfoTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 		<div class="il-mode-info">
-		    <span class="il-mode-info-content">$mode_title<a class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+		    <span class="il-mode-info-content">$mode_title<a tabindex="0" class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 		    </span>
 		    </div>
 EOT;

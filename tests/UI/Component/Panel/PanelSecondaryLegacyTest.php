@@ -272,7 +272,7 @@ EOT;
 		<h2>Title</h2>
 		<div class="il-viewcontrol-pagination">
 			<span class="browse previous">
-				<a class="glyph" href="http://ilias.de?page=0" aria-label="back">
+				<a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
 					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				</a>
 			</span>
@@ -282,7 +282,7 @@ EOT;
 			<button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
 			<button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
 			<span class="browse next">
-				<a class="glyph" href="http://ilias.de?page=2" aria-label="next">
+				<a tabindex="0" class="glyph" href="http://ilias.de?page=2" aria-label="next">
 					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				</a>
 			</span>
