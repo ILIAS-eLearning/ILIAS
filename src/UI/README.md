@@ -402,36 +402,13 @@ If you would like to implement a new component to the framework you should perfo
     so that a tester with no technical expertise can confirm that all examples
     work as intended. They must be available and linked to the PR before the PR will be merged.
   
-15. Optional: You might need to add some less, to make your new component look nice. However, only do that
- if this is really required. Use bootstrap classes as much as possible. If you really need to add
- additional less, use existing less variables whenever appropriate. If you add a new variable, add the il- prefix
- to mark the as special ILIAS less variable and provide the proper description. For the demo this could look as
- follows (located at src/UI/templates/default/Demo/demo.less):
-    ``` less
-    .il-demo{
-     color: @il-demo-color;
-    }
-    ```
-16. Include the new less file to delos (located at templates/default/less/delos.less):
-    ``` less
-    @import "@{uibase}Demo/demo.less";
-    ```
-17. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
+15. Optional: You might need to add some scss, to make your new component look nice. However, only do that
+    if this is really required. (see: [SCSS Guidelines](../../templates/Guidelines_SCSS-Coding.md) ).
+16. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
     Best, try to formulate a testcase for each relevant client-side interaction. E.g. if 
     your component contains a button, that triggers a modal on-click, write a test-case for this
     interaction. Post the the link to this test-case in a comment/the description of your PR.
-    
-18. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
-    ``` less
-    //== Demo Component
-    //
-    //## Those variables are only used for demo purposes
-    //** Color of the text shown in the demo
-    @il-demo-color: @brand-danger;
-    ```
-19. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
-
-20. Optional: If your component introduces a new factory, do not forget to wire it up in the according
+17. Optional: If your component introduces a new factory, do not forget to wire it up in the according
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
     `Services/Init/class/class.ilInitialisation.php`.
 
