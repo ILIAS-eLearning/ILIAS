@@ -13,13 +13,17 @@ methods for which alternatives have existed for a long time.
 with the help of rector we try to get rid of such places.
 
 # Replace ilUtil:.sendInfo (and 3 more)
-There is since at least ILIAS 6 on `ilGlobalTemplateInterface` the method `setOnScreenMessage`, which takes over the functionality of the `ilUtil` methods. The rector `ReplaceUtilSendMessageRector` replaces the places that use the static ilUtil methods.
+
+There is since at least ILIAS 6 on `ilGlobalTemplateInterface` the method `setOnScreenMessage`, which takes over the
+functionality of the `ilUtil` methods. The rector `ReplaceUtilSendMessageRector` replaces the places that use the static
+ilUtil methods.
 
 Thereby - if not existing - the class is supplemented with an `ilGlobalTemplateInterface` dependency.
 
 Make sure you have a updated composer classmap before running rector!
 
 How to run for a component such as Modules/File:
+
 ```bash
 ./libs/composer/vendor/bin/rector process --clear-cache --no-diffs --config ./CI/Rector/ilUtils/ilutil_rector.php Modules/File
 ```

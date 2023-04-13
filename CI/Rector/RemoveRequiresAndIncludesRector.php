@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\CI\Rector;
 
 use PhpParser\Node;
@@ -26,30 +26,33 @@ use PHPStan\Type\ObjectType;
 
 final class RemoveRequiresAndIncludesRector extends AbstractRector
 {
-    public function getNodeTypes() : array
+    /**
+     * @return array<class-string<\PhpParser\Node\Expr>>
+     */
+    public function getNodeTypes(): array
     {
         return [\PhpParser\Node\Expr\Include_::class];
     }
-    
+
     /**
      * @param Node\Expr\Include_ $node
      */
-    public function refactor(Node $node) : ?Node
+    public function refactor(Node $node): \PhpParser\Node\Expr\Include_
     {
         if (!$this->isObjectType($node, new ObjectType(Node\Expr\Assign::class))) {
             $this->nodeRemover->removeNode($node);
         }
-        
+
         return $node;
     }
-    
-    public function getRuleDefinition() : RuleDefinition
+
+    public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
             'Remove requires and includes',
             [
                 new CodeSample(
-                // code before
+                    // code before
                     'require_once "./..."',
                     // code after
                     ''
