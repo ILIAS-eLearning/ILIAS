@@ -36,8 +36,8 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::VIEW_SELECTED_ITEMS => 'favourites',
         self::VIEW_RECOMMENDED_CONTENT => 'recommended_content',
         self::VIEW_MY_MEMBERSHIPS => 'memberships',
-        self::VIEW_LEARNING_SEQUENCES => 'learningsequences',
-        self::VIEW_MY_STUDYPROGRAMME => 'studyprogramme',
+        self::VIEW_LEARNING_SEQUENCES => 'learning_sequences',
+        self::VIEW_MY_STUDYPROGRAMME => 'study_programmes',
     ];
 
     /** @var string[] */
@@ -142,6 +142,16 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getStudyProgrammeView(): int
     {
         return self::VIEW_MY_STUDYPROGRAMME;
+    }
+
+    public function getLearningSequenceView(): int
+    {
+        return self::VIEW_LEARNING_SEQUENCES;
+    }
+
+    public function getRecommendedContentView(): int
+    {
+        return self::VIEW_RECOMMENDED_CONTENT;
     }
 
     public function getListPresentationMode(): string
@@ -289,6 +299,60 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         return (!$val)
             ? $this->getAvailablePresentationsByView($view)
             : unserialize($val, ['allowed_classes' => false]);
+    }
+
+    public function setViewPositions(array $positions): void
+    {
+        $this->settings->set('pd_view_positions', serialize($positions));
+    }
+
+    public function getViewPositions(): array
+    {
+        $val = $this->settings->get('pd_view_positions', '');
+        return (!$val)
+            ? self::$availableViews
+            : unserialize($val, ['allowed_classes' => false]);
+    }
+
+    public function isViewEnabled(int $view): bool
+    {
+        switch ($view) {
+            case $this->getMembershipsView():
+                return $this->enabledMemberships();
+            case $this->getSelectedItemsView():
+                return $this->enabledSelectedItems();
+            case $this->getStudyProgrammeView():
+                return $this->enabledStudyProgrammes();
+            case $this->getRecommendedContentView():
+                return $this->enabledRecommendedContent();
+            case $this->getLearningSequenceView():
+                return $this->enabledLearningSequences();
+            default:
+                return false;
+        }
+    }
+
+    public function enableView(int $view, bool $status): void
+    {
+        switch ($view) {
+            case $this->getMembershipsView():
+                $this->enableMemberships($status);
+                break;
+            case $this->getSelectedItemsView():
+                $this->enableSelectedItems($status);
+                break;
+            case $this->getStudyProgrammeView():
+                $this->enableStudyProgrammes($status);
+                break;
+            case $this->getRecommendedContentView():
+                $this->enableRecommendedContent($status);
+                break;
+            case $this->getLearningSequenceView():
+                $this->enableLearningSequences($status);
+                break;
+            default:
+                throw new \InvalidArgumentException("Unknown view: $view");
+        }
     }
 
     public function enabledMemberships(): bool

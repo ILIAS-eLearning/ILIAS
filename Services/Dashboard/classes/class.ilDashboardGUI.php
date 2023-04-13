@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -478,18 +480,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $tpl = new ilTemplate("tpl.dashboard.html", true, true, "Services/Dashboard");
         $settings = new ilPDSelectedItemsBlockViewSettings($this->user);
 
-        if ($settings->enabledSelectedItems()) {
-            $html = $this->renderFavourites();
-        }
-        $html .= $this->renderRecommendedContent();
-        if ($settings->enabledMemberships()) {
-            $html .= $this->renderMemberships();
-        }
-        if ($settings->enabledLearningSequences()) {
-            $html .= $this->renderLearningSequences();
-        }
-        if ($settings->enabledStudyProgrammes()) {
-            $html .= $this->renderStudyProgrammes();
+        foreach ($settings->getViewPositions() as $view_position) {
+            if ($settings->isViewEnabled($view_position)) {
+                $html .= $this->renderView($view_position);
+            }
         }
 
 
@@ -498,28 +492,22 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         return $tpl->get();
     }
 
-    protected function renderFavourites(): string
-    {
-        return (new ilSelectedItemsBlockGUI())->getHTML();
-    }
-
-    protected function renderRecommendedContent(): string
-    {
-        return (new ilDashboardRecommendedContentGUI())->getHTML();
-    }
-
-    protected function renderStudyProgrammes(): string
-    {
-        return (new ilStudyProgrammeDashboardViewGUI())->getHTML();
-    }
-
-    protected function renderMemberships(): string
-    {
-        return (new ilMembershipBlockGUI())->getHTML();
-    }
-
     protected function renderLearningSequences(): string
     {
         return (new ilDashboardLearningSequenceGUI())->getHTML();
+        switch ($view) {
+            case ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS:
+                return (new ilSelectedItemsBlockGUI())->getHTML();
+            case ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT:
+                return (new ilDashboardRecommendedContentGUI())->getHTML();
+            case ilPDSelectedItemsBlockConstants::VIEW_MY_MEMBERSHIPS:
+                return (new ilMembershipBlockGUI())->getHTML();
+            case ilPDSelectedItemsBlockConstants::VIEW_LEARNING_SEQUENCES:
+                return (new ilDashboardLearningSequenceGUI())->getHTML();
+            case ilPDSelectedItemsBlockConstants::VIEW_MY_STUDYPROGRAMME:
+                return (new ilStudyProgrammeDashboardViewGUI())->getHTML();
+            default:
+                return "";
+        }
     }
 }

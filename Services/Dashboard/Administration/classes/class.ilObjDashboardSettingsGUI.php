@@ -129,8 +129,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $content[] = $this->ui_factory->messageBox()->info($this->lng->txt('memberships_disabled_info'));
         }
         $this->setSettingsSubTabs('general');
-        $content[] = $this->getViewForm(self::VIEW_MODE_SETTINGS);
-        $this->tpl->setContent($this->ui->renderer()->renderAsync($content));
+        $table = new ilDashboardSortationTableGUI($this, "editSettings");
+        $this->tpl->setContent($table->getHTML());
     }
 
     public function editSorting(): void
@@ -141,7 +141,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
-    public function getViewForm(string $mode): StandardForm
+    public function getViewForm(string $mode): ?StandardForm
     {
         switch ($mode) {
             case self::VIEW_MODE_PRESENTATION:
@@ -153,10 +153,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                         $this->viewSettings->getPresentationViews()
                     )
                 );
-            case self::VIEW_MODE_SETTINGS:
-            default:
-                return $this->getSettingsForm();
         }
+        return null;
     }
 
     public function getViewSectionSorting(int $view, string $title): Section
@@ -203,60 +201,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function getSettingsForm(): StandardForm
-    {
-        $field = $this->ui->factory()->input()->field();
-        $lng = $this->lng;
-
-        $fields[self::DASH_ENABLE_PREFIX . 'favourites'] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "favourites"))
-            ->withValue($this->viewSettings->enabledSelectedItems());
-        // lookup refid by type
-        $main_menu_objs = ilObject::_getObjectsByType('mme');
-        $obj_id = array_pop($main_menu_objs)['obj_id'];
-        $main_menu_refs = ilObject::_getAllReferences($obj_id);
-        $ref_id = array_pop($main_menu_refs);
-
-        $this->ctrl->setParameterByClass(ilMMSubItemGUI::class, "ref_id", $ref_id);
-        $info_text = ($this->viewSettings->enabledMemberships())
-            ? ''
-            : $lng->txt('dash_member_main_alt') . ' ' . $this->ui->renderer()->render(
-                $this->ui_factory->link()->standard(
-                    $lng->txt('dash_click_here'),
-                    $this->ctrl->getLinkTargetByClass(['ilAdministrationGUI', 'ilObjMainMenuGUI', 'ilmmsubitemgui'])
-                )
-            );
-        $this->ctrl->clearParametersByClass(ilMMSubItemGUI::class);
-
-        $fields[self::DASH_ENABLE_PREFIX . 'recommended_content'] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "recommended_content"))
-                                                  ->withValue(true)
-                                                  ->withDisabled(true);
-        $fields[self::DASH_ENABLE_PREFIX . 'memberships'] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "memberships"), $info_text)
-            ->withValue($this->viewSettings->enabledMemberships());
-
-
-        $fields[self::DASH_ENABLE_PREFIX . 'learning_sequences'] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "learning_sequences"))
-            ->withValue($this->viewSettings->enabledLearningSequences());
-
-        $fields[self::DASH_ENABLE_PREFIX . 'study_programmes'] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "study_programmes"))
-            ->withValue($this->viewSettings->enabledStudyProgrammes());
-
-        $section1 = $field->section($this->maybeDisable($fields), $lng->txt('dash_main_panel'));
-
-        $sp_fields = [];
-        foreach ($this->side_panel_settings->getValidModules() as $mod) {
-            $sp_fields[self::DASH_ENABLE_PREFIX . $mod] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . $mod))
-                ->withValue($this->side_panel_settings->isEnabled($mod));
-        }
-
-        $section2 = $field->section($this->maybeDisable($sp_fields), $lng->txt('dash_side_panel'));
-
-        $form_action = $this->ctrl->getLinkTarget($this, 'saveSettings');
-        return $this->ui_factory->input()->container()->form()->standard(
-            $form_action,
-            ['main_panel' => $section1, 'side_panel' => $section2]
-        );
-    }
-
     public function getViewByMode(string $mode, int $view): Section
     {
         switch ($mode) {
@@ -290,6 +234,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->side_panel_settings->enable($mod, (bool) $form_data['side_panel'][self::DASH_ENABLE_PREFIX . $mod]);
             }
 
+            $positions = $form_data['side_panel']['position'];
+            asort($positions);
+            $this->side_panel_settings->setPositions(array_keys($positions));
+
+
             $this->tpl->setOnScreenMessage(
                 $this->tpl::MESSAGE_TYPE_SUCCESS,
                 $this->lng->txt('settings_saved'),
@@ -302,7 +251,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 true
             );
         }
-
         $this->ctrl->redirect($this, 'editSettings');
     }
 
@@ -370,18 +318,19 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     protected function savePresentation(): void
     {
         $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
-        $form = $form->withRequest($this->request);
-        $form_data = $form->getData();
 
-        if (!$this->canWrite()) {
+        if (!$form || !$this->canWrite()) {
             $this->tpl->setOnScreenMessage(
                 $this->tpl::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('no_permission'),
                 true
             );
             $this->editPresentation();
+            return;
         }
 
+        $form = $form->withRequest($this->request);
+        $form_data = $form->getData();
 
         foreach ($form_data as $view => $view_data) {
             $this->viewSettings->storeViewPresentation(
@@ -396,12 +345,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function saveSorting(): void
     {
-        if (!$this->canWrite()) {
+        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
+
+        if (!$form || !$this->canWrite()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->editSorting();
         }
 
-        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
         $form = $form->withRequest($this->request);
         $form_data = $form->getData();
 
@@ -417,6 +367,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 );
             }
         }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->editSorting();
     }
 

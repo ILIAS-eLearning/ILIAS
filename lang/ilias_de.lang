@@ -7923,7 +7923,7 @@ dash#:#dash_enable_task#:#To-Dos
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
-dash#:#dash_learningsequences#:#Meine Lernsequenzen
+dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
@@ -7938,7 +7938,7 @@ dash#:#dash_sort_by_location#:#Nach Ort sortieren
 dash#:#dash_sort_by_start_date#:#Nach Veranstaltungszeitraum sortieren
 dash#:#dash_sort_by_type#:#Nach Typ sortieren
 dash#:#dash_sortation#:#Sortierung
-dash#:#dash_studyprogramme#:#Meine Studienprogramme
+dash#:#dash_study_programmes#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
 dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’

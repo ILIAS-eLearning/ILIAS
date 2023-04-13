@@ -49,6 +49,20 @@ class ilDashboardSidePanelSettingsRepository
         ];
     }
 
+    public function setPositions(array $positions): void
+    {
+        $this->setting->set("side_panel_positions", serialize($positions));
+    }
+
+    public function getPositions(): array
+    {
+        $positions = $this->setting->get("side_panel_positions", "");
+        if ($positions !== "") {
+            return unserialize($positions, ["allowed_classes" => false]);
+        }
+        return $this->getValidModules();
+    }
+
     protected function isValidModule(string $mod): bool
     {
         return in_array($mod, $this->getValidModules());

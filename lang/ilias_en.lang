@@ -7916,7 +7916,7 @@ dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
-dash#:#dash_learningsequences#:#My Learning Sequences
+dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
@@ -7931,7 +7931,7 @@ dash#:#dash_sort_by_location#:#Sort by Location
 dash#:#dash_sort_by_start_date#:#Sort by Period of Event
 dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_sortation#:#Sortation
-dash#:#dash_studyprogramme#:#My Study Programmes
+dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
