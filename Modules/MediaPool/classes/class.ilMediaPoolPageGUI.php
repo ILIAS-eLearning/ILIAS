@@ -174,4 +174,28 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     {
         $this->tpl = $tpl;
     }
+
+    public function finishEditing(): void
+    {
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function getAdditionalPageActions() : array
+    {
+        $tabs = [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('cont_usage'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilObjMediaPoolGUI::class
+                ], 'showMediaPoolPageUsages')
+            ),
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilObjMediaPoolGUI::class
+                ], 'editMediaPoolPage')
+            ),
+        ];
+        return $tabs;
+    }
 }
