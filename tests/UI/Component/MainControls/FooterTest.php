@@ -24,7 +24,9 @@ require_once(__DIR__ . "/../../Base.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 
 /**
  * Tests for the Footer.
@@ -111,7 +113,7 @@ class FooterTest extends ILIAS_UI_TestBase
     {
         $bf = new I\Button\Factory();
         $signalGenerator = new SignalGenerator();
-        $mf = new I\Modal\Factory($signalGenerator);
+        $mf = $this->getModalFactory();
         $legacy = new ILIAS\UI\Implementation\Component\Legacy\Legacy('PhpUnit', $signalGenerator);
 
         $shyButton1 = $bf->shy('Button1', '#');
@@ -309,6 +311,21 @@ EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
+        );
+    }
+
+    protected function getModalFactory(): I\Modal\Factory
+    {
+        $group_mock = $this->createMock(Group::class);
+        $group_mock->method('withNameFrom')->willReturnSelf();
+
+        $factory_mock = $this->createMock(FieldFactory::class);
+        $factory_mock->method('group')->willReturn($group_mock);
+
+        return new I\Modal\Factory(
+            new SignalGeneratorMock(),
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $factory_mock,
         );
     }
 }

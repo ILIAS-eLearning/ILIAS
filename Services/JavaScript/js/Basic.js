@@ -182,19 +182,7 @@ il.Util = {
 		console.log(o);
 	},
 	
-	// Screen reader related functions
-	
-	// Set focus for screen reader per element id
-	setScreenReaderFocus: function(id)
-	{
-		var obj = document.getElementById(id);
-		if (obj)
-		{
-			obj.focus();
-			self.location.hash = id;
-		}
-	},
-	
+
 	/**
 	 * Get region information (coordinates + size) for an element
 	 */
@@ -379,6 +367,9 @@ il.Object = {
 		if (ah !== null)
 		{
 			il.Util.ajaxReplaceInner(o.argument.url_redraw, "il_head_action");
+			if (typeof WebuiPopovers !== "undefined") {
+				WebuiPopovers.hideAll();
+			}
 		}
 	},
 			
@@ -392,24 +383,11 @@ il.Object = {
 			var parent = id.split("_").pop();
 			il.Util.ajaxReplace(o.argument.url_redraw + "&child_ref_id=" + o.argument.ref_id + "&parent_ref_id=" + parent, id);
 		});
+		if (typeof WebuiPopovers !== "undefined") {
+			WebuiPopovers.hideAll();
+		}
 	}
 }
-
-/* Main menu handling */
-il.MainMenu = {
-	
-	removeLastVisitedItems: function (url) {
-		
-		$('.ilLVNavEnt').remove();
-		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, this.dummyCallback);
-		
-		return false;
-	},
-	
-	dummyCallback: function () {
-	}
-}
-
 
 
 /* UICore */

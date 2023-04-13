@@ -47,7 +47,7 @@ trait GlobalDICGUIServices
         return $this->DIC->ui();
     }
 
-    public function object(): \ilObjectServiceInterface
+    public function object(): \ilObjectService
     {
         return $this->DIC->object();
     }

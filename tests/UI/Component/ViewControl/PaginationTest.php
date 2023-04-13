@@ -114,7 +114,7 @@ class PaginationTest extends ILIAS_UI_TestBase
 	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -137,7 +137,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -182,7 +182,7 @@ EOT;
 	</span>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -206,7 +206,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -222,7 +222,7 @@ EOT;
 	</span>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=2" aria-label="next">
+		<a tabindex="0" class="glyph" href="?pagination_offset=2" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -246,7 +246,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=1" aria-label="back">
+		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -294,7 +294,7 @@ EOT;
 	</div>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>

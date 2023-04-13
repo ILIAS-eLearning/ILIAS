@@ -24,6 +24,7 @@
  */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
     protected ilTabsGUI $tabs;

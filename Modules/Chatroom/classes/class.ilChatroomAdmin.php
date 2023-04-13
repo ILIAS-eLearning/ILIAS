@@ -127,8 +127,8 @@ class ilChatroomAdmin
             [$this->config_id]
         );
 
-        $row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
-        $row['server_settings'] !== null ? $srv_set = $row['server_settings'] : $srv_set = "{}";
+        ($row['default_config'] ?? null) !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
+        ($row['server_settings'] ?? null) !== null ? $srv_set = $row['server_settings'] : $srv_set = "{}";
 
         $DIC->database()->manipulateF(
             "

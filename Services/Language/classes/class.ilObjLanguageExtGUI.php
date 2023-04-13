@@ -94,7 +94,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         }
         // $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
 
-
         // read the lang mode
         $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");
     }
@@ -449,6 +448,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function importObject(): void
     {
+        $form = $this->initNewImportForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    protected function initNewImportForm(): ilPropertyFormGUI
+    {
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -456,6 +461,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $form->addCommandButton("upload", $this->lng->txt("upload"));
 
         $fu = new ilFileInputGUI($this->lng->txt("file"), "userfile");
+        $fu->setRequired(true);
         $form->addItem($fu);
 
         $rg = new ilRadioGroupInputGUI($this->lng->txt("language_mode_existing"), "mode_existing");
@@ -474,9 +480,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $rg->setValue($this->getSession()["import"]["mode_existing"] ?? "keepall");
         $form->addItem($rg);
 
-        $this->tpl->setContent($form->getHTML());
+        return $form;
     }
-
 
     /**
     * Process an uploaded language file
@@ -485,41 +490,46 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
-        // save form inputs for next display
-        $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
-        ilSession::set("lang_ext_maintenance", $tmp);
+        $form = $this->initNewImportForm();
+        if ($form->checkInput()) {
+            $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
+            // save form inputs for next display
+            $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
+            ilSession::set("lang_ext_maintenance", $tmp);
+            try {
+                $upload = $DIC->upload();
+                $upload->process();
 
-        try {
-            $upload = $DIC->upload();
-            $upload->process();
+                if (!$upload->hasUploads()) {
+                    throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                }
+                $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
 
-            if (!$upload->hasUploads()) {
-                throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                $ProcessingStatus = $UploadResult->getStatus();
+                if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+                    throw new ilException($ProcessingStatus->getMessage());
+                }
+
+                // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
+                $tempfile = ilFileUtils::ilTempnam() . ".sec";
+                $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
+                $this->object->importLanguageFile($tempfile, $post_mode_existing);
+
+                $tempfs = $DIC->filesystem()->temp();
+                $tempfs->delete(basename($tempfile));
+            } catch (Exception $e) {
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                $this->ctrl->redirect($this, 'import');
             }
-            $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
 
-            $ProcessingStatus = $UploadResult->getStatus();
-            if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage());
-            }
-
-            // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
-            $tempfile = ilFileUtils::ilTempnam() . ".sec";
-            $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
-            $this->object->importLanguageFile($tempfile, $post_mode_existing);
-
-            $tempfs = $DIC->filesystem()->temp();
-            $tempfs->delete(basename($tempfile));
-        } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
-            $this->ctrl->redirect($this, 'import');
+            $this->tpl->setOnScreenMessage('success',
+                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
+            $this->ctrl->redirect($this, "import");
         }
 
-        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
-        $this->ctrl->redirect($this, "import");
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
     * Show the screen to export a language file
@@ -613,7 +623,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         ilUtil::deliverData($local_file_obj->build(), $filename);
     }
 
-
     /**
     * Process the language maintenance
     */
@@ -647,7 +656,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
         $ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"), $this->object->key));
         $rg->addOption($ro);
-        $rg->setValue($this->getSession()["maintain"] ?? "");
+        $rg->setValue($this->getSession()["maintain"] ?? "load");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -741,11 +750,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $this->ctrl->redirect($this, "maintain");
     }
-
+    
+    /**
+     * View the language settings
+     */
+    public function settingsObject(): void
+    {
+        $form = $this->initNewSettingsForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+    
     /**
     * Set the language settings
     */
-    public function settingsObject(): void
+    public function saveSettingsObject(): void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -754,25 +772,36 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $post_translation = $this->http->request()->getParsedBody()['translation'] ?? "";
         // save and get the page translation setting
-        if (!empty($post_translation)) {
+        $translate = $ilSetting->get($translate_key, '0');
+        if (!is_null($post_translation) && $post_translation != $translate) {
             $ilSetting->set($translate_key, $post_translation);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
-        $translate = (bool) $ilSetting->get($translate_key, '0');
+        $form = $this->initNewSettingsForm();
 
+        $this->tpl->setContent($form->getHTML());
+    }
+    
+    protected function initNewSettingsForm(): ilPropertyFormGUI
+    {
+        global $DIC;
+        $ilSetting = $DIC->settings();
+        $translate_key = "lang_translate_" . $this->object->key;
+        $translate = (bool) $ilSetting->get($translate_key, '0');
+        
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));
         $form->setPreventDoubleSubmission(false);
-        $form->addCommandButton('settings', $this->lng->txt("language_change_settings"));
-
+        $form->addCommandButton('saveSettings', $this->lng->txt("language_change_settings"));
+    
         $ci = new ilCheckboxInputGUI($this->lng->txt("language_translation_enabled"), "translation");
         $ci->setChecked($translate);
         $ci->setInfo($this->lng->txt("language_note_translation"));
         $form->addItem($ci);
-
-        $this->tpl->setContent($form->getHTML());
+        
+        return $form;
     }
 
     /**

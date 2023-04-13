@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -53,7 +54,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Modal\Lightbox) {
             return $this->renderLightbox($component, $default_renderer);
         }
-        return '';
+        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
     }
 
     /**
@@ -149,9 +150,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('KEY_VALUE_ITEMS', $key_value_items);
         }
 
-        $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
-        $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
-        $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
+        $tpl->setVariable('ACTION_BUTTON_LABEL', $modal->getActionButtonLabel() ?? $this->txt('delete'));
+        $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         return $tpl->get();
     }
 
@@ -181,6 +181,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
+        /** @var $modal RoundTrip */
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
         $tpl->setVariable('ID', $id);
@@ -197,7 +198,25 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('BUTTON', $default_renderer->render($button));
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
+
+        // only render form if it contains any inputs (for now).
+        if (!empty($modal->getInputs())) {
+            // render form in modal body.
+            $tpl->setCurrentBlock('with_form');
+            $tpl->setVariable('FORM', $default_renderer->render($modal->getForm()));
+            $tpl->parseCurrentBlock();
+
+            // render submit in modal footer.
+            $submit = $this->getUIFactory()->button()->standard(
+                $modal->getSubmitCaption() ?? $this->txt('save'),
+                ''
+            )->withOnClick($modal->getForm()->getSubmitSignal());
+            $tpl->setCurrentBlock('with_submit');
+            $tpl->setVariable('SUBMIT_BUTTON', $default_renderer->render($submit));
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         return $tpl->get();
     }
 

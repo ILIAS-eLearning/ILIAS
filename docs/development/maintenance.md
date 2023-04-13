@@ -6,11 +6,11 @@ modules of ILIAS.
 
 # Special Roles
 
-* **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
-* **Testcase Management**: [Fabian Kruse]
-* **Technical Documentation**: [Ann-Christin Gruber]
-* **Online Help**: [Alexandra Tödt]
+* **Product Management**: [Matthias Kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+* **Technical Board**: [Michael Jansen](https://docu.ilias.de/goto_docu_usr_8784.html), [Stephan Kergomard](https://docu.ilias.de/goto_docu_usr_44474.html), [Richard Klees](https://docu.ilias.de/goto_docu_usr_34047.html), [Nico Roeser](https://docu.ilias.de/goto_docu_usr_72730.html), [Fabian Schmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+* **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+* **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/goto_docu_usr_94205.html)
+* **Online Help**: [Alexandra Tödt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
 # Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS 
@@ -142,8 +142,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Badges)
 
 * **Badges**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html); from
-	  v.9 [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
@@ -405,7 +404,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **File**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
 	* Tester: Heinz Winter, CaT
 
@@ -763,6 +762,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END OnlineHelp)
 
+[//]: # (BEGIN OpenIdConect)
+
+* **Open ID Connect**
+	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: N.A.
+	* Tester: N.A.
+
+[//]: # (END OpenIdConect)
+
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
@@ -846,7 +855,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (BEGIN RBAC)
 
-* **RBAC**
+* **RBAC / Access Control**
     * 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: N.A.
@@ -907,8 +916,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (BEGIN SOAP)
 
-* **SOAP**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+* **SOAP / Webservices**
+	* 1st Maintainer: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
 	* 2nd Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1035,8 +1044,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **User Service**
 	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
@@ -1056,7 +1064,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 * **Virus Scanner**
 	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
@@ -1105,7 +1113,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -1210,10 +1218,9 @@ Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/b
 
 The following directories are currently unmaintained:
 
-* Services/DiskQuota
-* Services/Membership
-* Services/OpenIdConnect
-* Services/PHPUnit
+* Services/Context
+* Services/CSV
+* Services/EventHandling
+* Services/Excel
 * Services/QTI
 * Services/Randomization
-* src/ArtifactBuilder

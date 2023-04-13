@@ -1628,8 +1628,7 @@ assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed
+assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
@@ -4059,7 +4058,7 @@ common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#File uploaded
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
-common#:#file_confirm_delete_versions#:#Are you sure to delete the following file versions?
+common#:#file_confirm_delete_versions#:#Are you sure you want to delete the following file version(s)?
 common#:#file_created#:#File has been added.
 common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
@@ -4679,6 +4678,8 @@ common#:#msg_deleted_roles_rolts#:#Roles and Role Templates deleted
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_is_last_role#:#You removed the last global role from the following users
@@ -7969,7 +7970,7 @@ dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
 dash#:#dash_sort_by_location#:#Sort by Location
-dash#:#dash_sort_by_start_date#:#Sort by Start Date
+dash#:#dash_sort_by_start_date#:#Sort by Period of Event
 dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_studyprogramme#:#My Study Programmes
@@ -9423,8 +9424,6 @@ exc#:#feedback_received#:#Feedback received
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
-exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 exc#:#not_yet#:#not yet
 exc#:#submissions_feedback#:#Submissions and Peer Feedback
 exc#:#submissions_only#:#Submissions Only
@@ -9706,6 +9705,8 @@ forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
 forum#:#frm_copy#:#Copy Forum
 forum#:#frm_default_view#:#Default View
 forum#:#frm_edit_title#:#Edit Title
+forum#:#frm_enable_print_option#:#Enable print option
+forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the print option in Forum.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age
@@ -9789,6 +9790,7 @@ forum#:#post_activation_desc#:#Before being published all postings need to be ap
 forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
 forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
 forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
+forum#:#post_draft_info#:#This posting draft is only visible for you.
 forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re(%s):
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
@@ -12142,7 +12144,6 @@ news#:#news_get_feed_title#:#Personal Feed URL
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under ‘Settings’. Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL
-news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.
 news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
 news#:#news_hide_news_date#:#Starting Date

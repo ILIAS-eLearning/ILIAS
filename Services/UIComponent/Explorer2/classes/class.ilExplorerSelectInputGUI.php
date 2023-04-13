@@ -25,6 +25,7 @@
  */
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
+    protected ilGlobalTemplateInterface $global_template;
     /**
      * @var string|int|array
      */
@@ -44,7 +45,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $this->lng = $DIC->language();
         $this->multi_nodes = $a_multi;
         $this->explorer_gui = $a_explorer_gui;
-        $this->global_template = $DIC['tpl'];
+        $this->global_template = $DIC->ui()->mainTemplate();
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("exp_select");

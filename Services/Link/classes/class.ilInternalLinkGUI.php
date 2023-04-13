@@ -926,7 +926,6 @@ class ilInternalLinkGUI
 
         $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
-        ilYuiUtil::initConnection();
 
         $tpl->addJavascript("./Services/Link/js/ilIntLink.js");
         // #18721

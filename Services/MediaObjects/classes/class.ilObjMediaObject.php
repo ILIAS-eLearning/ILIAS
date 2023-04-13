@@ -1155,10 +1155,6 @@ class ilObjMediaObject extends ilObject
                             if ($pinfo && $pinfo["parent_type"] == "lm") {
                                 $obj_id = ilLMObject::_lookupContObjID($pinfo["page_id"]);
                             }
-                            $pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
-                            if ($pinfo && $pinfo["parent_type"] == "sahs") {
-                                $obj_id = (int) ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
-                            }
                         }
                         break;
 

@@ -298,7 +298,7 @@ EOT;
                                     <div class="col-sm-8 col-md-9 col-lg-10">
                                         <div class="input-group date il-input-datetime" id="id_3">
                                             <input type="text" name="" placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm" />
-                                            <span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
+                                            <span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
                                         </div>
                                     </div>
                                 </div>

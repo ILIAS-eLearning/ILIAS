@@ -179,7 +179,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         return $f->modal()->roundtrip(
             'Raw Statement',
             $f->legacy('<pre>' . $data['statement'] . '</pre>')
-        )->withCancelButtonLabel('close');
+        )->withCancelButtonLabel($this->language->txt('close'));
     }
 
     protected function getUsername(ilCmiXapiUser $cmixUser): string

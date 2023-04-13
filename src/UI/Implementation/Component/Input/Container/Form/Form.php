@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
-use ILIAS\UI\Implementation\Component\Input;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use LogicException;
@@ -43,8 +45,8 @@ abstract class Form implements C\Input\Container\Form\Form
      * For the implementation of NameSource.
      */
     public function __construct(
-        Input\Field\Factory $field_factory,
-        Input\NameSource $name_source,
+        FieldFactory $field_factory,
+        NameSource $name_source,
         array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
@@ -150,7 +152,7 @@ abstract class Form implements C\Input\Container\Form\Form
     /**
      * Extract post data from request.
      */
-    protected function extractPostData(ServerRequestInterface $request): Input\InputData
+    protected function extractPostData(ServerRequestInterface $request): InputData
     {
         return new PostDataFromServerRequest($request);
     }

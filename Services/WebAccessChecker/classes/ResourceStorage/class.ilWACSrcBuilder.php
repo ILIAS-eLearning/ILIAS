@@ -48,7 +48,7 @@ class ilWACSrcBuilder extends InlineSrcBuilder implements SrcBuilder
                 yield from parent::getFlavourURLs($flavour, $signed);
             } else {
                 $access_key = $token->getAccessKey();
-                yield $this->signURL($access_key, true);
+                yield $this->signURL($access_key, $signed);
             }
         }
     }

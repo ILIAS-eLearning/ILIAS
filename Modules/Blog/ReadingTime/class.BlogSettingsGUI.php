@@ -23,24 +23,12 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class BlogSettingsGUI
 {
-    /**
-     * @var int
-     */
-    protected $blog_id;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ReadingTimeManager
-     */
-    protected $manager;
+    protected int $blog_id;
+    protected \ilLanguage $lng;
+    protected ReadingTimeManager $manager;
 
     public function __construct(int $blog_id)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->manager = new ReadingTimeManager();

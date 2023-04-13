@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +15,21 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\CI\Rector\ReplaceWithDIC;
 
 class Example
 {
-    public function __construct()
-    {
-    }
-    
-    protected function foo()
+    protected function foo(): void
     {
         \ilUtil::sendFailure('my_text', true);
         \ilUtil::sendSuccess('my_text', true);
         \ilUtil::sendQuestion('my_text', true);
     }
-    
-    protected static function bar()
+
+    protected static function bar(): void
     {
         \ilUtil::sendInfo('my_text', true);
     }

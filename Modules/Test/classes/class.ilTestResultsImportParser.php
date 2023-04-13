@@ -294,7 +294,7 @@ class ilTestResultsImportParser extends ilSaxParser
     private function fetchLastFinishedPass($attribs): ?int
     {
         if (isset($attribs['last_finished_pass'])) {
-            return $attribs['last_finished_pass'];
+            return (int) $attribs['last_finished_pass'];
         }
 
         if ($attribs['tries'] > 0) {

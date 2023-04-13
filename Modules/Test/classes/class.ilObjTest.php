@@ -2237,7 +2237,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getProcessingTimeAsMinutes()
     {
-        if (strlen($this->processing_time)) {
+        if ($this->processing_time !== null) {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
                 return ($matches[1] * 60) + $matches[2];
             }
@@ -9118,16 +9118,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $finalized_time = $feedback_old['finalized_tstamp'];
         }
 
-        if ($finalized === true || ($feedback_old !== [] && (int) $feedback_old['finalized_evaluation'] === 1)) {
-            if (!array_key_exists('evaluated', $this->testrequest->getParsedBody())) {
-                $update_default['finalized_evaluation'] = ['integer', 0];
-                $update_default['finalized_by_usr_id'] = ['integer', 0];
-                $update_default['finalized_tstamp'] = ['integer', 0];
-            } else {
-                $update_default['finalized_evaluation'] = ['integer', 1];
-                $update_default['finalized_by_usr_id'] = ['integer', $user];
-                $update_default['finalized_tstamp'] = ['integer', $finalized_time];
-            }
+        if ($finalized === false) {
+            $update_default['finalized_evaluation'] = ['integer', 0];
+            $update_default['finalized_by_usr_id'] = ['integer', 0];
+            $update_default['finalized_tstamp'] = ['integer', 0];
+        } elseif ($finalized === true) {
+            $update_default['finalized_evaluation'] = ['integer', 1];
+            $update_default['finalized_by_usr_id'] = ['integer', $user];
+            $update_default['finalized_tstamp'] = ['integer', $finalized_time];
         }
 
         $ilDB->insert('tst_manual_fb', $update_default);

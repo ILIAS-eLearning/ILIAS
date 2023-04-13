@@ -55,10 +55,10 @@ class BylineNodeTest extends ILIAS_UI_TestBase
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="treeitem">
-				<span class="node-line">
-					<span class="node-label">My Label</span>
-					<span class="node-byline">This is my byline</span>
+			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">My Label</span>
+					<span class="c-tree__node__byline">This is my byline</span>
 				</span>
 			</li>
 EOT;
@@ -77,13 +77,13 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="treeitem">
-				<span class="node-line">
-					<span class="node-label">
+			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">
 						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
 						My Label
 					</span>
-					<span class="node-byline">This is my byline</span>
+					<span class="c-tree__node__byline">This is my byline</span>
 				</span>
 			</li>
 EOT;
@@ -104,12 +104,12 @@ EOT;
 
         $expected = <<<EOT
 			<li id=""
-				 class="il-tree-node node-simple expandable"
+				 class="c-tree__node c-tree__node--simple expandable"
 				 role="treeitem" aria-expanded="false"
 				 data-async_url="something.de" data-async_loaded="false">
-				<span class="node-line">
-					<span class="node-label">My Label</span>
-					<span class="node-byline">This is my byline</span>
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">My Label</span>
+					<span class="c-tree__node__byline">This is my byline</span>
 				</span>
 				<ul role="group"></ul>
 			</li>
@@ -131,12 +131,12 @@ EOT;
 
         $expected = <<<EOT
 			<li id=""
-				 class="il-tree-node node-simple expandable"
+				 class="c-tree__node c-tree__node--simple expandable"
 				 role="treeitem" aria-expanded="true"
 				 data-async_url="something.de" data-async_loaded="false">
-				<span class="node-line">
-					<span class="node-label">My Label</span>
-					<span class="node-byline">This is my byline</span>
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">My Label</span>
+					<span class="c-tree__node__byline">This is my byline</span>
 				</span>
 				<ul role="group"></ul>
 			</li>

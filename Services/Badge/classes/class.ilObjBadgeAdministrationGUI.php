@@ -324,6 +324,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         if ($a_mode === "create") {
             $img->setRequired(true);
         }
+        $img->setUseCache(false);
         $img->setAllowDeletion(false);
         $form->addItem($img);
 

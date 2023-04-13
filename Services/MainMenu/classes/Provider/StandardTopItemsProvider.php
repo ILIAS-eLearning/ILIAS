@@ -30,6 +30,7 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class StandardTopItemsProvider
@@ -98,6 +99,11 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_dashboard");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::DSHS, $title);
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
+            ->addSymbolDecorator(function (Symbol $symbol) use ($title): Symbol {
+                return $symbol->withAdditionalOnLoadCode(function ($id) {
+                    return "console.log('Dashbaord');";
+                });
+            })
             ->withSymbol($icon)
             ->withTitle($title)
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")

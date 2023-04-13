@@ -4,6 +4,7 @@
 
 - CHANGELOG.md added
 - ROADMAP.md added
+- Removed YUI and jQuery dependencies
 
 ## ILIAS 8
 

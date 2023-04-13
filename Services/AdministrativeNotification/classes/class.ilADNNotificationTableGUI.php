@@ -141,7 +141,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
                                $action
                            )
                            ->withAffectedItems([$i])
-                           ->withActionButtonLabel($cmd);
+                           ->withActionButtonLabel($this->lng->txt($cmd));
     }
 
     public function getHTML(): string

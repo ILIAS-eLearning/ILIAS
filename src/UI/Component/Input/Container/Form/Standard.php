@@ -23,13 +23,8 @@ namespace ILIAS\UI\Component\Input\Container\Form;
 /**
  * This describes a standard form.
  */
-interface Standard extends Form
+interface Standard extends FormWithPostURL
 {
-    /**
-     * Get the URL this form posts its result to.
-     */
-    public function getPostURL(): string;
-
     /**
      * Sets the caption of the submit button of the form
      */

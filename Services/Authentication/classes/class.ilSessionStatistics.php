@@ -305,6 +305,10 @@ class ilSessionStatistics
             // session closed
             if ($item["end_time"] && $item["end_time"] <= $a_end) {
                 if (in_array($item["end_context"], $separate_closed, true)) {
+                    if (!isset($closed_counter[$item["end_context"]])) {
+                        $closed_counter[$item["end_context"]] = 0;
+                    }
+
                     $closed_counter[$item["end_context"]]++;
                 } else {
                     $closed_counter[0] = ($closed_counter[0] ?? 0) + 1;

@@ -31,7 +31,7 @@ use ILIAS\Survey\InternalDomainService;
 class SettingsFormGUI
 {
     protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjectService $object_service;
     protected \ilObjSurvey $survey;
     protected UIModifier $modifier;
     protected InternalDomainService $domain_service;
@@ -42,7 +42,7 @@ class SettingsFormGUI
     public function __construct(
         InternalGUIService $ui_service,
         InternalDomainService $domain_service,
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         \ilObjSurvey $survey,
         UIModifier $modifier
     ) {

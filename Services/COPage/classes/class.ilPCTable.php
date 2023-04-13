@@ -742,6 +742,7 @@ class ilPCTable extends ilPageContent
         string $htmlTable
     ) {
         $dummy = ilUtil::stripSlashes($htmlTable, false);
+        $error = null;
         $dom = domxml_open_mem($dummy, DOMXML_LOAD_PARSING, $error);
 
         if ($dom) {

@@ -728,7 +728,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         if ($this->showMessages() && $a_set["message"] !== "") {
             $c = $this->gui->modal(
                 $this->lng->txt("book_message"),
-                "close"
+                $this->lng->txt("close")
             )
                 ->legacy(nl2br($a_set["message"]))
                 ->getTriggerButtonComponents(

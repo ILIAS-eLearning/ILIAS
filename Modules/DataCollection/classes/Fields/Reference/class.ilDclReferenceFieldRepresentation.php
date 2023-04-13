@@ -83,12 +83,14 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     break;
             }
         }
-        asort($options);
+        asort($options, SORT_NATURAL | SORT_FLAG_CASE);
 
         // TT #0019091: restore the actual values after sorting with timestamp
         if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
             foreach ($options as $key => $opt) {
-                $options[$key] = $options2[$key];
+                if ($key != "") {
+                    $options[$key] = $options2[$key];
+                }
             }
             // the option 'please select' messes with the order, therefore we reset it
             unset($options[""]);

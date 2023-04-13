@@ -86,6 +86,8 @@ class ilGroupUserActionProvider extends ilUserActionProvider
      */
     public function getJsScripts(string $a_action_type): array
     {
+        global $DIC;
+        $gui = $DIC->repository()->internal()->gui();
         switch ($a_action_type) {
             case "add_to":
                 return array(

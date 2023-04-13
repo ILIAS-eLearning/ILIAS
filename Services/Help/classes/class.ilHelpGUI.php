@@ -297,7 +297,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $ilSetting = $DIC->settings();
         $ctrl = $DIC->ctrl();
 
-        ilYuiUtil::initConnection();
         $a_tpl->addJavaScript("./Services/Help/js/ilHelp.js");
         $a_tpl->addJavaScript("./Services/Accordion/js/accordion.js");
         iljQueryUtil::initMaphilight();

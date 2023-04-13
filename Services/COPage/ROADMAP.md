@@ -12,6 +12,10 @@ The following issues are mostly usability issues, that could be tackled as part 
 
 Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
 
+### Remove YUI and jQuery dependencies
+
+- Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
+
 ### Continue Page Editor Refactoring (started with ILIAS 7)
 
 https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html

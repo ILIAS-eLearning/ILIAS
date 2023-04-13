@@ -31,6 +31,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
     protected ilObjLearningModule $lm_obj;
@@ -66,6 +67,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected ilObjLearningModule $lm;
     protected EditingGUIRequest $edit_request;
     protected \ILIAS\Style\Content\Service $content_style_service;
+
+    protected ilLMTree $lm_tree;
 
     /**
      * @param mixed $a_data

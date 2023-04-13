@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
@@ -39,7 +39,7 @@ class LinkItemRenderer extends AbstractMetaBarItemRenderer
          * @var $item LinkItem
          */
         $link = $this->ui->factory()->link()->bulky(
-            $this->getStandardSymbol($item),
+            $this->buildIcon($item),
             $item->getTitle(),
             $this->getURI($item->getAction())
         );

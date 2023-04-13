@@ -27,7 +27,7 @@ use ILIAS\DI\Container;
 class ProviderFactory
 {
     /**
-     * @var \string[][]
+     * @var string[][]
      */
     protected static array $providers = array(
         array(

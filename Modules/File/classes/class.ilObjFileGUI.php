@@ -37,7 +37,7 @@ use ILIAS\Modules\File\Settings\General;
 class ilObjFileGUI extends ilObject2GUI
 {
     public const UPLOAD_MAX_FILES = 100;
-    public const PARAM_FILES = Dropzone::FILE_INPUT_KEY;
+    public const PARAM_FILES = 0;
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
     public const UPLOAD_ORIGIN_STANDARD = 'standard';
@@ -376,7 +376,7 @@ class ilObjFileGUI extends ilObject2GUI
         if (self::UPLOAD_ORIGIN_DROPZONE === $origin) {
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
-            $files = $dropzone->getData();
+            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;;
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
             $files = $form->getData()[self::PARAM_FILES] ?? null;
@@ -648,19 +648,19 @@ class ilObjFileGUI extends ilObject2GUI
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
-            $button = ilLinkButton::getInstance();
-            $button->setTarget('_blank');
-            $button->setCaption("file_download");
-            $button->setPrimary(true);
-
             // get permanent download link for repository
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $button->setUrl(ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
+                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
             } else {
-                $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
+                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
             }
 
-            $this->toolbar->addButtonInstance($button);
+            // add download button
+            $btn_download = $this->ui->factory()->button()->primary(
+                $this->lng->txt('file_download'),
+                $download_target
+            );
+            $this->toolbar->addComponent($btn_download);
         }
 
         $info->enablePrivateNotes();

@@ -56,10 +56,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     /**
     * Thumbnail size
-    *
-    * @var integer
     */
-    protected $thumb_size;
+    protected ?int $thumb_size;
 
     /**
      * 1 - Feedback is shown for all answer options.
@@ -711,7 +709,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                                 $this->getId(),
                                 $this->getShuffle(),
                                 ($this->isSingleline) ? "0" : "1",
-                                (strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
+                                $this->getThumbSize()
                             )
         );
     }

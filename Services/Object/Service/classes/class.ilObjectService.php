@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 
-class ilObjectService implements ilObjectServiceInterface
+class ilObjectService
 {
     protected ilLanguage $lng;
     protected ilSetting $settings;

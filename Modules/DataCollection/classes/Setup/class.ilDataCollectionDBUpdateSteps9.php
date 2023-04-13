@@ -116,4 +116,15 @@ class ilDataCollectionDBUpdateSteps9 implements \ilDatabaseUpdateSteps
             [defined(ilDclDatatype::class . '::INPUTFORMAT_FILEUPLOAD') ? ilDclDatatype::INPUTFORMAT_FILEUPLOAD : 6]
         );
     }
+
+    public function step_8(): void
+    {
+        $this->db->modifyTableColumn(
+            'il_dcl_sel_opts',
+            'value',
+            [
+                "length" => 4000,
+            ]
+        );
+    }
 }

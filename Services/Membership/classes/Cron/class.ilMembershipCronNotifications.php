@@ -391,6 +391,10 @@ class ilMembershipCronNotifications extends ilCronJob
             $parsed = array();
             if (is_array($items)) {
                 foreach ($items as $news_item) {
+                    if ($news_item === null) {
+                        continue;
+                    }
+
                     // # Type "<Object Title>": "<News Title>" - News Text
                     $parsed_item = $this->parseNewsItem($parent_ref_id, $filter_map, $news_item, false, $a_user_id);
                     if ($parsed_item) {

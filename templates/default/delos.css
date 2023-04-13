@@ -10117,6 +10117,7 @@ select.form-control {
   text-align: left;
   padding-bottom: 4px;
   min-height: 34px;
+  overflow-wrap: break-word;
 }
 @media only screen and (max-width: 768px) {
   .form-horizontal .control-label {
@@ -13491,49 +13492,60 @@ div.alert ul > li:before {
   flex-direction: column;
 }
 
-.il-tree {
+.c-tree {
   list-style-type: none;
   padding: 0 3px 0 7px;
   margin-left: 0;
 }
-.il-tree ul {
+.c-tree ul {
   padding-left: 0.875rem;
   list-style-type: none;
 }
-.il-tree li.il-tree-node {
+.c-tree li.c-tree__node {
   padding: 0;
 }
-.il-tree li.il-tree-node .node-line {
+.c-tree li.c-tree__node .c-tree__node__line {
   padding: 3px 0 3px 0.875rem;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
 }
-.il-tree li.il-tree-node .node-line > .node-label {
+.c-tree li.c-tree__node .c-tree__node__line > .c-tree__node__label {
   padding-left: 4px;
 }
-.il-tree li.il-tree-node .node-line > .node-label .icon {
+.c-tree li.c-tree__node .c-tree__node__line > .c-tree__node__label .icon {
   vertical-align: text-bottom;
 }
-.il-tree li.il-tree-node .node-line > .node-byline {
+.c-tree li.c-tree__node .c-tree__node__line > .c-tree__node__value {
+  padding-left: 4px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: #6f6f6f;
+}
+.c-tree li.c-tree__node .c-tree__node__line > .c-tree__node__byline {
   padding-left: 4px;
   width: 100%;
 }
-.il-tree li.il-tree-node.highlighted > .node-line {
+.c-tree li.c-tree__node.highlighted > .c-tree__node__line {
   background-color: #e2e8ef;
 }
-.il-tree li.il-tree-node.expandable > .node-line:before {
+.c-tree li.c-tree__node.expandable > .c-tree__node__line:before {
   color: #737373;
   font-family: il-icons;
   content: "\e606";
   position: absolute;
   margin-left: -0.875rem;
 }
-.il-tree li.il-tree-node.expandable[aria-expanded=true] > .node-line:before {
+.c-tree li.c-tree__node.expandable[aria-expanded=true] > .c-tree__node__line:before {
   font-family: il-icons;
   content: "\e604";
 }
-.il-tree li.il-tree-node[aria-expanded=false] > ul {
+.c-tree li.c-tree__node[aria-expanded=false] > ul {
   display: none;
 }
 
@@ -15011,7 +15023,7 @@ li.ilModeratorPosting {
 }
 
 li.ilPostingNeedsActivation {
-  border-left: 6px solid #82639e;
+  border-left: 6px solid #B54F00;
 }
 
 .ilFrmBottomToolbar {
@@ -15020,6 +15032,10 @@ li.ilPostingNeedsActivation {
 
 .ilForumTreeTitle {
   display: inline-block;
+}
+
+.ilFrmPostActivationStatus {
+  color: #B54F00;
 }
 
 .ilForumTreeTitleUnread {
@@ -15047,6 +15063,14 @@ li.ilPostingNeedsActivation {
 
 .ilForumDraftHistoryEntry {
   padding: 5px;
+}
+
+.ilForumInlineCommandContainer {
+  display: flex;
+}
+
+.ilForumInlineCommandContainer > div {
+  margin-left: 10px;
 }
 
 /* Modules/LearningModule */

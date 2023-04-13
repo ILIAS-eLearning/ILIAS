@@ -104,7 +104,7 @@ class ilRatingGUI
     ): void {
         $ilUser = $this->user;
 
-        if (!trim($a_sub_obj_type)) {
+        if (!trim((string) $a_sub_obj_type)) {
             $a_sub_obj_type = "-";
         }
 
@@ -443,6 +443,8 @@ class ilRatingGUI
         string $a_onclick = null,
         string $a_additional_id = null
     ): string {
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
         $lng = $this->lng;
         $unique_id = $this->id;
         if ($a_additional_id) {
@@ -541,9 +543,10 @@ class ilRatingGUI
 
         // add overlay (trigger)
         if ($has_overlay) {
+            /*
             $ov = new ilOverlayGUI($unique_id);
             $ov->setTrigger("tr_" . $unique_id, "click", "tr_" . $unique_id);
-            $ov->add();
+            $ov->add();*/
 
             $ttpl->setCurrentBlock("act_rat_start");
             $ttpl->setVariable("ID", $unique_id);
@@ -558,20 +561,32 @@ class ilRatingGUI
 
         // (2) user rating
 
+        $ttpl->setVariable("TTID", $unique_id);
+        $rating_html = $ttpl->get();
+
         if ($has_overlay) {
             $ttpl->setVariable(
                 "RATING_DETAILS",
                 $this->renderDetails("rtov_", $may_rate, $categories, $a_onclick)
             );
 
+            $popover = $f->popover()->standard(
+                $f->legacy($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
+            );
+            $button = $f->button()->shy('###button###', '#')
+                              ->withOnClick($popover->getShowSignal());
+
+            /*
             $ttpl->setCurrentBlock("user_rating");
             $ttpl->setVariable("ID", $unique_id);
-            $ttpl->parseCurrentBlock();
+            $ttpl->parseCurrentBlock();*/
+            $popover_html = $r->render([$popover, $button]);
+            $rating_html = str_replace("###button###", $rating_html, $popover_html);
         }
 
-        $ttpl->setVariable("TTID", $unique_id);
 
-        return $ttpl->get();
+
+        return $rating_html;
     }
 
     protected function addTooltip(

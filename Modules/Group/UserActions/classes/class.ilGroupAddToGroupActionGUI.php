@@ -120,7 +120,7 @@ class ilGroupAddToGroupActionGUI
         $url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true);
         $button1 = $this->ui->factory()->button()->standard($lng->txt("grp_use_existing"), "#")
             ->withOnLoadCode(function ($id) use ($url1) {
-                return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url1', 'il_grp_action_modal_content'); return false;})";
+                return "$('#$id').on('click', function() {il.repository.core.fetchReplaceInner( document.getElementById('il_grp_action_modal_content'),'$url1'); return false;})";
             });
         $toolbar->addComponent($button1);
 
@@ -128,7 +128,7 @@ class ilGroupAddToGroupActionGUI
         $url2 = $ctrl->getLinkTarget($this, "selectParent", "", true);
         $button2 = $this->ui->factory()->button()->standard($lng->txt("grp_create_new"), "#")
             ->withOnLoadCode(function ($id) use ($url2) {
-                return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url2', 'il_grp_action_modal_content'); return false;})";
+                return "$('#$id').on('click', function() {il.repository.core.fetchReplaceInner( document.getElementById('il_grp_action_modal_content'),'$url2'); return false;})";
             });
         $toolbar->addComponent($button2);
 
@@ -196,7 +196,7 @@ class ilGroupAddToGroupActionGUI
             $url = $ctrl->getLinkTarget($this, "selectGroup", "", true);
             $button = $this->ui->factory()->button()->standard($lng->txt("back"), "#")
                 ->withOnLoadCode(function ($id) use ($url) {
-                    return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
+                    return "$('#$id').on('click', function() {il.repository.core.fetchReplaceInner( document.getElementById('il_grp_action_modal_content'),'$url'); return false;})";
                 });
 
             echo
@@ -213,7 +213,7 @@ class ilGroupAddToGroupActionGUI
         $url = $ctrl->getLinkTarget($this, "addUser", "", true);
         $button = $this->ui->factory()->button()->standard($lng->txt("grp_add_user"), "#")
             ->withOnLoadCode(function ($id) use ($url) {
-                return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
+                return "$('#$id').on('click', function() {il.repository.core.fetchReplaceInner( document.getElementById('il_grp_action_modal_content'),'$url'); return false;})";
             });
 
         echo

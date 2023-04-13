@@ -50,9 +50,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     private readonly ilNavigationHistory $navHistory;
     private readonly Container $dic;
     private bool $infoScreenEnabled = false;
-    private readonly PageMetricsService $pageMetricsService;
-    private readonly ilHelpGUI $help;
-    private readonly \ILIAS\DI\UIServices $uiServices;
+    private PageMetricsService $pageMetricsService;
+    private ilHelpGUI $help;
+    private \ILIAS\DI\UIServices $uiServices;
+    private readonly bool $in_page_editor_style_context;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -89,6 +90,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
         }
+
+        $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(
+            self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT
+        );
+        $this->ctrl->saveParameterByClass(ilObjectContentStyleSettingsGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT);
     }
 
     public static function _goto(string $target): void
@@ -133,6 +139,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function setTabs(): void
     {
+        if ($this->in_page_editor_style_context) {
+            return;
+        }
+
         $this->help->setScreenIdComponent($this->object->getType());
 
         if ($this->checkPermissionBool('read')) {
@@ -200,6 +210,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->addToNavigationHistory();
 
         if (
+            !$this->in_page_editor_style_context &&
             strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
             (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(ilContentPagePageGUI::class))
         ) {
@@ -219,11 +230,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilObjectContentStyleSettingsGUI::class):
-                $this->checkPermission("write");
+                $this->checkPermission('write');
                 $this->prepareOutput();
                 $this->setLocator();
-                $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
-                $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+                if (!$this->in_page_editor_style_context) {
+                    $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
+                    $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+                }
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -620,5 +633,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ]
         );
         $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+    }
+
+    public function editStyleProperties(): void
+    {
+        $this->content_style_gui->redirectToObjectSettings();
     }
 }

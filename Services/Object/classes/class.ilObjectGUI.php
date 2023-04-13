@@ -826,6 +826,7 @@ class ilObjectGUI
             $newObj->setType($this->requested_new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
+            $newObj->processAutoRating();
             $newObj->create();
 
             $this->putObjectInTree($newObj);
@@ -835,7 +836,6 @@ class ilObjectGUI
                 $newObj->applyDidacticTemplate($dtpl);
             }
 
-            $this->handleAutoRating($newObj);
             $this->afterSave($newObj);
         }
 
@@ -1609,59 +1609,6 @@ class ilObjectGUI
     protected function enableDragDropFileUpload(): void
     {
         $this->tpl->setFileUploadRefId($this->ref_id);
-    }
-
-    /**
-     * Activate rating automatically if parent container setting
-     */
-    protected function handleAutoRating(ilObject $new_obj): void
-    {
-        if (
-            ilObject::hasAutoRating($new_obj->getType(), $new_obj->getRefId()) &&
-            method_exists($new_obj, "setRating")
-        ) {
-            $new_obj->setRating(true);
-            $new_obj->update();
-        }
-    }
-
-    /**
-     * show edit section of custom icons for container
-     */
-    protected function showCustomIconsEditing(
-        $input_colspan = 1,
-        ilPropertyFormGUI $form = null,
-        $as_section = true
-    ): void {
-        if ($this->settings->get("custom_icons")) {
-            if ($form) {
-                $customIcon = $this->custom_icon_factory->getByObjId($this->object->getId(), $this->object->getType());
-
-                if ($as_section) {
-                    $title = new ilFormSectionHeaderGUI();
-                    $title->setTitle($this->lng->txt("icon_settings"));
-                } else {
-                    $title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
-                }
-                $form->addItem($title);
-
-                $caption = $this->lng->txt("cont_custom_icon");
-                $icon = new ilImageFileInputGUI($caption, "cont_icon");
-
-                $icon->setSuffixes($customIcon->getSupportedFileExtensions());
-                $icon->setUseCache(false);
-                if ($customIcon->exists()) {
-                    $icon->setImage($customIcon->getFullPath());
-                } else {
-                    $icon->setImage('');
-                }
-                if ($as_section) {
-                    $form->addItem($icon);
-                } else {
-                    $title->addSubItem($icon);
-                }
-            }
-        }
     }
 
     /**

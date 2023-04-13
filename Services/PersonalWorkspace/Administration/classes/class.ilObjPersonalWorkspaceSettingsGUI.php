@@ -26,6 +26,7 @@
  */
 class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;
     protected \ILIAS\DI\UIServices $ui;
     protected ilSetting $setting;

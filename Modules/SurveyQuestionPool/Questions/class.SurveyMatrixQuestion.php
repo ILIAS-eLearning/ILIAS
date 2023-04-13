@@ -1086,7 +1086,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if (is_array($layout)) {
             $this->layout = $layout;
         } else {
-            $this->layout = unserialize($layout, ['allowed_classes' => false]) ?: [];
+            $this->layout = unserialize((string) $layout, ['allowed_classes' => false]) ?: [];
         }
     }
 

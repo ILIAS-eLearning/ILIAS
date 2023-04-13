@@ -220,7 +220,7 @@ class ilPageLayout
     private function generatePreview(): string
     {
         $xml = $this->getXMLContent();
-
+        $error = null;
         $dom = domxml_open_mem($xml, DOMXML_LOAD_PARSING, $error);
         $xpc = xpath_new_context($dom);
         $path = "////PlaceHolder";

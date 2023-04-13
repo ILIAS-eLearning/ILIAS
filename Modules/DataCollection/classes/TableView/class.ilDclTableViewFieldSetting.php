@@ -97,7 +97,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @var string
      * @db_has_field        true
      * @db_fieldtype        text
-     * @db_length           128
+     * @db_length           255
      */
     protected ?string $default_value = null;
     /**

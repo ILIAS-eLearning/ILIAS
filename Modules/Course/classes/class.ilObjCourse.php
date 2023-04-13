@@ -766,10 +766,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $DIC->filesystem()->web(),
             new ilCertificateObjectHelper()
         );
-
         $cloneAction->cloneCertificate($this, $new_obj);
+
         $book_service = new ilBookingService();
         $book_service->cloneSettings($this->getId(), $new_obj->getId());
+
+        $badges = ilBadge::getInstancesByParentId($this->getId());
+        foreach ($badges as $badge) {
+            $badge->clone($new_obj->getId());
+        }
+
         return $new_obj;
     }
 

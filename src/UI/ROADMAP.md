@@ -313,14 +313,6 @@ However, a quick fix seems not to be possible atm, because there also is no othe
 means to convey the notion of (in-)activity for a general Glyph, or even only the
 specific Notification Glyph.
 
-### Tooltips and Tooltippable
-
-Tooltips are currently not yet implemented as UI components. Since 
-probably many UI components have or will have tooltips, the introduction
- of a tooltippable interface should be discussed. This interface can
-  easily receive tooltips (either as a UI component or much simpler as
-   text) and can be implemented for all relevant UI components.
-
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`
 
 Currently `Implement\Layout\Page\Renderer::setHeaderVars` contains a special

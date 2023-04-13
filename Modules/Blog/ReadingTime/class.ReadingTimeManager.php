@@ -23,20 +23,9 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class ReadingTimeManager
 {
-    /**
-     * @var \ILIAS\COPage\ReadingTime\ReadingTimeManager
-     */
-    protected $page_manager;
-
-    /**
-     * @var ReadingTimeDBRepo
-     */
-    protected $repo;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $blog_set;
+    protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $page_manager;
+    protected ReadingTimeDBRepo $repo;
+    protected \ilSetting $blog_set;
 
     public function __construct()
     {

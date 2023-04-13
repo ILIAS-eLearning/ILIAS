@@ -83,4 +83,23 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
     {
         $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
     }
+
+    public function getAdditionalPageActions(): array
+    {
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', '1');
+
+        $tabs = [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('obj_sty'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilRepositoryGUI::class,
+                    ilObjContentPageGUI::class
+                ], self::UI_CMD_STYLES_EDIT)
+            )
+        ];
+
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', null);
+
+        return $tabs;
+    }
 }

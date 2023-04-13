@@ -83,7 +83,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->dynamic = false;
         $this->acache = new ilNewsCache();
         $cres = unserialize(
-            $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
+            (string) $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
             ["allowed_classes" => false]
         );
         $this->cache_hit = false;
