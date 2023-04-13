@@ -681,7 +681,7 @@ class ilBookingReservationsGUI
         if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
             && $this->access->checkAccess("write", "", $this->pool->getRefId())) {
             $pref_manager = $this->service->domain()->preferences($this->pool);
-            $repo = $this->service->repo()->getPreferencesRepo();
+            $repo = $this->service->repo()->preferences();
             $pref_manager->resetRun();
             $pref_manager->storeBookings(
                 $repo->getPreferences($this->pool->getId())
