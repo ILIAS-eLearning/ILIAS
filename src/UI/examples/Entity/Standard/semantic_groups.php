@@ -19,12 +19,12 @@ function semantic_groups()
         ->withDetails('Details')
         ->withReactions([$f->button()->tag('reaction', '#')])
         ->withPrioritizedReactions([$f->symbol()->glyph()->like()])
-        ->withActions([$f->button()->shy('action','#')])
+        ->withActions([$f->button()->shy('action', '#')])
     ;
 
     return $renderer->render([
         $f->image()->responsive(
-            'src/UI/examples/Entity/Standard/semantic_groups.png', 
+            'src/UI/examples/Entity/Standard/semantic_groups.png',
             'Overview of the arrangement of semantig Groups within the Entity'
         ),
         $f->divider()->horizontal(),

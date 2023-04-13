@@ -135,33 +135,31 @@ class EntityTest extends ILIAS_UI_TestBase
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($entity));
-
         $expected = $this->brutallyTrimHTML('
-            <div class="il-entity-representation"> 
-                <div>bc</div>
-                <div>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-                        <ul id="id_2_menu" class="dropdown-menu">
-                            <li><button class="btn btn-link" data-action="#" id="id_1">shy</button></li>
-                        </ul>
-                    </div>
-                </div>
-                <div>secondary</div>
-                <div>fp</div>
-                <div>primary</div>
-                <div>ps</div>
-                <div>md</div>
-                <div>a</div>
-                <div>d</div>
-                <div>
-                    <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-                </div>
-                <div>
-                    <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-                    <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_3">tag</button>
-                </div>
-            </div>
+<div class="c-entity __container">
+    <div class="c-entity __blocking-conditions">bc</div>
+    <div class="c-entity __actions">
+        <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
+            <ul id="id_2_menu" class="dropdown-menu">
+                <li><button class="btn btn-link" data-action="#" id="id_1">shy</button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="c-entity __secondary-identifier">secondary</div>
+    <div class="c-entity __primary-identifier">primary</div>
+    <div class="c-entity __featured">fp</div>
+    <div class="c-entity __personal-status">ps</div>
+    <div class="c-entity __main-details">md</div>
+    <div class="c-entity __availability">a</div>
+    <div class="c-entity __details">d</div>
+    <div class="c-entity __reactions">
+        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+    </div>
+    <div class="c-entity __featured-reactions">
+        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_3">tag</button>
+    </div>
+</div>
         ');
 
         $this->assertEquals($expected, $html);

@@ -70,16 +70,17 @@ class PropertyListingTest extends ILIAS_UI_TestBase
             ->withItems($props);
 
         $expected = $this->brutallyTrimHTML('
-<div class="il-listing-property">
-   <div class="il-listing-property__property">
-       <span class="il-listing-property__propertylabel">label1</span>
-       <span class="il-listing-property__propertyvalue">value1</span>
-   </div>
-   <div class="il-listing-property__property">
-       <span class="il-listing-property__propertyvalue">value2</span>
-   </div>
+<div class="l-bar__container c-listing-property">
+    <div class="l-bar__group c-listing-property__property">
+        <span class="l-bar__element c-listing-property__propertylabel">label1</span>
+        <span class="l-bar__element c-listing-property__propertyvalue">value1</span>
+    </div>
+    <div class="l-bar__group c-listing-property__property">
+        <span class="l-bar__element c-listing-property__propertyvalue">value2</span>
+    </div>
 </div>
-');
+        ');
+
         $this->assertEquals(
             $expected,
             $this->brutallyTrimHTML($this->getDefaultRenderer()->render($pl))

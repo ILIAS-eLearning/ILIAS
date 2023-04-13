@@ -135,6 +135,9 @@ interface Factory
      *        tabular way; labels cannot be omitted for display.
      *      Descriptive: >
      *        The Descriptive's (visual) emphasis is on the key, not the value.
+     * context:
+     *   - Property listing is used in Entities
+     *
      * ----
      * @return \ILIAS\UI\Component\Listing\Property
      */
