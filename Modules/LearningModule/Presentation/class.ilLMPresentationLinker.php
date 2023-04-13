@@ -451,7 +451,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "WikiPage":
-                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        $wiki_anc = "";
+                        if ($int_link["Anchor"] != "") {
+                            $wiki_anc = "#" . rawurlencode($int_link["Anchor"]);
+                        }
+                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         if ($this->embed_mode) {
                             $ltarget = "_blank";
                         }

@@ -127,6 +127,8 @@ class PCParagraphTest extends COPageTestBase
             => 'xx <IntLink Target="il__git_106" Type="GlossaryItem" TargetFrame="New"> xx </IntLink> xx',
             'xx [iln wpage="106"] xx [/iln] xx'
             => 'xx <IntLink Target="il__wpage_106" Type="WikiPage"> xx </IntLink> xx',
+            'xx [iln wpage="106" anchor="test"] xx [/iln] xx'
+            => 'xx <IntLink Target="il__wpage_106" Type="WikiPage" Anchor="test"> xx </IntLink> xx',
             'xx [iln ppage="106"] xx [/iln] xx'
             => 'xx <IntLink Target="il__ppage_106" Type="PortfolioPage"> xx </IntLink> xx',
             'xx [iln media="545"/] xx '
