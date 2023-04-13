@@ -6369,6 +6369,7 @@ select[multiple].input-lg {
     text-align: right;
     margin-bottom: 0;
     padding-top: 4px;
+    overflow-wrap: break-word;
   }
 }
 .form-horizontal .has-feedback .form-control-feedback {
