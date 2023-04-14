@@ -264,6 +264,7 @@ class ilCtrl implements ilCtrlInterface
             // if the command is for post requests, or the command
             // is not considered safe, the csrf-validation must pass.
             $cmd_class = $this->context->getCmdClass();
+
             if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
                 $stored_token = $this->token_repository->getToken();
                 $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
