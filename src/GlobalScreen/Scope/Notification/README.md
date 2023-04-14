@@ -1,11 +1,12 @@
 Scope Notifications
 ===================
-This scope addresses notifications that are displayed to the user in the NotificationCenter (a dedicated item in the MetaBar). Components can - as in all other scopes - via an implementation of a `NotificationProvider` provide the `MainNotificationCollector` with a list of notifications. These are summarized and displayed in the NotificationCenter.
+This scope addresses notifications that are displayed to the user in the NotificationCenter (a dedicated item in the MetaBar) and SystemInfos (Banners). Components can - as in all other scopes - via an implementation of a `NotificationProvider` provide the `MainNotificationCollector` with a list of notifications. These are summarized and displayed in the NotificationCenter.
 
 The following types are currently available via the Factory:
 
 - `StandardNotification`
 - `StandardNotificationGroup`
+- `AdministrativeNotification`
 
 # Provider
 
@@ -70,3 +71,38 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 In this case, the effective notifications are collected in a NotificationGroup. These will rendered as a group in the NotificationCenter.
 
 For more details on the properties of the UI Component Notification Item, see the respective documentation in src/UI/Components/Item/Notification and the respective examples.
+
+## Administrative Notifications / SystemInfos
+
+Administrative Notifications / SystemInfos can also be offered. The handling of actions when a SystemInfo is closed is very simple by simply specifying a callable for it `withClosedCallable()`.
+
+```php
+...
+
+    public function getAdministrativeNotifications(): array
+    {
+        return [
+            $this->notification_factory->administrative($this->if->identifier('test_notification_with_id_xy'))
+                ->withTitle('Test Title')
+                ->withSummary('Test Description')
+                ->withBreakingDenotation()
+                ->withAvailableCallable(function () {
+                    return true; // TODO: Implement this, e.g. is the service enabled in general?
+                })
+                ->withVisibilityCallable(function () {
+                        return true; // TODO: Implement this, e.g. check for role assignement etc.
+                })
+                ->withClosedCallable(function () {
+                    // This callable is executed when the user closes the notification
+                })
+                ->withAvailableCallable(function () {
+                    return true;
+                })
+                ->withVisibilityCallable(function () {
+                    return true;
+                })
+        ];
+    }
+...
+
+```
