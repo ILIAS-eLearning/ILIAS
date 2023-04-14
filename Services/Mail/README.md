@@ -842,6 +842,9 @@ identifiers, which are resolved to global roles. If the access check evaluates t
   entered one more usernames (might be also an email address) matching existing accounts. If the access check
   evaluates to `false`, the recipients are considered **invalid**.
 
+No additional permission checks are implemented, for instance there is **no** check if a sending account is a course or
+group participant, if it explicitly enters a course or group role identifier as recipient.
+
 ### Account Status vs. Channel
 
 An account is considered to be able to read internal messages, if the `TermsOfService` are accepted (if enabled) **and**
