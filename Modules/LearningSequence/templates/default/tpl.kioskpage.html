@@ -1,40 +1,36 @@
 <div id="il_center_col" class="col-sm-12">
-
 	<div class="ilLSOKioskModeObjectHeader">
 		<div class="media il_HeaderInner">
 			<div id="headerimage" class="media-object">
 				{OBJECT_ICON}
 			</div>
 			<h1 class="media-heading ilHeader">
-				<a class="ilAccAnchor" id="il_mhead_t_focus">
+				<a aria-label="{OBJECT_TITLE}" class="ilAccAnchor" id="il_mhead_t_focus">
 					{OBJECT_TITLE}
 				</a>
 			</h1>
 		</div>
 	</div>
-
 	<nav class="ilToolbar navbar-default ilLSOKioskModeNavigation" role="navigation" id="2">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<div class="navbar-form">
-					<script>{JS_INLINE}</script>
+					<script>
+						{JS_INLINE}
+					</script>
 					{PLAYER_NAVIGATION} | {OBJ_NAVIGATION}
 				</div>
-
 				<div class="ilLSOKioskModeViewModes">
 					{VIEW_MODES}
 				</div>
 			</div>
-
 		</div>
 	</nav>
-
 	<div class="ilLSOKioskModeLocator">
 		{LOCATOR}
 	</div>
-
 	<div class="ilLSOKioskModeContent">
 		{CONTENT}
 	</div>
-
-</div> <!-- il_center_col -->
+</div>
+<!-- il_center_col -->

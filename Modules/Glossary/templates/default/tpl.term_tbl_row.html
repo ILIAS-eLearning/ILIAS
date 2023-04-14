@@ -1,7 +1,7 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN check_col -->
 	<td class="std">
-		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED} />
+		<input type="checkbox" aria-label="id[] checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED} />
 	</td>
 	<!-- END check_col -->
 	<!-- BEGIN td -->
@@ -16,30 +16,47 @@
 	<!-- END td_lang -->
 	<!-- BEGIN td_usage -->
 	<td class="std small">
-		<!-- BEGIN link_usage --><a href="{LINK_USAGE}">{LUSAGE}</a><!-- END link_usage -->
-		<!-- BEGIN usage -->{USAGE}<!-- END usage -->
+		<!-- BEGIN link_usage -->
+		<a aria-label="{LUSAGE}" href="{LINK_USAGE}">
+			{LUSAGE}
+		</a>
+		<!-- END link_usage -->
+		<!-- BEGIN usage -->
+		{USAGE}
+		<!-- END usage -->
 	</td>
 	<!-- END td_usage -->
 	<td class="std">
 	<!-- BEGIN definition_row -->
 		<!-- BEGIN def_head -->
-			<i>{DEF_TEXT}</i><br />
+			<i>
+				{DEF_TEXT}
+			</i>
+		<br />
 		<!-- END def_head -->
 		<!-- BEGIN definition -->
 			<div class="small">{DEF_SHORT}</div>
 		<!-- END definition -->
 		<div class="il_ContainerItemCommands ilRight"> 
 		<!-- BEGIN move_up -->
-			<a class="il_ContainerItemCommand" href="{LINK_UP}">{TXT_UP}</a>
+			<a aria-label="{TXT_UP}" class="il_ContainerItemCommand" href="{LINK_UP}">
+				{TXT_UP}
+			</a>
 		<!-- END move_up -->
 		<!-- BEGIN move_down -->
-			<a class="il_ContainerItemCommand" href="{LINK_DOWN}">{TXT_DOWN}</a>
+			<a aria-label="{TXT_DOWN}" class="il_ContainerItemCommand" href="{LINK_DOWN}">
+				{TXT_DOWN}
+			</a>
 		<!-- END move_down -->
 		<!-- BEGIN delete -->
-			<a class="il_ContainerItemCommand" href="{LINK_DELETE}">{TXT_DELETE}</a>
+			<a aria-label="{TXT_DELETE}" class="il_ContainerItemCommand" href="{LINK_DELETE}">
+				{TXT_DELETE}
+			</a>
 		<!-- END delete -->
 		<!-- BEGIN edit -->
-			<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
+			<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand" href="{LINK_EDIT}">
+				{TXT_EDIT}
+			</a>
 		<!-- END edit -->
 		</div>
 	<!-- END definition_row -->

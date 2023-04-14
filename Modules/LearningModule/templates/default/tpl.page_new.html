@@ -24,7 +24,9 @@
 	{MAINMENU}
 
 	<!-- BEGIN sr_focus -->
-	<script type="text/javascript">il.Util.addOnLoad(il.Util.setStdScreenReaderFocus);</script>
+	<script type="text/javascript">
+		il.Util.addOnLoad(il.Util.setStdScreenReaderFocus);
+	</script>
 	<!-- END sr_focus -->
 	
 	<!-- BEGIN pg_intro -->
@@ -68,15 +70,22 @@
 		<div class="ilc_page_tnav_TopNavigation">
 			<!-- BEGIN ilLMNavigation_Prev -->
 			<div class="ilc_page_lnav_LeftNavigation">
-				<a {PREV_ACC_KEY} class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV}" {FRAME_PREV}>
-					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}" />{TXT_PREV}&nbsp;</a>
+				<a aria-label="{TXT_PREV}" {PREV_ACC_KEY} class="ilc_page_lnavlink_LeftNavigationLink"
+				   href="{HREF_PREV}" {FRAME_PREV}>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV}" aria-hidden="true" />
+					{TXT_PREV}&nbsp;
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Prev -->
 			<!-- BEGIN ilLMNavigation_Next -->
 			<div class="ilc_page_rnav_RightNavigation">
-				<a {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
-			{TXT_SUCC}
-				<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}" /></a>
+				<a {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink"
+				   aria-label="{ALT_SUCC}"
+				   href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
+					{TXT_SUCC}
+				<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC}"
+					 aria-hidden="true" />
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Next -->
 			<div class="ilClearFloat"></div>
@@ -85,7 +94,10 @@
 		<!-- BEGIN ilPage -->
 		<div class="ilc_page_cont_PageContainer">
 			<span class="ilAccHidden">
-				<a name="il_lm_head" id="il_lm_head"></a></span>
+				<a aria-label="{PAGE_CONTENT}" name="il_lm_head" id="il_lm_head">
+
+				</a>
+			</span>
 			{PAGE_CONTENT}
 		</div>
 		<!-- END ilPage -->
@@ -93,18 +105,26 @@
 		<div class="ilc_page_bnav_BottomNavigation">
 			<!-- BEGIN ilLMNavigation_Prev2 -->
 			<div class="ilc_page_lnav_LeftNavigation">
-				<a class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV2}" {FRAME_PREV2}>
-					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV2}" alt="{ALT_PREV2}" title="{ALT_PREV2}" />{TXT_PREV2}&nbsp;</a>
+				<a aria-label="{TXT_PREV2}" class="ilc_page_lnavlink_LeftNavigationLink"
+				   href="{HREF_PREV2}" {FRAME_PREV2}>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV2}"
+						 aria-hidden="true" />
+					{TXT_PREV2}&nbsp;
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Prev2 -->
 			<!-- BEGIN ilLMNavigation_Next2 -->
 			<div class="ilc_page_rnav_RightNavigation">
-				<a class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC2}" {FRAME_SUCC2}>&nbsp;
-			{TXT_SUCC2}
-					<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC2}" alt="{ALT_SUCC2}" title="{ALT_SUCC2}" /></a>
+				<a aria-label="{TXT_SUCC2}" class="ilc_page_rnavlink_RightNavigationLink"
+				   href="{HREF_SUCC2}" {FRAME_SUCC2}>&nbsp;
+					{TXT_SUCC2}
+					<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC2}"
+						 aria-hidden="true" />
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Next2 -->
-			<div class="ilClearFloat"></div>
+			<div class="ilClearFloat">
+			</div>
 		</div>
 		<!-- END ilLMNavigation2 -->
 		<!--</div>-->
@@ -114,7 +134,12 @@
 		{NOTES}
 	</div>
 
-		</div></div><!-- BEGIN pg_outro --></div></div><!-- END pg_outro -->
+		</div>
+	</div>
+			<!-- BEGIN pg_outro -->
+		</div>
+	</div>
+<!-- END pg_outro -->
 
 
 <div id="minheight"></div>

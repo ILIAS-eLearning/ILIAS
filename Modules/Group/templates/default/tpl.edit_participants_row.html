@@ -11,16 +11,22 @@
 	</td>
 	<!--  END access_time -->
 	<td class="std">
-		<input type="checkbox" name="contact[]" value="{VAL_ID}" {VAL_CONTACT_CHECKED} />
+		<input type="checkbox" aria-label="contact[] checkbox"
+			   name="contact[]" value="{VAL_ID}" {VAL_CONTACT_CHECKED} />
 	</td>
 	<td class="std">
-            <input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+            <input type="checkbox" aria-label="notification[]" name="notification[]"
+				   value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
 	</td>
 	<td class="std">
 		<input type="hidden" name="participants[]" value="{VAL_ID}" />
-		<select class="form-control" multiple="multiple" name="roles[{VAL_ID}][]" size="{NUM_ROLES}">
+		<select aria-haspopup="true" class="form-control" multiple="multiple"
+				aria-label="roles[{VAL_ID}][]"
+				name="roles[{VAL_ID}][]" size="{NUM_ROLES}">
 			<!-- BEGIN roles -->
-			<option value="{ROLE_ID}" {ROLE_CHECKED}>{ROLE_NAME}</option>
+				<option value="{ROLE_ID}" {ROLE_CHECKED}>
+					{ROLE_NAME}
+				</option>
 			<!-- END roles -->
 		</select>
 	</td>

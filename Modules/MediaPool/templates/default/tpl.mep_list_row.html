@@ -1,10 +1,10 @@
 <tr class="{CSS_ROW} ilMepListRow">
 	<td class="std" valign="top" width="1">
 		<!-- BEGIN chbox -->
-		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<input type="checkbox" aria-label="id[]" name="id[]" value="{CHECKBOX_ID}" {CHECKED} />
 		<!-- END chbox -->
 		<!-- BEGIN radio -->
-		<input type="radio" name="id[]" value="{RADIO_ID}"/>
+		<input type="radio" aria-label="id[]" name="id[]" value="{RADIO_ID}" />
 		<!-- END radio -->
 	</td>
 	<td class="std" valign="top" nowrap="1" width="1">
@@ -13,23 +13,28 @@
 	<td class="std" valign="top">
 		<!-- BEGIN link -->
 		<div class="ilFloatLeft">
-			<a href="{LINK_VIEW}" onclick="{ONCLICK}">
-			{TXT_TITLE}
-			</a>{TXT_NO_LINK_TITLE}
+			<a aria-label="{TXT_TITLE}" href="{LINK_VIEW}" onclick="{ONCLICK}">
+				{TXT_TITLE}
+			</a>
+			{TXT_NO_LINK_TITLE}
 		</div>
 		<!-- END link -->
 		<div class="ilClearFloat">
-		{MEDIA_INFO}
+			{MEDIA_INFO}
 		</div>
 	</td>
 	{ADV_CELLS}
 	<td class="std" valign="top">
 		<div class="il_ContainerItemCommands ilFloatRight">
 			<!-- BEGIN edit -->
-			<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
+			<a aria-label="{TXT_EDIT}" class="il_ContainerItemCommand" href="{EDIT_LINK}">
+				{TXT_EDIT}
+			</a>
 			<!-- END edit -->
 			<!-- BEGIN show -->
-			<a class="il_ContainerItemCommand" href="{SHOW_LINK}">{TXT_SHOW}</a>
+			<a aria-label="{TXT_SHOW}" class="il_ContainerItemCommand" href="{SHOW_LINK}">
+				{TXT_SHOW}
+			</a>
 			<!-- END show -->
 		</div>
 	</td>

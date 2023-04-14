@@ -1,15 +1,27 @@
 <div>{TXT_MISSING_PRECONDITIONS}</div>
 <br /> <br />
 <table class="" style="width:100%">
-<tr class="tblheader">
-	<td class="std">{TXT_ITEM}</td>
-	<td class="std">{TXT_CONDITION}</td>
-</tr>
-<!-- BEGIN condition -->
-<tr>
-	<td class="std"><a href="{LINK_ITEM}" target="{FRAME_ITEM}">{VAL_ITEM}</a></td>
-	<td class="std">{VAL_CONDITION}</td>
-</tr>
-<!-- END condition -->
+	<tbody>
+	<tr class="tblheader">
+		<td class="std">
+			{TXT_ITEM}
+		</td>
+		<td class="std">
+			{TXT_CONDITION}
+		</td>
+	</tr>
+	<!-- BEGIN condition -->
+	<tr>
+		<td class="std">
+			<a aria-label="{VAL_ITEM}" href="{LINK_ITEM}" target="{FRAME_ITEM}">
+				{VAL_ITEM}
+			</a>
+		</td>
+		<td class="std">
+			{VAL_CONDITION}
+		</td>
+	</tr>
+	<!-- END condition -->
+	</tbody>
 </table>
 {LINK_SKIP_CHAPTER}

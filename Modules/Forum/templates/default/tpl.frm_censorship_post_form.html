@@ -1,24 +1,36 @@
 {SPACER}<a name="{ANCHOR}"></a>
 <form action="{FORM_ACTION}" method="post" role="form" class="preventDoubleSubmission">
 <table class="std" style="width:95%">
-<tr class="tblheader">
-	<td>{TXT_CENS_COMMENT}</td>
-</tr>
+	<tbody>
+		<tr class="tblheader">
+		<td>{TXT_CENS_COMMENT}</td>
+	</tr>
+	</tbody>
 <tr>
 	<td class="option_value">
-	<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap="virtual" style="width:95%; height=80px">{CENS_MESSAGE}</textarea>
+	<textarea aria-multiline="true" id="{TXT_CENS_MESSAGE}"
+			  aria-label="formData[cens_message]"
+			  name="formData[cens_message]" cols="50" rows="5" wrap="virtual" style="width:95%; height=80px">
+		{CENS_MESSAGE}
+	</textarea>
 	</td>
 </tr>
 </table>
-<p class="warning">{TXT_CENS}</p>	
+<p class="warning">
+	{TXT_CENS}
+</p>
 <div class="ilRight">
 <!-- BEGIN change_censorship_yn -->	
-<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_REVOKE_CENSORSHIP}]" value="{YES_BUTTON}" />&nbsp;&nbsp;
-<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_CANCEL_REVOKE_CENSORSHIP}]" value="{NO_BUTTON}" />
+<input role="button" class="btn btn-default btn-sm" type="submit"
+	   name="cmd[{CMD_REVOKE_CENSORSHIP}]" value="{YES_BUTTON}" />&nbsp;&nbsp;
+<input role="button" class="btn btn-default btn-sm" type="submit"
+	   name="cmd[{CMD_CANCEL_REVOKE_CENSORSHIP}]" value="{NO_BUTTON}" />
 <!-- END change_censorship_yn -->	
 <!-- BEGIN censorship -->	
-<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_ADD_CENSORSHIP}]" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_CANCEL_ADD_CENSORSHIP}]" value="{CANCEL_BUTTON}" />
+<input role="button" class="btn btn-default btn-sm" type="submit"
+	   name="cmd[{CMD_ADD_CENSORSHIP}]" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
+<input role="button" class="btn btn-default btn-sm" type="submit"
+	   name="cmd[{CMD_CANCEL_ADD_CENSORSHIP}]" value="{CANCEL_BUTTON}" />
 <!-- END censorship -->	
 </div>
 </form>

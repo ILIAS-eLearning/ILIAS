@@ -1,6 +1,10 @@
 <tr class="{CSS_ROW}">
     <!-- BEGIN checkbox_col -->
-    <td class="std"><input type="checkbox" name="provider_ids[]" value="{PROVIDER_ID}" /></td>
+    <td class="std">
+        <input type="checkbox"
+               aria-label="provider_ids[]"
+               name="provider_ids[]" value="{PROVIDER_ID}" />
+    </td>
     <!-- END checkbox_col -->
     <td class="std">
         <!-- BEGIN icon -->
@@ -10,43 +14,69 @@
     <td class="std">
         <!-- BEGIN title -->{TITLE}<!-- END title -->
         <!-- BEGIN title_linked -->
-        <a href="{TITLE_HREF}">{TITLE}</a>
+        <a aria-label="{TITLE}" href="{TITLE_HREF}">
+            {TITLE}
+        </a>
         <!-- END title_linked -->
     </td>
     <!-- BEGIN description -->
-    <td class="std">{DESCRIPTION}</td>
+    <td class="std">
+        {DESCRIPTION}
+    </td>
     <!-- END description -->
     <!-- BEGIN category -->
-    <td class="std">{CATEGORY}</td>
+    <td class="std">
+        {CATEGORY}
+    </td>
     <!-- END category -->
     <!-- BEGIN keywords -->
-    <td class="std">{KEYWORDS}</td>
+    <td class="std">
+        {KEYWORDS}
+    </td>
     <!-- END keywords -->
     <!-- BEGIN outcome -->
-    <td class="std">{OUTCOME}</td>
+    <td class="std">
+        {OUTCOME}
+    </td>
     <!-- END outcome -->
     <!-- BEGIN internal -->
-    <td class="std">{INTERNAL}</td>
+    <td class="std">
+        {INTERNAL}
+    </td>
     <!-- END internal -->
     <!-- BEGIN with_key -->
-    <td class="std">{WITH_KEY}</td>
+    <td class="std">
+        {WITH_KEY}
+    </td>
     <!-- END with_key -->
     <!-- BEGIN availability -->
-    <td class="std">{AVAILABILITY}</td>
+    <td class="std">
+        {AVAILABILITY}
+    </td>
     <!-- END availability -->
     <!-- BEGIN own_provider -->
-    <td class="std">{OWN_PROVIDER}</td>
+    <td class="std">
+        {OWN_PROVIDER}
+    </td>
     <!-- END own_provider -->
     <!-- BEGIN provider_creator -->
-    <td class="std">{PROVIDER_CREATOR}</td>
+    <td class="std">
+        {PROVIDER_CREATOR}
+    </td>
     <!-- END provider_creator -->
     <!-- BEGIN usages_untrashed -->
-    <td class="std">{USAGES_UNTRASHED}</td>
+    <td class="std">
+        {USAGES_UNTRASHED}
+    </td>
     <!-- END usages_untrashed -->
     <!-- BEGIN usages_trashed -->
-    <td class="std">{USAGES_TRASHED}</td>
+    <td class="std">
+        {USAGES_TRASHED}
+    </td>
     <!-- END usages_trashed -->
     <!-- BEGIN actions -->
-    <td class="std">{ACTIONS}</td>
+    <td class="std">
+        {ACTIONS}
+    </td>
     <!-- END actions -->
 </tr>

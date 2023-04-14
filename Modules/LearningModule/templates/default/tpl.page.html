@@ -22,37 +22,45 @@
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}"<!-- END body_class -->>
 	{MAINMENU}
 	<!-- BEGIN sr_focus -->
-	<script type="text/javascript">il.Util.addOnLoad(il.Util.setStdScreenReaderFocus);</script>
+	<script type="text/javascript">
+		il.Util.addOnLoad(il.Util.setStdScreenReaderFocus);
+	</script>
 	<!-- END sr_focus -->
 
 	<!-- BEGIN pg_intro -->
 <div id="mainspacekeeper" class="container-fluid ilContainerWidth {MAINMENU_SPACER}">
 	<div class="row" style="position: relative;">
 	<!-- END pg_intro -->
-	
 	{NAVIGATION_HISTORY}
 	<!-- BEGIN ilLocator -->
 	{STATUSLINE}
 	<!-- END ilLocator -->
+	<div class="media il_HeaderInner">
+		<!-- BEGIN head_action -->
+		<div class="ilHeadAction" id="il_head_action">
+			<!-- BEGIN head_action_inner -->
+			{HEAD_ACTION}
+			<!-- END head_action_inner -->
+		</div>
+		<!-- END head_action -->
 
-			<div class="media il_HeaderInner">
-				<!-- BEGIN head_action -->
-				<div class="ilHeadAction" id="il_head_action">
-					<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner -->
-				</div>
-				<!-- END head_action -->
+		<!-- BEGIN lm_head -->
+		<!-- BEGIN header_image -->
+		<img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_DESC}" />
+		<!-- END header_image -->
+		<h1 class="media-heading ilHeader">
+			<a aria-label="{HEADER}" id="il_mhead_t_focus" class="ilAccAnchor">
+				{HEADER}
+			</a>
+		</h1>
+		<!-- END lm_head -->
+	</div>
 
-				<!-- BEGIN lm_head -->
-				<!-- BEGIN header_image --><img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_DESC}" /><!-- END header_image -->
-				<h1 class="media-heading ilHeader">
-					<a id="il_mhead_t_focus" class="ilAccAnchor">{HEADER}</a>
-				</h1>
-				<!-- END lm_head -->
-			</div>
-	
 	<div class="ilLMMenu">
 		{MENU}
-		<div class="ilClearFloat"></div>
+		<div class="ilClearFloat">
+
+		</div>
 	</div>
 	
 	<div id="ilLMPageContent" class="ilc_page_frame_PageFrame">
@@ -65,15 +73,21 @@
 		<div class="ilc_page_tnav_TopNavigation">
 			<!-- BEGIN ilLMNavigation_Prev -->
 			<div class="ilc_page_lnav_LeftNavigation">
-				<a {PREV_ACC_KEY} class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV}" {FRAME_PREV}>
-					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}" />{TXT_PREV}&nbsp;</a>
+				<a {PREV_ACC_KEY} aria-label="{TXT_PREV}" class="ilc_page_lnavlink_LeftNavigationLink"
+				   href="{HREF_PREV}" {FRAME_PREV}>
+					<img aria-hidden="true" class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV}" />
+					{TXT_PREV}&nbsp;
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Prev -->
 			<!-- BEGIN ilLMNavigation_Next -->
 			<div class="ilc_page_rnav_RightNavigation">
-				<a {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
-			{TXT_SUCC}
-				<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}" /></a>
+				<a aria-label="{TXT_SUCC}" {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink"
+				   href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
+					{TXT_SUCC}
+				<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC}"
+					 aria-hidden="true" />
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Next -->
 			<div class="ilClearFloat"></div>
@@ -83,7 +97,10 @@
 		<!-- BEGIN ilPage -->
 		<div class="ilc_page_cont_PageContainer">
 			<span class="ilAccHidden">
-				<a name="il_lm_head" id="il_lm_head"></a></span>
+				<a aria-label="{PAGE_CONTENT}" name="il_lm_head" id="il_lm_head">
+
+				</a>
+			</span>
 			{PAGE_CONTENT}
 		</div>
 		<!-- END ilPage -->
@@ -92,14 +109,20 @@
 		<div class="ilc_page_bnav_BottomNavigation">
 			<!-- BEGIN ilLMNavigation_Prev2 -->
 			<div class="ilc_page_lnav_LeftNavigation">
-				<a class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV2}" {FRAME_PREV2}>
-					<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV2}" alt="{ALT_PREV2}" title="{ALT_PREV2}" />{TXT_PREV2}&nbsp;</a>
+				<a aria-label="{ALT_PREV2}" class="ilc_page_lnavlink_LeftNavigationLink"
+				   href="{HREF_PREV2}" {FRAME_PREV2}>
+					<img aria-hidden="true" class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV2}" />
+					{TXT_PREV2}&nbsp;
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Prev2 -->
 			<!-- BEGIN ilLMNavigation_Next2 -->
 			<div class="ilc_page_rnav_RightNavigation">
-				<a class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC2}" {FRAME_SUCC2}>&nbsp;
-			{TXT_SUCC2}<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC2}" alt="{ALT_SUCC2}" title="{ALT_SUCC2}" /></a>
+				<a aria-label="{TXT_SUCC2}" class="ilc_page_rnavlink_RightNavigationLink"
+				   href="{HREF_SUCC2}" {FRAME_SUCC2}>&nbsp;
+					{TXT_SUCC2}
+					<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC2}" aria-hidden="true"/>
+				</a>
 			</div>
 			<!-- END ilLMNavigation_Next2 -->
 			<div class="ilClearFloat"></div>

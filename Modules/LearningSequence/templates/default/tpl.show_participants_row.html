@@ -1,7 +1,9 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
-		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />
+		<input type="checkbox"
+			   aria-label="{VAL_POSTNAME}[]"
+			   name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input aria-hidden="true" type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />
 	</td>
 	<td class="std">
 		{VAL_NAME}
@@ -38,15 +40,19 @@
 	</td>
 	<td class="std">
 			<!-- BEGIN with_notification -->
-			<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+			<input type="checkbox" aria-label="notification[]" name="notification[]"
+				   value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
 			<!-- END with_notification -->
 	</td>
 	<td class="std">
 		<!-- BEGIN as_link -->
 		<div class="il_ContainerItemCommands2">
 		<!-- BEGIN link -->
-			<a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a><br />
-		<!-- END link -->
+			<a aria-label="{LINK_TXT}" class="il_ContainerItemCommand2" href="{LINK_NAME}">
+				{LINK_TXT}
+			</a>
+			<br />
+			<!-- END link -->
 			<!-- BEGIN as_menu -->
 			{ACTION_USER}
 			<!-- END as_menu -->

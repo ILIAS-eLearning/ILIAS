@@ -4,13 +4,14 @@
         <script type="text/javascript" src="{JQUERY_SRC}"></script>
     </head>
     <body>
-    <form id="ltiLaunchForm" action="{LAUNCH_URL}" method="post" target="_self" enctype="application/x-www-form-urlencoded">
+    <form id="ltiLaunchForm" action="{LAUNCH_URL}" method="post" target="_self"
+          enctype="application/x-www-form-urlencoded">
         <!-- BEGIN launch_parameter -->
-        <input type="hidden" name="{LAUNCH_PARAMETER}" value="{LAUNCH_PARAM_VALUE}" />
+        <input aria-hidden="true" type="hidden" name="{LAUNCH_PARAMETER}" value="{LAUNCH_PARAM_VALUE}" />
         <!-- END launch_parameter -->
     </form>
     <div id="ltiLoadingAnimation">
-        <img src="{LOADER_ICON_SRC}" />
+        <img src="{LOADER_ICON_SRC}" aria-label="loader icon" />
     </div>
     <script>
         (function($){

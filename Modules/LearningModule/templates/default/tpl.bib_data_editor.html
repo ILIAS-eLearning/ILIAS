@@ -17,26 +17,34 @@
 </form>
 <!-- END index_selection_block -->
 <form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
-<input type="hidden" name="bibItemIndex" value="{VAL_INDEX}"/>
-<input type="hidden" name="bibItemPath" value="BibItem"/>
+<input aria-hidden="true" type="hidden" name="bibItemIndex" value="{VAL_INDEX}"/>
+<input aria-hidden="true" type="hidden" name="bibItemPath" value="BibItem"/>
 <table class="std">
 <tr class="tblheader">
 	<td class="std" colspan="3">
 		{TXT_BIBITEM}<br>
-		[ <a href="{BIBITEM_ACTION_DELETE}">{BIBITEM_TXT_DELETE}</a> ]
-		[ <a href="{BIBITEM_ACTION_ADD}">{BIBITEM_TXT_ADD}</a> ]
+		[ <a aria-label="{BIBITEM_TXT_DELETE}" href="{BIBITEM_ACTION_DELETE}">
+			{BIBITEM_TXT_DELETE}
+		</a> ]
+		[ <a aria-label="{BIBITEM_TXT_ADD}" href="{BIBITEM_ACTION_ADD}">
+			{BIBITEM_TXT_ADD}
+		</a> ]
 	</td>
 </tr>
 <tr>
-	<td class="option" colspan="2">{TXT_NEW_ELEMENT}</td>
+	<td class="option" colspan="2">
+		{TXT_NEW_ELEMENT}
+	</td>
 	<td class="option_value">
-		<select name="bibItemName" size="1">
+		<select aria-haspopup="true" aria-label="bibItemName" name="bibItemName" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="Language"{BIBITEMNAME_VAL_LANGUAGE}>{TXT_LANGUAGE} (Language)</option>
 			<option value="Author"{BIBITEMNAME_VAL_AUTHOR}>{TXT_AUTHOR} (Author)</option>
 			<option value="CrossRef"{BIBITEMNAME_VAL_CROSSREF}>{TXT_CROSSREF} (Cross reference)</option>
 			<option value="Editor"{BIBITEMNAME_VAL_EDITOR}>{TXT_EDITOR} (Editor)</option>
-			<option value="WherePublished"{BIBITEMNAME_VAL_WHERE_PUBLISHED}>{TXT_WHERE_PUBLISHED} (Where published)</option>
+			<option value="WherePublished"{BIBITEMNAME_VAL_WHERE_PUBLISHED}>
+				{TXT_WHERE_PUBLISHED} (Where published)
+			</option>
 			<option value="Institution"{BIBITEMNAME_VAL_INSTITUTION}>{TXT_INSTITUTION} (Institution)</option>
 			<option value="Keyword"{BIBITEMNAME_VAL_KEYWORD}>{TXT_KEYWORD} (Keyword)</option>
 			<option value="School"{BIBITEMNAME_VAL_SCHOOL}>{TXT_SCHOOL} (School)</option>
@@ -65,12 +73,16 @@
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="3"><div align="right"><input class="btn btn-default" type="submit" name="cmd[addBibItem]" value="{TXT_ADD}"/></div></td>
+	<td class="submit" colspan="3">
+		<div align="right">
+			<input role="button" class="btn btn-default" type="submit" name="cmd[addBibItem]" value="{TXT_ADD}"/>
+		</div>
+	</td>
 </tr>
 <tr>
 	<td class="option" colspan="2">{TXT_TYPE} (Type)</td>
 	<td class="option_value">
-		<select name="meta[Type]" size="1">
+		<select aria-haspopup="true" name="meta[Type]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="book"{TYPE_VAL_BOOK}>{TXT_BOOK} (Book)</option>
 			<option value="inbook"{TYPE_VAL_INBOOK}>{TXT_INBOOK} (Inbook)</option>
@@ -82,7 +94,9 @@
 			<option value="mastersthesis"{TYPE_VAL_MASTERSTHESIS}>{TXT_MASTERSTHESIS} (Masters thesis)</option>
 			<option value="techreport"{TYPE_VAL_TECHREPORT}>{TXT_TECHREPORT} (Techreport)</option>
 			<option value="manual"{TYPE_VAL_MANUAL}>{TXT_MANUAL} (Manual)</option>
-			<option value="newspaperarticle"{TYPE_VAL_NEWSPAPERARTICLE}>{TXT_NEWSPAPERARTICLE} (Newspaper article)</option>
+			<option value="newspaperarticle"{TYPE_VAL_NEWSPAPERARTICLE}>
+				{TXT_NEWSPAPERARTICLE} (Newspaper article)
+			</option>
 			<option value="av"{TYPE_VAL_AV}>{TXT_AV} (AV)</option>
 			<option value="internet"{TYPE_VAL_INTERNET}>{TXT_INTERNET} (Internet)</option>
 			<option value="unpublished"{TYPE_VAL_UNPUBLISHED}>{TXT_UNPUBLISHED} (unpublished)</option>
@@ -101,11 +115,15 @@
 <tr>
 	<td class="option" width="10" rowspan="2">&nbsp;</td>
 	<td class="sub_option">{TXT_CATALOG} (Catalog)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][Catalog]" value="{VAL_IDENTIFIER_CATALOG}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][Catalog]"
+									value="{VAL_IDENTIFIER_CATALOG}"></td>
 </tr>
 <tr>
 	<td class="sub_option">{TXT_ENTRY} (Entry)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][Entry]" value="{VAL_IDENTIFIER_ENTRY}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200" name="meta[Identifier][Entry]"
+									value="{VAL_IDENTIFIER_ENTRY}">
+	</td>
 </tr>
 
 <!-- BEGIN language_loop -->
@@ -113,9 +131,14 @@
 	<td class="option" colspan="2">
 		<div align="left">{LANGUAGE_LOOP_TXT_LANGUAGE} (Language)<br>
 <!-- BEGIN language_delete -->
-		[ <a href="{LANGUAGE_LOOP_ACTION_DELETE}">{LANGUAGE_LOOP_TXT_DELETE}</a> ]
+		[ <a aria-label="{LANGUAGE_LOOP_TXT_DELETE}" href="{LANGUAGE_LOOP_ACTION_DELETE}">
+				{LANGUAGE_LOOP_TXT_DELETE}
+			</a> ]
 <!-- END language_delete -->
-		[ <a href="{LANGUAGE_LOOP_ACTION_ADD}">{LANGUAGE_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{LANGUAGE_LOOP_TXT_ADD}" href="{LANGUAGE_LOOP_ACTION_ADD}">
+				{LANGUAGE_LOOP_TXT_ADD}
+			</a> ]
+		</div>
 	</td>
 	<td class="option_value">{LANGUAGE_LOOP_VAL_LANGUAGE}</td>
 </tr>
@@ -125,29 +148,47 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{AUTHOR_LOOP_TXT_AUTHOR} (Author)<br>
-		[ <a href="{AUTHOR_LOOP_ACTION_DELETE}">{AUTHOR_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{AUTHOR_LOOP_ACTION_ADD}">{AUTHOR_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{AUTHOR_LOOP_TXT_DELETE}" href="{AUTHOR_LOOP_ACTION_DELETE}">
+				{AUTHOR_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{AUTHOR_LOOP_TXT_ADD}" href="{AUTHOR_LOOP_ACTION_ADD}">
+				{AUTHOR_LOOP_TXT_ADD}
+			</a> ]
+		</div>
 	</td>
 	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
 	<td class="sub_option">{AUTHOR_LOOP_TXT_FIRSTNAME} (Firstname)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Author][{AUTHOR_LOOP_NO}][FirstName]" value="{AUTHOR_LOOP_VAL_FIRSTNAME}"></td>
+	<td class="option_value"><input type="text" maxlength="200"
+		name="meta[Author][{AUTHOR_LOOP_NO}][FirstName]" value="{AUTHOR_LOOP_VAL_FIRSTNAME}">
+	</td>
 </tr>
 <tr>
 	<td class="sub_option">{AUTHOR_LOOP_TXT_MIDDLENAME} (Middlename)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Author][{AUTHOR_LOOP_NO}][MiddleName]" value="{AUTHOR_LOOP_VAL_MIDDLENAME}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Author][{AUTHOR_LOOP_NO}][MiddleName]"
+			   name="meta[Author][{AUTHOR_LOOP_NO}][MiddleName]" value="{AUTHOR_LOOP_VAL_MIDDLENAME}">
+	</td>
 </tr>
 <tr>
 	<td class="sub_option">{AUTHOR_LOOP_TXT_LASTNAME} (Lastname)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Author][{AUTHOR_LOOP_NO}][LastName]" value="{AUTHOR_LOOP_VAL_LASTNAME}"></td>
+	<td class="option_value"><input type="text" maxlength="200"
+		aria-label="meta[Author][{AUTHOR_LOOP_NO}][LastName]"
+		name="meta[Author][{AUTHOR_LOOP_NO}][LastName]" value="{AUTHOR_LOOP_VAL_LASTNAME}"></td>
 </tr>
 <!-- END author_loop -->
-
 <tr>
-	<td class="option" colspan="2"><div align="left">{TXT_BOOKTITLE} (Booktitle)</div></td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Booktitle][Value]" value="{BOOKTITLE_VAL}"></td>
+	<td class="option" colspan="2">
+		<div align="left">{TXT_BOOKTITLE} (Booktitle)
+		</div>
+	</td>
+	<td class="option_value"><input type="text" maxlength="200"
+				aria-label="meta[Booktitle][Value]"
+				name="meta[Booktitle][Value]" value="{BOOKTITLE_VAL}">
+	</td>
 </tr>
 <tr>
 	<td class="option"width="10">&nbsp;</td>
@@ -162,32 +203,49 @@
 		[ <a href="{CROSSREF_LOOP_ACTION_DELETE}">{CROSSREF_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{CROSSREF_LOOP_ACTION_ADD}">{CROSSREF_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[CrossRef][{CROSSREF_LOOP_NO}][Value]" value="{CROSSREF_LOOP_VAL}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[CrossRef][{CROSSREF_LOOP_NO}][Value]"
+			   name="meta[CrossRef][{CROSSREF_LOOP_NO}][Value]" value="{CROSSREF_LOOP_VAL}">
+	</td>
 </tr>
 <!-- END crossref_loop -->
 
 <tr>
 	<td class="option" colspan="2"><div align="left">{TXT_EDITION} (Edition)</div></td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Edition][Value]" value="{VAL_EDITION}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200" name="meta[Edition][Value]" value="{VAL_EDITION}">
+	</td>
 </tr>
 
 <!-- BEGIN editor_loop -->
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{EDITOR_LOOP_TXT_EDITOR} (Editor)<br>
-		[ <a href="{EDITOR_LOOP_ACTION_DELETE}">{EDITOR_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{EDITOR_LOOP_ACTION_ADD}">{EDITOR_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{EDITOR_LOOP_TXT_DELETE}" href="{EDITOR_LOOP_ACTION_DELETE}"
+			 {EDITOR_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{EDITOR_LOOP_TXT_ADD}" href="{EDITOR_LOOP_ACTION_ADD}">
+				{EDITOR_LOOP_TXT_ADD}
+			</a> ]
+		</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Editor][{EDITOR_LOOP_NO}][Value]" value="{EDITOR_LOOP_VAL}"></td>
+	<td class="option_value"
+		<input type="text" maxlength="200"
+			   aria-label="meta[Editor][{EDITOR_LOOP_NO}][Value]"
+			   name="meta[Editor][{EDITOR_LOOP_NO}][Value]" value="{EDITOR_LOOP_VAL}">
+	</td>
 </tr>
 <!-- END editor_loop -->
 
 <tr>
 	<td class="option" colspan="2">{TXT_HOWPUBLISHED} (How published)</td>
 	<td class="option_value">
-		<select name="meta[HowPublished][Type]" size="1">
+		<select aria-haspopup="true" name="meta[HowPublished][Type]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
-			<option value="GreyLiterature"{HOWPUBLISHED_TYPE_VAL_GREYLITERATURE}>{TXT_GREYLITERATURE} (Grey literature)</option>
+			<option value="GreyLiterature"{HOWPUBLISHED_TYPE_VAL_GREYLITERATURE}>
+				{TXT_GREYLITERATURE} (Grey literature)
+			</option>
 			<option value="Print"{HOWPUBLISHED_TYPE_VAL_PRINT}>{TXT_PRINT} (Print)</option>
 			<option value="Internet"{HOWPUBLISHED_TYPE_VAL_INTERNET}>{TXT_INTERNET} (Internet)</option>
 		</select>
@@ -198,10 +256,18 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{WHEREPUBLISHED_LOOP_TXT_WHEREPUBLISHED} (Where published)<br>
-		[ <a href="{WHEREPUBLISHED_LOOP_ACTION_DELETE}">{WHEREPUBLISHED_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{WHEREPUBLISHED_LOOP_ACTION_ADD}">{WHEREPUBLISHED_LOOP_TXT_ADD}</a> ]</div>
+		[ <a href="{WHEREPUBLISHED_LOOP_ACTION_DELETE}">
+				{WHEREPUBLISHED_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{WHEREPUBLISHED_LOOP_TXT_ADD}" href="{WHEREPUBLISHED_LOOP_ACTION_ADD}">
+				{WHEREPUBLISHED_LOOP_TXT_ADD}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[WherePublished][{WHEREPUBLISHED_LOOP_NO}][Value]" value="{WHEREPUBLISHED_LOOP_VAL}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[WherePublished][{WHEREPUBLISHED_LOOP_NO}][Value]"
+			   name="meta[WherePublished][{WHEREPUBLISHED_LOOP_NO}][Value]" value="{WHEREPUBLISHED_LOOP_VAL}">
+	</td>
 </tr>
 <!-- END wherepublished_loop -->
 
@@ -209,8 +275,12 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{INSTITUTION_LOOP_TXT_INSTITUTION} (Institution)<br>
-		[ <a href="{INSTITUTION_LOOP_ACTION_DELETE}">{INSTITUTION_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{INSTITUTION_LOOP_ACTION_ADD}">{INSTITUTION_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{INSTITUTION_LOOP_TXT_DELETE}" href="{INSTITUTION_LOOP_ACTION_DELETE}">
+				{INSTITUTION_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{INSTITUTION_LOOP_TXT_ADD}" href="{INSTITUTION_LOOP_ACTION_ADD}">
+				{INSTITUTION_LOOP_TXT_ADD}
+			</a> ]</div>
 	</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Institution][{INSTITUTION_LOOP_NO}][Value]" value="{INSTITUTION_LOOP_VAL}"></td>
 </tr>
@@ -220,22 +290,44 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{JOURNAL_TXT_JOURNAL} (Journal)<br>
-		[ <a href="{JOURNAL_ACTION_DELETE}">{JOURNAL_TXT_DELETE}</a> ]</div>
+		[ <a href="{JOURNAL_ACTION_DELETE}">
+				{JOURNAL_TXT_DELETE}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Journal][Value]" value="{VAL_JOURNAL}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Journal][Value]"
+			   name="meta[Journal][Value]" value="{VAL_JOURNAL}">
+	</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
 	<td class="sub_option">{JOURNAL_TXT_NOTE} (Note)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Journal][Note]" value="{VAL_JOURNAL_NOTE}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Journal][Note]"
+			   name="meta[Journal][Note]" value="{VAL_JOURNAL_NOTE}">
+	</td>
 </tr>
 <tr>
-	<td class="sub_option">{JOURNAL_TXT_NUMBER} (Number)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Journal][Number]" value="{VAL_JOURNAL_NUMBER}"></td>
+	<td class="sub_option">
+		{JOURNAL_TXT_NUMBER} (Number)
+	</td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Journal][Number]"
+			   name="meta[Journal][Number]" value="{VAL_JOURNAL_NUMBER}">
+	</td>
 </tr>
 <tr>
-	<td class="sub_option">{JOURNAL_TXT_ORGANIZATION} (Organization)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Journal][Organization]" value="{VAL_JOURNAL_ORGANIZATION}"></td>
+	<td class="sub_option">
+		{JOURNAL_TXT_ORGANIZATION} (Organization)
+	</td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Journal][Organization]"
+			   name="meta[Journal][Organization]" value="{VAL_JOURNAL_ORGANIZATION}">
+	</td>
 </tr>
 <!-- END journal -->
 
@@ -243,10 +335,18 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{KEYWORD_LOOP_TXT_KEYWORD} (Keyword)<br>
-		[ <a href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{KEYWORD_LOOP_ACTION_ADD}">{KEYWORD_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{KEYWORD_LOOP_TXT_DELETE}" href="{KEYWORD_LOOP_ACTION_DELETE}">
+				{KEYWORD_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{KEYWORD_LOOP_TXT_ADD}" href="{KEYWORD_LOOP_ACTION_ADD}">
+				{KEYWORD_LOOP_TXT_ADD}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Keyword][{KEYWORD_LOOP_NO}][Value]"
+			   name="meta[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}">
+	</td>
 </tr>
 <tr>
 	<td class="option" width="10">&nbsp;</td>
@@ -259,9 +359,15 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{MONTH_TXT_MONTH} (Month)<br>
-		[ <a href="{MONTH_ACTION_DELETE}">{MONTH_TXT_DELETE}</a> ]</div>
+		[ <a aria-label="{MONTH_TXT_DELETE}" href="{MONTH_ACTION_DELETE}">
+				{MONTH_TXT_DELETE}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Month][Value]" value="{VAL_MONTH}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Month][Value]"
+			   name="meta[Month][Value]" value="{VAL_MONTH}">
+	</td>
 </tr>
 <!-- END month -->
 
@@ -269,25 +375,47 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{PAGES_TXT_PAGES} (Pages)<br>
-		[ <a href="{PAGES_ACTION_DELETE}">{PAGES_TXT_DELETE}</a> ]</div>
+		[ <a aria-label="{PAGES_TXT_DELETE}" href="{PAGES_ACTION_DELETE}">
+				{PAGES_TXT_DELETE}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Pages][Value]" value="{VAL_PAGES}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Pages][Value]"
+			   name="meta[Pages][Value]" value="{VAL_PAGES}">
+	</td>
 </tr>
 <!-- END pages -->
 
 <tr>
-	<td class="option" colspan="2"><div align="left">{TXT_PUBLISHER} (Publisher)</div></td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Publisher][Value]" value="{VAL_PUBLISHER}"></td>
+	<td class="option" colspan="2">
+		<div align="left">
+			{TXT_PUBLISHER} (Publisher)
+		</div>
+	</td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Publisher][Value]"
+			   name="meta[Publisher][Value]" value="{VAL_PUBLISHER}">
+	</td>
 </tr>
 
 <!-- BEGIN school_loop -->
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{SCHOOL_LOOP_TXT_SCHOOL} (School)<br>
-		[ <a href="{SCHOOL_LOOP_ACTION_DELETE}">{SCHOOL_LOOP_TXT_DELETE}</a> ]
-		[ <a href="{SCHOOL_LOOP_ACTION_ADD}">{SCHOOL_LOOP_TXT_ADD}</a> ]</div>
+		[ <a aria-label="{SCHOOL_LOOP_TXT_DELETE}" href="{SCHOOL_LOOP_ACTION_DELETE}">
+				{SCHOOL_LOOP_TXT_DELETE}
+			</a> ]
+		[ <a aria-label="{SCHOOL_LOOP_TXT_ADD}" href="{SCHOOL_LOOP_ACTION_ADD}">
+				{SCHOOL_LOOP_TXT_ADD}
+			</a> ]</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[School][{SCHOOL_LOOP_NO}][Value]" value="{SCHOOL_LOOP_VAL}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[School][{SCHOOL_LOOP_NO}][Value]"
+			   name="meta[School][{SCHOOL_LOOP_NO}][Value]" value="{SCHOOL_LOOP_VAL}">
+	</td>
 </tr>
 <!-- END school_loop -->
 
@@ -295,50 +423,82 @@
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">{SERIES_TXT_SERIES} (Series)<br>
-		[ <a href="{SERIES_ACTION_DELETE}">{SERIES_TXT_DELETE}</a> ]</div>
+		[ <a aria-label="{SERIES_TXT_DELETE}" href="{SERIES_ACTION_DELETE}">
+				{SERIES_TXT_DELETE}
+			</a> ]
+		</div>
 	</td>
 	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
 	<td class="sub_option">{SERIES_TXT_SERIESTITLE} (Series title)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Series][SeriesTitle]" value="{SERIES_VAL_SERIESTITLE}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Series][SeriesTitle]"
+			   name="meta[Series][SeriesTitle]" value="{SERIES_VAL_SERIESTITLE}">
+	</td>
 </tr>
 <tr>
 	<td class="sub_option">{SERIES_TXT_SERIESEDITOR} (Series editor)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Series][SeriesEditor]" value="{SERIES_VAL_SERIESEDITOR}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Series][SeriesEditor]"
+			   name="meta[Series][SeriesEditor]" value="{SERIES_VAL_SERIESEDITOR}">
+	</td>
 </tr>
 <tr>
 	<td class="sub_option">{SERIES_TXT_SERIESVOLUME} (Series volume)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Series][SeriesVolume]" value="{SERIES_VAL_SERIESVOLUME}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Series][SeriesVolume]"
+			   name="meta[Series][SeriesVolume]" value="{SERIES_VAL_SERIESVOLUME}">
+	</td>
 </tr>
 <!-- END series -->
 
 <tr>
 	<td class="option" colspan="2"><div align="left">{TXT_YEAR} (Year)</div></td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[Year][Value]" value="{VAL_YEAR}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[Year][Value]"
+			   name="meta[Year][Value]" value="{VAL_YEAR}">
+	</td>
 </tr>
 
 <tr>
 	<td class="option" colspan="2">
 		<div align="left">
-			<select name="meta[URL_ISBN_ISSN][Type]" size=1>
+			<select aria-haspopup="true" name="meta[URL_ISBN_ISSN][Type]" size=1>
 				<option value="URL"{URL}>URL</option>
 				<option value="ISBN"{ISBN}>ISBN</option>
 				<option value="ISSN"{ISSN}>ISSN</option>
 			</select>
 		</div>
 	</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[URL_ISBN_ISSN][Value]" value="{VAL_URL_ISBN_ISSN}"></td>
+	<td class="option_value">
+		<input type="text" maxlength="200"
+			   aria-label="meta[URL_ISBN_ISSN][Value]"
+			   name="meta[URL_ISBN_ISSN][Value]" value="{VAL_URL_ISBN_ISSN}">
+	</td>
 </tr>
 
 <tr>
-	<td class="submit" colspan="3"><div align="right"><input class="btn btn-default" type="submit" name="cmd[saveBibItem]" value="{TXT_SAVE}"/></div></td>
+	<td class="submit" colspan="3">
+		<div align="right">
+			<input class="btn btn-default" type="submit"
+				   aria-label="cmd[saveBibItem]"
+				   name="cmd[saveBibItem]" value="{TXT_SAVE}"/>
+		</div>
+	</td>
 </tr>
 </table>
 </form>
 <!-- END found -->
 
 <!-- BEGIN not_found -->
-{NOT_FOUND_TXT} [ <a href="{NOT_FOUND_ACTION}">{NOT_FOUND_TXT_ADD}</a> ]
+{NOT_FOUND_TXT} [
+<a aria-label="{NOT_FOUND_TXT_ADD}" href="{NOT_FOUND_ACTION}">
+	{NOT_FOUND_TXT_ADD}
+</a> ]
 <!-- END not_found -->
