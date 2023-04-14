@@ -170,6 +170,10 @@ class PCParagraphTest extends COPageTestBase
             'xx [marked class="test"]test[/marked] xxxx'
             => 'xx <Marked Class="test">test</Marked> xxxx',
 
+            // non-break space
+            "xx \n \xa0 xxxx"
+            => "xx <br /> \xa0 xxxx",
+
 
         /*'xx [iln cat="106"] xx'
             => 'xx [iln cat="106"] xx',
