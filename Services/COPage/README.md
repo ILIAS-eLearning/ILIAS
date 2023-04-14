@@ -11,6 +11,9 @@ Copying content
 Media Editing
 - Media objects in pages will only present instance properties and links areas, if at least two usages exist. This is a decision of the page editor revision with ILIAS 7. If you need to edit instance properties or instance link areas directly, you should create the media object in the (media) clipboard available in the slate drop down first and insert it to the page afterwards. This will add the second usage.
 
+Media Rendering
+- PDF rendering support is limited. You might get different results, depending on server configuration and browser version. ILIAS renders the PDF as iframe with a src attribute pointing to the PDF file. The server must be configured to sent PDF files as application/pdf. The browser has to include a builtin PDF viewer.
+
 ## Browser support
 
 Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However please note that issues that appear only on specific browsers
