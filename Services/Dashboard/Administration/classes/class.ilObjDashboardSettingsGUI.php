@@ -144,12 +144,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->viewSettings->getPresentationViews()
             )
         );
-        return $form;
     }
 
     public function getViewSorting(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
     {
-        $this->tpl->addJavaScript("Services/Dashboard/Administration/js/ilDashboardSortationUserInputHandler.js");
+        $this->tpl->addJavaScript("Services/Dashboard/Administration/js/SortationUserInputHandler.js");
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
@@ -175,10 +174,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                         handleUserInputForSortationsByView($view);
                     });"
             );
-        $options = [];
-        foreach ($this->viewSettings->getAvailableSortOptionsByView($view) as $sort_option) {
-            $options[$sort_option] = $this->lng->txt("dash_sort_by_" . $sort_option);
-        }
         $default_sorting = $this->ui_factory
             ->input()
             ->field()
@@ -397,10 +392,10 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form_data = $form->getData();
 
         foreach ($form_data as $view => $view_data) {
-            if (!isset($view_data['avail_sorting']) || !is_array($view_data['avail_sorting'])) {
-                $view_data['avail_sorting'] = [$view_data['default_sorting']];
-            }
             if (isset($view_data['default_sorting'])) {
+                if (!is_array($view_data['avail_sorting'] ?? null)) {
+                    $view_data['avail_sorting'] = [$view_data['default_sorting']];
+                }
                 $this->viewSettings->storeViewSorting(
                     $view,
                     $view_data['default_sorting'],

@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * This class represents a block method of a block.
@@ -184,9 +185,9 @@ abstract class ilBlockGUI
         return $this->offset;
     }
 
-    public function correctOffset(int $a_offset): bool
+    public function correctOffset(int $offset): bool
     {
-        return $a_offset <= $this->max_count;
+        return $offset <= $this->max_count;
     }
 
     public function setLimit(int $a_limit): void
@@ -317,7 +318,7 @@ abstract class ilBlockGUI
         return $this->rowtemplatedir;
     }
 
-    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", ILIAS\UI\Component\Modal\RoundTrip $modal = null): void
+    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", RoundTrip $modal = null): void
     {
         $this->block_commands[] = [
             "href" => $a_href,

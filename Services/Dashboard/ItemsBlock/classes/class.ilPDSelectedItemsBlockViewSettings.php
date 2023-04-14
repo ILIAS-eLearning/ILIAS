@@ -295,12 +295,12 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enableMemberships(bool $status): void
     {
-        $this->settings->set('disable_my_memberships', (string) !$status);
+        $this->settings->set('disable_my_memberships', $status ? "0" : "1");
     }
 
     public function enableSelectedItems(bool $status): void
     {
-        $this->settings->set('disable_my_offers', (string) !$status);
+        $this->settings->set('disable_my_offers', $status ? "0" : "1");
     }
 
     public function allViewsEnabled(): bool
