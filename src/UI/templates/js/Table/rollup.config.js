@@ -2,6 +2,11 @@ export default {
   input: './src/table.js',
   output: {
     file: './dist/table.js',
-    format: 'es'
-  }
+    format: 'iife',
+    globals: {
+      il: 'il',
+      jquery: '$'
+    }
+  },
+  external: ['il', 'jquery']
 };

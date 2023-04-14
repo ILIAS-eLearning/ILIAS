@@ -1,6 +1,4 @@
-
-var keyboardnav = function() {
-    var 
+class keyboardnav {
     keys = {
         ESC: 27,
         SPACE: 32,
@@ -12,13 +10,21 @@ var keyboardnav = function() {
         UP: 38,
         RIGHT: 39,
         DOWN: 40
-    },
+    };
+    supported_keys = [ 
+        this.keys.LEFT,
+        this.keys.RIGHT, 
+        this.keys.UP, 
+        this.keys.DOWN
+    ];
+     
+    /**
+     * @param Event event
+     * @param keyboardnav _self
+     */
+    #onKey(event, _self) {
 
-    onKey = function(event) {
-        var supported_keys = [ 
-            keys.LEFT, keys.RIGHT, keys.UP, keys.DOWN
-        ];
-        if (supported_keys.indexOf(event.which) === -1) {
+        if (_self.supported_keys.indexOf(event.which) === -1) {
             return;
         }
 
@@ -29,16 +35,16 @@ var keyboardnav = function() {
             row_index = row.rowIndex;
 
         switch (event.which) {
-            case keys.LEFT:
+            case _self.keys.LEFT:
                 cell_index -= 1;
                 break;
-            case keys.RIGHT:
+            case _self.keys.RIGHT:
                 cell_index += 1;
                 break;
-            case keys.UP: 
+            case _self.keys.UP: 
                 row_index = row_index -= 1;
                 break;
-            case keys.DOWN:
+            case _self.keys.DOWN:
                 row_index = row.rowIndex + 1;
                 break;
           }
@@ -49,25 +55,23 @@ var keyboardnav = function() {
         ) {
             return;
         }
-        focusCell(table, cell, row_index, cell_index);
-    },
+        _self.#focusCell(table, cell, row_index, cell_index);
+    }
 
-    focusCell = function(table, cell, row_index, cell_index) {
+    #focusCell(table, cell, row_index, cell_index) {
         var next_cell = table.rows[row_index].cells[cell_index];
         next_cell.focus();
         cell.setAttribute('tabindex', -1);
         next_cell.setAttribute('tabindex', 0);
-    },
+    }
 
-    init = function(target_id) {
-        document.querySelector('#' + target_id).addEventListener('keydown', onKey);
-    },
+    /**
+     * @param string target_id
+     */
+    init(target_id) {
+        document.querySelector('#' + target_id).addEventListener('keydown', (event)=>this.#onKey(event, this));
+    }
 
-    public_interface = {
-        init: init,
-    };
-
-    return public_interface;
 }
 
 export default keyboardnav;
