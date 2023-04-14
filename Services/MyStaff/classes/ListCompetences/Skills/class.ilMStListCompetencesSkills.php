@@ -38,7 +38,7 @@ class ilMStListCompetencesSkills
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, email, lvl.title as skill_level';
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
@@ -94,6 +94,7 @@ class ilMStListCompetencesSkills
                 $rec['login'],
                 $rec['lastname'],
                 $rec['firstname'],
+                $rec['email'],
                 $rec['user_id']
             );
         }

@@ -200,6 +200,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'lastname',
             );
         }
+        if ($arr_searchable_user_columns['email']) {
+            $cols['email'] = array(
+                'txt' => $this->dic->language()->txt('email'),
+                'default' => true,
+                'width' => 'auto',
+                'sort_field' => 'email',
+            );
+        }
         if ($arr_searchable_user_columns['org_units'] ?? false) {
             $cols['usr_assinged_orgus'] = array(
                 'txt' => $this->dic->language()->txt('objs_orgu'),
