@@ -125,7 +125,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
     public function getNodeIcon($a_node): string
     {
-        $obj_id = ilObject::_lookupObjId($a_node["child"]);
+        $obj_id = ilObject::_lookupObjId((int) $a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
