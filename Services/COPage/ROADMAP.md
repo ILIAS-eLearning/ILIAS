@@ -4,6 +4,7 @@
 
 The following issues are mostly usability issues, that could be tackled as part of the ongoing PER project.
 - Action to edit translations is hard to find: https://mantis.ilias.de/view.php?id=33957
+- Creating instance link areas for new media objects is cumbersome, see [README.md](./README.md)
 
 
 ## Short Term
