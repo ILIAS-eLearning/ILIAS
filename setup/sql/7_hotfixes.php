@@ -1673,3 +1673,9 @@ if (!$ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
     $ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
 }
 ?>
+<#96>
+<?php
+if (!$ilDB->indexExistsByFields('style_usage', array('style_id'))) {
+    $ilDB->addIndex('style_usage', array('style_id'), 'i1');
+}
+?>
