@@ -11457,6 +11457,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 .il-maincontrols-metabar .il-link.link-bulky {
   font-size: 0.625rem;
   line-height: 0.83125rem;
+  background: #F5F5F5;
 }
 .il-maincontrols-mainbar .btn-bulky:focus, .il-maincontrols-mainbar .btn-bulky:active,
 .il-maincontrols-mainbar .il-link.link-bulky:focus,
