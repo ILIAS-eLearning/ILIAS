@@ -478,29 +478,6 @@ class ilObjectServiceSettingsGUI
         $this->main_tpl->setContent($form->getHTML());
     }
 
-
-    /**
-     * Update settings
-     */
-    protected function updateToolSettings(): void
-    {
-        // TODO: cant find initSettingsForm, is updateToolSettings ever called?
-        $form = $this->initSettingsForm();
-        if ($form->checkInput()) {
-            if (ilCalendarSettings::_getInstance()->isEnabled()) {
-                if ($this->isModeActive(self::CALENDAR_VISIBILITY)) {
-                    ilContainer::_writeContainerSetting($this->getObjId(), 'show_calendar', $form->getInput('calendar'));
-                }
-            }
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this);
-        }
-
-        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $form->setValuesByPost();
-        $this->editSettings($form);
-    }
-
     /**
      * Check if specific mode is active
      */
