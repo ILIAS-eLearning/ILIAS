@@ -33,6 +33,22 @@ class ilMathTest extends TestCase
     }
 
     /**
+     * @dataProvider andData
+     */
+    public function testAnd($a, $b, $result)
+    {
+        $this->assertEquals($result, ilMath::_and($a, $b));
+    }
+
+    /**
+     * @dataProvider orData
+     */
+    public function testOr($a, $b, $result)
+    {
+        $this->assertEquals($result, ilMath::_or($a, $b));
+    }
+
+    /**
      * @return array
      */
     public function gcdData()
@@ -40,6 +56,26 @@ class ilMathTest extends TestCase
         return [
             ['1254', '5298', '6'],
             ['41414124', '41414124', '41414124']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function andData()
+    {
+        return [
+            ['11', '2', '2']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function orData()
+    {
+        return [
+            ['3', '2', '3']
         ];
     }
 }
