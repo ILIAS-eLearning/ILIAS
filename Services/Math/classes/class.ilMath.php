@@ -100,15 +100,6 @@ class ilMath
 
     /**
      * @param int|float $operand
-     * @return mixed
-     */
-    public static function _not($operand)
-    {
-        return ~$operand;
-    }
-
-    /**
-     * @param int|float $operand
      * @param int $scale
      * @return mixed
      */
