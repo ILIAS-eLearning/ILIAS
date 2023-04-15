@@ -42,6 +42,7 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
         return new ilObjectAdditionalProperties(
             new ilObjectPropertyTitleAndIconVisibility($this->getTitleAndIconVisibility($object_id)),
             new ilObjectPropertyHeaderActionVisibility($this->getHeaderActionVisibility($object_id)),
+            new ilObjectPropertyInfoTabVisibility($this->getInfoTabVisibility($object_id)),
             new ilObjectPropertyTileImage(
                 new ilObjectTileImage(
                     $this->filesystem,
@@ -80,6 +81,13 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             );
         }
 
+        if ($properties->wasPropertyInfoTabVisbilityUpdated()) {
+            $this->storeInfoTabVisibility(
+                $object_id,
+                $properties->getPropertyInfoTabVisibility()->getVisibility()
+            );
+        }
+
         if ($properties->wasPropertyTileImageUpdated()) {
             $this->storeTileImage($properties->getPropertyTileImage());
         }
@@ -96,6 +104,7 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
         return new ilObjectAdditionalProperties(
             new ilObjectPropertyTitleAndIconVisibility(),
             new ilObjectPropertyHeaderActionVisibility(),
+            new ilObjectPropertyInfoTabVisibility(),
             new ilObjectPropertyTileImage(),
             new ilObjectPropertyIcon(
                 $this->areCustomIconsEnabled()
@@ -130,6 +139,21 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
             $object_id,
             'hide_top_actions',
             $hide_top_actions
+        );
+    }
+
+    private function getInfoTabVisibility(int $object_id): bool
+    {
+        return ((bool) ilContainer::_lookupContainerSetting($object_id, 'cont_show_info_tab'));
+    }
+
+    private function storeInfoTabVisibility(int $object_id, bool $visibility): void
+    {
+        $show_info_tab = $visibility ? '1' : '';
+        ilContainer::_writeContainerSetting(
+            $object_id,
+            'cont_show_info_tab',
+            $show_info_tab
         );
     }
 

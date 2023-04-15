@@ -82,6 +82,20 @@ class ilObjectProperties
         );
     }
 
+    public function getPropertyInfoTabVisibility(): ilObjectProperty
+    {
+        return $this->additional_properties->getPropertyInfoTabVisibility();
+    }
+
+    public function storePropertyInfoTabVisibility(
+        ilObjectPropertyInfoTabVisibility $property_info_tab_visibility
+    ): void {
+        $this->additional_properties = $this->additional_properties_repository->store(
+            $this->additional_properties
+            ->withPropertyInfoTabVisibility($property_info_tab_visibility)
+        );
+    }
+
     public function getPropertyTileImage(): ilObjectProperty
     {
         return $this->additional_properties->getPropertyTileImage();
