@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use Monolog\Logger;
+use ILIAS\Services\Logging\NullLogger;
 
 class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
 {
@@ -38,77 +38,7 @@ class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->cronRepository = new ilCronJobRepositoryImpl(
             $this->db,
             $setting,
-            new class () extends ilLogger {
-                public function __construct()
-                {
-                }
-
-                public function isHandling(int $a_level): bool
-                {
-                    return false;
-                }
-
-                public function log(string $a_message, int $a_level = ilLogLevel::INFO): void
-                {
-                }
-
-                public function dump($a_variable, int $a_level = ilLogLevel::INFO): void
-                {
-                }
-
-                public function debug(string $a_message, array $a_context = []): void
-                {
-                }
-
-                public function info(string $a_message): void
-                {
-                }
-
-                public function notice(string $a_message): void
-                {
-                }
-
-                public function warning(string $a_message): void
-                {
-                }
-
-                public function error(string $a_message): void
-                {
-                }
-
-                public function critical(string $a_message): void
-                {
-                }
-
-                public function alert(string $a_message): void
-                {
-                }
-
-                public function emergency(string $a_message): void
-                {
-                }
-
-                /** @noinspection PhpInconsistentReturnPointsInspection */
-                public function getLogger(): Logger
-                {
-                }
-
-                public function write(string $a_message, $a_level = ilLogLevel::INFO): void
-                {
-                }
-
-                public function writeLanguageLog(string $a_topic, string $a_lang_key): void
-                {
-                }
-
-                public function logStack(?int $a_level = null, string $a_message = ''): void
-                {
-                }
-
-                public function writeMemoryPeakUsage(int $a_level): void
-                {
-                }
-            },
+            new NullLogger(),
             $componentRepository,
             $componentFactory
         );
