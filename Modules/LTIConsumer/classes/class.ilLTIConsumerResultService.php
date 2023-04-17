@@ -180,10 +180,11 @@ class ilLTIConsumerResultService
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 
+//            Mantis #37080
             ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
             $code = "success";
