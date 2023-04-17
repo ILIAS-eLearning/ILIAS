@@ -130,7 +130,7 @@ class ilECSExport
             'server_id = ' . $this->db->quote($this->getServerId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->econtent_id = $row->econtent_id;
+            $this->econtent_id = (int) $row->econtent_id;
             $this->exported = true;
         }
     }

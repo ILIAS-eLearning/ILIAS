@@ -71,14 +71,23 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         $radio_grp->setValue($this->object->getAvailabilityType());
         $radio_grp->setDisabled(true);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_unvisible'), ilObjRemoteCourse::ACTIVATION_OFFLINE);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_unvisible'),
+            (string) ilObjRemoteCourse::ACTIVATION_OFFLINE
+        );
         $radio_grp->addOption($radio_opt);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'), ilObjRemoteCourse::ACTIVATION_UNLIMITED);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_limitless'),
+            (string) ilObjRemoteCourse::ACTIVATION_UNLIMITED
+        );
         $radio_grp->addOption($radio_opt);
 
         // :TODO: not supported in ECS yet
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_until'), ilObjRemoteCourse::ACTIVATION_LIMITED);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_until'),
+            (string) ilObjRemoteCourse::ACTIVATION_LIMITED
+        );
 
         $start = new ilDateTimeInputGUI($this->lng->txt('crs_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));

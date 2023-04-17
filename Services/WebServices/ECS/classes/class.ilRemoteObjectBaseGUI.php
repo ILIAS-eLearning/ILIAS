@@ -306,8 +306,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 $this->getType(),
                 $this->object->getId()
             );
-            $record_gui->loadFromPost();// TODO PHP8-REVIEW Undefined method
-            $record_gui->saveValues();// TODO PHP8-REVIEW Undefined method
+            $record_gui->importEditFormPostValues();
+            $record_gui->writeEditForm();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
             $this->editObject();

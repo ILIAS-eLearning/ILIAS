@@ -111,7 +111,7 @@ class ilECSTaskScheduler
                 break;
             }
 
-            $this->log->info(print_r($event, true));
+            $this->log->info("Eventdump" . print_r($event, true));
 
             // determine event handler
 
@@ -183,7 +183,7 @@ class ilECSTaskScheduler
                         break;
 
                     case ilECSEvent::DESTROYED:
-                        $res = $handler->handleDelete($this->getServer(), $event['id'], $this->mids);
+                        $res = $handler->handleDeluete($this->getServer(), $event['id'], $this->mids);
                         $this->log->info(__METHOD__ . ': Handling delete. DONE');
                         break;
 

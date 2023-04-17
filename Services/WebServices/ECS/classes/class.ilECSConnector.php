@@ -322,12 +322,12 @@ class ilECSConnector
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
 
-            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_CREATED) {
-                $this->logger->info(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
+                $this->logger->debug(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $this->logger->info(__METHOD__ . ': ... got HTTP 201 (created)');
+            $this->logger->debug(__METHOD__ . ': ... got HTTP 201 (created)');
 
             return $this->_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
         } catch (ilCurlConnectionException $exc) {
@@ -343,9 +343,9 @@ class ilECSConnector
      * @param string $a_post_string post content
      * @throws ilECSConnectorException
      */
-    public function updateResource(string $a_path, int $a_econtent_id, string $a_post_string): ilECSResult
+    public function updateResource(string $a_path, int $a_econtent_id, string $a_post_string): void
     {
-        $this->logger->info(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
+        $this->logger->debug(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
 
         $this->path_postfix = $a_path;
 
@@ -379,7 +379,12 @@ class ilECSConnector
             fclose($fp);
             unlink($tempfile);
 
-            return new ilECSResult($res);
+            $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
+            if ($info !== self::HTTP_CODE_OK) {
+                $this->logger->debug(__METHOD__ . ': Cannot update resource. ', $a_path, $a_econtent_id);
+                throw new ilECSConnectorException('Received HTTP status code: ' . $info);
+            }
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }

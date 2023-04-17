@@ -46,8 +46,8 @@ class ilECSParticipantSettingsRepository
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (in_array($a_type, (array) unserialize($row->export_types, ['allowed_classes' => true]), true)) {
-                $mids[$counter]['sid'] = $row->sid;
-                $mids[$counter]['mid'] = $row->mid;
+                $mids[$counter]['sid'] = (int)$row->sid;
+                $mids[$counter]['mid'] = (int)$row->mid;
                 $counter++;
             }
         }
@@ -66,7 +66,7 @@ class ilECSParticipantSettingsRepository
         $res = $this->db->query($query);
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->sid;
+            $sids[] = (int) $row->sid;
         }
         return $sids;
     }

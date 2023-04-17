@@ -93,7 +93,7 @@ class ilObjRemoteCategoryListGUI extends ilRemoteObjectBaseListGUI
             case 'show':
                 if (ilECSExportManager::getInstance()->_isRemote(
                     ilECSImportManager::getInstance()->lookupServerId($this->obj_id),
-                    ilECSImportManager::getInstance()->_lookupEContentId($this->obj_id)
+                    (int) ilECSImportManager::getInstance()->_lookupEContentId($this->obj_id)
                 )) {
                     return '_blank';
                 }
