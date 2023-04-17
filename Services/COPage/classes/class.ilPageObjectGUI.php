@@ -1975,15 +1975,17 @@ class ilPageObjectGUI
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
 
 
+        $btpl->setVariable("TINY_HEADER", $lng->txt("cont_text_editing"));
         $btpl->setVariable(
             "SPLIT_BUTTON",
-            $ui_wrapper->getRenderedButton($lng->txt("save_return"), "par-action", "save.return")
+            $ui_wrapper->getRenderedButton($lng->txt("cont_quit_text_editing"), "par-action", "save.return")
         );
 
+        /*
         $btpl->setVariable(
             "CANCEL_BUTTON",
             $ui_wrapper->getRenderedButton($lng->txt("cancel"), "par-action", "component.cancel")
-        );
+        );*/
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));

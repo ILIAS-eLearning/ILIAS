@@ -14240,6 +14240,11 @@ div.il-copg-button-group-wide {
 #iltinymenu a.btn {
   min-width: 30px;
 }
+#iltinymenu .ilHeader {
+  padding: 0;
+  margin: 9px 0;
+  display: block;
+}
 #ilsaving {
   position: fixed;
   top: 0;
@@ -20012,3 +20017,4 @@ table.mceToolbar td {
     width: auto !important;
   }
 }
+/*# sourceMappingURL=delos.css.map */
