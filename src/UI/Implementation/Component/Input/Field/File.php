@@ -134,6 +134,10 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     /**
      * Maps generated dynamic inputs to their file-id, which must be
      * provided in or as $value.
+     *
+     * Please note that provided file-ids MUST be found by an according
+     * @see UploadHandler::getInfoResult() otherwise the file won't be
+     * rendered.
      */
     public function withValue($value): HasDynamicInputsBase
     {
@@ -143,6 +147,14 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         $identifier_key = $clone->upload_handler->getFileIdentifierParameterName();
         foreach ($value as $data) {
             $file_id = ($clone->hasMetadataInputs()) ? $data[$identifier_key] : $data;
+
+            // unexisting files must be ignored, since they could have been
+            // deleted by the user before submission. if any inputs validation-
+            // constraint were to fail, the deleted file must not be rendered,
+            // see #37161.
+            if (null === $clone->upload_handler->getInfoResult($file_id)) {
+                continue;
+            }
 
             // that was not implicitly intended, but mapping dynamic inputs
             // to the file-id is also a duplicate protection.

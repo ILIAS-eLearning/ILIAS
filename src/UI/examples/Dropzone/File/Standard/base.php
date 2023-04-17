@@ -18,7 +18,7 @@ function base()
             'Drag files in here to upload them!',
             '#',
             $factory->input()->field()->file(
-                new \ilUIAsyncDemoFileUploadHandlerGUI(),
+                new \ilUIDemoFileUploadHandlerGUI(),
                 'your files'
             )
         )->withUploadButton(

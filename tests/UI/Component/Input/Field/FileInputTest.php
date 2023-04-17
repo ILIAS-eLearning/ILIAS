@@ -305,8 +305,12 @@ class FileInputTest extends ILIAS_UI_TestBase
         $factory = $this->buildFactory();
 
         $metadata_input = $factory->text("text_input");
+        $file_info_result = $this->createMock(FileInfoResult::class);
+        $file_info_result->method('getFileIdentifier')->willReturn('file_id');
+        $file_info_result->method('getName')->willReturn('filename');
+        $file_info_result->method('getSize')->willReturn(1);
         $file_input = $factory->file(
-            ($u = $this->getUploadHandler()),
+            ($u = $this->getUploadHandler($file_info_result)),
             "file_input",
             null,
             $metadata_input
@@ -338,8 +342,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 								<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
 							</a>
 						</span>
-						<span data-dz-name></span>
-						<span data-dz-size></span>
+						<span data-dz-name>filename</span>
+						<span data-dz-size>1 B</span>
 						<span data-action="remove">
 							<a tabindex="0" class="glyph" href="#" aria-label="close">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -504,6 +508,26 @@ class FileInputTest extends ILIAS_UI_TestBase
         ');
 
         $this->assertEquals($expected, $html);
+    }
+
+    public function test_with_file_that_does_not_exist() : void
+    {
+        $existing_file_id = 'test_id_1';
+        $unexisting_file_id = 'test_id_2';
+
+        $mock_result = $this->createMock(FileInfoResult::class);
+        $mock_result->method('getFileIdentifier')->willReturn($existing_file_id);
+
+        $input = $this->buildFactory()->file($this->getUploadHandler($mock_result), '');
+        $input = $input->withValue([
+            $existing_file_id,
+            $unexisting_file_id,
+        ]);
+
+        $file_ids = $input->getValue();
+
+        $this->assertCount(1, $file_ids);
+        $this->assertEquals($existing_file_id, array_pop($file_ids));
     }
 
     protected function buildButtonFactory(): I\Button\Factory

@@ -84,7 +84,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
-            return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
+            return null;
         }
         $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
 

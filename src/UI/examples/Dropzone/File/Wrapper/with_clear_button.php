@@ -17,7 +17,7 @@ function with_clear_button()
             '#',
             $factory->messageBox()->info('Drag and drop files onto me!'),
             $factory->input()->field()->file(
-                new \ilUIAsyncDemoFileUploadHandlerGUI(),
+                new \ilUIDemoFileUploadHandlerGUI(),
                 'Your files'
             )
         );
