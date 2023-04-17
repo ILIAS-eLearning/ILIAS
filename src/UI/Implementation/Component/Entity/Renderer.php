@@ -40,8 +40,26 @@ class Renderer extends AbstractComponentRenderer
     protected function renderEntity(Entity $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.entity.html', true, true);
+        $secondary_identifier = $component->getSecondaryIdentifier();
+
+        if (is_string($secondary_identifier)) {
+            $tpl->touchBlock('secondid_string');
+        }
+        if (is_a($secondary_identifier, Component\Image\Image::class)) {
+            $tpl->touchBlock('secondid_image');
+        }
+        if (is_a($secondary_identifier, Component\Symbol\Symbol::class)) {
+            $tpl->touchBlock('secondid_symbol');
+        }
+        if (is_a($secondary_identifier, Component\Link\Link::class)) {
+            $tpl->touchBlock('secondid_link');
+        }
+        if (is_a($secondary_identifier, Component\Button\Shy::class)) {
+            $tpl->touchBlock('secondid_shy');
+        }
+
         $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($component->getBlockingAvailabilityConditions(), $default_renderer));
-        $tpl->setVariable('SECONDARY_IDENTIFIER', $this->maybeRender($component->getSecondaryIdentifier(), $default_renderer));
+        $tpl->setVariable('SECONDARY_IDENTIFIER', $this->maybeRender($secondary_identifier, $default_renderer));
         $tpl->setVariable('FEATURES', $this->maybeRender($component->getFeaturedProperties(), $default_renderer));
         $tpl->setVariable('PRIMARY_IDENTIFIER', $this->maybeRender($component->getPrimaryIdentifier(), $default_renderer));
         $tpl->setVariable('PERSONAL_STATUS', $this->maybeRender($component->getPersonalStatus(), $default_renderer));

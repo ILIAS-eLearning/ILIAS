@@ -136,7 +136,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($entity));
         $expected = $this->brutallyTrimHTML('
-<div class="c-entity __container">
+<div class="c-entity __container __with-secondary-identifier--string">
     <div class="c-entity __blocking-conditions">bc</div>
     <div class="c-entity __actions">
         <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
