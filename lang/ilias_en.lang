@@ -6838,6 +6838,7 @@ content#:#cont_question_placeh#:#Click and edit to insert question
 content#:#cont_question_placehl#:#Question Placeholder
 content#:#cont_question_stats#:#Statistic
 content#:#cont_question_type#:#Question Type
+content#:#cont_quit_text_editing#:#Finish Text Editing
 content#:#cont_rand_start#:#Random Start
 content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?
 content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?
@@ -7031,6 +7032,7 @@ content#:#cont_tex#:#Latex Code
 content#:#cont_text_acc#:#Accent:
 content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
+content#:#cont_text_editing#:#Edit Text
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
 content#:#cont_text_iln_link#:#Internal Link

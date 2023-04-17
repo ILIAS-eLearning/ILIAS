@@ -6838,6 +6838,7 @@ content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufüg
 content#:#cont_question_placehl#:#Fragen-Platzhalter
 content#:#cont_question_stats#:#Statistik
 content#:#cont_question_type#:#Fragetyp
+content#:#cont_quit_text_editing#:#Textbearbeitung beenden
 content#:#cont_rand_start#:#Zufällige Startseite
 content#:#cont_really_delete_overlays#:#Möchten Sie wirklich die folgenden Overlays löschen?
 content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Popups löschen?
@@ -7031,6 +7032,7 @@ content#:#cont_tex#:#Latex Code
 content#:#cont_text_acc#:#Akzent:
 content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
+content#:#cont_text_editing#:#Text bearbeiten
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln_link#:#Interner Link
