@@ -1260,7 +1260,7 @@ class ilSCORM13PlayerGUI
         if ($attempts == null) {
             $attempts = 0;
         }
-        return $attempts;
+        return (int) $attempts;
     }
 
     /**
@@ -1338,7 +1338,7 @@ class ilSCORM13PlayerGUI
     /**
      * @return mixed[]
      */
-    private function getNodeData(int $sco_id): array
+    private function getNodeData(string $sco_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1619,7 +1619,7 @@ class ilSCORM13PlayerGUI
             $fnameparts = preg_split('/_/', $parts['filename'], -1, PREG_SPLIT_NO_EMPTY);
             $deleteUrl = '&nbsp;<a href=#' . " onclick=\"javascript:deleteFile('" . $item['filename'] . "');\">" . $s_delete . "</a>";
             //no delete for most recent file
-            if ($this->get_actual_attempts() == $fnameparts[1]) {
+            if (isset($fnameparts[1]) && (string) $this->get_actual_attempts() == $fnameparts[1]) {
                 $deleteUrl = "";
             }
 
@@ -1751,74 +1751,75 @@ class ilSCORM13PlayerGUI
 
         fclose($fh_tmp);
 
-        //reopen for writing
-        $fh_tmp2 = fopen($tmp_name, 'w') or die("can't open tmp file");
-
-
-        //write tmp
-        $tmp_content[$logdata->scoid][$logdata->key]['value'] = $logdata->value;
-        $tmp_content[$logdata->scoid][$logdata->key]['status'] = $logdata->result;
-        $tmp_content[$logdata->scoid][$logdata->key]['action'] = $logdata->action;
-
-        fwrite($fh_tmp2, serialize($tmp_content));
-        fclose($fh_tmp2);
-
         $timestamp = date("d.m.Y H:i", time());
 
+        if ($logdata->action != "SUMMARY") {
+            //reopen for writing
+            $fh_tmp2 = fopen($tmp_name, 'w') or die("can't open tmp file");
 
-        $errorcode = $logdata->errorcode;
-        $fixedFailure = false;
-        $toleratedFailure = false;
-        $extraErrorDescription = "";
-        if ($errorcode == 200000) {
-            $errorcode = 0;
-            $toleratedFailure = true;
-            $extraErrorDescription = "tolerated failure";
-        }
-        if ($errorcode > 99999) {
-            $errorcode -= 100000;
-            $fixedFailure = true;
-            $extraErrorDescription = " failure corrected by ILIAS";
-        }
-        if (strpos($logdata->action, "ANALYZE") === false) {
-            $errorDescriptions = array("0" => "",
-                "101" => "General Exeption",
-                "102" => "General Initialization Failure",
-                "103" => "Already Initialized",
-                "104" => "Content Instance Terminated",
-                "111" => "General Termination Failure",
-                "112" => "Termination Before Initialization",
-                "113" => "Termination After Termination",
-                "122" => "Retrieve Data Before Initialization",
-                "123" => "Retrieve Data After Termination",
-                "132" => "Store Data Before Initialization",
-                "133" => "Store Data After Termination",
-                "142" => "Commit Before Initialization",
-                "143" => "Commit After Termination",
-                "201" => "General Argument Error",
-                "301" => "General Get Failure",
-                "351" => "General Set Failure",
-                "391" => "General Commit Failure",
-                "401" => "Undefined Data Model Element",
-                "402" => "Unimplemented Data Model Element",
-                "403" => "Data Model Element Value Not Initialized",
-                "404" => "Data Model Element Is Read Only",
-                "405" => "Data Model Element Is Write Only",
-                "406" => "Data Model Element Type Mismatch",
-                "407" => "Data Model Element Value Out Of Range",
-                "408" => "Data Model Dependency Not Established");
-            $csv_string = $this->packageId . ';"'
-                . $logdata->scoid . '";"'
-                . $logdata->scotitle . '";'
-                . date("d.m.Y H:i", time()) . ';"'
-                . $logdata->action . '";"'
-                . $logdata->key . '";"'
-                . str_replace("\"", "\"\"", $logdata->value) . '";"'
-                . str_replace("\"", "\"\"", $logdata->result) . '";'
-                . $errorcode . ';'
-                . $logdata->timespan . ';"'
-                . $errorDescriptions[$errorcode] . $extraErrorDescription . '"' . "\n";
-            fwrite($fh_csv, $csv_string);
+            //write tmp
+            $tmp_content[$logdata->scoid][$logdata->key]['value'] = $logdata->value;
+            $tmp_content[$logdata->scoid][$logdata->key]['status'] = $logdata->result;
+            $tmp_content[$logdata->scoid][$logdata->key]['action'] = $logdata->action;
+
+            fwrite($fh_tmp2, serialize($tmp_content));
+            fclose($fh_tmp2);
+
+            $errorcode = (int) $logdata->errorcode;
+            $fixedFailure = false;
+            $toleratedFailure = false;
+            $extraErrorDescription = "";
+            if ($errorcode == 200000) {
+                $errorcode = 0;
+                $toleratedFailure = true;
+                $extraErrorDescription = "tolerated failure";
+            }
+            if ($errorcode > 99999) {
+                $errorcode -= 100000;
+                $fixedFailure = true;
+                $extraErrorDescription = " failure corrected by ILIAS";
+            }
+            if (strpos($logdata->action, "ANALYZE") === false) {
+                $errorDescriptions = array("0" => "",
+                                           "101" => "General Exeption",
+                                           "102" => "General Initialization Failure",
+                                           "103" => "Already Initialized",
+                                           "104" => "Content Instance Terminated",
+                                           "111" => "General Termination Failure",
+                                           "112" => "Termination Before Initialization",
+                                           "113" => "Termination After Termination",
+                                           "122" => "Retrieve Data Before Initialization",
+                                           "123" => "Retrieve Data After Termination",
+                                           "132" => "Store Data Before Initialization",
+                                           "133" => "Store Data After Termination",
+                                           "142" => "Commit Before Initialization",
+                                           "143" => "Commit After Termination",
+                                           "201" => "General Argument Error",
+                                           "301" => "General Get Failure",
+                                           "351" => "General Set Failure",
+                                           "391" => "General Commit Failure",
+                                           "401" => "Undefined Data Model Element",
+                                           "402" => "Unimplemented Data Model Element",
+                                           "403" => "Data Model Element Value Not Initialized",
+                                           "404" => "Data Model Element Is Read Only",
+                                           "405" => "Data Model Element Is Write Only",
+                                           "406" => "Data Model Element Type Mismatch",
+                                           "407" => "Data Model Element Value Out Of Range",
+                                           "408" => "Data Model Dependency Not Established"
+                );
+                $csv_string = $this->packageId . ';"'
+                    . $logdata->scoid . '";"'
+                    . $logdata->scotitle . '";'
+                    . date("d.m.Y H:i", time()) . ';"'
+                    . $logdata->action . '";"'
+                    . $logdata->key . '";"'
+                    . str_replace("\"", "\"\"", $logdata->value) . '";"'
+                    . str_replace("\"", "\"\"", $logdata->result) . '";'
+                    . $errorcode . ';'
+                    . $logdata->timespan . ';"'
+                    . $errorDescriptions[(string) $errorcode] . $extraErrorDescription . '"' . "\n";
+                fwrite($fh_csv, $csv_string);
+            }
         }
 
         $sqlwrite = false;
@@ -1832,7 +1833,7 @@ class ilSCORM13PlayerGUI
                         . $logdata->scotitle . '";'
                         . $timestamp . ';"SQL";"'
                         . $key . '";"'
-                        . str_replace("\"", "\"\"", $value) . '";;;;' . "\n";
+                        . str_replace("\"", "\"\"", (string) $value) . '";;;;' . "\n";
                     fwrite($fh_csv, $sql_string);
                 }
             }
@@ -2050,12 +2051,12 @@ class ilSCORM13PlayerGUI
             if ($value['sco'] == 1) {
                 $element['sco'] = "sco";
             } else {
-                $element['sco'] = "assset";
+                $element['sco'] = "asset";
             }
             if ($value['href'] != null) {
                 $this->flat_structure[] = $element;
             }
-            if ($value['item'] != null) {
+            if (isset($value['item']) && $value['item'] != null) {
                 $this->getStructureFlat($value['item']);
             }
         }
@@ -2100,30 +2101,31 @@ class ilSCORM13PlayerGUI
 
 
         $this->flat_structure = array();  //used for recursion
-        $this->getStructureFlat($structure['item']['item']);
+        if (isset($structure['item']) && isset($structure['item']['item'])) {
+            $this->getStructureFlat($structure['item']['item']);
 
-        foreach ($this->flat_structure as $tree_element) {
-            $csv_data = $csv_data . $tree_element['id'] . ";" . $tree_element['title'] . ";" . $tree_element['sco'] . ";";
-            if ($api_data[$tree_element['id']] != null) {
-                $csv_data = $csv_data . "X" . ";";
-            } else {
-                $csv_data = $csv_data . ";";
-            }
+            foreach ($this->flat_structure as $tree_element) {
+                $csv_data = $csv_data . $tree_element['id'] . ";" . $tree_element['title'] . ";" . $tree_element['sco'] . ";";
+                if (isset($api_data[$tree_element['id']])) {
+                    $csv_data = $csv_data . "X" . ";";
+                } else {
+                    $csv_data = $csv_data . ";";
+                }
 
-            //write api data
-            $id = $tree_element['id'];
-            foreach ($api_keys as $api_element) {
-                if ($api_data[$id] != null) {
-                    if ($api_data[$id][$api_element] != null) {
-                        $csv_data = $csv_data . $api_data[$id][$api_element]['value'] . ";" . $api_data[$id][$api_element]['status'] . ";";
-                    } else {
-                        $csv_data = $csv_data . ";;";
+                //write api data
+                $id = $tree_element['id'];
+                foreach ($api_keys as $api_element) {
+                    if (isset($api_data[$id])) {
+                        if (isset($api_data[$id][$api_element])) {
+                            $csv_data = $csv_data . $api_data[$id][$api_element]['value'] . ";" . $api_data[$id][$api_element]['status'] . ";";
+                        } else {
+                            $csv_data = $csv_data . ";;";
+                        }
                     }
                 }
+                $csv_data = $csv_data . "\n";
             }
-            $csv_data = $csv_data . "\n";
         }
-
         $fh = fopen($this->summaryFileName(), "wb"); //changed from w to wb
         fwrite($fh, $csv_header . "\n" . $csv_data);
         fclose($fh);
