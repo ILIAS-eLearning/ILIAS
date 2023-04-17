@@ -683,7 +683,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->setIsSingleline(($_POST["types"] == 0) ? true : false);
         }
-        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : null);
+        $this->object->setThumbSize(isset($_POST["thumb_size"]) && ($_POST["thumb_size"] !== '') ? $_POST["thumb_size"] : null);
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
