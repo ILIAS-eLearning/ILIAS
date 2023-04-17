@@ -59,7 +59,7 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
      */
     public function step_2(): void
     {
-        if (!$this->db->tableColumnExists('usr_data', 'passwd')) {
+        if ($this->db->tableColumnExists('usr_data', 'passwd')) {
             $this->db->modifyTableColumn(
                 'usr_data',
                 'passwd',
