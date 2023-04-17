@@ -376,7 +376,6 @@ class ilObjFileGUI extends ilObject2GUI
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
             $files = $dropzone->getData()[self::PARAM_FILES] ?? null;
-            ;
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
             $files = $form->getData()[self::PARAM_FILES] ?? null;
