@@ -271,7 +271,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block>Responsive Logo Stub</span>
                     <div class="il-pagetitle">Title</div>
                 </div>MetaBar Stub
             </div>
@@ -315,7 +315,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block>Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>MetaBar Stub
             </div>
@@ -366,7 +366,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block>Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>MetaBar Stub
             </div>
@@ -445,7 +445,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block>Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>
                 <nav class="il-header-locator">

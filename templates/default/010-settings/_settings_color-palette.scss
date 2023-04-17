@@ -16,6 +16,9 @@ $il-danger-color: #d00 !default;
 
 //** Neutral Color for various Backgrounds, used to be $gray-dark and $il-neutral-color
 $il-neutral-color: #2c2c2c !default;
+
+$il-text-muted: $il-neutral-color !default;
+
 //** Light version of the $il-neutral-color, used to be $gray-light
 $il-neutral-light-color: #737373 !default;
 
@@ -31,6 +34,9 @@ $il-highlight-bg: lighten($il-main-color, 50%) !default;
 
 //** Used to be $text-color. Can be used on all background colors.
 $il-text-color: #161616 !default;
+
+$il-headings-color: inherit !default;
+
 //** Used if text is hovered in components such a Dropdowns
 $il-text-hover-color: darken($il-text-color, 10%) !default;
 //** Used e.g. for Bylines in Forms. Used to be $il-light-text-color. For accessibility reasons, the $il-text-color should only be used on the $il-main-bg.
