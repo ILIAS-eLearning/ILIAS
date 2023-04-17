@@ -32,9 +32,23 @@
         display: flex;
         justify-content: end;
         grid-area: actions;
+        .dropdown {
+            height: max-content;
+        }
     }
 
     &.__secondary-identifier {
+        &.--string,
+        &.--shy,
+        &.--shylink {
+            width: 10rem;
+        }
+        &.--symbol {
+            min-width: 3rem;
+        }
+        &.--image {
+            width: 15rem;
+        }
         grid-area: second-id;
     }
 
