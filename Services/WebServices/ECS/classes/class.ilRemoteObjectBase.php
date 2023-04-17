@@ -50,7 +50,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      *
      * @return ?ilRemoteObjectBase
      */
-    public static function getInstanceByEventType(int $a_type)
+    public static function getInstanceByEventType(string $a_type)
     {
         switch ($a_type) {
             case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
@@ -128,7 +128,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     public function getLocalInformation(): string
     {
-        return $this->local_information;
+        return $this->local_information ?? '';
     }
 
     /**
@@ -564,7 +564,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             // Update existing
 
             // Check receiver mid
-            if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), $a_econtent_id, $mid)) {
+            if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), (string) $a_econtent_id, $mid)) {
                 $this->logger->info(__METHOD__ . ': Handling update for existing object');
                 $remote = ilObjectFactory::getInstanceByObjId($obj_id, false);
                 if (!$remote instanceof self) {
@@ -581,7 +581,7 @@ abstract class ilRemoteObjectBase extends ilObject2
                 // update import status
                 $this->logger->info(__METHOD__ . ': Updating import status');
                 $import = new ilECSImport($a_server->getServerId(), $this->getId());
-                $import->setEContentId($a_econtent_id);
+                $import->setEContentId((string) $a_econtent_id);
                 // Store receiver mid
                 $import->setMID($mid);
                 $import->save();
@@ -646,8 +646,9 @@ abstract class ilRemoteObjectBase extends ilObject2
             foreach ($references as $ref_id) {
                 if ($tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
                     $this->logger->info(__METHOD__ . ': Deleting obsolete remote course: ' . $tmp_obj->getTitle());
-                    $tmp_obj->delete();
                     $this->logger->info(print_r($this->tree->getNodeData($ref_id), true));
+                    $this->logger->info(print_r($this->tree->getNodeData($tmp_obj->getId()), true));
+                    $tmp_obj->delete();
                     $this->tree->deleteTree($this->tree->getNodeData($ref_id));
                 }
                 unset($tmp_obj);

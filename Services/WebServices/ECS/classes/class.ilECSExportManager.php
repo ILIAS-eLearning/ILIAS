@@ -118,7 +118,7 @@ class ilECSExportManager
 
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->server_id;
+            $sids[] = (int) $row->server_id;
         }
         return $sids;
     }

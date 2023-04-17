@@ -85,7 +85,7 @@ class ilECSEvent
 
         $res_arr = (array) explode('/', $this->getRessource());
 
-        $this->ressource_id = array_pop($res_arr);
+        $this->ressource_id = (int) array_pop($res_arr);
         $this->ressource_type = array_pop($res_arr);
     }
 }
