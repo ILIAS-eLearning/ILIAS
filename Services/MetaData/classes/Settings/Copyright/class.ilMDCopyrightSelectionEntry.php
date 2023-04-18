@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- * @ingroup ServicesMetaData
  */
 class ilMDCopyrightSelectionEntry
 {
@@ -279,6 +277,7 @@ class ilMDCopyrightSelectionEntry
             'language' => array('text', $this->getLanguage()),
             'costs' => array('integer', $this->getCosts()),
             'cpr_restrictions' => array('integer', $this->getCopyrightAndOtherRestrictions()),
+            'outdated' => array('integer', $this->getOutdated()),
             'position' => array('integer', $this->getNextOrderPosition())
         ));
         $this->entry_id = $next_id;
