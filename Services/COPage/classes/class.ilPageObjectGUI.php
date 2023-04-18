@@ -2163,7 +2163,7 @@ class ilPageObjectGUI
                 $anchor = str_replace(
                     "TocH",
                     "TocA",
-                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 4)
+                    substr($a_output, $os, strpos($a_output, "-->", $os) - $os)
                 );
 
                 // get heading
@@ -2179,7 +2179,6 @@ class ilPageObjectGUI
                     "anchor" => $anchor);
             }
         }
-
         if (count($page_heads) > 1) {
             $list = new ilNestedList();
             $list->setAutoNumbering(true);
