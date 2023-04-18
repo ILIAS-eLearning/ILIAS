@@ -41,7 +41,7 @@ class ilObjLearningSequence extends ilContainer
     protected ?ilObjLearningSequenceAccess $ls_access = null;
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
-    protected ilNewsService $il_news;
+    protected \ILIAS\News\Service $il_news;
     protected ilConditionHandler $il_condition_handler;
 
 

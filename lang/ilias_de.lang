@@ -12198,6 +12198,7 @@ news#:#news_settings#:#Einstellungen für interne Neuigkeiten
 news#:#news_sorry_not_accessible_anymore#:#Entschuldigung, dieses Objekt befindet sich nicht mehr in Ihrem Zugriff.
 news#:#news_time_period#:#Zeitspanne
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
+news#:#news_timline_no_entries#:#Es wurden keine Neuigkeiten gefunden.
 news#:#news_visibility_public#:#Öffentlich
 news#:#news_visibility_users#:#Authentifizierte Benutzer
 news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.

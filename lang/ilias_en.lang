@@ -12198,6 +12198,7 @@ news#:#news_settings#:#News Settings
 news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.
 news#:#news_time_period#:#Time Period
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
+news#:#news_timline_no_entries#:#No news have been found.
 news#:#news_visibility_public#:#Public
 news#:#news_visibility_users#:#Authenticated Users
 news#:#news_x_files_created#:#%s Files have been added.

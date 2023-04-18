@@ -28,6 +28,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Repository\Modal\ModalAdapterGUI;
 use Slim\Http\Stream;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Repository\Filter\FilterAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -133,5 +134,24 @@ trait GlobalDICGUIServices
         ));
         $http->sendResponse();
         $http->close();
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function filter(
+        string $filter_id,
+        $class_path,
+        string $cmd,
+        bool $activated = true,
+        bool $expanded = true
+    ): FilterAdapterGUI {
+        return new FilterAdapterGUI(
+            $filter_id,
+            $class_path,
+            $cmd,
+            $activated,
+            $expanded
+        );
     }
 }

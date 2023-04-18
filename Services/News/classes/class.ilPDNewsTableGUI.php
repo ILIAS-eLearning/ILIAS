@@ -44,10 +44,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 

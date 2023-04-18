@@ -99,25 +99,6 @@ class InternalGUIService
         $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $ajax_url . "');");
     }
 
-    /**
-     * @param array|string $class_path
-     */
-    public function filter(
-        string $filter_id,
-        $class_path,
-        string $cmd,
-        bool $activated = true,
-        bool $expanded = true
-    ): FilterAdapterGUI {
-        return new FilterAdapterGUI(
-            $filter_id,
-            $class_path,
-            $cmd,
-            $activated,
-            $expanded
-        );
-    }
-
     public function print(): PrintProcessGUI
     {
         $provider = new PrintViewProvider();

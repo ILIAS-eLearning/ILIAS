@@ -61,10 +61,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -625,7 +625,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
                     $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-                } elseif (in_array($mime, ["video/mp4"])) {
+                } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
                     $video = $ui_factory->player()->video($media_path);
                     $html = $ui_renderer->render($video);
                 } elseif (in_array($mime, ["audio/mpeg"])) {
@@ -633,7 +633,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $html = $ui_renderer->render($audio);
                 } else {
                     // download?
-                    $html = "";
+                    $html = $mime;
                 }
 
 
@@ -1051,10 +1051,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
-        $std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $lng = $DIC->language();
         $block_id = $DIC->ctrl()->getContextObjId();

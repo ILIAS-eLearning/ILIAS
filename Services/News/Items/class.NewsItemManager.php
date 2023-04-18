@@ -16,27 +16,36 @@
  *
  *********************************************************************/
 
+namespace ILIAS\News\Items;
+
+use ILIAS\News\InternalRepoService;
+use ILIAS\News\InternalDataService;
+use ILIAS\News\InternalDomainService;
+
 /**
  * News data
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilNewsData
+class NewsItemManager
 {
-    protected ilNewsServiceDependencies $_deps;
-    protected ilNewsService $service;
+    protected InternalRepoService $repo;
+    protected InternalDataService $data;
+    protected InternalDomainService $domain;
 
     public function __construct(
-        ilNewsService $service,
-        ilNewsServiceDependencies $_deps
+        InternalDataService $data,
+        InternalRepoService $repo,
+        InternalDomainService $domain
     ) {
-        $this->service = $service;
-        $this->_deps = $_deps;
+        $this->repo = $repo;
+        $this->data = $data;
+        $this->domain = $domain;
     }
 
     /**
      * Save news item
      */
-    public function save(ilNewsItem $news_item): int
+    public function save(\ilNewsItem $news_item): int
     {
         if ($news_item->getId() > 0) {
             $news_item->update(true);
@@ -49,12 +58,12 @@ class ilNewsData
     /**
      * Get news of context
      *
-     * @param ilNewsContext $context
-     * @return ilNewsItem[]
+     * @param \ilNewsContext $context
+     * @return \ilNewsItem[]
      */
-    public function getNewsOfContext(ilNewsContext $context): array
+    public function getNewsOfContext(\ilNewsContext $context): array
     {
-        return ilNewsItem::getNewsOfContext(
+        return \ilNewsItem::getNewsOfContext(
             $context->getObjId(),
             $context->getObjType(),
             $context->getSubId(),
@@ -64,9 +73,9 @@ class ilNewsData
 
     /**
      * Delete a news item
-     * @param ilNewsItem $news_item
+     * @param \ilNewsItem $news_item
      */
-    public function delete(ilNewsItem $news_item): void
+    public function delete(\ilNewsItem $news_item): void
     {
         $news_item->delete();
     }

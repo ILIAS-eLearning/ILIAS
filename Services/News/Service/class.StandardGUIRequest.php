@@ -106,4 +106,10 @@ class StandardGUIRequest
     {
         return $this->intArray("news_id");
     }
+
+    public function getFilterOff(): bool
+    {
+        $cmd = $this->str("cmdFilter");    // workaround since toggleOff adds asynch flag
+        return ($cmd === "toggleOff");
+    }
 }

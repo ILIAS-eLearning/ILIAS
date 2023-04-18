@@ -50,10 +50,10 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $this->obj_def = $DIC["objDefinition"];
         $this->news_item_ref_id = $a_news_ref_id;
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
         $this->ref_id = $this->std_request->getRefId();
     }
 
@@ -219,7 +219,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $img_tpl->setVariable("IMAGE", $image);
 
             $html = $img_tpl->get();
-        } elseif (in_array($mime, ["video/mp4"])) {
+        } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
             $video = $ui_factory->player()->video($media_path);
             $html = $ui_renderer->render($video);
         } elseif (in_array($mime, ["audio/mpeg"])) {

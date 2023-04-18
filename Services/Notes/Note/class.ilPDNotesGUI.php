@@ -19,6 +19,7 @@
 use ILIAS\Notes\NotesManager;
 use ILIAS\Notes\StandardGUIRequest;
 use ILIAS\Notes\Note;
+use ILIAS\Repository\Filter\FilterAdapterGUI;
 
 /**
  * Private Notes on PD
@@ -29,7 +30,7 @@ class ilPDNotesGUI
 {
     protected int $note_type;
     protected string $search_text = "";
-    protected ?\ILIAS\Notes\FilterAdapterGUI $filter = null;
+    protected ?FilterAdapterGUI $filter = null;
     protected \ILIAS\Notes\InternalGUIService $gui;
     protected \ILIAS\DI\UIServices $ui;
     protected NotesManager $notes_manager;
@@ -302,7 +303,7 @@ class ilPDNotesGUI
         $this->view();
     }
 
-    protected function getFilter(): \ILIAS\Notes\FilterAdapterGUI
+    protected function getFilter(): FilterAdapterGUI
     {
         $gui = $this->gui;
         $lng = $this->lng;

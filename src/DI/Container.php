@@ -223,9 +223,9 @@ class Container extends \Pimple\Container
         );
     }
 
-    public function news(): \ilNewsService
+    public function news(): \ILIAS\News\Service
     {
-        return new \ilNewsService($this->language(), $this->settings(), $this->user());
+        return new \ILIAS\News\Service($this);
     }
 
     public function object(): \ilObjectService
