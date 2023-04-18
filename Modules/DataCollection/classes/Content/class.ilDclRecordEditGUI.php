@@ -180,13 +180,7 @@ class ilDclRecordEditGUI
     public function create(): void
     {
         $this->initForm();
-        if ($this->ctrl->isAsynch()) {
-            echo $this->form->getHTML();
-            exit();
-        } else {
-            $this->loadLanguageJsKeys();
-            $this->tpl->setContent($this->form->getHTML());
-        }
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     /**
@@ -198,13 +192,7 @@ class ilDclRecordEditGUI
         $this->cleanupTempFiles();
 
         $this->setFormValues();
-        if ($this->ctrl->isAsynch()) {
-            echo $this->form->getHTML();
-            exit();
-        } else {
-            $this->loadLanguageJsKeys();
-            $this->tpl->setContent($this->form->getHTML());
-        }
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     /**
@@ -579,13 +567,7 @@ class ilDclRecordEditGUI
             ilDclPropertyFormGUI::rebuildTempFileByHash($ilfilehash);
             $hash = $this->rebuildUploadsForFileHash($has_ilfilehash);
             $this->form->setValuesByPost();
-            if ($this->ctrl->isAsynch()) {
-                echo $this->form->getHTML();
-                exit();
-            } else {
-                $this->loadLanguageJsKeys();
-                $this->tpl->setContent($this->form->getHTML());
-            }
+            $this->tpl->setContent($this->form->getHTML());
             $this->sendFailure($this->lng->txt('form_input_not_valid'));
 
             return;
@@ -778,8 +760,6 @@ class ilDclRecordEditGUI
                     }
                 }
             }
-
-            $this->loadLanguageJsKeys();
             $this->tpl->setContent($this->form->getHTML());
         }
     }
@@ -831,11 +811,6 @@ class ilDclRecordEditGUI
         exit;
     }
 
-    protected function loadLanguageJsKeys()
-    {
-        $txt = $this->lng->txt('add_value');
-        $this->tpl->addOnLoadCode("ilDataCollection.strings.add_value='$txt';");
-    }
 
     /**
      * Parse search results

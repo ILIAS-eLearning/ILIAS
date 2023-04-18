@@ -163,9 +163,6 @@ class ilDclRecordListGUI
         /**
          * @var $ilToolbar ilToolbarGUI
          */
-        // Show tables
-        $this->dclUi->addCssFile("./Modules/DataCollection/css/dcl_reference_hover.css");
-
         $list = $this->getRecordListTableGUI($use_tableview_filter);
 
         $this->createSwitchers();
