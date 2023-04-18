@@ -31,7 +31,7 @@ This is a recommended workflow
 * delete any parts of the code that isn't currently being used (search if obscure sounding classes are used by any HTML Templates or set by php/js)
 * deal with variables and mixins in the following way:
   * replace Bootstrap variables/mixins by ILIAS variables/mixins wherever possible ($font-size-base exists as $il-font-size-base; $brand-primary is $il-main-color; you can see which Bootstrap variables we redefines in .../020-dependencies/modifications/bootstrap-3-scss/stylesheets/bootstrap/_modified-variables.scss, but also check our general color, spacing, border etc. variables)
-  * if a variable is very specific, consider defining it on the lowermost level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
+  * if a variable is very specific, consider defining it on the lowermost possible level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
   * for missing mixins consider either
     * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended
     * turning them into general tools or layout files by copying/mergin the code into our ITCSS structure
@@ -47,6 +47,8 @@ These Bootstrap parts definitely need to be merged/fixed/adapted:
 * [ ] btn-group
 * [ ] panel? (UI component seems to already have all relevant code to work, check if same is true for legacy panel)
 * [ ] responsive variables / mixins have to be turned into a general layout file (maybe only currently in use variables from Bootstrap 3? Bootstrap 5 seems too complex)
+* [ ] alert box
+* [ ] there is still a weird JS bug: when the SCSS code in /070-components/legacy/Services/UIComponent/_component_toolbar.scss is absent, a js issue crashes the browser
 
 To Dos left over / caused by already merged parts:
 
