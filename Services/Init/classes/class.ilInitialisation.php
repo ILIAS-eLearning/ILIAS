@@ -1535,10 +1535,9 @@ class ilInitialisation
         );
 
         if (DEVMODE) {
-           $DIC["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
-        }
-        else {
-           $DIC["help.text_retriever"] = new ilHelpUITextRetriever();
+            $DIC["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
+        } else {
+            $DIC["help.text_retriever"] = new ilHelpUITextRetriever();
         }
 
         self::initGlobal(
@@ -1675,7 +1674,7 @@ class ilInitialisation
             ($a_current_script == "goto.php" && $target == "impr_0") ||
             $requestBaseClass == strtolower(ilImprintGUI::class)
         ) {
-            ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
+            ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . ($_GET['baseClass'] ?? ""));
             return true;
         }
 
