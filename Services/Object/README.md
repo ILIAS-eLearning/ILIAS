@@ -7,8 +7,8 @@ objects or other objects being derived from `ilObject`.
 
 - [Export Entities](#Export-Entities)
 - [Object Service](#Object-Service)
-- [Common Settings](#Common-Settings)
-- [Offline Handling](#Offline Handling)
+- [Common Settings](#Object-Settings)
+- [Offline Handling](#Offline-Handling)
 
 
 # Export Entities
@@ -36,7 +36,7 @@ ILIAS 9 or 10.
 $obj_service = $DIC->object();
 ```
 
-## Common Settings
+## Object Settings
 
 The `ilObject` provides methods to include properties into your settings
 forms and save them.
