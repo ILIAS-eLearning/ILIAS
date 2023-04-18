@@ -11,9 +11,10 @@ In a browser tab you might want to have the following resources available
 
 # State of this branch
 
-* the Bootstrap 3 files are still present in the working branch (spread across modifications/bootstrap-3-scss and unmodified/bootstrap-3-scss), but almost none of them are being loaded.
+* the Bootstrap 3 files are still present in the working branch (spread across modifications/bootstrap-3-scss and unmodified/bootstrap-3-scss in /020-dependencies), but almost none of them are being loaded (because they are commented out in /020-dependencies/modifications/bootstrap-3-scss/stylesheets/_bootstrap.scss).
 * some Bootstrap 3 files have already been merged into ILIAS layout, tools and components (always deleting Bootstrap 3 code that wasn't being used).
 * There is a detailed lists of to dos at the end of this document.
+* all Bootstrap mixins have been copied /030-tools/legacy-bootstrap-mixins/unused and can be taken out of the unused folder into tools, layout or the component where they are being needed (if they bring code with them a file needs to load them with @use for them to be compiled)
 
 
 # Workflow
@@ -34,7 +35,7 @@ This is a recommended workflow
   * if a variable is very specific, consider defining it on the lowermost possible level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
   * for missing mixins consider either
     * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended
-    * turning them into general tools or layout files by copying/mergin the code into our ITCSS structure
+    * turning them into general tools or layout files by copying/mergin the code from /030-tools/legacy-bootstrap-mixins/unused into the correct file or location in our ITCSS structure
 * Now the SASS compiler should be able to compile the code.
 
 Do not utilize `@use "[...]/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;` or similar to quickly make the Bootstrap variables work. This connection to Bootstrap has to be cut as well as a goal of this project.
@@ -43,6 +44,7 @@ Do not utilize `@use "[...]/020-dependencies/modifications/bootstrap-3-scss/boot
 
 These Bootstrap parts definitely need to be merged/fixed/adapted:
 
+* [ ] alerts are currently half merged, delos doesn't compile
 * [ ] forms
 * [ ] btn-group
 * [ ] panel? (UI component seems to already have all relevant code to work, check if same is true for legacy panel)
