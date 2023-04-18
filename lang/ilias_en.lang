@@ -10709,7 +10709,8 @@ lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
 lti#:#lti_provider#:#LTI Releases
-lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_avail_msg#:#LTI Provider / Tool is set to 'Not Available'.
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Object Releases
 lti#:#lti_select_provider#:#Select Provider resp. Tool
