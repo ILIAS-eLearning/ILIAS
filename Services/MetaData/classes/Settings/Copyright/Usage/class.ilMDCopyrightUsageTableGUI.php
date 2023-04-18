@@ -85,7 +85,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
             "title",
             ilTable2GUI::FILTER_TEXT,
             false,
-            $this->lng->txt("object") . " class.ilMDCopyrightUsageTableGUI.php" . $this->lng->txt("title")
+            $this->lng->txt("object") . " " . $this->lng->txt("title")
         );
         $this->filter["title"] = $title->getValue();
 
