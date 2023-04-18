@@ -189,7 +189,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         }
         $current_user_id = $this->getCurrentUsersId();
 
-        foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
+        foreach ($this->assignmentRepo->getPositionsByUser($current_user_id) as $position) {
             $permissions = $this->permissionRepo->getLocalorDefault($ref_id, $position->getId());
             if ($permissions->isOperationIdSelected($operation->getOperationId())) {
                 return true;
@@ -208,7 +208,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         $current_user_id = $this->getCurrentUsersId();
 
-        foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
+        foreach ($this->assignmentRepo->getPositionsByUser($current_user_id) as $position) {
             $permissions = $this->permissionRepo->getLocalorDefault($ref_id, $position->getId());
             if (count($permissions->getOperations()) > 0) {
                 return true;
