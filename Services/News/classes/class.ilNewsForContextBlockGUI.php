@@ -407,12 +407,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $info = [];
 
-        $info["ref_id"] = $news["ref_id"];
+        $info["ref_id"] = $news["ref_id"] ?? 0;
         $info["creation_date"] =
             ilDatePresentation::formatDate(new ilDateTime($news["creation_date"], IL_CAL_DATETIME));
 
         // title image type
-        if ($news["ref_id"] > 0) {
+        if (($news["ref_id"]  ?? 0) > 0) {
             if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
                 $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
                 $type = ilObject::_lookupType($obj_id);
