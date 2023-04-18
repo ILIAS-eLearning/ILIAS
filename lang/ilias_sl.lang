@@ -3336,7 +3336,6 @@ cntr#:#cntr_view_info_sessions#:#Seje bodo prikazane v ločenem seznamu. Na sezn
 cntr#:#cntr_view_info_simple#:#Vsi objekti bodo prikazani v enem seznamu.
 cntr#:#cntr_view_sessions#:#Pogled seje
 cntr#:#cntr_view_simple#:#Enostaven seznam
-cntr#:#cont_custom_icon#:#Prilagojena ikona
 cntr#:#container_import_zip_file_invalid#:#Naložena datoteka ni veljaven izvoz ILIAS. Za nalaganje struktur seznamov uporabite datotečni objekt.
 cntr#:#edit_questions#:#Uredi vprašanja
 cntr#:#exc_next_deadline_single#:#Rok za oddajo
@@ -12092,6 +12091,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#Vse dodelitve kompetenc so bile objavljene.
 obj#:#cont_skll_published_some_not#:#Vse obstoječe dodelitve kompetenc so bile objavljene. Pri nekaterih uporabnikih kompetence niso bile objavljene, ker ni bilo nobenih dodelitev.
+obj#:#custom_icon#:#Prilagojena ikona
 obj#:#edit_questions#:#Uredi vprašanja
 obj#:#obj_activate_content_lang#:#Aktiviraj večjezičnost za urejevalnik strani
 obj#:#obj_activate_multilang#:#Aktiviraj večjezičnost

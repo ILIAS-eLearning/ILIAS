@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Questa visualizzazione mostra tutte le sessioni
 cntr#:#cntr_view_info_simple#:#Questa visualizzazione mostra tutti gli elementi in una lista.
 cntr#:#cntr_view_sessions#:#Visualizzazione della sessione
 cntr#:#cntr_view_simple#:#Visualizzazione semplice
-cntr#:#cont_custom_icon#:#Icona personalizzata
 cntr#:#container_import_zip_file_invalid#:#Il file caricato non è un file di esportazione ILIAS valido. Per caricare la struttura di directory si prega di utilizzare un oggetto file.
 cntr#:#edit_questions#:#Modifica domande
 cntr#:#exc_next_deadline_single#:#Scadenza
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Sono state pubblicate tutte le assegnazioni.
 obj#:#cont_skll_published_some_not#:#Sono state pubblicate tutte le assegnazioni fornite. Alcuni utenti non disponevano di incarichi di competenza, quindi non potevano essere pubblicate per loro.
+obj#:#custom_icon#:#Icona personalizzata
 obj#:#edit_questions#:#Modifica domande
 obj#:#obj_activate_content_lang#:#Attiva traduzione per la modifica delle pagine
 obj#:#obj_activate_multilang#:#Activate Multilinguality

@@ -3369,16 +3369,22 @@ class ilObjectListGUI
 
     protected function getTileImagePath(): string
     {
-        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($this->obj_id);
-        if ($img->exists()) {
-            $path = $img->getFullPath();
-        } else {
-            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-            if (!is_file($path)) {
-                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
-            }
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+        if ($object === null) {
+            return '';
         }
-        return $path;
+
+        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
+        if ($img->exists()) {
+            return $img->getFullPath();
+        }
+
+        $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+        if (is_file($path)) {
+            return $path;
+        }
+
+        return ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
     }
 
     /**

@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Cette présentation regroupe les sessions en pr
 cntr#:#cntr_view_info_simple#:#Cette présentation liste tous les objets dans un seul bloc.
 cntr#:#cntr_view_sessions#:#Vue sessions
 cntr#:#cntr_view_simple#:#Vue simplifiée
-cntr#:#cont_custom_icon#:#Icône Personnalisée
 cntr#:#container_import_zip_file_invalid#:#Le fichier déposé n'est pas valide. Pour importer une structure de dossiers, veuillez utiliser l'objet Fichier.
 cntr#:#edit_questions#:#Editer Questions
 cntr#:#exc_next_deadline_single#:#Echéance
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Toutes les affectations ont été publiées.
 obj#:#cont_skll_published_some_not#:#Toutes les affectations données ont été publiées. Certains utilisateurs n'ont pas les affectations de compétences. Par conséquent, aucune affectation n’a pu être publiée pour eux.
+obj#:#custom_icon#:#Icône Personnalisée
 obj#:#edit_questions#:#Editer Questions
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme

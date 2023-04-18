@@ -28,7 +28,9 @@ in the future, if more common properties/settings for objects will be introduced
 # Object Service
 
 
-The object service can be obtained using the `DIC`:
+The object service can be obtained using the `DIC`. It right now only offers legacy
+functionality that will be removed with ILIAS 11. New functionality is planed for
+ILIAS 9 or 10.
 
 ```
 $obj_service = $DIC->object();
@@ -36,44 +38,41 @@ $obj_service = $DIC->object();
 
 ## Common Settings
 
-The object service provides methods to include common settings into your settings
+The `ilObject` provides methods to include properties into your settings
 forms and save them.
 
-In ILIAS 5.4 all settings forms are still legacy forms. The following examples show how to modify these forms and save the returned values. In upcoming versions a similar procedure for UI framework forms should be provided.
+Currently you can retrieve and store:
+* Title and Description
+* Online Status
+* Visibility of Actions in the Header (SHOULD be placed in **Presentation** section)
+* Visibility of Title and Icon (SHOULD be placed in **Presentation** section)
+* Custom Icons (SHOULD be placed in **Presentation** section)
+* Tile Images (SHOULD be placed in **Presentation** section)
 
-**Custom Icons**
+**Retrieving and Storing the Settings**
 
-Custom icons used in almost all views that represent repository objects, e.g. lists or explorer trees.
-
-Adding the setting to a form (SHOULD be placed in **Presentation** section):
-
-```
-$obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
-```
-Saving the setting:
-```
-$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
-```
-
-
-**Tile images**
-
-Tile images are used in tile views of containers (starting with ILIAS 5.4).
-
-Adding the setting to a form (SHOULD be placed in **Presentation** section):
+You can retrieve the form elements with
 
 ```
-$obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+$object->getObjectProperties()->getProperty<the property you are looking for>()->toForm(
+    ilLanguage $language,
+    ILIAS\UI\Component\Input\Field\Factory $field_factory,
+    ILIAS\Refinery\Factory $refinery);
+```
+
+Once you have added the corresponding elements to your form and received a
+response back you can retrieve the $property from the form element with
 
 ```
-Saving the setting:
+$property = $input->getValue();
 ```
-$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+And then save it with:
+
 ```
-Get `ilObjectTileImage` instance for an object id:
+$object->getObjectProperties()->storeProperty<the property you want to store>($property);
 ```
-$tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($obj_id);
-```
+
 
 **Copying / Import / Export**
 
@@ -111,28 +110,6 @@ it as an attribute of the object in the module.xml
 
 It should be noted, that whenever a module.xml is edited, the setup needs to be
 called with the update parameter, so the changes can be applied.
-
-Inside your GUI class for the object settings, after having created a settings
-form and added a checkbox option for the online value to it, you will then need
-to add the values to your update and save function like this:
-
-```
-protected function getEditFormCustomValues(array &$a_values)
-    {
-        $a_values["offline_input_postvar"] = !$this->object->getOfflineStatus();
-    }
-```
-
-```
-protected function updateCustom(ilPropertyFormGUI $a_form)
-    {
-        $this->object->setOfflineStatus(($a_form->getInput("offline_input_postvar") == 1 ) ? 0 : 1);
-    }
-```
-
-Since we're usually asking in a form if the object should be online but they're
-saved in the object_data table as offline=1 or offline=0, the values will need
-to be inverted when getting and setting them
 
 
 # JF Decisions

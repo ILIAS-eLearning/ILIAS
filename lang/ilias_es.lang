@@ -3303,7 +3303,6 @@ cntr#:#cntr_view_info_sessions#:#Se muestran primero las sesiones y después el 
 cntr#:#cntr_view_info_simple#:#Todos los elementos se muestran en un bloque
 cntr#:#cntr_view_sessions#:#Vista de sesión
 cntr#:#cntr_view_simple#:#Vista simple
-cntr#:#cont_custom_icon#:#Icono Personalizado
 cntr#:#container_import_zip_file_invalid#:#El archivo subido no es un archivo válido de exportación ILIAS. Para enviar una jerarquía de directorios por favor, utilice un objeto de archivo
 cntr#:#edit_questions#:#Editar preguntas
 cntr#:#exc_next_deadline_single#:#Fecha/Hora límite
@@ -12003,6 +12002,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Se han publicado todas las tareas.
 obj#:#cont_skll_published_some_not#:#Se han publicado todas las tareas dadas. Algunos usuarios carecen de asignaciones de competencias, por lo que no se han podido publicar tareas para ellos.
+obj#:#custom_icon#:#Icono Personalizado
 obj#:#edit_questions#:#Editar preguntas
 obj#:#obj_activate_content_lang#:#Activar traducción para Edición de Página
 obj#:#obj_activate_multilang#:#Activar soporte para múltiples idiomas

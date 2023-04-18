@@ -26,6 +26,10 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilObjectServiceSettingsGUI:
  * @ingroup ServicesObject
+ *
+ * @deprecated 11: This class will be removed with ILIAS 11. Most of the settings in
+ * here don't belong here. Things that belong, are already moved to ilObjectProperties
+ * (see Readme.md of ilObject).
  */
 class ilObjectServiceSettingsGUI
 {
@@ -476,29 +480,6 @@ class ilObjectServiceSettingsGUI
             $form = $this->initSettingsForm();
         }
         $this->main_tpl->setContent($form->getHTML());
-    }
-
-
-    /**
-     * Update settings
-     */
-    protected function updateToolSettings(): void
-    {
-        // TODO: cant find initSettingsForm, is updateToolSettings ever called?
-        $form = $this->initSettingsForm();
-        if ($form->checkInput()) {
-            if (ilCalendarSettings::_getInstance()->isEnabled()) {
-                if ($this->isModeActive(self::CALENDAR_VISIBILITY)) {
-                    ilContainer::_writeContainerSetting($this->getObjId(), 'show_calendar', $form->getInput('calendar'));
-                }
-            }
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this);
-        }
-
-        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $form->setValuesByPost();
-        $this->editSettings($form);
     }
 
     /**

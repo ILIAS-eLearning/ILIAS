@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Sesje pokazywane są w jednej liście. Obiekty,
 cntr#:#cntr_view_info_simple#:#Wszystkie obiekty przedstawiane są tylko w jednej liście.
 cntr#:#cntr_view_sessions#:#Widok sesji
 cntr#:#cntr_view_simple#:#Prosta lista
-cntr#:#cont_custom_icon#:#Custom Icon
 cntr#:#container_import_zip_file_invalid#:#Załadowany plik nie jest ważnym plikiem eksportowym ILIAS. Aby załadować struktury indeksu, należy użyć obiektu pliku.
 cntr#:#edit_questions#:#Edytuj pytania
 cntr#:#exc_next_deadline_single#:#Termin oddania
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Przydziały kompetencji zostały opublikowane.
 obj#:#cont_skll_published_some_not#:#Wszystkie przydzielone kompetencje zostały opublikowane. Dla niektórych użytkowników nie udało się opublikować kompetencji, ponieważ nie zostały przydzielone.
+obj#:#custom_icon#:#Custom Icon
 obj#:#edit_questions#:#Edytuj pytania
 obj#:#obj_activate_content_lang#:#Aktywuj opcję treści w wielu językach dla edytora stron
 obj#:#obj_activate_multilang#:#Aktywuj opcję treści w wielu językach

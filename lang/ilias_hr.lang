@@ -3301,7 +3301,6 @@ cntr#:#cntr_view_info_sessions#:#Ova prezentacija sadržaja prvo grupira sve ses
 cntr#:#cntr_view_info_simple#:#Ova prezentacija sadržaja navodi sve stavke u jednom bloku.
 cntr#:#cntr_view_sessions#:#Prikaz sesije
 cntr#:#cntr_view_simple#:#Jednostavan prikaz
-cntr#:#cont_custom_icon#:#Prilagođena ikona
 cntr#:#container_import_zip_file_invalid#:#Učitana datoteka nije važeća datoteka za izvoz ILIAS-a. Kako biste učitali strukturu direktorija, koristite objekt datoteke.
 cntr#:#edit_questions#:#Uredi pitanja
 cntr#:#exc_next_deadline_single#:#Rok
@@ -12001,6 +12000,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###04 06 2021 new variable
 obj#:#cont_skll_published#:#Svi su zadaci objavljeni.
 obj#:#cont_skll_published_some_not#:#Svi zadani zadaci su objavljeni. Neki korisnici nisu imali zadatke kompetencija, pase nije mogao objaviti nijedan zadatak.
+obj#:#custom_icon#:#Prilagođena ikona
 obj#:#edit_questions#:#Uredi pitanja
 obj#:#obj_activate_content_lang#:#Aktiviraj prijevod za uređivanje stranica
 obj#:#obj_activate_multilang#:#Aktiviraj višejezičnost
