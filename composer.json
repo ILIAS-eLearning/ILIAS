@@ -93,8 +93,6 @@
 			"./Services/",
 			"./Modules",
 			"./libs/ilias",
-			"./CI/Rector",
-			"./CI/PHPStan",
 			"./webservice/soap",
 			"./setup/classes"
 		],
