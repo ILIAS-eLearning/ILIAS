@@ -41,7 +41,10 @@
 /Customizing/clients
 virtual-data
 /libs/composer/vendor
+
+# Node Modules
 /node_modules
+/Modules/Chatroom/chat/node_modules
 
 # /dicto
 /dicto/results/*
