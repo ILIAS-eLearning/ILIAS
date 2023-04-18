@@ -709,7 +709,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function viewScanLog(): void
     {
         $validator = new IlValidator();
-        $scan_log = &$validator->readScanLog();
+        $scan_log = $validator->readScanLog();
 
         if (is_array($scan_log)) {
             $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
@@ -1363,7 +1363,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
     * Show header title
     */
-    public function showHeaderTitleObject($a_get_post_values = false): void
+    public function showHeaderTitleObject($a_get_post_values = false,
+        bool $add_entry = false): void
     {
         $tpl = $this->tpl;
 
@@ -1377,6 +1378,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                     "desc" => ($_POST["desc"][$k] ?? ""),
                     "lang" => ($_POST["lang"][$k] ?? ""),
                     "default" => ($def == $k));
+            }
+            if ($add_entry) {
+                $vals[] = array("title" => "",
+                                "desc" => "",
+                                "lang" => "",
+                                "default" => false);
             }
             $table->setData($vals);
         } else {
@@ -1400,8 +1407,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
     * Save header titles
     */
-    public function saveHeaderTitlesObject()
+    public function saveHeaderTitlesObject($delete = false)
     {
+        global $DIC;
+
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -1413,33 +1422,47 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         //		var_dump($_POST);
 
+        $post = $DIC->http()->request()->getParsedBody();
+        foreach ($post["title"] as $k => $v) {
+            if ($delete && ($post["check"][$k] ?? false)) {
+                unset($post["title"][$k]);
+                unset($post["desc"][$k]);
+                unset($post["lang"][$k]);
+                if ($k == $post["default"]) {
+                    unset($post["default"]);
+                }
+            }
+        }
+
+
+
         // default language set?
-        if (!isset($_POST["default"]) && count($_POST["lang"]) > 0) {
+        if (!isset($post["default"]) && count($post["lang"]) > 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_default_language"));
             return $this->showHeaderTitleObject(true);
         }
 
         // all languages set?
-        if (array_key_exists("", $_POST["lang"])) {
+        if (array_key_exists("", $post["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
         // no single language is selected more than once?
-        if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
+        if (count(array_unique($post["lang"])) < count($post["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_multi_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
         // save the stuff
         $this->object->removeHeaderTitleTranslations();
-        foreach ($_POST["title"] as $k => $v) {
-            $desc = $_POST["desc"][$k] ?? "";
+        foreach ($post["title"] as $k => $v) {
+            $desc = $post["desc"][$k] ?? "";
             $this->object->addHeaderTitleTranslation(
                 ilUtil::stripSlashes($v),
                 ilUtil::stripSlashes($desc),
-                ilUtil::stripSlashes($_POST["lang"][$k]),
-                ($_POST["default"] == $k)
+                ilUtil::stripSlashes($post["lang"][$k]),
+                ($post["default"] == $k)
             );
         }
 
@@ -1453,11 +1476,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function addHeaderTitleObject(): void
     {
         $k = 1;
-        if (isset($_POST["title"]) && is_array($_POST["title"])) {
-            $k = count($_POST["title"]) + 1;
-        }
-        $_POST["title"][$k] = "";
-        $this->showHeaderTitleObject(true);
+        $this->showHeaderTitleObject(true, true);
     }
 
     /**
@@ -1467,18 +1486,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        //var_dump($_POST);
-        foreach ($_POST["title"] as $k => $v) {
-            if ($_POST["check"][$k]) {
-                unset($_POST["title"][$k]);
-                unset($_POST["desc"][$k]);
-                unset($_POST["lang"][$k]);
-                if ($k == $_POST["default"]) {
-                    unset($_POST["default"]);
-                }
-            }
-        }
-        $this->saveHeaderTitlesObject();
+        $this->saveHeaderTitlesObject(true);
     }
 
 
