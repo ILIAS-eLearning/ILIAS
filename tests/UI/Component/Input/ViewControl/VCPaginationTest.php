@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -86,7 +87,7 @@ class VCPaginationTest extends VCBaseTest
 
         $expected = $this->brutallyTrimHTML('
 <div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="">
-    <a class="glyph" aria-label="back" id="id_4">
+    <a tabindex="0" class="glyph" aria-label="back" id="id_4">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     </a>
     <div class="dropdown il-viewcontrol-pagination__pages">
@@ -96,7 +97,7 @@ class VCPaginationTest extends VCBaseTest
             <li><button class="btn btn-link" id="id_2">22-42</button></li>
         </ul>
     </div>
-    <a class="glyph" aria-label="next" id="id_3">
+    <a tabindex="0" class="glyph" aria-label="next" id="id_3">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     </a>
 

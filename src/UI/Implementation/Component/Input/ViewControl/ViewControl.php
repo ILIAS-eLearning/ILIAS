@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -161,6 +162,13 @@ abstract class ViewControl implements VCInterface\ViewControl, InputInternal
     {
         $clone = clone $this;
         $clone->name = $source->getNewName();
+        return $clone;
+    }
+
+    final public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
         return $clone;
     }
 

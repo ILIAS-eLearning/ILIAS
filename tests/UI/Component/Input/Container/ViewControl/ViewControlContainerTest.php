@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -87,8 +88,8 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getQueryParams")
             ->willReturn([
-                'form_input_0' => 'a1,a3',
-                'form_input_1' => 'a2:DESC'
+                'input_0' => 'a1,a3',
+                'input_1' => 'a2:DESC'
             ]);
 
         $c_factory = $this->buildVCFactory();
@@ -96,6 +97,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             $c_factory->fieldSelection(['a1'=>'A','a2'=>'B','a3'=>'C']),
             $c_factory->sortation(['a2:ASC'=>'2up','a2:DESC'=>'2down']),
         ];
+
 
         $vc = $this->buildContainerFactory()->standard($controls);
         $vc2 = $vc->withRequest($request);
