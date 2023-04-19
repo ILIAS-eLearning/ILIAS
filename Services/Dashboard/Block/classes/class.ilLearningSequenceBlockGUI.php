@@ -76,7 +76,7 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 continue;
             }
 
-            $data[] = new ilBlockDataDTO(
+            $data[] = new ilBlockDTO(
                 'lso',
                 $lso_ref_id,
                 $lso_obj->getId(),

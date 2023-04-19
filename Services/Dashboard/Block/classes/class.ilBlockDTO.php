@@ -17,7 +17,7 @@
 *********************************************************************/
 
 declare(strict_types=1);
-class ilBlockDataDTO
+class ilBlockDTO
 {
     private string $type;
     private int $ref_id;

@@ -74,7 +74,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     abstract public function emptyHandling(): string;
 
 
-    protected function getCardForData(ilBlockDataDTO $data): ?RepositoryObject
+    protected function getCardForData(ilBlockDTO $data): ?RepositoryObject
     {
         $itemListGui = $this->byType($data->getType());
         $card = $itemListGui->getAsCard(
@@ -107,7 +107,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $groupedCards;
     }
 
-    protected function getListItemForDataDTO(ilBlockDataDTO $data): ?Item
+    protected function getListItemForDataDTO(ilBlockDTO $data): ?Item
     {
         $itemListGui = $this->byType($data->getType());
         $this->addCustomCommandsToActionMenu($itemListGui, $data->getRefId());
@@ -200,18 +200,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @param array<string, ilBlockDataDTO[]> $a_data
+     * @param array<string, ilBlockDTO[]> $a_data
      */
     public function setData(array $a_data): void
     {
         $this->data = array_filter(array_map(
-            static fn ($group) => array_filter($group, fn ($item) => $item instanceof ilBlockDataDTO),
+            static fn ($group) => array_filter($group, fn ($item) => $item instanceof ilBlockDTO),
             $a_data
         ));
     }
 
     /**
-     * @return array<string, ilBlockDataDTO[]>
+     * @return array<string, ilBlockDTO[]>
      */
     public function getData(): array
     {
@@ -219,12 +219,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDataDTO[]>
+     * @return array<string, ilBlockDTO[]>
      */
     public function groupItemsByStartDate(): array
     {
         $data = $this->getData();
-        /** @var ilBlockDataDTO[] $items */
+        /** @var ilBlockDTO[] $items */
         $items = array_merge(...array_values($data));
 
         $groups = [
@@ -247,7 +247,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             }
         }
 
-        $orderByDate = static function (ilBlockDataDTO $left, ilBlockDataDTO $right, bool $asc = true) {
+        $orderByDate = static function (ilBlockDTO $left, ilBlockDTO $right, bool $asc = true) {
             if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
                 IL_CAL_UNIX
             ) < $right->getStartDate()->get(IL_CAL_UNIX)) {
@@ -277,7 +277,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDataDTO[]>
+     * @return array<string, ilBlockDTO[]>
      */
     protected function groupItemsByType(): array
     {
@@ -286,7 +286,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         );
         $grouped_items = [];
         $data = $this->getData();
-        /** @var ilBlockDataDTO[] $data */
+        /** @var ilBlockDTO[] $data */
         $data = array_merge(...array_values($data));
         $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->viewSettings->getActor());
 
@@ -317,17 +317,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDataDTO[]>
+     * @return array<string, ilBlockDTO[]>
      */
     protected function groupItemsByLocation(): array
     {
         $grouped_items = [];
         $data = $this->getData();
-        /** @var ilBlockDataDTO[] $data */
+        /** @var ilBlockDTO[] $data */
         $data = array_merge(...array_values($data));
 
         $parent_ref_ids = array_values(array_unique(
-            array_map(fn (ilBlockDataDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
+            array_map(fn (ilBlockDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
         ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
@@ -464,7 +464,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDataDTO[]>
+     * @return array<string, ilBlockDTO[]>
      */
     public function getItemGroups(): array
     {
@@ -741,13 +741,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @param ilBlockDataDTO[] $data
+     * @param ilBlockDTO[] $data
      */
     private function sortByTitle(array $data, bool $asc = true): array
     {
         uasort(
             $data,
-            static fn (ilBlockDataDTO $left, ilBlockDataDTO $right) => $asc ?
+            static fn (ilBlockDTO $left, ilBlockDTO $right) => $asc ?
                 strcmp($left->getTitle(), $right->getTitle()) :
                 strcmp($right->getTitle(), $left->getTitle())
         );

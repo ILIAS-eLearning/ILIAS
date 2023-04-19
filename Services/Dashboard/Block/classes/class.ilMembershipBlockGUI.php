@@ -47,7 +47,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         $data = array_map(static function (array $item) {
             $start = isset($item['start']) && $item['start'] instanceof ilDateTime ? $item['start'] : null;
             $end = isset($item['end']) && $item['end'] instanceof ilDateTime ? $item['end'] : null;
-            return new ilBlockDataDTO(
+            return new ilBlockDTO(
                 $item['type'],
                 (int) $item['ref_id'],
                 (int) $item['obj_id'],

@@ -24,7 +24,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
     protected ?string $visible_on_pd_mode = null;
 
-    protected function getListItemForDataDTO(ilBlockDataDTO $data): ?Item
+    protected function getListItemForDataDTO(ilBlockDTO $data): ?Item
     {
         $item_gui = $this->byType($data->getType());
         $item_gui->initItem(
@@ -158,7 +158,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                 $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
             }
 
-            $items[] = new ilBlockDataDTO(
+            $items[] = new ilBlockDTO(
                 $prg->getType(),
                 $prg->getRefId(),
                 $prg->getId(),

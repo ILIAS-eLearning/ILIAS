@@ -84,7 +84,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
                         break;
                 }
             }
-            return new ilBlockDataDTO(
+            return new ilBlockDTO(
                 ilObject::_lookupType($obj_id),
                 $ref_id,
                 $obj_id,
