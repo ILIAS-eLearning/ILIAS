@@ -33,7 +33,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
     public const VIEW_MODE_SETTINGS = 'Settings';
     public const VIEW_MODE_PRESENTATION = 'Presentation';
-    public const VIEW_MODE_SORTING = 'Soriting';
+    public const VIEW_MODE_SORTING = 'Sorting';
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
