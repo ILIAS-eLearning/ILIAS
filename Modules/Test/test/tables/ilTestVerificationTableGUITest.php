@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Services\Logging\NullLogger;
+
 /**
  * Class ilTestVerificationTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -53,40 +55,12 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 
             public static function getRootLogger(): ilLogger
             {
-                return new class () extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-
-                    public function write(string $a_message, $a_level = ilLogLevel::INFO): void
-                    {
-                    }
-
-                    public function info(string $a_message): void
-                    {
-                    }
-
-                    public function debug(string $a_message, array $a_context = array()): void
-                    {
-                    }
-                };
+                return new NullLogger();
             }
 
             public static function getLogger(string $a_component_id): ilLogger
             {
-                return new class () extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-
-                    public function write(string $a_message, $a_level = ilLogLevel::INFO): void
-                    {
-                    }
-
-                    public function debug(string $a_message, array $a_context = array()): void
-                    {
-                    }
-                };
+                return new NullLogger();
             }
         });
 

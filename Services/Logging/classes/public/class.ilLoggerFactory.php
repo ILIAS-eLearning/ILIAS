@@ -27,6 +27,7 @@ use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use ILIAS\DI\Container;
+use Monolog\Processor\PsrLogMessageProcessor;
 
 /**
  * Logging factory
@@ -237,6 +238,8 @@ class ilLoggerFactory
         // append trace
         $logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
 
+        // Interpolate context variables.
+        $logger->pushProcessor(new PsrLogMessageProcessor());
 
         // register new logger
         $this->loggers[$a_component_id] = new ilComponentLogger($logger);
