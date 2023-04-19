@@ -122,10 +122,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         );
         if (!$result->numRows()) {
             $result = $ilDB->queryF(
-                "SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
+                "SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
                 array('integer','integer'),
                 array($user_id, $a_obj_id)
             );
+
+            if (!$result->numRows()) {
+                return false;
+            }
+
             $points = array();
             while ($row = $ilDB->fetchAssoc($result)) {
                 array_push($points, $row);
