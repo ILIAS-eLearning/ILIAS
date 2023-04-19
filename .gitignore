@@ -40,7 +40,6 @@
 /Customizing/clients
 virtual-data
 /libs/composer/vendor
-libs/bower/bower_components
 /node_modules/**/.cache
 
 # /dicto
