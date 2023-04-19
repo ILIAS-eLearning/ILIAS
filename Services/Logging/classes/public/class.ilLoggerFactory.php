@@ -151,7 +151,6 @@ class ilLoggerFactory
         ) {
             return false;
         }
-        // default false
         return true;
     }
 
