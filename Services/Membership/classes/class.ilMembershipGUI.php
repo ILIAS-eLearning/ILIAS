@@ -757,12 +757,12 @@ class ilMembershipGUI
         $participants = [];
         if ($_POST['participants']) {
             $participants = (array) $_POST['participants'];
-        } elseif ($_GET['member_id']) {
-            $participants = array($_GET['member_id']);
         } elseif ($_POST['subscribers']) {
             $participants = (array) $_POST['subscribers'];
         } elseif ($_POST['waiting']) {
             $participants = (array) $_POST['waiting'];
+        } elseif ($_GET['member_id']) {
+            $participants = array($_GET['member_id']);
         }
 
         if (!count($participants)) {
