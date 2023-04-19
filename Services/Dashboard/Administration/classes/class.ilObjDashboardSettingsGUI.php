@@ -346,7 +346,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
-    public function getViewSectionPresentation(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
+    public function getViewSectionPresentation(int $view, string $title): Section
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);

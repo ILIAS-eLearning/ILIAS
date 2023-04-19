@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Symbol\Icon\Standard;
+
 /**
  *
  * @ilCtrl_IsCalledBy ilLearningSequenceBlockGUI: ilColumnGUI
@@ -25,7 +27,7 @@ declare(strict_types=1);
  */
 class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
 {
-    protected function getIcon(string $title): \ILIAS\UI\Component\Symbol\Icon\Standard
+    protected function getIcon(string $title): Standard
     {
         if (!isset($this->icon) || is_null($this->icon)) {
             $this->icon = $this->factory->symbol()->icon()->standard(
