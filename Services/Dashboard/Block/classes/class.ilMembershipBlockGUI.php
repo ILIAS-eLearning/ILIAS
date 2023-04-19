@@ -44,6 +44,19 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
     {
         $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->user);
         $data = $provider->getItems();
+        $data = array_map(static function (array $item) {
+            $start = isset($item['start']) && $item['start'] instanceof ilDateTime ? $item['start'] : null;
+            $end = isset($item['end']) && $item['end'] instanceof ilDateTime ? $item['end'] : null;
+            return new ilBlockDataDTO(
+                $item['type'],
+                (int) $item['ref_id'],
+                (int) $item['obj_id'],
+                $item['title'],
+                $item['description'],
+                $start,
+                $end,
+            );
+        }, $data);
 
         $this->setData(['' => $data]);
     }

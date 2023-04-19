@@ -73,17 +73,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     abstract public function emptyHandling(): string;
 
-    protected function getCardForData(array $data): ?RepositoryObject
-    {
-        $itemListGui = $this->byType($data['type']);
-        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
 
+    protected function getCardForData(ilBlockDataDTO $data): ?RepositoryObject
+    {
+        $itemListGui = $this->byType($data->getType());
         $card = $itemListGui->getAsCard(
-            (int) $data['ref_id'],
-            (int) $data['obj_id'],
-            (string) $data['type'],
-            (string) $data['title'],
-            (string) $data['description']
+            $data->getRefId(),
+            $data->getObjId(),
+            $data->getDescription(),
+            $data->getTitle(),
+            $data->getDescription()
         );
 
         return $card;
@@ -96,7 +95,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         foreach ($data as $title => $group) {
             $items = [];
             foreach ($group as $datum) {
-                $item = $this->getListItemForData($datum);
+                $item = $this->getListItemForDataDTO($datum);
                 if ($item !== null) {
                     $items[] = $item;
                 }
@@ -108,19 +107,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $groupedCards;
     }
 
-
-    protected function getListItemForData(array $data): ?Item
+    protected function getListItemForDataDTO(ilBlockDataDTO $data): ?Item
     {
-        $itemListGui = $this->byType($data['type']);
-        $this->addCustomCommandsToActionMenu($itemListGui, $data['ref_id']);
-        ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
-
+        $itemListGui = $this->byType($data->getType());
+        $this->addCustomCommandsToActionMenu($itemListGui, $data->getRefId());
         $list_item = $itemListGui->getAsListItem(
-            (int) $data['ref_id'],
-            (int) $data['obj_id'],
-            (string) $data['type'],
-            (string) $data['title'],
-            (string) $data['description']
+            $data->getRefId(),
+            $data->getObjId(),
+            $data->getDescription(),
+            $data->getTitle(),
+            $data->getDescription()
         );
 
         return $list_item;
@@ -203,14 +199,32 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
+    /**
+     * @param array<string, ilBlockDataDTO[]> $a_data
+     */
     public function setData(array $a_data): void
     {
-        $this->data = array_filter($a_data);
+        $this->data = array_filter(array_map(
+            static fn ($group) => array_filter($group, fn ($item) => $item instanceof ilBlockDataDTO),
+            $a_data
+        ));
     }
 
+    /**
+     * @return array<string, ilBlockDataDTO[]>
+     */
+    public function getData(): array
+    {
+        return parent::getData();
+    }
+
+    /**
+     * @return array<string, ilBlockDataDTO[]>
+     */
     public function groupItemsByStartDate(): array
     {
         $data = $this->getData();
+        /** @var ilBlockDataDTO[] $items */
         $items = array_merge(...array_values($data));
 
         $groups = [
@@ -220,10 +234,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             'not_dated' => []
         ];
         foreach ($items as $item) {
-            if (isset($item['start'], $item['end']) && $item['start'] instanceof ilDateTime && $item['start']->get(IL_CAL_UNIX) > 0) {
-                if ($item['start']->get(IL_CAL_UNIX) > time()) {
+            if ($item->isDated()) {
+                if ($item->hasNotStarted()) {
                     $groups['upcoming'][] = $item;
-                } elseif ($item['end'] instanceof ilDateTime && $item['end']->get(IL_CAL_UNIX) > time()) {
+                } elseif ($item->isRunning()) {
                     $groups['ongoing'][] = $item;
                 } else {
                     $groups['ended'][] = $item;
@@ -233,17 +247,20 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             }
         }
 
-
-        $orderByDate = static function (array $left, array $right, bool $asc = true) {
-            if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
+        $orderByDate = static function (ilBlockDataDTO $left, ilBlockDataDTO $right, bool $asc = true) {
+            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
+                IL_CAL_UNIX
+            ) < $right->getStartDate()->get(IL_CAL_UNIX)) {
                 return $asc ? -1 : 1;
             }
 
-            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
+                IL_CAL_UNIX
+            ) > $right->getStartDate()->get(IL_CAL_UNIX)) {
                 return $asc ? 1 : -1;
             }
 
-            return strcmp($left['title'], $right['title']);
+            return strcmp($left->getTitle(), $right->getTitle());
         };
 
         uasort($groups['upcoming'], static fn ($left, $right) => $orderByDate($left, $right));
@@ -259,6 +276,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $groups;
     }
 
+    /**
+     * @return array<string, ilBlockDataDTO[]>
+     */
     protected function groupItemsByType(): array
     {
         $object_types_by_container = $this->objDefinition->getGroupedRepositoryObjectTypes(
@@ -266,12 +286,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         );
         $grouped_items = [];
         $data = $this->getData();
+        /** @var ilBlockDataDTO[] $data */
         $data = array_merge(...array_values($data));
         $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->viewSettings->getActor());
 
         foreach ($data as $item) {
-            if (isset($object_types_by_container[$item['type']])) {
-                $object_types_by_container[$item['type']]['items'][] = $item;
+            if (isset($object_types_by_container[$item->getType()])) {
+                $object_types_by_container[$item->getType()]['items'][] = $item;
             }
         }
 
@@ -295,19 +316,23 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $grouped_items;
     }
 
+    /**
+     * @return array<string, ilBlockDataDTO[]>
+     */
     protected function groupItemsByLocation(): array
     {
         $grouped_items = [];
         $data = $this->getData();
+        /** @var ilBlockDataDTO[] $data */
         $data = array_merge(...array_values($data));
 
         $parent_ref_ids = array_values(array_unique(
-            array_map(fn (array $item): ?int => $this->tree->getParentId($item['ref_id']), $data)
+            array_map(fn (ilBlockDataDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
         ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
         foreach ($data as $key => $item) {
-            $parent_ref = $this->tree->getParentId($item['ref_id']);
+            $parent_ref = $this->tree->getParentId($item->getRefId());
             if ($this->isRootNode($parent_ref)) {
                 $title = $this->getRepositoryTitle();
             } else {
@@ -438,6 +463,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
+    /**
+     * @return array<string, ilBlockDataDTO[]>
+     */
     public function getItemGroups(): array
     {
         switch ($this->viewSettings->getEffectiveSortingMode()) {
@@ -473,7 +501,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             case 'manage':
                 $modal = $this->ui->factory()->modal()->roundtrip(
                     $this->getRemoveMultipleActionText(),
-                    $this->ui->factory()->legacy($this->manage($replace_signal))
+                    $this->ui->factory()->legacy($this->manage($replace_signal ?? null))
                 );
                 $modal = $modal->withAdditionalOnLoadCode(function ($id) {
                     return "
@@ -520,10 +548,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $group->setLabel($key);
             $items = [];
             foreach ($item_group as $item) {
-                if ($this->rbacsystem->checkAccess('leave', $item['ref_id'])) {
+                if ($this->rbacsystem->checkAccess('leave', $item->getRefId())) {
                     $items[] = $item;
                 }
             }
+            // TODO
             $group->setItems($items);
             $grouped_items[] = $group;
         }
@@ -711,13 +740,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $item_list_gui;
     }
 
+    /**
+     * @param ilBlockDataDTO[] $data
+     */
     private function sortByTitle(array $data, bool $asc = true): array
     {
         uasort(
             $data,
-            static fn ($left, $right) => $asc ?
-                strcmp($left['title'], $right['title']) :
-                strcmp($right['title'], $left['title'])
+            static fn (ilBlockDataDTO $left, ilBlockDataDTO $right) => $asc ?
+                strcmp($left->getTitle(), $right->getTitle()) :
+                strcmp($right->getTitle(), $left->getTitle())
         );
         return $data;
     }

@@ -69,18 +69,30 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
                 $desc = ilStr::shortenTextExtended($desc, $short_desc_max_length, true);
             }
             $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-
-            return [
-                'title' => ilObject::_lookupTitle($obj_id),
-                'description' => $desc,
-                'ref_id' => $ref_id,
-                'obj_id' => $obj_id,
-                'url' => '',
-                'obj' => $obj,
-                'type' => ilObject::_lookupType($obj_id),
-                'start' => null,
-                'end' => null,
-            ];
+            $start = null;
+            $end = null;
+            if ($obj) {
+                switch (get_class($obj)) {
+                    case ilObjGroup::class:
+                    case ilObjCourse::class:
+                        $start = new ilDateTime($obj->getActivationStart());
+                        $end = new ilDateTime($obj->getActivationEnd());
+                        break;
+                    case ilObjTest::class:
+                        $start = new ilDateTime($obj->getStartingTime());
+                        $end = new ilDateTime($obj->getEndingTime());
+                        break;
+                }
+            }
+            return new ilBlockDataDTO(
+                ilObject::_lookupType($obj_id),
+                $ref_id,
+                $obj_id,
+                ilObject::_lookupTitle($obj_id),
+                $desc,
+                $start,
+                $end,
+            );
         }, $recommendations);
 
         $this->setData(['' => $recommendations]);

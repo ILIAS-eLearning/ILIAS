@@ -24,15 +24,14 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
     protected ?string $visible_on_pd_mode = null;
 
-    protected function getListItemForData(array $data): ?Item
+    protected function getListItemForDataDTO(ilBlockDataDTO $data): ?Item
     {
-        $item_gui = $this->byType($data['type']);
+        $item_gui = $this->byType($data->getType());
         $item_gui->initItem(
-            $data['ref_id'],
-            $data['obj_id'],
-            $data['type'],
-            $data['title'],
-            $data['description'],
+            $data->getRefId(),
+            $data->getObjId(),
+            $data->getTitle(),
+            $data->getDescription(),
         );
         $item_gui->enableCommands(true, false);
         $item_gui->insertCommands();
@@ -52,8 +51,13 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
             },
             $commands
         );
-        $prg = $data['obj'];
-        $properties = $data['properties'];
+
+        $prg = $data->getAdditionalData()['prg'] ?? null;
+        if (!$prg instanceof ilObjStudyProgramme) {
+            return null;
+        }
+        $properties = $data->getAdditionalData()['properties'] ?? [];
+
         $title = $prg->getTitle();
         $link = $this->getDefaultTargetUrl($prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
@@ -154,17 +158,16 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                 $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
             }
 
-            $items[] = [
-                'title' => $prg->getTitle(),
-                'description' => $prg->getDescription(),
-                'properties' => $properties,
-                'ref_id' => $prg->getRefId(),
-                'obj_id' => $prg->getId(),
-                'type' => $prg->getType(),
-                'obj' => $prg,
-                'start' => null,
-                'end' => null,
-            ];
+            $items[] = new ilBlockDataDTO(
+                $prg->getType(),
+                $prg->getRefId(),
+                $prg->getId(),
+                $prg->getTitle(),
+                $prg->getDescription(),
+                null,
+                null,
+                ['prg' => $prg, 'properties' => $properties]
+            );
         }
 
         $this->setData(['' => $items]);
