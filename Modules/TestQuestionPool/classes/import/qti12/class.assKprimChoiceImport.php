@@ -205,7 +205,7 @@ class assKprimChoiceImport extends assQuestionImport
         $this->object->setOptionLabel($item->getMetadataEntry("option_label_setting"));
         $this->object->setCustomTrueOptionLabel($item->getMetadataEntry("custom_true_option_label"));
         $this->object->setCustomFalseOptionLabel($item->getMetadataEntry("custom_false_option_label"));
-        $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
+        $this->object->setThumbSize((int) $item->getMetadataEntry("thumb_size"));
 
         $this->object->saveToDb();
 
