@@ -6140,7 +6140,7 @@ content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
 content#:#cont_auto_suspend#:#Safeguard tracking data
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
 content#:#cont_autoindent#:#Auto Indent
 content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.
