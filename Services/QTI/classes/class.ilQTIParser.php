@@ -760,7 +760,7 @@ class ilQTIParser extends ilSaxParser
                 if (!ilAssQuestionTypeList::isImportable($qt)) {
                     return;
                 }
-                assQuestion::_includeClass($qt);
+
                 $question = new $qt();
                 $fbt = str_replace('ass', 'ilAss', $qt) . 'Feedback';
                 $question->feedbackOBJ = new $fbt(
@@ -787,7 +787,7 @@ class ilQTIParser extends ilSaxParser
             case "material":
                 if ($this->material) {
                     $mat = $this->material->getMaterial(0);
-                    if(!is_array($mat)) {
+                    if (!is_array($mat)) {
                         $this->material = null;
                         break;
                     }
