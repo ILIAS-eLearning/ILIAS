@@ -997,12 +997,12 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $startrow + $i + 1;
     }
 
-    public function getThumbSize()
+    public function getThumbSize(): ?int
     {
         return $this->thumb_size;
     }
 
-    public function setThumbSize($a_size): void
+    public function setThumbSize(?int $a_size): void
     {
         $this->thumb_size = $a_size;
     }
