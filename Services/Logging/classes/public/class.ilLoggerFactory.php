@@ -137,7 +137,19 @@ class ilLoggerFactory
                 strtolower($this->dic->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
             )
         ) {
-            // In theory, we could analyze the HTTP_ACCEPT header and return true for text/html
+            return false;
+        }
+
+        if (
+            $this->dic->isDependencyAvailable('http') &&
+            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'text/html') !== false
+        ) {
+            return true;
+        }
+        if (
+            $this->dic->isDependencyAvailable('http') &&
+            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'application/json') !== false
+        ) {
             return false;
         }
         return true;

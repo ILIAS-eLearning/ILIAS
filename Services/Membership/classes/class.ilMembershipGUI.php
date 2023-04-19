@@ -773,12 +773,12 @@ class ilMembershipGUI
         $participants = [];
         if ($this->http->wrapper()->post()->has('participants')) {
             $participants = $this->initParticipantsFromPost();
-        } elseif ($this->http->wrapper()->query()->has('member_id')) {
-            $participants = [$this->initMemberIdFromGet()];
         } elseif ($this->http->wrapper()->post()->has('subscribers')) {
             $participants = $this->initSubscribersFromPost();
         } elseif ($this->http->wrapper()->post()->has('waiting')) {
             $participants = $this->initWaitingListIdsFromPost();
+        } elseif ($this->http->wrapper()->query()->has('member_id')) {
+            $participants = [$this->initMemberIdFromGet()];
         }
         if (!count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
