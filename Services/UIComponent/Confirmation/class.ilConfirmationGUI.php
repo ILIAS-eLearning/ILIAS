@@ -160,7 +160,6 @@ class ilConfirmationGUI
         if (count($this->item) > 0) {
             $ctab = new ilConfirmationTableGUI($this->use_images);
             $ctab->setData($this->item);
-            $ctab->setPreventDoubleSubmission(false);
 
             foreach ($this->buttons as $b) {
                 $ctab->addCommandButton($b["cmd"], $b["txt"]);

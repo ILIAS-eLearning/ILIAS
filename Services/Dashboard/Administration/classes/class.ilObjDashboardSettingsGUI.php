@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * Dashboard settings
@@ -29,6 +31,9 @@ use ILIAS\UI\Component\Input\Field\FormInput;
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
+    public const VIEW_MODE_SETTINGS = 'Settings';
+    public const VIEW_MODE_PRESENTATION = 'Presentation';
+    public const VIEW_MODE_SORTING = 'Soriting';
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
@@ -118,7 +123,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $this->setSettingsSubTabs("general");
         $ui = $this->ui;
-        $form = $this->initForm();
+        $form = $this->getViewForm(self::VIEW_MODE_SETTINGS);
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
@@ -127,26 +132,33 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("sorting");
         $ui = $this->ui;
-        $form = $this->initSortingForm();
+        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
-    public function initSortingForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getViewForm(string $mode): StandardForm
     {
-        return $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'saveSorting'),
-            array_map(
-                fn (int $view): ILIAS\UI\Component\Input\Field\Section =>
-                $this->getViewSorting(
-                    $view,
-                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
-                ),
-                $this->viewSettings->getPresentationViews()
-            )
-        );
+        switch ($mode) {
+            case self::VIEW_MODE_PRESENTATION:
+            case self::VIEW_MODE_SORTING:
+                return $this->ui_factory->input()->container()->form()->standard(
+                    $this->ctrl->getFormAction($this, 'save' . $mode),
+                    array_map(
+                        fn (int $view): Section =>
+                        $this->getViewByMode(
+                            $mode,
+                            $view
+                        ),
+                        $this->viewSettings->getPresentationViews()
+                    )
+                );
+            case self::VIEW_MODE_SETTINGS:
+            default:
+                return $this->getSettingsForm();
+        }
     }
 
-    public function getViewSorting(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
+    public function getViewSectionSorting(int $view, string $title): Section
     {
         $this->tpl->addJavaScript("Services/Dashboard/Administration/js/SortationUserInputHandler.js");
         $lng = $this->lng;
@@ -190,7 +202,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getSettingsForm(): StandardForm
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -242,19 +254,21 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function getPresentationForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getViewByMode(string $mode, int $view): Section
     {
-        return $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'savePresentation'),
-            array_map(
-                fn (int $view): ILIAS\UI\Component\Input\Field\Section =>
-                    $this->getViewPresentation(
-                        $view,
-                        $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
-                    ),
-                $this->viewSettings->getPresentationViews()
-            )
-        );
+        switch ($mode) {
+            case self::VIEW_MODE_SORTING:
+                return $this->getViewSectionSorting(
+                    $view,
+                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
+                );
+            case self::VIEW_MODE_PRESENTATION:
+            default:
+                return $this->getViewSectionPresentation(
+                    $view,
+                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
+                );
+        }
     }
 
     public function saveSettings(): void
@@ -270,7 +284,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $request = $this->request;
 
-        $form = $this->initForm();
+        $form = $this->getViewForm(self::VIEW_MODE_SETTINGS);
         $form = $form->withRequest($request);
         $form_data = $form->getData();
         $this->viewSettings->enableSelectedItems(($form_data['main_panel']['enable_favourites']));
@@ -327,12 +341,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("presentation");
 
-        $form = $this->getPresentationForm();
+        $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
 
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
-    public function getViewPresentation(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
+    public function getViewSectionPresentation(int $view, string $title): ILIAS\UI\Component\Input\Field\Section
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
@@ -359,7 +373,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        $form = $this->getPresentationForm();
+        $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
         $form = $form->withRequest($request);
         $form_data = $form->getData();
 
@@ -387,7 +401,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $this->editSorting();
         }
 
-        $form = $this->initSortingForm();
+        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
         $form = $form->withRequest($this->request);
         $form_data = $form->getData();
 

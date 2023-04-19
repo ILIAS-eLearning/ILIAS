@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use JetBrains\PhpStorm\NoReturn;
+use ILIAS\UI\Component\Card\RepositoryObject;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
@@ -44,7 +46,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     /** @var array<string, array>  */
     protected array $data;
 
-
     public function __construct()
     {
         parent::__construct();
@@ -59,23 +60,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC["objDefinition"];
-
         $this->new_rendering = true;
-        $this->initViewSettings();
-        $this->viewSettings->parse();
         $this->rbacsystem = $DIC->rbac()->system();
-
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
-        if ($this->viewSettings->isTilePresentation()) {
-            $this->setPresentation(self::PRES_MAIN_LEG);
-        } else {
-            $this->setPresentation(self::PRES_MAIN_LIST);
-        }
-
-        $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_item_ref_id = (int) ($params["item_ref_id"] ?? 0);
-
-        $this->initData();
+        $this->init();
     }
 
     abstract public function initViewSettings(): void;
@@ -86,7 +73,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     abstract public function emptyHandling(): string;
 
-    protected function getCardForData(array $data): ?\ILIAS\UI\Component\Card\RepositoryObject
+    protected function getCardForData(array $data): ?RepositoryObject
     {
         $itemListGui = $this->byType($data['type']);
         ilObjectActivation::addListGUIActivationProperty($itemListGui, $data);
@@ -122,7 +109,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
 
-    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data): ?Item
     {
         $itemListGui = $this->byType($data['type']);
         $this->addCustomCommandsToActionMenu($itemListGui, $data['ref_id']);
@@ -174,23 +161,29 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $this->viewSettings;
     }
 
-    protected function initAndShow(): void
+    public function init(): void
     {
         $this->initViewSettings();
+        $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/replaceModalContent.js');
         $this->viewSettings->parse();
+        $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()["item_ref_id"] ?? 0);
         $this->initData();
 
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
         } else {
             $this->setPresentation(self::PRES_MAIN_LIST);
         }
+    }
 
+    protected function initAndShow(): void
+    {
+        $this->init();
         if ($this->ctrl->isAsynch()) {
             echo $this->getHTML();
             exit;
         }
-
         $this->returnToContext();
     }
 
@@ -439,7 +432,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     protected function returnToContext(): void
     {
-        $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         if ($this->http->request()->getQueryParams()['manage'] ?? false) {
             $this->ctrl->redirect($this, 'manage');
         }
@@ -497,7 +489,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         exit;
     }
 
-    public function manage(ILIAS\UI\Component\ReplaceSignal $replace_signal = null): string
+    public function manage(ReplaceSignal $replace_signal = null): string
     {
         $page = '';
         if ($this->http->wrapper()->query()->has('page')) {
@@ -515,26 +507,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             true
         ) . '&page=confirm';
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
-        ->withOnLoadCode(function ($id) use ($url) {
-            return "
-            $('#$id').on('click', function() {
-            var post_data = $('form[name=\"pd_remove_multiple\"').serializeArray();
-            var selected_ids = [];
-            post_data.forEach(function (item) {
-                selected_ids.push(item.value);
+            ->withOnLoadCode(function ($id) use ($url) {
+                return "
+                        replaceModalContent('$id', '$url');
+                ";
             });
-            var modal = $('div[data-modal-name=\"remove_modal\"]');
-            post_data = '';
-            for (var i = 0; i < selected_ids.length; i++) {
-                post_data += 'id[]=' + encodeURIComponent(selected_ids[i]) + '&';
-            }
-            post_data = post_data.slice(0, -1); 
-            $('form[name=\"pd_remove_multiple\"').on('submit', function(e) {
-                e.preventDefault();
-            });
-            modal.find('.modal-footer').remove();
-            il.Util.ajaxReplacePostRequestInner('$url', post_data,'pd_unsubscribe_multiple'); return false;})";
-        });
 
         $grouped_items = [];
         $item_groups = $this->getItemGroups();

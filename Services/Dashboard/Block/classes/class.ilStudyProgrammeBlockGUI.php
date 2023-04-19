@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Item\Item;
+
 class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
     protected ?string $visible_on_pd_mode = null;
 
-    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data): ?Item
     {
         $item_gui = $this->byType($data['type']);
         $item_gui->initItem(

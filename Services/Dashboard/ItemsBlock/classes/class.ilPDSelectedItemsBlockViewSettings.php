@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilPDSelectedItemsBlockViewSettings
- */
+
+declare(strict_types=1);
+
+use ILIAS\Administration\Setting;
+use ILIAS\Dashboard\Access\DashboardAccess;
+
 class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
 {
     /** @var int[] */
@@ -107,19 +108,19 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     ];
 
-    protected ILIAS\Administration\Setting $settings;
+    protected Setting $settings;
     protected ilObjUser $actor;
     protected array $validViews = [];
     protected int $currentView = self::VIEW_SELECTED_ITEMS;
     protected string $currentSortOption = self::SORT_BY_LOCATION;
     protected string $currentPresentationOption = self::PRESENTATION_LIST;
-    protected ILIAS\Dashboard\Access\DashboardAccess $access;
+    protected DashboardAccess $access;
 
     public function __construct(
         ilObjUser $actor,
         int $view = self::VIEW_SELECTED_ITEMS,
-        ILIAS\Administration\Setting $settings = null,
-        ILIAS\Dashboard\Access\DashboardAccess $access = null
+        Setting $settings = null,
+        DashboardAccess $access = null
     ) {
         global $DIC;
 
@@ -127,7 +128,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
         $this->actor = $actor;
         $this->currentView = $view;
-        $this->access = $access ?? new ILIAS\Dashboard\Access\DashboardAccess();
+        $this->access = $access ?? new DashboardAccess();
     }
 
     public function getMembershipsView(): int
