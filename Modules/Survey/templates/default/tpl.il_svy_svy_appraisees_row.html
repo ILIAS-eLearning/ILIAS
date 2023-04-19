@@ -1,23 +1,38 @@
 <tr class="{CSS_ROW}">
 	<td class="std" style="vertical-align: top">
-		<!-- BEGIN cb --><input type="checkbox" name="{MODE}_id[]" value="{ID}" /><!-- END cb -->
+		<!-- BEGIN cb -->
+		<input type="checkbox" aria-label="{MODE}_id[]" name="{MODE}_id[]" value="{ID}" />
+		<!-- END cb -->
 	</td>	
-	<td class="std" style="vertical-align: top">{NAME}</td>
-	<td class="std" style="vertical-align: top">{LOGIN}</td>	
-	<td class="std" style="vertical-align: top">{EMAIL}</td>	
-	<td class="std" style="vertical-align: top">{FINISHED}</td>	
+	<td class="std" style="vertical-align: top">
+		{NAME}
+	</td>
+	<td class="std" style="vertical-align: top">
+		{LOGIN}
+	</td>
+	<td class="std" style="vertical-align: top">
+		{EMAIL}
+	</td>
+	<td class="std" style="vertical-align: top">
+		{FINISHED}
+	</td>
 	<!-- BEGIN closed_bl -->
-	<td class="std" style="vertical-align: top">{CLOSED}</td>	
+	<td class="std" style="vertical-align: top">
+		{CLOSED}
+	</td>
 	<!-- END closed_bl -->
 	<!-- BEGIN action_bl -->
 	<td class="std small" style="vertical-align: top">
-		<a href="{HREF}">{URL}</a>
+		<a aria-label="{URL}" href="{HREF}">
+			{URL}
+		</a>
 	</td>
 	<!-- END action_bl -->
 	<!-- BEGIN url_bl -->
 	<td class="std small" style="vertical-align: top">
 		<!-- BEGIN direct_bl -->
-		<input type="text" size="15" value="{DIRECT_HREF}" onclick="this.focus(); this.select(); return false;" />
+		<input aria-label="{NO_HREF}" type="text" size="15" value="{DIRECT_HREF}"
+			   onclick="this.focus(); this.select(); return false;" />
 		<!-- END direct_bl -->
 		{NO_HREF}
 	</td>

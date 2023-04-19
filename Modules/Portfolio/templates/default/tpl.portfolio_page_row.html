@@ -3,11 +3,15 @@
 		<input type="checkbox" name="prtf_pages[]" value="{ID}" />
 	</td>-->
 	<td class="std small">
-		<input type="text" size="3" maxlength="3" name="order[{ID}]" value="{VAL_ORDER_NR}" class="form-control" />
+		<input type="text" size="3" maxlength="3" name="order[{ID}]"
+			   aria-label="order[{ID}]"
+			   value="{VAL_ORDER_NR}" class="form-control" />
 	</td>
 	<td class="std small">
 		<!-- BEGIN title_field -->
-		<input type="text" size="50" maxlength="200" name="title[{ID}]" value="{VAL_TITLE}" class="form-control" />
+		<input type="text" size="50" maxlength="200" name="title[{ID}]"
+			   aria-label="title[{ID}]"
+			   value="{VAL_TITLE}" class="form-control" />
 		<!-- END title_field -->
 		<!-- BEGIN title_static -->
 		{VAL_TITLE_STATIC}
@@ -18,7 +22,9 @@
 	</td>
 	<td class="std small">
 		<!-- BEGIN action -->
-		<a href="{CMD_EDIT}">{TXT_EDIT}</a>
+		<a aria-label="{TXT_EDIT}" href="{CMD_EDIT}">
+			{TXT_EDIT}
+		</a>
 		<!-- END action -->
 		{SPLIT_BUTTON}
 	</td>

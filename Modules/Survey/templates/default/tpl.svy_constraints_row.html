@@ -10,18 +10,25 @@
 		{COUNTER}.
 	</td>
 	<td class="std" style="vertical-align: top">
-		<img src="{ICON_HREF}" alt="{ICON_ALT}" /> {TITLE}
+		<img src="{ICON_HREF}" alt="{ICON_ALT}" />
+		{TITLE}
 	</td>
 	<td class="std" style="vertical-align: top">
 		{CONTENT}
 		<!-- BEGIN conjunction -->
-		<div>{TEXT_CONJUNCTION}:</div>
+		<div>
+			{TEXT_CONJUNCTION}:
+		</div>
 		<!-- END conjunction -->
 		<!-- BEGIN constraint -->		
 		{CONSTRAINT_TEXT}
 		<!-- BEGIN constraint_actions -->
-		<a class="il_ContainerItemCommand" href="{EDIT_PRECONDITION}">{TEXT_EDIT_PRECONDITION}</a>
-		<a class="il_ContainerItemCommand" href="{DELETE_PRECONDITION}">{TEXT_DELETE_PRECONDITION}</a>
+		<a aria-label="{TEXT_EDIT_PRECONDITION}" class="il_ContainerItemCommand" href="{EDIT_PRECONDITION}">
+			{TEXT_EDIT_PRECONDITION}
+		</a>
+		<a aria-label="{TEXT_DELETE_PRECONDITION}" class="il_ContainerItemCommand" href="{DELETE_PRECONDITION}">
+			{TEXT_DELETE_PRECONDITION}
+		</a>
 		<!-- END constraint_actions -->
 		<br />
 		<!-- END constraint -->

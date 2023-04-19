@@ -13,10 +13,14 @@
 			<!-- BEGIN path_bl -->
 			<div class="ilPCMyCoursesPath">{PATH}</div>
 			<!-- END path_bl -->
-			<a class="{TOGGLE_CLASS}" href="#"{NO_TOGGLE}><img class="course-list-tree-icon" src="templates/default/images/tree_col.svg" /></a>
+			<a aria-label="Toggle/Untoggle" class="{TOGGLE_CLASS}" href="#"{NO_TOGGLE}>
+				<img class="course-list-tree-icon" src="templates/default/images/tree_col.svg" />
+			</a>
 			<img src="{CRS_ICON_URL}" alt="{CRS_ICON_ALT}" title="{CRS_ICON_ALT}" class="ilIcon"/>
 			<!-- BEGIN course_link_bl -->
-			<a href="{COURSE_LINK_URL}">{COURSE_LINK_TITLE}</a>
+			<a aria-label="{COURSE_LINK_TITLE}" href="{COURSE_LINK_URL}">
+				{COURSE_LINK_TITLE}
+			</a>
 			<!-- END course_link_bl -->
 			<!-- BEGIN course_nolink_bl -->
 			{COURSE_NOLINK_TITLE}
@@ -28,12 +32,15 @@
 			<br class="ilClearFloat" />
 			<!-- END lp_bl -->				
 			<!-- BEGIN objectives_bl -->
-			<ul class="il_Explorer ilPCMyCoursesObjectiveList" id="objtvlst_{OBJTV_LIST_CRS_ID}" <!-- BEGIN objective_dnone -->style="display:none"<!-- END objective_dnone -->>
+			<ul class="il_Explorer ilPCMyCoursesObjectiveList" id="objtvlst_{OBJTV_LIST_CRS_ID}"
+			<!-- BEGIN objective_dnone -->style="display:none"<!-- END objective_dnone -->>
 				<!-- BEGIN objective_bl -->
 				<li>
 					<img src="{OBJTV_ICON_URL}" alt="{OBJTV_ICON_ALT}" title="{OBJTV_ICON_ALT}" />
 					<!-- BEGIN objective_link_bl -->
-					<a href="{OBJECTIVE_LINK_URL}" id="{OBJECTIVE_LINK_ID}">{OBJECTIVE_LINK_TITLE}</a>					
+					<a aria-label="{OBJECTIVE_LINK_TITLE}" href="{OBJECTIVE_LINK_URL}" id="{OBJECTIVE_LINK_ID}">
+						{OBJECTIVE_LINK_TITLE}
+					</a>
 					<!-- END objective_link_bl -->
 					<!-- BEGIN objective_nolink_bl -->
 					{OBJECTIVE_NOLINK_TITLE}	

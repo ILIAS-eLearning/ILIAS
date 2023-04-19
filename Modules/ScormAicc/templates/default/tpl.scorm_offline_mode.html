@@ -8,7 +8,8 @@
 		"client"			: '{CLIENT_ID_SOP}',
 		"mode"				: '{OFFLINE_MODE}',
 		"sop_wait_download"		: 'Please wait for downloading sop ',
-		"sop_download_successed"	: 'sop downloaded successfully. <br /> You can now export the SCORM Learning Module.',
+		"sop_download_successed"	:
+				'sop downloaded successfully. <br /> You can now export the SCORM Learning Module.',
 		"sop_download_failed"		: 'sop download failed.',
 		"sop_check_system_requirements"	: '{CHECK_SYSTEM_REQUIREMENTS}',
 		"sop_system_check_https"	: '{SOP_SYSTEM_CHECK_HTTPS}',
@@ -26,29 +27,51 @@
 		"som_url"			: '{SOM_URL}',
 		"tracking_url"			: '{TRACKING_URL}'
 	};
-		
 </script>
+
 <div id="iliasOfflineManager">
 	<div id="onlineForm">
-		<div><input id="btnExport" class="btn btn-default btn-sm" type="button" value="{EXPORT}" onclick="sop.exportLm()"/>&nbsp;&nbsp;{TEXT_EXPORT}</div>
-		<div class="ilHeaderDesc">{DESC_EXPORT}</div>
+		<div>
+			<input role="button" id="btnExport" class="btn btn-default btn-sm" type="button"
+				   value="{EXPORT}" onclick="sop.exportLm()"/>&nbsp;&nbsp;
+			{TEXT_EXPORT}
+		</div>
+		<div class="ilHeaderDesc">
+			{DESC_EXPORT}
+		</div>
 	</div>
 	<div id="offlineForm">
 		<div>
-			<div class="sopBtn"><input id="btnStartOffline" class="btn btn-default btn-sm" type="button" value="{START_SOP}" onclick="sop.startSop()"/>&nbsp;&nbsp;{TEXT_START_SOP}</div>
-			<div class="sopBtn"><input id="btnStartSom" class="btn btn-default btn-sm" type="button" value="{START_SOM}" onclick="sop.startSom()"/>&nbsp;&nbsp;{TEXT_START_SOM}</div>
+			<div class="sopBtn">
+				<input id="btnStartOffline" class="btn btn-default btn-sm" type="button" value="{START_SOP}"
+					   onclick="sop.startSop()"/>&nbsp;&nbsp;{TEXT_START_SOP}
+			</div>
+			<div class="sopBtn">
+				<input role="button" id="btnStartSom" class="btn btn-default btn-sm" type="button"
+					   value="{START_SOM}" onclick="sop.startSom()"/>&nbsp;&nbsp;
+				{TEXT_START_SOM}
+			</div>
 		</div>
 		<hr />
-		<div class="sopBtn"><input id="btnPushTracking" class="btn btn-default btn-sm" type="button" value="{PUSH_TRACKING}" onclick="sop.pushTracking()"/>&nbsp;&nbsp;{TEXT_PUSH_TRACKING}</div>
+		<div class="sopBtn">
+			<input role="button" id="btnPushTracking" class="btn btn-default btn-sm"
+		   	type="button" value="{PUSH_TRACKING}" onclick="sop.pushTracking()"/>&nbsp;
+			{TEXT_PUSH_TRACKING}
+		</div>
 		<div class="chkPurgeCache">
 			<label for="chkPurgeCache">
-				<input type="checkbox" name="chkPurgeCache" value="chkPurgeCache" id="chkPurgeCache">
+				<input type="checkbox" aria-label="chkPurgeCache"
+					   name="chkPurgeCache" value="chkPurgeCache" id="chkPurgeCache">
 				{PURGE_CACHE}
 			</label> 
 		</div>
 	</div>
-	<div id="sopMessage"></div>
-	<div id="sopProgress"></div>
-	<div id="lmNotExists">{LM_NOT_EXISTS}</div>
+	<div id="sopMessage">
+	</div>
+	<div id="sopProgress">
+	</div>
+	<div id="lmNotExists">
+		{LM_NOT_EXISTS}
+	</div>
 </div>
 <!-- END offline_content -->

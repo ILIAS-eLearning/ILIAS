@@ -2,12 +2,12 @@
 <table class="std">
 <tr class="tblheader">
 	<td class="std" colspan="2">
-		<table cellspacing="0" cellpadding="0" width="100%">
-			<tr>
-				<td>{TXT_PROPERTIES} (SCORM 1.2)</td>
-				<td align="right">{TXT_VERSION} : {VAL_VERSION} </td>
-			</tr>	
-		</table>
+		<ul cellspacing="0" cellpadding="0" width="100%">
+			<li>
+				<div>{TXT_PROPERTIES} (SCORM 1.2)</div>
+				<div align="right">{TXT_VERSION} : {VAL_VERSION} </div>
+			</li>
+		</ul>
 	</td>
 </tr>
 <tr class="std">
@@ -15,15 +15,17 @@
 	{TXT_ONLINE}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
+	<input type="checkbox"
+		   aria-label="{CBOX_ONLINE}"
+		   name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
 	</td>
 </tr>
 <tr class="std">
 	<td class="option">
-	{TXT_OPEN}
+		{TXT_OPEN}
 	</td>
 	<td>
-	{SEL_OPEN}
+		{SEL_OPEN}
 	</td>
 </tr>
 <tr class="std">
@@ -31,7 +33,7 @@
 	{TXT_WIDTH}
 	</td>
 	<td class="option_value">
-	<input type="text" size="4" length="4" name="width" value="{VAL_WIDTH}">
+		<input type="text" size="4" length="4" aria-label="width" name="width" value="{VAL_WIDTH}">
 	</td>
 </tr>
 <tr class="std">
@@ -39,7 +41,7 @@
 	{TXT_HEIGHT}
 	</td>
 	<td class="option_value">
-	<input type="text" size="4" length="4" name="height" value="{VAL_HEIGHT}">
+		<input type="text" size="4" length="4" aria-label="height" name="height" value="{VAL_HEIGHT}">
 	</td>
 </tr>
 <tr class="std">
@@ -47,7 +49,7 @@
 	{MAX_ATTEMPTS}
 	</td>
 	<td class="option_value">
-	<input type="text" size="3" length="3" name="max_attempt" value="{VAL_MAX_ATTEMPT}">
+		<input type="text" size="3" aria-label="max_attempt" length="3" name="max_attempt" value="{VAL_MAX_ATTEMPT}">
 	</td>
 </tr>
 <tr class="std">
@@ -55,7 +57,8 @@
 	{TXT_API_ADAPTER}
 	</td>
 	<td class="option_value">
-	<input name="api_adapter" type="text" value="{VAL_API_ADAPTER}" size="30" maxlength="30">
+		<input aria-label="api_adapter" name="api_adapter" type="text" value="{VAL_API_ADAPTER}" size="30"
+			   maxlength="30">
 	</td>
 </tr>
 <tr class="std">
@@ -63,15 +66,15 @@
 	{TXT_API_PREFIX}
 	</td>
 	<td class="option_value">
-	<input name="api_func_prefix" type="text" value="{VAL_API_PREFIX}" size="20" maxlength="20">
+		<input name="api_func_prefix" type="text" value="{VAL_API_PREFIX}" size="20" maxlength="20">
 	</td>
 </tr>
 <tr class="std">
 	<td class="option">
-	{TXT_LESSON_MODE}
+		{TXT_LESSON_MODE}
 	</td>
 	<td>
-	{SEL_LESSON_MODE}
+		{SEL_LESSON_MODE}
 	</td>
 </tr>
 <tr class="std">
@@ -87,7 +90,8 @@
 	{TXT_AUTO_REVIEW}
 	</td>
 	<td>
-	<input type="checkbox" name="{CBOX_AUTO_REVIEW}" value="{VAL_AUTO_REVIEW}" {CHK_AUTO_REVIEW}>
+		<input type="checkbox" aria-label="{CBOX_AUTO_REVIEW}" name="{CBOX_AUTO_REVIEW}"
+			   value="{VAL_AUTO_REVIEW}" {CHK_AUTO_REVIEW}>
 	</td>
 </tr>
 
@@ -96,60 +100,65 @@
 	{TXT_AUTO_CONTINUE}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_AUTO_CONTINUE}" value="{VAL_AUTO_CONTINUE}" {CHK_AUTO_CONTINUE}>
+		<input type="checkbox" name="{CBOX_AUTO_CONTINUE}"
+			   aria-label="{CBOX_AUTO_CONTINUE}"
+			   value="{VAL_AUTO_CONTINUE}" {CHK_AUTO_CONTINUE}>
 	</td>
 </tr>
 
 <tr class="std">
 	<td class="option">
-	{TXT_AUTO_LAST_VISITED}
+		{TXT_AUTO_LAST_VISITED}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_AUTO_LAST_VISITED}" value="{VAL_AUTO_LAST_VISITED}" {CHK_AUTO_LAST_VISITED}>
+		<input type="checkbox" name="{CBOX_AUTO_LAST_VISITED}"
+			   aria-label="{CBOX_AUTO_LAST_VISITED}"
+			   value="{VAL_AUTO_LAST_VISITED}" {CHK_AUTO_LAST_VISITED}>
 	</td>
 </tr>
 
 <tr class="std">
 	<td class="option">
-	{TXT_SESSION}
+		{TXT_SESSION}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_SESSION}" value="{VAL_SESSION}" {CHK_SESSION}>
+		<input type="checkbox" aria-label="{CBOX_SESSION}"
+			   name="{CBOX_SESSION}" value="{VAL_SESSION}" {CHK_SESSION}>
 	</td>
 </tr>
 
 <tr class="std">
 	<td class="option">
-	{TXT_TIME_FROM_LMS}
+		{TXT_TIME_FROM_LMS}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_TIME_FROM_LMS}" value="{VAL_TIME_FROM_LMS}" {CHK_TIME_FROM_LMS}>
+		<input type="checkbox" name="{CBOX_TIME_FROM_LMS}" value="{VAL_TIME_FROM_LMS}" {CHK_TIME_FROM_LMS}>
 	</td>
 </tr>
 
 <tr class="std">
 	<td class="option">
-	{TXT_CHECK_VALUES}
+		{TXT_CHECK_VALUES}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_CHECK_VALUES}" value="{VAL_CHECK_VALUES}" {CHK_CHECK_VALUES}>
+		<input type="checkbox" name="{CBOX_CHECK_VALUES}" value="{VAL_CHECK_VALUES}" {CHK_CHECK_VALUES}>
 	</td>
 </tr>
 
 <tr class="std">
 	<td class="option">
-	{TXT_DEBUG}
+		{TXT_DEBUG}
 	</td>
 	<td class="option_value">
-	<input type="checkbox" name="{CBOX_DEBUG}" value="{VAL_DEBUG}" {CHK_DEBUG} {CHK_ACTIVATED}> {TXT_ACTIVATED}
+		<input type="checkbox" aria-label="{CBOX_DEBUG}" name="{CBOX_DEBUG}" value="{VAL_DEBUG}"
+			   {CHK_DEBUG} {CHK_ACTIVATED}> {TXT_ACTIVATED}
 	</td>
 </tr>
-
 
 <!-- BEGIN commands -->
 <tr>
 	<td class="submit" colspan="2">
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input role="button" class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 	</td>
 </tr>
 <!-- END commands -->

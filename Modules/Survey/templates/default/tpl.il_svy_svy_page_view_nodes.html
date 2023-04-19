@@ -3,11 +3,17 @@
 	<div class="il_droparea" id="droparea_{DROP_ID}">
 		<!-- BEGIN dropdown_menu_bl -->
 		<div class="btn-group" style="width:100%">
-			<div class="dropdown-toggle contextmenu" data-toggle="dropdown" data-container="body">{ICON_ADD}</div>						
+			<div class="dropdown-toggle contextmenu" data-toggle="dropdown" data-container="body">
+				{ICON_ADD}
+			</div>
 			<ul class="dropdown-menu" role="menu">
 				<!-- BEGIN menu_cmd -->										
 				<li>						
-					<a href="{URL_MENU_CMD}"><span>{TXT_MENU_CMD}</span></a>
+					<a aria-label="{TXT_MENU_CMD}" href="{URL_MENU_CMD}">
+						<span>
+							{TXT_MENU_CMD}
+						</span>
+					</a>
 				</li>					
 				<!-- END menu_cmd -->
 			</ul>					
@@ -23,10 +29,14 @@
 			<div class="dropdown-toggle contextmenu" data-toggle="dropdown" data-container="body" style="padding: 10px;">												
 				{TXT_NODE_CONTENT_ACTIONS}				
 			</div>					 			
-			<ul class="dropdown-menu" role="menu" id="actions_{NODE_ID}">
+			<ul class="dropdown-menu" role="menu" aria-haspopup="true" id="actions_{NODE_ID}">
 				<!-- BEGIN action_cmd -->										
 				<li>						
-					<a href="{URL_ACTION_CMD}"><span>{TXT_ACTION_CMD}</span></a>
+					<a aria-label="{TXT_ACTION_CMD}" href="{URL_ACTION_CMD}">
+						<span>
+							{TXT_ACTION_CMD}
+						</span>
+					</a>
 				</li>					
 				<!-- END action_cmd -->
 			</ul>

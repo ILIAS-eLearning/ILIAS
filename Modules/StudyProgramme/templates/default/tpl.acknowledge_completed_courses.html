@@ -3,13 +3,19 @@
 		<div class="ilFormHeader">
 			<h3 class="ilHeader">{TITLE}</h3>
 			<div class="ilFormCmds">
-				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
-				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
+				<input class="btn btn-default btn-sm"
+					   role="button"
+					   type="SUBMIT" value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
+				<input class="btn btn-default btn-sm"
+					   role="button"
+					   type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
 			</div>
 		</div>
 		<!-- BEGIN usr_section -->
 		<div class="ilFormHeader">
-			<h4 class="ilHeader">{LASTNAME}, {FIRSTNAME}</h4>
+			<h4 class="ilHeader">
+				{LASTNAME}, {FIRSTNAME}
+			</h4>
 		</div>
 		<div class="form-group">
 			{TABLE}
@@ -18,11 +24,15 @@
 		<!-- BEGIN usr_ids_section -->
 		<input type="hidden" name="users[]" value="{USR_ID}" />
 		<!-- END usr_ids_section -->
-		<div class="ilFormHeader"></div><!-- FOR SPACING -->
+		<div class="ilFormHeader">
+		</div>
+		<!-- FOR SPACING -->
 		<div class="ilFormFooter clearfix">
 			<div class="ilFormCmds">
-				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
-				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
+				<input role="button" class="btn btn-default btn-sm" type="SUBMIT"
+					   value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
+				<input role="button" class="btn btn-default btn-sm" type="SUBMIT"
+					   value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
 			</div>
 		</div>
 	</div>

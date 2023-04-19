@@ -5,44 +5,52 @@
 		<!-- BEGIN multi_cmds -->
 		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
 		<!-- BEGIN multi_cmd -->
-		<input class="btn btn-default" type="submit" name="cmd[{ORG_CMD_MULTI}]" value="{MULTI_CMD_TXT}" onClick="return ilSurveyPageView.multiAction('{ORG_CMD_MULTI}', '{MULTI_CMD}');" />
+		<input role="button" class="btn btn-default" type="submit" name="cmd[{ORG_CMD_MULTI}]"
+			   value="{MULTI_CMD_TXT}" onClick="return ilSurveyPageView.multiAction('{ORG_CMD_MULTI}',
+			   '{MULTI_CMD}');" />
 		<!-- END multi_cmd -->
 		<!-- END multi_cmds -->	
 	</div>
 	<!-- END commands -->
-</div>	
-
-
+</div>
 <div style="margin-top: 10px;">
-<!-- BEGIN help_section -->
-<div id="ilPageEditLegend">
-	<div>
-		<div class="il_droparea">{PLUS}</div>
-		<span class="subtitle">{TXT_ADD_EL}</span>
+	<!-- BEGIN help_section -->
+	<div id="ilPageEditLegend">
+		<div>
+			<div class="il_droparea">
+				{PLUS}
+			</div>
+			<span class="subtitle">
+				{TXT_ADD_EL}
+			</span>
+		</div>
+		<div>
+			<div class="ilPageEditLegendElement">
+			</div>
+			{DRAG_ARROW}
+			<div class="il_droparea">
+				{PLUS}
+			</div>
+			<span class="subtitle">
+				{TXT_DRAG}
+			</span>
+		</div>
+		<div>
+			<div class="ilPageEditLegendElement">
+			</div>
+			<span class="subtitle">{TXT_SEL}</span>
+		</div>
 	</div>
-	<div>
-		<div class="ilPageEditLegendElement">&nbsp;</div>
-		{DRAG_ARROW}
-		<div class="il_droparea">{PLUS}</div>
-		<span class="subtitle">{TXT_DRAG}</span>
-	</div>
-	<div>
-		<div class="ilPageEditLegendElement">&nbsp;</div>
-		<span class="subtitle">{TXT_SEL}</span>
-	</div>
+	<!-- END help_section -->
 </div>
-<!-- END help_section -->
-</div>
-
 <form method="post" action="{FORM_ACTION}" id="form_hform" class="form-inline">
-<input type="hidden" id="il_hform_cmd" name="" value="" />
-<input type="hidden" id="il_hform_node" name="il_hform_node" value="" />
-<input type="hidden" id="il_hform_subcmd" name="il_hform_subcmd" value="" />
-<input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
-<input type="hidden" id="il_hform_source_id" name="il_hform_source" value="" />
-<input type="hidden" id="il_hform_target_id" name="il_hform_target" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_cmd" name="" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_node" name="il_hform_node" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_subcmd" name="il_hform_subcmd" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_source_id" name="il_hform_source" value="" />
+	<input aria-hidden="true" type="hidden" id="il_hform_target_id" name="il_hform_target" value="" />
 </form>
-
 <script language="JavaScript" type="text/javascript">
-ilSurveyPageView.init();
+	ilSurveyPageView.init();
 </script>

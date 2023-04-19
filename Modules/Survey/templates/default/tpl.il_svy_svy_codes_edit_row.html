@@ -1,18 +1,20 @@
 <tr class="{CSS_ROW}">
 	<td class="std" style="vertical-align: top">
-		<label for="cb_{CODE}">{CODE}</label>
-		<input type="hidden" name="chb_code[]" value="{ID}" />
+		<label for="cb_{CODE}">
+			{CODE}
+		</label>
+		<input aria-hidden="true" type="hidden" name="chb_code[]" value="{ID}" />
 	</td>
 	<td class="std" style="vertical-align: top">
-		<input type="text" name="chb_mail[{ID}]" value="{EMAIL}" size="50"/>
+		<input type="text" aria-label="chb_mail[{ID}]" name="chb_mail[{ID}]" value="{EMAIL}" size="50"/>
 	</td>
 	<td class="std" style="vertical-align: top">
-		<input type="text" name="chb_lname[{ID}]" value="{LAST_NAME}" size="25"/>
+		<input type="text" aria-label="chb_lname[{ID}]" name="chb_lname[{ID}]" value="{LAST_NAME}" size="25"/>
 	</td>
 	<td class="std" style="vertical-align: top">
-		<input type="text" name="chb_fname[{ID}]" value="{FIRST_NAME}" size="25"/>
+		<input type="text" aria-label="chb_fname[{ID}]" name="chb_fname[{ID}]" value="{FIRST_NAME}" size="25"/>
 	</td>
 	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="chb_sent[{ID}]" value="1"{SENT}/>
+		<input type="checkbox" aria-label="chb_sent[{ID}]" name="chb_sent[{ID}]" value="1"{SENT}/>
 	</td>
 </tr>

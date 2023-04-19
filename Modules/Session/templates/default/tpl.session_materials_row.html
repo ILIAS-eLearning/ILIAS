@@ -1,10 +1,13 @@
 <tr class="{CSS_ROW}">
     <td class="std">
-        <input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
-        <input type="hidden" name="all_{VAL_POSTNAME}[]" value="{VAL_ID}"/>
+        <input type="checkbox"
+               aria-label="{VAL_POSTNAME}[]"
+               name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+        <input aria-hidden="true" type="hidden" name="all_{VAL_POSTNAME}[]" value="{VAL_ID}"/>
     </td>
     <td class="std">
-        <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" /> {COLL_TITLE}
+        <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" />
+        {COLL_TITLE}
         <!-- BEGIN description -->
         <div class="il_Description_no_margin">{COLL_DESC}</div>
         <!-- END description -->

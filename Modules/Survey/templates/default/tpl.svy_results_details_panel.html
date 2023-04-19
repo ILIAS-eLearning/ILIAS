@@ -3,21 +3,29 @@
 	<!-- BEGIN grid_bl -->
 	<table class="table table-striped">
 		<thead>
-		<tr>
-			<th>&nbsp;</th>
-			<!-- BEGIN grid_col_header_bl -->
-			<th>{COL_HEADER}</th>
-			<!-- END grid_col_header_bl -->
-		</tr>
+			<tr>
+				<th scope="col">
+				</th>
+				<!-- BEGIN grid_col_header_bl -->
+				<th scope="col">
+					{COL_HEADER}
+				</th>
+				<!-- END grid_col_header_bl -->
+			</tr>
 		</thead>
 		<tbody>
-		<!-- BEGIN grid_row_bl -->
-		<tr>
-			<!-- BEGIN grid_col_bl -->
-			<td<!-- BEGIN grid_col_nowrap_bl --> style="white-space: nowrap;"<!-- END grid_col_nowrap_bl -->>{COL_CAPTION}</td>
-			<!-- END grid_col_bl -->
-		</tr>
-		<!-- END grid_row_bl -->
+			<!-- BEGIN grid_row_bl -->
+			<tr>
+				<!-- BEGIN grid_col_bl -->
+				<td
+				<!-- BEGIN grid_col_nowrap_bl -->
+				style="white-space: nowrap;"
+				<!-- END grid_col_nowrap_bl -->>
+				{COL_CAPTION}
+				</td>
+				<!-- END grid_col_bl -->
+			</tr>
+			<!-- END grid_row_bl -->
 		</tbody>
 	</table>
 
@@ -32,7 +40,9 @@
 	<div class="ilFloatLeft" style="padding:10px">
 		<!-- BEGIN legend_bl -->
 		<p class="hidden-print">
-			<span style="background-color: {LEGEND_COLOR}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {LEGEND_CAPTION}
+			<span style="background-color: {LEGEND_COLOR}">
+			</span>
+			{LEGEND_CAPTION}
 		</p>
 		<p class="visible-print">
 			<svg width="20" height="20">
@@ -48,15 +58,17 @@
 		<!-- <a href="{CHART_DL_URL}">{CHART_DL_TXT}</a>-->
 	</div>
 	<!-- END chart_bl -->
-
-
 	<!-- BEGIN texts_bl -->
-		<h4>{TEXT_HEADING}</h4>
-		{TEXT_ACC}
+		<h4>
+			{TEXT_HEADING}
+		</h4>
+			{TEXT_ACC}
 		<!-- BEGIN text_direct_bl -->
 		<ul>
 		<!-- BEGIN text_direct_item_bl -->
-		<li>{TEXT_DIRECT}</li>
+			<li>
+				{TEXT_DIRECT}
+			</li>
 		<!-- END text_direct_item_bl -->
 		</ul>
 		<!-- END text_direct_bl -->

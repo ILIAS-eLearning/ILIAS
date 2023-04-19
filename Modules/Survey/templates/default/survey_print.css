@@ -12,7 +12,8 @@ body {
 	font-size : 10pt; 
 }
 
-.noprint, .il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader, .il_SubTab, .submit, .il_ContainerItemCommand {
+.noprint, .il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader,
+.il_SubTab, .submit, .il_ContainerItemCommand {
 	visibility: hidden;
 	display: none;
 }

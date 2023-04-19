@@ -20,16 +20,17 @@
 	<br/>
 	{MEMBERS}
 	<!-- END member_block -->
-	<table class="fullwidth ilClearFloat">
-		<tr class="tblheader">
-			<td>{TXT_SELECTED_USER}</td>
-		</tr>
-		<tr>
-			<td class="submit">
-				<img src="{ARROW_DOWN}" alt="{ARROW_ALT}" />
-				<input class="btn btn-default" name="cmd[sendMailToSelectedUsers]" value="{BTN_FOOTER_MAIL}" type="submit" />
-			</td>
-		</tr>
-	</table>
+	<div class="fullwidth ilClearFloat">
+		<div class="tblheader">
+
+				{TXT_SELECTED_USER}
+		</div>
+		<br>
+		<div class="submit">
+			<img src="{ARROW_DOWN}" alt="{ARROW_ALT}" />
+			<input role="button" class="btn btn-default" name="cmd[sendMailToSelectedUsers]"
+				   value="{BTN_FOOTER_MAIL}" type="submit" />
+		</div>
+	</div>
 </form>
 

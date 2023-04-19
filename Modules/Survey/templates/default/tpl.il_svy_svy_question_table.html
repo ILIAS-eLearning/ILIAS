@@ -5,32 +5,49 @@
 	<!-- BEGIN write_cols -->
 	<td class="std"{CHECKABLE_INDENT}>
 		<!-- BEGIN checkable -->
-		<input type="checkbox" name="id[]" value="cb_{QUESTION_ID}" />
+		<input type="checkbox" aria-label="id[]" name="id[]" value="cb_{QUESTION_ID}" />
 		<!-- END checkable -->
 	</td>
 	<td class="std"{ORDER_INDENT}>
 		<!-- BEGIN order -->
-		<input type="text" class="form-control" name="{ORDER_NAME}" value="{ORDER_VALUE}" maxlength="3" size="3"/>
+		<input type="text" class="form-control" aria-label="id[]"
+			   name="{ORDER_NAME}" value="{ORDER_VALUE}" maxlength="3" size="3"/>
 		<!-- END order -->
 	</td>
 	<!-- END write_cols -->
 	<td class="std"{TITLE_INDENT}>
 	<!-- BEGIN heading -->
-	<div class="small">{TXT_HEADING}</div>
+	<div class="small">
+		{TXT_HEADING}
+	</div>
 	<!-- END heading -->
 	<!-- BEGIN title_edit -->
-	<a href="{URL_TITLE}">{TITLE}</a>
+	<a href="{URL_TITLE}">
+		{TITLE}
+	</a>
 	<!-- END title_edit -->
 	<!-- BEGIN title_static -->
 	{TITLE}
 	<!-- END title_static -->
 	</td>
-	<td class="std">{OBLIGATORY}</td>
-	<td class="std">{DESCRIPTION}</td>
-	<td class="std">{TYPE}</td>
-	<td class="std">{AUTHOR}</td>
-	<td class="std">{POOL}</td>
+	<td class="std">
+		{OBLIGATORY}
+	</td>
+	<td class="std">
+		{DESCRIPTION}
+	</td>
+	<td class="std">
+		{TYPE}
+	</td>
+	<td class="std">
+		{AUTHOR}
+	</td>
+	<td class="std">
+		{POOL}
+	</td>
 	<!-- BEGIN actions -->
-	<td class="std">{ACTION}</td>
+	<td class="std">
+		{ACTION}
+	</td>
 	<!-- END actions -->
 </tr>

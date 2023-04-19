@@ -1,10 +1,10 @@
 <!-- BEGIN standard -->
 <tr class="{CSS_ROW}">
 	<td class="std">
-		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input type="checkbox" aria-label="{VAL_POSTNAME}[]" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
 	</td>	
 	<td class="std">
-		<input type="hidden" name="visible_participants[]" value="{VAL_ID}" />
+		<input aria-hidden="true" type="hidden" name="visible_participants[]" value="{VAL_ID}" />
 		{LASTNAME}, {FIRSTNAME}
 	</td>
 	<td class="std">
@@ -17,30 +17,42 @@
 	<!-- END custom_fields -->
 	<!-- BEGIN registered_col -->
 	<td class="std">
-		<input type="checkbox" name="registered[{VAL_ID}]" value="1" {REG_CHECKED} />
+		<input type="checkbox" aria-label="registered[{VAL_ID}]" name="registered[{VAL_ID}]" value="1" {REG_CHECKED} />
 	</td>
 	<!-- END registered_col -->
 	<td class="std">
-		<input type="checkbox" name="participated[{VAL_ID}]" value="1" {PART_CHECKED} />
+		<input type="checkbox"
+			   aria-label="participated[{VAL_ID}]"
+			   name="participated[{VAL_ID}]" value="1" {PART_CHECKED} />
 	</td>
 	<!-- BEGIN excused_col -->
 	<td class="std">
-		<input type="checkbox" name="excused[{VAL_ID}]" value="1" {EXCUSED_CHECKED} />
+		<input type="checkbox"
+			   aria-label="excused[{VAL_ID}]"
+			   name="excused[{VAL_ID}]" value="1" {EXCUSED_CHECKED} />
 	</td>
 	<!-- END excused_col -->
 	<td class="std">
-		<input type="checkbox" name="contact[{VAL_ID}]" value="1" {CONTACT_CHECKED} />
+		<input type="checkbox"
+			   aria-label="contact[{VAL_ID}]"
+			   name="contact[{VAL_ID}]" value="1" {CONTACT_CHECKED} />
 	</td>
 	<!-- BEGIN notification_column -->
 	<td class="std">
-		<input type="checkbox" name="notification[{VAL_ID}]" value="1" {NOTIFICATION_CHECKED} {NOTIFICATION_ENABLED}/>
+		<input type="checkbox"
+			   aria-label="notification[{VAL_ID}]"
+			   name="notification[{VAL_ID}]" value="1" {NOTIFICATION_CHECKED} {NOTIFICATION_ENABLED}/>
 	</td>
 	<!-- END notification_column -->
 	<td class="std">
-		<input type="text" size="16" maxlength="70" name="mark[{VAL_ID}]" value="{MARK}" />
+		<input type="text" size="16"
+			   aria-label="mark[{VAL_ID}]"
+			   maxlength="70" name="mark[{VAL_ID}]" value="{MARK}" />
 	</td>
 	<td class="std"> 
-		<input type="text" size="30" maxlength="70" name="comment[{VAL_ID}]" value="{COMMENT}" />
+		<input type="text" size="30"
+			   aria-label="comment[{VAL_ID}]"
+			   maxlength="70" name="comment[{VAL_ID}]" value="{COMMENT}" />
 	</td>
 </tr>
 <!-- END standard -->

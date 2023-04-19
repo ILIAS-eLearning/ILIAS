@@ -1,14 +1,16 @@
 <div class="multi_input_line" <!-- BEGIN cust_attr -->{CUSTOM_ATTR_KEY} = "{CUSTOM_ATTR_VALUE}"<!-- END cust_attr -->>
 <!-- BEGIN hidden -->
 <div class="hidden ml-hidden">
-	<input type="hidden" name="{NAME}" value="{VALUE}">
+	<input aria-hidden="true" type="hidden" name="{NAME}" value="{VALUE}">
 </div>
 <!-- END hidden -->
 <!-- BEGIN input -->
 <div class="ml-input input">
 	{CONTENT}
 	<!-- BEGIN input_info -->
-	<div class="help-block">{INFO}</div>
+	<div class="help-block">
+		{INFO}
+	</div>
 	<!-- END input_info -->
 </div>
 <!-- END input -->
@@ -22,12 +24,28 @@
 <!-- END input_label -->
 <div class="multi_icons_wrapper" {ADDITIONAL_ATTRS}>
 	<!-- BEGIN multi_icons -->
-	<a href="#" class="btn btn-link multi_icon add_button"><span class="sr-only"></span>{IMAGE_PLUS}</a>
-	<a href="#" class="btn btn-link multi_icon remove_button"><span class="sr-only"></span>{IMAGE_MINUS}</a>
+	<a role="button" aria-label="image plus" href="#" class="btn btn-link multi_icon add_button">
+		<span class="sr-only">
+		</span>
+		{IMAGE_PLUS}
+	</a>
+	<a role="button" aria-label="image minus" href="#" class="btn btn-link multi_icon remove_button">
+		<span class="sr-only">
+		</span>
+		{IMAGE_MINUS}
+	</a>
 	<!-- END multi_icons -->
 	<!-- BEGIN multi_icons_move -->
-	<a href="#" class="btn btn-link multi_icon up_button"><span class="sr-only"></span>{IMAGE_UP}</a>
-	<a href="#" class="btn btn-link multi_icon down_button"><span class="sr-only"></span>{IMAGE_DOWN}</a>
+	<a role="button" aria-label="image up" href="#" class="btn btn-link multi_icon up_button">
+		<span class="sr-only">
+		</span>
+		{IMAGE_UP}
+	</a>
+	<a role="button" aria-label="image down" href="#" class="btn btn-link multi_icon down_button">
+		<span class="sr-only">
+		</span>
+		{IMAGE_DOWN}
+	</a>
 	<!-- END multi_icons_move -->
 </div>
 </div>

@@ -67,12 +67,12 @@ body{
 		</div>
 		<div id="dragbar"></div>
 		<div id="tdResource">
-			<iframe src="./Modules/ScormAicc/templates/sop/dummy.html" name="sahs_content" style="width:100%;height:100%" frameborder="0"></iframe>
-			<iframe src="./Modules/ScormAicc/templates/sop/debug.html" name="logframe" style="width:100%;height:0" frameborder="0"></iframe>
+			<iframe src="./Modules/ScormAicc/templates/sop/dummy.html" n
+					ame="sahs_content" style="width:100%;height:100%" frameborder="0"></iframe>
+			<iframe src="./Modules/ScormAicc/templates/sop/debug.html"
+					name="logframe" style="width:100%;height:0" frameborder="0"></iframe>
 		</div>
 	</div>
-
-	
 	<script type="text/javascript">
 		somInitialized=false;
 		IliasScormVars={};
@@ -91,7 +91,8 @@ body{
 			return dbResult;
 		}
 		function scormPlayerUnload(data) {
-			if(data.last!="") var dbResult = gui.setData("scormPlayerUnload",[params.client, params.obj_id, data.last]);
+			if(data.last!="") var dbResult = gui.setData("scormPlayerUnload",[params.client,
+				params.obj_id, data.last]);
 		}
 	</script>
 </body>
