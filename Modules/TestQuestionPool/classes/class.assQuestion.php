@@ -987,73 +987,75 @@ abstract class assQuestion
 
         $pass = ilObjTest::_getResultPass($active_id);
 
-        $query = "
-			SELECT		tst_pass_result.*
-			FROM		tst_pass_result
-			WHERE		active_fi = %s
-			AND			pass = %s
-		";
+        if ($pass) {
+            $query = "
+                SELECT		tst_pass_result.*
+                FROM		tst_pass_result
+                WHERE		active_fi = %s
+                AND			pass = %s
+            ";
 
-        $result = $ilDB->queryF(
-            $query,
-            array('integer','integer'),
-            array($active_id, $pass)
-        );
-
-        $test_pass_result_row = $ilDB->fetchAssoc($result);
-
-        if (!is_array($test_pass_result_row)) {
-            $test_pass_result_row = [];
-        }
-        $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
-        $reached = (float) ($test_pass_result_row['points'] ?? 0);
-        $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
-
-        $obligationsAnswered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
-
-        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
-        $isPassed = isset($mark["passed"]) && $mark["passed"];
-
-        $hint_count = $test_pass_result_row['hint_count'] ?? 0;
-        $hint_points = $test_pass_result['hint_points'] ?? 0.0;
-
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
-            $passedOnceBefore = 0;
-            $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
-            $res = $ilDB->queryF($query, array('integer'), array($active_id));
-            while ($passed_once_result_row = $ilDB->fetchAssoc($res)) {
-                $passedOnceBefore = (int) $passed_once_result_row['passed_once'];
-            }
-
-            $passedOnce = (int) ($isPassed || $passedOnceBefore);
-
-            $ilDB->manipulateF(
-                "DELETE FROM tst_result_cache WHERE active_fi = %s",
-                array('integer'),
-                array($active_id)
+            $result = $ilDB->queryF(
+                $query,
+                array('integer','integer'),
+                array($active_id, $pass)
             );
 
-            $ilDB->insert('tst_result_cache', array(
-                'active_fi' => array('integer', $active_id),
-                'pass' => array('integer', strlen($pass) ? $pass : 0),
-                'max_points' => array('float', strlen($max) ? $max : 0),
-                'reached_points' => array('float', strlen($reached) ? $reached : 0),
-                'mark_short' => array('text', strlen($mark["short_name"] ?? '') ? $mark["short_name"] : " "),
-                'mark_official' => array('text', strlen($mark["official_name"] ?? '') ? $mark["official_name"] : " "),
-                'passed_once' => array('integer', $passedOnce),
-                'passed' => array('integer', (int) $isPassed),
-                'failed' => array('integer', (int) !$isPassed),
-                'tstamp' => array('integer', time()),
-                'hint_count' => array('integer', $hint_count),
-                'hint_points' => array('float', $hint_points),
-                'obligations_answered' => array('integer', $obligationsAnswered)
-            ));
-        };
+            $test_pass_result_row = $ilDB->fetchAssoc($result);
 
-        if (is_object($processLocker)) {
-            $processLocker->executeUserTestResultUpdateLockOperation($userTestResultUpdateCallback);
-        } else {
-            $userTestResultUpdateCallback();
+            if (!is_array($test_pass_result_row)) {
+                $test_pass_result_row = [];
+            }
+            $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
+            $reached = (float) ($test_pass_result_row['points'] ?? 0);
+            $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
+
+            $obligationsAnswered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
+
+            $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+            $isPassed = isset($mark["passed"]) && $mark["passed"];
+
+            $hint_count = $test_pass_result_row['hint_count'] ?? 0;
+            $hint_points = $test_pass_result['hint_points'] ?? 0.0;
+
+            $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
+                $passedOnceBefore = 0;
+                $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
+                $res = $ilDB->queryF($query, array('integer'), array($active_id));
+                while ($passed_once_result_row = $ilDB->fetchAssoc($res)) {
+                    $passedOnceBefore = (int) $passed_once_result_row['passed_once'];
+                }
+
+                $passedOnce = (int) ($isPassed || $passedOnceBefore);
+
+                $ilDB->manipulateF(
+                    "DELETE FROM tst_result_cache WHERE active_fi = %s",
+                    array('integer'),
+                    array($active_id)
+                );
+
+                $ilDB->insert('tst_result_cache', array(
+                    'active_fi' => array('integer', $active_id),
+                    'pass' => array('integer', strlen($pass) ? $pass : 0),
+                    'max_points' => array('float', strlen($max) ? $max : 0),
+                    'reached_points' => array('float', strlen($reached) ? $reached : 0),
+                    'mark_short' => array('text', strlen($mark["short_name"] ?? '') ? $mark["short_name"] : " "),
+                    'mark_official' => array('text', strlen($mark["official_name"] ?? '') ? $mark["official_name"] : " "),
+                    'passed_once' => array('integer', $passedOnce),
+                    'passed' => array('integer', (int) $isPassed),
+                    'failed' => array('integer', (int) !$isPassed),
+                    'tstamp' => array('integer', time()),
+                    'hint_count' => array('integer', $hint_count),
+                    'hint_points' => array('float', $hint_points),
+                    'obligations_answered' => array('integer', $obligationsAnswered)
+                ));
+            };
+
+            if (is_object($processLocker)) {
+                $processLocker->executeUserTestResultUpdateLockOperation($userTestResultUpdateCallback);
+            } else {
+                $userTestResultUpdateCallback();
+            }
         }
     }
 
