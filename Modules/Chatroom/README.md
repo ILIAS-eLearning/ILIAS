@@ -30,8 +30,9 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [Proxy Configuration](#proxy-configuration)
       - [Proxy configuration via nginx](#proxy-configuration-via-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-via-apache2)
-  - [Development](#development)
-      - [Dependency Management](#dependency-management)
+    - [Dependency Management](#dependency-management)
+      - [Development](#development) 
+      - [Production](#production)
 
 <!-- /TOC -->
 
@@ -461,15 +462,22 @@ Example:
     https://onscreenchat.domain.de
 
 
-### Development
+### Dependency Management
 
-#### Dependency Management
+The node module dependencies should be managed by [npm](https://www.npmjs.com/).
 
-The node module dependencies should be managed by 
-using [Yarn](https://yarnpkg.com/en/) instead of [npm](https://www.npmjs.com/).
+#### Development
 
-Dependencies can be updated by the following command:
+Dependencies can be installed by the following command:
+
 ```bash
-cd ./Modules/Chatroom/chat
-yarn install
+npm install --omit=dev --ignore-scripts
+```
+
+#### Production
+
+Dependencies can be installed by the following command:
+
+```bash
+npm install --ignore-scripts
 ```
