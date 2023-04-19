@@ -15942,6 +15942,56 @@ div.il_SearchFragment {
 #ilHelpText .ilc_list_u_BulletedList .ilc_list_o_NumberedList {
   padding-left: 15px;
 }
+#ilHelpText .col-xs-1,
+#ilHelpText .col-sm-1,
+#ilHelpText .col-md-1,
+#ilHelpText .col-lg-1,
+#ilHelpText .col-xs-2,
+#ilHelpText .col-sm-2,
+#ilHelpText .col-md-2,
+#ilHelpText .col-lg-2,
+#ilHelpText .col-xs-3,
+#ilHelpText .col-sm-3,
+#ilHelpText .col-md-3,
+#ilHelpText .col-lg-3,
+#ilHelpText .col-xs-4,
+#ilHelpText .col-sm-4,
+#ilHelpText .col-md-4,
+#ilHelpText .col-lg-4,
+#ilHelpText .col-xs-5,
+#ilHelpText .col-sm-5,
+#ilHelpText .col-md-5,
+#ilHelpText .col-lg-5,
+#ilHelpText .col-xs-6,
+#ilHelpText .col-sm-6,
+#ilHelpText .col-md-6,
+#ilHelpText .col-lg-6,
+#ilHelpText .col-xs-7,
+#ilHelpText .col-sm-7,
+#ilHelpText .col-md-7,
+#ilHelpText .col-lg-7,
+#ilHelpText .col-xs-8,
+#ilHelpText .col-sm-8,
+#ilHelpText .col-md-8,
+#ilHelpText .col-lg-8,
+#ilHelpText .col-xs-9,
+#ilHelpText .col-sm-9,
+#ilHelpText .col-md-9,
+#ilHelpText .col-lg-9,
+#ilHelpText .col-xs-10,
+#ilHelpText .col-sm-10,
+#ilHelpText .col-md-10,
+#ilHelpText .col-lg-10,
+#ilHelpText .col-xs-11,
+#ilHelpText .col-sm-11,
+#ilHelpText .col-md-11,
+#ilHelpText .col-lg-11,
+#ilHelpText .col-xs-12,
+#ilHelpText .col-sm-12,
+#ilHelpText .col-md-12,
+#ilHelpText .col-lg-12 {
+  width: 100%;
+}
 a#ilHelpClose {
   display: block;
   float: right;
@@ -20017,4 +20067,3 @@ table.mceToolbar td {
     width: auto !important;
   }
 }
-/*# sourceMappingURL=delos.css.map */
