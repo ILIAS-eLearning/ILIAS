@@ -9,6 +9,7 @@ modules of ILIAS.
 * **Product Management**: [Matthias Kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 * **Technical Board**: [Michael Jansen](https://docu.ilias.de/goto_docu_usr_8784.html), [Stephan Kergomard](https://docu.ilias.de/goto_docu_usr_44474.html), [Richard Klees](https://docu.ilias.de/goto_docu_usr_34047.html), [Nico Roeser](https://docu.ilias.de/goto_docu_usr_72730.html), [Fabian Schmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 * **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+* **Release Management**: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
 * **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/goto_docu_usr_94205.html)
 * **Online Help**: [Alexandra Tödt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
@@ -20,18 +21,17 @@ in the development guide.
 Communication among developers that are working on a specific component needs to be assured. Final decision about 
 getting write access to the ILIAS development system (Github) is handled by the product manager.
  
-ILIAS is currently maintained by three types of Maintainerships:
+ILIAS is currently maintained by two types of maintainerships:
 
-- First Component Maintainer
-- Second Component Maintainer
-- [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) 
+- **Classic Model** with First Maintainer and sometimes Second Maintainer
+- **[Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md)**
  
 The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
 listed component maintainer (see below):
 
 1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager 
 in the Jour Fixe meetings after an open discussion.
-2. All components have a first and second maintainer. Code changes are usually done by the first maintainer. The first 
+2. Components under the Classic Model have a first and sometimes second maintainer. Code changes are usually done by the first maintainer. The first 
 maintainer may forward new implementations to the second maintainer.
 
 Responsibilities of a component maintainer:
@@ -55,8 +55,8 @@ for a new maintainer by the company of the old maintainer will be preferred, if 
 substantially in the general condition of the component and the proposed maintainer meets the criteria.
 
 ## Implicit Maintainers
-If a component is currently unmaintained a developer can take responsibility for it without agreeing to give full support. 
-An implicit maintainer will get assigned related bugs automatically and will keep the compontent working through the update cycle. 
+If a component is currently unmaintained, a developer can take responsibility for it without agreeing to give full support. 
+An implicit maintainer will get assigned related bugs automatically and will keep the component working through the update cycle. 
 S/he will not implement new features or develop the component further. If enhancements of the component are wanted, an
 explicit maintainer or coordinator must be assigned.
 
@@ -66,7 +66,7 @@ A maintainer can pass certain of her/his competences to other people in the comm
 * The **competence to handle pull requests** including the rights to merge or close them.
 * The **competence to handle issues in Mantis** including the rights to relable, reassign, close, or reopen them.
 
-If nobody is fullfilling the responsibilities of the component maintainer the Product Manager together with the Technical Board 
+If nobody is fulfilling the responsibilities of the component maintainer, the Product Manager together with the Technical Board 
 can look for members of the community and assign these competences to them.
 
 ## Tracking Maintainerships
