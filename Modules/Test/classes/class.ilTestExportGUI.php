@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,7 +57,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI(): ilExportTableGUI
+    protected function buildExportTableGUI(): ilTestExportTableGUI
     {
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
         return $table;
@@ -119,7 +118,6 @@ class ilTestExportGUI extends ilExportGUI
 
             $evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
             $allActivesPasses = $evaluation->getAllActivesPasses();
-
             $participantData = new ilTestParticipantData($ilDB, $lng);
             $participantData->setActiveIdsFilter(array_keys($allActivesPasses));
             $participantData->load($this->obj->getTestId());
@@ -183,6 +181,7 @@ class ilTestExportGUI extends ilExportGUI
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archive_dir = $archiver->getZipExportDirectory();
         $archive_files = array();
+
         if (file_exists($archive_dir) && is_dir($archive_dir)) {
             $archive_files = scandir($archive_dir);
         }
@@ -212,12 +211,17 @@ class ilTestExportGUI extends ilExportGUI
                     continue;
                 }
                 $file_arr = explode("_", $exp_file);
-                array_push($data, array(
-                                    'file' => $exp_file,
-                                    'size' => filesize($archive_dir . "/" . $exp_file),
-                                    'timestamp' => $file_arr[4],
-                                    'type' => $this->getExportTypeFromFileName($exp_file)
-                ));
+
+                if (!$file_arr[0] || !is_numeric($file_arr[0])) {
+                    $file_arr[0] = (new \DateTimeImmutable())->format('U');
+                }
+
+                $data[] = [
+                    'file' => $exp_file,
+                    'size' => filesize($archive_dir . "/" . $exp_file),
+                    'timestamp' => $file_arr[0],
+                    'type' => $this->getExportTypeFromFileName($exp_file)
+                ];
             }
         }
 
@@ -229,6 +233,11 @@ class ilTestExportGUI extends ilExportGUI
 
         foreach ($this->getCustomMultiCommands() as $c) {
             $table->addCustomMultiCommand($c["txt"], "multi_" . $c["func"]);
+        }
+
+        $table->resetFormats();
+        foreach ($this->formats as $format) {
+            $table->addFormat($format['key']);
         }
 
         $table->setData($data);
