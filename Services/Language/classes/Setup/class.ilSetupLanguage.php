@@ -455,7 +455,8 @@ class ilSetupLanguage extends ilLanguage
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
-        
+
+                $query_check = false;
                 $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
                 foreach ($content as $key => $val) {
                     // split the line of the language file
@@ -503,11 +504,13 @@ class ilSetupLanguage extends ilLanguage
                         $ilDB->quote($change_date, "timestamp"),
                         $ilDB->quote($separated[3] ?? null, "text")
                     );
-            
+                    $query_check = true;
                     $lang_array[$separated[0]][$separated[1]] = $separated[2];
                 }
                 $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
-                $ilDB->manipulate($query);
+                if ($query_check) {
+                    $ilDB->manipulate($query);
+                }
             }
     
             $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
