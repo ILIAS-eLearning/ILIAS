@@ -324,7 +324,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this->_isSentFolder;
     }
 
-    public function isTrashFolder() : bool 
+    public function isTrashFolder() : bool
     {
         return $this->_isTrashFolder;
     }

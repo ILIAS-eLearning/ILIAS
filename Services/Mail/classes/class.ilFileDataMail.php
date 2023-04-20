@@ -240,7 +240,7 @@ class ilFileDataMail extends ilFileData
     /**
      * @return list<array{name: string, size: int, ctime: int}>
      */
-    public function getUserFilesData(): array
+    public function getUserFilesData() : array
     {
         return $this->getUnsentFiles();
     }
@@ -248,7 +248,7 @@ class ilFileDataMail extends ilFileData
     /**
      * @return list<array{name: string, size: int, ctime: int}>
      */
-    private function getUnsentFiles(): array
+    private function getUnsentFiles() : array
     {
         $files = [];
 

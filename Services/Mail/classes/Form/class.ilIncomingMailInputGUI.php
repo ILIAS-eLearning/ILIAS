@@ -100,8 +100,10 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $incomingLocal = new ilRadioOption($DIC->language()->txt('mail_incoming_local'), ilMailOptions::INCOMING_LOCAL);
         $incomingLocal->setDisabled($this->getDisabled());
         
-        $incomingExternal = new ilRadioOption($DIC->language()->txt('mail_incoming_smtp'),
-            ilMailOptions::INCOMING_EMAIL);
+        $incomingExternal = new ilRadioOption(
+            $DIC->language()->txt('mail_incoming_smtp'),
+            ilMailOptions::INCOMING_EMAIL
+        );
         $incomingExternal->setDisabled($this->getDisabled());
         
         $incomingBoth = new ilRadioOption($DIC->language()->txt('mail_incoming_both'), ilMailOptions::INCOMING_BOTH);

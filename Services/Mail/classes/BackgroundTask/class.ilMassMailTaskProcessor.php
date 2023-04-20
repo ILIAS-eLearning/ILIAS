@@ -53,7 +53,7 @@ class ilMassMailTaskProcessor
     public function __construct(
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
-        ilLanguage  $language = null,
+        ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
         ilMailValueObjectJsonService $objectJsonService = null,

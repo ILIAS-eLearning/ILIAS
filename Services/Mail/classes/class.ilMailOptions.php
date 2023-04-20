@@ -127,18 +127,18 @@ class ilMailOptions
                 $this->emailAddressMode = (int) $row->mail_address_option;
 
                 if (false === filter_var(
-                        $this->incomingType,
-                        FILTER_VALIDATE_INT,
-                        ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
-                    )) {
+                    $this->incomingType,
+                    FILTER_VALIDATE_INT,
+                    ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
+                )) {
                     $this->incomingType = self::INCOMING_LOCAL;
                 }
 
                 if (false === filter_var(
-                        $this->emailAddressMode,
-                        FILTER_VALIDATE_INT,
-                        ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
-                    )) {
+                    $this->emailAddressMode,
+                    FILTER_VALIDATE_INT,
+                    ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
+                )) {
                     $this->emailAddressMode = self::FIRST_EMAIL;
                 }
             }
