@@ -2838,7 +2838,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        #var_dump($question_id);
         if ($linkOnly) {
             $duplicate_id = $question_id;
         } else {
@@ -8242,16 +8241,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @param object $a_xml_writer Reference to the ILIAS XML writer
     * @param string $a_material plain text or html text containing the material
     */
-    public function addQTIMaterial(&$a_xml_writer, $a_material)
+    public function addQTIMaterial(&$a_xml_writer, $a_material = '')
     {
         $a_xml_writer->xmlStartTag("material");
+        $txt = $a_material;
         $attrs = array(
             "texttype" => "text/plain"
         );
         if ($this->isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
+            $txt = ilRTE::_replaceMediaObjectImageSrc($a_material, 0);
         }
-        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc((string) $a_material, 0));
+
+        $a_xml_writer->xmlElement("mattext", $attrs, $txt);
 
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         foreach ($mobs as $mob) {
