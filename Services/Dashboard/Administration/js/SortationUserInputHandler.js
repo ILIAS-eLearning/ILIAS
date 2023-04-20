@@ -39,11 +39,10 @@ const handleUserInputForSortationsByView = (function() {
 
     /**
      * @param {Element} selectionInput
-     * @param {Element} checkboxInput
      */
     function updateSelectedValueToFirstPossibleOption(selectionInput) {
-        const selectedDefaultSortation = selectionInput.querySelector('option[selected="selected"]');
-        if (!selectedDefaultSortation || selectedDefaultSortation.getAttribute('disabled') === 'disabled') {
+        const selectedDefaultSortation = selectionInput.querySelector('option[selected="selected"]:not([disabled="disabled"])');
+        if (!selectedDefaultSortation) {
             const firstPossibleOption = selectionInput.querySelector('option:not([disabled])');
             if (firstPossibleOption) {
                 firstPossibleOption.setAttribute('selected', 'selected');
