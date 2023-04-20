@@ -71,7 +71,7 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     {
         $provider = new ilPDSelectedItemsBlockSelectedItemsProvider($this->user);
         $data = $provider->getItems();
-        $data = array_map(static function (array $item) {
+        $data = array_map(static function (array $item): ilBlockDTO {
             $start = isset($item['start']) && $item['start'] instanceof ilDateTime ? $item['start'] : null;
             $end = isset($item['end']) && $item['end'] instanceof ilDateTime ? $item['end'] : null;
             return new ilBlockDTO(

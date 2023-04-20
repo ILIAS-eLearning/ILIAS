@@ -56,6 +56,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_ALPHABET,
     ];
 
+    /**
+     * @var array<int, string[]>
+     */
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::SORT_BY_LOCATION,
@@ -243,6 +246,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         $this->settings->set('pd_active_sort_view_' . $view, serialize($active));
     }
 
+    /**
+     * @return string[]
+     */
     public function getActiveSortingsByView(int $view): array
     {
         $val = $this->settings->get('pd_active_sort_view_' . $view);
@@ -275,6 +281,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         return $this->settings->get('pd_def_pres_view_' . $view, "list");
     }
 
+    /**
+     * @return string[]
+     */
     public function getActivePresentationsByView(int $view): array
     {
         $val = $this->settings->get('pd_active_pres_view_' . $view, '');

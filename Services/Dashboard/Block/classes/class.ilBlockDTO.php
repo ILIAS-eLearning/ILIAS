@@ -147,4 +147,18 @@ class ilBlockDTO
     {
         $this->additional_data = $additional_data;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->type,
+            'ref_id' => $this->ref_id,
+            'obj_id' => $this->obj_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'start_date' => $this->startDate?->get(IL_CAL_DATETIME),
+            'end_date' => $this->endDate?->get(IL_CAL_DATETIME),
+            'additional_data' => $this->additional_data
+        ];
+    }
 }

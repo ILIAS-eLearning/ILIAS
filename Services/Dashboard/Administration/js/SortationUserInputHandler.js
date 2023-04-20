@@ -64,6 +64,9 @@ const handleUserInputForSortationsByView = (function() {
         }
     }
 
+    /**
+     * @param {int} view
+     */
     return function(view) {
         const selectionInput = document.querySelector('[data-select="sorting' + view + '"]');
         const checkboxInput = document.querySelector('[data-checkbox="activeSorting' + view + '"]');

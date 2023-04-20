@@ -1,12 +1,17 @@
-const replaceModalContent = (function (id, url) {
+/**
+ * @param {string} id
+ * @param {int} view
+ * @param {string} url
+ */
+const replaceModalContent = (function (id, view, url) {
     document.getElementById(id).addEventListener('click', function (e) {
-        const form = document.querySelector('form[name="pd_remove_multiple"]');
+        const form = document.querySelector('form[name="pd_remove_multiple_view_' + view + '"]');
         const formData = new FormData(form);
         let selected_ids = [];
         for (const [name, value] of formData) {
             selected_ids.push(value);
         }
-        const modal = document.querySelector('div[data-modal-name="remove_modal"]');
+        const modal = document.querySelector('div[data-modal-name="remove_modal_view_' + view + '"]');
         let post_data = '';
         for (let i = 0; i < selected_ids.length; i++) {
             post_data += 'id[]=' + encodeURIComponent(selected_ids[i]) + '&';
@@ -15,8 +20,8 @@ const replaceModalContent = (function (id, url) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
         });
-        const modalFooter = modal.querySelector('.modal-footer');
+            const modalFooter = modal.querySelector('.modal-footer');
         modalFooter.parentNode.removeChild(modalFooter);
-        il.Util.ajaxReplacePostRequestInner(url, post_data, 'pd_unsubscribe_multiple');
+        il.Util.ajaxReplacePostRequestInner(url, post_data, 'pd_unsubscribe_multiple_view_' + view);
     });
 });

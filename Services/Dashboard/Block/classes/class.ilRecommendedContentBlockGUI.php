@@ -62,7 +62,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
         $ctrl = $this->ctrl;
 
-        $recommendations = array_map(static function ($ref_id) use ($short_desc, $short_desc_max_length) {
+        $recommendations = array_map(static function (int $ref_id) use ($short_desc, $short_desc_max_length): ilBlockDTO {
             $obj_id = ilObject::_lookupObjectId($ref_id);
             $desc = ilObject::_lookupDescription($obj_id);
             if ($short_desc && $short_desc_max_length !== 0) {

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\UI\Component\Button\Shy;
 
 class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
@@ -43,12 +44,10 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
         }
 
         $commands = array_map(
-            function ($command) {
-                return $this->factory->button()->shy(
-                    $command['title'],
-                    $command['link']
-                );
-            },
+            fn (array $command): Shy => $this->factory->button()->shy(
+                $command['title'],
+                $command['link']
+            ),
             $commands
         );
 
