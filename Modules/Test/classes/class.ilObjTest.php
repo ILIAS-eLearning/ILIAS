@@ -3594,7 +3594,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        #var_dump($question_id);
         if ($linkOnly) {
             $duplicate_id = $question_id;
         } else {
@@ -9261,19 +9260,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return string QTI material tag
     * @access public
     */
-    public function addQTIMaterial(&$a_xml_writer, $a_material)
+    public function addQTIMaterial(&$a_xml_writer, $a_material = '')
     {
         include_once "./Services/RTE/classes/class.ilRTE.php";
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
         $a_xml_writer->xmlStartTag("material");
+        $txt = $a_material;
         $attrs = array(
             "texttype" => "text/plain"
         );
         if ($this->isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
+            $txt = ilRTE::_replaceMediaObjectImageSrc($a_material, 0);
         }
-        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+        $a_xml_writer->xmlElement("mattext", $attrs, $txt);
 
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         foreach ($mobs as $mob) {
@@ -10186,7 +10188,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $update_default['finalized_by_usr_id'] = ['integer', $user];
             $update_default['finalized_tstamp'] = ['integer', $finalized_time];
         }
-        
+
         $ilDB->insert('tst_manual_fb', $update_default);
     }
 

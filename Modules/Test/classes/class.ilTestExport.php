@@ -66,6 +66,7 @@ abstract class ilTestExport
 
         $date = time();
         $this->export_dir = $this->test_obj->getExportDirectory();
+
         switch ($this->mode) {
             case "results":
                 $this->subdir = $date . "__" . $this->inst_id . "__" .
@@ -1085,7 +1086,7 @@ abstract class ilTestExport
         $ilBench->stop("TestExport", "buildExportFile_zipFile");
 
         // destroy writer object
-        $this->xml->_XmlWriter;
+        $this->xml = null;
 
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("TestExport", "buildExportFile");
