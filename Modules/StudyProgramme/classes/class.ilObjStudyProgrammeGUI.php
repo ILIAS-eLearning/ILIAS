@@ -237,6 +237,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
 
             case "ilprgpageobjectgui":
+                if (!$this->object->hasContentPage()) {
+                    $this->object->createContentPage();
+                }
                 $gui = new ilPRGPageObjectGUI('prg', $this->object->getId());
                 $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
@@ -595,13 +598,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->lng->txt("cntr_manage"),
                         $this->getLinkTarget(self::SUBTAB_VIEW_TREE)
                     );
-
-                    $this->tabs_gui->addSubTab(
-                        self::SUBTAB_PAGE_EDIT,
-                        $this->lng->txt("cntr_text_media_editor"),
-                        $this->getLinkTarget("edit_page")
-                    );
-                    $this->tabs_gui->activateSubTab($parent_tab);
                 }
                 break;
             case 'settings':

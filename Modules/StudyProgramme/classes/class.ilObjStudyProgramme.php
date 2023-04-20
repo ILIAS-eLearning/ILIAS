@@ -22,6 +22,8 @@ use ILIAS\Filesystem\Filesystem;
 
 class ilObjStudyProgramme extends ilContainer
 {
+    public const CP_TYPE = 'cont';
+
     protected static ?ilObjStudyProgrammeCache $study_programme_cache = null;
 
     /**
@@ -1862,5 +1864,20 @@ class ilObjStudyProgramme extends ilContainer
             $assignment->getId(),
             $progress->getNodeId()
         );
+    }
+
+    public function hasContentPage(): bool
+    {
+        return \ilContainerPage::_exists(self::CP_TYPE, $this->getId());
+    }
+    public function createContentPage(): void
+    {
+        if ($this->hasContentPage()) {
+            throw new \LogicException('will not create content page - it already exists.');
+        }
+        $new_page_object = new \ilContainerPage();
+        $new_page_object->setId($this->getId());
+        $new_page_object->setParentId($this->getId());
+        $new_page_object->createFromXML();
     }
 }
