@@ -331,6 +331,7 @@ file containes the following fields:
 [//]: # (BEGIN Dashboard)
 
 * **Dashboard**
+	* Maintenance Model: Classic
 	* 1st Maintainer: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html) and [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
 	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
