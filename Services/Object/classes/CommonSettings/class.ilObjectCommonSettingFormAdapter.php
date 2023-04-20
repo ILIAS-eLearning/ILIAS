@@ -104,8 +104,16 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         $file_data = $this->legacy_form->getInput('tile_image');
         if (isset($file_data['tmp_name']) && $file_data['tmp_name']
             && isset($file_data['size']) && $file_data['size'] > 0) {
+            $file_name_parts = explode('.', $file_data['name']);
+            $extension = '.' . array_pop($file_name_parts);
+            $tempfile = ilFileUtils::ilTempnam() . strtolower($extension);
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
+            }
+
+            rename($file_data['tmp_name'], $tempfile);
             $this->common_settings->storePropertyTileImage(
-                $this->common_settings->getPropertyTileImage()->withTempFileName($file_data['tmp_name'])
+                $this->common_settings->getPropertyTileImage()->withTempFileName(basename($tempfile))
             );
         }
     }
