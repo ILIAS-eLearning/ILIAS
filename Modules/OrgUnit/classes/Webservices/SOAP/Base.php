@@ -49,9 +49,11 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
 
     public function __construct()
     {
-        $dic = \ilOrgUnitLocalDIC::dic();
-        $this->positionRepo =  $dic["repo.Positions"];
-        $this->assignmentRepo = $dic["repo.UserAssignments"];
+        if (! isset($_GET["wsdl"])) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+            $this->assignmentRepo = $dic["repo.UserAssignments"];
+        }
 
         parent::__construct();
     }
