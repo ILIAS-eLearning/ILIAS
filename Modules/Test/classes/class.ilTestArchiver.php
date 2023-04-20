@@ -508,26 +508,33 @@ class ilTestArchiver
         $passDataDir = $this->buildPassDataDirectory($active_fi, $pass);
         
         if (!$passDataDir) {
-            if ($this->getParticipantData()) {
-                $usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
-                $user = new ilObjUser();
-                $user->setFirstname($usrData['firstname']);
-                $user->setLastname($usrData['lastname']);
-                $user->setMatriculation($usrData['matriculation']);
-                $user->setFirstname($usrData['firstname']);
+            $test_obj = new ilObjTest($this->test_obj_id, false);
+            if ($test_obj->getAnonymity()) {
+                $firstname = 'anonym';
+                $lastname = '';
+                $matriculation = '0';
             } else {
-                global $DIC;
-                $ilUser = $DIC['ilUser'];
-                $user = $ilUser;
+                if ($this->getParticipantData()) {
+                    $usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
+                    $firstname = $usrData['firstname'];
+                    $lastname = $usrData['lastname'];
+                    $matriculation = $usrData['matriculation'];
+                } else {
+                    global $DIC;
+                    $ilUser = $DIC['ilUser'];
+                    $firstname = $ilUser->getFirstname();
+                    $lastname = $ilUser->getLastname();
+                    $matriculation = $ilUser->getMatriculation();
+                }
             }
             
             $this->appendToArchiveDataIndex(
                 date(DATE_ISO8601),
                 $active_fi,
                 $pass,
-                $user->getFirstname(),
-                $user->getLastname(),
-                $user->getMatriculation()
+                $firstname,
+                $lastname,
+                $matriculation
             );
             
             $passDataDir = $this->buildPassDataDirectory($active_fi, $pass);
@@ -664,6 +671,7 @@ class ilTestArchiver
             $lines = explode("\n", file_get_contents($data_index_file));
             foreach ($lines as $line) {
                 $line_items = explode('|', $line);
+                $line_data = [];
                 $line_data['identifier'] = $line_items[0] . '|' . $line_items[1];
                 $line_data['yyyy'] = $line_items[2];
                 $line_data['mm'] = $line_items[3];
