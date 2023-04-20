@@ -240,7 +240,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 if (!$this->object->hasContentPage()) {
                     $this->object->createContentPage();
                 }
-                $gui = new ilPRGPageObjectGUI('prg', $this->object->getId());
+                $gui = new ilPRGPageObjectGUI($this->object->getId());
+                $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
                 $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
                 if (!is_null($out)) {

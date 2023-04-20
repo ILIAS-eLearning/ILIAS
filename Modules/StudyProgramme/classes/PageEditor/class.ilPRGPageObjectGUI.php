@@ -22,7 +22,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls    ilPRGPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI
  */
-class ilPRGPageObjectGUI extends ilPageObjectGUI
+class ilPRGPageObjectGUI extends ilContainerPageGUI
 {
     public function getPageConfig(): ilPageConfig
     {
