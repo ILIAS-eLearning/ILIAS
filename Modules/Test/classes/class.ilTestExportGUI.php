@@ -57,7 +57,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI(): ilExportTableGUI
+    protected function buildExportTableGUI(): ilTestExportTableGUI
     {
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
         return $table;
@@ -235,9 +235,9 @@ class ilTestExportGUI extends ilExportGUI
             $table->addCustomMultiCommand($c["txt"], "multi_" . $c["func"]);
         }
 
-        $table->formats = [];
+        $table->resetFormats();
         foreach ($this->formats as $format) {
-            $table->formats[$format['key']] = $format['key'];
+            $table->addFormat($format['key']);
         }
 
         $table->setData($data);
