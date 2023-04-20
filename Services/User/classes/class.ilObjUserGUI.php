@@ -2003,7 +2003,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $date = $this->object->getApproveDate();
         // Approve
-        if ((time() - strtotime($date)) < 10) {
+        if ($date !== null && (time() - strtotime($date)) < 10) {
             $body .= ($usr_lang->txt('reg_mail_body_approve') . "\n\n");
         } else {
             $body .= ($usr_lang->txt('reg_mail_body_profile_changed') . "\n\n");
