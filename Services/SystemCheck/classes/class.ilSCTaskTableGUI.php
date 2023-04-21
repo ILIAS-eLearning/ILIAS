@@ -17,6 +17,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Table GUI for system check task overview
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -26,6 +29,8 @@ class ilSCTaskTableGUI extends ilTable2GUI
     private int $group_id = 0;
 
     private ilAccess $access;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(int $a_group_id, object $a_parent_obj, string $a_parent_cmd = '')
     {
@@ -33,8 +38,10 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->group_id = $a_group_id;
         $this->setId('sc_groups');
         $this->access = $DIC->access();
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
     }
 
     public function getGroupId(): int
@@ -87,27 +94,21 @@ class ilSCTaskTableGUI extends ilTable2GUI
         // Actions
         if ($this->access->checkAccess('write', '', $this->parent_obj->getObject()->getRefId())) {
             $id = (int) ($a_set['id'] ?? 0);
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setSelectionHeaderClass('small');
-            $list->setItemLinkClass('small');
-            $list->setId('sysc_' . $id);
-            $list->setListTitle($this->lng->txt('actions'));
+
+            $dropDownItems = array();
 
             $task_handler = ilSCComponentTaskFactory::getComponentTask($id);
 
             $this->ctrl->setParameterByClass(get_class($task_handler), 'task_id', $id);
             foreach ($task_handler->getActions() as $actions) {
-                $list->addItem(
+                $dropDownItems[] = $this->uiFactory->button()->shy(
                     (string) ($actions['txt'] ?? ''),
-                    '',
-                    $this->ctrl->getLinkTargetByClass(
-                        get_class($task_handler),
-                        (string) ($actions['command'] ?? '')
-                    )
+                    $this->ctrl->getLinkTargetByClass(get_class($task_handler), (string) ($actions['command'] ?? ''))
                 );
             }
-
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                    ->withLabel($this->lng->txt('actions'));
+            $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
         }
     }
 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -27,6 +29,9 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
     protected ilObject $course_obj;
     protected ilLOSettings $settings;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(object $a_parent_obj, ilObject $a_course_obj)
     {
         global $DIC;
@@ -36,6 +41,10 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
 
         parent::__construct($a_parent_obj, 'listObjectives');
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+
         $this->lng->loadLanguageModule('crs');
         $this->setFormName('objectives');
         $this->addColumn('', 'f', "1px");
@@ -216,25 +225,23 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit'));
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
 
-        $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($a_set['id']);
+        $dropDownItems = array();
 
-        $alist->addItem(
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('edit'),
-            '',
             $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit')
         );
+
         // materials
-        $alist->addItem(
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('crs_objective_action_materials'),
-            '',
             $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'materialAssignment')
         );
+
         // itest
         if ($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests()) {
-            $alist->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('crs_objective_action_itest'),
-                '',
                 $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'selfAssessmentAssignment')
             );
         }
@@ -242,21 +249,21 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         if ($this->getSettings()->hasSeparateQualifiedTests()) {
             // @todo
         } else {
-            $alist->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('crs_objective_action_qtest'),
-                '',
                 $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
             );
         }
 
         $this->ctrl->setParameterByClass('illopagegui', 'objective_id', $a_set['id']);
-        $alist->addItem(
+
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('crs_edit_lo_introduction'),
-            '',
             $this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
         );
-
-        $this->tpl->setVariable('VAL_ACTIONS', $alist->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withAriaLabel('Actions');
+        $this->tpl->setVariable('VAL_ACTIONS', $this->renderer->render($dropDown));
 
         // end-patch lok
     }

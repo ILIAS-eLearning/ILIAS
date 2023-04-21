@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -57,6 +59,9 @@ class ilCalendarPresentationGUI
     protected int $cal_view = 0;
     protected int $cal_period = 0;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct($a_ref_id = 0)
     {
         global $DIC;
@@ -64,6 +69,9 @@ class ilCalendarPresentationGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -693,35 +701,26 @@ class ilCalendarPresentationGUI
             $tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
             $tpl->setTitle($header);
 
-            $action_menu = new ilAdvancedSelectionListGUI();
-            $action_menu->setAsynch(false);
-            $action_menu->setAsynchUrl('');
-            $action_menu->setListTitle($this->lng->txt('actions'));
-            $action_menu->setId('act_cal');
-            $action_menu->setSelectionHeaderClass('small');
-            $action_menu->setItemLinkClass('xsmall');
-            $action_menu->setLinksMode('il_ContainerItemCommand2');
-            $action_menu->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-            $action_menu->setUseImages(false);
+            $dropDownItems = array();
 
             // iCal-Url
             $ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
-            $action_menu->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt("cal_ical_url"),
-                "",
                 $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", "")
             );
 
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
                 $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-                $action_menu->addItem(
+                $dropDownItems[] = $this->uiFactory->button()->shy(
                     $this->lng->txt("cal_delete_cal"),
-                    "",
                     $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete")
                 );
             }
-            $tpl->setHeaderActionMenu($action_menu->getHTML());
+            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                    ->withAriaLabel($this->lng->txt('actions'));
+            $tpl->setHeaderActionMenu($this->renderer->render($dropDown));
         }
     }
 

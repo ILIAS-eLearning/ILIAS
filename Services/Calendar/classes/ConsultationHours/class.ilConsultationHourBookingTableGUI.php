@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -27,12 +29,18 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     private int $user_id = 0;
 
     private ilDateTime $today;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->setId('chboo_' . $this->user_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->initTable();
         $this->today = new ilDateTime(time(), IL_CAL_UNIX);
@@ -77,26 +85,25 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_chboo_' . $a_set['id']);
-        $list->setListTitle($this->lng->txt('actions'));
+        $dropDownItems = array();
 
         $this->ctrl->setParameter($this->getParentObject(), 'bookuser', $a_set['id']);
 
         $start = new ilDateTime($a_set['start'], IL_CAL_UNIX);
         if (ilDateTime::_after($start, $this->today, IL_CAL_DAY)) {
-            $list->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('cal_ch_reject_booking'),
-                '',
                 $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmRejectBooking')
             );
         }
-        $list->addItem(
+
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('cal_ch_delete_booking'),
-            '',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteBooking')
         );
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
     }
 
     /**

@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * GUI class for course/group subscriptions
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -31,6 +34,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
     protected bool $show_subject = true;
     protected ilObject $rep_object;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(
         object $a_parent_obj,
         ilObject $rep_object,
@@ -40,6 +46,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->rep_object = $rep_object;
         $this->setId('crs_sub_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('crs');
@@ -209,32 +219,26 @@ class ilSubscriberTableGUI extends ilTable2GUI
      */
     public function showActionLinks(array $a_set): void
     {
-        if (!self::$has_odf_definitions) {
-            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
-            $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
-            $this->tpl->setVariable('MAIL_LINK', $link);
-            $this->tpl->setVariable('MAIL_TITLE', $this->lng->txt('crs_mem_send_mail'));
-            return;
-        }
-
-        // show action menu
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('actl_' . $a_set['usr_id'] . '_' . $this->getId());
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
         $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-        $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_mem_send_mail');
-        $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
-        $list->addItem($trans, '', $link, 'sendMailToSelectedUsers');
 
-        $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
-        $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member');
-        $list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember'));
+        $dropDownItems = array();
+        $dropDownItems[] = $this->uiFactory->button()->shy(
+            $this->lng->txt($this->getRepositoryObject()->getType() . '_mem_send_mail'),
+            $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers')
+        );
 
-        $this->tpl->setVariable('ACTION_USER', $list->getHTML());
+        if (self::$has_odf_definitions) {
+            $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member'),
+                $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember')
+            );
+        }
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_USER', $this->renderer->render($dropDown));
     }
 
     /**

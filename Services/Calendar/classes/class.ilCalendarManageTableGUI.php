@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * show list of alle calendars to manage
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -28,6 +31,9 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     protected ilCalendarActions $actions;
     protected ilObjUser $user;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(object $a_parent_obj)
     {
         global $DIC;
@@ -36,6 +42,8 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, 'manage');
 
         $this->user = $DIC->user();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->actions = ilCalendarActions::getInstance();
         $this->lng->loadLanguageModule('dateplaner');
@@ -72,46 +80,62 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $current_selection_list = new ilAdvancedSelectionListGUI();
-        $current_selection_list->setListTitle($this->lng->txt("actions"));
-        $current_selection_list->setId("act_" . $a_set['id']);
+        $dropDownItems = array();
 
         $this->ctrl->setParameter($this->getParentObject(), 'category_id', $a_set['id']);
 
         // edit
         if ($this->actions->checkSettingsCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
-            $current_selection_list->addItem($this->lng->txt('settings'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('settings'),
+                $url
+            );
         }
 
         // import (ics appointments)
         if ($this->actions->checkAddEvent($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'importAppointments');
-            $current_selection_list->addItem($this->lng->txt('cal_import_appointments'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_import_appointments'),
+                $url
+            );
         }
 
         // unshare
         if ($this->actions->checkUnshareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
-            $current_selection_list->addItem($this->lng->txt('cal_unshare'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_unshare'),
+                $url
+            );
         }
 
         // share
         if ($this->actions->checkShareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
-            $current_selection_list->addItem($this->lng->txt('cal_share'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_share'),
+                $url
+            );
         }
 
         // synchronize
         if ($this->actions->checkSynchronizeCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
-            $current_selection_list->addItem($this->lng->txt('cal_cal_synchronize'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_cal_synchronize'),
+                $url
+            );
         }
 
         // delete
         if ($this->actions->checkDeleteCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete');
-            $current_selection_list->addItem($this->lng->txt('delete'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('delete'),
+                $url
+            );
 
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -163,8 +187,12 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 ''
             )
         );
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt("actions"));
+
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);
-        $this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
+        $this->tpl->setVariable("ACTIONS", $this->renderer->render($dropDown));
     }
 
     public function parse(): void
