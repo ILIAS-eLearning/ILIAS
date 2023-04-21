@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author   Richard Klees <richard.klees@concepts-and-training.de>
@@ -91,8 +90,6 @@ class ilPluginLanguage
      */
     public function updateLanguages(?array $a_lang_keys = null): void
     {
-        ilGlobalCache::flushAll();
-
         // get the keys of all installed languages if keys are not provided
         if (!isset($a_lang_keys)) {
             $a_lang_keys = [];
