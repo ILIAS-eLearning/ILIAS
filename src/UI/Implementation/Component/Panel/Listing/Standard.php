@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
 /**
  * Class Panel
@@ -28,4 +29,5 @@ use ILIAS\UI\Component as C;
  */
 class Standard extends Listing implements C\Panel\Listing\Standard
 {
+    use HasViewControls;
 }

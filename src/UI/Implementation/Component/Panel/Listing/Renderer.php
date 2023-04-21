@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Implementation\Render\Template as Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -44,6 +45,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
 
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof Group) {
                 $tpl->setCurrentBlock("group");
@@ -52,16 +55,34 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $title = $component->getTitle();
-        $tpl->setVariable("LIST_TITLE", $title);
-
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
         return $tpl->get();
+    }
+
+    protected function parseHeader(
+        C\Panel\Listing\Standard $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template {
+        $title = $component->getTitle();
+        $actions = $component->getActions();
+        $view_controls = $component->getViewControls();
+
+        if ($title !== "" || $actions || $view_controls) {
+            $tpl->setVariable("TITLE", $title);
+            if ($actions) {
+                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+            }
+            if ($view_controls) {
+                foreach ($view_controls as $view_control) {
+                    $tpl->setCurrentBlock("view_controls");
+                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
+                }
+            }
+            $tpl->setCurrentBlock("heading");
+            $tpl->parseCurrentBlock();
+        }
+        return $tpl;
     }
 
     /**

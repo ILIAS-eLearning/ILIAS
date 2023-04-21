@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Panel\Listing;
 
+use ILIAS\UI\Component\ViewControl\HasViewControls;
+
 /**
  * Interface Standard
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface Standard extends Listing
+interface Standard extends Listing, HasViewControls
 {
 }
