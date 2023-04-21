@@ -326,13 +326,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
 	},
     ```
   * *path_to_latex_cgi* (type: string) url of a mimetex installation (deprecated). Please configure MathJax in the ILIAS Administration.
-* *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
-    ```
-	"pdfgeneration" : {
-		"path_to_phantom_js" : "/usr/bin/phantomjs"
-	},
-    ```
-  * *path_to_phantom_js* (type: string) executable
 * *preview* (type: object) contains settings for Services/Preview
     ```
 	"preview" : {

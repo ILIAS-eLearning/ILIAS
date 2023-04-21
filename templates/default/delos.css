@@ -8718,6 +8718,12 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-table-presentation-row .il-table-presentation-actions {
   margin: 5px 0;
 }
+.il-table-presentation-row .il-table-presentation-actions:not(:empty) + .il-table-presentation-row-header {
+  max-width: calc(100% - 11rem);
+}
+.il-table-presentation-row .il-table-presentation-row-header {
+  min-height: 34px;
+}
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 17px;
   font-weight: normal;
@@ -10336,9 +10342,6 @@ footer {
 }
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 5px;
-}
-.il-maincontrols-footer .il-footer-permanent-url > a {
-  color: white;
 }
 .il-maincontrols-footer .il-footer-text {
   margin-right: 5px;
@@ -20168,4 +20171,3 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
-/*# sourceMappingURL=delos.css.map */

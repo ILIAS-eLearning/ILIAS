@@ -1040,7 +1040,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         return;
     }
-
     public function redirectBackCmd()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -2446,8 +2445,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function getNavigationUrlParameter()
     {
         if (isset($_POST['test_player_navigation_url'])) {
-            return $_POST['test_player_navigation_url'];
+            $navigation_url = $_POST['test_player_navigation_url'];
+
+            $navigation_url_parts = parse_url($navigation_url);
+            $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+
+            if (!isset($navigation_url_parts['host']) || ($ilias_url_parts['host'] === $navigation_url_parts['host'])) {
+                return $navigation_url;
+            }
         }
+
         return null;
     }
     // fau.
