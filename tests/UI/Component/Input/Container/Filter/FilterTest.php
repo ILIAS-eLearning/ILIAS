@@ -454,6 +454,7 @@ class FilterTest extends ILIAS_UI_TestBase
             ->getMockBuilder(FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "withDedicatedName",
                 "withNameFrom",
                 "withInput",
                 "getContent",

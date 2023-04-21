@@ -241,4 +241,12 @@ class RoundTrip extends Modal implements M\RoundTrip
     {
         return $this->submit_signal;
     }
+
+    /**
+     * No dedicated name can be set for this subform
+     */
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        return $this;
+    }
 }

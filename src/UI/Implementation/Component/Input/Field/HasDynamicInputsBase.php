@@ -118,9 +118,9 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withNameFrom(NameSource $source): self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
 
         $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
             new DynamicInputsNameSource($clone->getName())

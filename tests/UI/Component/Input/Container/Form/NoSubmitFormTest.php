@@ -41,6 +41,14 @@ class InputNameSource implements NameSource
 
         return $name;
     }
+
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        $name = $dedicated_name . "_$this->count";
+        $this->count++;
+
+        return $name;
+    }
 }
 
 /**
@@ -146,7 +154,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn([
-            'form_input_1' => '',
+            'form_0/form_input_1' => '',
         ]);
 
         $form = $form->withRequest($request);

@@ -37,11 +37,11 @@ class Link extends Group implements C\Input\Field\Link
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         $inputs = [
-            $field_factory->text($lng->txt('ui_link_label')),
-            $field_factory->url($lng->txt('ui_link_url'))
+            $field_factory->text($lng->txt('ui_link_label'), null)->withDedicatedName('label'),
+            $field_factory->url($lng->txt('ui_link_url'), null)->withDedicatedName('url')
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);

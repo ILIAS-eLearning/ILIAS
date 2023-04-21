@@ -281,7 +281,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 					</div>
 					<div class="ui-input-file-metadata" style="display: none;">
-						<input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1"/>
+						<input id="id_1" type="hidden" name="name_0[input_0][]" value="test_file_id_1"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>
@@ -351,10 +351,10 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<div class="form-group row">
 							<label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
 							<div class="col-sm-8 col-md-9 col-lg-10">
-								<input id="id_1" type="text" name="name_0[form_input_1][]" class="form-control form-control-sm"/>
+								<input id="id_1" type="text" name="name_0[input_1][]" class="form-control form-control-sm"/>
 							</div>
 						</div>
-						<input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id"/>
+						<input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>
@@ -433,10 +433,10 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<div class="form-group row">
 							<label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
 							<div class="col-sm-8 col-md-9 col-lg-10">
-								<input id="id_1" type="text" value="test" name="name_0[form_input_1][]" class="form-control form-control-sm"/>
+								<input id="id_1" type="text" value="test" name="name_0[input_1][]" class="form-control form-control-sm"/>
 							</div>
 						</div>
-						<input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1"/>
+						<input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>

@@ -54,8 +54,8 @@ class Duration extends Group implements C\Input\Field\Duration
         ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime($lng->txt('duration_default_label_start')),
-            $field_factory->dateTime($lng->txt('duration_default_label_end'))
+            $field_factory->dateTime($lng->txt('duration_default_label_start'), null)->withDedicatedName('start'),
+            $field_factory->dateTime($lng->txt('duration_default_label_end'), null)->withDedicatedName('end')
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);

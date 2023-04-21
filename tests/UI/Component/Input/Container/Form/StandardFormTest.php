@@ -50,7 +50,15 @@ class InputNameSource implements NameSource
 
     public function getNewName(): string
     {
-        $name = "form_input_{$this->count}";
+        $name = "input_{$this->count}";
+        $this->count++;
+
+        return $name;
+    }
+
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        $name = $dedicated_name . "_{$this->count}";
         $this->count++;
 
         return $name;
@@ -120,7 +128,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -171,7 +179,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -204,7 +212,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -251,7 +259,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_input_1' => ''
+                'form_0/input_1' => ''
             ]);
 
         $form = $form->withRequest($request);
@@ -270,7 +278,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                     <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
-                        <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm" />
+                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
                         <div class="help-block">byline</div>
                     </div>
                 </div>
@@ -311,7 +319,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_input_1' => ''
+                'form_0/input_1' => ''
             ]);
 
         $form = $form->withRequest($request);
@@ -329,7 +337,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                 <div class="form-group row">
                     <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm" />
+                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
                         <div class="help-block">byline</div>
                     </div>
                 </div>
@@ -360,7 +368,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     <div class="form-group row">
         <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+            <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
              <div class="help-block">byline</div>
         </div>
     </div>

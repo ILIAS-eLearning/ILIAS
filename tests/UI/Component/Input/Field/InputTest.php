@@ -62,6 +62,14 @@ class DefNamesource implements NameSource
 
         return $name;
     }
+
+    public function getNewDedicatedName($dedicated_name = 'dedicated_name'): string
+    {
+        $name = $dedicated_name . "_{$this->count}";
+        $this->count++;
+
+        return $name;
+    }
 }
 
 class DefInputData implements InputData
@@ -112,6 +120,7 @@ class InputTest extends ILIAS_UI_TestBase
     protected DataFactory $data_factory;
     protected Refinery $refinery;
     protected DefInput $input;
+    protected DefInput $dedicated_input;
     protected DefNamesource $name_source;
 
     public function setUp(): void
@@ -125,6 +134,7 @@ class InputTest extends ILIAS_UI_TestBase
             "label",
             "byline"
         );
+        $this->named_input = $this->input->withDedicatedName('dedicated_name');
         $this->name_source = new DefNamesource();
     }
 
@@ -198,6 +208,16 @@ class InputTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $this->input->getName());
         $this->assertEquals($name, $input->getName());
         $this->assertNotSame($this->input, $input);
+        $this->assertEquals(1, $this->name_source->count);
+    }
+
+    public function test_withNameForNamedInput(): void
+    {
+        $name = "dedicated_name_0";
+        $input = $this->named_input->withNameFrom($this->name_source);
+        $this->assertEquals(null, $this->named_input->getName());
+        $this->assertEquals($name, $input->getName());
+        $this->assertNotSame($this->named_input, $input);
         $this->assertEquals(1, $this->name_source->count);
     }
 

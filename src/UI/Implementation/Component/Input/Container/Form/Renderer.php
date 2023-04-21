@@ -50,6 +50,9 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
+        if ($component->getDedicatedName() !== null) {
+            $tpl->setVariable("NAME", 'name="' . $component->getDedicatedName() . '"');
+        }
 
         $this->maybeAddRequired($component, $tpl);
         $this->addPostURL($component, $tpl);

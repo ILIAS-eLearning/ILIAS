@@ -35,6 +35,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use LogicException;
 use Generator;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
 /**
  * This implements commonalities between inputs.
@@ -67,6 +68,8 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
 
     private ?string $name = null;
 
+    protected ?string $dedicated_name = null;
+
     /**
      * This is the current content of the input in the abstraction. This results by
      * applying the transformations and constraints to the value(s) (@see: operations)
@@ -86,7 +89,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         DataFactory $data_factory,
         Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline = null
     ) {
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
@@ -262,6 +265,24 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    final public function getDedicatedName(): ?string
+    {
+        return $this->dedicated_name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    final public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
+        return $clone;
+    }
+
     // Implementation of FormInputInternal
 
     // This is the machinery to be used to process the input from the client side.
@@ -279,10 +300,17 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source)
+    public function withNameFrom(NameSource $source, ?string $parent_name = null)
     {
         $clone = clone $this;
-        $clone->name = $source->getNewName();
+        if ($source instanceof DynamicInputsNameSource) {
+            $clone->name = '';
+        } else {
+            $clone->name = ($parent_name !== null) ? $parent_name . '/' : '';
+        }
+        $clone->name .= ($clone->dedicated_name !== null)
+                        ? $source->getNewDedicatedName($clone->dedicated_name)
+                        : $source->getNewName();
         return $clone;
     }
 
