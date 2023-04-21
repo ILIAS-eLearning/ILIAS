@@ -328,36 +328,33 @@ export default class ParagraphUI {
     if (!content) {
       content = "";
     }
+    let rng = ed.selection.getRng();
+    const startContainer = rng.startContainer;
+    const endContainer = rng.endContainer;
+    const startOffset = rng.startOffset;
+    const endOffset = rng.endOffset;
+
+    let mode = "";
+    if (startContainer.nodeName === "#text"
+      && startContainer.parentNode.nodeName === "P") {
+      mode = "text";
+    }
+
     if (ed.selection.getContent() === "")
     {
       stag = stag + content;
-      rcopy = ed.selection.getRng(true).cloneRange();
-      var nc = stag + ed.selection.getContent() + etag;
-      ed.selection.setContent(nc);
+      const nc = stag + ed.selection.getContent() + etag;
+
+      ed.selection.setContent(nc);    // note: this changes the start/end container
+
+      let rcopy = ed.selection.getRng().cloneRange();
+      let r =  ed.dom.createRng();
       ed.focus();
-      r =  ed.dom.createRng();
-      if (rcopy.endContainer.nextSibling) // usual text node
-      {
-        if (rcopy.endContainer.nextSibling.nodeName !== "P")
-        {
-          r.setEnd(rcopy.endContainer.nextSibling, stag.length);
-          r.setStart(rcopy.startContainer.nextSibling, stag.length);
-          ed.selection.setRng(r);
-        }
-        else
-        {
-          r.setStart(rcopy.endContainer.firstChild, stag.length);
-          r.setEnd(rcopy.endContainer.firstChild, stag.length);
-          ed.selection.setRng(r);
-        }
-      }
-      else if (rcopy.endContainer.firstChild) // e.g. when being in an empty list node
-      {
-        r.setEnd(rcopy.endContainer.firstChild, stag.length);
-        r.setStart(rcopy.startContainer.firstChild, stag.length);
+      if (mode === "text") { // usual text node
+        r.setEnd(rcopy.startContainer, stag.length + startOffset);
+        r.setStart(rcopy.startContainer, stag.length + startOffset);
         ed.selection.setRng(r);
       }
-      ed.selection.setRng(r);
     }
     else
     {
