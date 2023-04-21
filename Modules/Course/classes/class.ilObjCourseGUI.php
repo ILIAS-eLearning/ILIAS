@@ -2213,6 +2213,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 $editor = new ilLOEditorGUI($this->object);
                 $this->ctrl->forwardCommand($editor);
+                if (strtolower($this->ctrl->getCmdClass()) === "illopagegui") {
+                    $header_action = false;
+                }
                 break;
 
             case 'ilcontainerstartobjectsgui':
