@@ -13,7 +13,7 @@ function get_changed_files() {
     URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
     CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep -e '\.php$' -e '\.js$')
   fi
-  echo ${CHANGED_FILES}
+  printf "${CHANGED_FILES[*]}"
 }
 
 function get_changed_lang_files() {

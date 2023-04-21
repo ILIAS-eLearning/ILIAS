@@ -24,6 +24,24 @@
 # into arrays on linebreaks instead of (almost) all whitespace chars.
 IFS=$'\n'
 
+# the ${COPYRIGHT_LINES} constant holds an array of lines, excluding
+# the comment-ending deliberately.
+COPYRIGHT_LINES=(
+  "/**"
+  " * This file is part of ILIAS, a powerful learning management system"
+  " * published by ILIAS open source e-Learning e.V."
+  " *"
+  " * ILIAS is licensed with the GPL-3.0,"
+  " * see https://www.gnu.org/licenses/gpl-3.0.en.html"
+  " * You should have received a copy of said license along with the"
+  " * source code, too."
+  " *"
+  " * If this is not the case or you just want to try ILIAS, you'll find"
+  " * us at:"
+  " * https://www.ilias.de"
+  " * https://github.com/ILIAS-eLearning"
+)
+
 # DESC: checks if the given file contains the official ILIAS copyright
 #       license header at the beginning of its content.
 #
@@ -41,22 +59,6 @@ function is_copyright_valid() {
     exit 1
   fi
 
-  local copyright_lines=(
-    "/**"
-    " * This file is part of ILIAS, a powerful learning management system"
-    " * published by ILIAS open source e-Learning e.V."
-    " *"
-    " * ILIAS is licensed with the GPL-3.0,"
-    " * see https://www.gnu.org/licenses/gpl-3.0.en.html"
-    " * You should have received a copy of said license along with the"
-    " * source code, too."
-    " *"
-    " * If this is not the case or you just want to try ILIAS, you'll find"
-    " * us at:"
-    " * https://www.ilias.de"
-    " * https://github.com/ILIAS-eLearning"
-  )
-
   local file_extension="${file##*.}"
   local offset=1
 
@@ -66,7 +68,7 @@ function is_copyright_valid() {
     offset=3
   fi
 
-  for copyright_line in "${copyright_lines[@]}"; do
+  for copyright_line in "${COPYRIGHT_LINES[@]}"; do
     local line_to_check="$(sed "${offset}q;d" "${file}")"
     if ! [ "${copyright_line}" = "${line_to_check}" ]; then
       return 1
