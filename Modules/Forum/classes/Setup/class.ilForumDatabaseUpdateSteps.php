@@ -64,14 +64,14 @@ class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step4(): void
+    public function step_4(): void
     {
         if ($this->db->tableExists('frm_thread_access')) {
             $this->db->dropTable('frm_thread_access');
         }
     }
 
-    public function step5(): void
+    public function step_5(): void
     {
         if ($this->db->tableExists('settings')) {
             $this->db->manipulateF(
