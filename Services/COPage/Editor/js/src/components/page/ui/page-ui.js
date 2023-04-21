@@ -156,6 +156,7 @@ export default class PageUI {
         this.showAddButtons();
         this.hideDropareas();
         this.enableDragDrop();
+        this.endableListButtons();
         break;
 
       case model.STATE_MULTI_ACTION:
@@ -880,6 +881,12 @@ export default class PageUI {
   disableListButtons() {
     document.querySelectorAll("button.il-copg-edit-list-button").forEach(el => {
       el.disabled = true;
+    });
+  }
+
+  endableListButtons() {
+    document.querySelectorAll("button.il-copg-edit-list-button").forEach(el => {
+      el.disabled = false;
     });
   }
 
