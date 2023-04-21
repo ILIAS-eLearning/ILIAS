@@ -9951,25 +9951,17 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-.c-input-markdown__controls .il-viewcontrol-mode {
-  width: fit-content;
-  float: left;
-}
-
-.c-input-markdown__actions {
-  width: fit-content;
-  float: right;
+.c-input-markdown__controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 3px;
 }
 
 .c-input-markdown__actions .glyph,
 .c-input-markdown__actions .glyph:hover {
   color: white;
-}
-
-.c-input-markdown__controls {
-  width: 100%;
-  height: fit-content;
-  display: inline-block;
 }
 
 .c-input-markdown__preview {

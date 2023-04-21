@@ -7,14 +7,12 @@
 @use "./ui-component_textarea" as *;
 @use "../../../050-layout/basics" as *;
 
-.c-input-markdown__controls .il-viewcontrol-mode {
-  width: fit-content;
-  float: left;
-}
-
-.c-input-markdown__actions {
-  width: fit-content;
-  float: right;
+.c-input-markdown__controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $il-padding-base-vertical;
+  margin-bottom: $il-padding-base-vertical;
 }
 
 // glyphs are grey by default, which leads to low contrast when being
@@ -23,12 +21,6 @@
 .c-input-markdown__actions .glyph,
 .c-input-markdown__actions .glyph:hover{
   color: $il-text-color-invert;
-}
-
-.c-input-markdown__controls {
-  width: 100%;
-  height: fit-content;
-  display: inline-block;
 }
 
 .c-input-markdown__preview {
