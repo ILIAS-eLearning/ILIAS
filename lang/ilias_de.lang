@@ -6487,6 +6487,8 @@ content#:#cont_grid_width_s#:#Klein (Small)
 content#:#cont_grid_width_s_info#:#z.B. Smartphone
 content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
 content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
+content#:#cont_hacc_needs_height#:#Bitte geben Sie für horizontale Akkordeons eine Höhe an.
+content#:#cont_hacc_needs_width#:#Bitte geben Sie für horizontale Akkordeons eine Breite an.
 content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe in Pixel
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.

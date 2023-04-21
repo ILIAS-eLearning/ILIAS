@@ -76,7 +76,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function editProperties($init_form = true): void
+    public function editProperties(bool $init_form = true): void
     {
         $tpl = $this->tpl;
 
@@ -304,12 +304,30 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
+    protected function checkWidthHeight(ilPropertyFormGUI $form): bool
+    {
+        $ok = true;
+        if ($form->getInput("type") === ilPCTabs::ACCORDION_HOR) {
+            if ($form->getInput("content_width") == "") {
+                $form->getItemByPostVar("content_width")
+                           ->setAlert($this->lng->txt("cont_hacc_needs_width"));
+                $ok = false;
+            }
+            if ($form->getInput("content_height") == "") {
+                $form->getItemByPostVar("content_height")
+                           ->setAlert($this->lng->txt("cont_hacc_needs_height"));
+                $ok = false;
+            }
+        }
+        return $ok;
+    }
+
     public function create(): void
     {
         $lng = $this->lng;
 
         $this->initForm("create");
-        if ($this->form->checkInput()) {
+        if ($this->form->checkInput() && $this->checkWidthHeight($this->form)) {
             $this->content_obj = new ilPCTabs($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
@@ -384,7 +402,7 @@ class ilPCTabsGUI extends ilPageContentGUI
     {
         $this->initForm();
         $this->updated = false;
-        if ($this->form->checkInput()) {
+        if ($this->form->checkInput() && $this->checkWidthHeight($this->form)) {
             $this->setPropertiesByForm();
             $this->updated = $this->pg_obj->update();
         } else {
