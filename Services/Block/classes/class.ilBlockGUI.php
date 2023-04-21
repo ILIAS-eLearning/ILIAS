@@ -890,7 +890,8 @@ abstract class ilBlockGUI
             (
                 $panel instanceof \ILIAS\UI\Component\Panel\Standard ||
                 $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Listing ||
-                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Legacy
+                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Legacy ||
+                $panel instanceof \ILIAS\UI\Component\Panel\Listing\Standard
             )
         ) {
             $panel = $panel->withViewControls($viewControls);

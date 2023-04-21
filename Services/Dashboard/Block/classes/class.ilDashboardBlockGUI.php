@@ -167,7 +167,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
         } else {
-            $this->setPresentation(self::PRES_MAIN_LIST);
+            $this->setPresentation(self::PRES_SEC_LIST);
         }
     }
 
@@ -369,14 +369,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $sortings = $this->viewSettings->getSelectableSortingModes();
         if (count($sortings) > 1) {
             foreach ($sortings as $sorting) {
-                $this->ctrl->setParameter($this, 'sorting', $sorting);
-                $this->addBlockCommand(
-                    $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
+                $this->addSortOption(
+                    $sorting,
                     $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
-                    $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
+                    $sorting === $this->viewSettings->getEffectiveSortingMode()
                 );
-                $this->ctrl->setParameter($this, 'sorting', null);
             }
+            $this->setSortTarget($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
         }
 
         $presentations = $this->viewSettings->getSelectablePresentationModes();
