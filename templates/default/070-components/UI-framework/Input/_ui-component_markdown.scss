@@ -7,7 +7,7 @@
 @use "./ui-component_textarea" as *;
 @use "../../../050-layout/basics" as *;
 
-.il-viewcontrol-mode {
+.ui-input-markdown-controls .il-viewcontrol-mode {
   width: fit-content;
   float: left;
 }
@@ -42,7 +42,6 @@
 }
 
 // when working with markdown syntax we should use a monospaced font.
-// currently this must be overwritten with !important.
-.ui-input-markdown textarea {
-  font-family: Monospace, Courier !important;
+.ui-input-markdown .ui-input-textarea textarea {
+  font-family: Monospace, Courier;
 }

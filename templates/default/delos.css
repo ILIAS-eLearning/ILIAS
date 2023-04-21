@@ -9951,7 +9951,7 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-.il-viewcontrol-mode {
+.ui-input-markdown-controls .il-viewcontrol-mode {
   width: fit-content;
   float: left;
 }
@@ -9982,8 +9982,8 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
   margin: 0;
 }
 
-.ui-input-markdown textarea {
-  font-family: Monospace, Courier !important;
+.ui-input-markdown .ui-input-textarea textarea {
+  font-family: Monospace, Courier;
 }
 
 .il-standard-form {
