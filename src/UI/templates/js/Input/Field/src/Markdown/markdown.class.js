@@ -47,7 +47,7 @@ export default class Markdown extends Textarea {
     constructor(preview_renderer, input_id) {
         super(input_id);
 
-        let input_wrapper = this.textarea.closest('.ui-input-markdown');
+        let input_wrapper = this.textarea.closest('.c-input-markdown');
 
         if (null === input_wrapper) {
             throw new Error(`Could not find input-wrapper for input-id '${input_id}'.`);
@@ -379,7 +379,7 @@ function getContentWrappersOrAbort(input_wrapper) {
     let content_wrappers = new Map();
 
     content_wrappers.set(CONTENT_WRAPPER_KEY_TEXTAREA, input_wrapper.querySelector('.ui-input-textarea'));
-    content_wrappers.set(CONTENT_WRAPPER_KEY_PREVIEW, input_wrapper.querySelector('.ui-input-markdown-preview'));
+    content_wrappers.set(CONTENT_WRAPPER_KEY_PREVIEW, input_wrapper.querySelector('.c-input-markdown__preview'));
 
     content_wrappers.forEach(function (wrapper) {
         if (null === wrapper) {
@@ -414,7 +414,7 @@ function getViewControlsOrAbort(input_wrapper) {
  */
 function getMarkdownActions(input_wrapper) {
     let actions = input_wrapper
-        .querySelector('.ui-input-markdown-actions')
+        .querySelector('.c-input-markdown__actions')
         ?.getElementsByTagName('button');
 
     if (actions instanceof HTMLCollection) {

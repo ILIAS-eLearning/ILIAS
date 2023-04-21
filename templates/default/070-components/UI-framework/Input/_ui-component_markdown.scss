@@ -7,12 +7,12 @@
 @use "./ui-component_textarea" as *;
 @use "../../../050-layout/basics" as *;
 
-.ui-input-markdown-controls .il-viewcontrol-mode {
+.c-input-markdown__controls .il-viewcontrol-mode {
   width: fit-content;
   float: left;
 }
 
-.ui-input-markdown-actions {
+.c-input-markdown__actions {
   width: fit-content;
   float: right;
 }
@@ -20,18 +20,18 @@
 // glyphs are grey by default, which leads to low contrast when being
 // used inside buttons. therefore, we use the text-color for interved
 // designs.
-.ui-input-markdown-actions .glyph,
-.ui-input-markdown-actions .glyph:hover{
+.c-input-markdown__actions .glyph,
+.c-input-markdown__actions .glyph:hover{
   color: $il-text-color-invert;
 }
 
-.ui-input-markdown-controls {
+.c-input-markdown__controls {
   width: 100%;
   height: fit-content;
   display: inline-block;
 }
 
-.ui-input-markdown-preview {
+.c-input-markdown__preview {
   min-height: $il-textarea-height;
   border: $il-main-border;
   display: inline-block;
@@ -42,6 +42,6 @@
 }
 
 // when working with markdown syntax we should use a monospaced font.
-.ui-input-markdown .ui-input-textarea textarea {
+.c-input-markdown .ui-input-textarea textarea {
   font-family: Monospace, Courier;
 }

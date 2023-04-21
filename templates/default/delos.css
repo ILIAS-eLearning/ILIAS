@@ -9951,28 +9951,28 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-.ui-input-markdown-controls .il-viewcontrol-mode {
+.c-input-markdown__controls .il-viewcontrol-mode {
   width: fit-content;
   float: left;
 }
 
-.ui-input-markdown-actions {
+.c-input-markdown__actions {
   width: fit-content;
   float: right;
 }
 
-.ui-input-markdown-actions .glyph,
-.ui-input-markdown-actions .glyph:hover {
+.c-input-markdown__actions .glyph,
+.c-input-markdown__actions .glyph:hover {
   color: white;
 }
 
-.ui-input-markdown-controls {
+.c-input-markdown__controls {
   width: 100%;
   height: fit-content;
   display: inline-block;
 }
 
-.ui-input-markdown-preview {
+.c-input-markdown__preview {
   min-height: 4.56rem;
   border: 1px solid #dddddd;
   display: inline-block;
@@ -9982,7 +9982,7 @@ ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
   margin: 0;
 }
 
-.ui-input-markdown .ui-input-textarea textarea {
+.c-input-markdown .ui-input-textarea textarea {
   font-family: Monospace, Courier;
 }
 
