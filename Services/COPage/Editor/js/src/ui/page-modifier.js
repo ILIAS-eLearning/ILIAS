@@ -88,10 +88,13 @@ export default class PageModifier {
       console.log("cut");
       const pcid = id.split(":")[1];
       const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
-      const el = document.querySelector(pcSelector).parentNode;
-      const next = el.nextSibling;
-      el.parentNode.removeChild(el);
-      next.parentNode.removeChild(next);
+      const areaEl = document.querySelector(pcSelector);
+      if (areaEl) {   // this may already not exist anymore, if nested elements are cut
+        const el = areaEl.parentNode;
+        const next = el.nextSibling;
+        el.parentNode.removeChild(el);
+        next.parentNode.removeChild(next);
+      }
     }
   }
 
