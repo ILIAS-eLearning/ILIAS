@@ -85,9 +85,16 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
     .il-table-presentation-actions {
         margin: 5px 0;
+
+        // if there is an action, row header text should not run over action button
+        &:not(:empty) + .il-table-presentation-row-header {
+            max-width: calc(100% - 11rem);
+        }
     }
 
     .il-table-presentation-row-header {
+        // if there is no sub headline, a min-height is needed so further fields box doesn't overlap with action button - Mantis 36531
+        min-height: $il-font-size-large * 2;
         h4 {
             font-size: $il-font-size-large;
             font-weight: $il-font-weight-base;
