@@ -2442,7 +2442,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     }
 
     // fau: testNav - get the navigation url set by a submit from ilTestPlayerNavigationControl.js
-    protected function getNavigationUrlParameter(): ?string
+    protected function getNavigationUrlParameter()
     {
         if (isset($_POST['test_player_navigation_url'])) {
             $navigation_url = $_POST['test_player_navigation_url'];
