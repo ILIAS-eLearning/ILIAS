@@ -93,7 +93,7 @@ class Duration extends Group implements C\Input\Field\Duration
             if (is_null($v)) {
                 return true;
             }
-            return $v['start'] < $v['end'];
+            return $v['start'] <= $v['end'];
         };
 
         $from_before_until = $this->refinery->custom()->constraint($is_ok, $error);
