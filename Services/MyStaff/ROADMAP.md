@@ -3,13 +3,21 @@
 
 ## Short Term
 
-### Remove Legacy UI, pt. 1
+### Remove Legacy UI, **Actions** Dropdown
 
-The **Actions** dropdown (`ilAdvancedSelectionListGUI`) should be replaced by the corresponding KS element *Standard Dropdown*.
+The **Actions** dropdown (`ilAdvancedSelectionListGUI`), used in the different Staff views in the table, should be replaced by the corresponding KS element `Standard Dropdown`.
+
+### Remove Legacy UI, Filter
+
+The filters, used in the different Staff views in the toolbar, should be replaced by the corresponding KS element `Filter`.
+
+### Replace UI element, User Avatars
+
+The avatars of the users in the "Staff List" view, which are currently the KS element `Standard Image`, should be replaced by the KS element `Picture Avatar`.
 
 ### Remove Asynchronicity for Actions Dropdown
 
-This is related to [Remove Legacy UI, pt. 1](#remove-legacy-ui-pt-1).<br>
+This is related to [Remove Legacy UI, **Actions** Dropdown](#remove-legacy-ui-actions-dropdown).<br>
 The asynchronous **Actions** dropdown in the different Staff views was introduced to improve the performace, but it also brings along problems, e.g. when the entries within the dropdown also use Javascript.
 The asynchronicity should be abolished and the performance should be improved in general, see [Refactoring of `ilMyStaffAccess`](#refactoring-of-ilmystaffaccess).
 
@@ -47,6 +55,23 @@ At the same time, it should be defined to which limit of organisational units (a
 Currently, the Staff Service has dependencies to other components, especially with regard to database tables. This always bears risks when changes are made in the components.
 The dependencies should be dissolved by introducing APIs in the corresponding components themselves, which the Staff Service can consume.
 It must be discussed how exactly these interfaces will look like.
+
+### Introduce Separate User Action Configuration for Staff
+
+Currently, the Staff Service reuses the User Action Configuration from the Who-is-online-Tool.
+A separate user action configuration for Staff itself should be introduced (with its own `ilUserActionContext`).
+A new Mainbar entry *Administration > Organisation > Staff* may be necessary.
+
+### Decoupling Staff Service
+
+The Staff Service is used as a kind of "aggregator" to collect data from other services (Memberships/Courses, Competences, Certificates, Organisational Units) and deliver the information in a central view.
+This idea should remain, but dependencies between Staff and those other components should be reduced and clarified:<br>
+* Components could provide interfaces the Staff Service can use.
+* The Staff Service could provide the aggregated data to other components and those components could prepare and present the data themselves.
+Staff can still remain as a entry point to these views in the Mainbar.
+* Components can directly work with the User Action provider and the Mainbar provider, cutting out the Staff Service entirely.
+This does not necessarily have to lead to visual changes in the UI, one can just shift technical responsibility from one component to the other.
+The Staff Service would be left in charge of the "Staff List" view and the configuration of the User Actions.
 
 ## Long Term
 
