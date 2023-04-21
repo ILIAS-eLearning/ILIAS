@@ -98,7 +98,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        if ($form instanceof ilPropertyFormGUI) {
+        if ($form instanceof ilPropertyFormGUI && !$this->request->isset('hint_id')) {
             $form->setValuesByPost();
         } elseif ($this->request->isset('hint_id') && (int) $this->request->raw('hint_id')) {
             $questionHint = new ilAssQuestionHint();
@@ -269,6 +269,9 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $areaInp->setValue($questionHint->getText());
             }
 
+            if ($this->request->isset('hint_points') && !is_numeric($this->request->raw('hint_points'))){
+                $numInp->setAlert($lng->txt('err_no_numeric_value'));
+            }
             $numInp->setValue($questionHint->getPoints());
 
             $hiddenInp->setValue($questionHint->getId());
