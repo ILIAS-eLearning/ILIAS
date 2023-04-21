@@ -45,7 +45,7 @@ class Container extends \Pimple\Container
 
     public function globalCache(): Services
     {
-        return $this["global_cache"];
+        return $this["global_cache"] ?? new Services(null);
     }
 
     /**

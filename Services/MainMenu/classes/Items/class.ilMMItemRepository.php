@@ -30,20 +30,21 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
+use ILIAS\Cache\Container\Request;
 
 /**
  * Class ilMMItemRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemRepository
+class ilMMItemRepository implements Request
 {
     private ilDBInterface $db;
-
-    private ilGlobalCache $cache;
 
     private Services $services;
 
     private MainMenuMainCollector $main_collector;
+
+    private \ILIAS\Cache\Container\Container $cache;
 
     /**
      * ilMMItemRepository constructor.
@@ -52,7 +53,7 @@ class ilMMItemRepository
     public function __construct()
     {
         global $DIC;
-        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        $this->cache = $DIC->globalCache()->get($this);
         $this->db = $DIC->database();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->main_collector->collectOnce();
@@ -61,6 +62,17 @@ class ilMMItemRepository
         foreach ($this->main_collector->getRawUnfilteredItems() as $top_item) {
             ilMMItemStorage::register($top_item);
         }
+    }
+
+    public function getContainerKey(): string
+    {
+        return 'mm_items';
+    }
+
+
+    public function isForced(): bool
+    {
+        return false;
     }
 
     public function clearCache(): void

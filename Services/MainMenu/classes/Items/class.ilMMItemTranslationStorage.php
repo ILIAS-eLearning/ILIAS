@@ -204,12 +204,4 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         $this->language_key = $language_key;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCache(): ilGlobalCache
-    {
-        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
-    }
 }

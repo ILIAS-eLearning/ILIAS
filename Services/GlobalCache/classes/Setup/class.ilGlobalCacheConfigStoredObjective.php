@@ -20,10 +20,10 @@ use ILIAS\Setup;
 
 class ilGlobalCacheConfigStoredObjective implements Setup\Objective
 {
-    protected \ilGlobalCacheSettings $settings;
+    protected \ilGlobalCacheSettingsAdapter $settings;
 
     public function __construct(
-        \ilGlobalCacheSettings $settings
+        \ilGlobalCacheSettingsAdapter $settings
     ) {
         $this->settings = $settings;
     }
@@ -55,14 +55,15 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         /** @var $db ilDBInterface */
-        $db->manipulate("TRUNCATE TABLE il_gc_memcache_server");
+        $repo = new ilMemcacheNodesRepository($db);
+        $repo->deleteAll();
 
         $memcached_nodes = $this->settings->getMemcachedNodes();
         foreach ($memcached_nodes as $node) {
-            $node->create();
+            $repo->store($node);
         }
 
-        $return = $this->settings->writeToIniFile($client_ini);
+        $return = $this->settings->storeToIniFile($client_ini);
 
         if (!$client_ini->write() || !$return) {
             throw new Setup\UnachievableException("Could not write client.ini.php");

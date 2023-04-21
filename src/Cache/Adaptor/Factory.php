@@ -29,12 +29,14 @@ class Factory
 {
     public function getSpecific(string $adaptor, Config $config): Adaptor
     {
-        return match ($adaptor) {
+        $adaptor = match ($adaptor) {
             Config::APCU => new APCu($config),
             Config::PHPSTATIC => new PHPStatic($config),
             Config::MEMCACHED => new Memcached($config),
             default => throw new \InvalidArgumentException('Unknown Adapter'),
         };
+
+        return $adaptor->isAvailable() ? $adaptor : new PHPStatic($config);
     }
 
     public function getWithConfig(Config $config): Adaptor

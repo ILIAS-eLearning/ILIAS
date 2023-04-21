@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\GlobalScreen\Scope\Layout;
+namespace ILIAS\Cache;
 
 use ILIAS\Cache\Adaptor\APCu;
 use ILIAS\Cache\Adaptor\Memcached;

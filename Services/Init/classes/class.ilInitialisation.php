@@ -18,6 +18,7 @@
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\Cache\Config;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
@@ -538,10 +539,6 @@ class ilInitialisation
         } else {
             define("IL_DB_TYPE", $db_type);
         }
-
-        $ilGlobalCacheSettings = new ilGlobalCacheSettings();
-        $ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
-        ilGlobalCache::setup($ilGlobalCacheSettings);
     }
 
     /**
@@ -580,6 +577,18 @@ class ilInitialisation
         $ilDB->connect();
 
         self::initGlobal("ilDB", $ilDB);
+    }
+
+    protected static function initGlobalCache(): void
+    {
+        global $DIC;
+        $legacy_settings = new ilGlobalCacheSettingsAdapter(
+            $DIC->clientIni(),
+            $DIC->database(),
+        );
+        $DIC['global_cache'] = new \ILIAS\Cache\Services(
+            $legacy_settings->toConfig()
+        );
     }
 
     /**
@@ -1228,6 +1237,8 @@ class ilInitialisation
         self::handleMaintenanceMode();
 
         self::initDatabase();
+
+        self::initGlobalCache();
 
         self::initComponentService($DIC);
 

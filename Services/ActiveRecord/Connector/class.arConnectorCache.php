@@ -1,27 +1,32 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Cache\Container\Container;
+use ILIAS\Cache\Container\Request;
+
 /**
  * Class ilGSStorageCache
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
-class arConnectorCache extends arConnector
+class arConnectorCache extends arConnector implements Request
 {
     private \arConnector $arConnectorDB;
-    private \ilGlobalCache $cache;
-    public const CACHE_TTL_SECONDS = 180;
+    private Container $cache_container;
 
     /**
      * ilGSStorageCache constructor.
@@ -29,8 +34,28 @@ class arConnectorCache extends arConnector
      */
     public function __construct(arConnector $arConnectorDB)
     {
+        global $DIC;
         $this->arConnectorDB = $arConnectorDB;
-        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        $this->cache_container = $DIC->globalCache()->get($this);
+    }
+
+    /**
+     * @param ActiveRecord $ar
+     * @return string
+     */
+    protected function buildCacheKey(ActiveRecord $ar): string
+    {
+        return $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
+    }
+
+    public function getContainerKey(): string
+    {
+        return 'ar_cache';
+    }
+
+    public function isForced(): bool
+    {
+        return false;
     }
 
     /**
@@ -94,25 +119,19 @@ class arConnectorCache extends arConnector
 
     public function read(ActiveRecord $ar): array
     {
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $cached_value = $this->cache->get($key);
+        $key = $this->buildCacheKey($ar);
+        if ($this->cache_container->has($key)) {
+            $cached_value = $this->cache_container->get($key, new Transformation(function ($value) {
+                return is_array($value) ? $value : null;
+            }));
             if (is_array($cached_value)) {
                 return $cached_value;
-            }
-
-            if ($cached_value instanceof stdClass) {
-                return [$cached_value];
             }
         }
 
         $results = $this->arConnectorDB->read($ar);
 
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-
-            $this->cache->set($key, $results, self::CACHE_TTL_SECONDS);
-        }
+        $this->cache_container->set($key, $results);
 
         return $results;
     }
@@ -126,11 +145,8 @@ class arConnectorCache extends arConnector
     public function delete(ActiveRecord $ar): void
     {
         $this->arConnectorDB->delete($ar);
-
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $this->cache->delete($key);
-        }
+        $key = $this->buildCacheKey($ar);
+        $this->cache_container->delete($key);
     }
 
     public function readSet(ActiveRecordList $arl): array
@@ -161,11 +177,9 @@ class arConnectorCache extends arConnector
      */
     private function storeActiveRecordInCache(ActiveRecord $ar): void
     {
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $value = $ar->asStdClass();
+        $key = $this->buildCacheKey($ar);
+        $value = $ar->asArray();
 
-            $this->cache->set($key, $value, self::CACHE_TTL_SECONDS);
-        }
+        $this->cache_container->set($key, $value);
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
+use ILIAS\Cache\Services;
 
 class ilGlobalCacheAllFlushedObjective extends ilSetupObjective
 {
-    public function __construct()
+    public function __construct(private \ilGlobalCacheSettingsAdapter $cache_settings_adapter)
     {
     }
 
@@ -43,12 +44,20 @@ class ilGlobalCacheAllFlushedObjective extends ilSetupObjective
 
     public function getPreconditions(Setup\Environment $environment): array
     {
-        return [];
+        return [
+            new ilIniFilesLoadedObjective(),
+        ];
     }
 
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
-        ilGlobalCache::flushAll();
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        if ($client_ini === null) {
+            throw new UnexpectedValueException("Client ini not found");
+        }
+        $this->cache_settings_adapter->readFromIniFile($client_ini);
+        $services = new Services($this->cache_settings_adapter->toConfig());
+        $services->flushAdapter();
 
         return $environment;
     }
