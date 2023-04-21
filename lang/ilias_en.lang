@@ -6492,6 +6492,8 @@ content#:#cont_grid_width_s#:#Small
 content#:#cont_grid_width_s_info#:#E.g. smartphone
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.
 content#:#cont_header#:#Header
 content#:#cont_height#:#Height in pixels
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
