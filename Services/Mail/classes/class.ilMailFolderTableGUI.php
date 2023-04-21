@@ -452,7 +452,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $mail['checked'] = ' checked="checked" ';
             }
-            
+
             $mail['txt_select_mail_with_subject'] = sprintf(
                 $this->lng->txt('select_mail_with_subject_x'),
                 htmlspecialchars($mail['m_subject'])

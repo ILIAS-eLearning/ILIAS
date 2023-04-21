@@ -49,7 +49,7 @@ class ilMail
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */
     protected array $mailOptionsByUsrIdMap = [];
-    /** @var array<int, ilObjUser> */
+    /** @var array<int, null|ilObjUser> */
     protected array $userInstancesByIdMap = [];
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
@@ -169,8 +169,10 @@ class ilMail
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
                 if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
-                    $names[] = $user->getFullname() . ' [' . $recipient . ']';
-                    continue;
+                    if ($user) {
+                        $names[] = $user->getFullname() . ' [' . $recipient . ']';
+                        continue;
+                    }
                 }
             }
 
@@ -674,6 +676,14 @@ class ilMail
 
         foreach ($usrIds as $usrId) {
             $user = $this->getUserInstanceById($usrId);
+            if (!($user instanceof ilObjUser)) {
+                $this->logger->critical(sprintf(
+                    "Skipped recipient with id %s (User not found)",
+                    $usrId
+                ));
+                continue;
+            }
+
             $mailOptions = $this->getMailOptionsByUserId($user->getId());
 
             $canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
@@ -1484,10 +1494,16 @@ class ilMail
             $name['lastname'] . ',';
     }
 
-    protected function getUserInstanceById(int $usrId): ilObjUser
+    protected function getUserInstanceById(int $usrId): ?ilObjUser
     {
-        if (!isset($this->userInstancesByIdMap[$usrId])) {
-            $this->userInstancesByIdMap[$usrId] = new ilObjUser($usrId);
+        if (!array_key_exists($usrId, $this->userInstancesByIdMap)) {
+            try {
+                $user = new ilObjUser($usrId);
+            } catch (Exception $e) {
+                $user = null;
+            }
+
+            $this->userInstancesByIdMap[$usrId] = $user;
         }
 
         return $this->userInstancesByIdMap[$usrId];

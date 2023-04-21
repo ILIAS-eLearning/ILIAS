@@ -110,7 +110,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->answerType;
     }
 
-    public function setThumbSize($thumbSize): void
+    public function setThumbSize(int $thumbSize): void
     {
         $this->thumbSize = $thumbSize;
     }

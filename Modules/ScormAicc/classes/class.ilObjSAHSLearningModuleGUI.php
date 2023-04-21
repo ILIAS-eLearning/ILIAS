@@ -681,12 +681,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if ($rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
                 $ar_rights[] = 'illplistofsettingsgui';
             }
-            $this->tabs_gui->addTarget(
-                'learning_progress',
-                $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
-                '',
-                $ar_rights
-            );
+            if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+                $this->tabs_gui->addTarget(
+                    'learning_progress',
+                    $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
+                    '',
+                    $ar_rights
+                );
+            }
 
             if ($this->object->getSubType() === "scorm2004" || $this->object->getSubType() === "scorm") {
                 $privacy = ilPrivacySettings::getInstance();

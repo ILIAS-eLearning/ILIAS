@@ -6153,7 +6153,7 @@ content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_auto_time#:#Wartezeit Animation
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
@@ -6842,6 +6842,7 @@ content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufüg
 content#:#cont_question_placehl#:#Fragen-Platzhalter
 content#:#cont_question_stats#:#Statistik
 content#:#cont_question_type#:#Fragetyp
+content#:#cont_quit_text_editing#:#Textbearbeitung beenden
 content#:#cont_rand_start#:#Zufällige Startseite
 content#:#cont_really_delete_overlays#:#Möchten Sie wirklich die folgenden Overlays löschen?
 content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Popups löschen?
@@ -7035,6 +7036,7 @@ content#:#cont_tex#:#Latex Code
 content#:#cont_text_acc#:#Akzent:
 content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
+content#:#cont_text_editing#:#Text bearbeiten
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln_link#:#Interner Link
@@ -10708,6 +10710,7 @@ lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider bzw. -Tool ist auf „Nicht verfügbar“ gesetzt.
+lti#:#lti_provider_not_set_msg#:#LTI-Provider bzw. -Tool ist unvollständig konfiguriert.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider / -Tool
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Provider bzw. Tool auswählen

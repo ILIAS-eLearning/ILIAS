@@ -8836,6 +8836,12 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-table-presentation-row .il-table-presentation-actions {
   margin: 5px 0;
 }
+.il-table-presentation-row .il-table-presentation-actions:not(:empty) + .il-table-presentation-row-header {
+  max-width: calc(100% - 11rem);
+}
+.il-table-presentation-row .il-table-presentation-row-header {
+  min-height: 2rem;
+}
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 1rem;
   font-weight: 400;
@@ -14239,6 +14245,11 @@ div.il-copg-button-group-wide {
 }
 #iltinymenu a.btn {
   min-width: 30px;
+}
+#iltinymenu .ilHeader {
+  padding: 0;
+  margin: 9px 0;
+  display: block;
 }
 #ilsaving {
   position: fixed;

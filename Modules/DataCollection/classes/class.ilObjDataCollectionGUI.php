@@ -27,7 +27,6 @@
  * @author       Stefan Wanzenried <sw@studer-raimann.ch>
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTreePickInputGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclDetailedViewGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
@@ -112,43 +111,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $DIC->notes()->gui()->initJavascript();
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
-        $this->dclUi->addJavaScriptFile('Modules/DataCollection/js/ilDataCollection.js');
         // # see  https://mantis.ilias.de/view.php?id=26463
         $this->dclUi->addJavaScriptFile("./Services/UIComponent/Modal/js/Modal.js");
         $this->dclUi->addJavaScriptFile("Modules/DataCollection/js/datacollection.js");
-        $edit_class_arary = ['ilrepositorygui', 'ilobjdatacollectiongui', 'ildclrecordeditgui'];
-        $this->tpl->addOnLoadCode(
-            "ilDataCollection.setEditUrl('" . $this->ctrl->getLinkTargetByClass(
-                $edit_class_arary,
-                'edit',
-                '',
-                true
-            ) . "');"
-        );
-        $this->tpl->addOnLoadCode(
-            "ilDataCollection.setCreateUrl('" . $this->ctrl->getLinkTargetByClass(
-                $edit_class_arary,
-                'create',
-                '',
-                true
-            ) . "');"
-        );
-        $this->tpl->addOnLoadCode(
-            "ilDataCollection.setSaveUrl('" . $this->ctrl->getLinkTargetByClass(
-                $edit_class_arary,
-                'save',
-                '',
-                true
-            ) . "');"
-        );
-        $this->tpl->addOnLoadCode(
-            "ilDataCollection.setDataUrl('" . $this->ctrl->getLinkTargetByClass(
-                $edit_class_arary,
-                'getRecordData',
-                '',
-                true
-            ) . "');"
-        );
     }
 
     public function getStandardCmd(): string

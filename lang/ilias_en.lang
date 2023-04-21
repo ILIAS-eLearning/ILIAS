@@ -6153,7 +6153,7 @@ content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
 content#:#cont_auto_suspend#:#Safeguard tracking data
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
 content#:#cont_autoindent#:#Auto Indent
 content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.
@@ -6842,6 +6842,7 @@ content#:#cont_question_placeh#:#Click and edit to insert question
 content#:#cont_question_placehl#:#Question Placeholder
 content#:#cont_question_stats#:#Statistic
 content#:#cont_question_type#:#Question Type
+content#:#cont_quit_text_editing#:#Finish Text Editing
 content#:#cont_rand_start#:#Random Start
 content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?
 content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?
@@ -7035,6 +7036,7 @@ content#:#cont_tex#:#Latex Code
 content#:#cont_text_acc#:#Accent:
 content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
+content#:#cont_text_editing#:#Edit Text
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
 content#:#cont_text_iln_link#:#Internal Link
@@ -10707,7 +10709,8 @@ lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
 lti#:#lti_provider#:#LTI Releases
-lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_avail_msg#:#LTI Provider / Tool is set to 'Not Available'.
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Object Releases
 lti#:#lti_select_provider#:#Select Provider resp. Tool

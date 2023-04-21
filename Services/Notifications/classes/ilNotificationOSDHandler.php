@@ -87,6 +87,15 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         return $this->repo->deleteOSDNotificationById($notification_osd_id);
     }
 
+    public function removeOSDNotificationByIdentification(string $provider, string $identification, int $user_id = 0): bool
+    {
+        return $this->repo->deleteOSDNotificationByIdentification(
+            $provider,
+            $identification,
+            $user_id
+        );
+    }
+
     private function appendParamToLink(string $link, string $param, int $value): string
     {
         if (strpos($link, '?') !== false) {

@@ -91,7 +91,6 @@
 			"./Services/",
 			"./Modules",
 			"./libs/ilias",
-			"./CI/Rector",
 			"./webservice/soap",
 			"./setup/classes"
 		],

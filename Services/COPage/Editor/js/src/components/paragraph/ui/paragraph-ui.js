@@ -974,13 +974,13 @@ export default class ParagraphUI {
 
   autoSaveStarted() {
     document.querySelector("[data-copg-ed-action='save.return']").disabled = true;
-    document.querySelector("[data-copg-ed-action='component.cancel']").disabled = true;
+    //document.querySelector("[data-copg-ed-action='component.cancel']").disabled = true;
     this.autoSave.displayAutoSave(il.Language.txt("cont_saving"));
   }
 
   autoSaveEnded() {
     document.querySelector("[data-copg-ed-action='save.return']").disabled = false;
-    document.querySelector("[data-copg-ed-action='component.cancel']").disabled = false;
+    //document.querySelector("[data-copg-ed-action='component.cancel']").disabled = false;
     this.autoSave.displayAutoSave("&nbsp;");
   }
 

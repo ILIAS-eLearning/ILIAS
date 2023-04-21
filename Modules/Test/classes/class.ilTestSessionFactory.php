@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -68,7 +67,8 @@ class ilTestSessionFactory
         if ($activeId === null ||
             $this->testSession === array() ||
             !array_key_exists($activeId, $this->testSession) ||
-            $this->testSession[$activeId] === null) {
+            $this->testSession[$activeId] === null
+        ) {
             $testSession = $this->getNewTestSessionObject();
 
             $testSession->setRefId($this->testOBJ->getRefId());

@@ -52,9 +52,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
         parent::__construct("dclf", $tableview_id);
 
-        // Add JavaScript
-        $this->tpl->addJavascript('Modules/DataCollection/js/single_view_listener.js');
-
         // content style (using system defaults)
         $this->tpl->setCurrentBlock("SyntaxStyle");
         $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());

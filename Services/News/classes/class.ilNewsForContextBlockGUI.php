@@ -407,12 +407,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $info = [];
 
-        $info["ref_id"] = $news["ref_id"];
+        $info["ref_id"] = $news["ref_id"] ?? 0;
         $info["creation_date"] =
             ilDatePresentation::formatDate(new ilDateTime($news["creation_date"], IL_CAL_DATETIME));
 
         // title image type
-        if ($news["ref_id"] > 0) {
+        if (($news["ref_id"]  ?? 0) > 0) {
             if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
                 $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
                 $type = ilObject::_lookupType($obj_id);
@@ -1344,13 +1344,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $info = $this->getInfoForData($data);
 
         $props = [
-            $this->lng->txt("date") => $info["creation_date"]
+            $this->lng->txt("date") => $info["creation_date"] ?? ""
         ];
 
         $factory = $this->ui->factory();
-        $item = $factory->item()->standard($factory->link()->standard($info["news_title"], $info["url"]))
+        $item = $factory->item()->standard($factory->link()->standard($info["news_title"] ?? "", $info["url"] ?? ""))
             ->withProperties($props);
-        if ($info["ref_id"] > 0) {
+        if (($info["ref_id"] ?? 0) > 0) {
             $item = $item->withDescription($info["type_txt"] . ": " . $info["obj_title"]);
         }
         return $item;
