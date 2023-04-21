@@ -18,6 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
@@ -31,6 +32,7 @@ use ILIAS\Chatroom\GlobalScreen\ChatInvitationNotificationProvider;
  */
 class ilChatroom
 {
+    public const ROOM_INVITATION = 'invitation_to_room';
     private static string $settingsTable = 'chatroom_settings';
     private static string $historyTable = 'chatroom_history';
     private static string $userTable = 'chatroom_users';
@@ -895,7 +897,10 @@ class ilChatroom
             $notification->setIconPath('templates/default/images/icon_chtr.svg');
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-
+            $notification->setIdentification(new NotificationIdentification(
+                ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
+                self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId() . '_' . $subScope,
+            ));
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
             $notification->notifyByUsers([$recipient_id]);

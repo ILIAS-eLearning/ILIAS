@@ -173,10 +173,7 @@ class PresentationTest extends ILIAS_UI_TestBase
             </div>
 
             <div class="il-table-presentation-row-contents">
-                <div class="il-table-presentation-actions">
-                    <button class="btn btn-default" data-action="#" id="id_5">do</button>
-                    <br />
-                </div>
+                <div class="il-table-presentation-actions"><button class="btn btn-default" data-action="#" id="id_5">do</button><br /></div>
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                     </h4>

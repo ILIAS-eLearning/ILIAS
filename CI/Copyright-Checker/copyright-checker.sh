@@ -1,140 +1,182 @@
 #!/bin/bash
 
-# Copyright Checker
+# This file is part of ILIAS, a powerful learning management system
+# published by ILIAS open source e-Learning e.V.
 #
-# Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE
+# ILIAS is licensed with the GPL-3.0,
+# see https://www.gnu.org/licenses/gpl-3.0.en.html
+# You should have received a copy of said license along with the
+# source code, too.
 #
-# Author Laura Herzog <laura.herzog@concepts-and-training.de>
+# If this is not the case or you just want to try ILIAS, you'll find
+# us at:
+# https://www.ilias.de
+# https://github.com/ILIAS-eLearning
+
+# This script will be used to check files for the official ILIAS
+# copyright license header (the content of which is also above).
 #
-# This tool checks the changes files in the current pull request
-# to determine if the copyright lines are at the correct place.
-# Only works with php files.
+# @author Thibeau Fuhrer <thibeau@sr.solutions>
+# @version 1.0.0
 
-source CI/Import/Functions.sh
+# the ${IFS} is a constant used by bash to explode output into arrays.
+# this assignment changes the default-behaviour to only split strings
+# into arrays on linebreaks instead of (almost) all whitespace chars.
+IFS=$'\n'
 
-STRINGTOCHECK="/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/"
+# the ${COPYRIGHT_LINES} constant holds an array of lines, excluding
+# the comment-ending deliberately.
+COPYRIGHT_LINES=(
+  "/**"
+  " * This file is part of ILIAS, a powerful learning management system"
+  " * published by ILIAS open source e-Learning e.V."
+  " *"
+  " * ILIAS is licensed with the GPL-3.0,"
+  " * see https://www.gnu.org/licenses/gpl-3.0.en.html"
+  " * You should have received a copy of said license along with the"
+  " * source code, too."
+  " *"
+  " * If this is not the case or you just want to try ILIAS, you'll find"
+  " * us at:"
+  " * https://www.ilias.de"
+  " * https://github.com/ILIAS-eLearning"
+)
 
-STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '[:space:]')"
-STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '*')"
-STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '/')"
+# DESC: checks if the given file contains the official ILIAS copyright
+#       license header at the beginning of its content.
+#
+#       NOTE that this function does not check the copyright-ending
+#       deliberately, because developers have been using multiple
+#       different variations. This also leaves the option to maybe
+#       add some further document-level comment beneath.
+#
+# ARGS: [<string>] file to check
+function is_copyright_valid() {
+  local file="${1}"
 
-# get the files from this PR to the last head
-if [[ -z ${GHRUN} ]]
-then
-  CHANGED_FILES=$(find . -path ./libs -prune -o -type f -name '*.php')
-else
-  CHANGED_FILES=$(get_changed_files)
-fi
-
-echo "Scanning changed files for copyright notice ..."
-
-FILES=()
-COUNTER=0
-for PHPFILE in $CHANGED_FILES;
-do
-  FELONE="$(pwd)/$PHPFILE"
-
-  if [ ! -f "$FELONE" ]; then
-    continue
+  if ! [ -f "${file}" ]; then
+    printf "Internal Error (is_copyright_valid): ${file} is not a valid file.\n"
+    exit 1
   fi
 
-  if [[ $FELONE == "./libs" ]]; then
-    continue
+  local file_extension="${file##*.}"
+  local offset=1
+
+  # since PSR-12 the php files will contain the copyright license as
+  # document-level comment, which starts on line 3.
+  if [ "php" = "${file_extension}" ]; then
+    offset=3
   fi
 
-  if [[ $FELONE == "./src/UI/examples" ]]; then
-    continue
-  fi
-
-  # check for php extension
-  if [ ! ${FELONE: -4} == ".php" ]; then
-    continue
-  fi
-
-  LINE1=$(sed -n 1p ${FELONE})
-  LINE2=$(sed -n 2p ${FELONE})
-  LINE3=$(sed -n 3p ${FELONE})
-  LINE4=$(sed -n 4p ${FELONE})
-  LINE5=$(sed -n 5p ${FELONE})
-
-  if [[ ${LINE2} == *"/**"* ]]
-  then
-    START=2
-  elif [[ -z ${LINE2} ]]
-  then
-    if [[ ${LINE3} == *"/**"* ]]
-    then
-      START=3
-    elif [[ ${LINE3} == *"declare(strict_types=1);"* ]] && [[ -z ${LINE4} ]] && [[ ${LINE5} == *"/**"* ]]
-    then
-      START=5
+  for copyright_line in "${COPYRIGHT_LINES[@]}"; do
+    local line_to_check="$(sed "${offset}q;d" "${file}")"
+    if ! [ "${copyright_line}" = "${line_to_check}" ]; then
+      return 1
     fi
-  fi
 
-  if [[ -z ${START} ]]
-  then
-    FILES+=("Start of file not as expected in $PHPFILE")
-    if [[ -z ${GHRUN} ]]
-    then
-      echo -ne "F"
-    fi
-  else
-    COUNTER=0
-    COPYLINE=""
-    while IFS= read -r LINE
-    do
-      let COUNTER=COUNTER+1
-      if (( ${COUNTER} >= START )) && (( ${COUNTER} <= START+12 ))
-      then
-        COPYLINE+="${LINE}"
-      fi
-    done < "${FELONE}"
-
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '[:space:]')"
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '*')"
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '/')"
-
-    if [[ "${COPYLINE}" == "${STRINGTOCHECK}" ]]
-    then
-      if [[ -z ${GHRUN} ]]
-      then
-        echo -ne "."
-      fi
-      continue
-    else
-      FILES+=("Copyright not as expected in $PHPFILE")
-      if [[ -z ${GHRUN} ]]
-      then
-        echo -ne "F"
-      fi
-    fi
-  fi
-done
-
-cd $DIR
-AMOUNTFILES=${#FILES[@]}
-echo -ne "\n"
-echo "Scan complete. Found $AMOUNTFILES incidents."
-if [ "$AMOUNTFILES" -gt "0" ]; then
-  for (( i=0; i<${AMOUNTFILES}; i++ ));
-  do
-    LINE=${FILES[$i]}
-    echo ${LINE}
+    offset=$((1 + ${offset}))
   done
-  exit 1
+
+  return 0
+}
+
+# DESC: prints all .php and .js files of the provided directory,
+#       ignoring the /libs and /node_modules folders.
+#
+# ARGS: [<string>] directory to scan
+function get_supported_files_of_dir() {
+  local directory="${1}"
+
+  if ! [ -d "${directory}" ]; then
+    printf "Internal Error (get_supported_files_of_dir): ${directory} is not a valid directory.\n"
+    exit 1
+  fi
+
+  find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/libs/*"
+}
+
+# DESC: returns 0 if the given path is located in the examples
+#       directory, 1 otherwise
+#
+# ARGS: [<string>] file path to check
+function is_ui_example() {
+  local file="${1}"
+
+  if ! [ -f "${file}" ]; then
+    printf "Internal Error (is_ui_example): ${file} is not a valid file.\n"
+    exit 1
+  fi
+
+  file="$(realpath ${file})"
+  if [[ "${file}" == *"src/UI/examples"* ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
+# DESC: main function of this script, which executes the copyright-
+#       check for either all or the provided file(s).
+#       if any of the checked files are invalid they are printed to
+#       stdout.
+#
+# ARGS: [...<string>] file(s) to check, defaults to all or changed
+#                     files (from git).
+function perform_copyright_check() {
+  local files=()
+  while [ 1 -le ${#} ]; do
+    local file="${1}"
+
+    if [ -d "${file}" ]; then
+      files+=($(get_supported_files_of_dir "${file}"))
+    elif [ -f "${file}" ]; then
+      files+=("${file}")
+    else
+      printf "Error: ${file} is not a valid file or directory.\n"
+      exit 1
+    fi
+
+    shift 1>/dev/null
+  done
+
+  if [ 0 -eq ${#files[@]} ]; then
+    [ -z "${GHRUN}" ] &&
+      files=($(get_supported_files_of_dir "$(pwd)")) ||
+      files=($(get_changed_files))
+  fi
+
+  local exit_status=0
+  for file in ${files[@]}; do
+    # remove this theck once JavaScript files are properly
+    # supported as well (concept for minified scripts).
+    if [[ ${file} == *".js" ]]; then
+      continue
+    fi
+
+    is_copyright_valid "${file}"
+    local is_valid="${?}"
+
+    is_ui_example "${file}"
+    local is_example="${?}"
+
+    # invert the copyright-check for UI examples, because we
+    # don't want them to have too much content.
+    if ([ 0 -eq ${is_example} ] && [ 0 -eq ${is_valid} ]) ||
+      ([ 1 -eq ${is_example} ] && [ 1 -eq ${is_valid} ]); then
+      printf "copyright is not as expected in %s\n" "${file}"
+      exit_status=1
+    fi
+  done
+
+  return ${exit_status}
+}
+
+# this helper is only required if we are in a GitHub-run.
+if ! [ -z "${GHRUN}" ]; then
+  source "$(pwd)/CI/Import/Functions.sh"
 fi
-exit 0
+
+# run script with all supplied arguments and exit with the status code
+# of the function call.
+perform_copyright_check "${@}"
+exit "${?}"

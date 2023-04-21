@@ -338,13 +338,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *server_for_browser* (type: boolean) use the server for rendering in the browser
   * *server_for_export* (type: boolean) use the server for HTML exports
   * *server_for_pdf* (type: boolean) use the server for PDF generation
-* *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
-    ```
-	"pdfgeneration" : {
-		"path_to_phantom_js" : "/usr/bin/phantomjs"
-	},
-    ```
-  * *path_to_phantom_js* (type: string) executable
 * *preview* (type: object) contains settings for Services/Preview
     ```
 	"preview" : {

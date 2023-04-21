@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
@@ -27,6 +28,8 @@ use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
  */
 class ilBadgeHandler
 {
+    public const GENERAL_INFO = 'inform_about_badges';
+
     protected ilComponentRepository $component_repository;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -549,6 +552,10 @@ class ilBadgeHandler
                     $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
                     $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
                     $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+                    $notification->setIdentification(new NotificationIdentification(
+                        BadgeNotificationProvider::NOTIFICATION_TYPE,
+                        self::GENERAL_INFO
+                    ));
                     $notification->notifyByUsers([$user_id]);
                 }
             }

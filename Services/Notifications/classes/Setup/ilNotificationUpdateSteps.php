@@ -168,4 +168,16 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
 
     }
+
+    public function step_10(): void
+    {
+        if (!$this->db->tableColumnExists('notification_osd', 'identification')) {
+            $this->db->addTableColumn('notification_osd', 'identification', [
+                'type' => 'text',
+                'length' => 255,
+                'notnull' => true,
+                'default' => ''
+            ]);
+        }
+    }
 }

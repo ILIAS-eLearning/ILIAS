@@ -18,31 +18,29 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+namespace ILIAS\Notifications\Identification;
 
 /**
- * @deprecated
+ * @author Ingmar Szmais <iszmais@databay.de>
  */
-class ilPDFGenerationSetupConfig implements Setup\Config
+class NotificationIdentification
 {
-    protected ?string $path_to_phantom_js;
+    private string $type;
+    private string $key;
 
-    public function __construct(?string $path_to_phantom_js)
+    public function __construct(string $type, string $key)
     {
-        $this->path_to_phantom_js = $this->toLinuxConvention($path_to_phantom_js);
+        $this->type = $type;
+        $this->key = $key;
     }
 
-    protected function toLinuxConvention(?string $p): ?string
+    public function getType(): string
     {
-        if (!$p) {
-            return null;
-        }
-
-        return preg_replace("/\\\\/", "/", $p);
+        return $this->type;
     }
 
-    public function getPathToPhantomJS(): ?string
+    public function __toString(): string
     {
-        return $this->path_to_phantom_js;
+        return $this->key;
     }
 }
