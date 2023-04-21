@@ -153,6 +153,12 @@ function perform_copyright_check() {
       continue
     fi
 
+    # skip files which don't exist to take care of deleted
+    # files when provided by git.
+    if ! [ -f "${file}" ]; then
+      continue
+    fi
+
     is_copyright_valid "${file}"
     local is_valid="${?}"
 
