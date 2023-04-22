@@ -766,7 +766,7 @@ export default class ParagraphUI {
       ed.shortcuts.add('meta+b', '', function() {parUI.cmdSpan('Strong');});
       ed.shortcuts.add('meta+u', '', function() {parUI.cmdSpan('Important');});
       ed.shortcuts.add('meta+i', '', function() {parUI.cmdSpan('Emph');});
-
+      wrapper.checkSplitOnReturn();
     });
   }
 
