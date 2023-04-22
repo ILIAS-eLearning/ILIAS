@@ -45,11 +45,12 @@ export default class ParagraphCommandActionFactory {
    * @param characteristic
    * @return {CommandAction}
    */
-  update(pcid, content, characteristic) {
+  update(pcid, content, characteristic, initialSectionClass = null) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.UPDATE, {
       pcid: pcid,
       content: content,
-      characteristic: characteristic
+      characteristic: characteristic,
+      initial_section_class: initialSectionClass
     }, true);
   }
 
