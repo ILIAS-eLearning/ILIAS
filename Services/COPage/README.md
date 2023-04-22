@@ -14,9 +14,15 @@ Media Editing
 Media Rendering
 - PDF rendering support is limited. You might get different results, depending on server configuration and browser version. ILIAS renders the PDF as iframe with a src attribute pointing to the PDF file. The server must be configured to sent PDF files as application/pdf. The browser has to include a builtin PDF viewer.
 
+Editing: Save, Cancel, Finish
+- The text editing in slate in ILIAS 7 contained a "Save and Return" and "Cancel" button. However, save actions have been performed during editing process e.g. due to auto-saving or the creation of new text paragraphs (hitting return) or creating surrounding sections. This made the semantics of both buttons weak, since the save button was not the only trigger for save actions and the cancel button did not tell which action is currently "cancelled". See https://mantis.ilias.de/view.php?id=31436
+- Save should be used on form-like screens.
+- Cancel buttons should be used if "one-way" workflows can be cancelled and an unambiguous return point (start of the workflow) exists, e.g. creation workflows using forms.
+- Finish buttons should be used, if complex sub-screens ("underworlds") exist, that allow multiple different actions. Examples: text editing, the page editing itself or editing interactive images.
+
 ## Browser support
 
-Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However please note that issues that appear only on specific browsers
+Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However, please note that issues that appear only on specific browsers
 
 ### [WIP] Using the page editor in another components
 
