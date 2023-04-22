@@ -22,7 +22,7 @@ Editing: Save, Cancel, Finish
 
 ## Browser support
 
-Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However, please note that issues that appear only on specific browsers
+Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However, please note that issues that appear only on specific browsers may be fixed with lower priority.
 
 ### [WIP] Using the page editor in another components
 
