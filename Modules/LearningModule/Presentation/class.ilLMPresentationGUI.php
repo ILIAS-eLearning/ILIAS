@@ -686,6 +686,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
         $this->renderPageTitle();
 
+        iljQueryUtil::initjQuery($this->tpl);
+        iljQueryUtil::initjQueryUI($this->tpl);
+        ilUIFramework::init($this->tpl);
+        ilAccordionGUI::addJavaScript($this->tpl);
+        ilAccordionGUI::addCss($this->tpl);
+
         // set style sheets
         $this->setContentStyles();
         $this->setSystemStyle();
