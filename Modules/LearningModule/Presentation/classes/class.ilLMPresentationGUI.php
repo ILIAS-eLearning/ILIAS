@@ -823,7 +823,13 @@ class ilLMPresentationGUI
         //$GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
 
-        // set style sheets
+        iljQueryUtil::initjQuery($this->tpl);
+        iljQueryUtil::initjQueryUI($this->tpl);
+        ilUIFramework::init($this->tpl);
+        ilAccordionGUI::addJavaScript($this->tpl);
+        ilAccordionGUI::addCss($this->tpl);
+
+            // set style sheets
         $this->setContentStyles();
         $this->setSystemStyle();
 
