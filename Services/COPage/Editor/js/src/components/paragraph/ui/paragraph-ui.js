@@ -351,8 +351,12 @@ export default class ParagraphUI {
       let r =  ed.dom.createRng();
       ed.focus();
       if (mode === "text") { // usual text node
-        r.setEnd(rcopy.startContainer, stag.length + startOffset);
-        r.setStart(rcopy.startContainer, stag.length + startOffset);
+        let targetElement = rcopy.startContainer;
+        if (targetElement.nodeName === "P") {
+          targetElement = targetElement.firstChild;
+        }
+        r.setEnd(targetElement, stag.length + startOffset);
+        r.setStart(targetElement, stag.length + startOffset);
         ed.selection.setRng(r);
       }
     }
