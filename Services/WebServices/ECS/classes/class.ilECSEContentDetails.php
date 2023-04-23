@@ -45,7 +45,10 @@ class ilECSEContentDetails
     public static function getInstanceFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type): ilECSEContentDetails
     {
         $instance = new self();
-        $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
+        $detailsOnServer = $instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type);
+        if ($detailsOnServer) {
+            $instance->loadFromJson($detailsOnServer);
+        }
         return $instance;
     }
 

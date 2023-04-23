@@ -648,8 +648,8 @@ abstract class ilRemoteObjectBase extends ilObject2
                     $this->logger->info(__METHOD__ . ': Deleting obsolete remote course: ' . $tmp_obj->getTitle());
                     $this->logger->info(print_r($this->tree->getNodeData($ref_id), true));
                     $this->logger->info(print_r($this->tree->getNodeData($tmp_obj->getId()), true));
-                    $tmp_obj->delete();
                     $this->tree->deleteTree($this->tree->getNodeData($ref_id));
+                    $tmp_obj->delete();
                 }
                 unset($tmp_obj);
             }
