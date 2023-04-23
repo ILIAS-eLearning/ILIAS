@@ -197,7 +197,7 @@ class ilAuthProviderECS extends ilAuthProvider
     protected function resumeCurrentSession(): bool
     {
         $session_user_id = $this->authSession->getUserId();
-        if (!$session_user_id || $session_user_id == ANONYMOUS_USER_ID) {
+        if (!$session_user_id || $session_user_id === ANONYMOUS_USER_ID) {
             $this->getLogger()->debug('No valid session found');
             $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
@@ -210,10 +210,9 @@ class ilAuthProviderECS extends ilAuthProvider
             $this->getLogger()->debug('No matching session found. Terminating current user session.');
             $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
-        } else {
-            // assign to ECS global role
-            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $this->authSession->getUserId());
         }
+        // assign to ECS global role
+        $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $this->authSession->getUserId());
         return true;
     }
 
@@ -387,8 +386,8 @@ class ilAuthProviderECS extends ilAuthProvider
         $userObj->setOwner(6);
         $userObj->create();
         $userObj->setActive(true);
-        $userObj->updateOwner();
         $userObj->saveAsNew();
+        $userObj->updateOwner();
         $userObj->writePrefs();
 
         if ($this->getCurrentServer()->getGlobalRole()) {

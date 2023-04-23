@@ -135,7 +135,7 @@ class ilECSResult
                 continue;
             }
             $uri_parts = explode("/", $line);
-            $list->add($line, array_pop($uri_parts));
+            $list->add($line, (int) array_pop($uri_parts));
         }
 
         return $list;

@@ -264,16 +264,6 @@ class ilECSParticipantSetting
         $this->import_types = $a_types;
     }
 
-    public function isDeprecatedTokenEnabled(): bool
-    {
-        return $this->dtoken;
-    }
-
-    public function enableDeprecatedToken(bool $a_stat): void
-    {
-        $this->dtoken = $a_stat;
-    }
-
     public function getImportTypes(): array
     {
         return $this->import_types;
@@ -320,7 +310,6 @@ class ilECSParticipantSetting
             'title = ' . $this->db->quote($this->getTitle(), 'text') . ', ' .
             'cname = ' . $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             'token = ' . $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
-            'dtoken = ' . $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             'export_types = ' . $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             'import_types = ' . $this->db->quote(serialize($this->getImportTypes()), ilDBConstants::T_TEXT) . ', ' .
             'username_placeholders = ' . $this->db->quote(serialize($this->getOutgoingUsernamePlaceholders()), ilDBConstants::T_TEXT) . ', ' .
@@ -346,7 +335,6 @@ class ilECSParticipantSetting
             $this->db->quote($this->getTitle(), 'text') . ', ' .
             $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
-            $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ', ' .
@@ -391,7 +379,6 @@ class ilECSParticipantSetting
             $this->setTitle($row->title);
             $this->setCommunityName($row->cname);
             $this->enableToken((bool) $row->token);
-            $this->enableDeprecatedToken((bool) $row->dtoken);
             $this->setExportTypes((array) unserialize($row->export_types, ['allowed_classes' => true]));
             $this->setImportTypes((array) unserialize($row->import_types, ['allowed_classes' => true]));
             $this->setOutgoingUsernamePlaceholders((array) unserialize((string) $row->username_placeholders, ['allowed_classes' => true]));

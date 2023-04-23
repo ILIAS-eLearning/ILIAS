@@ -1095,9 +1095,9 @@ class ilECSSettingsGUI
         $this->initRule((int) $_REQUEST['rule_id']);
         $this->initCategoryMappingForm('edit');
         if ($this->form->checkInput()) {
-            $this->rule->setContainerId($this->form->getInput('import_id'));
+            $this->rule->setContainerId((int) $this->form->getInput('import_id'));
             $this->rule->setFieldName($this->form->getInput('field'));
-            $this->rule->setMappingType($this->form->getInput('type'));
+            $this->rule->setMappingType((int) $this->form->getInput('type'));
 
 
             switch ($this->form->getInput('type')) {
