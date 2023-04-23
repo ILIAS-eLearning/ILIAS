@@ -1,4 +1,11 @@
-<div id="stats_overview_content_{FORM_ELEMENT_NAME}">{ANSWER_OVERVIEW}</div><a id="stats_overview_trigger_{FORM_ELEMENT_NAME}" href="#" class="btn btn-default">{TXT_SHOW_ANSWER_OVERVIEW}</a>
+<div id="stats_overview_content_{FORM_ELEMENT_NAME}">
+    {ANSWER_OVERVIEW}
+</div>
+<a id="stats_overview_trigger_{FORM_ELEMENT_NAME}"
+   aria-label="{TXT_SHOW_ANSWER_OVERVIEW}" role="button"
+   href="#" class="btn btn-default">
+    {TXT_SHOW_ANSWER_OVERVIEW}
+</a>
 <script>
 	$(function() {
 		il.Overlay.hideAllOverlays = function(e, force, omit) {
@@ -53,7 +60,9 @@
 			var $panel = $("#adjustment_stats_container_{FORM_ELEMENT_NAME}");
 
 			if ($panel.size() == 0) {
-				var $panel = $("<div class=\"ilOverlay ilRightPanel yui-module yui-overlay yui-overlay-hidden\" style=\"overflow: auto; display: none;\" id=\"adjustment_stats_container_{FORM_ELEMENT_NAME}\"></div>")
+				var $panel = $("<div class=\"ilOverlay ilRightPanel yui-module yui-overlay" +
+                    " yui-overlay-hidden\" style=\"overflow: auto; display: none;\" " +
+                    "id=\"adjustment_stats_container_{FORM_ELEMENT_NAME}\"></div>")
 						.css({
 							position: "fixed",
 							top: "0px",

@@ -1,10 +1,14 @@
 <div id="dontprint">
 	<p>
-<!-- BEGIN button_print -->
-		<a href="javascript:window.print();" class="btn btn-default">{BUTTON_PRINT}</a>
-<!-- END button_print -->
-<!-- BEGIN button_back -->
-		<a href="{URL_BACK}" class="btn btn-default">{BUTTON_BACK}</a>
+		<!-- BEGIN button_print -->
+		<a aria-label="{BUTTON_PRINT}" role="button" href="javascript:window.print();" class="btn btn-default">
+			{BUTTON_PRINT}
+		</a>
+		<!-- END button_print -->
+		<!-- BEGIN button_back -->
+		<a aria-label="{BUTTON_BACK}" role="button" href="{URL_BACK}" class="btn btn-default">
+			{BUTTON_BACK}
+		</a>
 <!-- END button_back -->
 	</p>
 </div>

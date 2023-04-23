@@ -1,9 +1,15 @@
 <form name="test_output" method="post" action="{FORMACTION}">
-<a class="btn btn-default" type="submit" href="{PRINT_URL}">{PRINT_TEXT}</a>
+	<a aria-label="{PRINT_TEXT}" role="button" class="btn btn-default" type="submit" href="{PRINT_URL}">
+		{PRINT_TEXT}
+	</a>
 </form>
-<h1>{TEXT_LIST_OF_ANSWERS}</h1>
+<h1>
+	{TEXT_LIST_OF_ANSWERS}
+</h1>
 {USER_DATA}
-<h2>{TEXT_RESULTS}</h2>
+<h2>
+	{TEXT_RESULTS}
+</h2>
 {PASS_OVERVIEW}
 {PASS_DETAILS}
 <!-- BEGIN signature -->
@@ -12,5 +18,7 @@
 </p>
 <!-- END signature -->
 <!-- BEGIN exam_id_footer -->
-<p>{EXAM_ID_TXT}&nbsp;{EXAM_ID_VAL}</p>
+<p>
+	{EXAM_ID_TXT}{EXAM_ID_VAL}
+</p>
 <!-- END exam_id_footer -->

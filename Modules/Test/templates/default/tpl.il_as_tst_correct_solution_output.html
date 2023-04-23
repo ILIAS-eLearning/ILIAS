@@ -1,48 +1,63 @@
-<table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="ilc_Page">
-			<div class="ilc_Page" id="ilc_Page">
-				<table border="0" cellpadding="0" cellspacing="0" width="100%">
-					<tr>
-						<td>
-							<h2 class="ilc_PageTitle">{QUESTION_TITLE}</h2>
-<!-- BEGIN objectives -->
-							<div>{OBJECTIVES}</div>
-<!-- END objectives -->
-							<h2>{TEXT_SOLUTION_OUTPUT}:</h2>
-							{SOLUTION_OUTPUT}
-							<hr>
-<!-- BEGIN autosavecontent -->
-							<h2>{TEXT_ASOLUTION_OUTPUT}:</h2>
-							{ASOLUTION_OUTPUT}
-							<hr>
-<!-- END autosavecontent -->
-<!-- BEGIN best_solution -->
-							<h2>{TEXT_BEST_SOLUTION}:</h2>
-							{BEST_OUTPUT}
-							<hr>
-<!-- END best_solution -->
-<!-- BEGIN solution_hint -->
-							<h2>{TEXT_SOLUTION_HINT}:</h2>
-							{SOLUTION_HINT}
-							<hr>
-<!-- END solution_hint -->
-<!-- BEGIN outline_specific_feedback -->
-							<p>{OUTLINE_SPECIFIC_FEEDBACK}</p>
-<!-- END outline_specific_feedback -->
-						</td>
-					</tr>
-				</table>
-				<!-- BEGIN manual_feedback -->
-				<p>{MANUAL_FEEDBACK}</p>
-				<!-- END manual_feedback -->
+<div class="ilc_Page" id="ilc_Page">
+	<ul>
+		<li>
+			<h2 class="ilc_PageTitle">
+				{QUESTION_TITLE}
+			</h2>
+			<!-- BEGIN objectives -->
+			<div>
+				{OBJECTIVES}
 			</div>
-		</td>
-	</tr>
-</table>
+			<!-- END objectives -->
+		</li>
+		<li>
+			<h2>
+				{TEXT_SOLUTION_OUTPUT}:
+			</h2>
+			{SOLUTION_OUTPUT}
+			<hr>
+		</li>
+		<li>
+			<!-- BEGIN autosavecontent -->
+			<h2>
+				{TEXT_ASOLUTION_OUTPUT}:
+			</h2>
+			{ASOLUTION_OUTPUT}
+			<hr>
+			<!-- END autosavecontent -->
+		</li>
+		<li>
+			<!-- BEGIN best_solution -->
+			<h2>
+				{TEXT_BEST_SOLUTION}:
+			</h2>
+			{BEST_OUTPUT}
+			<hr>
+			<!-- END best_solution -->
+		</li>
+		<li>
+			<!-- BEGIN solution_hint -->
+			<h2>
+				{TEXT_SOLUTION_HINT}:
+			</h2>
+			{SOLUTION_HINT}
+			<hr>
+			<!-- END solution_hint -->
+		</li>
+	</ul>
+	<!-- BEGIN outline_specific_feedback -->
+	<p>
+		{OUTLINE_SPECIFIC_FEEDBACK}
+	</p>
+	<!-- END outline_specific_feedback -->
+	<!-- BEGIN manual_feedback -->
+	<p>
+		{MANUAL_FEEDBACK}
+	</p>
+	<!-- END manual_feedback -->
+</div>
 <script>
 	$( document ).ready(function() {
-
 		let tinymce_active = (typeof tinyMCE !== 'undefined') && ("{TINYMCE_ACTIVE}" === "tinymce");
 
 		$('input[name="cmd[checkConstraintsBeforeSaving]"]').off("click");
@@ -107,6 +122,5 @@
 				toolbar_mode: 'sliding'
 			});
 		}
-
 	});
 </script>

@@ -1,29 +1,29 @@
 <form name="form_maintenance" method="POST" action="{FORM_ACTION}">
 <p>
-<!-- BEGIN maintenance_information -->
-{MAINTENANCE_INFORMATION}
-<!-- END maintenance_information -->
-<!-- BEGIN generation -->
-<input class="btn btn-default" type="submit" name="cmd[createSolutions]" value="{BTN_CREATE_SOLUTIONS}" />
-<!-- END generation -->
-<!-- BEGIN delete_button -->
-<input class="btn btn-default" type="submit" name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
-<!-- END delete_button -->
-<!-- BEGIN confirm_delete -->
-<input class="btn btn-default" type="submit" name="cmd[confirmDeleteAllUserData]" value="{BTN_CONFIRM_DELETE_ALL}" /> <input class="submit" type="submit" name="cmd[cancelDeleteAllUserData]" value="{BTN_CANCEL_DELETE_ALL}" />
-<!-- END confirm_delete -->
+	<!-- BEGIN maintenance_information -->
+	{MAINTENANCE_INFORMATION}
+	<!-- END maintenance_information -->
+	<!-- BEGIN generation -->
+	<input class="btn btn-default" type="submit" name="cmd[createSolutions]" value="{BTN_CREATE_SOLUTIONS}" />
+	<!-- END generation -->
+	<!-- BEGIN delete_button -->
+	<input class="btn btn-default" type="submit" name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
+	<!-- END delete_button -->
+	<!-- BEGIN confirm_delete -->
+	<input class="btn btn-default" type="submit" name="cmd[confirmDeleteAllUserData]" value="{BTN_CONFIRM_DELETE_ALL}" /> <input class="submit" type="submit" name="cmd[cancelDeleteAllUserData]" value="{BTN_CANCEL_DELETE_ALL}" />
+	<!-- END confirm_delete -->
 </p>
 <!-- BEGIN selectedusers -->
 <table class="std">
-<thead>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{HEADER_TXT_LASTNAME}</th>
-		<th class="std">{HEADER_TXT_FIRSTNAME}</th>
-		<th class="std">{HEADER_TXT_LOGIN}</th>
-	</tr>
-</thead>
-<!-- BEGIN row -->
+	<thead>
+		<tr class="tblheader">
+			<th class="std"></th>
+			<th class="std">{HEADER_TXT_LASTNAME}</th>
+			<th class="std">{HEADER_TXT_FIRSTNAME}</th>
+			<th class="std">{HEADER_TXT_LOGIN}</th>
+		</tr>
+	</thead>
+	<!-- BEGIN row -->
 <tr class="{ROW_CLASS}">
 	<td><img src="{USER_ICON}" alt="{USER_ALT}" title="{USER_TITLE}" /></td>
 	<td>{TXT_LASTNAME}</td>

@@ -1,5 +1,16 @@
 <tr class="{CSS_ROW}">
-	<td class="std"><input id="idx_{COUNTER}" type="checkbox" name="idx[]" value="{CHECKBOX_VALUE}" /></td>
-	<td class="std" style="vertical-align: top"><label for="idx_{COUNTER}">{TYPE}</label></td>
-	<td class="std" style="vertical-align: top"><a href="{HREF}">{TITLE}</a></td>
+	<td class="std">
+		<input id="idx_{COUNTER}" aria-label="idx[]" type="checkbox"
+			   name="idx[]" value="{CHECKBOX_VALUE}" />
+	</td>
+	<td class="std" style="vertical-align: top">
+		<label for="idx_{COUNTER}">
+			{TYPE}
+		</label>
+	</td>
+	<td class="std" style="vertical-align: top">
+		<a aria-label="{TITLE}" href="{HREF}">
+			{TITLE}
+		</a>
+	</td>
 </tr>

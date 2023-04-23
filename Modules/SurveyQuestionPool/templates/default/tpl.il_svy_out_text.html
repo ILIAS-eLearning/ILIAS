@@ -3,24 +3,44 @@
 <div class="questionTitle">{QUESTION_TITLE}</div>
 <!-- END questiontitle -->
 {ERROR_MESSAGE}
-<p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<p>
+	{QUESTIONTEXT}
+	<span class="obligatory">
+		{OBLIGATORY_TEXT}
+	</span>
+</p>
 <table class="nobackground">
-<tr>
-<td class="nobackground"><label for="{LABEL_QUESTION_ID}_text_question">{TEXT_ANSWER}</label>:</td>
-<td class="nobackground" colspan="4">
-<!-- BEGIN textarea -->
-	<textarea class="form-control" name="{QUESTION_ID}_text_question" cols="{WIDTH}" rows="{HEIGHT}" id="{QUESTION_ID}_text_question">{VALUE_ANSWER}</textarea>
-<!-- END textarea -->
-<!-- BEGIN textinput -->
-	<input type="text" class="form-control" name="{QUESTION_ID}_text_question" size="{WIDTH}"{MAXLENGTH} id="{QUESTION_ID}_text_question"{VALUE_ANSWER} />
-<!-- END textinput -->
-	<br />
-	<span class="quote">{TEXT_MAXCHARS}</span></td>
-</tr>
+	<tbody>
+		<tr>
+			<td class="nobackground">
+				<label for="{LABEL_QUESTION_ID}_text_question">
+					{TEXT_ANSWER}
+				</label>:
+			</td>
+			<td class="nobackground" colspan="4">
+				<!-- BEGIN textarea -->
+				<textarea class="form-control" name="{QUESTION_ID}_text_question" cols="{WIDTH}"
+						  aria-label="{QUESTION_ID}_text_question" aria-multiline="true"
+						  rows="{HEIGHT}" id="{QUESTION_ID}_text_question">
+					{VALUE_ANSWER}
+				</textarea>
+				<!-- END textarea -->
+				<!-- BEGIN textinput -->
+				<input type="text" class="form-control" name="{QUESTION_ID}_text_question"
+					   aria-label="{QUESTION_ID}_text_question"
+					   size="{WIDTH}"{MAXLENGTH} id="{QUESTION_ID}_text_question"{VALUE_ANSWER} />
+				<!-- END textinput -->
+				<br />
+				<span class="quote">
+					{TEXT_MAXCHARS}
+				</span>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <!-- BEGIN material_text -->
 <p>
-{TEXT_MATERIAL}
+	{TEXT_MATERIAL}
 </p>
 <!-- END material_text -->
 <!-- END question_data_text -->

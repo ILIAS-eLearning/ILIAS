@@ -1,13 +1,36 @@
 <tr>
-	<td{STYLE_ROW}><input type="text" class="form-control" size="4" name="percent_row"{VALUE_PERCENT_ROW}> %</td>
-<!-- BEGIN bipolar_start -->	
-	<td{STYLE}><input type="text" class="form-control" size="4" name="percent_bipolar_adjective1"{VALUE_PERCENT_BIPOLAR_ADJECTIVE1}> %</td>
-<!-- END bipolar_start -->	
-	<td{STYLE_COLUMNS} colspan="{COLSPAN_COLUMNS}"><input type="text" class="form-control" size="4" name="percent_columns"{VALUE_PERCENT_COLUMNS}> %</td>
-<!-- BEGIN bipolar_end -->	
-	<td{STYLE}><input type="text" class="form-control" size="4" name="percent_bipolar_adjective2"{VALUE_PERCENT_BIPOLAR_ADJECTIVE2}> %</td>
-<!-- END bipolar_end -->	
-<!-- BEGIN neutral_start -->	
-	<td{STYLE_NEUTRAL}><input type="text" class="form-control" size="4" name="percent_neutral"{VALUE_PERCENT_NEUTRAL}> %</td>
-<!-- END neutral_start -->	
+	<td{STYLE_ROW}>
+		<input type="text" class="form-control" size="4"
+			   aria-label="percent_row"
+			   name="percent_row"{VALUE_PERCENT_ROW}>
+	%
+	</td>
+	<!-- BEGIN bipolar_start -->
+	<td{STYLE}>
+	<input type="text" class="form-control" aria-label="percent_bipolar_adjective1"
+		   size="4" name="percent_bipolar_adjective1"{VALUE_PERCENT_BIPOLAR_ADJECTIVE1}>
+	%
+	</td>
+	<!-- END bipolar_start -->
+	<td{STYLE_COLUMNS} colspan="{COLSPAN_COLUMNS}">
+	<input type="text" class="form-control" size="4"
+		   aria-label="percent_columns"
+		   name="percent_columns"{VALUE_PERCENT_COLUMNS}>
+	%
+	</td>
+	<!-- BEGIN bipolar_end -->
+	<td{STYLE}>
+	<input type="text" class="form-control" size="4"
+		   aria-label="percent_bipolar_adjective2"
+		   name="percent_bipolar_adjective2"{VALUE_PERCENT_BIPOLAR_ADJECTIVE2}>
+	%
+	</td>
+	<!-- END bipolar_end -->
+	<!-- BEGIN neutral_start -->
+	<td{STYLE_NEUTRAL}>
+	<input type="text" class="form-control" size="4"
+		   name="percent_neutral"{VALUE_PERCENT_NEUTRAL}>
+	%
+	</td>
+	<!-- END neutral_start -->
 </tr>
