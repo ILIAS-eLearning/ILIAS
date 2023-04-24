@@ -398,9 +398,9 @@ class ilTestEvaluationUserData
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if ($reached > $bestpoints
-                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)
-                && !isset($bestpass)) {
+            if (($reached > $bestpoints
+                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
+                || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
