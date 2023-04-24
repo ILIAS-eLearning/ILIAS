@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -579,24 +580,26 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
+        $points = 0;
         switch ($this->object->getKeywordRelation()) {
             case 'non':
                 $this->object->setAnswers(array());
-                $this->object->setPoints($_POST['non_keyword_points']);
+                $points = str_replace(',', '.', $_POST['non_keyword_points'] ?? '');
                 break;
             case 'any':
                 $this->object->setAnswers($_POST['any_keyword']);
-                $this->object->setPoints($this->object->getMaximumPoints());
+                $points = $this->object->getMaximumPoints();
                 break;
             case 'all':
                 $this->object->setAnswers($_POST['all_keyword']);
-                $this->object->setPoints($_POST['all_keyword_points']);
+                $points = str_replace(',', '.', $_POST['all_keyword_points'] ?? '');
                 break;
             case 'one':
                 $this->object->setAnswers($_POST['one_keyword']);
-                $this->object->setPoints($_POST['one_keyword_points']);
+                $points = (float) str_replace(',', '.', $_POST['one_keyword_points'] ?? '');
                 break;
         }
+        $this->object->setPoints((float) $points);
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
