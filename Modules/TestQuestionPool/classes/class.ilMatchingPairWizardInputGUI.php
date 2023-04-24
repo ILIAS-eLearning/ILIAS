@@ -148,6 +148,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                 }
                 $max = 0;
                 foreach ($foundvalues['points'] as $val) {
+                    $val = (float) str_replace(',', '.', $val);
                     if ($val > 0) {
                         $max += $val;
                     }
