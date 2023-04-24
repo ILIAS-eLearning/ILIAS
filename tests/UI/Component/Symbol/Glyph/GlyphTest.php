@@ -91,14 +91,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::LISTOUTDENT => "glyphicon glyphicon-listoutdent",
         G\Glyph::FILTER => "glyphicon glyphicon-filter",
         G\Glyph::COLLAPSE_HORIZONTAL => "glyphicon glyphicon-triangle-left",
-<<<<<<< HEAD
         G\Glyph::HEADER => "glyphicon glyphicon-header",
         G\Glyph::ITALIC => "glyphicon glyphicon-italic",
         G\Glyph::BOLD => "glyphicon glyphicon-bold",
         G\Glyph::LINK => "glyphicon glyphicon-link",
-=======
         G\Glyph::LAUNCH => "glyphicon glyphicon-plane"
->>>>>>> 6e9b3e2955 (UI: introduce UI-component "Launcher")
     );
 
     public static array $aria_labels = array(
@@ -148,14 +145,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::LISTOUTDENT => "listoutdent",
         G\Glyph::FILTER => "filter",
         G\Glyph::COLLAPSE_HORIZONTAL => "collapse/back",
-<<<<<<< HEAD
         G\Glyph::HEADER => "header_action",
         G\Glyph::ITALIC => "italic_action",
         G\Glyph::BOLD => "bold_action",
         G\Glyph::LINK => "link_action",
-=======
         G\Glyph::LAUNCH => "launch"
->>>>>>> 6e9b3e2955 (UI: introduce UI-component "Launcher")
     );
 
     /**

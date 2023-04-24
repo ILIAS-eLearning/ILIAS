@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Launcher;
 
 use ILIAS\UI\Component\Component;
@@ -33,15 +33,15 @@ interface Launcher extends Component
     public function withDescription(string $description): self;
 
     /**
-     * If the Launcher is configures with Inputs, an Interruptive Modal is shown
+     * If the Launcher is configured with Inputs, an Roundtrip Modal is shown
      * with these Inputs.
-     * The Form's Result is passed to $evaluation as well as the Launcher-instance itself.
+     * The Form's Result is passed intto $evaluation as well as the Launcher instance itself.
      * Finally, you can add a MessageBox to the Modal with $instruction.
      *
      * a typical $evaluation might look like this:
      *  ```php
      * function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-     *   if ($result->isOK() && $result->value()[0][0]) {
+     *   if ($result->isOK() && $result->value()[0]) {
      *       $ctrl->redirectToURL(
      *           (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted')
      *       );
@@ -56,7 +56,7 @@ interface Launcher extends Component
 
     /**
      * Labels the button that launches the process; if the process is not
-     * launchable for the user, set the second paramter to false.
+     * launchable for the user, set the second parameter to false.
      * Also indicate, why the process is not launchable or provide information
      * what is blocking via withStatusMessageBox.
      */
