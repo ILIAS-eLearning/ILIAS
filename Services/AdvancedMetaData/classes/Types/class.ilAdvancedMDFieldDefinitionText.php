@@ -121,7 +121,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
 
     protected function importFieldDefinition(array $a_def): void
     {
-        $this->setMaxLength($a_def["max"]);
+        $this->setMaxLength($a_def["max"] ?? null);
         $this->setMulti($a_def["multi"]);
     }
 
