@@ -136,4 +136,13 @@ class Group
     {
         return new UTFNormal();
     }
+
+    /**
+     * This method returns an instance of the MarkdownFormattingToHTML class which can be used to tranform a markdown
+     * formatted string to HTML.
+     */
+    public function markdown(): MarkdownFormattingToHTML
+    {
+        return new MarkdownFormattingToHTML();
+    }
 }
