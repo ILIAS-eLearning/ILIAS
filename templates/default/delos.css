@@ -12074,6 +12074,9 @@ footer {
   font-weight: 600;
   margin-right: 9px;
 }
+.il-system-info p:first-child {
+  display: inherit;
+}
 .il-system-info div.il-system-info-actions {
   font-size: 1rem;
   flex-grow: 0;
