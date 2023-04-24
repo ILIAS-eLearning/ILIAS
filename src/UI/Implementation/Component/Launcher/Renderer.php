@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Launcher;
 
@@ -52,13 +52,7 @@ class Renderer extends AbstractComponentRenderer
         $launch_glyph = $ui_factory->symbol()->glyph()->launch();
         $start_button = $ui_factory->button()->bulky($launch_glyph, $label, (string) $target);
 
-        if ($form = $component->getForm()) {
-            $modal = $ui_factory->modal()->roundtrip(
-                $label,
-                $component->getInstruction(),
-                $form->getInputs()
-            );
-
+        if ($modal = $component->getModal()) {
             $tpl->setVariable("FORM", $default_renderer->render($modal));
             $start_button = $start_button->withOnClick($modal->getShowSignal());
         }

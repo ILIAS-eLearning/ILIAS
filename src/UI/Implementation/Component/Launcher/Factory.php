@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +16,21 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Launcher;
 
 use ILIAS\Data\Link;
 use ILIAS\UI\Component\Launcher;
-use ILIAS\UI\Implementation\Component\Input\Container\Form;
+use ILIAS\UI\Component\Modal;
 
 class Factory implements Launcher\Factory
 {
-    protected Form\Factory $form_factory;
+    protected Modal\Factory $modal_factory;
 
-    public function __construct(Form\Factory $form_factory)
+    public function __construct(Modal\Factory $modal_factory)
     {
-        $this->form_factory = $form_factory;
+        $this->modal_factory = $modal_factory;
     }
 
     /**
@@ -38,6 +38,6 @@ class Factory implements Launcher\Factory
      */
     public function inline(Link $target): Launcher\Inline
     {
-        return new Inline($this->form_factory, $target);
+        return new Inline($this->modal_factory, $target);
     }
 }

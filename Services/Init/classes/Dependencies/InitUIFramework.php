@@ -304,7 +304,7 @@ class InitUIFramework
 
         $c["ui.factory.launcher"] = function ($c): ILIAS\UI\Implementation\Component\Launcher\Factory {
             return new ILIAS\UI\Implementation\Component\Launcher\Factory(
-                $c["ui.factory.input.container.form"]
+                $c["ui.factory.modal"]
             );
         };
     }

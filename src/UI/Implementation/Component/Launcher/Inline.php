@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Launcher;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Input\Container\Form;
+use ILIAS\UI\Component\Modal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Result;
 
@@ -35,24 +35,24 @@ class Inline implements C\Launcher\Inline
 {
     use ComponentHelper;
 
-    protected Form\Factory $form_factory;
+    protected Modal\Factory $modal_factory;
     protected Link $target;
     protected string $label;
     protected string $description = '';
     protected ?string $error_note = null;
     protected null | Icon | ProgressMeter $status_icon = null;
     protected bool $launchable = true;
-    protected ?Form\Form $form = null;
+    protected ?Modal\Roundtrip $modal = null;
     protected \Closure $evaluation;
     protected ?MessageBox\MessageBox $instruction = null;
     protected ?MessageBox\MessageBox $status_message = null;
     protected ?ServerRequestInterface $request = null;
 
     public function __construct(
-        Form\Factory $form_factory,
+        Modal\Factory $modal_factory,
         Link $target
     ) {
-        $this->form_factory = $form_factory;
+        $this->modal_factory = $modal_factory;
         $this->target = $target;
         $this->label = $target->getLabel();
     }
@@ -117,10 +117,14 @@ class Inline implements C\Launcher\Inline
 
     public function withInputs(Group $fields, \Closure $evaluation, MessageBox\MessageBox $instruction = null): self
     {
+        $modal = $this->modal_factory->roundtrip(
+            $this->getButtonLabel(),
+            $instruction,
+            $fields->getInputs()
+        );
         $clone = clone $this;
-        $clone->form = $this->form_factory->standard((string)$clone->getTarget()->getURL(), [$fields]);
+        $clone->modal = $modal;
         $clone->evaluation = $evaluation;
-        $clone->instruction = $instruction;
         return $clone;
     }
 
@@ -134,24 +138,20 @@ class Inline implements C\Launcher\Inline
     public function getResult(): ?Result
     {
         if ($this->request && $this->request->getMethod() == "POST") {
-            $form = $this->form->withRequest($this->request);
-            $result = $form->getInputGroup()->getContent();
+            $modal = $this->modal->withRequest($this->request);
+            $result = $modal->getForm()->getInputGroup()->getContent();
             return $result;
         }
         return null;
     }
 
-    public function getForm(): ?Form\Form
+    public function getModal(): ?Modal\Roundtrip
     {
-        return $this->form;
+        return $this->modal;
     }
+
     public function getEvaluation(): \Closure
     {
         return $this->evaluation;
-    }
-
-    public function getInstruction(): ?MessageBox\MessageBox
-    {
-        return $this->instruction;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,11 +45,12 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getFormFactory(): I\Input\Container\Form\Factory
+    protected function getModalFactory(): I\Modal\Factory
     {
-        return new I\Input\Container\Form\Factory(
-            $this->getInputFactory(),
-            new DefNamesource()
+        return new I\Modal\Factory(
+            new I\SignalGenerator(),
+            new I\Modal\InterruptiveItem\Factory(),
+            $this->getInputFactory()
         );
     }
 
@@ -97,7 +99,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     {
         $target = $this->df->link('LaunchSomething', $this->getURI());
         return new I\Launcher\Inline(
-            $this->getFormFactory(),
+            $this->getModalFactory(),
             $target
         );
     }
@@ -115,7 +117,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $this->assertTrue($l->isLaunchable());
         $this->assertNull($l->getStatusIcon());
         $this->assertNull($l->getStatusMessageBox());
-        $this->assertNull($l->getForm());
+        $this->assertNull($l->getModal());
     }
 
     public function testLauncherInlineBasicModifier(): void
@@ -134,26 +136,37 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $this->assertfalse($l->isLaunchable());
         $this->assertEquals($msg, $l->getStatusMessageBox());
         $this->assertEquals($icon, $l->getStatusIcon());
-        $this->assertNull($l->getForm());
+        $this->assertNull($l->getModal());
     }
 
     public function testLauncherInlineWithFields(): void
     {
         $ff = $this->getInputFactory();
-        $group = $ff->group([$ff->checkbox('Understood', 'ok')]);
+        $field = $ff->checkbox('Understood', 'ok');
+        $group = $ff->group([$field]);
         $evaluation = fn (Result $result, Launcher &$launcher) => true;
         $instruction = $this->getMessageBox();
         $l = $this->getLauncher()
             ->withInputs($group, $evaluation, $instruction);
 
-        $form = $this->getFormFactory()->standard(
-            (string)$l->getTarget()->getURL(),
-            [$group]
+        $this->assertEquals($evaluation, $l->getEvaluation());
+        $this->assertInstanceOf(C\Modal\Roundtrip::class, $l->getModal());
+
+        $this->assertEquals(
+            $instruction,
+            $l->getModal()->getContent()[0]
         );
 
-        $this->assertEquals($form, $l->getForm());
-        $this->assertEquals($evaluation, $l->getEvaluation());
-        $this->assertEquals($instruction, $l->getInstruction());
+        $ns = new class () extends I\Input\FormInputNameSource {
+            public function getNewName(): string
+            {
+                return 'form/input_0';
+            }
+        };
+        $this->assertEquals(
+            [$field->withNameFrom($ns)],
+            $l->getModal()->getInputs()
+        );
     }
 
     public function testLauncherInlineRendering(): void
@@ -199,7 +212,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                             <div class="form-group row">
                                 <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
                                 <div class="col-sm-8 col-md-9 col-lg-10">
-                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0/input_1" class="form-control form-control-sm" />
+                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="form-control form-control-sm" />
                                     <div class="help-block">ok</div>
                                 </div>
                             </div>
@@ -218,8 +231,8 @@ EXP;
         $r = $this->getDefaultRenderer();
         $actual = $r->render($l);
         $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($actual)
+            $this->brutallyTrimSignals($this->brutallyTrimHTML($expected)),
+            $this->brutallyTrimSignals($this->brutallyTrimHTML($actual))
         );
     }
 }
