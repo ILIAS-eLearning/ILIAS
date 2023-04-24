@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -226,5 +226,13 @@ class Factory implements Field\Factory
     public function colorpicker(string $label, ?string $byline = null): Field\ColorPicker
     {
         return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function markdown(Field\MarkdownRenderer $md_renderer, string $label, string $byline = null): Field\Markdown
+    {
+        return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
     }
 }

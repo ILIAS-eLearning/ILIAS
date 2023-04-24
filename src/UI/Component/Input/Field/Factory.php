@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
@@ -706,4 +706,46 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\ColorPicker
      */
     public function colorPicker(string $label, ?string $byline = null): ColorPicker;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Markdown inputs are used when formatted text should be submitted by using markdown-syntax.
+     *      The input does support a user in writing markdown by providing action-buttons that insert the corresponding
+     *      characters. It also provides a preview section where the already formatted text will be displayed.
+     *   composition: >
+     *      The Markdown input consists of two tabs (edit and preview) which will be implemented as buttons (ViewControl).
+     *      The action-buttons either consist of a button or a Glyph, to better illustrate its intention. The editable
+     *      area will be a simple textarea. If a limit is set, a byline about limitation is automatically set.
+     *   effect: >
+     *      Markdown inputs will render a textarea HTML tag which is decorated with action-buttons. Markdown inputs are
+     *      NOT restricted to one line of text and counts the amount of character input by user and displays the number.
+     *      The following formatting options will have a special effect on the input's preview:
+     *          - Headings (# text)
+     *          - Links ([text](url))
+     *          - Bold (**text**)
+     *          - Italic (_text_)
+     *          - Ordered list (1. text)
+     *          - Unordered list (- text)
+     *   rivals:
+     *      Text input: use a text-input if the content should not be formatted one line only.
+     *      Textarea input: use a text-input if the content should not be formatted and on multiple lines.
+     *
+     * context:
+     *   - The Markdown input is used in UI-Forms.
+     *
+     * rules:
+     *   usage:
+     *      1: >
+     *        This input MUST be used whenever markdown-syntax is supported, e.g. if the user should be able to submit
+     *        formatted text.
+     *
+     * ---
+     * @param MarkdownRenderer $md_renderer
+     * @param string           $label
+     * @param string|null      $byline
+     * @return \ILIAS\UI\Component\Input\Field\Markdown
+     */
+    public function markdown(MarkdownRenderer $md_renderer, string $label, string $byline = null): Markdown;
 }

@@ -90,7 +90,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::LISTINDENT => "glyphicon glyphicon-listindent",
         G\Glyph::LISTOUTDENT => "glyphicon glyphicon-listoutdent",
         G\Glyph::FILTER => "glyphicon glyphicon-filter",
-        G\Glyph::COLLAPSE_HORIZONTAL => "glyphicon glyphicon-triangle-left"
+        G\Glyph::COLLAPSE_HORIZONTAL => "glyphicon glyphicon-triangle-left",
+        G\Glyph::HEADER => "glyphicon glyphicon-header",
+        G\Glyph::ITALIC => "glyphicon glyphicon-italic",
+        G\Glyph::BOLD => "glyphicon glyphicon-bold",
+        G\Glyph::LINK => "glyphicon glyphicon-link",
     );
 
     public static array $aria_labels = array(
@@ -134,12 +138,16 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::LANGUAGE => "switch_language",
         G\Glyph::LOGIN => "log_in",
         G\Glyph::LOGOUT => "log_out",
-        G\Glyph::BULLETLIST => "bulletlist",
-        G\Glyph::NUMBEREDLIST => "numberedlist",
+        G\Glyph::BULLETLIST => "bulletlist_action",
+        G\Glyph::NUMBEREDLIST => "numberedlist_action",
         G\Glyph::LISTINDENT => "listindent",
         G\Glyph::LISTOUTDENT => "listoutdent",
         G\Glyph::FILTER => "filter",
-        G\Glyph::COLLAPSE_HORIZONTAL => "collapse/back"
+        G\Glyph::COLLAPSE_HORIZONTAL => "collapse/back",
+        G\Glyph::HEADER => "header_action",
+        G\Glyph::ITALIC => "italic_action",
+        G\Glyph::BOLD => "bold_action",
+        G\Glyph::LINK => "link_action",
     );
 
     /**
@@ -352,7 +360,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="'.$aria_label.'"><span class="'.$css_classes.'" aria-hidden="true"></span></a>';
+        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 
@@ -371,8 +379,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $expected = '
-        <a class="glyph disabled" aria-label="'.$aria_label.'" aria-disabled="true">
-            <span class="'.$css_classes.'" aria-hidden="true"></span>
+        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true">
+            <span class="' . $css_classes . '" aria-hidden="true"></span>
         </a>';
         $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
@@ -393,9 +401,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
         $expected = '
-            <a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="'.$aria_label.'">
-                    <span class="'.$css_classes.'" aria-hidden="true"></span>
-                    <span class="il-counter"><span class="badge badge-notify il-counter-'.$type.'">42</span></span>
+            <a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '">
+                    <span class="' . $css_classes . '" aria-hidden="true"></span>
+                    <span class="il-counter"><span class="badge badge-notify il-counter-' . $type . '">42</span></span>
                     <span class="il-counter-spacer">42</span>
             </a>';
         $this->assertHTMLEquals($expected, $html);

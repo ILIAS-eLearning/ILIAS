@@ -3607,6 +3607,7 @@ common#:#bm#:#Bookmark
 common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
 common#:#bmf#:#Bookmark Folder
 common#:#bold#:#Bold
+common#:#bold_action#:#Insert Bold - Click to insert bold text.
 common#:#bookings#:#Bookings
 common#:#bookmark_added#:#The Bookmark has been created.
 common#:#bookmark_folder_new#:#New Bookmark Folder
@@ -3626,6 +3627,7 @@ common#:#btn_undelete#:#Restore
 common#:#buddy_allow_to_contact_me_no#:#Doesn`t Receive Contact Requests
 common#:#buddy_allow_to_contact_me_yes#:#Receives Contact Requests
 common#:#building_export_file#:#Building Export File...
+common#:#bulletlist_action#:#Insert Bulletpoint-List - Click to insert a bulletpoint-list.
 common#:#by#:#By
 common#:#bytes#:#Bytes
 common#:#cal_from#:#From:
@@ -4236,6 +4238,7 @@ common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_new#:#Create Group Link
 common#:#grpr_settings#:#Group Link Settings
+common#:#header_action#:#Insert Heading - Click to insert a heading.
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#header_visible_registration#:#Visible in Registration
@@ -4377,6 +4380,7 @@ common#:#invisible_block#:#Invisible Block
 common#:#invisible_block_mess#:#You do not have the permission to view this block.
 common#:#ip_address#:#IP Address
 common#:#is_already_your#:#is already your
+common#:#italic_action#:#Insert Italic - Click to insert italic text.
 common#:#item#:#Item
 common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
@@ -4439,6 +4443,7 @@ common#:#legend#:#Legend
 common#:#level#:#Level
 common#:#like#:#Like
 common#:#link#:#Link
+common#:#link_action#:#Insert Link - Click to insert a link.
 common#:#link_all#:#Link all
 common#:#link_check#:#Weblink Check
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
@@ -4801,6 +4806,7 @@ common#:#notifications#:#Notifications
 common#:#nr_following_sessions#:#%1d following session(s)...
 common#:#num_of_selected_files#:#%s file(s) selected
 common#:#num_users#:#Number of Users
+common#:#numberedlist_action#:#Insert Numbered List - Click to insert a numbered list.
 common#:#obj#:#Object
 common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
@@ -16664,6 +16670,8 @@ ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.
 ui#:#ui_invalid_url#:#Invalid URL-format
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
+ui#:#ui_md_input_edit#:#Edit
+ui#:#ui_md_input_view#:#View
 ui#:#ui_numeric_only#:#Please insert a whole number.
 ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript
