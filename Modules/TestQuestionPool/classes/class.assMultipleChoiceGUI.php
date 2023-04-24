@@ -91,8 +91,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
         if ($checkonly) {
-            // form posting is checked
-            return ($_POST['types'] == 0) ? true : false;
+            $types = $_POST['types'] ?? 0;
+            return ($types == 0) ? true : false;
         }
 
         $lastChange = $this->object->getLastChange();
