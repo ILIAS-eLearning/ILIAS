@@ -238,17 +238,13 @@ class ilObjectDataSet extends ilDataSet
     ): array {
         $rec["ObjId"] = $rec["ObjId"] ?? null;
         switch ($entity) {
-            case "common":
+            case 'common':
                 return [
-                    "transl" => ["ids" => $rec["ObjId"]],
-                    "service_settings" => ["ids" => $rec["ObjId"]],
-                    "tile" => ["ids" => $rec["ObjId"]],
-                    "icon" => ["ids" => $rec["ObjId"]]
-                ];
-
-            case "transl":
-                return [
-                    "transl_entry" => ["ids" => $rec["ObjId"]]
+                    'transl' => ['ids' => $a_rec['ObjId']],
+                    'transl_entry' => ['ids' => $a_rec['ObjId']],
+                    'service_settings' => ['ids' => $a_rec['ObjId']],
+                    'tile' => ['ids' => $a_rec['ObjId']],
+                    'icon' => ['ids' => $a_rec['ObjId']]
                 ];
         }
 
