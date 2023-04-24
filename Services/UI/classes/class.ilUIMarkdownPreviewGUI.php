@@ -95,15 +95,13 @@ class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterfa
 
     public function render(string $markdown_text): string
     {
-        $converter = new \League\CommonMark\CommonMarkConverter();
-
-        return $converter->convert($markdown_text)->getContent();
+        return $this->refinery->string()->markdown()->toHTML()->transform($markdown_text);
     }
 
     protected function sendResponse(string $html): void
     {
         $this->http->saveResponse(
-            $this->http->response()->withBody(Streams::ofString("<p>$html</p>"))
+            $this->http->response()->withBody(Streams::ofString($html))
         );
 
         $this->http->sendResponse();
