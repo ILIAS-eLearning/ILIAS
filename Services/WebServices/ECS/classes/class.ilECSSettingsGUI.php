@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +13,9 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
+
+declare(strict_types=1);
 
 /**
  *
@@ -1096,9 +1095,9 @@ class ilECSSettingsGUI
         $this->initRule((int) $_REQUEST['rule_id']);
         $this->initCategoryMappingForm('edit');
         if ($this->form->checkInput()) {
-            $this->rule->setContainerId($this->form->getInput('import_id'));
+            $this->rule->setContainerId((int) $this->form->getInput('import_id'));
             $this->rule->setFieldName($this->form->getInput('field'));
-            $this->rule->setMappingType($this->form->getInput('type'));
+            $this->rule->setMappingType((int) $this->form->getInput('type'));
 
 
             switch ($this->form->getInput('type')) {

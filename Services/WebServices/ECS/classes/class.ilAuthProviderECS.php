@@ -1,20 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
@@ -197,7 +199,7 @@ class ilAuthProviderECS extends ilAuthProvider
     protected function resumeCurrentSession(): bool
     {
         $session_user_id = $this->authSession->getUserId();
-        if (!$session_user_id || $session_user_id == ANONYMOUS_USER_ID) {
+        if (!$session_user_id || $session_user_id === ANONYMOUS_USER_ID) {
             $this->getLogger()->debug('No valid session found');
             $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
@@ -210,10 +212,9 @@ class ilAuthProviderECS extends ilAuthProvider
             $this->getLogger()->debug('No matching session found. Terminating current user session.');
             $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
-        } else {
-            // assign to ECS global role
-            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $this->authSession->getUserId());
         }
+        // assign to ECS global role
+        $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $this->authSession->getUserId());
         return true;
     }
 
@@ -387,8 +388,8 @@ class ilAuthProviderECS extends ilAuthProvider
         $userObj->setOwner(6);
         $userObj->create();
         $userObj->setActive(true);
-        $userObj->updateOwner();
         $userObj->saveAsNew();
+        $userObj->updateOwner();
         $userObj->writePrefs();
 
         if ($this->getCurrentServer()->getGlobalRole()) {
