@@ -13,19 +13,18 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
 use ILIAS\Setup;
 
 class ilECSAgent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(\ILIAS\Setup\Config $config = null) : \ILIAS\Setup\Objective
+    public function getUpdateObjective(\ILIAS\Setup\Config $config = null): \ILIAS\Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilECSDBUpdateSteps());
     }
 
-    public function getStatusObjective(\ILIAS\Setup\Metrics\Storage $storage) : \ILIAS\Setup\Objective
+    public function getStatusObjective(\ILIAS\Setup\Metrics\Storage $storage): \ILIAS\Setup\Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSDBUpdateSteps());
     }
