@@ -242,14 +242,10 @@ class ilObjectDataSet extends ilDataSet
             case "common":
                 return array(
                     "transl" => array("ids" => $a_rec["ObjId"]),
+                    "transl_entry" => array("ids" => $a_rec["ObjId"]),
                     "service_settings" => array("ids" => $a_rec["ObjId"]),
                     "tile" => array("ids" => $a_rec["ObjId"]),
                     "icon" => array("ids" => $a_rec["ObjId"])
-                );
-
-            case "transl":
-                return array(
-                    "transl_entry" => array("ids" => $a_rec["ObjId"])
                 );
         }
 
