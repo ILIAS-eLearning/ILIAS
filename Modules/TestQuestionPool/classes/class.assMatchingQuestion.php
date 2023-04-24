@@ -1362,7 +1362,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
 
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
@@ -1378,33 +1378,26 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $this->setShuffler($this->randomGroup->shuffleArray(new RandomSeed()));
 
-        $terms = array();
+        $terms = [];
         foreach ($this->getShuffler()->transform($this->getTerms()) as $term) {
-            $terms[] = array(
+            $terms[] = [
                 "text" => $this->formatSAQuestion($term->getText()),
                 "id" => $this->getId() . $term->getIdentifier()
-            );
+            ];
         }
         $result['terms'] = $terms;
 
-        // alex 9.9.2010 as a fix for bug 6513 I added the question id
-        // to the "def_id" in the array. The $pair->getDefinition()->getIdentifier() is not
-        // unique, since it gets it value from the morder table field
-        // this value is not changed, when a question is copied.
-        // thus copying the same question on a page results in problems
-        // when the second one (the copy) is answered.
-
-        $definitions = array();
+        $definitions = [];
         foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
-            $definitions[] = array(
+            $definitions[] = [
                 "text" => $this->formatSAQuestion((string) $def->getText()),
                 "id" => $this->getId() . $def->getIdentifier()
-            );
+            ];
         }
         $result['definitions'] = $definitions;
 
         // #10353
-        $matchings = array();
+        $matchings = [];
         foreach ($this->getMatchingPairs() as $pair) {
             // fau: fixLmMatchingPoints - ignore matching pairs with 0 or negative points
             if ($pair->getPoints() <= 0) {
@@ -1418,11 +1411,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
 
             if (!isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->getPoints()) {
-                $matchings[$pid] = array(
+                $matchings[$pid] = [
                     "term_id" => $this->getId() . $pair->getTerm()->getIdentifier(),
                     "def_id" => $this->getId() . $pair->getDefinition()->getIdentifier(),
                     "points" => (int) $pair->getPoints()
-                );
+                ];
             }
         }
 
@@ -1431,10 +1424,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
 
-        global $DIC;
-        $lng = $DIC['lng'];
-        $lng->loadLanguageModule('assessment');
-        $result['reset_button_label'] = $lng->txt("reset_terms");
+        $this->lng->loadLanguageModule('assessment');
+        $result['reset_button_label'] = $this->lng->txt("reset_terms");
 
         return json_encode($result);
     }
