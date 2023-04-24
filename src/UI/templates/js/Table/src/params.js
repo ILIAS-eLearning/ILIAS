@@ -17,10 +17,10 @@ class params {
      * @param array values
      */
     amendParameterToUrl(target, parameter_name, values) {
-
-        var base = target.split('?')[0],
-            params = this.#getParametersFromUrl(decodeURI(target)),
-            search = '', k;
+        let base = target.split('?')[0];
+        let params = this.getParametersFromUrl(decodeURI(target));
+        let search = '';
+        let k;
 
         params[parameter_name] = encodeURI(JSON.stringify(values));
 
@@ -35,9 +35,9 @@ class params {
     /**
      * @param string url
      */
-    #getParametersFromUrl(url) {
-        var params = {},
-            parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+    getParametersFromUrl(url) {
+        let params = {};
+        let parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
                 params[key] = value;
             });
         return params;

@@ -22,17 +22,17 @@ class keyboardnav {
      * @param Event event
      * @param keyboardnav _self
      */
-    #onKey(event, _self) {
+    onKey(event, _self) {
 
         if (_self.supported_keys.indexOf(event.which) === -1) {
             return;
         }
 
-        var cell = event.target.closest('td, th'),
-            row = cell.closest('tr'),
-            table = row.closest('table'),
-            cell_index = cell.cellIndex, 
-            row_index = row.rowIndex;
+        let cell = event.target.closest('td, th');
+        let row = cell.closest('tr');
+        let table = row.closest('table');
+        let cell_index = cell.cellIndex;
+        let row_index = row.rowIndex;
 
         switch (event.which) {
             case _self.keys.LEFT:
@@ -55,11 +55,11 @@ class keyboardnav {
         ) {
             return;
         }
-        _self.#focusCell(table, cell, row_index, cell_index);
+        _self.focusCell(table, cell, row_index, cell_index);
     }
 
-    #focusCell(table, cell, row_index, cell_index) {
-        var next_cell = table.rows[row_index].cells[cell_index];
+    focusCell(table, cell, row_index, cell_index) {
+        let next_cell = table.rows[row_index].cells[cell_index];
         next_cell.focus();
         cell.setAttribute('tabindex', -1);
         next_cell.setAttribute('tabindex', 0);
@@ -69,7 +69,7 @@ class keyboardnav {
      * @param string target_id
      */
     init(target_id) {
-        document.querySelector('#' + target_id).addEventListener('keydown', (event)=>this.#onKey(event, this));
+        document.querySelector('#' + target_id).addEventListener('keydown', (event)=>this.onKey(event, this));
     }
 
 }
