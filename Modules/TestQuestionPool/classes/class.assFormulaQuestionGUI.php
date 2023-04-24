@@ -166,7 +166,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
 
                 if ($this->object->getResult($result) != null) {
-                    $use_simple_rating = !isset($_POST["rating_advanced_$result"]) || (int) $_POST["rating_advanced_$result"] !== 1;
+                    $use_simple_rating = $this->request->int("rating_advanced_$result") !== 1;
                     $resObj = new assFormulaQuestionResult(
                         $result,
                         $_POST["range_min_$result"],
@@ -177,10 +177,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $_POST["points_$result"],
                         $_POST["precision_$result"],
                         $use_simple_rating,
-                        isset($_POST["rating_advanced_$result"]) && ((int) $_POST["rating_advanced_$result"] === 1) ? $_POST["rating_sign_$result"] : "",
-                        isset($_POST["rating_advanced_$result"]) && ((int) $_POST["rating_advanced_$result"] === 1) ? $_POST["rating_value_$result"] : "",
-                        isset($_POST["rating_advanced_$result"]) && ((int) $_POST["rating_advanced_$result"] === 1) ? $_POST["rating_unit_$result"] : "",
-                        (int) ($_POST["result_type_$result"] ?? 0)
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_sign_$result"] : "",
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_value_$result"] : "",
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_unit_$result"] : "",
+                        $this->request->int("result_type_$result")
                     );
                     $resObj->setRangeMinTxt($_POST["range_min_$result"]);
                     $resObj->setRangeMaxTxt($_POST["range_max_$result"]);
