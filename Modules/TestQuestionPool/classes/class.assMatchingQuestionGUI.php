@@ -168,7 +168,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->object->setShuffle(1);
             $this->object->setShuffleMode(1);
         }
-        $this->object->setThumbGeometry($_POST["thumb_geometry"]);
+        $this->object->setThumbGeometry($_POST["thumb_geometry"] ?? 0);
         $this->object->setMatchingMode($_POST['matching_mode']);
     }
 
