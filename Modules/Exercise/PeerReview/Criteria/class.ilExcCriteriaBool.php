@@ -64,6 +64,10 @@ class ilExcCriteriaBool extends ilExcCriteria
 
     public function hasValue($a_value): int
     {
+        // see #35695, a non required un-checked checkbox is treated as a value
+        if (!is_null($a_value) && !$this->isRequired()) {
+            return 1;
+        }
         return (int) $a_value;
     }
 
@@ -72,6 +76,10 @@ class ilExcCriteriaBool extends ilExcCriteria
         $lng = $this->lng;
 
         $caption = null;
+        // see #35694, a non required un-checked checkbox is treated as a "no"
+        if (!$this->isRequired()) {
+            $caption = $lng->txt("no");
+        }
         if ($this->isRequired() && $a_value < 0) {
             $caption = $lng->txt("no");
         } elseif ($a_value == 1) {
