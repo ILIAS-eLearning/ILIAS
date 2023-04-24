@@ -1117,19 +1117,18 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
 
-        $answers = array();
+        $correct_answers = [];
         foreach ($this->getErrorData() as $idx => $answer_obj) {
-            /** @var assAnswerErrorText $answer_obj */
-            array_push($answers, array(
+            $correct_answers[] = [
                 "answertext_wrong" => (string) $answer_obj->text_wrong,
                 "answertext_correct" => (string) $answer_obj->text_correct,
                 "points" => (float) str_replace(',', '.', $answer_obj->points),
                 "order" => (int) $idx + 1
-            ));
+            ];
         }
-        $result['correct_answers'] = $answers;
+        $result['correct_answers'] = $correct_answers;
 
-        $answers = array();
+        $answers = [];
         $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
         foreach ($textarray as $textidx => $text) {
             $items = preg_split("/\s+/", trim($text));
@@ -1146,16 +1145,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                     }
                 }
-                array_push($answers, array(
+                $answers[] = [
                     "answertext" => (string) ilLegacyFormElementsUtil::prepareFormOutput($item),
                     "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 1)
-                ));
+                ];
             }
             if ($textidx != sizeof($textarray) - 1) {
-                array_push($answers, array(
-                        "answertext" => "###",
-                        "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 2)
-                    ));
+                $answers = [
+                    "answertext" => "###",
+                    "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 2)
+                ];
             }
         }
         $result['answers'] = $answers;
