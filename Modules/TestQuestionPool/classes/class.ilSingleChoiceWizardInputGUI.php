@@ -58,7 +58,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    $answer = new ASS_AnswerBinaryStateImage((string) $value, (float) $a_value['points'][$index], (int) $index, 1, "", -1);
+                    $points = (float) str_replace(",", ".", $a_value['points'][$index]);
+                    $answer = new ASS_AnswerBinaryStateImage((string) $value, $points, (int) $index, 1, "", -1);
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
                     } else {
@@ -229,6 +230,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }
