@@ -81,6 +81,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }
@@ -90,6 +91,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     }
                 }
                 foreach ($foundvalues['points_unchecked'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if (((strlen($points)) == 0) || (!is_numeric($points))) {
                         $this->setAlert($lng->txt("form_msg_numeric_value_required"));
                         return false;
