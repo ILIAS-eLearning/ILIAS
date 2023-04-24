@@ -105,12 +105,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
             }
 
-            //			if(!$this->object->checkForDuplicateVariables())
-            //			{
-//
-            //				$this->addErrorMessage($this->lng->txt("err_duplicate_variables"));
-            //				$checked = FALSE;
-            //			}
             if (!$this->object->checkForDuplicateResults()) {
                 $this->addErrorMessage($this->lng->txt("err_duplicate_results"));
                 $checked = false;
