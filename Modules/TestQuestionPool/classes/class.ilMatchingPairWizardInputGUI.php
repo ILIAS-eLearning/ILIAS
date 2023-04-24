@@ -148,13 +148,19 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                 }
                 $max = 0;
                 foreach ($foundvalues['points'] as $val) {
-                    $val = (float) str_replace(',', '.', $val);
-                    if ($val > 0) {
-                        $max += $val;
-                    }
-                    if ($this->getRequired() && (strlen($val)) == 0) {
+                    if ($this->getRequired() && (strlen($val)) === 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
+                    }
+                    $val = str_replace(",", ".", $val);
+                    if (!is_numeric($val)) {
+                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
+                        return false;
+                    }
+
+                    $val = (float) $val;
+                    if ($val > 0) {
+                        $max += $val;
                     }
                 }
                 if ($max <= 0) {
