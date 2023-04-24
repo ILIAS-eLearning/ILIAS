@@ -50,12 +50,6 @@ In some sql queries, the `quote()` method is not used. This should be catched up
 The `ilMyStaffAccess` class brings along performance issues. A refactoring of this class should reduce them. The used temporary sql tables should be replaced.
 At the same time, it should be defined to which limit of organisational units (and also objects, employees,...) the Staff Service can ensure a relatively performant behaviour.
 
-### Introduce APIs for Staff Service
-
-Currently, the Staff Service has dependencies to other components, especially with regard to database tables. This always bears risks when changes are made in the components.
-The dependencies should be dissolved by introducing APIs in the corresponding components themselves, which the Staff Service can consume.
-It must be discussed how exactly these interfaces will look like.
-
 ### Introduce Separate User Action Configuration for Staff
 
 Currently, the Staff Service reuses the User Action Configuration from the Who-is-online-Tool.
