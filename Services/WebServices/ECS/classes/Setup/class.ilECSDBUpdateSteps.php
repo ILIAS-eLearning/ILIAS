@@ -13,21 +13,20 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
 class ilECSDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
     public function step_1(): void
     {
-        if($this->db->tableColumnExists('ecs_server', 'polling_time')) {
+        if ($this->db->tableColumnExists('ecs_server', 'polling_time')) {
             $this->db->dropTableColumn('ecs_server', 'polling_time');
         }
     }
