@@ -130,28 +130,28 @@ JS;
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify($_POST['cloze_text']);
-
+            $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify(
+                $this->request->raw('cloze_text')
+            );
             $cloze_text = $this->removeIndizesFromGapText($cloze_text);
-            //$_POST['cloze_text'] = $cloze_text;
-            $this->object->setQuestion($_POST['question']);
+
+            $this->object->setQuestion(
+                $this->request->raw('question')
+            );
 
             $this->writeQuestionGenericPostData();
             $this->object->setClozeText($cloze_text);
-            $this->object->setTextgapRating($_POST["textgap_rating"]);
-            $this->object->setIdenticalScoring((bool) ($_POST["identical_scoring"] ?? false));
-            $this->object->setFixedTextLength((int) ($_POST["fixedTextLength"] ?? 0));
-            //$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-            //$this->object->flushGaps();
+            $this->object->setTextgapRating($this->request->raw('textgap_rating'));
+            $this->object->setIdenticalScoring((bool) ($this->request->raw('identical_scoring') ?? false));
+            $this->object->setFixedTextLength(($this->request->int('fixedTextLength') ?? 0));
             $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
             $this->saveTaxonomyAssignments();
             return 0;
         }
 
-        $cloze_text = $_POST['cloze_text'];
-        $cloze_text = $this->applyIndizesToGapText($cloze_text);
-        // Mantis 33795 - Candidate
-        //$_POST['cloze_text'] = $cloze_text;
+        $cloze_text = $this->applyIndizesToGapText(
+            $this->request->raw('cloze_text')
+        );
         return 1;
     }
 
