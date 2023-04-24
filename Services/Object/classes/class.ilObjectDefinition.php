@@ -50,11 +50,11 @@ class ilObjectDefinition
         $this->readDefinitionData();
     }
 
-    protected function readDefinitionDataFromCache(): void
+    /**
+    * Read object definition data
+    */
+    public function readDefinitionData(): void
     {
-        $this->obj_data = [];
-        $defIds = [];
-
         $global_cache = ilCachedObjectDefinition::getInstance();
         foreach ($global_cache->getIlObjectDef() as $rec) {
             $this->obj_data[$rec["id"]] = [
@@ -104,105 +104,6 @@ class ilObjectDefinition
         $this->obj_group = $global_cache->getIlObjectGroup();
         $this->readPluginData();
         $this->sub_types = $global_cache->getIlObjectSubType();
-    }
-
-
-    protected function readDefinitionDataFromDB(): void
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $this->obj_data = [];
-
-        // Select all object_definitions and collect the definition id's in this array.
-        $defIds = [];
-
-        $sql =
-            "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
-            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
-            . "FROM il_object_def" . PHP_EOL
-        ;
-        $result = $ilDB->query($sql);
-        while ($rec = $ilDB->fetchAssoc($result)) {
-            $this->obj_data[$rec["id"]] = [
-                "name" => $rec["id"],
-                "class_name" => $rec["class_name"],
-                "location" => $rec["location"],
-                "checkbox" => $rec["checkbox"],
-                "inherit" => $rec["inherit"],
-                "component" => $rec["component"],
-                "translate" => $rec["translate"],
-                "devmode" => $rec["devmode"],
-                "allow_link" => $rec["allow_link"],
-                "allow_copy" => $rec["allow_copy"],
-                "rbac" => $rec["rbac"],
-                "group" => $rec["grp"],
-                "system" => $rec["system"],
-                "default_pos" => "9999" . str_pad((string) $rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
-                "sideblock" => $rec["sideblock"],
-                'export' => $rec['export'],
-                'repository' => $rec['repository'],
-                'workspace' => $rec['workspace'],
-                'administration' => $rec['administration'],
-                'amet' => $rec['amet'],
-                'orgunit_permissions' => $rec['orgunit_permissions'],
-                'lti_provider' => $rec['lti_provider'],
-                'offline_handling' => $rec['offline_handling']
-            ];
-            $this->obj_data[$rec["id"]]["subobjects"] = [];
-
-            $defIds[] = $rec["id"];
-        }
-
-        // get all sub object definitions in a single query
-        $sql =
-            "SELECT parent, subobj, mmax" . PHP_EOL
-            . "FROM il_object_subobj" . PHP_EOL
-            . "WHERE " . $ilDB->in('parent', $defIds, false, 'text') . PHP_EOL
-        ;
-        $result = $ilDB->query($sql);
-        while ($rec2 = $ilDB->fetchAssoc($result)) {
-            $max = $rec2["mmax"];
-            if ($max <= 0) { // for backward compliance
-                $max = "";
-            }
-            $this->obj_data[$rec2["parent"]]["subobjects"][$rec2["subobj"]] = [
-                "name" => $rec2["subobj"],
-                "max" => $max,
-                "lng" => $rec2["subobj"]
-            ];
-        }
-
-        $sql =
-            "SELECT id, name, default_pres_pos" . PHP_EOL
-            . "FROM il_object_group" . PHP_EOL
-        ;
-        $result = $ilDB->query($sql);
-        $this->obj_group = array();
-        while ($rec = $ilDB->fetchAssoc($result)) {
-            $this->obj_group[$rec["id"]] = $rec;
-        }
-
-        $this->readPluginData();
-
-        $sql =
-            "SELECT obj_type, sub_type, amet" . PHP_EOL
-            . "FROM il_object_sub_type" . PHP_EOL
-        ;
-        $result = $ilDB->query($sql);
-        $this->sub_types = array();
-        while ($rec = $ilDB->fetchAssoc($result)) {
-            $this->sub_types[$rec["obj_type"]][] = $rec;
-        }
-    }
-
-    /**
-    * Read object definition data
-    */
-    public function readDefinitionData(): void
-    {
-        $this->readDefinitionDataFromCache();
     }
 
     protected static function getGroupedPluginObjectTypes(array $grouped_obj, string $slotId): array
