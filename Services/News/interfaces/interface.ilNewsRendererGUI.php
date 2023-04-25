@@ -38,7 +38,7 @@ interface ilNewsRendererGUI
      */
     public function getDetailContent(): string;
 
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list): void;
+    public function getTimelineActions(): array;
 
     /**
      * Get link href for object link

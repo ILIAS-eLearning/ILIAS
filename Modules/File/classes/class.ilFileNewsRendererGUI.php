@@ -25,12 +25,17 @@
  */
 class ilFileNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list): void
+    public function getTimelineActions(): array
     {
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->news_ref_id);
         $url = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->news_ref_id);
 
-        $list->addItem($this->lng->txt("download"), "", $url);
+        return [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt("download"),
+                $url
+            )
+        ];
     }
 }

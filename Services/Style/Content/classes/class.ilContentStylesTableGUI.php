@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 class ilContentStylesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Style\Content\InternalGUIService $gui;
     protected int $default_style = 0;
     protected int $fixed_style = 0;
     protected ilSetting $settings;
@@ -43,6 +44,9 @@ class ilContentStylesTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
+        $this->gui = $DIC->contentStyle()
+            ->internal()
+            ->gui();
 
         $this->fixed_style = (int) $ilSetting->get("fixed_content_style_id");
         $this->default_style = (int) $ilSetting->get("default_content_style_id");
@@ -76,6 +80,8 @@ class ilContentStylesTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
 
         if ($a_set["id"] > 0) {
             $this->tpl->setCurrentBlock("cb");
@@ -101,46 +107,41 @@ class ilContentStylesTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->parent_obj, "id", $a_set["id"]);
         if ($a_set["id"] > 0 && $this->parent_obj->checkPermission("sty_write_content", false)) {
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setListTitle($lng->txt("actions"));
-            $list->setId("sty_act_" . $a_set["id"]);
+            $actions = [];
 
             // default style
             if ($this->default_style == $a_set["id"]) {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("sty_remove_global_default_state"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "toggleGlobalDefault")
                 );
             } elseif ($a_set["active"]) {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("sty_make_global_default"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "toggleGlobalDefault")
                 );
             }
 
             // fixed style
             if ($this->fixed_style == $a_set["id"]) {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("sty_remove_global_fixed_state"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "toggleGlobalFixed")
                 );
             } elseif ($a_set["active"]) {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("sty_make_global_fixed"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "toggleGlobalFixed")
                 );
             }
-            $list->addItem(
+            $actions[] = $ui_factory->link()->standard(
                 $lng->txt("sty_set_scope"),
-                "",
                 $ilCtrl->getLinkTarget($this->parent_obj, "setScope")
             );
 
-            $this->tpl->setVariable("ACTIONS", $list->getHTML());
+            $dd = $ui_factory->dropdown()->standard($actions);
+
+            $this->tpl->setVariable("ACTIONS", $ui_renderer->render($dd));
 
             if ($a_set["id"] == $this->fixed_style) {
                 $this->tpl->setVariable("PURPOSE", $lng->txt("global_fixed"));
