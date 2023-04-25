@@ -1,75 +1,107 @@
 <form name="form_maintenance" method="POST" action="{FORM_ACTION}">
-<p>
-	<!-- BEGIN maintenance_information -->
-	{MAINTENANCE_INFORMATION}
-	<!-- END maintenance_information -->
-	<!-- BEGIN generation -->
-	<input class="btn btn-default" type="submit" name="cmd[createSolutions]" value="{BTN_CREATE_SOLUTIONS}" />
-	<!-- END generation -->
-	<!-- BEGIN delete_button -->
-	<input class="btn btn-default" type="submit" name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
-	<!-- END delete_button -->
-	<!-- BEGIN confirm_delete -->
-	<input class="btn btn-default" type="submit" name="cmd[confirmDeleteAllUserData]" value="{BTN_CONFIRM_DELETE_ALL}" /> <input class="submit" type="submit" name="cmd[cancelDeleteAllUserData]" value="{BTN_CANCEL_DELETE_ALL}" />
-	<!-- END confirm_delete -->
-</p>
+	<p>
+		<!-- BEGIN maintenance_information -->
+		{MAINTENANCE_INFORMATION}
+		<!-- END maintenance_information -->
+		<!-- BEGIN generation -->
+		<input role="button" class="btn btn-default" type="submit"
+			   aria-label="cmd[createSolutions]"
+			   name="cmd[createSolutions]" value="{BTN_CREATE_SOLUTIONS}" />
+		<!-- END generation -->
+		<!-- BEGIN delete_button -->
+		<input class="btn btn-default" type="submit"
+			   role="button" aria-label="cmd[deleteAllUserData]"
+			   name="cmd[deleteAllUserData]" value="{BTN_DELETE_ALL}" />
+		<!-- END delete_button -->
+		<!-- BEGIN confirm_delete -->
+		<input class="btn btn-default" type="submit" name="cmd[confirmDeleteAllUserData]"
+			   value="{BTN_CONFIRM_DELETE_ALL}" />
+		<input class="submit" type="submit"
+			   aria-label="cmd[cancelDeleteAllUserData]" role="button"
+			   name="cmd[cancelDeleteAllUserData]" value="{BTN_CANCEL_DELETE_ALL}" />
+		<!-- END confirm_delete -->
+	</p>
 <!-- BEGIN selectedusers -->
 <table class="std">
 	<thead>
 		<tr class="tblheader">
-			<th class="std"></th>
-			<th class="std">{HEADER_TXT_LASTNAME}</th>
-			<th class="std">{HEADER_TXT_FIRSTNAME}</th>
-			<th class="std">{HEADER_TXT_LOGIN}</th>
+			<th scope="col" class="std">
+			</th>
+			<th scope="col" class="std">
+				{HEADER_TXT_LASTNAME}
+			</th>
+			<th scope="col" class="std">
+				{HEADER_TXT_FIRSTNAME}
+			</th>
+			<th scope="col" class="std">
+				{HEADER_TXT_LOGIN}
+			</th>
 		</tr>
 	</thead>
 	<!-- BEGIN row -->
-<tr class="{ROW_CLASS}">
-	<td><img src="{USER_ICON}" alt="{USER_ALT}" title="{USER_TITLE}" /></td>
-	<td>{TXT_LASTNAME}</td>
-	<td>{TXT_FIRSTNAME}</td>
-	<td>{TXT_LOGIN}</td>
-</tr>
-<!-- END row -->
-<tr>
-	<td class="submit" colspan="4">
-		<div align="right">
-			<input class="btn btn-default" type="submit" name="cmd[confirmDeleteSelectedUserData]" value="{BTN_CONFIRM_DELETE_SELECTED}" /> <input class="submit" type="submit" name="cmd[cancelDeleteSelectedUserData]" value="{BTN_CANCEL_DELETE_SELECTED}" />
-		</div>
-	</td>
-</tr>
+	<tr class="{ROW_CLASS}">
+		<td>
+			<img src="{USER_ICON}" alt="{USER_ALT}" title="{USER_TITLE}" />
+		</td>
+		<td>
+			{TXT_LASTNAME}
+		</td>
+		<td>
+			{TXT_FIRSTNAME}
+		</td>
+		<td>
+			{TXT_LOGIN}</td>
+	</tr>
+	<!-- END row -->
+	<tr>
+		<td class="submit" colspan="4">
+			<div align="right">
+				<input class="btn btn-default" type="submit" aria-label="cmd[confirmDeleteSelectedUserData]"
+					   role="button" name="cmd[confirmDeleteSelectedUserData]" value="{BTN_CONFIRM_DELETE_SELECTED}" />
+				<input role="button" class="submit" type="submit" name="cmd[cancelDeleteSelectedUserData]"
+					   value="{BTN_CANCEL_DELETE_SELECTED}" aria-label="cmd[cancelDeleteSelectedUserData]" />
+			</div>
+		</td>
+	</tr>
+</table>
 <!-- END selectedusers -->
 <!-- BEGIN participanttable -->
 <table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th width="20"></th>
-		<th class="std">{USER_NAME}</th>
-		<th class="std">{USER_LOGIN}</th>
-		<th class="std">{LAST_ACCESS}</th>
-	</tr>
-</thead>
-<!-- BEGIN userrow -->
-<tr class="{ROW_CLASS}">
-  <td class="{ROW_CLASS}"><input type="checkbox" name="chbUser[]" value="{USER_ID}" id="{USER_ID}" /></td>
-  <td class="{ROW_CLASS}"><label for="{USER_ID}">{VALUE_USER_NAME}</label></td>
-  <td class="{ROW_CLASS}">{VALUE_USER_LOGIN}</td>
-	<td class="{ROW_CLASS}">{LAST_ACCESS}</td>
-</tr>
-<!-- END userrow -->
-<!-- BEGIN selectall -->
-<tr class="{ROW_CLASS}">
-	<td class="{ROW_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="il.Util.setChecked('form_maintenance', 'chbUser', document.form_maintenance.chb_check_all.checked);" /></td>
-	<td class="{ROW_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall -->
-<tr>
-	<td class="submit">{ARROW}</td>
-	<td class="submit" colspan="3"><input class="btn btn-default" type="submit" name="cmd[deleteSingleUserResults]" value="{DELETE}" /></td>
-</tr>
-</table>
-<!-- END participanttable -->
-<!-- BEGIN hidden -->
-<input type="hidden" name="chbUser[]" value="{USER_ID}" />
-<!-- END hidden -->
+	<thead>
+		<tr class="tblheader">
+			<th width="20"></th>
+			<th class="std">{USER_NAME}</th>
+			<th class="std">{USER_LOGIN}</th>
+			<th class="std">{LAST_ACCESS}</th>
+		</tr>
+	</thead>
+	<tbod>
+		<!-- BEGIN userrow -->
+		<tr class="{ROW_CLASS}">
+			<td class="{ROW_CLASS}"><input type="checkbox" name="chbUser[]" value="{USER_ID}" id="{USER_ID}" /></td>
+			<td class="{ROW_CLASS}"><label for="{USER_ID}">{VALUE_USER_NAME}</label></td>
+			<td class="{ROW_CLASS}">{VALUE_USER_LOGIN}</td>
+			<td class="{ROW_CLASS}">{LAST_ACCESS}</td>
+		</tr>
+		<!-- END userrow -->
+		<!-- BEGIN selectall -->
+		<tr class="{ROW_CLASS}">
+			<td class="{ROW_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="il.Util.setChecked('form_maintenance', 'chbUser', document.form_maintenance.chb_check_all.checked);" /></td>
+			<td class="{ROW_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+		</tr>
+		<!-- END selectall -->
+		<tr>
+			<td class="submit">
+				{ARROW}
+			</td>
+			<td class="submit" colspan="3">
+				<input class="btn btn-default" type="submit" name="cmd[deleteSingleUserResults]" value="{DELETE}" />
+			</td>
+		</tr>
+	</tbod>
+	</table>
+	<!-- END participanttable -->
+	<!-- BEGIN hidden -->
+	<input role="button" aria-label="chbUser[]" type="hidden" name="chbUser[]" value="{USER_ID}" />
+	<!-- END hidden -->
 </form>

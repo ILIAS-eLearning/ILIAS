@@ -4,59 +4,88 @@
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
-	<div id="tst_left">{LIST_OF_QUESTIONS}</div>
+	<div id="tst_left">
+		{LIST_OF_QUESTIONS}
+	</div>
 	<div id="tst_right">
-		<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission" name="test_output" method="post"
-			style="clear: both;" {ENCTYPE} action="{FORMACTION}" <!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"
+		<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission"
+			  name="test_output" method="post"
+			style="clear: both;" {ENCTYPE} action="{FORMACTION}"
+			<!-- BEGIN onsubmit --> onsubmit="
+				{ON_SUBMIT}"
 			<!-- END onsubmit -->>
 			<!-- BEGIN enableprocessingtime -->
 			<div class="ilTstWorkingFormBlock_WorkingTime alert alert-info">
-				<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
-				<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
+				<span class="ilTstWorkingFormInfo_UserWorkingTime">
+					{USER_WORKING_TIME}
+				</span>
+				<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">
+					{USER_REMAINING_TIME}
+				</span>
 			</div>
 			<!-- END enableprocessingtime -->
-			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-			<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}
+			<input aria-hidden="true" type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+			<!-- BEGIN char_selector -->
+			{CHAR_SELECTOR_TEMPLATE}
 			<!-- END char_selector -->
-			<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}
+			<!-- BEGIN test_nav_toolbar -->
+			{TEST_NAV_TOOLBAR}
 			<!-- END test_nav_toolbar -->
 			<div class="ilTstNavigation">
 				<div class="ilTstNavigationBtn_Prev">
-					<!-- BEGIN prev -->{BTN_PREV}
+					<!-- BEGIN prev -->
+					{BTN_PREV}
 					<!-- END prev -->
 				</div>
 				<div class="ilTstNavigationBtn_Next">
-					<!-- BEGIN next -->{BTN_NEXT}
+					<!-- BEGIN next -->
+					{BTN_NEXT}
 					<!-- END next -->
 				</div>
 			</div>
 			<div class="tst_question-container">
 				<div class="ilc_Page<!-- BEGIN readonly_css_class --> readonly<!-- END readonly_css_class -->"
 					id="ilc_Page">
-					<h2>{QUESTION_OUTPUT}
-						<!-- BEGIN lockstate_infobox -->{LOCKSTATE_INFOBOX}<!-- END lockstate_infobox -->
+					<h2>
+						{QUESTION_OUTPUT}
+						<!-- BEGIN lockstate_infobox -->
+						{LOCKSTATE_INFOBOX}
+						<!-- END lockstate_infobox -->
 					</h2>
-					<!-- BEGIN discard_solution_modal -->{DISCARD_SOLUTION_MODAL}
+					<!-- BEGIN discard_solution_modal -->
+					{DISCARD_SOLUTION_MODAL}
 					<!-- END discard_solution_modal -->
-					<!-- BEGIN nav_while_edit_modal -->{NAV_WHILE_EDIT_MODAL}
+					<!-- BEGIN nav_while_edit_modal -->
+					{NAV_WHILE_EDIT_MODAL}
 					<!-- END nav_while_edit_modal -->
-					<!-- BEGIN next_locks_changed_modal -->{NEXT_LOCKS_CHANGED_MODAL}
+					<!-- BEGIN next_locks_changed_modal -->
+					{NEXT_LOCKS_CHANGED_MODAL}
 					<!-- END next_locks_changed_modal -->
-					<!-- BEGIN next_locks_unchanged_modal -->{NEXT_LOCKS_UNCHANGED_MODAL}
+					<!-- BEGIN next_locks_unchanged_modal -->
+					{NEXT_LOCKS_UNCHANGED_MODAL}
 					<!-- END next_locks_unchanged_modal -->
 					<!-- BEGIN instant_response_header -->
 					<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"
-						<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2>
+						<!-- END inst_resp_id -->>
+					<h2 class="ilc_page_title_PageTitle">
+						{INSTANT_RESPONSE_HEADER}
+					</h2>
 					</div>
 					<!-- END instant_response_header -->
 					<!-- BEGIN received_points_information -->
-					<p>{RECEIVED_POINTS_INFORMATION}</p>
+					<p>
+						{RECEIVED_POINTS_INFORMATION}
+					</p>
 					<!-- END received_points_information -->
 					<!-- BEGIN answer_feedback -->
-					<div class="{ILC_FB_CSS_CLASS}">{ANSWER_FEEDBACK}</div>
+					<div class="{ILC_FB_CSS_CLASS}">
+						{ANSWER_FEEDBACK}
+					</div>
 					<!-- END answer_feedback -->
 					<!-- BEGIN specific_feedback -->
-					<div class="test_specific_feedback">{SPECIFIC_FEEDBACK}</div>
+					<div class="test_specific_feedback">
+						{SPECIFIC_FEEDBACK}
+					</div>
 					<!-- END specific_feedback -->
 					<!-- BEGIN solution_output -->
 					<!-- BEGIN solution_output_details -->
@@ -78,11 +107,13 @@
 			<!-- BEGIN navigation_bottom -->
 			<div class="ilTstNavigation">
 				<div class="ilTstNavigationBtn_Prev">
-					<!-- BEGIN prev_bottom -->{BTN_PREV_BOTTOM}
+					<!-- BEGIN prev_bottom -->
+					{BTN_PREV_BOTTOM}
 					<!-- END prev_bottom -->
 				</div>
 				<div class="ilTstNavigationBtn_Next">
-					<!-- BEGIN next_bottom -->{BTN_NEXT_BOTTOM}
+					<!-- BEGIN next_bottom -->
+					{BTN_NEXT_BOTTOM}
 					<!-- END next_bottom -->
 				</div>
 			</div>
@@ -92,12 +123,13 @@
 		<form role="form" class="form-horizontal preventDoubleSubmission" name="test_output_bottom" method="post"
 			action="{FORMACTION_REOPENFORM}">
 			<!-- END reopenform -->
-		
 			<!-- BEGIN exam_id_footer -->
-			<p>{EXAM_ID_TXT}&nbsp;{EXAM_ID_VAL}</p>
+			<p>
+				{EXAM_ID_TXT}&nbsp;{EXAM_ID_VAL}
+			</p>
 			<!-- END exam_id_footer -->
 			<p></p>
-			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+			<input aria-hidden="true" type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 			<!-- BEGIN js_initialize -->
 			{JS_INITIALIZE}
 			<!-- END js_initialize -->
@@ -150,4 +182,5 @@
 		</form>
 	</div>
 </div>
-<div id="autosavemessage" class="ilHighlighted tstAutosaveMsg"></div>
+<div id="autosavemessage" class="ilHighlighted tstAutosaveMsg">
+</div>

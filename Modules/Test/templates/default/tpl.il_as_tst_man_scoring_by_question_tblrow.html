@@ -1,13 +1,31 @@
 <tr class="{CSS_ROW} <!-- BEGIN tst_manual_scoring --> tst_manual_scoring_feedback_finalized <!-- END tst_manual_scoring --> table_row_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
-	<td class="std">{VAL_NAME}</td>
-	<td class="reached_points_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_REACHED_POINTS}</td>
-	<td>{VAL_MAX_POINTS}</td>
-	<td class="feedback_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_MODAL_CORRECTION}</td>
-	<td class="finalized_evaluation_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_EVALUATED}</td>
-	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_BY}</td>
-	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_ON}</td>
 	<td class="std">
-		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}" href="#">{VAL_TXT_ANSWER}</a>
+		{VAL_NAME}
+	</td>
+	<td class="reached_points_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
+		{VAL_REACHED_POINTS}
+	</td>
+	<td>
+		{VAL_MAX_POINTS}
+	</td>
+	<td class="feedback_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
+		{VAL_MODAL_CORRECTION}
+	</td>
+	<td class="finalized_evaluation_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
+		{VAL_EVALUATED}
+	</td>
+	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
+		{VAL_FINALIZED_BY}
+	</td>
+	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
+		{VAL_FINALIZED_ON}
+	</td>
+	<td class="std">
+		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger"
+		   data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}"
+		   href="#" aria-label="{ANSWER_TITLE}">
+			{VAL_TXT_ANSWER}
+		</a>
 		<!-- BEGIN row_js -->
 		<script type="text/javascript">
 			(function($) {
@@ -58,7 +76,8 @@
 						{
 							data = JSON.parse(data);
 							console.log(data);
-							var sub_string 		= '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
+							var sub_string 		= '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_'
+									+ data.feedback.question_fi;
 							var $scoring 		= $('.reached_points' + sub_string);
 							var $feedback 		= $('.feedback' + sub_string);
 							var $finalized 		= $('.finalized_evaluation' + sub_string);
