@@ -341,9 +341,10 @@ abstract class ilBlockGUI
     {
         $this->initCommands();
 
-        if ($this->new_rendering) {
-            return $this->getHTMLNew();
-        }
+        // old rendering is obsolete
+        //if ($this->new_rendering) {
+        return $this->getHTMLNew();
+        //}
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -425,7 +426,7 @@ abstract class ilBlockGUI
         $this->fillFooter();
 
 
-        $this->fillHeaderCommands();
+        //$this->fillHeaderCommands();
         $this->fillHeaderTitleBlock();
 
         if ($this->getPresentation() === self::PRES_MAIN_LEG) {
@@ -444,41 +445,6 @@ abstract class ilBlockGUI
                 $this->tpl->get() . '</div>';
         }
         return "";
-    }
-
-    public function fillHeaderCommands(): void
-    {
-        // adv selection gui
-        $dropdown = new ilAdvancedSelectionListGUI();
-        $dropdown->setUseImages(true);
-        $dropdown->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
-        $dropdown->setHeaderIcon(ilAdvancedSelectionListGUI::ICON_CONFIG);
-        $dropdown->setId("block_dd_" . $this->getBlockType() . "_" . $this->block_id);
-        foreach ($this->dropdown as $item) {
-            if ($item["href"] || $item["onclick"]) {
-                if (isset($item["checked"]) && $item["checked"]) {
-                    $item["image"] = ilUtil::getImagePath("icon_checked.svg");
-                }
-                $dropdown->addItem(
-                    $item["text"],
-                    "",
-                    $item["href"],
-                    $item["image"] ?? "",
-                    $item["text"],
-                    "",
-                    "",
-                    false,
-                    $item["onclick"]
-                );
-            }
-        }
-        $dropdown = $dropdown->getHTML();
-        $this->tpl->setCurrentBlock("header_dropdown");
-        $this->tpl->setVariable("ADV_DROPDOWN", $dropdown);
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("hitem");
-        $this->tpl->parseCurrentBlock();
     }
 
     public function fillHeaderTitleBlock(): void
