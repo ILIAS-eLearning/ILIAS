@@ -250,34 +250,34 @@ class ilObjUser extends ilObject
             $this->setPasswd($a_data["passwd"] ?? '', $a_data["passwd_type"] ?? '');
         }
 
-        $this->setGender((string) $a_data["gender"] ?? '');
-        $this->setUTitle((string) $a_data["title"] ?? '');
-        $this->setFirstname((string) $a_data["firstname"] ?? '');
-        $this->setLastname((string) $a_data["lastname"] ?? '');
+        $this->setGender((string) ($a_data["gender"] ?? ''));
+        $this->setUTitle((string) ($a_data["title"] ?? ''));
+        $this->setFirstname((string) ($a_data["firstname"] ?? ''));
+        $this->setLastname((string) ($a_data["lastname"] ?? ''));
         $this->setFullname();
-        if (!is_array($a_data['birthday'] ?? null)) {
+        if (isset($a_data['birthday']) && is_array($a_data['birthday'])) {
             $this->setBirthday($a_data['birthday']);
         } else {
             $this->setBirthday(null);
         }
 
         // address data
-        $this->setInstitution((string) $a_data["institution"] ?? '');
-        $this->setDepartment((string) $a_data["department"] ?? '');
-        $this->setStreet((string) $a_data["street"] ?? '');
-        $this->setCity((string) $a_data["city"] ?? '');
-        $this->setZipcode((string) $a_data["zipcode"] ?? '');
-        $this->setCountry((string) $a_data["country"] ?? '');
-        $this->setSelectedCountry((string) $a_data["sel_country"] ?? '');
-        $this->setPhoneOffice((string) $a_data["phone_office"] ?? '');
-        $this->setPhoneHome((string) $a_data["phone_home"] ?? '');
-        $this->setPhoneMobile((string) $a_data["phone_mobile"] ?? '');
-        $this->setFax((string) $a_data["fax"] ?? '');
-        $this->setMatriculation((string) $a_data["matriculation"] ?? '');
-        $this->setEmail((string) $a_data["email"] ?? '');
-        $this->setSecondEmail((string) $a_data["second_email"] ?? null);
-        $this->setHobby((string) $a_data["hobby"] ?? '');
-        $this->setClientIP((string) $a_data["client_ip"] ?? '');
+        $this->setInstitution((string) ($a_data["institution"] ?? ''));
+        $this->setDepartment((string) ($a_data["department"] ?? ''));
+        $this->setStreet((string) ($a_data["street"] ?? ''));
+        $this->setCity((string) ($a_data["city"] ?? ''));
+        $this->setZipcode((string) ($a_data["zipcode"] ?? ''));
+        $this->setCountry((string) ($a_data["country"] ?? ''));
+        $this->setSelectedCountry((string) ($a_data["sel_country"] ?? ''));
+        $this->setPhoneOffice((string) ($a_data["phone_office"] ?? ''));
+        $this->setPhoneHome((string) ($a_data["phone_home"] ?? ''));
+        $this->setPhoneMobile((string) ($a_data["phone_mobile"] ?? ''));
+        $this->setFax((string) ($a_data["fax"] ?? ''));
+        $this->setMatriculation((string) ($a_data["matriculation"] ?? ''));
+        $this->setEmail((string) ($a_data["email"] ?? ''));
+        $this->setSecondEmail((string) ($a_data["second_email"] ?? null));
+        $this->setHobby((string) ($a_data["hobby"] ?? ''));
+        $this->setClientIP((string) ($a_data["client_ip"] ?? ''));
         $this->setPasswordEncodingType($a_data['passwd_enc_type'] ?? null);
         $this->setPasswordSalt($a_data['passwd_salt'] ?? null);
 
@@ -287,12 +287,12 @@ class ilObjUser extends ilObject
         $this->setLocationZoom($a_data["loc_zoom"] ?? null);
 
         // system data
-        $this->setLastLogin((string) $a_data["last_login"]);
-        $this->setFirstLogin((string) $a_data["first_login"]);
-        $this->setLastProfilePrompt((string) $a_data["last_profile_prompt"]);
-        $this->setLastUpdate((string) $a_data["last_update"]);
+        $this->setLastLogin((string) ($a_data["last_login"] ?? ''));
+        $this->setFirstLogin((string) ($a_data["first_login"] ?? ''));
+        $this->setLastProfilePrompt((string) ($a_data["last_profile_prompt"] ?? ''));
+        $this->setLastUpdate((string) ($a_data["last_update"] ?? ''));
         $this->create_date = $a_data["create_date"] ?? "";
-        $this->setComment((string) $a_data["referral_comment"]);
+        $this->setComment((string) ($a_data["referral_comment"] ?? ''));
         $this->approve_date = ($a_data["approve_date"] ?? null);
         $this->active = ($a_data["active"] ?? 0);
         $this->agree_date = ($a_data["agree_date"] ?? null);
