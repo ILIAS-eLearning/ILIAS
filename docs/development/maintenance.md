@@ -609,7 +609,7 @@ file containes the following fields:
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: n.n., Qualitus - for ILIAS 7: [bgoch](https://docu.ilias.de/goto_docu_usr_79405.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 [//]: # (END LearningModuleHTML)
 
@@ -776,7 +776,6 @@ file containes the following fields:
 	* 2nd Maintainer: N.A.
 	* Testcases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-	  , [wolfganghuebsch](https://docu.ilias.de/goto_docu_usr_18455.html) (for ILIAS 7)
 
 [//]: # (END MediaCast)
 
