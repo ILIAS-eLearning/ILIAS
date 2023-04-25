@@ -610,8 +610,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     $value = "-";
                 } else {
                     $value = ilDatePresentation::secondsToString(
-                        $value,
-                        ($value < 3600 ? true : false)
+                        (int) $value,
+                        ((int) $value < 3600 ? true : false)
                     ); // #14858
                 }
                 break;

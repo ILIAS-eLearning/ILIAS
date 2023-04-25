@@ -36,6 +36,7 @@ class ilTable2GUI extends ilTableGUI
     public const EXPORT_EXCEL = 1;
     public const EXPORT_CSV = 2;
     public const ACTION_ALL_LIMIT = 1000;
+    private \ILIAS\DI\UIServices $ui;
     protected string $requested_tmpl_delete;
     protected string $requested_tmpl_create;
     protected string $requested_nav_par2 = "";
@@ -129,6 +130,7 @@ class ilTable2GUI extends ilTableGUI
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ui = $DIC->ui();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -1760,6 +1762,9 @@ class ilTable2GUI extends ilTableGUI
             $ilUser = $DIC["ilUser"];
         }
 
+        $ui_factory = $this->ui->factory();
+        $ui_renderer = $this->ui->renderer();
+
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -1837,7 +1842,6 @@ class ilTable2GUI extends ilTableGUI
             $column_selector = $cb_over->getHTML();
             $footer = true;
         }
-
         if ($this->getShowTemplates() && is_object($ilUser)) {
             // template handling
             if ($this->requested_tmpl_create != "") {
@@ -1859,12 +1863,6 @@ class ilTable2GUI extends ilTableGUI
 
             // form to delete template
             if (count($templates) > 0) {
-                $overlay = new ilOverlayGUI($delete_id);
-                $overlay->setTrigger($list_id . "_delete");
-                $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
-                $overlay->setAutoHide(false);
-                $overlay->add();
-
                 $lng->loadLanguageModule("form");
                 $this->tpl->setCurrentBlock("template_editor_delete_item");
                 $this->tpl->setVariable("TEMPLATE_DELETE_OPTION_VALUE", "");
@@ -1884,14 +1882,6 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->parseCurrentBlock();
             }
 
-
-            // form to save new template
-            $overlay = new ilOverlayGUI($create_id);
-            $overlay->setTrigger($list_id . "_create");
-            $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
-            $overlay->setAutoHide(false);
-            $overlay->add();
-
             $this->tpl->setCurrentBlock("template_editor");
             $this->tpl->setVariable("TEMPLATE_CREATE_ID", $create_id);
             $this->tpl->setVariable("TXT_TEMPLATE_CREATE", $lng->txt("tbl_template_create"));
@@ -1900,20 +1890,48 @@ class ilTable2GUI extends ilTableGUI
             $this->tpl->parseCurrentBlock();
 
             // load saved template
-            $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId($list_id);
-            $alist->addItem($lng->txt("tbl_template_create"), "create", "#");
+            $actions = [];
+            $actions[] = $ui_factory->button()->shy(
+                $lng->txt("tbl_template_create"),
+                ""
+            )->withOnLoadCode(static function ($id) use ($list_id) {
+                return "document.getElementById('$id').id = '" . $list_id . "_create';";
+            });
             if (count($templates) > 0) {
-                $alist->addItem($lng->txt("tbl_template_delete"), "delete", "#");
+                $actions[] = $ui_factory->button()->shy(
+                    $lng->txt("tbl_template_delete"),
+                    ""
+                )->withOnLoadCode(static function ($id) use ($list_id) {
+                    return "document.getElementById('$id').id = '" . $list_id . "_delete';";
+                });
                 foreach ($templates as $name) {
                     $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", urlencode($name));
-                    $alist->addItem($name, $name, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+                    $actions[] = $ui_factory->link()->standard(
+                        $name,
+                        $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
+                    );
                     $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", "");
                 }
             }
-            $alist->setListTitle($lng->txt("tbl_templates"));
-            $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
-            $this->tpl->setVariable("TEMPLATE_SELECTOR", "&nbsp;" . $alist->getHTML());
+            $dd = $ui_factory->dropdown()->standard(
+                $actions
+            )->withLabel($lng->txt("tbl_templates"));
+            $this->tpl->setVariable("TEMPLATE_SELECTOR", "&nbsp;" . $ui_renderer->render($dd));
+
+            // form to save new template
+            $overlay = new ilOverlayGUI($create_id);
+            $overlay->setTrigger($list_id . "_create");
+            $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
+            $overlay->setAutoHide(false);
+            $overlay->add();
+
+            if (count($templates) > 0) {
+                $overlay = new ilOverlayGUI($delete_id);
+                $overlay->setTrigger($list_id . "_delete");
+                $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
+                $overlay->setAutoHide(false);
+                $overlay->add();
+            }
         }
 
         if ($footer) {
@@ -1970,9 +1988,8 @@ class ilTable2GUI extends ilTableGUI
                     is_object($ilUser) &&
                     $this->getId() &&
                     !$this->rows_selector_off) { // JF, 2014-10-27
-                    $alist = new ilAdvancedSelectionListGUI();
-                    $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
-                    $alist->setId("sellst_rows_" . $this->getId());
+                    $actions = [];
+
                     $hpp = ($ilUser->getPref("hits_per_page") != 9999)
                         ? $ilUser->getPref("hits_per_page")
                         : $lng->txt("no_limit");
@@ -1982,26 +1999,32 @@ class ilTable2GUI extends ilTableGUI
                                      100 => 100, 200 => 200, 400 => 400, 800 => 800);
                     foreach ($options as $k => $v) {
                         $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_trows", $k);
-                        $alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+                        $actions[] = $ui_factory->link()->standard(
+                            $v,
+                            $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
+                        );
                         $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_trows", "");
                     }
-                    $alist->setListTitle($this->getRowSelectorLabel() ?: $lng->txt("rows"));
-                    $this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
+                    $dd = $ui_factory->dropdown()->standard($actions)->withLabel(
+                        $this->getRowSelectorLabel() ?: $lng->txt("rows")
+                    );
+                    $this->tpl->setVariable("ROW_SELECTOR", $ui_renderer->render($dd));
                 }
 
                 // export
                 if (count($this->export_formats) > 0 && $this->dataExists()) {
-                    $alist = new ilAdvancedSelectionListGUI();
-                    $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
-                    $alist->setId("sellst_xpt");
+                    $actions = [];
                     foreach ($this->export_formats as $format => $caption_lng_id) {
                         $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_xpt", $format);
                         $url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd);
                         $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_xpt", "");
-                        $alist->addItem($lng->txt($caption_lng_id), $format, $url);
+                        $actions[] = $ui_factory->link()->standard(
+                            $lng->txt($caption_lng_id),
+                            $url
+                        );
                     }
-                    $alist->setListTitle($lng->txt("export"));
-                    $this->tpl->setVariable("EXPORT_SELECTOR", "&nbsp;" . $alist->getHTML());
+                    $dd = $ui_factory->dropdown()->standard($actions)->withLabel($lng->txt("export"));
+                    $this->tpl->setVariable("EXPORT_SELECTOR", "&nbsp;" . $ui_renderer->render($dd));
                 }
 
                 $this->tpl->setCurrentBlock("top_navigation");
