@@ -1360,6 +1360,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
+        $ui_factory = $this->ui->factory();
+        $ui_renderer = $this->ui->renderer();
 
         $wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 
@@ -1428,16 +1430,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             // actions
             $posting_edit = $this->mayEditPosting($item["id"], $item["author"]);
             if (($posting_edit || $is_admin) && !$a_link_template && $a_cmd === "preview") {
-                $alist = new ilAdvancedSelectionListGUI();
-                $alist->setId($item["id"]);
-                $alist->setListTitle($lng->txt("actions"));
+                $actions = [];
 
                 if ($is_active && $this->object->hasApproval() && !$item["approved"]) {
                     if ($is_admin) {
                         $ilCtrl->setParameter($this, "apid", $item["id"]);
-                        $alist->addItem(
+                        $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_approve"),
-                            "approve",
                             $ilCtrl->getLinkTarget($this, "approve")
                         );
                         $ilCtrl->setParameter($this, "apid", "");
@@ -1447,73 +1446,67 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
 
                 if ($posting_edit) {
-                    $alist->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("edit_content"),
-                        "edit",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit")
                     );
                     $more_link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
 
                     // #11858
                     if ($is_active) {
-                        $alist->addItem(
+                        $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_toggle_draft"),
-                            "deactivate",
                             $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deactivatePageToList")
                         );
                     } else {
-                        $alist->addItem(
+                        $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_toggle_final"),
-                            "activate",
                             $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "activatePageToList")
                         );
                     }
 
-                    $alist->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("rename"),
-                        "rename",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle")
                     );
 
                     if ($this->object->hasKeywords()) { // #13616
-                        $alist->addItem(
+                        $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_edit_keywords"),
-                            "keywords",
                             $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords")
                         );
                     }
 
-                    $alist->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("blog_edit_date"),
-                        "editdate",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate")
                     );
-                    $alist->addItem(
+
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("delete"),
-                        "delete",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen")
                     );
                 } elseif ($is_admin) {
                     // #10513
                     if ($is_active) {
                         $ilCtrl->setParameter($this, "apid", $item["id"]);
-                        $alist->addItem(
+                        $actions[] = $ui_factory->link()->standard(
                             $lng->txt("blog_toggle_draft_admin"),
-                            "deactivate",
                             $ilCtrl->getLinkTarget($this, "deactivateAdmin")
                         );
                         $ilCtrl->setParameter($this, "apid", "");
                     }
 
-                    $alist->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("delete"),
-                        "delete",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen")
                     );
                 }
 
+                $dd = $ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+
                 $wtpl->setCurrentBlock("actions");
-                $wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
+                $wtpl->setVariable("ACTION_SELECTOR", $ui_renderer->render($dd));
                 $wtpl->parseCurrentBlock();
             }
 

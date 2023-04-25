@@ -542,7 +542,7 @@ class ilGlossaryTerm
         while ($term_rec = $ilDB->fetchAssoc($term_set)) {
             $terms[] = array("term" => $term_rec["term"],
                 "language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"],
-                "short_text" => strip_tags($term_rec["short_text"], "<br>"),
+                "short_text" => strip_tags((string) $term_rec["short_text"], "<br>"),
                 "short_text_dirty" => $term_rec["short_text_dirty"]);
             $glo_ids[] = $term_rec["glo_id"];
         }

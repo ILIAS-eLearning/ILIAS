@@ -23,6 +23,7 @@
  */
 class ilTermListTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Glossary\InternalGUIService $gui;
     protected array $selected_cols;
     protected array $adv_cols_order;
     protected array $selectable_cols;
@@ -100,7 +101,7 @@ class ilTermListTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("obj_glo"));
         }
 
-        $this->addColumn("", "", "1");
+        $this->addColumn($this->lng->txt("actions"), "", "1");
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -125,6 +126,9 @@ class ilTermListTableGUI extends ilTable2GUI
             false,
             true
         ));
+        $this->gui = $DIC->glossary()
+            ->internal()
+            ->gui();
     }
 
     public function showGlossaryColumn(): bool
@@ -177,6 +181,9 @@ class ilTermListTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
+
         $term_id = $a_set["id"];
         $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $term_id);
         $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term_id);
@@ -189,17 +196,24 @@ class ilTermListTableGUI extends ilTable2GUI
             $this->term_perm->checkPermission("edit_content", $term_id)) {
             if (ilGlossaryTerm::_lookGlossaryID($term_id) == $this->glossary->getId() ||
                 ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $term_id)) {
-                $list = new ilAdvancedSelectionListGUI();
-                $list->addItem($this->lng->txt("cont_edit_term"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+                $actions = [];
+
+                $actions[] = $ui_factory->link()->standard(
+                    $this->lng->txt("cont_edit_term"),
+                    $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm")
+                );
                 $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term_id);
-                $list->addItem($this->lng->txt("cont_edit_definition"), "", $this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
-                    "iltermdefinitioneditorgui",
-                    "ilglossarydefpagegui"), "edit"));
+                $actions[] = $ui_factory->link()->standard(
+                    $this->lng->txt("cont_edit_definition"),
+                    $this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
+                                                            "iltermdefinitioneditorgui",
+                                                            "ilglossarydefpagegui"), "edit")
+                );
                 $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", "");
 
-                $list->setId("act_term_" . $term_id);
-                $list->setListTitle($this->lng->txt("actions"));
-                $this->tpl->setVariable("ACTIONS", $list->getHTML());
+                $dd = $ui_factory->dropdown()->standard($actions);
+
+                $this->tpl->setVariable("ACTIONS", $ui_renderer->render($dd));
             }
         }
 
