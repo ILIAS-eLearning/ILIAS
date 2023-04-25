@@ -1,4 +1,4 @@
-class data {
+class Data {
 
     #jquery;
     #params;
@@ -42,8 +42,8 @@ class data {
      * @param array row_ids
      */
     doAction(table_id, signal_data, row_ids) {
-        let act_id = signal_data.options.action;
-        let action = this.actions_registry[table_id][act_id];
+        const act_id = signal_data.options.action;
+        const action = this.actions_registry[table_id][act_id];
         let target;
 
         if(action.type === 'URL') {
@@ -67,17 +67,17 @@ class data {
      * @param node originator
      */
     doActionForAll(table_id, originator) {
-        let actions = this.actions_registry[table_id];
-        let modal_content = originator.parentNode.parentNode;
-        let modal_close = modal_content.getElementsByClassName('close')[0];
-        let selected_action = modal_content
+        const actions = this.actions_registry[table_id];
+        const modal_content = originator.parentNode.parentNode;
+        const modal_close = modal_content.getElementsByClassName('close')[0];
+        const selected_action = modal_content
             .getElementsByClassName('modal-body')[0]
             .getElementsByTagName('select')[0].value;
 
         if(selected_action in actions) {
             let signal_data = {options : {action : selected_action}};
             modal_close.click();
-            doAction(table_id, signal_data, ['ALL_OBJECTS']) ;
+            this.doAction(table_id, signal_data, ['ALL_OBJECTS']) ;
         }
     }
 
@@ -85,11 +85,12 @@ class data {
      * @param string table_id
      */
     collectSelectedRowIds(table_id) {
-        let table = document.getElementById(table_id);
-        let cols = table.getElementsByClassName('c-table-data__row-selector');
-        let ret = [];
+        const table = document.getElementById(table_id);
+        const cols = table.getElementsByClassName('c-table-data__row-selector');
+        const ret = [];
         let col;
         let i = 0;
+
         for(i; i < cols.length; i = i + 1) {
             col = cols[i];
             if(col.checked) {
@@ -104,10 +105,10 @@ class data {
      * @param bool state
      */
     selectAll(table_id, state) {
-        let table = document.getElementById(table_id);
-        let cols = table.getElementsByClassName('c-table-data__row-selector');
-        let selector_all = table.getElementsByClassName('c-table-data__selection_all')[0];
-        let selector_none = table.getElementsByClassName('c-table-data__selection_none')[0];
+        const table = document.getElementById(table_id);
+        const cols = table.getElementsByClassName('c-table-data__row-selector');
+        const selector_all = table.getElementsByClassName('c-table-data__selection_all')[0];
+        const selector_none = table.getElementsByClassName('c-table-data__selection_none')[0];
         let col;
         let i = 0;
         
@@ -124,6 +125,6 @@ class data {
         }
     }
 }
-export default data;
+export default Data;
 
 

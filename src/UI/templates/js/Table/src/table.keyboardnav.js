@@ -1,23 +1,28 @@
-class keyboardnav {
-    keys = {
-        ESC: 27,
-        SPACE: 32,
-        PAGE_UP: 33,
-        PAGE_DOWN: 34,
-        END: 35,
-        HOME: 36,
-        LEFT: 37,
-        UP: 38,
-        RIGHT: 39,
-        DOWN: 40
-    };
-    supported_keys = [ 
-        this.keys.LEFT,
-        this.keys.RIGHT, 
-        this.keys.UP, 
-        this.keys.DOWN
-    ];
-     
+class Keyboardnav {
+    #keys;
+    #supported_keys;
+
+     constructor() {
+        this.keys = {
+            ESC: 27,
+            SPACE: 32,
+            PAGE_UP: 33,
+            PAGE_DOWN: 34,
+            END: 35,
+            HOME: 36,
+            LEFT: 37,
+            UP: 38,
+            RIGHT: 39,
+            DOWN: 40
+        };
+        this.supported_keys = [ 
+            this.keys.LEFT,
+            this.keys.RIGHT, 
+            this.keys.UP, 
+            this.keys.DOWN
+        ];
+    }
+
     /**
      * @param Event event
      * @param keyboardnav _self
@@ -28,9 +33,9 @@ class keyboardnav {
             return;
         }
 
-        let cell = event.target.closest('td, th');
-        let row = cell.closest('tr');
-        let table = row.closest('table');
+        const cell = event.target.closest('td, th');
+        const row = cell.closest('tr');
+        const table = row.closest('table');
         let cell_index = cell.cellIndex;
         let row_index = row.rowIndex;
 
@@ -59,7 +64,7 @@ class keyboardnav {
     }
 
     focusCell(table, cell, row_index, cell_index) {
-        let next_cell = table.rows[row_index].cells[cell_index];
+        const next_cell = table.rows[row_index].cells[cell_index];
         next_cell.focus();
         cell.setAttribute('tabindex', -1);
         next_cell.setAttribute('tabindex', 0);
@@ -74,4 +79,4 @@ class keyboardnav {
 
 }
 
-export default keyboardnav;
+export default Keyboardnav;

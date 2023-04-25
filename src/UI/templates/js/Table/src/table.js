@@ -1,14 +1,14 @@
 import il from 'il';
 import $ from 'jquery';
-import params from './params.js';
-import data from './table.data.js';
-import keyboardnav from './table.keyboardnav.js';
+import Params from './params.js';
+import Data from './table.data.js';
+import Keyboardnav from './table.keyboardnav.js';
 
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
 
-il.UI.table.data = new data(
-	$,
-	new params(),
-	new keyboardnav()
+il.UI.table.data = new Data(
+    $,
+    new Params(),
+    new Keyboardnav()
 );
