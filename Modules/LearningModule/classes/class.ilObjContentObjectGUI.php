@@ -1013,6 +1013,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             ->editing()
             ->request();
 
+        $ui_renderer = $DIC->ui()->renderer();
+        $ui_factory = $DIC->ui()->factory();
+
         $requested_transl = $edit_request->getTranslation();
         $requested_totransl = $edit_request->getToTranslation();
 
@@ -1028,17 +1031,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
             $ml_head = $ml_gui->getMultiLangInfo($requested_transl);
 
+            $actions = [];
+
             // language switch
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setListTitle($lng->txt("actions"));
-            $list->setId("copage_act");
             $entries = false;
             if (!in_array($requested_transl, array("", "-"))) {
                 $l = $ot->getMasterLanguage();
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("cont_edit_language_version") . ": " .
                     $lng->txt("meta_l_" . $l),
-                    "",
                     $ilCtrl->getLinkTarget($a_gui_class, "editMasterLanguage")
                 );
                 $entries = true;
@@ -1048,10 +1049,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 if ($requested_transl != $al &&
                     $al != $ot->getMasterLanguage()) {
                     $ilCtrl->setParameter($a_gui_class, "totransl", $al);
-                    $list->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("cont_edit_language_version") . ": " .
                         $lng->txt("meta_l_" . $al),
-                        "",
                         $ilCtrl->getLinkTarget($a_gui_class, "switchToLanguage")
                     );
                     $ilCtrl->setParameter($a_gui_class, "totransl", $requested_totransl);
@@ -1060,7 +1060,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             }
 
             if ($entries) {
-                $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $list->getHTML() . "</div>";
+                $dd = $ui_factory->dropdown()->standard($actions)->withLabel($lng->txt("actions"));
+
+                $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $ui_renderer->render($dd) . "</div>";
             }
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", "");
         }

@@ -206,7 +206,7 @@ class ilRatingGUI
                     }
 
                     $ttpl->setCurrentBlock("rating_link_simple");
-                    if (stristr($a_onclick, "%rating%")) {
+                    if (stristr((string) $a_onclick, "%rating%")) {
                         $url_save = "#";
                     } else {
                         $ilCtrl->setParameter($this, "rating", $i);
@@ -252,7 +252,7 @@ class ilRatingGUI
                     $ttpl->setCurrentBlock("rating_simple_del_bl");
                     $ttpl->setVariable("CAPTION_RATING_DEL", $lng->txt("rating_remove"));
 
-                    if (stristr($a_onclick, "%rating%")) {
+                    if (stristr((string) $a_onclick, "%rating%")) {
                         $url_save = "#";
                     } else {
                         $ilCtrl->setParameter($this, "rating", 0);
