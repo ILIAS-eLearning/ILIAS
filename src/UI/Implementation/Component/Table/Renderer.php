@@ -292,7 +292,8 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            if ($col->isSortable() && $request) {
+
+            if ($col->isSortable() && ! is_null($request)) {
                 $uri = (string)$this->getDataFactory()->uri($request->getUri()->__toString())
                     ->withParameter(self::TABLE_DEMO_ORDER_FIELD, $col_id)
                     ->withParameter(self::TABLE_DEMO_ORDER_DIRECTION, $param_sort_direction);
@@ -307,8 +308,8 @@ class Renderer extends AbstractComponentRenderer
                     $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
                 }
             }
-            $tpl->setVariable('COL_TITLE', $col_title);
 
+            $tpl->setVariable('COL_TITLE', $col_title);
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
         }

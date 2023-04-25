@@ -71,17 +71,6 @@ class DTRenderer extends I\Table\Renderer
  */
 class DataRendererTest extends ILIAS_UI_TestBase
 {
-    public function setUp(): void
-    {
-        //This avoids various index not set warnings, which are only relevant in test context.
-        $_SERVER["REQUEST_SCHEME"] = "http";
-        $_SERVER["SERVER_NAME"] = "localhost";
-        $_SERVER["SERVER_PORT"] = "80";
-        $_SERVER["REQUEST_URI"] = "";
-        $_SERVER['SCRIPT_NAME'] = "";
-        $_SERVER['QUERY_STRING'] = "param=1";
-    }
-
     private function getRenderer()
     {
         return new DTRenderer(
@@ -225,6 +214,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
     public function testDataTableRenderTableHeader()
     {
         $renderer = $this->getRenderer();
+        $data_factory = new \ILIAS\Data\Factory();
         $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
         $f = $this->getColumnFactory();
         $data = new class () extends I\Table\DataRetrieval {
@@ -245,7 +235,15 @@ class DataRendererTest extends ILIAS_UI_TestBase
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $request = $this->createMock(ServerRequestInterface::class);
-        $order = (new \ILIAS\Data\Factory())->order('f1', \ILIAS\Data\Order::ASC);
+        $request->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+
+        $order = $data_factory->order('f1', \ILIAS\Data\Order::ASC);
         $table = $this->getUIFactory()->table()->data('', $columns, $data)
             ->withRequest($request);
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $order);
