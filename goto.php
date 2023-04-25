@@ -29,9 +29,6 @@ $requested_target = $DIC->http()->wrapper()->query()->has("target")
     )
     : '';
 
-// special handling for direct navigation request
-$nav_hist = new ilNavigationHistoryGUI();
-$nav_hist->handleNavigationRequest();
 
 // store original parameter before plugin slot may influence it
 $orig_target = $requested_target;
