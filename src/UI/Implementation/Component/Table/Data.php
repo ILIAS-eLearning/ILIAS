@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -42,14 +43,13 @@ class Data extends Table implements T\Data, JSBindable
     protected $columns = [];
 
     /**
-     * @var array <string, Action>
+     * @var array<string, Action>
      */
     protected $actions = [];
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
     protected ?ServerRequestInterface $request = null;
-
     protected int $number_of_rows = 800;
     protected array $selected_optional_column_ids = [];
     protected Range $range;
@@ -73,21 +73,41 @@ class Data extends Table implements T\Data, JSBindable
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
 
-        $idx = 0;
-        foreach ($columns as $id => $col) {
-            $this->columns[$id] = $col->withIndex($idx++);
-        }
-
-        $this->selected_optional_column_ids = array_keys(array_filter(
-            $columns,
-            static fn ($c): bool => $c->isInitiallyVisible()
-        ));
-
+        $this->columns = $this->enumerateColumns($columns);
+        $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
         $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);
         $this->range = $data_factory->range(0, $this->number_of_rows);
     }
 
-    protected function initialOrder(): string
+    /**
+     * @param array<string, Column>
+     * @return string[]
+     */
+    private function enumerateColumns(array $columns): array
+    {
+        $ret = [];
+        $idx = 0;
+        foreach ($columns as $id => $col) {
+            $ret[$id] = $col->withIndex($idx++);
+        }
+        return $ret;
+    }
+
+    /**
+     * @param array<string, Column>
+     * @return array<string>
+     */
+    private function filterVisibleColumnIds(array $columns): array
+    {
+        return array_keys(
+            array_filter(
+                $columns,
+                static fn ($c): bool => $c->isInitiallyVisible()
+            )
+        );
+    }
+
+    private function initialOrder(): string
     {
         $visible_cols = $this->getVisibleColumns();
         $sortable_visible_cols = array_filter(

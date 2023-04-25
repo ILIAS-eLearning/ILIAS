@@ -31,7 +31,7 @@ use ILIAS\Data\Range;
 interface Data extends Table
 {
     /**
-     * @param array <string, Action>    $actions
+     * @param array<string, Action\Action>    $actions
      */
     public function withActions(array $actions): self;
 
@@ -52,6 +52,7 @@ interface Data extends Table
      * Not all columns are neccessarily visible; "selected optional" is the
      * positive list of shown columns (the non-optional columns are always shown
      * and are not included here)
+     * @param string[]  $selected_optional_column_ids
      */
     public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
 

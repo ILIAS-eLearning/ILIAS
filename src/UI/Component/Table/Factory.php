@@ -181,7 +181,7 @@ interface Factory
      *
      * ---
      * @param string     $title
-     * @param array <string, Column>     $columns
+     * @param array<string, Column\Column>     $columns
      * @return \ILIAS\UI\Component\Table\Data
      */
     public function data(

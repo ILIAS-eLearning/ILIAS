@@ -30,6 +30,14 @@ use ILIAS\Data\Order;
 class Renderer extends AbstractComponentRenderer
 {
     /**
+     * The parameters for ordering will be removed as soon as ViewControls
+     * are available for the Table. DO NOT USE THEM.
+     * This is purely to demonstrate column-ordering already.
+     */
+    private const TABLE_DEMO_ORDER_FIELD = 'tsort_f';
+    private const TABLE_DEMO_ORDER_DIRECTION = 'tsort_d';
+
+    /**
      * @inheritdoc
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
@@ -238,10 +246,10 @@ class Renderer extends AbstractComponentRenderer
         if ($request = $component->getRequest()) {
             $params = [];
             parse_str($request->getUri()->getQuery(), $params);
-            if (array_key_exists('tsort_f', $params) && array_key_exists('tsort_d', $params)
-                && array_key_exists($params['tsort_f'], $component->getVisibleColumns())
+            if (array_key_exists(self::TABLE_DEMO_ORDER_FIELD, $params) && array_key_exists(self::TABLE_DEMO_ORDER_DIRECTION, $params)
+                && array_key_exists($params[self::TABLE_DEMO_ORDER_FIELD], $component->getVisibleColumns())
             ) {
-                $order = $df->order($params['tsort_f'], $params['tsort_d']);
+                $order = $df->order($params[self::TABLE_DEMO_ORDER_FIELD], $params[self::TABLE_DEMO_ORDER_DIRECTION]);
             }
         }
         //END TODO: Viewcontrols, Filter
@@ -265,6 +273,8 @@ class Renderer extends AbstractComponentRenderer
         $sort_direction = current($order->get());
         $columns = $component->getVisibleColumns();
 
+        $request = $component->getRequest();
+
         foreach ($columns as $col_id => $col) {
             $param_sort_direction = Order::ASC;
             $col_title = $col->getTitle();
@@ -282,12 +292,10 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            if ($col->isSortable()) {
-                $uri = (string)$this->getDataFactory()->uri(
-                    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']
-                )
-                ->withParameter('tsort_f', $col_id)
-                ->withParameter('tsort_d', $param_sort_direction);
+            if ($col->isSortable() && $request) {
+                $uri = (string)$this->getDataFactory()->uri($request->getUri()->__toString())
+                    ->withParameter(self::TABLE_DEMO_ORDER_FIELD, $col_id)
+                    ->withParameter(self::TABLE_DEMO_ORDER_DIRECTION, $param_sort_direction);
 
                 $col_title = $default_renderer->render(
                     $this->getUIFactory()->button()->shy($col_title, $uri)

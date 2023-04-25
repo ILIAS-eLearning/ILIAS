@@ -28,7 +28,9 @@ class DataRow implements T\DataRow
     use ComponentHelper;
 
     /**
-     * @var mixed[]
+     * The records's key is the column-id of the table.
+     * Its value will be formatted by the respective colum type's format-method.
+     * @var array<string, mixed>
      */
     public $record;
 

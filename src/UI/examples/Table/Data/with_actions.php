@@ -8,6 +8,8 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\Data\URI;
+use Psr\Http\Message\ServerRequestInterface;
 
 function with_actions()
 {
@@ -15,7 +17,7 @@ function with_actions()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $ctrl = $DIC['ilCtrl'];
-
+    $request = $DIC->http()->request();
 
     // This is what the table will look like
     $columns = [
@@ -39,9 +41,9 @@ function with_actions()
 
     $actions = [
         //never in multi actions
-        'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL('table_action=edit')),
+        'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL($request, 'table_action=edit')),
         //never in single row
-        'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL('table_action=compare')),
+        'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL($request, 'table_action=compare')),
         //in both
         'delete' => $f->table()->action()->standard('delete', 'ids', $signal)
     ];
@@ -91,7 +93,6 @@ function with_actions()
         ->withActions($actions);
 
     //apply request and render
-    $request = $DIC->http()->request();
     $out = [
         $modal,
         $table->withRequest($request)
@@ -113,16 +114,10 @@ function with_actions()
     return $r->render($out);
 }
 
-function buildDemoURL($param)
+function buildDemoURL(ServerRequestInterface $request, string $param): URI
 {
     $df = new \ILIAS\Data\Factory();
-    $url = $df->uri(
-        $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME']
-        . ':' . $_SERVER['SERVER_PORT']
-        . $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']
-        . '&' . $param
-    );
-    return $url;
+    return $df->uri($request->getUri()->__toString() . '&' . $param);
 }
 
 function getSomeExampleModal($factory, $ctrl)

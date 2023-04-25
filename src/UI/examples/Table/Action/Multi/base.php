@@ -15,11 +15,7 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
-    $here_uri = $df->uri(
-        $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME']
-        . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']
-    );
-
+    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
 
     //define multi actions for the table
     $actions = [
