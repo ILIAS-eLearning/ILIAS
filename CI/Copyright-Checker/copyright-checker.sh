@@ -63,10 +63,19 @@ function is_copyright_valid() {
   local offset=1
 
   # since PSR-12 the php files will contain the copyright license as
-  # document-level comment, which starts on line 3.
+  # document-level comment, which starts regular on line 3.
+  # But also look at line 4 and 5 if a declare(strict_types=1) is in place.
   if [ "php" = "${file_extension}" ]; then
-    offset=3
-  fi
+      offset=3
+      for i in 3 4
+      do
+        local line_to_check="$(sed "${offset}q;d" "${file}")"
+        if [[ "${line_to_check}" != "/**" ]]; then
+              offset=$((1 + ${offset}))
+              continue
+        fi
+      done
+    fi
 
   for copyright_line in "${COPYRIGHT_LINES[@]}"; do
     local line_to_check="$(sed "${offset}q;d" "${file}")"
