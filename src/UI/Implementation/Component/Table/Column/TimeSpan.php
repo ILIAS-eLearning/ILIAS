@@ -21,9 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\Data\DateFormat\DateFormat;
 
-class TimeSpan extends Date implements C\TimeSpan
+class TimeSpan extends Column implements C\TimeSpan
 {
+    public function __construct(string $title, protected DateFormat $format)
+    {
+        parent::__construct($title);
+    }
+
+    public function getFormat(): DateFormat
+    {
+        return $this->format;
+    }
+
     public function format($value): string
     {
         assert(is_array($value));

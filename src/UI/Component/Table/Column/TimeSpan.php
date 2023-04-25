@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Column;
 
-interface TimeSpan extends Date
+use ILIAS\Data\DateFormat\DateFormat;
+
+interface TimeSpan extends Column
 {
+    public function getFormat(): DateFormat;
 }
