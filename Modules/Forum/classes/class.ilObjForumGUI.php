@@ -202,9 +202,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if ($subtree_nodes !== [] && $this->objCurrentPost->getId() > 0) {
-            $isCurrentPostingInPage = array_filter($pagedPostings, function (ilForumPost $posting): bool {
-                return $posting->getId() === $this->objCurrentPost->getId();
-            });
+            $isCurrentPostingInPage = array_filter($pagedPostings, fn (ilForumPost $posting): bool => (
+                $posting->getId() === $this->objCurrentPost->getId()
+            ));
 
             if ([] === $isCurrentPostingInPage) {
                 $pageOfCurrentPosting = 0;
@@ -2885,13 +2885,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function checkUsersViewMode(): void
     {
         $this->selectedSorting = $this->objProperties->getDefaultView();
+        $view_mode = 'viewmode_' . $this->getObject()->getId();
 
-        if (in_array((int) ilSession::get('viewmode'), [
+        if (in_array((int) ilSession::get($view_mode), [
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ], true)) {
-            $this->selectedSorting = ilSession::get('viewmode');
+            $this->selectedSorting = ilSession::get($view_mode);
         }
 
         if (
@@ -2909,7 +2910,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->selectedSorting = $this->objProperties->getDefaultView();
         }
 
-        ilSession::set('viewmode', $this->selectedSorting);
+        ilSession::set($view_mode, $this->selectedSorting);
     }
 
     public function resetLimitedViewObject(): void

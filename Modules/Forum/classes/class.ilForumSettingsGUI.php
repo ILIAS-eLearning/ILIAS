@@ -323,8 +323,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         // BUGFIX FOR 11271
 
-        if (ilSession::get('viewmode')) {
-            ilSession::set('viewmode', $default_view);
+        $view_mode = 'viewmode_' . $this->parent_obj->getObject()->getId();
+        if (ilSession::get($view_mode)) {
+            ilSession::set($view_mode, $default_view);
         }
 
         if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
