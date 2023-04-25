@@ -248,14 +248,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     $this->tpl->setContent($out);
                 }
                 break;
-
-            case "ilcontainerstartobjectspagegui":
-                $pgui = new ilContainerStartObjectsPageGUI($this->object->getId());
-                $ret = $this->ctrl->forwardCommand($pgui);
-                if ($ret) {
-                    $this->tpl->setContent($ret);
-                }
-                break;
             case "ilobjstylesheetgui":
                 $this->forwardToStyleSheet();
                 break;
