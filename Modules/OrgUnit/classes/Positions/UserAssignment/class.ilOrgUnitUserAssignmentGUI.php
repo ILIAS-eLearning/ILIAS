@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -81,6 +82,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
                         break;
                     default:
                         $repo = new ilRepositorySearchGUI();
+                        $repo->setCallback($this, 'addStaffFromSearch');
                         $this->ctrl->forwardCommand($repo);
                         break;
                 }
@@ -234,7 +236,36 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
-        $position_id = (int) $_POST['user_type'] ?? 0;
+        $position_id = (int) ($_POST['user_type'] ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+        if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+        foreach ($user_ids as $user_id) {
+            $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt("users_successfuly_added"), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
+    }
+
+    /**
+     * @param array<int> $user_ids
+     */
+    public function addStaffFromSearch(array $user_ids, ?string $user_type = null): void
+    {
+        if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+
+        if (!count($user_ids)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+
+        $position_id = (int) ($user_type ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
