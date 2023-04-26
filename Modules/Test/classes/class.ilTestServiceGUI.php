@@ -805,7 +805,7 @@ class ilTestServiceGUI
             $uname = $this->lng->txt('anonymous');
         }
 
-        if ((($this->testrequest->isset('pass')) && (strlen($this->testrequest->raw("pass")) > 0)) || (!is_null($pass))) {
+        if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass))) {
             if (is_null($pass)) {
                 $pass = $_GET["pass"];
             }
