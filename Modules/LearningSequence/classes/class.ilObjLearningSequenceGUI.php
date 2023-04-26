@@ -887,7 +887,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function showPossibleSubObjects(): void
     {
-        parent::showPossibleSubObjects();
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
     }
 
     /**
