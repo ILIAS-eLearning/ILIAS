@@ -769,7 +769,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $this->ctrl->redirect($this, "originalSyncForm");
             } elseif ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
-                #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     global $DIC;
@@ -777,22 +776,20 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $ilDB = $DIC['ilDB'];
                     $component_repository = $DIC['component.repository'];
 
-                    $_GET["ref_id"] = $this->request->raw("calling_test");
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
-                    $new_id = $test->insertQuestion(
+                    $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
-                        $this->object->getId()
+                        $this->object->getId(),
+                        true
                     );
 
-                    $q_id = $new_id;
                     if ($this->request->isset('prev_qid')) {
-                        $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
+                        $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
                     }
 
-                    $this->ctrl->setParameter($this, 'q_id', $new_id);
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
