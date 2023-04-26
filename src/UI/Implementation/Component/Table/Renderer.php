@@ -26,6 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\Order;
+use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -173,8 +174,14 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
+        $js_action_consts = json_encode([
+            Action::TYPE_URL, Action::TYPE_SIGNAL, Action::OPT_OPTIONS, Action::OPT_ID
+        ]);
         $component = $component->withAdditionalOnLoadCode(
-            static fn ($id): string => "il.UI.table.data.initKeyboardNavigation('{$id}');"
+            static fn ($id): string => "
+                il.UI.table.data.initActionConstants($js_action_consts);
+                il.UI.table.data.initKeyboardNavigation('{$id}');
+            "
         );
         if ($component->hasMultiActions()) {
             $component = $component->withAdditionalOnLoadCode(
@@ -329,9 +336,6 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    /**
-     * @param Row[] $rows
-     */
     protected function appendTableRows(
         Template $tpl,
         \Generator $rows,
@@ -348,10 +352,13 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
+    /**
+     * @param array<string, Action> $actions
+     */
     protected function buildMultiActionsAllObjectsModal(
         array $actions,
         string $table_id
-    ): \ILIAS\UI\Component\Modal\Roundtrip {
+    ): \ILIAS\UI\Component\Modal\RoundTrip {
         $f = $this->getUIFactory();
         $msg = $f->legacy('<b>careful</b> - operation on ALL objects<hr>');
 
@@ -373,6 +380,9 @@ class Renderer extends AbstractComponentRenderer
         return $modal;
     }
 
+    /**
+     * @param array<string, Action> $actions
+     */
     protected function buildMultiActionsDropdown(
         array $actions,
         Component\Signal $action_signal,
@@ -422,17 +432,17 @@ class Renderer extends AbstractComponentRenderer
 
     protected function getActionRegistration(
         string $action_id,
-        Component\Table\Action\Action $action
+        Action $action
     ): \Closure {
         $parameter_name = $action->getParameterName();
         $target = $action->getTarget();
-        $type = 'URL';
+        $type = Action::TYPE_URL;
 
         if ($target instanceof Component\Signal) {
-            $type = 'SIGNAL';
+            $type = Action::TYPE_SIGNAL;
             $target = json_encode([
-                'id' => $target->getId(),
-                'options' => $target->getOptions()
+                Action::OPT_ID => $target->getId(),
+                Action::OPT_OPTIONS => $target->getOptions()
             ]);
         }
 
@@ -473,6 +483,9 @@ class Renderer extends AbstractComponentRenderer
         return $cell_tpl->get();
     }
 
+    /**
+     * @param array<string, Action> $actions
+     */
     protected function getSingleActionsForRow(string $row_id, array $actions): \ILIAS\UI\Component\Dropdown\Standard
     {
         $f = $this->getUIFactory();

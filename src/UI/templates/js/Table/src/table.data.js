@@ -3,13 +3,31 @@ class Data {
     #jquery;
     #params;
     #kbnav;
+    #actions_constants;
     #actions_registry;
     
     constructor(jquery, params, kbnav) {
         this.jquery = jquery;
         this.params = params;
         this.kbnav = kbnav;
+        this.actions_constants = {};
         this.actions_registry = {};
+    }
+
+    /**
+     * @param string[] consts
+     */
+    initActionConstants(consts) {
+        this.actions_constants = {
+            'type' : {
+                'url' : consts[0],
+                'signal' : consts[1]
+            },
+            'opt' : {
+                'mainkey' : consts[2],
+                'id' : consts[3]
+            },
+        };
     }
 
     /**
@@ -46,19 +64,16 @@ class Data {
         const action = this.actions_registry[table_id][act_id];
         let target;
 
-        if(action.type === 'URL') {
+        if(action.type === this.actions_constants.type.url) {
             target = this.params.amendParameterToUrl(action.target, action.param, row_ids);
             window.location.href = target;
         }
-        if(action.type === 'SIGNAL') {
+        if(action.type === this.actions_constants.type.signal) {
             target = this.params.amendParameterToSignal(action.target, action.param, row_ids);
-            $('#' + table_id).trigger(
-                target.id,
-                {
-                    'id': target.id,
-                    'options': target.options
-                }
-            );
+            let opts = {};
+            opts[this.actions_constants.opt.id] = target.id;
+            opts[this.actions_constants.opt.mainkey] = target.options;
+            $('#' + table_id).trigger(target.id, opts);
         }
     }
 

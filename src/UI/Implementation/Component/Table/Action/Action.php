@@ -28,6 +28,15 @@ use ILIAS\Data\URI;
 abstract class Action implements I\Action
 {
     use ComponentHelper;
+    /**
+     * JS needs to know about the type of an action
+     * and where to find the options (in case of signal)
+     * Theses constants are passed to il.UI.table.data.initActionConstant
+     */
+    public const TYPE_URL = 'URL';
+    public const TYPE_SIGNAL = 'SIGNAL';
+    public const OPT_OPTIONS = 'options';
+    public const OPT_ID = 'id';
 
     protected Signal|URI $target;
 
