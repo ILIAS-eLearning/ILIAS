@@ -84,8 +84,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
         if ($checkonly) {
-            $types = $_POST['types'] ?? 0;
-            return ($types == 0) ? true : false;
+            $types = $_POST['types'] ?? '0';
+            return $types === '0' ? true : false;
         }
 
         $lastChange = $this->object->getLastChange();
@@ -550,14 +550,18 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
+        $types = $_POST["types"] ?? '0';
+
         $this->object->setShuffle($_POST["shuffle"] ?? '0');
-        $this->object->setMultilineAnswerSetting($_POST["types"] ?? '0');
-        if (isset($_POST['choice']) && isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
+        $this->object->setMultilineAnswerSetting($types);
+
+        if (isset($_POST['choice']) && isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $types === '1') {
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
-            $this->object->setIsSingleline($_POST["types"] == 0 ? true : false);
+            $this->object->setIsSingleline($types === '0' ? true : false);
         }
+
         $this->object->setThumbSize(isset($_POST["thumb_size"]) ? (int) $_POST["thumb_size"] : null);
     }
 
