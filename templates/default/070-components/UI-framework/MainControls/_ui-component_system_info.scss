@@ -100,6 +100,14 @@ $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 1
     }
   }
 
+  // first parapgraph must inherit the 'display' property from the wrapper to be displayed correctly.
+  // SystemInfos consist of a headline and a body which are displayed immediately after each other (like "HEADLINE: BODY")
+  // since the body now can contain HTML, without this change the "body" would be displayed as a paragraph
+  // element below the headline.
+  p:first-child {
+    display: inherit;
+  }
+
   div.il-system-info-actions {
     font-size: $il-font-size-large;
     flex-grow: 0;
