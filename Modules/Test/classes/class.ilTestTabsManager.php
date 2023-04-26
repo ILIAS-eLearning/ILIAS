@@ -492,7 +492,7 @@ class ilTestTabsManager
             case "applyDefaults":
             case "inviteParticipants":
             case "searchParticipants":
-                if ($this->isWriteAccessGranted() && in_array($DIC->ctrl()->getCmdClass(), array('ilobjtestgui', 'ilcertificategui'))) {
+                if ($this->isWriteAccessGranted() && in_array(strtolower($DIC->ctrl()->getCmdClass()), array('ilobjtestgui', 'ilcertificategui'))) {
                     $this->getSettingsSubTabs();
                 }
                 break;
