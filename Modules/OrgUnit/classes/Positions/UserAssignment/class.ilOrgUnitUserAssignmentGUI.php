@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -195,14 +196,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->cancel();
     }
 
-    protected function deleteRecursive()
+    protected function deleteRecursive(): void
     {
         $r = $this->http->request();
         $assignments = $this->assignmentRepo
             ->getByUserAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id']);
 
         foreach ($assignments as $assignment) {
-            $this->assignmentRepo->delete($assignment->getId());
+            $this->assignmentRepo->delete($assignment);
         }
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
