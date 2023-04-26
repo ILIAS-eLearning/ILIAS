@@ -9624,51 +9624,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->template_id;
     }
 
-    public function moveQuestionAfterOLD($previous_question_id, $new_question_id)
-    {
-        $new_array = array();
-        $position = 1;
-
-        $query = 'SELECT question_fi  FROM tst_test_question WHERE test_fi = %s';
-        $types = array('integer');
-        $values = array($this->getTestId());
-
-        $new_question_id += 1;
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $inserted = false;
-        $res = $ilDB->queryF($query, $types, $values);
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $qid = $row['question_fi'];
-
-            if ($qid == $new_question_id) {
-                continue;
-            } elseif ($qid == $previous_question_id) {
-                $new_array[$position++] = $qid;
-                $new_array[$position++] = $new_question_id;
-                $inserted = true;
-            } else {
-                $new_array[$position++] = $qid;
-            }
-        }
-
-        $update_query = 'UPDATE tst_test_question SET sequence = %s WHERE test_fi = %s AND question_fi = %s';
-        $update_types = array('integer', 'integer', 'integer');
-
-        foreach ($new_array as $position => $qid) {
-            $ilDB->manipulateF(
-                $update_query,
-                $update_types,
-                $vals = array(
-                            $position,
-                            $this->getTestId(),
-                            $qid
-                        )
-            );
-        }
-    }
-
     public function isAnyInstantFeedbackOptionEnabled(): bool
     {
         return (
@@ -9770,7 +9725,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        //var_dump(func_get_args());
         if ($question_before) {
             $query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
             $types = array('integer');
