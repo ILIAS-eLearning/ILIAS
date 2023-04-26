@@ -623,7 +623,7 @@ class ilObjBlog extends ilObject2
         }
 
         // #10827
-        if (substr($a_wsp_id, -4) !== "_cll") {
+        if (!str_ends_with($a_wsp_id, "_cll")) {
             $wsp_id = new ilWorkspaceTree(0);
             $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
             $is_wsp = "_wsp";
@@ -704,7 +704,7 @@ class ilObjBlog extends ilObject2
     public function getLocalContributorRole(int $a_node_id): int
     {
         foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
-            if (strpos(ilObject::_lookupTitle($role_id), "il_blog_contributor") === 0) {
+            if (str_starts_with(ilObject::_lookupTitle($role_id), "il_blog_contributor")) {
                 return $role_id;
             }
         }

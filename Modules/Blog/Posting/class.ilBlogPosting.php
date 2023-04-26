@@ -121,9 +121,7 @@ class ilBlogPosting extends ilPageObject
         }
 
         // we are using a separate creation date to enable sorting without JOINs
-        $withdrawn = $this->getWithdrawn()
-            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
-            : null;
+        $withdrawn = $this->getWithdrawn()?->get(IL_CAL_DATETIME);
         $query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved, last_withdrawn)" .
             " VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
@@ -150,9 +148,7 @@ class ilBlogPosting extends ilPageObject
         $ilDB = $this->db;
 
         // blog_id, author and created cannot be changed
-        $withdrawn = $this->getWithdrawn()
-            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
-            : null;
+        $withdrawn = $this->getWithdrawn()?->get(IL_CAL_DATETIME);
         $query = "UPDATE il_blog_posting SET" .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
             ",created = " . $ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "timestamp") .

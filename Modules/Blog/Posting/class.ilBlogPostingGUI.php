@@ -125,26 +125,24 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 return $this->previewFullscreen();
 
             default:
-                if ($posting) {
-                    if ($ilCtrl->getCmd() === "deactivatePageToList") {
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
-                    } elseif ($ilCtrl->getCmd() === "activatePageToList") {
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
-                    }
-                    $this->setPresentationTitle($posting->getTitle());
-
-                    $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
-                        $posting->getTitle());
-                    $tpl->setTitleIcon(
-                        ilUtil::getImagePath("icon_blog.svg"),
-                        $this->lng->txt("obj_blog")
-                    ); // #12879
-
-                    $ilLocator->addItem(
-                        $posting->getTitle(),
-                        $ilCtrl->getLinkTarget($this, "preview")
-                    );
+                if ($ilCtrl->getCmd() === "deactivatePageToList") {
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
+                } elseif ($ilCtrl->getCmd() === "activatePageToList") {
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
                 }
+                $this->setPresentationTitle($posting->getTitle());
+
+                $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
+                    $posting->getTitle());
+                $tpl->setTitleIcon(
+                    ilUtil::getImagePath("icon_blog.svg"),
+                    $this->lng->txt("obj_blog")
+                ); // #12879
+
+                $ilLocator->addItem(
+                    $posting->getTitle(),
+                    $ilCtrl->getLinkTarget($this, "preview")
+                );
                 return parent::executeCommand();
         }
     }
