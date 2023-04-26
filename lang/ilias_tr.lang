@@ -1619,7 +1619,6 @@ assessment#:#tst_pass_best_pass#:#En İyi Geçiş Puanı
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.###27 01 2015 new variable
 assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
 assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
 assessment#:#tst_pass_details#:#Geçiş Bilgileri
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s###30 08 2015 new variable
@@ -2542,6 +2541,8 @@ book#:#book_reminder_day#:#Before Reservation###10 11 2018 new variable
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.###10 11 2018 new variable
 book#:#book_reminder_days#:#Day(s)###10 11 2018 new variable
 book#:#book_reminder_setting#:#Reminder###10 11 2018 new variable
+book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s available###24 10 2013 new variable
 book#:#book_reservation_confirmed#:#Rezervasyonunuz teyit edilmiştir.
 book#:#book_reservation_failed#:#Sizin rezervasyon başarısız oldu.
@@ -4667,6 +4668,8 @@ common#:#msg_deleted_roles_rolts#:#Roller ve Rol Şablonları silindi
 common#:#msg_failed#:#Üzgünüm, işlem başarısız oldu
 common#:#msg_form_save_error#:#form verileri kaydedilemedi. Herhangi bir hata iletileri için giriş alanları kontrol edin.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###07 02 2020 new variable
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#geçerli bir değer veriniz.
 common#:#msg_input_is_required#:#Bu giriş gereklidir. Lütfen bir değer giriniz.
 common#:#msg_is_last_role#:#Aşağıdaki kullanıcıların son global rolü kaldırıldı
@@ -6474,6 +6477,8 @@ content#:#cont_grid_width_s#:#Small###31 08 2017 new variable
 content#:#cont_grid_width_s_info#:#E.g. smartphone###31 08 2017 new variable
 content#:#cont_grid_width_xl#:#Extra Large###31 08 2017 new variable
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop###31 08 2017 new variable
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###26 04 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###26 04 2023 new variable
 content#:#cont_header#:#Başlık
 content#:#cont_height#:#Yükseklik
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###26 09 2014 new variable
@@ -6824,6 +6829,7 @@ content#:#cont_question_placeh#:#Eklenen soruyu düzenlemek için tıklayın
 content#:#cont_question_placehl#:#Soru Tutucu
 content#:#cont_question_stats#:#Statistic###26 09 2014 new variable
 content#:#cont_question_type#:#Soru Türü
+content#:#cont_quit_text_editing#:#Finish Text Editing###26 04 2023 new variable
 content#:#cont_rand_start#:#Random Start###30 08 2015 new variable
 content#:#cont_really_delete_overlays#:#Aşağıdaki katmanları silmek istediğinize emin misiniz ?
 content#:#cont_really_delete_popups#:#Aşağıdaki popupları silmek istediğinize emim misiniz?
@@ -7017,6 +7023,7 @@ content#:#cont_tex#:#Lateks Kodu
 content#:#cont_text_acc#:#Aksan:
 content#:#cont_text_code#:#Kodu:
 content#:#cont_text_com#:#Yorum:
+content#:#cont_text_editing#:#Edit Text###26 04 2023 new variable
 content#:#cont_text_emp#:#Empatik Metin:
 content#:#cont_text_fn#:#Dipnot:
 content#:#cont_text_iln_link#:#Interal Link###30 04 2021 new variable
@@ -9411,8 +9418,6 @@ exc#:#feedback_received#:#Feedback received###10 11 2018 new variable
 exc#:#filter#:#Filter###10 11 2018 new variable
 exc#:#fiter_no_results#:#The current filter did not match any submission.###10 11 2018 new variable
 exc#:#grade_evaluate#:#Grade and Evaluate###10 11 2018 new variable
-exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###31 08 2017 new variable
-exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###31 08 2017 new variable
 exc#:#not_yet#:#not yet###10 11 2018 new variable
 exc#:#submissions_feedback#:#Submissions and Feedback###10 11 2018 new variable
 exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
@@ -10692,6 +10697,7 @@ lti#:#lti_object_consumer#:#LTI Consumers###31 08 2017 new variable
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
 lti#:#lti_provider#:#LTI-Freigaben###31 08 2017 new variable
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.###26 04 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -13049,6 +13055,7 @@ ps#:#ps_security_protection#:#Güvenlik Ayarları
 ps#:#ps_select_one#:#Bir dışa aktarım dosyası seçin
 ps#:#ps_show_crs_access#:#Ders katılımcılarının son erişim zamanını göster
 ps#:#ps_show_grp_access#:#Grup katılımcılarının son erişim zamanını göster
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants###26 04 2023 new variable
 ps#:#ps_size#:#Dosya Boyutu
 ps#:#ps_type_select#:#Seç Alan
 ps#:#ps_type_select_long#:#Seçim Kutusu (Sabit Değerler)

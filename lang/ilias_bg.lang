@@ -1619,7 +1619,6 @@ assessment#:#tst_pass_best_pass#:#Изчисляване на най-добри�
 assessment#:#tst_pass_best_pass_desc#:# Оценява се пасът, в който участникът се е представил най-добре. Тази настройка се прилага само когато е възможно повече от едно преминаване на теста.
 assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_allowed#:#Изтриването на предишни пасове е разрешено
-assessment#:#tst_pass_deletion_not_allowed#:#Изтриването на предишни пасове НЕ е разрешено
 assessment#:#tst_pass_details#:#Покажете подробности
 assessment#:#tst_pass_details_header_lo_initial#:#Инициални резултати от теста за целите на обучението<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Квалификационни резултати от теста за целите на обучението<br />%s - %s
@@ -2542,6 +2541,8 @@ book#:#book_reminder_day#:#Преди резервация
 book#:#book_reminder_day_info#:#Изпращане на списък със собствени резервации на потребителите и пълен списък с резервации на администраторите.
 book#:#book_reminder_days#:#Ден/дни
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Вашата резервация е потвърдена.
 book#:#book_reservation_failed#:#Вашата резервация се е провалила.
@@ -4667,6 +4668,8 @@ common#:#msg_deleted_roles_rolts#:#Ролите и шаблоните с рол�
 common#:#msg_failed#:#Съжаляваме, действието неуспешно
 common#:#msg_form_save_error#:#Данните от формуляра не могат да бъдат записани. Моля, проверете полетата за въвеждане за съобщения за грешки.
 common#:#msg_info_blacklisted#:#Файловете не могат да бъдат качени от съображения за сигурност.
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#Предоставете валидна стойност.
 common#:#msg_input_is_required#:#Това въвеждане е задължително. Моля, въведете стойност.
 common#:#msg_is_last_role#:#Премахнахте последната глобална роля от следните потребители
@@ -6474,6 +6477,8 @@ content#:#cont_grid_width_s#:#Малка###22 06 2022 new variable
 content#:#cont_grid_width_s_info#:#Напр. смартфон
 content#:#cont_grid_width_xl#:#Много голяма###22 06 2022 new variable
 content#:#cont_grid_width_xl_info#:#Напр. широк работен плот
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###26 04 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###26 04 2023 new variable
 content#:#cont_header#:#Заглавие###22 06 2022 new variable
 content#:#cont_height#:#Височина в пиксели###22 06 2022 new variable
 content#:#cont_help_no_valid_tooltip_id#:#Идентификаторът на инструмента, който сте въвели, не е валиден.
@@ -6824,6 +6829,7 @@ content#:#cont_question_placeh#:#Натиснете и редактирайте,
 content#:#cont_question_placehl#:#Заместител на въпроса
 content#:#cont_question_stats#:#Statistic
 content#:#cont_question_type#:#Тип на въпроса
+content#:#cont_quit_text_editing#:#Finish Text Editing###26 04 2023 new variable
 content#:#cont_rand_start#:#Random Start
 content#:#cont_really_delete_overlays#:#Наистина ли искате да изтриете следните наслагвания?
 content#:#cont_really_delete_popups#:#Наистина ли искате да изтриете следните изскачащи прозорци?
@@ -7017,6 +7023,7 @@ content#:#cont_tex#:#Latex Code
 content#:#cont_text_acc#:#Акцент:
 content#:#cont_text_code#:#Код:
 content#:#cont_text_com#:#Коментар:
+content#:#cont_text_editing#:#Edit Text###26 04 2023 new variable
 content#:#cont_text_emp#:#Емфатичен текст:
 content#:#cont_text_fn#:#Забележка на дъното:
 content#:#cont_text_iln_link#:#Вътрешна връзка###22 06 2022 new variable
@@ -9411,8 +9418,6 @@ exc#:#feedback_received#:#Получена обратна връзка
 exc#:#filter#:#Филтър
 exc#:#fiter_no_results#:#Настоящият филтър не съвпада с нито едно подаване.
 exc#:#grade_evaluate#:#Разпределяне и оценяване
-exc#:#msg_input_char_limit_max#:#Внесохте повече символи от позволеното.
-exc#:#msg_input_char_limit_min#:# Трябва да въведете посочения минимум символи.
 exc#:#not_yet#:#not yet
 exc#:#submissions_feedback#:#Подаване на заявки и обратна връзка
 exc#:#submissions_only#:#Само за подаване на заявки
@@ -10692,6 +10697,7 @@ lti#:#lti_object_consumer#:#Потребители на LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#Доставчикът на LTI е настроен на 'Not Available'
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.###26 04 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS като доставчик на LTI
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Избор на доставчик
@@ -13049,6 +13055,7 @@ ps#:#ps_security_protection#:#Настройки за сигурност
 ps#:#ps_select_one#:#Моля, изберете един експортен файл
 ps#:#ps_show_crs_access#:#Показване на времето на последния достъп на участниците в курса
 ps#:#ps_show_grp_access#:#Показване на последното време на достъп на участниците в групата
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants###26 04 2023 new variable
 ps#:#ps_size#:#Размер на файловете
 ps#:#ps_type_select#:#Поле за избор
 ps#:#ps_type_select_long#:#Поле за избор (фиксирани стойности)

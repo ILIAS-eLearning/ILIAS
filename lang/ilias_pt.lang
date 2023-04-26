@@ -1619,7 +1619,6 @@ assessment#:#tst_pass_best_pass#:#N.º
 assessment#:#tst_pass_best_pass_desc#:#A melhor tentativa do participante é a que será pontuada. Esta definição apenas se aplica quando é possível tentar mais do que uma vez o teste.
 assessment#:#tst_pass_deletion#:#Tentativas anteriores
 assessment#:#tst_pass_deletion_allowed#:#É permitido eliminar as tentativas anteriores
-assessment#:#tst_pass_deletion_not_allowed#:#NÃO é permitido eliminar as tentativas anteriores
 assessment#:#tst_pass_details#:#Pergunta(s) inserida(s)!
 assessment#:#tst_pass_details_header_lo_initial#:#Resultados de teste iniciais para os objetivos de aprendizagem<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Resultados de teste que se qualificam para os objetivos de aprendizagem<br />%s - %s
@@ -2542,6 +2541,8 @@ book#:#book_reminder_day#:#Definições de apresentação
 book#:#book_reminder_day_info#:#Software de terceiros
 book#:#book_reminder_days#:#Personalizar página
 book#:#book_reminder_setting#:#Caminho absoluto
+book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s disponível
 book#:#book_reservation_confirmed#:#A sua reserva foi confirmada.
 book#:#book_reservation_failed#:#A sua reserva falhou.
@@ -4667,6 +4668,8 @@ common#:#msg_deleted_roles_rolts#:#Utilizador
 common#:#msg_failed#:#Gestão de utilizador
 common#:#msg_form_save_error#:#Não foi possível guardar os dados do formulário. Verifique os campos de entrada quanto a mensagens de erro.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###07 02 2020 new variable
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#Forneça um valor válido.
 common#:#msg_input_is_required#:#Gira aqui as contas do utilizador.
 common#:#msg_is_last_role#:#Weblink
@@ -6474,6 +6477,8 @@ content#:#cont_grid_width_s#:#Pequeno
 content#:#cont_grid_width_s_info#:#P. ex. smartphone
 content#:#cont_grid_width_xl#:#Extra grande
 content#:#cont_grid_width_xl_info#:#P. ex. wide desktop
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###26 04 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###26 04 2023 new variable
 content#:#cont_header#:#Cabeçalho
 content#:#cont_height#:#Cron job reativado por administrador
 content#:#cont_help_no_valid_tooltip_id#:#O ID da dica de contexto que inseriu não era válido.
@@ -6824,6 +6829,7 @@ content#:#cont_question_placeh#:#O curso começa com um teste para avaliar se um
 content#:#cont_question_placehl#:#Os membros, administradores e tutores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’.
 content#:#cont_question_stats#:#Estatística
 content#:#cont_question_type#:#Tipo de pergunta
+content#:#cont_quit_text_editing#:#Finish Text Editing###26 04 2023 new variable
 content#:#cont_rand_start#:#Início aleatório
 content#:#cont_really_delete_overlays#:#Tem a certeza que quer apagar as seguintes sobreposições?
 content#:#cont_really_delete_popups#:#Tem a certeza que quer apagar os seguintes popups?
@@ -7017,6 +7023,7 @@ content#:#cont_tex#:#Código latex
 content#:#cont_text_acc#:#Acento:
 content#:#cont_text_code#:#Código:
 content#:#cont_text_com#:#Comentário:
+content#:#cont_text_editing#:#Edit Text###26 04 2023 new variable
 content#:#cont_text_emp#:#Texto enfático:
 content#:#cont_text_fn#:#Nota de rodapé:
 content#:#cont_text_iln_link#:#Interal Link###30 04 2021 new variable
@@ -9411,8 +9418,6 @@ exc#:#feedback_received#:#Editar pasta
 exc#:#filter#:#Ficheiro
 exc#:#fiter_no_results#:#Pasta
 exc#:#grade_evaluate#:#Formato
-exc#:#msg_input_char_limit_max#:#Introduziu mais caracteres do que o permitido.
-exc#:#msg_input_char_limit_min#:#Tem de introduzir o número mínimo de caracteres especificado.
 exc#:#not_yet#:#Importar um banco de media
 exc#:#submissions_feedback#:#Nova pasta
 exc#:#submissions_only#:#Selecionar ficheiros/diretórios
@@ -10692,6 +10697,7 @@ lti#:#lti_object_consumer#:#Consumidores LTI
 lti#:#lti_object_release_settings_form#:#Simulação
 lti#:#lti_provider#:#Tamanho
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.###26 04 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Nível de competência
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -13049,6 +13055,7 @@ ps#:#ps_security_protection#:#Definições de segurança
 ps#:#ps_select_one#:#Selecione um ficheiro de exportação
 ps#:#ps_show_crs_access#:#Mostrar a última hora de acesso dos participantes do curso
 ps#:#ps_show_grp_access#:#Mostrar a última hora de acesso dos participantes do grupo
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants###26 04 2023 new variable
 ps#:#ps_size#:#Tamanho dos ficheiros
 ps#:#ps_type_select#:#Campo selecionado
 ps#:#ps_type_select_long#:#Caixa de seleção (valores fixos)

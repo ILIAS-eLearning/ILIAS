@@ -1619,7 +1619,6 @@ assessment#:#tst_pass_best_pass#:#Garder le Meilleur Essai
 assessment#:#tst_pass_best_pass_desc#:#L’essai au cours duquel le participant a obtenu le meilleur résultat sera noté. Ce réglage ne s’applique que lorsque plus d’un essai de test est possible.
 assessment#:#tst_pass_deletion#:#Essais Précédents
 assessment#:#tst_pass_deletion_allowed#:#La Suppression des Essais Précédents est autorisée
-assessment#:#tst_pass_deletion_not_allowed#:#La Suppression des Essais Précédents n'est pas autorisée
 assessment#:#tst_pass_details#:#Afficher les détails
 assessment#:#tst_pass_details_header_lo_initial#:#Résultats du test initial pour les objectifs d’apprentissage<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Résultats du test de qualification pour les objectifs d’apprentissage<br />%s - %s
@@ -2542,6 +2541,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Votre réservation a été confirmée.
 book#:#book_reservation_failed#:#Votre réservation a échoué.
@@ -4667,6 +4668,8 @@ common#:#msg_deleted_roles_rolts#:#Rôles et Modèles de Rôle supprimés
 common#:#msg_failed#:#Désolé, l'action a échoué
 common#:#msg_form_save_error#:#Les données pourraient être non enregistrées. Veuillez vérifier les zones de saisie ayant des messages d'erreur.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###07 02 2020 new variable
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#Veuillez fournir une valeur correcte.
 common#:#msg_input_is_required#:#Cette information est obligatoire. Veuillez saisir une valeur.
 common#:#msg_is_last_role#:#Vous avez retiré le dernier rôle global des utilisateurs suivants
@@ -6474,6 +6477,8 @@ content#:#cont_grid_width_s#:#Petite
 content#:#cont_grid_width_s_info#:#Par ex. smartphone
 content#:#cont_grid_width_xl#:#Extra large
 content#:#cont_grid_width_xl_info#:#Par ex. ordinateur large
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###26 04 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###26 04 2023 new variable
 content#:#cont_header#:#Entête
 content#:#cont_height#:#Hauteur
 content#:#cont_help_no_valid_tooltip_id#:#L'ID d'info-bulle que vous avez saisi n'était pas valide.
@@ -6824,6 +6829,7 @@ content#:#cont_question_placeh#:#Cliquer et modifier pour ajouter la question
 content#:#cont_question_placehl#:#Emplacement de la Question
 content#:#cont_question_stats#:#Statistique
 content#:#cont_question_type#:#Type de Question
+content#:#cont_quit_text_editing#:#Finish Text Editing###26 04 2023 new variable
 content#:#cont_rand_start#:#Démarrage aléatoire
 content#:#cont_really_delete_overlays#:#Voulez-vous vraiment supprimer les superpositions suivantes ?
 content#:#cont_really_delete_popups#:#Voulez-vous vraiment supprimer les fenêtres suivantes ?
@@ -7017,6 +7023,7 @@ content#:#cont_tex#:#Code Latex
 content#:#cont_text_acc#:#Texte accentué :
 content#:#cont_text_code#:#Code :
 content#:#cont_text_com#:#Commentaire :
+content#:#cont_text_editing#:#Edit Text###26 04 2023 new variable
 content#:#cont_text_emp#:#Texte en italique :
 content#:#cont_text_fn#:#Pied de Page :
 content#:#cont_text_iln_link#:#Interal Link###30 04 2021 new variable
@@ -9411,8 +9418,6 @@ exc#:#feedback_received#:#Feedback received
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#msg_input_char_limit_max#:#Vous avez entré plus de caractère qu’il n’est autorisé.
-exc#:#msg_input_char_limit_min#:#Vous devez entrer le minimum de caractères spécifié.
 exc#:#not_yet#:#not yet
 exc#:#submissions_feedback#:#Submissions and Feedback
 exc#:#submissions_only#:#Submissions Only
@@ -10692,6 +10697,7 @@ lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.###26 04 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -13049,6 +13055,7 @@ ps#:#ps_security_protection#:#Paramètres de Sécurité
 ps#:#ps_select_one#:#Veuillez sélectionner un fichier d'export
 ps#:#ps_show_crs_access#:#Afficher la dernière date d'accès des participants de cours
 ps#:#ps_show_grp_access#:#Montrer le Dernier Accès des Membres dans les Groupes
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants###26 04 2023 new variable
 ps#:#ps_size#:#Taille du Fichier
 ps#:#ps_type_select#:#Liste Déroulante
 ps#:#ps_type_select_long#:#Liste Déroulante (Valeurs Prédéfinies)

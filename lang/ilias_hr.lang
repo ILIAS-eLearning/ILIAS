@@ -1619,7 +1619,6 @@ assessment#:#tst_pass_best_pass#:#Ocijeni najbolji prolaz testa
 assessment#:#tst_pass_best_pass_desc#:#Ocijenit će se prolaz testa u kojem je sudionik ostvario najviše bodova. Ova postavka se primjenjuje samo kada je moguće više polaza testa.
 assessment#:#tst_pass_deletion#:#Prethodni prolazi
 assessment#:#tst_pass_deletion_allowed#:#Dopušteno je brisanje prethodnih prolaza testa
-assessment#:#tst_pass_deletion_not_allowed#:#Brisanje prethodnih prolaza testa NIJE dopušteno
 assessment#:#tst_pass_details#:#Detaljni rezultati
 assessment#:#tst_pass_details_header_lo_initial#:#Početni rezultati testa za ciljeve učenja<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Kvalifikacijski rezultati testa za ciljeve učenja<br />%s - %s
@@ -2542,6 +2541,8 @@ book#:#book_reminder_day#:#Prije rezervacije
 book#:#book_reminder_day_info#:#Pošaljite popis vlastitih rezervacija korisnicima te potpuni popis rezervacija administratorima.
 book#:#book_reminder_days#:#Dan(i)
 book#:#book_reminder_setting#:#Podsjetnik
+book#:#book_rerun_assignments#:#Run Assignment Process###26 04 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###26 04 2023 new variable
 book#:#book_reservation_available#:#Dostupno: %s
 book#:#book_reservation_confirmed#:#Vaša rezervacija je potvrđena.
 book#:#book_reservation_failed#:#Vaša rezervacija nije uspjela.
@@ -4667,6 +4668,8 @@ common#:#msg_deleted_roles_rolts#:#Uloge i predlošci uloga su izbrisani
 common#:#msg_failed#:#Nažalost, akcija nije uspjela
 common#:#msg_form_save_error#:#Podaci iz obrasca nisu se mogli spremiti. Molimo provjerite u poljima za unos poruke o pogreškama.
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###04 06 2021 new variable
+common#:#msg_input_char_limit_max#:#You have entered more characters than allowed.###26 04 2023 new variable
+common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.###26 04 2023 new variable
 common#:#msg_input_does_not_match_regexp#:#Unesite valjanu vrijednost.
 common#:#msg_input_is_required#:#Ovo se polje mora ispuniti. Molimo unesite vrijednost.
 common#:#msg_is_last_role#:#Uklonili ste posljednju globalnu ulogu od sljedećih korisnika
@@ -6474,6 +6477,8 @@ content#:#cont_grid_width_s#:#Mali
 content#:#cont_grid_width_s_info#:#Npr. pametni telefon
 content#:#cont_grid_width_xl#:#Jako veliki
 content#:#cont_grid_width_xl_info#:#Npr. široka radna površina
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###26 04 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###26 04 2023 new variable
 content#:#cont_header#:#Zaglavlje
 content#:#cont_height#:#Visina u pikselima
 content#:#cont_help_no_valid_tooltip_id#:#ID opisa koji ste unijeli nije valjan.
@@ -6824,6 +6829,7 @@ content#:#cont_question_placeh#:#Kliknite i uredite da biste umetnuli pitanje
 content#:#cont_question_placehl#:#Zamjenski znak za pitanje
 content#:#cont_question_stats#:#Statistički
 content#:#cont_question_type#:#Vrsta pitanja
+content#:#cont_quit_text_editing#:#Finish Text Editing###26 04 2023 new variable
 content#:#cont_rand_start#:#Slučajni početak
 content#:#cont_really_delete_overlays#:#Želite li zaista izbrisati sljedeće nadslojeve?
 content#:#cont_really_delete_popups#:#Želite li zaista izbrisati sljedeće skočne prozore?
@@ -7017,6 +7023,7 @@ content#:#cont_tex#:#Lateks kod
 content#:#cont_text_acc#:#Naglasak:
 content#:#cont_text_code#:#Kod:
 content#:#cont_text_com#:#Komentar:
+content#:#cont_text_editing#:#Edit Text###26 04 2023 new variable
 content#:#cont_text_emp#:#Naglašeni tekst:
 content#:#cont_text_fn#:#Fusnota:
 content#:#cont_text_iln_link#:#Interal Link###04 06 2021 new variable
@@ -9411,8 +9418,6 @@ exc#:#feedback_received#:#Povratne informacije su primljene
 exc#:#filter#:#Filtar
 exc#:#fiter_no_results#:#Trenutačni filtar ne podudara se ni s jednim predanim zadatkom.
 exc#:#grade_evaluate#:#Ocjeni i evaluiraj
-exc#:#msg_input_char_limit_max#:#Unijeli ste više znakova nego što je dopušteno.
-exc#:#msg_input_char_limit_min#:#Morate unijeti najmanje specificirani broj znakova.
 exc#:#not_yet#:#ne još
 exc#:#submissions_feedback#:#Predani zadaci i povratne informacije peer grupe
 exc#:#submissions_only#:#Samo predani zadaci
@@ -10692,6 +10697,7 @@ lti#:#lti_object_consumer#:#Potrošači LTI-ja
 lti#:#lti_object_release_settings_form#:#Uredi odobrenja LTI-ja
 lti#:#lti_provider#:#Odobrenja LTI-ja
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###04 06 2021 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider / Tool is configured incompletely.###26 04 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###04 06 2021 new variable
 lti#:#lti_released_objects#:#Odobrenja objekta
 lti#:#lti_select_provider#:#Select Provider###04 06 2021 new variable
@@ -13049,6 +13055,7 @@ ps#:#ps_security_protection#:#Security Settings
 ps#:#ps_select_one#:#Please select one export file
 ps#:#ps_show_crs_access#:#Show last access time of course participants
 ps#:#ps_show_grp_access#:#Show last access time of group participants
+ps#:#ps_show_lso_access#:#Show last access time of learning sequence participants###26 04 2023 new variable
 ps#:#ps_size#:#Files Size
 ps#:#ps_type_select#:#Select Field
 ps#:#ps_type_select_long#:#Selection Box (Fixed Values)
