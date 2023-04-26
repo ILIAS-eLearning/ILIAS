@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
@@ -351,8 +351,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 if ($cmd === '') {
                     if ($this->checkAccess("write")) {
                         $cmd = self::CMD_CONTENT;
-                    }
-                    else {
+                    } else {
                         $cmd = self::CMD_VIEW;
                     }
                 }
@@ -499,7 +498,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if ($this->checkAccess("write")) {
             $this->manageContent(self::CMD_CONTENT);
             return;
-        } else if ($this->checkAccess("read")) {
+        } elseif ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
             return;
         } else {
@@ -886,7 +885,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function showPossibleSubObjects(): void
     {
-        parent::showPossibleSubObjects();
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
     }
 
     /**
@@ -912,5 +912,4 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function enableDragDropFileUpload(): void
     {
     }
- 
 }
