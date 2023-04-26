@@ -95,11 +95,9 @@ class MigrationObjective implements Setup\Objective
         $io->inform("Preparing Migration: done.");
 
         $steps = $this->steps;
-        if ($steps === Setup\Migration::INFINITE) {
-            $steps = $this->migration->getRemainingAmountOfSteps();
-        }
-        if ($this->migration->getRemainingAmountOfSteps() < $steps) {
-            $steps = $this->migration->getRemainingAmountOfSteps();
+        $remaining = $this->migration->getRemainingAmountOfSteps();
+        if ($steps === Setup\Migration::INFINITE || $remaining < $steps) {
+            $steps = $remaining;
         }
         $io->inform("Trigger {$steps} step(s) in {$this->getLabel()}");
         $step = 0;
@@ -111,9 +109,14 @@ class MigrationObjective implements Setup\Objective
             $step++;
         }
         $io->stopProgress();
-        $remaining = $this->migration->getRemainingAmountOfSteps() - $steps;
-        $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
-
+        $remaining = $this->migration->getRemainingAmountOfSteps();
+        if ($remaining == 0) {
+            $io->inform("Migration '{$key}' has no remaining steps left.");
+        }
+        else {
+            $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
+        }
+        
         return $environment;
     }
 
