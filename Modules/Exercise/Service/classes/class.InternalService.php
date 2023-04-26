@@ -30,6 +30,7 @@ use ILIAS\Refinery;
  */
 class InternalService
 {
+    protected \ILIAS\DI\Container $dic;
     protected InternalDataService $data;
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;
@@ -49,6 +50,7 @@ class InternalService
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
+        $this->dic = $DIC;
         $this->db = $DIC->database();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -70,11 +72,11 @@ class InternalService
         array $post_data = null
     ): InternalGUIService {
         return new InternalGUIService(
+            $this->dic,
             $this,
-            $this->http,
             $this->refinery,
-            $query_params = null,
-            $post_data = null
+            $query_params,
+            $post_data
         );
     }
 

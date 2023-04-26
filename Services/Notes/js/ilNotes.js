@@ -241,6 +241,9 @@ const ilNotes = {
         event.target.style.display = 'none';
       });
       f.addEventListener("submit", (event) => {
+        f.querySelectorAll("button").forEach((b) => {
+          b.disabled = true;
+        });
         event.preventDefault();
         ilNotes.cmdAjaxForm(event, fArea.dataset.noteFormAction);
       });

@@ -29,6 +29,7 @@ use ILIAS\Repository\Modal\ModalAdapterGUI;
 use Slim\Http\Stream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
+use ILIAS\Repository\Button\ButtonAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -152,6 +153,16 @@ trait GlobalDICGUIServices
             $cmd,
             $activated,
             $expanded
+        );
+    }
+
+    public function button(
+        string $caption,
+        string $cmd
+    ): ButtonAdapterGUI {
+        return new ButtonAdapterGUI(
+            $caption,
+            $cmd
         );
     }
 }

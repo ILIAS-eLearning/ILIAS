@@ -29,6 +29,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Blog\InternalGUIService $gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -90,6 +91,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->gui = $DIC->blog()
+            ->internal()
+            ->gui();
 
         $req = $this->blog_request;
 
@@ -981,10 +985,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 document.getElementById('title').setAttribute('placeholder', ' ');
             ");
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("blog_add_posting");
-            $button->setCommand("createPosting");
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $lng->txt("blog_add_posting"),
+                "createPosting"
+            )->submit()->toToolbar(true, $ilToolbar);
 
             // #18763
             $keys = array_keys($this->items);
@@ -996,10 +1000,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $url = $ilCtrl->getLinkTarget($this, "");
                 $ilCtrl->setParameter($this, "bmn", $this->month);
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("blog_show_latest");
-                $button->setUrl($url);
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $lng->txt("blog_show_latest"),
+                    $url
+                )->std()->toToolbar(false, $ilToolbar);
             }
 
             // print/pdf

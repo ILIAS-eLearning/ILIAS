@@ -98,7 +98,7 @@ class ilObjBlog extends ilObject2
         $this->setNavModeListMonthsWithPostings((int) $row["nav_list_mon_with_post"]);
         $this->setNavModeListMonths($row["nav_list_mon"]);
         $this->setOverviewPostings($row["ov_post"]);
-        if (trim($row["nav_order"])) {
+        if (trim((string) $row["nav_order"])) {
             $this->setOrder(explode(";", $row["nav_order"]));
         }
 
