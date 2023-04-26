@@ -130,25 +130,24 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
 
-        $form = $this->buildForm();
+        $questionHint = new ilAssQuestionHint();
+        if ($this->request->isset('hint_id')) {
+            $questionHint->load((int) $this->request->int('hint_id'));
+
+            $hintJustCreated = false;
+            $form = $this->buildForm($questionHint);
+        } else {
+            $questionHint->setQuestionId($this->questionOBJ->getId());
+
+            $questionHint->setIndex(
+                ilAssQuestionHintList::getNextIndexByQuestionId($this->questionOBJ->getId())
+            );
+
+            $hintJustCreated = true;
+            $form = $this->buildForm();
+        }
 
         if ($form->checkInput()) {
-            $questionHint = new ilAssQuestionHint();
-
-            if ((int) $form->getInput('hint_id')) {
-                $questionHint->load((int) $form->getInput('hint_id'));
-
-                $hintJustCreated = false;
-            } else {
-                $questionHint->setQuestionId($this->questionOBJ->getId());
-
-                $questionHint->setIndex(
-                    ilAssQuestionHintList::getNextIndexByQuestionId($this->questionOBJ->getId())
-                );
-
-                $hintJustCreated = true;
-            }
-
             $questionHint->setText($form->getInput('hint_text'));
             $questionHint->setPoints($form->getInput('hint_points'));
 
