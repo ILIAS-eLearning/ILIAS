@@ -55,17 +55,17 @@ class ilMemcacheNodesRepository implements NodeRepository
     ): Node {
         $node = new Node($host, $port, $weight);
         if ($this->db === null) {
-            return $node;
+            $next_id = $this->db->nextId(self::TABLE_NAME);
+            $this->db->insert(self::TABLE_NAME, [
+                "id" => ["integer", $next_id],
+                "status" => ["integer", true],
+                "host" => ["text", $node->getHost()],
+                "port" => ["integer", $node->getPort()],
+                "weight" => ["integer", $node->getWeight()],
+                "flush_needed" => ["integer", false]
+            ]);
         }
-        $next_id = $this->db->nextId(self::TABLE_NAME);
-        $this->db->insert(self::TABLE_NAME, [
-            "id" => ["integer", $next_id],
-            "status" => ["integer", true],
-            "host" => ["text", $node->getHost()],
-            "port" => ["integer", $node->getPort()],
-            "weight" => ["integer", $node->getWeight()],
-            "flush_needed" => ["integer", false]
-        ]);
+        return $node;
     }
 
     public function getNodes(): array
