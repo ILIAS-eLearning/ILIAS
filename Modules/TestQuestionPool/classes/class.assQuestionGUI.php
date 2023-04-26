@@ -736,9 +736,6 @@ abstract class assQuestionGUI
                     global $DIC;
                     $component_repository = $DIC['component.repository'];
 
-                    // TODO: Courier Antipattern!
-                    //$_GET["ref_id"] = $this->request->raw("calling_test");
-
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
 
@@ -749,7 +746,7 @@ abstract class assQuestionGUI
                     );
 
                     if ($this->request->isset('prev_qid')) {
-                        $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
+                        $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
                     }
 
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
@@ -764,17 +761,12 @@ abstract class assQuestionGUI
                     $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "q_id", $this->object->getId());
                     $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "sel_question_types", $this->request->raw("sel_question_types"));
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-
-                    //global $___test_express_mode;
-                    /**
-                     * in express mode, so add question to test directly
-                     */
                     if ($this->request->raw('prev_qid')) {
                         // @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
                         $test = new ilObjTest($this->request->getRefId(), true);
                         $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
                     }
-                    if ( /*$___test_express_mode || */ $this->request->raw('express_mode')) {
+                    if ($this->request->raw('express_mode')) {
                         $tree = $this->tree;
                         $ilDB = $this->ilDB;
                         $component_repository = $this->component_repository;
@@ -827,14 +819,10 @@ abstract class assQuestionGUI
                 return;
             } elseif ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
-                #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
-                $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     $tree = $this->tree;
                     $ilDB = $this->ilDB;
                     $component_repository = $this->component_repository;
-                    // TODO: Courier Antipattern!
-                    //$_GET["ref_id"] = $this->request->raw("calling_test");
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
@@ -846,7 +834,7 @@ abstract class assQuestionGUI
                     );
 
                     if ($this->request->isset('prev_qid')) {
-                        $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
+                        $test->moveQuestionAfter($this->object->getId(), $this->request->raw('prev_qid'));
                     }
 
                     $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
