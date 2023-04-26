@@ -654,7 +654,7 @@ class ilInitialisation
             // If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
             // \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-            $cookie_secure = !$ilSetting->get('https', 0) && $DIC['https']->isDetected();
+            $cookie_secure = !$ilSetting->get('https', '0') && $DIC['https']->isDetected();
             define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
             session_set_cookie_params(
@@ -882,7 +882,7 @@ class ilInitialisation
     {
         global $ilSetting;
 
-        if (trim($ilSetting->get("locale")) != "") {
+        if (trim($ilSetting->get("locale", '')) != "") {
             $larr = explode(",", trim($ilSetting->get("locale")));
             $ls = array();
             $first = $larr[0];
@@ -1726,7 +1726,7 @@ class ilInitialisation
             } elseif ($_REQUEST["lang"]) {
                 $lang = (string) $_REQUEST["lang"];
             } elseif ($ilSetting) {
-                $lang = $ilSetting->get("language");
+                $lang = $ilSetting->get("language", '');
             } elseif ($ilClientIniFile) {
                 $lang = $ilClientIniFile->readVariable("language", "default");
             }
