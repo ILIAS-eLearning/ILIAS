@@ -54,7 +54,7 @@ class ilMemcacheNodesRepository implements NodeRepository
         int $weight
     ): Node {
         $node = new Node($host, $port, $weight);
-        if ($this->db === null) {
+        if ($this->db != null) {
             $next_id = $this->db->nextId(self::TABLE_NAME);
             $this->db->insert(self::TABLE_NAME, [
                 "id" => ["integer", $next_id],
