@@ -28,7 +28,7 @@ class DataRowFactory implements T\DataRowFactory
 {
     /**
      * @param array <string, Column> $columns
-     * @param array <string, Action> $single_actions
+     * @param array <string, Action> $row_actions
      */
     public function __construct(
         protected bool $table_has_singleactions,
@@ -38,6 +38,9 @@ class DataRowFactory implements T\DataRowFactory
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $record
+     */
     public function standard(string $id, array $record): T\DataRow
     {
         return new StandardRow(

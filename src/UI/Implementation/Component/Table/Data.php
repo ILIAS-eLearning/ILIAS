@@ -51,12 +51,18 @@ class Data extends Table implements T\Data, JSBindable
     protected Signal $selection_signal;
     protected ?ServerRequestInterface $request = null;
     protected int $number_of_rows = 800;
+    /**
+     * @var string[]
+     */
     protected array $selected_optional_column_ids = [];
     protected Range $range;
     protected Order $order;
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
 
+    /**
+     * @param array<string, Column> $columns
+     */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         protected DataFactory $data_factory,
@@ -80,8 +86,8 @@ class Data extends Table implements T\Data, JSBindable
     }
 
     /**
-     * @param array<string, Column>
-     * @return string[]
+     * @param array<string, Column> $columns
+     * @return array<string, Column>
      */
     private function enumerateColumns(array $columns): array
     {
@@ -94,7 +100,7 @@ class Data extends Table implements T\Data, JSBindable
     }
 
     /**
-     * @param array<string, Column>
+     * @param array<string, Column> $columns
      * @return array<string>
      */
     private function filterVisibleColumnIds(array $columns): array
@@ -120,6 +126,9 @@ class Data extends Table implements T\Data, JSBindable
         return array_key_first($sortable_visible_cols);
     }
 
+    /**
+     * @return array<string, Column>
+     */
     public function getColumns(): array
     {
         return $this->columns;
@@ -140,6 +149,9 @@ class Data extends Table implements T\Data, JSBindable
         return $clone;
     }
 
+    /**
+     * @return array<string, T\Action\Action>
+     */
     public function getActions(): array
     {
         return $this->actions;
@@ -243,6 +255,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * Get all Actions on this table BUT the given one.
      * @param string $exclude the actions' class-name to _not_ return
+     * @return array<string, T\Action\Action>
      */
     protected function getFilteredActions(string $exclude): array
     {
@@ -254,11 +267,17 @@ class Data extends Table implements T\Data, JSBindable
         );
     }
 
+    /**
+     * @return array<string, T\Action\Action>
+     */
     public function getMultiActions(): array
     {
         return $this->getFilteredActions(T\Action\Single::class);
     }
 
+    /**
+     * @return array<string, T\Action\Action>
+     */
     public function getSingleActions(): array
     {
         return $this->getFilteredActions(T\Action\Multi::class);
@@ -269,6 +288,9 @@ class Data extends Table implements T\Data, JSBindable
         return count($this->columns);
     }
 
+    /**
+     * @param string[] $selected_optional_column_ids
+     */
     public function withSelectedOptionalColumns(array $selected_optional_column_ids): self
     {
         $clone = clone $this;
@@ -276,6 +298,9 @@ class Data extends Table implements T\Data, JSBindable
         return $clone;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSelectedOptionalColumns(): array
     {
         return $this->selected_optional_column_ids;

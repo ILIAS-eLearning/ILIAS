@@ -6,9 +6,10 @@
 
     class Params {
         /**
-         * @param string target
-         * @param string parameter_name
-         * @param array values
+         * @param {string} target
+         * @param {string} parameter_name
+         * @param {string[]} values
+         * @return {object}
          */
         amendParameterToSignal(target, parameter_name, values) {
             let sig = JSON.parse(target);
@@ -17,9 +18,10 @@
         }
 
         /**
-         * @param string target
-         * @param string parameter_name
-         * @param array values
+         * @param {string} target
+         * @param {string} parameter_name
+         * @param {string[]} values
+         * @return {string}
          */
         amendParameterToUrl(target, parameter_name, values) {
             const base = target.split('?')[0];
@@ -32,12 +34,12 @@
             for (k in params) {
                 search = `${search}&${k}=${params[k]}`;
             }
-
             return `${base}?${search.substr(1)}`;
         }
 
         /**
-         * @param string url
+         * @param {string} url
+         * @return {array<string,string>}
          */
         getParametersFromUrl(url) {
             const params = {};
@@ -50,10 +52,25 @@
 
     class Data {
 
+        /**
+         * @type {Object}
+         */
         #jquery;
+        /**
+         * @type {Params}
+         */
         #params;
+        /**
+         * @type {Keyboardnavigation}
+         */
         #kbnav;
+        /**
+         * @type {Object}
+         */
         #actions_constants;
+        /**
+         * @type {array<string, array>}
+         */
         #actions_registry;
         
         constructor(jquery, params, kbnav) {
@@ -65,7 +82,7 @@
         }
 
         /**
-         * @param string[] consts 
+         * @param {string[]} consts
          */
         initActionConstants(consts) {
             this.actions_constants = {
@@ -77,23 +94,22 @@
                     'mainkey' : consts[2],
                     'id' : consts[3]
                 },
-                
             };
         }
 
         /**
-         * @param string target_id
+         * @param {string} target_id
          */
         initKeyboardNavigation(target_id) {
             this.kbnav.init(target_id);
         }
 
         /**
-         * @param string table_id
-         * @param string action_id
-         * @param string type 'SIGNAL' | 'URL'
-         * @param mixed target
-         * @param string parameter_name
+         * @param {string} table_id
+         * @param {string} action_id
+         * @param {string} type 'SIGNAL' | 'URL'
+         * @param {mixed} target
+         * @param {string} parameter_name
          */
         registerAction(table_id, action_id, type, target, parameter_name) {
             let r = this.actions_registry[table_id] || {};
@@ -106,9 +122,9 @@
         }
 
         /**
-         * @param string table_id
-         * @param array signal_data
-         * @param array row_ids
+         * @param {string} table_id
+         * @param {array} signal_data
+         * @param {string[]} row_ids
          */
         doAction(table_id, signal_data, row_ids) {
             const act_id = signal_data.options.action;
@@ -129,8 +145,8 @@
         }
 
         /**
-         * @param string table_id
-         * @param node originator
+         * @param {string} table_id
+         * @param {HTMLElement} originator
          */
         doActionForAll(table_id, originator) {
             const actions = this.actions_registry[table_id];
@@ -148,7 +164,8 @@
         }
 
         /**
-         * @param string table_id
+         * @param {string} table_id
+         * @return {string[]}
          */
         collectSelectedRowIds(table_id) {
             const table = document.getElementById(table_id);
@@ -167,8 +184,8 @@
         }
         
         /**
-         * @param string table_id
-         * @param bool state
+         * @param {string} table_id
+         * @param {bool} state
          */
         selectAll(table_id, state) {
             const table = document.getElementById(table_id);
@@ -193,7 +210,13 @@
     }
 
     class Keyboardnav {
+        /**
+         * @type {array<string,number>}
+         */
         #keys;
+        /**
+         * @type {number[]}
+         */
         #supported_keys;
 
          constructor() {
@@ -218,8 +241,8 @@
         }
 
         /**
-         * @param Event event
-         * @param keyboardnav _self
+         * @param {Event} event
+         * @param {keyboardnav} _self
          */
         onKey(event, _self) {
 
@@ -256,7 +279,12 @@
             }
             _self.focusCell(table, cell, row_index, cell_index);
         }
-
+        /**
+         * @param {HTMLElement} table
+         * @param {HTMLElement} cell
+         * @param {number} row_index
+         * @param {number} cell_index
+         */
         focusCell(table, cell, row_index, cell_index) {
             const next_cell = table.rows[row_index].cells[cell_index];
             next_cell.focus();
@@ -265,7 +293,7 @@
         }
 
         /**
-         * @param string target_id
+         * @param {string} target_id
          */
         init(target_id) {
             document.querySelector('#' + target_id).addEventListener('keydown', (event)=>this.onKey(event, this));

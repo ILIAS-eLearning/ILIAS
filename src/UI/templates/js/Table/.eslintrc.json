@@ -1,8 +1,0 @@
-{
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "indent": ["tab", 4],
-        "no-tabs": 0
-    },
-    "extends": "airbnb-base"
-}

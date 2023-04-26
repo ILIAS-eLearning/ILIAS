@@ -39,6 +39,12 @@ class DataRow implements T\DataRow
      */
     protected array $disabled_actions = [];
 
+
+    /**
+     * @param array<string, T\Column\Column> $columns
+     * @param array<string, T\Action\Action> $actions
+     * @param array<string, mixed> $record
+     */
     public function __construct(
         protected bool $table_has_singleactions,
         protected bool $table_has_multiactions,

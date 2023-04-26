@@ -33,7 +33,7 @@ interface Factory
      *       A typical example would be "delete".
      *
      * ---
-     * @return \ILIAS\UI\Component\Table\Action\Action
+     * @return \ILIAS\UI\Component\Table\Action\Standard
      */
     public function standard(
         string $label,
@@ -49,7 +49,7 @@ interface Factory
      *       A typical example would be "edit".
      *
      * ---
-     * @return \ILIAS\UI\Component\Table\Action\Action
+     * @return \ILIAS\UI\Component\Table\Action\Single
      */
     public function single(
         string $label,
@@ -65,7 +65,7 @@ interface Factory
      *       A typical example would be "compare".
      *
      * ---
-     * @return \ILIAS\UI\Component\Table\Action\Action
+     * @return \ILIAS\UI\Component\Table\Action\Multi
      */
     public function multi(
         string $label,

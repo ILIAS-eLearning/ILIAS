@@ -1,5 +1,11 @@
 class Keyboardnav {
+    /**
+     * @type {array<string,number>}
+     */
     #keys;
+    /**
+     * @type {number[]}
+     */
     #supported_keys;
 
      constructor() {
@@ -24,8 +30,8 @@ class Keyboardnav {
     }
 
     /**
-     * @param Event event
-     * @param keyboardnav _self
+     * @param {Event} event
+     * @param {keyboardnav} _self
      */
     onKey(event, _self) {
 
@@ -62,7 +68,12 @@ class Keyboardnav {
         }
         _self.focusCell(table, cell, row_index, cell_index);
     }
-
+    /**
+     * @param {HTMLElement} table
+     * @param {HTMLElement} cell
+     * @param {number} row_index
+     * @param {number} cell_index
+     */
     focusCell(table, cell, row_index, cell_index) {
         const next_cell = table.rows[row_index].cells[cell_index];
         next_cell.focus();
@@ -71,7 +82,7 @@ class Keyboardnav {
     }
 
     /**
-     * @param string target_id
+     * @param {string} target_id
      */
     init(target_id) {
         document.querySelector('#' + target_id).addEventListener('keydown', (event)=>this.onKey(event, this));

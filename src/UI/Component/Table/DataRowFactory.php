@@ -22,5 +22,8 @@ namespace ILIAS\UI\Component\Table;
 
 interface DataRowFactory
 {
+    /**
+     * @param array<string, mixed> $record
+     */
     public function standard(string $id, array $record): DataRow;
 }
