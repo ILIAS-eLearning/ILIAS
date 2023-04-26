@@ -533,17 +533,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
 
             require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
-            $participantList = new ilTestParticipantList($this->object);
+            $participant_list = new ilTestParticipantList($this->object);
 
-            $participantList->initializeFromDbRows(
+            $participant_list->initializeFromDbRows(
                 $this->object->getTestParticipantsForManualScoring($participantStatusFilterValue)
             );
 
-            $participantList = $participantList->getAccessFilteredList(
+            $filtered_participant_list = $participant_list->getAccessFilteredList(
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
 
-            $table->setData($participantList->getParticipantsTableRows());
+            $table->setData($filtered_participant_list->getParticipantsTableRows());
         }
 
         return $table;
