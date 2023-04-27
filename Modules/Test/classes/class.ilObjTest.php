@@ -7258,13 +7258,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array('integer'),
             array($active_id)
         );
+
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
-            $max = $row["maxpass"];
-        } else {
-            $max = null;
+            return $row["maxpass"];
         }
-        return $max;
+
+        return null;
     }
 
     /**
@@ -7282,33 +7282,34 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array('integer'),
             array($active_id)
         );
-        if ($result->numRows()) {
-            $bestrow = null;
-            $bestfactor = 0;
-            while ($row = $ilDB->fetchAssoc($result)) {
-                if ($bestrow === null) {
-                    $bestrow = $row;
-                    continue;
-                }
-                if ($row["maxpoints"] > 0) {
-                    $factor = $row["points"] / $row["maxpoints"];
-                } else {
-                    $factor = 0;
-                }
 
-                if ($factor > $bestfactor) {
-                    $bestrow = $row;
-                    $bestfactor = $factor;
-                }
-            }
-            if (is_array($bestrow)) {
-                return $bestrow["pass"];
-            } else {
-                return null;
-            }
-        } else {
+        if (!$result->numRows()) {
             return null;
         }
+
+        $bestrow = null;
+        $bestfactor = 0;
+        while ($row = $ilDB->fetchAssoc($result)) {
+            if ($bestrow === null) {
+                $bestrow = $row;
+                continue;
+            }
+            if ($row["maxpoints"] > 0) {
+                $factor = $row["points"] / $row["maxpoints"];
+            } else {
+                $factor = 0;
+            }
+            if ($factor > $bestfactor) {
+                $bestrow = $row;
+                $bestfactor = $factor;
+            }
+        }
+
+        if (is_array($bestrow)) {
+            return $bestrow["pass"];
+        }
+
+        return null;
     }
 
     /**
