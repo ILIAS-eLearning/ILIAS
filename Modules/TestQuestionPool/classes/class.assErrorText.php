@@ -860,14 +860,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $inPassage = false;
                         $cur_pidx = count($passages) - 1;
                         $passages[$cur_pidx]['end_pos'] = $counter;
-
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $passages[$cur_pidx]['score'] = $errorobject->points;
-                            $passages[$cur_pidx]['isError'] = true;
+                        if (isset($this->errordata[$errorcounter])) {
+                            $errorobject = $this->errordata[$errorcounter];
+                            if (is_object($errorobject)) {
+                                $passages[$cur_pidx]['score'] = $errorobject->points;
+                                $passages[$cur_pidx]['isError'] = true;
+                            }
                         }
-
-                        $errorcounter++;
                     }
 
                     $cur_pidx = count($passages) - 1;
@@ -903,6 +902,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected function getPointsForSelectedPositions($positions)
     {
+        //If no position has been selected, return 0
+        if ($positions == null) {
+            return 0;
+        }
         $passages = array();
         $words = array();
         $counter = 0;
@@ -934,12 +937,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $inPassage = false;
                         $cur_pidx = count($passages) - 1;
                         $passages[$cur_pidx]['end_pos'] = $counter;
-
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $passages[$cur_pidx]['score'] = $errorobject->points;
+                        if (isset($this->errordata[$errorcounter])) {
+                            $errorobject = $this->errordata[$errorcounter];
+                            if (is_object($errorobject)) {
+                                $passages[$cur_pidx]['score'] = $errorobject->points;
+                            }
+                            $errorcounter++;
                         }
-                        $errorcounter++;
                     }
 
                     $cur_pidx = count($passages) - 1;
