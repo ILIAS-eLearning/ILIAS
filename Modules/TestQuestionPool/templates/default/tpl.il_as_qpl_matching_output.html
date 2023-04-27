@@ -1,8 +1,8 @@
 <div class="ilc_question_MatchingQuestion">
-<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
-
+<div class="ilc_qtitle_Title">
+	{QUESTIONTEXT}
+</div>
 <div class="ilc_answers answers ilClearFloat row" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
-
 <!-- fau: testNav - hide the reset button -->
 <!--
 	<div class="noprint" style="text-align: right; margin: 0 0 1em 0;">
@@ -15,18 +15,25 @@
 		<div class="row droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
 			<div class="ilMatchingQuestionDefinition col-md-6">
 				<!-- BEGIN definition_text -->
-				<div class="ilc_qanswer_Answer">{DEFINITION}</div>
+				<div class="ilc_qanswer_Answer">
+					{DEFINITION}
+				</div>
 				<!-- END definition_text -->
 				<!-- BEGIN definition_picture -->
 				<div class="ilc_qanswer_Answer thumbnail">
 					<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 					<div class="caption">
-						<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
+						<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}"
+						   aria-label="{TEXT_DEFINITION}" title="{TEXT_PREVIEW}">
+							{TEXT_DEFINITION}
+							<img border="0" align="right" src="{IMG_PREVIEW}" />
+						</a>
 					</div>
 				</div>
 				<!-- END definition_picture -->
 			</div>
-			<div class="ilMatchingQuestionTerm col-md-6"></div>
+			<div class="ilMatchingQuestionTerm col-md-6">
+			</div>
 		</div>
 		<!-- END droparea -->
 	</div>
@@ -34,13 +41,20 @@
 		<!-- BEGIN draggable -->
 		<div class="draggable row" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
 			<!-- BEGIN term_text -->
-			<div class="ilc_qanswer_Answer">{TERM_TEXT}</div>
+			<div class="ilc_qanswer_Answer">
+				{TERM_TEXT}
+			</div>
 			<!-- END term_text -->
 			<!-- BEGIN term_picture -->
 			<div class="ilc_qanswer_Answer thumbnail">
-				<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+				<img class="ilc_qimg_QuestionImage"
+					 border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 				<div class="caption">
-					<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
+					<a class="ilc_qimgd_ImageDetailsLink" target="_blank"
+					   aria-label="{TEXT_TERM}" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">
+						{TEXT_TERM}
+						<img border="0" align="right" src="{IMG_PREVIEW}" />
+					</a>
 				</div>
 			</div>
 			<!-- END term_picture -->
@@ -51,7 +65,6 @@
 </div>
 <script type="text/javascript">
 	(function($){
-
 		$(document).ready(
 			function()
 			{
@@ -76,6 +89,5 @@
 				question.init();
 			}
 		);
-
 	}(jQuery));
 </script>

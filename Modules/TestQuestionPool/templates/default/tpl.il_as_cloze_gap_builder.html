@@ -89,206 +89,328 @@
 <script type='text/javascript' src='./Modules/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'></script>
 {MY_MODAL}
 <div id="moveAway">
-<div class="prototype" id="gap_title">
-    <div class="ilFormHeader">
-        <h3 class="ilHeader"></h3>
-        <div class="help-block"></div>
+    <div class="prototype" id="gap_title">
+        <div class="ilFormHeader">
+            <h3 class="ilHeader"></h3>
+            <div class="help-block"></div>
+        </div>
     </div>
-</div>
 
-<div class="prototype" id="select_field">
-    <div>
-        <label for="clozetype">{TYPE}</label>
-    </div>
-    <div>
-        <select id="clozetype" class="clozetype form-control" name="clozetype">
-            <option value="0">{TEXT_GAP}</option>
-            <option value="1">{SELECT_GAP}</option>
-            <option value="2">{NUMERIC_GAP}</option>
-        </select>
-    </div>
-</div>
-
-<div class="prototype" id="answer_text">
-    <div>
-        <label>{VALUES} <span class="asterisk">*</span></label>
-    </div>
-    <div>
+    <div class="prototype" id="select_field">
         <div>
-            <table class="answerwizard">
-                <thead>
-                <tr class="form-group">
-                    <th>{ANSWER_TEXT}</th>
-                    <th>{POINTS}</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody id="table_body">
-                <tr class="form-group" id="inner_text">
-                    <td>
-                        <input type="text" size="25" class="text_field" maxlength="200"  value="">
-                    </td>
-                    <td style="vertical-align: top;">
-                        <input type="text" style="text-align: right;" class="points_field" id="gap_points" size="5"  value="0">
-                    </td>
-                    <td style="vertical-align: top;">
-                        <button class="clone_fields_add btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-                        <button class="clone_fields_remove btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="hidden" class="gap_counter">
-            <div class="remove_gap"><input class="btn btn-default  remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
+            <label for="clozetype">{TYPE}</label>
+        </div>
+        <div>
+            <select aria-haspopup="true" id="clozetype" class="clozetype form-control" name="clozetype">
+                <option value="0">
+                    {TEXT_GAP}
+                </option>
+                <option value="1">
+                    {SELECT_GAP}
+                </option>
+                <option value="2">
+                    {NUMERIC_GAP}
+                </option>
+            </select>
         </div>
     </div>
-</div>
-<div  class="prototype" id="numeric_prototype_numeric">
-    <div id="il_prop_cont_gap_0_numeric">
-        <label for="gap_a_numeric">{VALUE} <span class="asterisk">*</span></label>
-    </div>
-    <div class="ilFormValue">
-        <div style="">
-            <input type="text" style="text-align: right;" class="numeric_gap" size="10" id="gap_a_numeric" maxlength="200" name="gap_a_numeric" value="0">
-        </div>
-    </div>
-</div>
-<div  class="prototype" id="numeric_prototype_numeric_lower">
-    <div id="il_prop_cont_gap_0_numeric_lower">
-        <label for="gap_a_numeric_lower">{LOWER_BOUND} <span class="asterisk">*</span></label>
-    </div>
-    <div>
-        <div style="">
-            <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_lower" maxlength="200" name="gap_a_numeric_lower" value="0">
-        </div>
-    </div>
-</div>
-<div  class="prototype" id="numeric_prototype_numeric_upper">
-    <div id="il_prop_cont_gap_0_numeric_upper">
-        <label for="gap_a_numeric_upper">{UPPER_BOUND} <span class="asterisk">*</span></label>
-    </div>
-    <div>
-        <div style="">
-            <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_upper" maxlength="200" name="gap_a_numeric_upper" value="0">
-        </div>
-    </div>
-</div>
-<div  class="prototype" id="numeric_prototype_numeric_points">
-    <div id="il_prop_cont_gap_0_numeric_points">
-        <label for="gap_a_numeric_points">{POINTS} <span class="asterisk">*</span></label>
-    </div>
-    <div>
-        <input style="text-align:right;" type="text" size="3" id="gap_a_numeric_points" maxlength="200" name="gap_a_numeric_points" value="0">
-        <div class="help-block"></div>
-    </div>
-    <input type="hidden" class="gap_counter">
-</div>
-<div  class="prototype" id="numeric_prototype_remove_button">
-    <div class="col-sm-3">
-    </div>
-    <div class="col-sm-9">
-        <div class="remove_gap"><input class="btn btn-default remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
-    </div>
-</div>
 
-<div class="prototype" id="shuffle_answers">
-    <div id="il_prop_cont_shuffle_0">
-        <label>{SHUFFLE_ANSWERS}</label>
-    </div>
-    <div>
-        <div style="">
-            <input class="ilFormCheckbox"  type="checkbox" id="shuffle_dummy" name="shuffle_dummy" value="1">
+    <div class="prototype" id="answer_text">
+        <div>
+            <label>
+                    {VALUES}
+                <span class="asterisk">
+                    *
+                </span>
+            </label>
+        </div>
+        <div>
+            <div>
+                <table class="answerwizard">
+                    <thead>
+                    <tr class="form-group">
+                        <th scope="col">{ANSWER_TEXT}</th>
+                        <th scope="col">{POINTS}</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_body">
+                    <tr class="form-group" id="inner_text">
+                        <td>
+                            <input type="text" size="25" aria-label="{ANSWER_TEXT}" class="text_field"
+                                   maxlength="200"  value="">
+                        </td>
+                        <td style="vertical-align: top;">
+                            <input aria-label="{POINTS}" type="text" style="text-align: right;" class="points_field" id="gap_points"
+                                   size="5"  value="0">
+                        </td>
+                        <td style="vertical-align: top;">
+                            <button aria-label="add awnser" class="clone_fields_add btn btn-link">
+                                <span class="sr-only">
+                                </span>
+                                <span class="glyphicon glyphicon-plus">
+                                </span>
+                            </button>
+                            <button aria-label="remove awnser" class="clone_fields_remove btn btn-link">
+                                <span class="sr-only">
+                                </span>
+                                <span class="glyphicon glyphicon-minus">
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input aria-hidden="true" type="hidden" class="gap_counter">
+                <div class="remove_gap">
+                    <input role="button" class="btn btn-default  remove_gap_button" type="button" value="{REMOVE_GAP}">
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <div  class="prototype" id="numeric_prototype_numeric">
+        <div id="il_prop_cont_gap_0_numeric">
+            <label for="gap_a_numeric">
+                {VALUE} <span class="asterisk">*</span>
+            </label>
+        </div>
+        <div class="ilFormValue">
+            <div style="">
+                <input type="text" style="text-align: right;" class="numeric_gap" size="10" id="gap_a_numeric"
+                       aria-label="{VALUE}" maxlength="200" name="gap_a_numeric" value="0">
+            </div>
+        </div>
+    </div>
+    <div  class="prototype" id="numeric_prototype_numeric_lower">
+        <div id="il_prop_cont_gap_0_numeric_lower">
+            <label for="gap_a_numeric_lower">
+                {LOWER_BOUND} <span class="asterisk">*</span>
+            </label>
+        </div>
+        <div>
+            <div style="">
+                <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_lower" maxlength="200"
+                      aria-label="{LOWER_BOUND}" name="gap_a_numeric_lower" value="0">
+            </div>
+        </div>
+    </div>
+    <div  class="prototype" id="numeric_prototype_numeric_upper">
+        <div id="il_prop_cont_gap_0_numeric_upper">
+            <label for="gap_a_numeric_upper">
+                {UPPER_BOUND} <span class="asterisk">*</span>
+            </label>
+        </div>
+        <div>
+            <div style="">
+                <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_upper"
+                      aria-label="{UPPER_BOUND}" maxlength="200" name="gap_a_numeric_upper" value="0">
+            </div>
+        </div>
+    </div>
+    <div  class="prototype" id="numeric_prototype_numeric_points">
+        <div id="il_prop_cont_gap_0_numeric_points">
+            <label for="gap_a_numeric_points">
+                {POINTS}
+                <span class="asterisk">*</span>
+            </label>
+        </div>
+        <div>
+            <input style="text-align:right;" type="text" size="3" id="gap_a_numeric_points"
+                   aria-label="{POINTS}" maxlength="200" name="gap_a_numeric_points" value="0">
+            <div class="help-block"></div>
+        </div>
+        <input type="hidden" class="gap_counter">
+    </div>
+    <div  class="prototype" id="numeric_prototype_remove_button">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-9">
+            <div class="remove_gap">
+                <input role="button" class="btn btn-default remove_gap_button" type="button" value="{REMOVE_GAP}">
+            </div>
+        </div>
+    </div>
 
-<div class="prototype" id="prototype_gapsize">
-    <div id="prototype_gapsize_a">
-        <label>{GAP_SIZE}</label>
-    </div>
-    <div>
-        <div class="form-inline">
-            <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="">
-            <div class="help-block">{GAP_SIZE_INFO}</div>
+    <div class="prototype" id="shuffle_answers">
+        <div id="il_prop_cont_shuffle_0">
+            <label>
+                {SHUFFLE_ANSWERS}
+            </label>
+        </div>
+        <div>
+            <div style="">
+                <input class="ilFormCheckbox"  type="checkbox" id="shuffle_dummy"
+                      aria-label="{SHUFFLE_ANSWERS}" name="shuffle_dummy" value="1">
+            </div>
         </div>
     </div>
-</div>
 
-<div class="prototype" id="error_answer">
-    <div>
-        <label></label>
-    </div>
-    <div>
-        <div id="error_answer_val">
-            <span class="prototype points form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {POINTS_ERROR}</br></span>
-            <span class="prototype value form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {MISSING_VALUE}</br></span>
-            <span class="prototype formula form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {NOT_A_FORMULA}</br></span>
-            <span class="prototype number form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {NOT_A_NUMBER}</br></span>
-            <span class="prototype wsB form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_FRONT}</br></span>
-            <span class="prototype wsA form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_BACK}</br></span>
-            <span class="prototype wsM form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_MULTIPLE}</br></span>
+    <div class="prototype" id="prototype_gapsize">
+        <div id="prototype_gapsize_a">
+            <label>
+                {GAP_SIZE}
+            </label>
+        </div>
+        <div>
+            <div class="form-inline">
+                <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6"
+                       aria-label="{GAP_SIZE}" name="gap_a_gapsize" value="">
+                <div class="help-block">
+                    {GAP_SIZE_INFO}
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="prototype" id="delete_gap_question">{DELETE_GAP}</div>
-<input id="gap_json_post" name="gap_json_post" class="prototype" value="0" />
-<input id="gap_json_combination_post" name="gap_json_combination_post" class="prototype" value="0" />
-<input id="create_gap_combination" class="prototype" type="button" value="{GAP_COMBINATION}"/>
-<div class="prototype" id="gap_combination_header">
-    <div>
-        <h3 class="ilHeader">GAP_COMBINATION</h3><div class="help-block"></div>
+
+    <div class="prototype" id="error_answer">
+        <div>
+            <label></label>
+        </div>
+        <div>
+            <div id="error_answer_val">
+                <span class="prototype points form_error help-block alert alert-danger">
+                    <img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">
+                    {POINTS_ERROR}
+                    </br>
+                </span>
+                <span class="prototype value form_error help-block alert alert-danger">
+                    <img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">
+                    {MISSING_VALUE}
+                    </br>
+                </span>
+                <span class="prototype formula form_error help-block alert alert-danger">
+                    <img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">
+                    {NOT_A_FORMULA}
+                    </br>
+                </span>
+                <span class="prototype number form_error help-block alert alert-danger">
+                    <img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">
+                    {NOT_A_NUMBER}
+                    </br>
+                </span>
+                <span class="prototype wsB form_warning help-block alert alert-info">
+                    <img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-">
+                    {WHITESPACE_FRONT}
+                    </br>
+                </span>
+                <span class="prototype wsA form_warning help-block alert alert-info">
+                    <img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-">
+                    {WHITESPACE_BACK}
+                    </br>
+                </span>
+                <span class="prototype wsM form_warning help-block alert alert-info">
+                    <img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-">
+                    {WHITESPACE_MULTIPLE}
+                    </br>
+                </span>
+            </div>
+        </div>
     </div>
-    <div>
+    <div class="prototype" id="delete_gap_question">
+        {DELETE_GAP}
     </div>
-</div>
-<div class="prototype" id="gap_combination_points_prototype">
-    <div>
-        <label for="">{POINTS}</label>
+    <input id="gap_json_post" name="gap_json_post" class="prototype" value="0" />
+    <input id="gap_json_combination_post" name="gap_json_combination_post" class="prototype" value="0" />
+    <input id="create_gap_combination" class="prototype" type="button" value="{GAP_COMBINATION}"/>
+    <div class="prototype" id="gap_combination_header">
+        <div>
+            <h3 class="ilHeader">
+                GAP_COMBINATION
+            </h3>
+            <div class="help-block">
+            </div>
+        </div>
+        <div>
+        </div>
     </div>
-    <div>
-        <input type="text" style="text-align: right;" class="points_field" id="gap_combination_points" size="5"  value="0">
+    <div class="prototype" id="gap_combination_points_prototype">
+        <div>
+            <label for="">
+                {POINTS}
+            </label>
+        </div>
+        <div>
+            <input type="text" style="text-align: right;" class="points_field" id="gap_combination_points" size="5"  value="0">
+        </div>
     </div>
-</div>
-<div class="prototype" id="gap_combination">
-    <div class="">
-        <label for="">{GAP}</label>
+    <div class="prototype" id="gap_combination">
+        <div class="">
+            <label for="">{GAP}</label>
+        </div>
+        <div class="form-group">
+            <select aria-haspopup="true" id="gap_id_select" class="form-control gap_combination" label="select">
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <select id="gap_id_select" class="form-control gap_combination" label="select"></select>
+    <div class="prototype" id="gap_combination_value">
+        <div class="">
+            <label for="">
+                {VALUES}
+            </label>
+        </div>
+        <div class="form-group">
+            <div class="combination_labels">
+                <table>
+                    <tr class="first_row">
+                        <td>
+                            {POINTS}
+                        </td>
+                    </tr>
+                    <tr class="stretch_row">
+                        <td>
+                            <input type="text" style="text-align: right;"
+                               class="gap_combination_points form-control small_hidden_input" size="5">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="value_container">
+                <select aria-haspopup="true" id="gap_id_value" class="form-control gap_combination"
+                        label="value">
+                </select>
+            </div>
+        </div>
+
     </div>
-</div>
-<div class="prototype" id="gap_combination_value">
-    <div class="">
-        <label for="">{VALUES}</label>
+    <div class="prototype add_remove_buttons">
+        <button aria-label="add_gap" name="add_gap" class="clone_fields_add combination btn btn-link">
+            <span class="sr-only"></span>
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button aria-label="remove_gap" name="remove_gap" class="clone_fields_remove combination btn btn-link">
+            <span class="sr-only"></span>
+            <span class="glyphicon glyphicon-minus"></span>
+        </button>
     </div>
-    <div class="form-group">
-        <div class="combination_labels"><table><tr class="first_row"><td>{POINTS}</td></tr><tr class="stretch_row"><td><input type="text" style="text-align: right;" class="gap_combination_points form-control small_hidden_input" size="5"></td></tr></table></div>
-        <div class="value_container"><select id="gap_id_value" class="form-control gap_combination" label="value"></select></div>
+    <span id="select_option_placeholder" class="prototype">
+        <option value="none_selected_minus_one">
+            {PLEASE_SELECT}
+        </option>
+    </span>
+    <div class="prototype gap_combination_spacer"></div>
+    <div class="prototype" id="best_resultion_header">
+        <div class="">
+            <h3 class="">
+                {BEST_POSSIBLE_SOLUTION_HEADER}
+            </h3>
+            <div class="help-block"></div>
+        </div>
+        <div class="">
+        </div>
     </div>
-  
-</div>
-<div class="prototype add_remove_buttons">
-    <button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-    <button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
-</div>
-<span id="select_option_placeholder" class="prototype"><option value="none_selected_minus_one">{PLEASE_SELECT}</option></span>
-<div class="prototype gap_combination_spacer"></div>
-<div class="prototype" id="best_resultion_header">
-    <div class="">
-        <h3 class="">{BEST_POSSIBLE_SOLUTION_HEADER}</h3>
-        <div class="help-block"></div>
+    <div class="prototype" id="highlander">
+        <div>
+            <label for="">
+                {BEST_POSSIBLE_SOLUTION}
+            </label>
+        </div>
+        <div>
+            <select aria-haspopup="true" id="best_possible_solution" class="best_possible_solution"
+                    name="best_possible_solution">
+                <option value="0">
+                    {PLEASE_SELECT}
+                </option>
+            </select>
+        </div>
     </div>
-    <div class="">
-    </div>
-</div>
-<div class="prototype" id="highlander">
-    <div>
-        <label for="">{BEST_POSSIBLE_SOLUTION}</label>
-    </div>
-    <div>
-        <select id="best_possible_solution" class="best_possible_solution" name="best_possible_solution">
-            <option value="0">{PLEASE_SELECT}</option>
-        </select>
-    </div>
-</div>
 </div> 

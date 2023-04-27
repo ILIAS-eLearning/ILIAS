@@ -1,24 +1,41 @@
 <div class="form-inline">
 <form name="frm_imagemap" action="{FORMACTION}" method="post">
-<p>{TEXT_SHAPETITLE}: <input class="form-control" type="text" name="shapetitle" size="30" <!-- BEGIN shapetitle -->value="{VALUE_SHAPETITLE}"<!-- END shapetitle --> />
-<input type="submit" class="btn btn-default" name="cmd[saveShape]" value="{SAVE}"{DISABLED_SAVE} />
-<input type="submit" class="btn btn-default" name="cmd[back]" value="{CANCEL}" />
-</p>
-<!-- BEGIN hidden -->
-<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}">
-<!-- END hidden -->
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th>{TEXT_IMAGEMAP}</th>
-	</tr>
-</thead>
-<!-- BEGIN maparea -->
-<tr><td class="tblrow1"><input type="image" name="cmd[areaEditor][{IMAGEMAP_NAME}][]" src="{IMAGE_SOURCE}" /></td></tr>
-<!-- END maparea -->
-<!-- BEGIN imagearea -->
-<tr><td class="tblrow1"><img src="{IMAGE_SOURCE}" alt="{ALT_IMAGE}" /></td></tr>
-<!-- END imagearea -->
-</table>
+	<p>
+		{TEXT_SHAPETITLE}:
+		<input class="form-control" type="text" aria-label="shapetitle" name="shapetitle" size="30"
+		<!-- BEGIN shapetitle -->
+		value="{VALUE_SHAPETITLE}"
+		<!-- END shapetitle --> />
+		<input role="button" type="submit" class="btn btn-default"
+			   name="cmd[saveShape]" value="{SAVE}"{DISABLED_SAVE} />
+		<input role="button" type="submit" class="btn btn-default"
+			   name="cmd[back]" value="{CANCEL}" />
+	</p>
+	<!-- BEGIN hidden -->
+	<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}">
+	<!-- END hidden -->
+	<table class="fullwidth">
+	<thead>
+		<tr class="tblheader">
+			<th>{TEXT_IMAGEMAP}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- BEGIN maparea -->
+		<tr>
+			<td class="tblrow1">
+				<input type="image" name="cmd[areaEditor][{IMAGEMAP_NAME}][]" src="{IMAGE_SOURCE}" />
+			</td>
+		</tr>
+		<!-- END maparea -->
+		<!-- BEGIN imagearea -->
+		<tr>
+			<td class="tblrow1">
+				<img src="{IMAGE_SOURCE}" alt="{ALT_IMAGE}" />
+			</td>
+		</tr>
+		<!-- END imagearea -->
+	</tbody>
+	</table>
 </form>
 </div>

@@ -1,4 +1,4 @@
-<select class="long_menu_input{JS_IGNORE}" {DISABLED} name="answer[{KEY}]" >
+<select aria-haspopup="dialog" class="long_menu_input{JS_IGNORE}" {DISABLED} name="answer[{KEY}]" >
 	<option value="-1">{PLEASE_SELECT}</option>
 	<!-- BEGIN select_option -->
 	<option value="{VALUE}" {SELECTED}>{VALUE}</option>
@@ -7,4 +7,8 @@
 	<option value="{SOLUTION}" selected>{SOLUTION}</option>
 	<!-- END best_solution -->
 </select>
-<!-- BEGIN icon_ok --><img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" /><!-- END icon_ok --><!-- BEGIN icon_not_ok --><img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" /><!-- END icon_not_ok -->
+<!-- BEGIN icon_ok -->
+<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
+<!-- END icon_ok --><!-- BEGIN icon_not_ok -->
+<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
+<!-- END icon_not_ok -->
