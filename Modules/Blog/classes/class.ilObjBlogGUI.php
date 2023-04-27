@@ -1000,10 +1000,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $url = $ilCtrl->getLinkTarget($this, "");
                 $ilCtrl->setParameter($this, "bmn", $this->month);
 
-                $this->gui->button(
+                $this->gui->link(
                     $lng->txt("blog_show_latest"),
                     $url
-                )->std()->toToolbar(false, $ilToolbar);
+                )->toToolbar($ilToolbar);
             }
 
             // print/pdf

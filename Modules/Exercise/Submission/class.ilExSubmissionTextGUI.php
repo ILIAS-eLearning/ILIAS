@@ -68,15 +68,18 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $gui = $DIC->exercise()->internal()->gui();
 
-        $button = ilLinkButton::getInstance();
         if ($a_submission->canSubmit()) {
-            $button->setPrimary(true);
-            $button->setCaption("exc_text_assignment_edit");
-            $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText"));
+            $button = $gui->button(
+                $lng->txt("exc_text_assignment_edit"),
+                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText")
+            )->primary();
         } else {
-            $button->setCaption("exc_text_assignment_show");
-            $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText"));
+            $button = $gui->link(
+                $lng->txt("exc_text_assignment_show"),
+                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText")
+            );
         }
         $files_str = $button->render();
 

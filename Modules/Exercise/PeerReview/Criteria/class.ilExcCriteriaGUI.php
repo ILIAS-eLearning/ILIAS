@@ -27,6 +27,7 @@ use ILIAS\Exercise\GUIRequest;
  */
 class ilExcCriteriaGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
@@ -44,6 +45,7 @@ class ilExcCriteriaGUI
         $this->tpl = $DIC["tpl"];
         $this->cat_id = $a_cat_id;
         $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->gui = $DIC->exercise()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -78,10 +80,10 @@ class ilExcCriteriaGUI
         $types->setOptions(ilExcCriteria::getTypesMap());
         $ilToolbar->addStickyItem($types);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("exc_add_criteria");
-        $button->setCommand("add");
-        $ilToolbar->addStickyItem($button);
+        $this->gui->button(
+            $lng->txt("exc_add_criteria"),
+            "add"
+        )->submit()->toToolbar(true);
 
         $tbl = new ilExcCriteriaTableGUI($this, "view", $this->cat_id);
         $tpl->setContent($tbl->getHTML());

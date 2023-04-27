@@ -80,6 +80,9 @@ abstract class ilExSubmissionBaseGUI
 
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
 
     abstract public static function getOverviewContent(

@@ -23,6 +23,7 @@
  */
 class ilPublicSubmissionsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilExAssignment $ass;
 
     public function __construct(
@@ -56,6 +57,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.exc_public_submissions_row.html", "Modules/Exercise");
         //$this->disable("footer");
         $this->setEnableTitle(true);
+        $this->gui = $DIC->exercise()->internal()->gui();
     }
 
     /**
@@ -106,10 +108,10 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", "");
 
             // #15126
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("exc_download_files");
-            $button->setUrl($url);
-            $button->setOmitPreventDoubleSubmission(true);
+            $button = $this->gui->button(
+                $lng->txt("exc_download_files"),
+                $url
+            );
             $this->tpl->setVariable("BTN_DOWNLOAD", $button->render());
         }
 

@@ -82,6 +82,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $gui = $DIC->exercise()->internal()->gui();
 
         $wsp_tree = new ilWorkspaceTree($a_submission->getUserId());
 
@@ -114,19 +115,21 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         if ($a_submission->canSubmit()) {
             if (!$valid_blog) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_create_blog");
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog"));
+                $button = $gui->button(
+                    $lng->txt("exc_create_blog"),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog")
+                );
                 $buttons_str .= $button->render();
             }
             // #10462
             $blogs = count($wsp_tree->getObjectsFromType("blog"));
             if ((!$valid_blog && $blogs)
                 || ($valid_blog && $blogs > 1)) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_select_blog" . ($valid_blog ? "_change" : ""));
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog"));
-                $buttons_str .= " " . $button->render();
+                $link = $gui->link(
+                    $lng->txt("exc_select_blog" . ($valid_blog ? "_change" : "")),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
+                );
+                $buttons_str .= " " . $link->render();
             }
         }
 
@@ -144,9 +147,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             $dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("download");
-            $button->setUrl($dl_link);
+            $button = $gui->button(
+                $lng->txt("download"),
+                $dl_link
+            );
 
             $a_info->addProperty($lng->txt("exc_files_returned"), $button->render());
         }
@@ -154,7 +158,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
     protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $back_ref_id = $DIC->http()->wrapper()->query()->retrieve(
@@ -163,6 +166,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         ) ?? 0;
 
         $request = $DIC->exercise()->internal()->gui()->request();
+        $gui = $DIC->exercise()->internal()->gui();
 
 
         $lng = $DIC->language();
@@ -204,9 +208,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         if ($a_submission->canSubmit()) {
             if (!$valid_prtf) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_create_portfolio");
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment"));
+                $button = $gui->button(
+                    $lng->txt("exc_create_portfolio"),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment")
+                );
 
                 $buttons_str .= $button->render();
             }
@@ -215,16 +220,19 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             $prtfs = count(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
             if ((!$valid_prtf && $prtfs)
                 || ($valid_prtf && $prtfs > 1)) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_select_portfolio" . ($valid_prtf ? "_change" : ""));
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio"));
-                $buttons_str .= " " . $button->render();
+                $link = $gui->link(
+                    $lng->txt("exc_select_portfolio" . ($valid_prtf ? "_change" : "")),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio")
+                );
+
+                $buttons_str .= " " . $link->render();
             }
             if ($valid_prtf) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption('exc_select_portfolio_unlink');
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio"));
-                $buttons_str .= " " . $button->render();
+                $link = $gui->link(
+                    $lng->txt("exc_select_portfolio_unlink"),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio")
+                );
+                $buttons_str .= " " . $link->render();
             }
         }
         // todo: move this to ks somehow
@@ -239,9 +247,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             $dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("download");
-            $button->setUrl($dl_link);
+            $button = $gui->button(
+                $lng->txt("download"),
+                $dl_link
+            );
 
             $a_info->addProperty($lng->txt("exc_files_returned"), $button->render());
         }

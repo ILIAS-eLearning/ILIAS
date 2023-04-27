@@ -73,6 +73,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $gui = $DIC->exercise()->internal()->gui();
 
         $titles = array();
         foreach ($a_submission->getFiles() as $file) {
@@ -90,17 +91,18 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     ? $lng->txt("exc_hand_in")
                     : $lng->txt("exc_edit_submission"));
 
-                $button = ilLinkButton::getInstance();
-                $button->setPrimary(true);
-                $button->setCaption($title, false);
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));
+                $button = $gui->button(
+                    $title,
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen")
+                )->primary();
                 $files_str .= "<br><br>" . $button->render();
             } else {
                 if (count($titles) > 0) {
-                    $button = ilLinkButton::getInstance();
-                    $button->setCaption("already_delivered_files");
-                    $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));
-                    $files_str .= "<br><br>" . $button->render();
+                    $link = $gui->link(
+                        $lng->txt("already_delivered_files"),
+                        $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen")
+                    );
+                    $files_str .= "<br><br>" . $link->render();
                 }
             }
         }

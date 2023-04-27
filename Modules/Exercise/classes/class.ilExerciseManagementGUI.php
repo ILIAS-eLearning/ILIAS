@@ -45,6 +45,7 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\HTTP\Services $http;
 
     protected ilCtrl $ctrl;
@@ -143,6 +144,9 @@ class ilExerciseManagementGUI
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
         $this->http = $DIC->http();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
 
     /**
@@ -375,10 +379,10 @@ class ilExerciseManagementGUI
             $si->setValue($this->assignment->getId());
             $ilToolbar->addStickyItem($si);
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("exc_select_ass");
-            $button->setCommand("selectAssignment");
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $this->lng->txt("exc_select_ass"),
+                "selectAssignment"
+            )->submit()->toToolbar(true);
 
             $ilToolbar->addSeparator();
         }
@@ -972,10 +976,10 @@ class ilExerciseManagementGUI
             $si->setValue($current_participant);
             $ilToolbar->addStickyItem($si);
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("exc_select_part");
-            $button->setCommand("selectParticipant");
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $this->lng->txt("exc_select_part"),
+                "selectParticipant"
+            )->submit()->toToolbar(true);
         }
 
         if ($mems !== []) {
@@ -1772,11 +1776,10 @@ class ilExerciseManagementGUI
         $this->addSubTabs("assignment");
 
         // #13719
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("exc_download_zip_structure");
-        $button->setUrl($this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip"));
-        $button->setOmitPreventDoubleSubmission(true);
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("exc_download_zip_structure"),
+            $this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip")
+        )->toToolbar();
 
         if ($a_form === null) {
             $a_form = $this->initMultiFeedbackForm($this->assignment->getId());
@@ -2115,11 +2118,10 @@ class ilExerciseManagementGUI
             $this->toolbar->addInputItem($si_feedback, true);
         }
 
-        //todo: old school here.
-        $submit = ilSubmitButton::getInstance();
-        $submit->setCaption("filter");
-        $submit->setCommand("listTextAssignment");
-        $this->toolbar->addButtonInstance($submit);
+        $this->gui->button(
+            $this->lng->txt("filter"),
+            "listTextAssignment"
+        )->submit()->toToolbar();
     }
 
     /**

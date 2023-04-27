@@ -134,7 +134,7 @@ class ilExcCriteriaText extends ilExcCriteria
 
     public function hasValue($a_value): bool
     {
-        return (bool) strlen($a_value);
+        return (bool) strlen((string) $a_value);
     }
 
     public function getHTML($a_value): string

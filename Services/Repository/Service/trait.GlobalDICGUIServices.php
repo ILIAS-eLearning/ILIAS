@@ -30,6 +30,7 @@ use Slim\Http\Stream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
 use ILIAS\Repository\Button\ButtonAdapterGUI;
+use ILIAS\Repository\Link\LinkAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -163,6 +164,16 @@ trait GlobalDICGUIServices
         return new ButtonAdapterGUI(
             $caption,
             $cmd
+        );
+    }
+
+    public function link(
+        string $caption,
+        string $href
+    ): LinkAdapterGUI {
+        return new LinkAdapterGUI(
+            $caption,
+            $href
         );
     }
 }
