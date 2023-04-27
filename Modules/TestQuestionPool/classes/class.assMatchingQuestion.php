@@ -1259,21 +1259,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $matches_written = false;
             foreach ($this->getMatchingPairs() as $idx => $pair) {
                 if (!$matches_written) {
-                    $worksheet->setCell($startrow + $i, $col + 2, $this->lng->txt("matches"));
+                    $worksheet->setCell($startrow + $i, $col + 1, $this->lng->txt("matches"));
                 }
                 $matches_written = true;
                 if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
                     if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getDefinition()->getText());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getDefinition()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getPicture());
                     }
                 }
                 if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
                     if (strlen($pair->getTerm()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col + 3, $pair->getTerm()->getText());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, $col + 3, $pair->getTerm()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getPicture());
                     }
                 }
             }
