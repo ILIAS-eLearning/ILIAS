@@ -3282,7 +3282,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $results = $this->getResultsForActiveId($active_id);
 
-        if (is_null($pass)) {
+        if ($pass === null) {
             $pass = $results['pass'];
         }
 
@@ -3314,7 +3314,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
 
-        $arrResults = array();
+        $arrResults = [];
 
         $query = "
 			SELECT		tst_test_result.question_fi,
@@ -3364,7 +3364,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $result = $ilDB->query($query);
 
-        $unordered = array();
+        $unordered = [];
 
         $key = 1;
 
@@ -3415,7 +3415,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $pass_hint_points = 0;
         $key = 1;
 
-        $found = array();
+        $found = [];
 
         foreach ($sequence as $qid) {
             // building pass point sums based on prepared data
@@ -7238,13 +7238,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array('integer'),
             array($active_id)
         );
+
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
-            $max = $row["maxpass"];
-        } else {
-            $max = null;
+            return $row["maxpass"];
         }
-        return $max;
+
+        return null;
     }
 
     /**
@@ -7252,7 +7252,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * @param int $active_id
      * @return int|mixed
      */
-    public static function _getBestPass($active_id)
+    public static function _getBestPass($active_id): ?int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -7262,29 +7262,34 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array('integer'),
             array($active_id)
         );
-        if ($result->numRows()) {
-            $bestrow = null;
-            $bestfactor = 0;
-            while ($row = $ilDB->fetchAssoc($result)) {
-                if ($row["maxpoints"] > 0) {
-                    $factor = $row["points"] / $row["maxpoints"];
-                } else {
-                    $factor = 0;
-                }
 
-                if ($factor > $bestfactor) {
-                    $bestrow = $row;
-                    $bestfactor = $factor;
-                }
-            }
-            if (is_array($bestrow)) {
-                return $bestrow["pass"];
-            } else {
-                return 0;
-            }
-        } else {
-            return 0;
+        if (!$result->numRows()) {
+            return null;
         }
+
+        $bestrow = null;
+        $bestfactor = 0;
+        while ($row = $ilDB->fetchAssoc($result)) {
+            if ($bestrow === null) {
+                $bestrow = $row;
+                continue;
+            }
+            if ($row["maxpoints"] > 0) {
+                $factor = $row["points"] / $row["maxpoints"];
+            } else {
+                $factor = 0;
+            }
+            if ($factor > $bestfactor) {
+                $bestrow = $row;
+                $bestfactor = $factor;
+            }
+        }
+
+        if (is_array($bestrow)) {
+            return $bestrow["pass"];
+        }
+
+        return null;
     }
 
     /**

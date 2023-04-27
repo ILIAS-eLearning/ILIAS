@@ -23,7 +23,7 @@
  */
 class ilPCGridCellTableGUI extends ilTable2GUI
 {
-    protected int $pos;
+    protected int $pos = 0;
     protected ilPCGrid $grid;
 
     public function __construct(

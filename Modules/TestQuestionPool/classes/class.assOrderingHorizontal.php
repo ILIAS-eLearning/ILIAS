@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -469,7 +470,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
         }
         $i = 1;
-        $worksheet->setCell($startrow + $i, $col, $solutionvalue);
+        $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue);
         $i++;
 
         return $startrow + $i + 1;

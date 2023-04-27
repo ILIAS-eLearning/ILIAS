@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -1264,9 +1264,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $matches_written = true;
                 if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
                     if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col + 1, $pair->getDefinition()->getText());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, $col + 1, $pair->getDefinition()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getPicture());
                     }
                 }
                 if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
