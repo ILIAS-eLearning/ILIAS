@@ -303,11 +303,11 @@ class assQuestionImport
         $repo->update($solution);
     }
 
-    protected function findSolutionTypeByValue(strgin $value): ?string
+    protected function findSolutionTypeByValue(string $value): ?string
     {
         foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
-            if (substr($value, $search_type)) {
+            if (strpos($value, $search_type) !== false) {
                 return $type;
             }
         }
