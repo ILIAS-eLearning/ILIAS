@@ -1403,7 +1403,7 @@ abstract class assQuestion
 
         $pass = ilObjTest::_getResultPass($active_id);
 
-        if ($pass) {
+        if ($pass !== null) {
             $query = "
 			SELECT		tst_pass_result.*
 			FROM		tst_pass_result
