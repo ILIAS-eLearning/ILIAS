@@ -3283,7 +3283,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $results = $this->getResultsForActiveId($active_id);
 
-        if (is_null($pass)) {
+        if ($pass === null) {
             $pass = $results['pass'];
         }
 
@@ -3365,7 +3365,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $result = $ilDB->query($query);
 
-        $unordered = array();
+        $unordered = [];
 
         $key = 1;
 
