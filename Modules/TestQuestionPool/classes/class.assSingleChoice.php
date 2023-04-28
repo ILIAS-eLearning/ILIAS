@@ -33,6 +33,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
+    protected const DEFAULT_THUMB_SIZE = 150;
+    protected const MINIMUM_THUMB_SIZE = 20;
     private bool $isSingleline = true;
 
     /**
@@ -57,7 +59,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
     * Thumbnail size
     */
-    protected ?int $thumb_size;
+    protected int $thumb_size;
 
     /**
      * 1 - Feedback is shown for all answer options.
@@ -90,7 +92,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $output_type = OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->thumb_size = 150;
+        $this->thumb_size = self::DEFAULT_THUMB_SIZE;
         $this->output_type = $output_type;
         $this->answers = array();
         $this->shuffle = 1;
@@ -230,7 +232,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
             $this->setShuffle((bool) $shuffle);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            $this->setThumbSize($data['thumb_size']);
+            $this->setThumbSize($data['thumb_size'] ?? self::DEFAULT_THUMB_SIZE);
             $this->isSingleline = ($data['allow_images']) ? false : true;
             $this->lastChange = $data['tstamp'];
             $this->feedback_setting = $data['feedback_setting'];
@@ -997,14 +999,18 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $startrow + $i + 1;
     }
 
-    public function getThumbSize(): ?int
+    public function getThumbSize(): int
     {
         return $this->thumb_size;
     }
 
-    public function setThumbSize(?int $a_size): void
+    public function setThumbSize(int $a_size): void
     {
-        $this->thumb_size = $a_size;
+        if ($a_size >= self::MINIMUM_THUMB_SIZE) {
+            $this->thumb_size = $a_size;
+        } else {
+            throw new ilException("Thumb size must be at least " . self::MINIMUM_THUMB_SIZE . "px");
+        }
     }
 
     /**
