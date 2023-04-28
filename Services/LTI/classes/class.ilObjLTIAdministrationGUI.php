@@ -78,6 +78,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         global $rbacsystem;
 
+        $DIC->help()->setScreenIdComponent("ltis");
+
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'lti_providing',
@@ -201,10 +203,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->initSettingsForm($form);
     }
     */
-	
-	// create global role LTI-User
-	protected function createLtiUserRole()
-	{
+    
+    // create global role LTI-User
+    protected function createLtiUserRole()
+    {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
         // include_once './Services/AccessControl/classes/class.ilObjRole.php';
@@ -221,12 +223,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             ROOT_FOLDER_ID,
             ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
             array('cat'),
-            array());
+            array()
+        );
         
-		ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
-		$this->listConsumers();
-	}
-	
+        ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
+        $this->listConsumers();
+    }
+    
 
     // consumers
 
@@ -451,7 +454,6 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 );
                 $ilToolbar->addText($this->lng->txt('lti_user_role_info'));
             }
-			
         }
 
         $this->tabs_gui->activateSubTab("consumers");

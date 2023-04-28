@@ -74,7 +74,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function initCreateForm($a_new_type)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $ilHelp = $DIC->help();
+        $ilHelp->setScreenIdComponent("cmix");
+        $ilHelp->setScreenId("create_object");
+
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -451,7 +455,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function setTabs()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $DIC->help()->setScreenIdComponent("cmix");
+
         $DIC->tabs()->addTab(
             self::TAB_ID_INFO,
             $DIC->language()->txt(self::TAB_ID_INFO),

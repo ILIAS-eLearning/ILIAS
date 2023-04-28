@@ -28,7 +28,8 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     public function getAdminTabs()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $DIC->help()->setScreenIdComponent("cmix");
         // lrs types tab
         
         $DIC->tabs()->addTab(
