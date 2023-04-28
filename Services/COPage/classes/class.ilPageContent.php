@@ -98,6 +98,11 @@ abstract class ilPageContent
         return $this->node;
     }
 
+    public function getDomNode(): DOMNode
+    {
+        return $this->node->myDOMNode;
+    }
+
     public function getJavascriptFiles(string $a_mode): array
     {
         return array();
@@ -126,13 +131,18 @@ abstract class ilPageContent
     // Get hierarchical id from dom
     public function lookupHierId(): string
     {
-        return $this->node->get_attribute("HierId");
+        return $this->getDomNode()->getAttribute("HierId");
+    }
+
+    protected function hasNode(): bool
+    {
+        return is_object($this->node);
     }
 
     public function readHierId(): string
     {
-        if (is_object($this->node)) {
-            return $this->node->get_attribute("HierId");
+        if ($this->hasNode()) {
+            return $this->getDomNode()->getAttribute("HierId");
         }
         return "";
     }
@@ -189,16 +199,16 @@ abstract class ilPageContent
 
     public function readPCId(): string
     {
-        if (is_object($this->node)) {
-            return $this->node->get_attribute("PCID");
+        if ($this->hasNode()) {
+            return $this->getDomNode()->getAttribute("PCID");
         }
         return "";
     }
 
     public function writePCId(string $a_pc_id): void
     {
-        if (is_object($this->node)) {
-            $this->node->set_attribute("PCID", $a_pc_id);
+        if ($this->hasNode()) {
+            $this->getDomNode()->setAttribute("PCID", $a_pc_id);
         }
     }
 
@@ -258,8 +268,8 @@ abstract class ilPageContent
      */
     public function setEnabled(string $value): void
     {
-        if (is_object($this->node)) {
-            $this->node->set_attribute("Enabled", $value);
+        if ($this->hasNode()) {
+            $this->getDomNode()->setAttribute("Enabled", $value);
         }
     }
 
@@ -275,8 +285,8 @@ abstract class ilPageContent
 
     final public function isEnabled(): bool
     {
-        if (is_object($this->node) && $this->node->has_attribute("Enabled")) {
-            $compare = $this->node->get_attribute("Enabled");
+        if ($this->hasNode() && $this->getDomNode()->hasAttribute("Enabled")) {
+            $compare = $this->getDomNode()->getAttribute("Enabled");
         } else {
             $compare = "True";
         }
