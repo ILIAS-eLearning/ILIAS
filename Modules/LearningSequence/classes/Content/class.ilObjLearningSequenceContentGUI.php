@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
@@ -42,6 +42,8 @@ class ilObjLearningSequenceContentGUI
     protected LSItemOnlineStatus $ls_item_online_status;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(
         ilObjLearningSequenceGUI $parent_gui,
@@ -52,7 +54,9 @@ class ilObjLearningSequenceContentGUI
         ilConfirmationGUI $confirmation_gui,
         LSItemOnlineStatus $ls_item_online_status,
         ArrayBasedRequestWrapper $post_wrapper,
-        Factory $refinery
+        Factory $refinery,
+        ILIAS\UI\Factory $ui_factory,
+        ILIAS\UI\Renderer $ui_renderer
     ) {
         $this->parent_gui = $parent_gui;
         $this->ctrl = $ctrl;
@@ -63,6 +67,8 @@ class ilObjLearningSequenceContentGUI
         $this->ls_item_online_status = $ls_item_online_status;
         $this->post_wrapper = $post_wrapper;
         $this->refinery = $refinery;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
     }
 
     public function executeCommand(): void

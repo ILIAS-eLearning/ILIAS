@@ -520,7 +520,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             new ilConfirmationGUI(),
             new LSItemOnlineStatus(),
             $this->post_wrapper,
-            $this->refinery
+            $this->refinery,
+            $this->ui_factory,
+            $this->ui_renderer,
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
