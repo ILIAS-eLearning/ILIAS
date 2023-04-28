@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -41,7 +43,7 @@ class ilContributorTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->addColumn("", "", 1);
+        $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("name"), "name");
         $this->addColumn($this->lng->txt("obj_role"), "role");
 

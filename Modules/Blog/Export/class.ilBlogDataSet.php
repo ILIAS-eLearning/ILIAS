@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -214,7 +216,7 @@ class ilBlogDataSet extends ilDataSet
                     );
                     foreach ($this->data as $idx => $item) {
                         // create full export id
-                        $this->data[$idx]["Author"] = $this->createObjectExportId("usr", $item["Author"]);
+                        $this->data[$idx]["Author"] = $this->createObjectExportId("usr", (string) $item["Author"]);
                     }
                     break;
             }

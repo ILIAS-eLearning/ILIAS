@@ -55,12 +55,6 @@ class ilStyleDataSet extends ilDataSet
      */
     protected $user;
 
-    /**
-     * constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;

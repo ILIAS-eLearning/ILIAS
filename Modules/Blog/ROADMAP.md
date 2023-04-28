@@ -4,6 +4,10 @@
 
 ## Mid Term
 
+### KS
+
+- Use KS components whenever possible.
+
 ### Improve Architecture
 
 - Introduce repository pattern

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,7 +38,7 @@ class ilObjBlog extends ilObject2
     protected string $bg_color = "";
     protected string $font_color = "";
     protected string $img = "";
-    protected string $ppic = "";
+    protected bool $ppic = false;
     protected bool $rss = false;
     protected bool $approval = false;
     protected bool $style = false;
@@ -85,15 +87,15 @@ class ilObjBlog extends ilObject2
         $this->setBackgroundColor((string) $row["bg_color"]);
         $this->setFontColor((string) $row["font_color"]);
         $this->setImage((string) $row["img"]);
-        $this->setRSS($row["rss_active"]);
-        $this->setApproval($row["approval"]);
-        $this->setAbstractShorten($row["abs_shorten"]);
+        $this->setRSS((bool) $row["rss_active"]);
+        $this->setApproval((bool) $row["approval"]);
+        $this->setAbstractShorten((bool) $row["abs_shorten"]);
         $this->setAbstractShortenLength($row["abs_shorten_len"]);
-        $this->setAbstractImage($row["abs_image"]);
+        $this->setAbstractImage((bool) $row["abs_image"]);
         $this->setAbstractImageWidth($row["abs_img_width"]);
         $this->setAbstractImageHeight($row["abs_img_height"]);
-        $this->setKeywords($row["keywords"]);
-        $this->setAuthors($row["authors"]);
+        $this->setKeywords((bool) $row["keywords"]);
+        $this->setAuthors((bool) $row["authors"]);
         $this->setNavMode($row["nav_mode"]);
         $this->setNavModeListMonthsWithPostings((int) $row["nav_list_mon_with_post"]);
         $this->setNavModeListMonths($row["nav_list_mon"]);
@@ -623,7 +625,7 @@ class ilObjBlog extends ilObject2
         }
 
         // #10827
-        if (substr($a_wsp_id, -4) !== "_cll") {
+        if (!str_ends_with($a_wsp_id, "_cll")) {
             $wsp_id = new ilWorkspaceTree(0);
             $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
             $is_wsp = "_wsp";
@@ -704,7 +706,7 @@ class ilObjBlog extends ilObject2
     public function getLocalContributorRole(int $a_node_id): int
     {
         foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
-            if (strpos(ilObject::_lookupTitle($role_id), "il_blog_contributor") === 0) {
+            if (str_starts_with(ilObject::_lookupTitle($role_id), "il_blog_contributor")) {
                 return $role_id;
             }
         }
