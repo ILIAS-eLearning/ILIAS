@@ -683,7 +683,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->setIsSingleline(($_POST["types"] == 0) ? true : false);
         }
-        $this->object->setThumbSize(isset($_POST["thumb_size"]) ? (int) $_POST["thumb_size"] : null);
+        $this->object->setThumbSize(isset($_POST["thumb_size"]) && $_POST["thumb_size"] !== "" ? (int) $_POST["thumb_size"] : null);
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
@@ -781,7 +781,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $thumb_size->setDecimals(0);
             $thumb_size->setSize(6);
             $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
-            $thumb_size->setValue($this->object->getThumbSize());
+            $thumb_size_value = $this->object->getThumbSize();
+            $thumb_size->setValue($thumb_size_value >= 20 ? $thumb_size_value : "");
             $thumb_size->setRequired(false);
             $form->addItem($thumb_size);
         }

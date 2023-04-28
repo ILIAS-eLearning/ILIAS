@@ -562,7 +562,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $this->object->setIsSingleline($types === '0' ? true : false);
         }
 
-        $this->object->setThumbSize(isset($_POST["thumb_size"]) ? (int) $_POST["thumb_size"] : null);
+        $this->object->setThumbSize(isset($_POST["thumb_size"]) && $_POST["thumb_size"] !== "" ? (int) $_POST["thumb_size"] : null);
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -603,7 +603,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $thumb_size->setDecimals(0);
             $thumb_size->setSize(6);
             $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
-            $thumb_size->setValue($this->object->getThumbSize());
+            $thumb_size_value = $this->object->getThumbSize();
+            $thumb_size->setValue($thumb_size_value >= 20 ? $thumb_size_value : "");
             $thumb_size->setRequired(false);
             $form->addItem($thumb_size);
         }
