@@ -35,6 +35,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
+    protected const DEFAULT_THUMB_SIZE = 150;
+    protected const MINIMUM_THUMB_SIZE = 20;
     /**
      * The given answers of the multiple choice question
      *
@@ -106,7 +108,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
-        $this->thumb_size = 150;
+        $this->thumb_size = self::DEFAULT_THUMB_SIZE;
         $this->answers = array();
         $this->shuffle = 1;
         $this->selectionLimit = null;
@@ -243,7 +245,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
             $this->setShuffle((bool) $shuffle);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            $this->setThumbSize($data['thumb_size']);
+            $this->setThumbSize($data['thumb_size'] ?? self::DEFAULT_THUMB_SIZE);
             $this->isSingleline = ($data['allow_images']) ? false : true;
             $this->lastChange = $data['tstamp'];
             $this->setSelectionLimit((int) $data['selection_limit'] > 0 ? (int) $data['selection_limit'] : null);
@@ -1028,9 +1030,18 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $this->thumb_size;
     }
 
-    public function setThumbSize(?int $a_size): void
+    public function setThumbSize(int $a_size): void
     {
-        $this->thumb_size = $a_size;
+        if ($a_size >= self::MINIMUM_THUMB_SIZE) {
+            $this->thumb_size = $a_size;
+        } else {
+            throw new ilException("Thumb size must be at least " . self::MINIMUM_THUMB_SIZE . "px");
+        }
+    }
+
+    public function getMinimumThumbSize(): int
+    {
+        return self::MINIMUM_THUMB_SIZE;
     }
 
     /**
