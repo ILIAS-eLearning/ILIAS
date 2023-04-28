@@ -1013,6 +1013,11 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
+    public function getMinimumThumbSize(): int
+    {
+        return self::MINIMUM_THUMB_SIZE;
+    }
+
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */

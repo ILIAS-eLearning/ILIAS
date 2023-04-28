@@ -213,7 +213,7 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
         $thumb_size = (int) $item->getMetadataEntry("thumb_size");
-        if ($thumb_size) {
+        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
             $this->object->setThumbSize($thumb_size);
         }
         foreach ($answers as $answer) {

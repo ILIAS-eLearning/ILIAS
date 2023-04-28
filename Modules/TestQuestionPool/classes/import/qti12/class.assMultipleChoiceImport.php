@@ -217,7 +217,7 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setShuffle($shuffle);
         $this->object->setSelectionLimit($selectionLimit);
         $thumb_size = (int) $item->getMetadataEntry("thumb_size");
-        if ($thumb_size) {
+        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
             $this->object->setThumbSize($thumb_size);
         }
 
