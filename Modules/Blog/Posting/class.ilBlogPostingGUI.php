@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,7 +39,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     protected bool $enable_public_notes = false;
     protected bool $may_contribute = false;
     protected bool $fetchall = false;
-    protected bool $blpg = false;
+    protected int $blpg = 0;
     protected string $term = "";
     public bool $add_date = false;
 

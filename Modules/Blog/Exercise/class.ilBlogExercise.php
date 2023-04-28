@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,7 +46,7 @@ class ilBlogExercise
 
         $assignments = [];
 
-        $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id);
+        $exercises = ilExSubmission::findUserFiles($user->getId(), (string) $node_id);
         // #0022794
         if (count($exercises) === 0) {
             $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");

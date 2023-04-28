@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,6 +36,6 @@ class ilBlogPostingConfig extends ilPageConfig
         $this->setEnableActivation(true);
 
         $blga_set = new ilSetting("blga");
-        $this->setPreventHTMLUnmasking(!$blga_set->get("mask", false));
+        $this->setPreventHTMLUnmasking(!$blga_set->get("mask", "0"));
     }
 }

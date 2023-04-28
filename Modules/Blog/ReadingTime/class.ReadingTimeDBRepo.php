@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Blog\ReadingTime;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -261,7 +263,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $nav_mode->setRequired(true);
         $a_form->addItem($nav_mode);
 
-        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_list"), ilObjBlog::NAV_MODE_LIST);
+        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_list"), (string) ilObjBlog::NAV_MODE_LIST);
         $opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
         $nav_mode->addOption($opt);
 
@@ -279,7 +281,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         //$detail_num->setMinValue(0);
         $opt->addSubItem($detail_num);
 
-        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), ilObjBlog::NAV_MODE_MONTH);
+        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), (string) ilObjBlog::NAV_MODE_MONTH);
         $opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
         $nav_mode->addOption($opt);
 
@@ -439,23 +441,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $obj_service = $this->getObjectService();
 
         if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $this->object->setApproval($form->getInput("approval"));
-            $this->object->setAuthors($form->getInput("nav_authors"));
+            $this->object->setApproval((bool) $form->getInput("approval"));
+            $this->object->setAuthors((bool) $form->getInput("nav_authors"));
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
         }
-        $this->object->setKeywords($form->getInput("keywords"));
-        $this->object->setNotesStatus($form->getInput("notes"));
-        $this->object->setProfilePicture($form->getInput("ppic"));
-        $this->object->setRSS($form->getInput("rss"));
-        $this->object->setAbstractShorten($form->getInput("abss"));
-        $this->object->setAbstractShortenLength($form->getInput("abssl"));
-        $this->object->setAbstractImage($form->getInput("absi"));
-        $this->object->setAbstractImageWidth($form->getInput("absiw"));
-        $this->object->setAbstractImageHeight($form->getInput("absih"));
-        $this->object->setNavMode($form->getInput("nav"));
-        $this->object->setNavModeListMonthsWithPostings($form->getInput("nav_list_mon_with_post"));
-        $this->object->setNavModeListMonths($form->getInput("nav_list_mon"));
-        $this->object->setOverviewPostings($form->getInput("ov_list_post_num"));
+        $this->object->setKeywords((bool) $form->getInput("keywords"));
+        $this->object->setNotesStatus((bool) $form->getInput("notes"));
+        $this->object->setProfilePicture((bool) $form->getInput("ppic"));
+        $this->object->setRSS((bool) $form->getInput("rss"));
+        $this->object->setAbstractShorten((bool) $form->getInput("abss"));
+        $this->object->setAbstractShortenLength((int) $form->getInput("abssl"));
+        $this->object->setAbstractImage((bool) $form->getInput("absi"));
+        $this->object->setAbstractImageWidth((int) $form->getInput("absiw"));
+        $this->object->setAbstractImageHeight((int) $form->getInput("absih"));
+        $this->object->setNavMode((int) $form->getInput("nav"));
+        $this->object->setNavModeListMonthsWithPostings((int) $form->getInput("nav_list_mon_with_post"));
+        $this->object->setNavModeListMonths((int) $form->getInput("nav_list_mon"));
+        $this->object->setOverviewPostings((int) $form->getInput("ov_list_post_num"));
         $this->reading_time_gui->saveSettingFromForm($form);
 
         $order = (array) $form->getInput("order");
@@ -979,7 +981,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
             $title = new ilTextInputGUI($lng->txt("title"), "title");
             $title->setSize(30);
-            $ilToolbar->addStickyItem($title, $lng->txt("title"));
+            $ilToolbar->addStickyItem($title, true);
             $tpl->addOnLoadCode("
                 document.getElementById('title').setAttribute('data-blog-input', 'posting-title');
                 document.getElementById('title').setAttribute('placeholder', ' ');
@@ -1279,7 +1281,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         // show banner?
-        $banner = false;
+        $banner = "";
         $blga_set = new ilSetting("blga");
         $banner_width = "";
         $banner_height = "";
@@ -2253,7 +2255,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $a_list_cmd !== "preview" &&
                 $a_list_cmd !== "gethtml" &&
                 !$a_link_template);
-            $keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive, (bool) $a_link_template, $a_blpg);
+            $keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive, (string) $a_link_template, $a_blpg);
             if ($keywords || $may_edit_keywords) {
                 if (!$keywords) {
                     $keywords = $this->lng->txt("blog_no_keywords");
