@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
+
 /**
  * Content object of ilPageObject (see ILIAS DTD). Every concrete object
  * should be an instance of a class derived from ilPageContent (e.g. ilParagraph,
@@ -30,11 +32,11 @@ abstract class ilPageContent
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
     /**
-     * @depracated use getDomNode()
+     * @deprecated use getDomNode()
      */
     public ?php4DOMElement $node = null;
     /**
-     * @depracated use getDomDoc()
+     * @deprecated use getDomDoc()
      */
     public ?php4DOMDocument $dom = null;
     public string $page_lang = "";
@@ -47,8 +49,12 @@ abstract class ilPageContent
     protected ilLogger $log;
     protected string $profile_back_url = "";
 
-    final public function __construct(ilPageObject $a_pg_obj)
-    {
+    final public function __construct(
+        ilPageObject $a_pg_obj,
+        ?PageManagerInterface $page_manager = null
+    ) {
+        global $DIC;
+
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->setPage($a_pg_obj);
         $this->dom = $a_pg_obj->getDom();
@@ -57,6 +63,15 @@ abstract class ilPageContent
         if ($this->getType() == "") {
             die("Error: ilPageContent::init() did not set type");
         }
+        $this->page_manager = $page_manager ?? $DIC->copage()
+                                                   ->internal()
+                                                   ->domain()
+                                                   ->page();
+    }
+
+    protected function getPageManager(): PageManagerInterface
+    {
+        return $this->page_manager;
     }
 
     public function setPage(ilPageObject $a_val): void
@@ -99,7 +114,7 @@ abstract class ilPageContent
     }
 
     /**
-     * @depracated use getDomNode()
+     * @deprecated  use getDomNode()
      */
     public function getNode(): ?php4DOMElement
     {
@@ -109,6 +124,11 @@ abstract class ilPageContent
     public function getDomNode(): DOMNode
     {
         return $this->node->myDOMNode;
+    }
+
+    public function setDomNode(DOMNode $node): void
+    {
+        $this->node->myDOMNode = $node;
     }
 
     public function getChildNode(): DOMNode

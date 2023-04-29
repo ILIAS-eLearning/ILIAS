@@ -22,6 +22,7 @@ namespace ILIAS\COPage;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\COPage\Page\PageManagerInterface;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,5 +61,10 @@ class InternalDomainService
     public function domUtil(): Dom\DomUtil
     {
         return new Dom\DomUtil();
+    }
+
+    public function page(): Page\PageManagerInterface
+    {
+        return new Page\PageManager();
     }
 }

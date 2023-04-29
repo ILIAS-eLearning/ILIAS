@@ -16,27 +16,29 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilUnitTestPageObject extends ilPageObject
+class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
 {
-    public function getParentType(): string
+    public function __construct()
     {
-        return "unit";
     }
 
-    public function initPageConfig(): void
-    {
-        $this->setPageConfig(new ilUnitTestPageConfig());
+    public function mockGet(
+        ilPageObject $page_object
+    ) {
+        $this->test_get = $page_object;
     }
 
-    protected function getIliasAbsolutePath(): string
-    {
-        return ".";
-    }
-
-    public function update(bool $a_validate = true, bool $a_no_history = false)
-    {
+    public function get(
+        string $parent_type,
+        int $id = 0,
+        int $old_nr = 0,
+        string $lang = "-"
+    ): ilPageObject {
+        return $this->test_get;
     }
 }

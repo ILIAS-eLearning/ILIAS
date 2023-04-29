@@ -1737,6 +1737,21 @@ s     */
         }
     }
 
+    public function stripPCIDs(): void
+    {
+        if (is_object($this->dom)) {
+            $xpc = xpath_new_context($this->dom);
+            $path = "//*[@PCID]";
+            $res = xpath_eval($xpc, $path);
+            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
+                if ($res->nodeset[$i]->has_attribute("PCID")) {
+                    $res->nodeset[$i]->remove_attribute("PCID");
+                }
+            }
+            unset($xpc);
+        }
+    }
+
     /**
      * Get hier ids for a set of pc ids
      */
@@ -2535,7 +2550,6 @@ s     */
     public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $this->log->debug("start..., id: " . $this->getId());
-
         $lm_set = new ilSetting("lm");
 
         // add missing pc ids
