@@ -277,7 +277,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $class = get_class($this->access_handler);
         }
 
-        return stristr($class, "workspace");
+        return (bool) stristr($class, "workspace");
     }
 
     /**

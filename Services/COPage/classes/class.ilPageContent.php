@@ -29,7 +29,13 @@ abstract class ilPageContent
     protected string $type = "";
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
+    /**
+     * @depracated use getDomNode()
+     */
     public ?php4DOMElement $node = null;
+    /**
+     * @depracated use getDomDoc()
+     */
     public ?php4DOMDocument $dom = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
@@ -92,7 +98,9 @@ abstract class ilPageContent
         $this->node = $a_node;
     }
 
-    // Get PageContent node
+    /**
+     * @depracated use getDomNode()
+     */
     public function getNode(): ?php4DOMElement
     {
         return $this->node;
@@ -101,6 +109,11 @@ abstract class ilPageContent
     public function getDomNode(): DOMNode
     {
         return $this->node->myDOMNode;
+    }
+
+    public function getChildNode(): DOMNode
+    {
+        return $this->getDomNode()->firstChild;
     }
 
     public function getJavascriptFiles(string $a_mode): array
