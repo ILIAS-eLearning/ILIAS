@@ -385,7 +385,7 @@ class ilCmiXapiLaunchGUI
         }
         try
         {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             foreach ($responses as $response) {
                 ilCmiXapiAbstractRequest::checkResponse($response,$body,[204]);

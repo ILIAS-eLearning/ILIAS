@@ -130,7 +130,7 @@
                 // this would throw first ConnectionException
                 // $responses = Promise\unwrap($promises);
                 try {
-                    $responses = Promise\settle($promises)->wait();
+                    $responses = Promise\Utils::settle($promises)->wait();
                 }
                 catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
@@ -169,7 +169,7 @@
                 // this would throw first ConnectionException
                 // $responses = Promise\unwrap($promises);
                 try {
-                    $responses = Promise\settle($promises)->wait();
+                    $responses = Promise\Utils::settle($promises)->wait();
                 }
                 catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
