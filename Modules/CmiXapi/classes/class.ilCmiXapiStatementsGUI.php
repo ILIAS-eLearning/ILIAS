@@ -272,7 +272,7 @@ class ilCmiXapiStatementsGUI
         $promises = array();
         $promises['defaultVerbs'] = $client->sendAsync($defaultVerbsRequest, $req_opts);
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'], $body, [200]);
             return json_decode($body, (bool) JSON_OBJECT_AS_ARRAY);
