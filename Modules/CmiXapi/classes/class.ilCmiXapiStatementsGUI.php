@@ -257,7 +257,7 @@ class ilCmiXapiStatementsGUI
         $promises = array();
         $promises['defaultVerbs'] = $client->sendAsync($defaultVerbsRequest, $req_opts);
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             //$DIC->logger()->root()->log(var_export($responses['defaultVerbs'],TRUE));
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'], $body, [200]);

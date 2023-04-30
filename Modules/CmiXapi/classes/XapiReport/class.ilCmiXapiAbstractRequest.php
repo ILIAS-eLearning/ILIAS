@@ -54,7 +54,7 @@ abstract class ilCmiXapiAbstractRequest
             $body = '';
             $promises = array();
             $promises['default'] = $client->sendAsync($request, $req_opts);
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             self::checkResponse($responses['default'], $body);
             return $body;
         } catch (Exception $e) {
