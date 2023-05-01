@@ -2,68 +2,96 @@
 	<table class="singlechoicewizard table table-condensed table-striped">
 		<thead>
 			<tr>
-				<th>{ANSWER_TEXT}</th>
-				<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
-<!-- BEGIN points_heading -->
-				<th>{POINTS_TEXT}</th>
-<!-- END points_heading -->
-				<th>{COMMANDS_TEXT}</th>
+				<th scope="col">
+					{ANSWER_TEXT}
+				</th>
+				<th class="imagecolumn" scope="col">
+					<!-- BEGIN image_heading -->
+					{ANSWER_IMAGE}
+					<!-- END image_heading -->
+				</th>
+				<!-- BEGIN points_heading -->
+				<th scope="col">
+					{POINTS_TEXT}
+				</th>
+				<!-- END points_heading -->
+				<th scope="col">
+					{COMMANDS_TEXT}
+				</th>
 			</tr>
 		</thead>
 		<tbody class="scwzd">
-<!-- BEGIN row -->
+			<!-- BEGIN row -->
 			<tr class="scwzd">
 				<td>
-<!-- BEGIN singleline -->
-					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
-<!-- END singleline -->
-<!-- BEGIN multiline -->
-					<textarea class="form-control" cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
-<!-- END multiline -->
+					<!-- BEGIN singleline -->
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}"
+						   maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+						   aria-label="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+					<!-- BEGIN prop_text_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_text_propval -->
+					{DISABLED_SINGLELINE}/>
+					<!-- END singleline -->
+					<!-- BEGIN multiline -->
+					<textarea class="form-control" cols="60" rows="4" aria-multiline="true"
+							  name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]"
+							  id="{MULTILINE_ID}"{DISABLED_MULTILINE}>
+						{PROPERTY_VALUE}
+					</textarea>
+					<!-- END multiline -->
 				</td>
 				<td class="imagecolumn">
-<!-- BEGIN addimage -->
+					<!-- BEGIN addimage -->
 					<div class="imageselection">
 					<div class="row">
 						<div class="col-md-9">
 							<div class="input-group">
 								<span class="input-group-btn">
 									<span class="btn btn-default btn-file">
-										{IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
+										{IMAGE_BROWSE}
+										<input class="upload" type="file" id="{IMAGE_ID}"
+										aria-haspopup="dialog"
+									   	name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
 									</span>
 								</span>
 								<input type="text" class="form-control" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-3">
-							<input type="submit" class="btn btn-default" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" />
+							<input type="submit" class="btn btn-default" role="button"
+								   name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" />
 						</div>
 					</div>
-<!-- BEGIN image -->
+					<!-- BEGIN image -->
 					<div class="imagepresentation">
-						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
-						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-						<input type="submit" class="btn btn-default" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]"
+							   value="{IMAGE_NAME}" />
+						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" />
+						<br />
+						<input type="submit" class="btn btn-default" role="button"
+							   name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]"
+							   value="{TXT_DELETE_EXISTING}" /><br />
 					</div>
-<!-- END image -->
+					<!-- END image -->
 					</div>
-<!-- END addimage -->
+					<!-- END addimage -->
 				</td>
-<!-- BEGIN points -->
+				<!-- BEGIN points -->
 				<td class="ilValignTop">
 					<input type="text" class="form-control text-right" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
-<!-- END points -->
+				<!-- END points -->
 				<td class="ilValignTop">
 					<button type="button" name="{CMD_ADD}" class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
 					<button type="button" name="{CMD_REMOVE}" class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>
-<!-- BEGIN move -->
+					<!-- BEGIN move -->
 					<button type="button" name="{CMD_UP}" class="singlechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
 					<button type="button" name="{CMD_DOWN}" class="singlechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
-<!-- END move -->
+					<!-- END move -->
 				</td>
 			</tr>
-<!-- END row -->
+			<!-- END row -->
 		</tbody>
 	</table>
 	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>

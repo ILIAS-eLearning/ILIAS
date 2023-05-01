@@ -1,65 +1,100 @@
 <div class="input-group">
 	<span class="input-group-btn">
 		<span class="btn btn-default btn-file">
-			{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+			{TXT_BROWSE}
+			<input type="file" id="{ID}" aria-label="{POST_VAR}" name="{POST_VAR}" size="30" />
 		</span>
 	</span>
-	<input type="text" class="form-control" readonly="readonly">
+	<input type="text" class="form-control" aria-readonly="true" readonly="readonly">
 </div>
-<div class="help-block">{TXT_MAX_SIZE}</div>
+<div class="help-block">
+	{TXT_MAX_SIZE}
+</div>
 <!-- BEGIN allowed_image_suffixes -->
-<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
+<div class="help-block">
+	{TXT_ALLOWED_SUFFIXES}
+</div>
 <!-- END allowed_image_suffixes -->
 <!-- BEGIN image -->
-<img class="imagemap" style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-<input type="submit" class="btn btn-default btn-sm" name="cmd[deleteImage]" id="{POST_VAR_D}_delete" value="{TXT_DELETE_EXISTING}" />
+<img class="imagemap" style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" />
+<br />
+<input type="submit" class="btn btn-default btn-sm" role="button"
+	   name="cmd[deleteImage]" id="{POST_VAR_D}_delete" value="{TXT_DELETE_EXISTING}" />
 <br />
 <!-- BEGIN has_value -->
 <input type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
 <!-- END has_value -->
 <div class="text-right">
-	<input class="btn btn-default" type="submit" name="cmd[addRect][{POST_VAR_D}]" value="{TEXT_ADD_RECT}" />
-	<input class="btn btn-default" type="submit" name="cmd[addCircle][{POST_VAR_D}]" value="{TEXT_ADD_CIRCLE}" />
-	<input class="btn btn-default" type="submit" name="cmd[addPoly][{POST_VAR_D}]" value="{TEXT_ADD_POLY}" />
+	<input class="btn btn-default" type="submit" role="button"
+		   name="cmd[addRect][{POST_VAR_D}]" value="{TEXT_ADD_RECT}" />
+	<input class="btn btn-default" type="submit" role="button"
+		   name="cmd[addCircle][{POST_VAR_D}]" value="{TEXT_ADD_CIRCLE}" />
+	<input class="btn btn-default" type="submit" role="button"
+		   name="cmd[addPoly][{POST_VAR_D}]" value="{TEXT_ADD_POLY}" />
 </div>
 <!-- END image -->
 <!-- BEGIN areas -->
 <div class="form-inline">
 	<table class="imagemapareas table table-condensed table-striped">
 		<thead>
-		<tr>
-			<th>{TEXT_NAME}</th>
-			<th>{TEXT_POINTS}</th>
-			<!-- BEGIN area_points_unchecked_head -->
-			<th>{TEXT_POINTS_UNCHECKED}</th>
-			<!-- END area_points_unchecked_head -->
-			<th>{TEXT_SHAPE}</th>
-			<th>{TEXT_COORDINATES}</th>
-			<th>{TEXT_COMMANDS}</th>
-		</tr>
+			<tr>
+				<th scope="col">
+					{TEXT_NAME}
+				</th>
+				<th scope="col">
+					{TEXT_POINTS}
+				</th>
+				<!-- BEGIN area_points_unchecked_head -->
+				<th scope="col">
+					{TEXT_POINTS_UNCHECKED}
+				</th>
+				<!-- END area_points_unchecked_head -->
+				<th scope="col">
+					{TEXT_SHAPE}
+				</th>
+				<th scope="col">
+					{TEXT_COORDINATES}
+				</th>
+				<th scope="col">
+					{TEXT_COMMANDS}
+				</th>
+			</tr>
 		</thead>
 		<tbody class="imgmap">
 		<!-- BEGIN row -->
 		<tr class="imgmap">
 			<td>
-				<input class="form-control" type="text" name="{POST_VAR_R}[coords][name][]" size="15"<!-- BEGIN area_name_value --> value="{VALUE_NAME}"<!-- END area_name_value --> />
+				<input class="form-control" type="text" name="{POST_VAR_R}[coords][name][]" size="15"
+				<!-- BEGIN area_name_value --> aria-label="{POST_VAR_R}[coords][name][]"
+				value="{VALUE_NAME}"
+				<!-- END area_name_value --> />
 			</td>
 			<td>
-				<input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points][]" size="3"<!-- BEGIN area_points_value --> value="{VALUE_POINTS}"<!-- END area_points_value --> />
+				<input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points][]" size="3"
+				aria-label="{POST_VAR_R}[coords][points][]"
+				<!-- BEGIN area_points_value --> value="{VALUE_POINTS}"<!-- END area_points_value --> />
 			</td>
 			<!-- BEGIN area_points_unchecked_field -->
 			<td>
-				<input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points_unchecked][]" size="3"<!-- BEGIN area_points_unchecked_value --> value="{VALUE_POINTS_UNCHECKED}"<!-- END area_points_unchecked_value --> />
+				<input class="form-control text-right" type="text" aria-label="{POST_VAR_R}[coords][points_unchecked][]"
+					   name="{POST_VAR_R}[coords][points_unchecked][]" size="3"
+				<!-- BEGIN area_points_unchecked_value --> value="{VALUE_POINTS_UNCHECKED}"
+				<!-- END area_points_unchecked_value --> />
 			</td>
 			<!-- END area_points_unchecked_field -->
 			<td>
 				{TEXT_SHAPE}
-				<input type="hidden" name="{POST_VAR_R}[coords][shape][]" value="{VALUE_SHAPE}" />
-				<input type="hidden" name="{POST_VAR_R}[coords][coords][]" value="{VALUE_COORDINATES}" /></td>
+				<input type="hidden"
+					   aria-label="{POST_VAR_R}[coords][shape][]"
+					   name="{POST_VAR_R}[coords][shape][]" value="{VALUE_SHAPE}" />
+				<input type="hidden" name="{POST_VAR_R}[coords][coords][]"
+					   aria-label="{POST_VAR_R}[coords][coords][]"
+					   value="{VALUE_COORDINATES}" /></td>
 			<td class="{VALUE_SHAPE}">{TEXT_COORDINATES}</td>
 			<td>
 				<button type="button" name="cmd[removeArea][{POST_VAR_R}][{COUNTER}]" class="area_remove btn btn-link"
-						onclick="javascript: void(0); return false;">{REMOVE_BUTTON}
+						aria-label="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;">
+					{REMOVE_BUTTON}
 				</button>
 			</td>
 		</tr>

@@ -2,25 +2,47 @@
 	<table class="errortextwizard  table table-condensed table-striped">
 		<thead>
 			<tr>
-				<th>{KEY_TEXT}</th>
-				<th>{VALUE_TEXT}</th>
-				<th>{POINTS_TEXT}</th>
+				<th scope="col">
+					{KEY_TEXT}
+				</th>
+				<th scope="col">
+					{VALUE_TEXT}
+				</th scope="col">
+				<th>
+					{POINTS_TEXT}
+				</th>
 			</tr>
 		</thead>
 		<tbody>
-<!-- BEGIN row -->
+		<!-- BEGIN row -->
 			<tr class="{ROW_CLASS}">
 				<td>
-					<input class="form-control" type="text" size="{KEY_SIZE}" id="{KEY_ID}" maxlength="{KEY_MAXLENGTH}" name="{POST_VAR}[key][{ROW_NUMBER}]" <!-- BEGIN prop_key_propval -->value="{PROPERTY_VALUE}" <!-- END prop_key_propval -->{DISABLED_KEY}/>
+					<input class="form-control" type="text" size="{KEY_SIZE}" id="{KEY_ID}" maxlength="{KEY_MAXLENGTH}"
+						   name="{POST_VAR}[key][{ROW_NUMBER}]" aria-label="{POST_VAR}[key][{ROW_NUMBER}]"
+					<!-- BEGIN prop_key_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_key_propval -->
+					{DISABLED_KEY} />
 				</td>
 				<td>
-					<input class="form-control" type="text" size="{VALUE_SIZE}" id="{VALUE_ID}" maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]" <!-- BEGIN prop_value_propval -->value="{PROPERTY_VALUE}" <!-- END prop_value_propval -->{DISABLED_VALUE}/>
+					<input class="form-control" type="text" size="{VALUE_SIZE}" id="{VALUE_ID}"
+						   maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]"
+						   aria-label="{POST_VAR}[value][{ROW_NUMBER}]"
+					<!-- BEGIN prop_value_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_value_propval -->
+					{DISABLED_VALUE} />
 				</td>
 				<td>
-					<input class="form-control" type="text" class="number" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+					<input class="form-control" type="text" class="number" size="5" id="{POINTS_ID}"
+						   name="{POST_VAR}[points][{ROW_NUMBER}]" aria-label="{POST_VAR}[points][{ROW_NUMBER}]"
+					<!-- BEGIN prop_points_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_points_propval -->
+					{DISABLED_POINTS} />
 				</td>
 			</tr>
-<!-- END row -->
+		<!-- END row -->
 		</tbody>
 	</table>
 </div>

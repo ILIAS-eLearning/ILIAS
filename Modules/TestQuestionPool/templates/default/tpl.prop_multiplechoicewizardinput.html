@@ -10,9 +10,9 @@
 			<tr>
 				<th>{ANSWER_TEXT}</th>
 				<th class="imagecolumn">
-<!-- BEGIN image_heading -->
+					<!-- BEGIN image_heading -->
 					{ANSWER_IMAGE}
-<!-- END image_heading -->
+					<!-- END image_heading -->
 				</th>
 				<th class="checked">{POINTS_CHECKED_TEXT}</th>
 				<th class="unchecked">{POINTS_UNCHECKED_TEXT}</th>
@@ -20,61 +20,109 @@
 			</tr>
 		</thead>
 		<tbody class="mcwzd">
-<!-- BEGIN row -->
+			<!-- BEGIN row -->
 			<tr class="mcwzd">
 				<td>
-<!-- BEGIN singleline -->
-					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
-<!-- END singleline -->
-<!-- BEGIN multiline -->
-					<textarea class="form-control" cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
-<!-- END multiline -->
+					<!-- BEGIN singleline -->
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}"
+						   name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+						   aria-label="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+					<!-- BEGIN prop_text_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_text_propval -->
+					{DISABLED_SINGLELINE}/>
+					<!-- END singleline -->
+					<!-- BEGIN multiline -->
+					<textarea class="form-control" cols="60" rows="4" aria-haspopup="true"
+							  name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"
+							  {DISABLED_MULTILINE}>
+						{PROPERTY_VALUE}
+					</textarea>
+					<!-- END multiline -->
 				</td>
 				<td class="imagecolumn">
-<!-- BEGIN addimage -->
+					<!-- BEGIN addimage -->
 					<div class="imageselection">
 					<div class="row">
 						<div class="col-md-9">
 							<div class="input-group">
 								<span class="input-group-btn">
 									<span class="btn btn-default btn-file">
-										{IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
+										{IMAGE_BROWSE}
+										<input class="upload" type="file" id="{IMAGE_ID}"
+										  name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]"
+									   		aria-label="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
 									</span>
 								</span>
-								<input type="text" class="form-control" readonly="readonly">
+								<input aria-readonly="true" type="text" class="form-control" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-3">
-							<input type="submit" class="btn btn-default" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" />
+							<input type="submit" class="btn btn-default" role="button"
+								   name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" />
 						</div>
 					</div>
-<!-- BEGIN image -->
+					<!-- BEGIN image -->
 					<div class="imagepresentation">
-						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
-						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-						<input type="submit" class="btn btn-default" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+						<input type="hidden" aria-hidden="true"
+							   name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
+						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" />
+						<br />
+						<input type="submit" class="btn btn-default"  role="button"
+							   name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]"
+							   value="{TXT_DELETE_EXISTING}" />
+						<br />
 					</div>
-<!-- END image -->
+				<!-- END image -->
 				</div>
-<!-- END addimage -->
+				<!-- END addimage -->
 				</td>
 				<td class="ilValignTop">
-					<input class="form-control text-right" type="text" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+					<input class="form-control text-right" type="text" size="5" id="{POINTS_ID}"
+						   name="{POST_VAR}[points][{ROW_NUMBER}]" aria-label="{POST_VAR}[points][{ROW_NUMBER}]"
+					<!-- BEGIN prop_points_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_points_propval -->
+					{DISABLED_POINTS} />
 				</td>
 				<td class="ilValignTop">
-					<input class="form-control text-right" type="text" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
+					<input class="form-control text-right" type="text" size="5" id="{POINTS_UNCHECKED_ID}"
+						   name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]"
+					<!-- BEGIN prop_points_unchecked_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_points_unchecked_propval -->
+					{DISABLED_POINTS_UNCHECKED}/>
 				</td>
 				<td class="ilValignTop ilWhiteSpaceNowrap">
-					<button type="button" name="{CMD_ADD}" class="multiplechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
-					<button type="button" name="{CMD_REMOVE}" class="multiplechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>
-<!-- BEGIN move -->
-					<button type="button" name="{CMD_UP}" class="multiplechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
-					<button type="button" name="{CMD_DOWN}" class="multiplechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
-<!-- END move -->
+					<button type="button" name="{CMD_ADD}"
+							aria-label="{ADD_BUTTON}"
+							class="multiplechoice_add btn btn-link" id="add_{ID}">
+						{ADD_BUTTON}
+					</button>
+					<button type="button" name="{CMD_REMOVE}" aria-label="{REMOVE_BUTTON}"
+							class="multiplechoice_remove btn btn-link" id="remove_{ID}">
+						{REMOVE_BUTTON}
+					</button>
+					<!-- BEGIN move -->
+					<button type="button" name="{CMD_UP}"
+							aria-label="{UP_BUTTON}"
+							class="multiplechoice_up btn btn-link" id="up_{ID}">
+						{UP_BUTTON}
+					</button>
+					<button type="button" name="{CMD_DOWN}" class="multiplechoice_down btn btn-link"
+							aria-label="{DOWN_BUTTON}" id="down_{ID}">
+						{DOWN_BUTTON}
+					</button>
+					<!-- END move -->
 				</td>
 			</tr>
-<!-- END row -->
+			<!-- END row -->
 		</tbody>
 	</table>
-	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+	<div class="ilFormInfo">
+		{TXT_MAX_SIZE}
+		<!-- BEGIN allowed_image_suffixes -->
+		{TXT_ALLOWED_SUFFIXES}
+		<!-- END allowed_image_suffixes -->
+	</div>
 </div>

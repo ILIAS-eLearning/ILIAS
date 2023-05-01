@@ -6,35 +6,58 @@
 <div class="form-inline">
     <table class="imagemapareas table table-condensed table-striped">
         <thead>
-        <tr>
-            <th>{TEXT_NAME}</th>
-            <th>{TEXT_POINTS}</th>
-            <!-- BEGIN area_points_unchecked_head -->
-            <th>{TEXT_POINTS_UNCHECKED}</th>
-            <!-- END area_points_unchecked_head -->
-            <th>{TEXT_SHAPE}</th>
-            <th>{TEXT_COORDINATES}</th>
-        </tr>
+            <tr>
+                <th scope="col">
+                    {TEXT_NAME}
+                </th>
+                <th scope="col">
+                    {TEXT_POINTS}
+                </th>
+                <!-- BEGIN area_points_unchecked_head -->
+                <th scope="col">
+                    {TEXT_POINTS_UNCHECKED}
+                </th>
+                <!-- END area_points_unchecked_head -->
+                <th scope="col">
+                    {TEXT_SHAPE}
+                </th>
+                <th scope="col">
+                    {TEXT_COORDINATES}
+                </th>
+            </tr>
         </thead>
         <tbody class="imgmap">
-        <!-- BEGIN row -->
-        <tr class="imgmap">
-            <td>{ANSWER_AREA}</td>
-            <td>
-                <input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points][]" size="3"<!-- BEGIN area_points_value --> value="{VALUE_POINTS}"<!-- END area_points_value --> />
-            </td>
-            <!-- BEGIN area_points_unchecked_field -->
-            <td>
-                <input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points_unchecked][]" size="3"<!-- BEGIN area_points_unchecked_value --> value="{VALUE_POINTS_UNCHECKED}"<!-- END area_points_unchecked_value --> />
-            </td>
-            <!-- END area_points_unchecked_field -->
-            <td>
-                {TEXT_SHAPE}
-                <input type="hidden" name="{POST_VAR_R}[coords][shape][]" value="{VALUE_SHAPE}" />
-                <input type="hidden" name="{POST_VAR_R}[coords][coords][]" value="{VALUE_COORDINATES}" /></td>
-            <td class="{VALUE_SHAPE}">{TEXT_COORDINATES}</td>
-        </tr>
-        <!-- END row -->
+            <!-- BEGIN row -->
+            <tr class="imgmap">
+                <td>{ANSWER_AREA}</td>
+                <td>
+                    <input class="form-control text-right" type="text" name="{POST_VAR_R}[coords][points][]" size="3"
+                    aria-label="{POST_VAR_R}[coords][points][]"
+                    <!-- BEGIN area_points_value -->
+                    value="{VALUE_POINTS}"
+                    <!-- END area_points_value --> />
+                </td>
+                <!-- BEGIN area_points_unchecked_field -->
+                <td>
+                    <input class="form-control text-right" type="text"
+                           name="{POST_VAR_R}[coords][points_unchecked][]" size="3"
+                           aria-label="{POST_VAR_R}[coords][points_unchecked][]"
+                    <!-- BEGIN area_points_unchecked_value -->
+                    value="{VALUE_POINTS_UNCHECKED}"
+                    <!-- END area_points_unchecked_value --> />
+                </td>
+                <!-- END area_points_unchecked_field -->
+                <td>
+                    {TEXT_SHAPE}
+                    <input aria-hidden="true" type="hidden" name="{POST_VAR_R}[coords][shape][]"
+                           value="{VALUE_SHAPE}" />
+                    <input aria-hidden="true" type="hidden"
+                           name="{POST_VAR_R}[coords][coords][]" value="{VALUE_COORDINATES}" /></td>
+                <td class="{VALUE_SHAPE}">
+                    {TEXT_COORDINATES}
+                </td>
+            </tr>
+            <!-- END row -->
         </tbody>
     </table>
 </div>

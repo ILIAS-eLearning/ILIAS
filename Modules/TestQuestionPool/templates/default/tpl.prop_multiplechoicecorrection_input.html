@@ -1,21 +1,33 @@
 <div class="form-inline" id="{ELEMENT_ID}">
     <table class="singlechoicewizard table table-condensed table-striped">
         <thead>
-        <tr>
-            <th>{ANSWER_TEXT}</th>
-            <!-- BEGIN image_heading -->
-            <th class="imagecolumn">{ANSWER_IMAGE}</th>
-            <!-- END image_heading -->
-            <!-- BEGIN points_heading -->
-            <th>{POINTS_CHECKED_TEXT}</th>
-            <th>{POINTS_UNCHECKED_TEXT}</th>
-            <!-- END points_heading -->
-        </tr>
+            <tr>
+                <th scope="col">
+                    {ANSWER_TEXT}
+                </th>
+                <!-- BEGIN image_heading -->
+                <th class="imagecolumn" scope="col">
+                    {ANSWER_IMAGE}
+                </th>
+                <!-- END image_heading -->
+                <!-- BEGIN points_heading -->
+                <th scope="col">
+                    {POINTS_CHECKED_TEXT}
+                </th>
+                <th scope="col">
+                    {POINTS_UNCHECKED_TEXT}
+                </th>
+                <!-- END points_heading -->
+            </tr>
         </thead>
         <tbody class="scwzd">
         <!-- BEGIN row -->
         <tr class="scwzd">
-            <td><!-- BEGIN answer -->{ANSWER}<!-- END answer --></td>
+            <td>
+                <!-- BEGIN answer -->
+                {ANSWER}
+                <!-- END answer -->
+            </td>
             <!-- BEGIN image_col -->
             <td class="imagecolumn">
                 <!-- BEGIN addimage -->
@@ -30,10 +42,16 @@
             </td>
             <!-- END image_col -->
             <td class="ilValignTop">
-                <input type="text" class="form-control text-right" size="5" id="{POINTS_CHECKED_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" value="{PROPERTY_VALUE_CHECKED}"/>
+                <input type="text" class="form-control text-right" size="5" id="{POINTS_CHECKED_ID}"
+                       name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]"
+                       aria-label="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]"
+                       value="{PROPERTY_VALUE_CHECKED}"/>
             </td>
             <td class="ilValignTop">
-                <input type="text" class="form-control text-right" size="5" id="{POINTS_UNCHECKED_ID}" name="{POINTS_POST_VAR}[points_unchecked][{POINTS_ROW_NUMBER}]" value="{PROPERTY_VALUE_UNCHECKED}"/>
+                <input type="text" class="form-control text-right" size="5" id="{POINTS_UNCHECKED_ID}"
+                       name="{POINTS_POST_VAR}[points_unchecked][{POINTS_ROW_NUMBER}]"
+                       aria-label="{POINTS_POST_VAR}[points_unchecked][{POINTS_ROW_NUMBER}]"
+                       value="{PROPERTY_VALUE_UNCHECKED}"/>
             </td>
         </tr>
         <!-- END row -->

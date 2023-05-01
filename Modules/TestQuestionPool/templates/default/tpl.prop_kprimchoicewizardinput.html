@@ -2,12 +2,23 @@
 	<table class="kprimchoicewizard table table-condensed table-striped" border="0">
 		<thead>
 		<tr>
-			<th rowspan="2">{ANSWER_TEXT}<!-- BEGIN image_heading --> / {ANSWER_IMAGE}<!-- END image_heading --></th>
-			<th colspan="2">{OPTIONS_TEXT}</th>
+			<th rowspan="2">
+				{ANSWER_TEXT}
+				<!-- BEGIN image_heading --> /
+				{ANSWER_IMAGE}
+				<!-- END image_heading -->
+			</th>
+			<th scope="colgroup" colspan="2">
+				{OPTIONS_TEXT}
+			</th>
 		</tr>
 		<tr>
-			<th class="optionLabel true">{TRUE_TEXT}</th>
-			<th class="optionLabel false">{FALSE_TEXT}</th>
+			<th scope="col" class="optionLabel true">
+				{TRUE_TEXT}
+			</th>
+			<th scope="col" class="optionLabel false">
+				{FALSE_TEXT}
+			</th>
 		</tr>
 		</thead>
 		<tbody class="kcwzd">
@@ -15,7 +26,13 @@
 		<tr class="kcwzd">
 			<td>
 				<!-- BEGIN singleline -->
-					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}"
+						   maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+						   aria-label="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+				<!-- BEGIN prop_text_propval -->
+				value="{PROPERTY_VALUE}"
+				<!-- END prop_text_propval -->
+				{DISABLED_SINGLELINE}/>
 					<!-- BEGIN addimage -->
 					<div class="imageselection">
 						<div class="row">
@@ -23,52 +40,86 @@
 								<div class="input-group">
 									<span class="input-group-btn">
 										<span class="btn btn-default btn-file">
-											{IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
+											{IMAGE_BROWSE}
+											<input class="upload" type="file" id="{IMAGE_ID}"
+												   aria-label="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]"
+												   aria-haspopup="dialog"
+												   name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
 										</span>
 									</span>
-									<input type="text" class="form-control" readonly="readonly">
+									<input type="text" class="form-control" readonly="readonly"
+									aria-readonly="true">
 								</div>
 							</div>
 							<div class="col-md-3">
-								<input type="submit" class="btn btn-default" name="cmd[uploadImage][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" />
+								<input type="submit" class="btn btn-default" role="button"
+									   name="cmd[uploadImage][{IMAGE_ROW_NUMBER}]"
+									   value="{IMAGE_SUBMIT}" />
 							</div>
 						</div>
 						<!-- BEGIN image -->
 						<div class="imagepresentation">
-							<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
-							<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-							<input type="submit" class="btn btn-default" name="cmd[removeImage][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+							<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]"
+								   aria-hidden="true" value="{IMAGE_NAME}" />
+							<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" />
+							<br />
+							<input type="submit" class="btn btn-default" name="cmd[removeImage][{IMAGE_ROW_NUMBER}]"
+								  role="button" value="{TXT_DELETE_EXISTING}" />
+							<br />
 						</div>
 						<!-- END image -->
 					</div>
 					<!-- END addimage -->
-				<!-- END singleline -->
-				<!-- BEGIN multiline -->
-					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
-				<!-- END multiline -->
+					<!-- END singleline -->
+					<!-- BEGIN multiline -->
+					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]"
+							  aria-multiline="true"
+							  id="{MULTILINE_ID}"{DISABLED_MULTILINE}>
+						{PROPERTY_VALUE}
+					</textarea>
+					<!-- END multiline -->
 			</td>
 			<td class="correctness">
-				<input type="radio" class="text-right" id="{CORRECTNESS_TRUE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"{CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS}/>
+				<input type="radio" class="text-right" id="{CORRECTNESS_TRUE_ID}"
+					   aria-label="{POST_VAR}[correctness][{ROW_NUMBER}]"
+					   name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"
+					   {CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS} />
 			</td>
 			<td class="correctness">
-				<input type="radio" class="text-right" id="{CORRECTNESS_FALSE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"{CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS}/>
+				<input type="radio" class="text-right" id="{CORRECTNESS_FALSE_ID}"
+					   aria-label="{POST_VAR}[correctness][{ROW_NUMBER}]"
+					   name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"
+					   {CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS} />
 			</td>
 			<!-- BEGIN move -->
 			<td class="ilValignTop">
-				<button type="button" name="{CMD_UP}" class="kprimchoice_up btn btn-link" id="{UP_ID}">{UP_BUTTON}</button>
-				<button type="button" name="{CMD_DOWN}" class="kprimchoice_down btn btn-link" id="{DOWN_ID}">{DOWN_BUTTON}</button>
+				<button type="button" name="{CMD_UP}" class="kprimchoice_up btn btn-link" id="{UP_ID}"
+				aria-label="{UP_BUTTON}">
+					{UP_BUTTON}
+				</button>
+				<button type="button" name="{CMD_DOWN}" class="kprimchoice_down btn btn-link" id="{DOWN_ID}"
+						aria-label="{DOWN_BUTTON}">
+					{DOWN_BUTTON}
+				</button>
 			</td>
 			<!-- END move -->
 		</tr>
 		<!-- END row -->
 		</tbody>
 	</table>
-	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+	<div class="ilFormInfo">
+		{TXT_MAX_SIZE}
+		<!-- BEGIN allowed_image_suffixes -->
+		{TXT_ALLOWED_SUFFIXES}
+		<!-- END allowed_image_suffixes -->
+	</div>
 	<div style="display:none;">
 		<!-- BEGIN option_label_translations -->
 		<div data-id="{OPTION_LABEL}">
-			<div data-var="true" data-val="{TRANSLATION_TRUE}"></div>
-			<div data-var="false" data-val="{TRANSLATION_FALSE}"></div>
+			<div data-var="true" data-val="{TRANSLATION_TRUE}">
+			</div>
+			<div data-var="false" data-val="{TRANSLATION_FALSE}">
+			</div>
 		</div>
 		<!-- END option_label_translations -->
 	</div>

@@ -1,73 +1,109 @@
 <div class="form-inline" id="{ELEMENT_ID}">
 	<table class="matchingwizard table table-condensed table-striped">
 		<thead>
-		<tr>
-			<th>{NUMBER_TEXT}</th>
-			<th>{ANSWER_TEXT}</th>
-			<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
-			<th style="text-align: right;">{COMMANDS_TEXT}</th>
-		</tr>
+			<tr>
+				<th scope="col">
+					{NUMBER_TEXT}
+				</th>
+				<th>
+					{ANSWER_TEXT}
+				</th>
+				<th scope="col" class="imagecolumn">
+					<!-- BEGIN image_heading -->
+					{ANSWER_IMAGE}
+					<!-- END image_heading -->
+				</th>
+				<th scope="col" style="text-align: right;">
+					{COMMANDS_TEXT}
+				</th>
+			</tr>
 		</thead>
 		<tbody class="mwzd">
-		<!-- BEGIN row -->
-		<tr class="mwzd">
-			<td>
-				{ROW_NUMBER}<input type="hidden" name="{SINGLELINE_POST_VAR}[identifier][{SINGLELINE_ROW_NUMBER}]" value="{ROW_IDENTIFIER}"/>
-			</td>
-			<td>
-				<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
-				<!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->
-				{DISABLED_SINGLELINE}/>
-			</td>
-			<td class="imagecolumn">
-				<!-- BEGIN addimage -->
-				<div class="imageselection" style="padding-right:50px;">
-					<div class="row">
-						<div class="col-md-9">
-							<div class="input-group">
-								<span class="input-group-btn">
-									<span class="btn btn-default btn-file">
-										{IMAGE_BROWSE} <input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20"/>
+			<!-- BEGIN row -->
+			<tr class="mwzd">
+				<td>
+					{ROW_NUMBER}
+					<input type="hidden" name="{SINGLELINE_POST_VAR}[identifier][{SINGLELINE_ROW_NUMBER}]"
+									 aria-hidden="true"  value="{ROW_IDENTIFIER}"/>
+				</td>
+				<td>
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}"
+						   name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+						   aria-label="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]"
+					<!-- BEGIN prop_text_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_text_propval -->
+					{DISABLED_SINGLELINE}/>
+				</td>
+				<td class="imagecolumn">
+					<!-- BEGIN addimage -->
+					<div class="imageselection" style="padding-right:50px;">
+						<div class="row">
+							<div class="col-md-9">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<span class="btn btn-default btn-file">
+											{IMAGE_BROWSE}
+											<input type="file" id="{IMAGE_ID}"
+												   name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]"
+												   aria-label="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]"
+												   size="20"/>
+										</span>
 									</span>
-								</span>
-								<input type="text" class="form-control" readonly="readonly">
+									<input type="text" aria-readonly="true" class="form-control" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<input type="submit" class="btn btn-default" role="button"
+									   name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}"/>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<input type="submit" class="btn btn-default" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}"/>
+						<!-- BEGIN image -->
+						<div class="imagepresentation">
+							<input aria-hidden="true" type="hidden"
+								   name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]"
+								   value="{IMAGE_NAME}"/>
+							<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT}
+							border="0" /><br/>
+							<input type="submit" class="btn btn-default" role="button"
+								   name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]"
+								   value="{TXT_DELETE_EXISTING}"/><br/>
 						</div>
+						<!-- END image -->
 					</div>
-					<!-- BEGIN image -->
-					<div class="imagepresentation">
-						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}"/>
-						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT}
-						border="0" /><br/>
-						<input type="submit" class="btn btn-default" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}"/><br/>
-					</div>
-					<!-- END image -->
-				</div>
-				<!-- END addimage -->
-			</td>
-			<td class="ilValignTop" style="text-align: right;">
-				<button name="{CMD_ADD}" type="submit" class="matchingwizard_add btn btn-link" id="add_{ID}">
-					{ADD_BUTTON}
-				</button>
-				<button name="{CMD_REMOVE}" type="submit" class="matchingwizard_remove btn btn-link" id="remove_{ID}">
-					{REMOVE_BUTTON}
-				</button>
-				<!-- BEGIN move -->
-				<button name="{CMD_UP}" type="submit" class="matchingwizard_up btn btn-link" id="up_{ID}">
-					{UP_BUTTON}
-				</button>
-				<button name="{CMD_DOWN}" type="submit" class="matchingwizard_down btn btn-link" id="down_{ID}">
-					{DOWN_BUTTON}
-				</button>
-				<!-- END move -->
-			</td>
-		</tr>
-		<!-- END row -->
+					<!-- END addimage -->
+				</td>
+				<td class="ilValignTop" style="text-align: right;">
+					<button name="{CMD_ADD}" type="submit"
+							aria-label="{CMD_ADD}"
+							class="matchingwizard_add btn btn-link" id="add_{ID}">
+						{ADD_BUTTON}
+					</button>
+					<button name="{CMD_REMOVE}" type="submit" role="button"
+							class="matchingwizard_remove btn btn-link" id="remove_{ID}">
+						{REMOVE_BUTTON}
+					</button>
+					<!-- BEGIN move -->
+					<button name="{CMD_UP}" type="submit"
+							aria-label="{UP_BUTTON}"
+							class="matchingwizard_up btn btn-link" id="up_{ID}">
+						{UP_BUTTON}
+					</button>
+					<button name="{CMD_DOWN}" type="submit"
+							aria-label="{DOWN_BUTTON}"
+							class="matchingwizard_down btn btn-link" id="down_{ID}">
+						{DOWN_BUTTON}
+					</button>
+					<!-- END move -->
+				</td>
+			</tr>
+			<!-- END row -->
 		</tbody>
 	</table>
-	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}
-		<!-- END allowed_image_suffixes --></div>
+	<div class="ilFormInfo">
+		{TXT_MAX_SIZE}
+		<!-- BEGIN allowed_image_suffixes -->
+		{TXT_ALLOWED_SUFFIXES}
+		<!-- END allowed_image_suffixes -->
+	</div>
 </div>

@@ -1,60 +1,76 @@
 <div class="form-inline" id="{ELEMENT_ID}">
 	<table class="matchingpairwizard table table-condensed table-striped">
 		<thead>
-		<tr>
-			<th>{TEXT_DEFINITION}</th>
-			<th>{TEXT_TERM}</th>
-			<th>{TEXT_POINTS}</th>
-			<th style="text-align:right;">{TEXT_ACTIONS}</th>
-		</tr>
+			<tr>
+				<th scope="col">
+					{TEXT_DEFINITION}
+				</th>
+				<th scope="col">
+					{TEXT_TERM}
+				</th>
+				<th scope="col">
+					{TEXT_POINTS}
+				</th scope="col">
+				<th scope="col" style="text-align:right;">
+					{TEXT_ACTIONS}
+				</th>
+			</tr>
 		</thead>
 		<tbody class="mpwzd">
-		<!-- BEGIN row -->
-		<tr class="mpwzd">
-			<td>
-				<select class="form-control" name="{POST_VAR}[definition][{ROW_NUMBER}]">
-					<!-- BEGIN option_definition -->
-					<option value="{VALUE_OPTION}"
-					{SELECTED_OPTION}>{TEXT_OPTION}</option>
-					<!-- END option_definition -->
-				</select>
-			</td>
-			<td>
-				<select class="form-control" name="{POST_VAR}[term][{ROW_NUMBER}]">
-					<!-- BEGIN option_term -->
-					<option value="{VALUE_OPTION}"
-					{SELECTED_OPTION}>{TEXT_OPTION}</option>
-					<!-- END option_term -->
-				</select>
-			</td>
-			<td>
-				<input class="form-control text-right" type="text" size="5" name="{POST_VAR}[points][{ROW_NUMBER}]"
-				<!-- BEGIN points_value -->value="{POINTS_VALUE}" <!-- END points_value --> />
-			</td>
-			<td class="ilValignTop" style="text-align:right;">
-				<button type="button" name="{CMD_ADD}" class="matchingpair_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">
-					{ADD_BUTTON}
-				</button>
-				<button type="button" name="{CMD_REMOVE}" class="matchingpair_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">
-					{REMOVE_BUTTON}
-				</button>
-				<!-- BEGIN move -->
-				<button type="button" name="{CMD_UP}" class="matchingpair_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">
-					{UP_BUTTON}
-				</button>
-				<button type="button" name="{CMD_DOWN}" class="matchingpair_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">
-					{DOWN_BUTTON}
-				</button>
-				<!-- END move -->
-			</td>
-		</tr>
-		<!-- END row -->
+			<!-- BEGIN row -->
+			<tr class="mpwzd">
+				<td>
+					<select aria-haspopup="true" class="form-control" name="{POST_VAR}[definition][{ROW_NUMBER}]">
+						<!-- BEGIN option_definition -->
+						<option value="{VALUE_OPTION}" {SELECTED_OPTION}>
+							{TEXT_OPTION}
+						</option>
+						<!-- END option_definition -->
+					</select>
+				</td>
+				<td>
+					<select aria-haspopup="true" class="form-control" name="{POST_VAR}[term][{ROW_NUMBER}]">
+						<!-- BEGIN option_term -->
+						<option value="{VALUE_OPTION}"
+						{SELECTED_OPTION}>{TEXT_OPTION}</option>
+						<!-- END option_term -->
+					</select>
+				</td>
+				<td>
+					<input class="form-control text-right" type="text" size="5"
+						   name="{POST_VAR}[points][{ROW_NUMBER}]" aria-label="{POST_VAR}[points][{ROW_NUMBER}]"
+					<!-- BEGIN points_value -->
+					value="{POINTS_VALUE}"
+					<!-- END points_value --> />
+				</td>
+				<td class="ilValignTop" style="text-align:right;">
+					<button type="button" name="{CMD_ADD}" class="matchingpair_add btn btn-link" id="add_{ID}"
+							onclick="javascript: void(0); return false;" aria-label="{ADD_BUTTON}">
+						{ADD_BUTTON}
+					</button>
+					<button type="button" name="{CMD_REMOVE}" class="matchingpair_remove btn btn-link" id="remove_{ID}"
+							onclick="javascript: void(0); return false;" aria-label="{REMOVE_BUTTON}">
+						{REMOVE_BUTTON}
+					</button>
+					<!-- BEGIN move -->
+					<button type="button" name="{CMD_UP}" class="matchingpair_up btn btn-link" id="up_{ID}"
+							onclick="javascript: void(0); return false;" aria-label="{UP_BUTTON}">
+						{UP_BUTTON}
+					</button>
+					<button type="button" name="{CMD_DOWN}" class="matchingpair_down btn btn-link" id="down_{ID}"
+							onclick="javascript: void(0); return false;" aria-label="{DOWN_BUTTON}">
+						{DOWN_BUTTON}
+					</button>
+					<!-- END move -->
+				</td>
+			</tr>
+			<!-- END row -->
 		</tbody>
 	</table>
 </div>
 <!-- BEGIN term_ids -->
-<input type="hidden" name="{POST_VAR}[term_id]" value="{TERM_IDS}">
+<input aria-hidden="true" type="hidden" name="{POST_VAR}[term_id]" value="{TERM_IDS}">
 <!-- END term_ids -->
 <!-- BEGIN definition_ids -->
-<input type="hidden" name="{POST_VAR}[definition_id]" value="{DEFINITION_IDS}">
+<input aria-hidden="true" type="hidden" name="{POST_VAR}[definition_id]" value="{DEFINITION_IDS}">
 <!-- END definition_ids -->
