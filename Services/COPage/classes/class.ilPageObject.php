@@ -758,7 +758,10 @@ abstract class ilPageObject
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
         require_once($pc_path);
         $pc = new $pc_class($this);
-        if ($cont_node->myDOMNode->nodeName !== "PageContent") {
+        if (!in_array(
+            $cont_node->myDOMNode->nodeName,
+            ["PageContent", "TableData"]
+        )) {
             return null;
         }
         $pc->setNode($cont_node);

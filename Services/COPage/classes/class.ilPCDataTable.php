@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilPCDataTable
  *
@@ -31,44 +33,34 @@ class ilPCDataTable extends ilPCTable
         $this->setType("dtab");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->tab_node = $a_node->first_child();		// this is the Table node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->tab_node = $this->dom->create_element("Table");
-        $this->tab_node = $this->node->append_child($this->tab_node);
-        $this->tab_node->set_attribute("Language", "");
-        $this->tab_node->set_attribute("DataTable", "y");
+        $tab_node = $this->dom_doc->createElement("Table");
+        $tab_node = $this->getDomNode()->appendChild($tab_node);
+        $tab_node->setAttribute("Language", "");
+        $tab_node->setAttribute("DataTable", "y");
     }
 
 
-    /**
-     * Make cell empty
-     */
-    public function makeEmptyCell(php4DOMElement $td_node): void
+    public function makeEmptyCell(DomNode $td_node): void
     {
         // delete children of paragraph node
-        $children = $td_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
-            $td_node->remove_child($children[$i]);
+        foreach ($td_node->childNodes as $child) {
+            $td_node->removeChild($child);
         }
 
         // create page content and paragraph node here.
-        $pc_node = $this->createPageContentNode(false);
-        $pc_node = $td_node->append_child($pc_node);
-        $par_node = $this->dom->create_element("Paragraph");
-        $par_node = $pc_node->append_child($par_node);
-        $par_node->set_attribute("Characteristic", "TableContent");
-        $par_node->set_attribute(
+        $pc_node = $this->getNewPageContentNode();
+        $pc_node = $td_node->appendChild($pc_node);
+        $par_node = $this->dom_doc->createElement("Paragraph");
+        $par_node = $pc_node->appendChild($par_node);
+        $par_node->setAttribute("Characteristic", "TableContent");
+        $par_node->setAttribute(
             "Language",
             $this->getLanguage()
         );
@@ -81,36 +73,39 @@ class ilPCDataTable extends ilPCTable
      */
     public function setData(array $a_data)
     {
+        $error = "";
         if (is_array($a_data)) {
             foreach ($a_data as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
-                        $temp_dom = domxml_open_mem(
+                        $temp_dom = $this->dom_util->docFromString(
                             '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $cell . '</Paragraph>',
-                            DOMXML_LOAD_PARSING,
                             $error
                         );
-
+                        if ($error !== "") {
+                            var_dump($error);
+                            exit;
+                        }
                         $par_node = $this->getCellNode($i, $j, true);
                         // remove all childs
-                        if (empty($error) && is_object($par_node)) {
+                        if (empty($error) && !is_null($par_node)) {
                             // delete children of paragraph node
-                            $children = $par_node->child_nodes();
-                            for ($k = 0; $k < count($children); $k++) {
-                                $par_node->remove_child($children[$k]);
+                            foreach ($par_node->childNodes as $child) {
+                                $par_node->removeChild($child);
                             }
 
                             // copy new content children in paragraph node
-                            $xpc = xpath_new_context($temp_dom);
-                            $path = "//Paragraph";
-                            $res = xpath_eval($xpc, $path);
+                            $nodes = $this->dom_util->path(
+                                $temp_dom,
+                                "//Paragraph"
+                            );
 
-                            if (count($res->nodeset) == 1) {
-                                $new_par_node = $res->nodeset[0];
-                                $new_childs = $new_par_node->child_nodes();
-                                for ($l = 0; $l < count($new_childs); $l++) {
-                                    $cloned_child = $new_childs[$l]->clone_node(true);
-                                    $par_node->append_child($cloned_child);
+                            if (count($nodes) == 1) {
+                                $new_par_node = $nodes->item(0);
+                                foreach ($new_par_node->childNodes as $c) {
+                                    $cloned_child = $c->cloneNode(true);
+                                    $cloned_child = $this->dom_doc->importNode($cloned_child);
+                                    $par_node->appendChild($cloned_child);
                                 }
                             }
                         } else {

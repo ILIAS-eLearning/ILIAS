@@ -49,6 +49,8 @@ abstract class ilPageContent
     protected ilLogger $log;
     protected string $profile_back_url = "";
 
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     final public function __construct(
         ilPageObject $a_pg_obj,
         ?PageManagerInterface $page_manager = null
@@ -67,6 +69,7 @@ abstract class ilPageContent
                                                    ->internal()
                                                    ->domain()
                                                    ->page();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     protected function getPageManager(): PageManagerInterface
@@ -128,7 +131,7 @@ abstract class ilPageContent
 
     public function setDomNode(DOMNode $node): void
     {
-        $this->node->myDOMNode = $node;
+        $this->node = new php4DOMElement($node);
     }
 
     public function getChildNode(): DOMNode
@@ -337,6 +340,11 @@ abstract class ilPageContent
             $this->node = $node;
         }
         return $node;
+    }
+
+    public function getNewPageContentNode(): DOMNode
+    {
+        return $this->dom_doc->createElement("PageContent");
     }
 
     /**

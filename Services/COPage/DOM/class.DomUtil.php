@@ -24,6 +24,33 @@ namespace ILIAS\COPage\Dom;
  */
 class DomUtil
 {
+    public function docFromString(string $xml, string &$error_str): ?\DOMDocument
+    {
+        $doc = new \DOMDocument();
+        set_error_handler('staticxmlerror');
+        $old = ini_set('html_errors', false);
+        $success = $doc->loadXML($xml);
+        // Restore error handling
+        ini_set('html_errors', $old);
+        restore_error_handler();
+        $error_str = "";
+        if ($doc === false) {
+            $error_arr = staticxmlerror(0, "", "", 0, null, true);
+            foreach ($error_arr as $error) {
+                $error = str_replace("DOMDocument::loadXML():", "", $error);
+                $error_str .= $error . "<br />";
+            }
+            return null;
+        }
+        return $doc;
+    }
+
+    public function path(\DOMDocument $doc, string $path): \DOMNodeList
+    {
+        $xpath = new \DOMXPath($doc);
+        return $xpath->query($path);
+    }
+
     // change node name
     public function changeName(
         \DOMNode $node,
@@ -135,7 +162,7 @@ class DomUtil
             $new_node = $doc->createElement($node_name);
             $new_node = $parent_node->appendChild($new_node);
             if ($content != "") {
-                $new_node->setContent($content);
+                $this->setContent($new_node, $content);
             }
             $this->setAttributes($new_node, $attributes);
         } else {
@@ -146,17 +173,51 @@ class DomUtil
                     }
                 }
                 if ($content != "") {
-                    $child->setContent($content);
+                    $this->setContent($child, $content);
                 }
                 $this->setAttributes($child, $attributes);
             } else {
                 $new_node = $doc->createElement($node_name);
-                $new_node = $child->insertBefore($new_node, $child);
+                $new_node = $child->parentNode->insertBefore($new_node, $child);
                 if ($content != "") {
-                    $new_node->set_content($content);
+                    $this->setContent($new_node, $content);
                 }
                 $this->setAttributes($new_node, $attributes);
             }
+        }
+    }
+
+    public function dump(\DOMNode $node): string
+    {
+        return $node->ownerDocument->saveXML($node);
+    }
+
+    public function setContent(\DOMNode $node, string $text): void
+    {
+        // the following replace has been added to conform with PHP4.
+        // A set_content("&amp;") brought a get_content() = "&" there,
+        // whereas PHP5 gives a get_content() = "&amp;"
+        $text = str_replace("&lt;", "<", $text);
+        $text = str_replace("&gt;", ">", $text);
+        $text = str_replace("&amp;", "&", $text);
+
+        $text_node = new \DOMText();
+        $text_node->appendData($text);
+        if (is_object($node->firstChild)) {
+            $node->replaceChild($text_node, $node->firstChild);
+        } else {
+            $node->appendChild($text_node);
+        }
+    }
+
+    public function getContent(\DOMNode $node): string
+    {
+        $text_node = $node->firstChild;
+
+        if (is_object($text_node)) {
+            return $text_node->textContent;
+        } else {
+            return "";
         }
     }
 }

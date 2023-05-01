@@ -900,19 +900,8 @@ class ilPCTableGUI extends ilPageContentGUI
         if (!empty($import_table)) {
             switch ($this->form->getInput("import_type")) {
                 // xhtml import
-                case "html":
-                    $res = $this->content_obj->importHtml(
-                        $this->form->getInput("language"),
-                        $import_table
-                    );
-                    if ($res !== true) {
-                        $this->tpl->setOnScreenMessage('failure', $res);
-                        $this->insert();
-                        return;
-                    }
-                    break;
 
-                    // spreadsheet
+                // spreadsheet
                 case "spreadsheet":
                     $this->content_obj->importSpreadsheet($this->form->getInput("language"), $import_table);
                     break;

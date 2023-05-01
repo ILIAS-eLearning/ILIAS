@@ -62,6 +62,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCDataTableTest.php");
         $suite->addTestSuite("PCDataTableTest");
 
+        require_once("./Services/COPage/test/PCTableDataTest.php");
+        $suite->addTestSuite("PCTableDataTest");
+
         require_once("./Services/COPage/test/PCContentTemplateTest.php");
         $suite->addTestSuite("PCContentTemplateTest");
 
