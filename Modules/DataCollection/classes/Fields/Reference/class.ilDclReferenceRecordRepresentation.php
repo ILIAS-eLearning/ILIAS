@@ -40,7 +40,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 
         foreach ($value as $k => $v) {
             $ref_record = ilDclCache::getRecordCache($v);
-            if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
+            if (!$ref_record->getId() || !$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 unset($value[$k]);
                 $value = array_values($value); // resets the keys
@@ -96,5 +96,18 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         ));
 
         return $this->renderer->render($html);
+    }
+
+    /**
+     * function parses stored value to the variable needed to fill into the form for editing.
+     * @param string|int $value
+     */
+    public function parseFormInput($value): ?string
+    {
+        if (!$value || $value == []) {
+            return null;
+        }
+
+        return $value;
     }
 }
