@@ -82,10 +82,6 @@ class ilPCDataTable extends ilPCTable
                             '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $cell . '</Paragraph>',
                             $error
                         );
-                        if ($error !== "") {
-                            var_dump($error);
-                            exit;
-                        }
                         $par_node = $this->getCellNode($i, $j, true);
                         // remove all childs
                         if (empty($error) && !is_null($par_node)) {
