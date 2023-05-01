@@ -53,8 +53,11 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
             // If the referenced field is MOB or FILE, we display the filename in the dropdown
             switch ($reffield->getDatatypeId()) {
                 case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
-                    $file_obj = new ilObjFile($record->getRecordFieldValue($fieldref), false);
-                    $options[$record->getId()] = $file_obj->getFileName();
+                    $field_value = $record->getRecordFieldValue($fieldref);
+                    if ($field_value) {
+                        $file_obj = new ilObjFile($field_value, false);
+                        $options[$record->getId()] = $file_obj->getFileName();
+                    }
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
                     $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref));
