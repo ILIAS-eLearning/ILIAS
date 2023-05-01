@@ -80,7 +80,7 @@ final class ChangeLicenseHeader extends AbstractRector
     /**
      * @param Node\Stmt\Global_ $node
      */
-    public function refactor(Node $node): \PhpParser\Node\Stmt\Global_
+    public function refactor(Node $node)
     {
         if (preg_match(self::IGNORE_SUBPATHS, $this->file->getFilePath()) > 0) {
             return $node;
