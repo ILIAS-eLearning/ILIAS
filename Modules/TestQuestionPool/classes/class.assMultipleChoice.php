@@ -35,8 +35,6 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
-    protected const DEFAULT_THUMB_SIZE = 150;
-    protected const MINIMUM_THUMB_SIZE = 20;
     /**
      * The given answers of the multiple choice question
      *
@@ -59,9 +57,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public $isSingleline;
     public $lastChange;
     public $feedback_setting;
-
-    /** @var integer Thumbnail size */
-    protected $thumb_size;
 
     /**
      * @var integer
@@ -108,7 +103,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
-        $this->thumb_size = self::DEFAULT_THUMB_SIZE;
         $this->answers = array();
         $this->shuffle = 1;
         $this->selectionLimit = null;
@@ -1025,25 +1019,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
 
         return $startrow + $i + 1;
-    }
-
-    public function getThumbSize(): ?int
-    {
-        return $this->thumb_size;
-    }
-
-    public function setThumbSize(int $a_size): void
-    {
-        if ($a_size >= self::MINIMUM_THUMB_SIZE) {
-            $this->thumb_size = $a_size;
-        } else {
-            throw new ilException("Thumb size must be at least " . self::MINIMUM_THUMB_SIZE . "px");
-        }
-    }
-
-    public function getMinimumThumbSize(): int
-    {
-        return self::MINIMUM_THUMB_SIZE;
     }
 
     /**

@@ -47,30 +47,31 @@ abstract class assQuestion
     protected const HAS_SPECIFIC_FEEDBACK = true;
 
     protected static $allowedFileExtensionsByMimeType = array(
-        self::IMG_MIME_TYPE_JPG => array('jpg', 'jpeg'),
-        self::IMG_MIME_TYPE_PNG => array('png'),
-        self::IMG_MIME_TYPE_GIF => array('gif')
+        self::IMG_MIME_TYPE_JPG => ['jpg', 'jpeg'],
+        self::IMG_MIME_TYPE_PNG => ['png'],
+        self::IMG_MIME_TYPE_GIF => ['gif']
     );
 
     protected static $allowedCharsetsByMimeType = array(
-        self::IMG_MIME_TYPE_JPG => array('binary'),
-        self::IMG_MIME_TYPE_PNG => array('binary'),
-        self::IMG_MIME_TYPE_GIF => array('binary')
+        self::IMG_MIME_TYPE_JPG => ['binary'],
+        self::IMG_MIME_TYPE_PNG => ['binary'],
+        self::IMG_MIME_TYPE_GIF => ['binary']
     );
+
+    protected const DEFAULT_THUMB_SIZE = 150;
+    protected const MINIMUM_THUMB_SIZE = 20;
+
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
     protected ILIAS\DI\LoggingServices $ilLog;
 
     protected int $id;
-
     protected string $title;
-
     protected string $comment;
-
     protected string $owner;
-
     protected string $author;
+    protected int $thumb_size;
 
     /**
      * The question text
@@ -180,9 +181,9 @@ abstract class assQuestion
     protected ilAssQuestionLifecycle $lifecycle;
 
     protected static $allowedImageMaterialFileExtensionsByMimeType = array(
-        'image/jpeg' => array('jpg', 'jpeg'),
-        'image/png' => array('png'),
-        'image/gif' => array('gif')
+        'image/jpeg' => ['jpg', 'jpeg'],
+        'image/png' => ['png'],
+        'image/gif' => ['gif']
     );
 
     protected ilObjUser $current_user;
@@ -199,7 +200,6 @@ abstract class assQuestion
     ) {
         global $DIC;
         $this->dic = $DIC;
-        $ilias = $DIC['ilias'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
         $ilDB = $DIC['ilDB'];
@@ -213,6 +213,8 @@ abstract class assQuestion
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
+        $this->thumb_size = self::DEFAULT_THUMB_SIZE;
+
         $this->title = $title;
         $this->comment = $comment;
         $this->setAuthor($author);
@@ -222,7 +224,7 @@ abstract class assQuestion
 
         $this->id = -1;
         $this->test_id = -1;
-        $this->suggested_solutions = array();
+        $this->suggested_solutions = [];
         $this->shuffle = 1;
         $this->nr_of_tries = 0;
         $this->setEstimatedWorkingTime(0, 1, 0);
@@ -556,6 +558,25 @@ abstract class assQuestion
     public function getComment(): string
     {
         return $this->comment;
+    }
+
+    public function getThumbSize(): int
+    {
+        return $this->thumb_size;
+    }
+
+    public function setThumbSize(int $a_size): void
+    {
+        if ($a_size >= self::MINIMUM_THUMB_SIZE) {
+            $this->thumb_size = $a_size;
+        } else {
+            throw new ilException("Thumb size must be at least " . self::MINIMUM_THUMB_SIZE . "px");
+        }
+    }
+
+    public function getMinimumThumbSize(): int
+    {
+        return self::MINIMUM_THUMB_SIZE;
     }
 
     public function getOutputType(): int
