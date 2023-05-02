@@ -380,7 +380,7 @@ class ilXapiStatementEvaluation
         $promises = array();
         $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultSatisfiedStatement'], $body, [204]);
         } catch (Exception $e) {
