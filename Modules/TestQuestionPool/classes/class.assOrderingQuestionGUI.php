@@ -49,13 +49,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public const F_NESTED_ORDER_INDENT = 'indentation';
     public const F_NESTED_IDENTIFIER_PREFIX = ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX;
 
-    /**
-     * @var assOrderingQuestion
-     */
     public assQuestion $object;
 
-    public $old_ordering_depth = array();
-    public $leveled_ordering = array();
+    public $old_ordering_depth = [];
+    public $leveled_ordering = [];
 
     /**
      * assOrderingQuestionGUI constructor
@@ -75,25 +72,39 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function changeToPictures(): void
     {
-        if (!$this->object->isImageOrderingType()) {
-            //perhaps clear something?
-        }
-
         $this->object->setContentType($this->object::OQ_CT_PICTURES);
         $this->object->saveToDb();
-        $this->editQuestion();
+
+        $values = $this->request->getParsedBody();
+        $values['thumb_geometry'] = $this->object->getThumbSize();
+        $this->buildEditFormAfterTypeChange($values);
     }
 
     public function changeToText(): void
     {
-        if ($this->object->isImageOrderingType()) {
-            //perhaps clear something?
+        $ordering_element_list = $this->object->getOrderingElementList();
+        foreach ($ordering_element_list as $element) {
+            $this->object->dropImageFile($element->getContent());
         }
 
         $this->object->setContentType($this->object::OQ_CT_TERMS);
         $this->object->saveToDb();
 
-        $this->editQuestion();
+        $this->buildEditFormAfterTypeChange($this->request->getParsedBody());
+    }
+
+    private function buildEditFormAfterTypeChange(array $values): void
+    {
+        $form = $this->buildEditForm();
+
+        $ordering_element_list = $this->object->getOrderingElementList();
+        $ordering_element_list->resetElements();
+
+        $values[assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR] = [];
+        $form->setValuesByArray($values);
+        $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)->setElementList($ordering_element_list);
+        $this->renderEditForm($form);
+        $this->addEditSubtabs();
     }
 
     public function saveNesting()
@@ -134,6 +145,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
+
         $submitted_list = $this->fetchSolutionListFromSubmittedForm($form);
 
         $elements = [];
@@ -161,13 +173,21 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $list = $this->object->getOrderingElementList()->withElements($elements);
         $this->object->setOrderingElementList($list);
+
+        $this->writeQuestionGenericPostData();
+        $this->writeQuestionSpecificPostData($form);
+
         $this->editQuestion();
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $thumb_geometry = (int) ($this->request->raw("thumb_geometry") ?? $this->object->getThumbGeometry());
-        $this->object->setThumbGeometry($thumb_geometry);
+        $thumb_size = $this->request->int('thumb_geometry');
+        if ($thumb_size !== 0
+            && $thumb_size !== $this->object->getThumbSize()) {
+            $this->object->setThumbSize($thumb_size);
+            $this->updateImageFiles();
+        }
 
         $this->object->setPoints((int)$this->request->raw("points"));
 
@@ -206,6 +226,25 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $list;
     }
 
+    protected function updateImageFiles(): void
+    {
+        $element_list = $this->object->getOrderingElementList();
+        $elements = [];
+        foreach ($element_list->getElements() as $element) {
+            if ($element->getContent() === '') {
+                continue;
+            }
+            $filename = $this->object->updateImageFile(
+                $element->getContent()
+            );
+
+            $elements[] = $element->withContent($filename);
+        }
+
+        $list = $this->object->getOrderingElementList()->withElements($elements);
+        $this->object->setOrderingElementList($list);
+    }
+
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
         $list = $this->fetchSolutionListFromSubmittedForm($form);
@@ -233,14 +272,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         if ($this->object->isImageOrderingType()) {
-            $geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
-            $geometry->setValue($this->object->getThumbGeometry());
-            $geometry->setRequired(true);
-            $geometry->setMaxLength(6);
-            $geometry->setMinValue(20);
-            $geometry->setSize(6);
-            $geometry->setInfo($this->lng->txt("thumb_geometry_info"));
-            $form->addItem($geometry);
+            $thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+            $thumb_size->setValue($this->object->getThumbSize());
+            $thumb_size->setRequired(true);
+            $thumb_size->setMaxLength(6);
+            $thumb_size->setMinValue($this->object->getMinimumThumbSize());
+            $thumb_size->setSize(6);
+            $thumb_size->setInfo($this->lng->txt("thumb_geometry_info"));
+            $form->addItem($thumb_size);
         }
 
         // points
@@ -325,7 +364,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
-
 
     protected function buildEditForm(): ilAssOrderingQuestionAuthoringFormGUI
     {
