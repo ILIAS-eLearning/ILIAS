@@ -71,6 +71,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCFileListTest.php");
         $suite->addTestSuite("PCFileListTest");
 
+        require_once("./Services/COPage/test/PCGridTest.php");
+        $suite->addTestSuite("PCGridTest");
+
         return $suite;
     }
 }
