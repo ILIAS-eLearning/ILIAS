@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author     Niels Theen <ntheen@datbay.de>
- * @version    $Id$
- * @ingroup    Services/Certificates
- */
 class ilCertificatePathConstants
 {
     final public const COURSE_PATH = '/course/certificates/';

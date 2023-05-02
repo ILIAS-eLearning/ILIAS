@@ -18,27 +18,27 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateXlstProcess
 {
+    /**
+     * @param array{"/_xsl": string, "/_xml": string} $args
+     * @param array<string, scalar> $params
+     */
     public function process(array $args, array $params): string
     {
-        $xh = xslt_create();
+        $processor = new XSLTProcessor();
 
-        $output = xslt_process(
-            $xh,
-            "arg:/_xml",
-            "arg:/_xsl",
-            null,
-            $args,
-            $params
-        );
+        $xslt_domdoc = new DomDocument();
+        $xslt_domdoc->loadXML($args['/_xsl']);
+        $processor->importStyleSheet($xslt_domdoc);
 
-        xslt_error($xh);
-        xslt_free($xh);
+        foreach ($params as $key => $value) {
+            $processor->setParameter('', $key, (string) $value);
+        }
 
-        return $output;
+        $xml_domdoc = new DomDocument();
+        $xml_domdoc->loadXML($args['/_xml']);
+
+        return $processor->transformToXML($xml_domdoc);
     }
 }
