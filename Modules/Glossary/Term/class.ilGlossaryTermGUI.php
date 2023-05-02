@@ -296,6 +296,7 @@ class ilGlossaryTermGUI
         $tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
         $page_gui = new ilGlossaryDefPageGUI($this->term->getId());
+        $page_gui->setTemplate($tpl);
         $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
         if ($a_offline) {
             $page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
