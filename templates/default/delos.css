@@ -17213,6 +17213,16 @@ div.ilStartupSection form.form-horizontal .form-group {
   border: 0 none;
   margin-right: 0;
 }
+.ilToolbar #il-add-new-item-gl .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.ilToolbar #il-add-new-item-gl li {
+  margin-right: 0;
+}
+.ilToolbar #il-add-new-item-gl li:not(.dropdown-header ) {
+  border-bottom: 0;
+}
 .ilToolbarContainer + .ilFilterContainer {
   margin-top: -20px;
 }
