@@ -635,7 +635,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $chap->setTitle($lng->txt("cont_new_chap"));
             $chap->setLMId($this->content_object->getId());
             $chap->create();
-            ilLMObject::putInTree($chap, $parent_id, $target);
+            ilLMObject::putInTree($chap, (int) $parent_id, (int) $target);
         }
 
         $ilCtrl->redirect($this, "view");
