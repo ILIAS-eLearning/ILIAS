@@ -18,6 +18,7 @@
 
 use ILIAS\Cache\Container\Container;
 use ILIAS\Cache\Container\Request;
+use ILIAS\Refinery\Custom\Transformation;
 
 /**
  * Class ilGSStorageCache
@@ -121,17 +122,27 @@ class arConnectorCache extends arConnector implements Request
     {
         $key = $this->buildCacheKey($ar);
         if ($this->cache_container->has($key)) {
-            $cached_value = $this->cache_container->get($key, new Transformation(function ($value) {
-                return is_array($value) ? $value : null;
-            }));
+            $cached_value = $this->cache_container->get(
+                $key,
+                new Transformation(function ($value) {
+                    return is_array($value) ? $value : null;
+                })
+            );
             if (is_array($cached_value)) {
-                return $cached_value;
+                return array_map(function ($result) {
+                    return (object) $result;
+                }, $cached_value);
             }
         }
 
         $results = $this->arConnectorDB->read($ar);
 
-        $this->cache_container->set($key, $results);
+        $this->cache_container->set(
+            $key,
+            array_map(function ($result) {
+                return (array) $result;
+            }, $results)
+        );
 
         return $results;
     }
