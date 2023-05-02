@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilXlsFoParser
 {
     private readonly ilXMLChecker $xmlChecker;
@@ -66,14 +63,15 @@ class ilXlsFoParser
     }
 
     /**
-     * @throws Exception
+     * @param array{"certificate_text": string, "pageformat": string, "pagewidth"?: string, "pageheight"?: string, "margin_body": array{"top": string, "right": string, "bottom": string, "left": string}} $formData
      */
     public function parse(array $formData): string
     {
         $content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
         $content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
         $content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
-        $content = str_replace(["<p></p>", "&nbsp;"], ["<p class=\"emptyrow\"></p>", "&#160;"], $content);
+        $content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
+        $content = str_replace("&nbsp;", "&#160;", $content);
         $content = preg_replace("//", "", $content);
 
         $this->xmlChecker->parse($content);
