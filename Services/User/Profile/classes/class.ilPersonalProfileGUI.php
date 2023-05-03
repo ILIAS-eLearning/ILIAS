@@ -647,20 +647,17 @@ class ilPersonalProfileGUI
 
     public function savePersonalData(): void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+        $ilUser = $this->user;
+        $ilSetting = $this->setting;
 
         $this->initPersonalDataForm();
         if ($this->form->checkInput()) {
             $form_valid = true;
 
             // if form field name differs from setter
-            $map = array(
+            $map = [
                 "firstname" => "FirstName",
                 "lastname" => "LastName",
                 "title" => "UTitle",
@@ -672,7 +669,7 @@ class ilPersonalProfileGUI
                 "interests_general" => "GeneralInterests",
                 "interests_help_offered" => "OfferingHelp",
                 "interests_help_looking" => "LookingForHelp"
-            );
+            ];
             $up = new ilUserProfile();
             foreach ($up->getStandardFields() as $f => $p) {
                 // if item is part of form, it is currently valid (if not disabled)
@@ -712,7 +709,7 @@ class ilPersonalProfileGUI
 
             // Set user defined data
             $defs = $this->user_defined_fields->getVisibleDefinitions();
-            $udf = array();
+            $udf = [];
             foreach ($defs as $definition) {
                 $f = "udf_" . $definition['field_id'];
                 $item = $this->form->getItemByPostVar($f);
