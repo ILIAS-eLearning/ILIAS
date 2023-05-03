@@ -762,65 +762,78 @@ ilias.questions.selectErrorText = function(a_id, node) {
 	jQuery(node).blur();
 };
 
-ilias.questions.assErrorText =function(a_id) {
-
-	answers[a_id].wrong = 0;
+ilias.questions.assErrorText = function(a_id) {
+    answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
-	answers[a_id].choice = [];
 
-	if(questions[a_id].selected === undefined)
-	{
+	if (questions[a_id].selected === undefined) {
 		answers[a_id].passed = false;
-	}
-	else
-	{
-		var found = 0;
-		for(var i=0;i<questions[a_id].answers.length;i++)
-		{
-			// is current word a correct answer == wrong word?
-			var text_select = questions[a_id].answers[i]["answertext"];
-			var is_wrong = false;
-			for(var j=0;j<questions[a_id].correct_answers.length;j++)
-			{
-				if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"] &&
-					questions[a_id].correct_answers[j]["pos"] == questions[a_id].answers[i]["order"]) // #14115
-				{
-					is_wrong = true;
-				}
-			}
-
-			// word has been selected
-			if(jQuery.inArray(questions[a_id].answers[i]["order"], questions[a_id].selected) > -1)
-			{
-				// word is not a correct answer
-				if(is_wrong === false)
-				{
-					answers[a_id].wrong++;
-				}
-				// found correct answer
-				else
-				{
-					found++;
-				}
-			}
-			// word has not been selected
-			else if(is_wrong === true)
-			{
-				// should have been selected
-				answers[a_id].wrong++;
-			}
-		}
-		if(found < questions[a_id].correct_answers.length ||
-			answers[a_id].wrong > 0)
-		{
-			answers[a_id].passed = false;
-		}
+        ilias.questions.showFeedback(a_id);
+        return;
 	}
 
-	ilias.questions.showFeedback(a_id);
-}
+    let found = 0;
 
-ilias.questions.showFeedback =function(a_id) {
+    let selected_words = questions[a_id].selected.sort();
+    let correct_answers = [];
+    questions[a_id].correct_answers.forEach(
+        (v) => {
+            correct_answers[v.pos] = v;
+        }
+    );
+
+    let l = 0;
+    let i = void 0;
+    selected_words.forEach(
+        (v) => {
+            if (l === 0 && typeof correct_answers[v] === undefined) {
+               answers[a_id].wrong++;
+               return;
+            }
+            if (typeof correct_answers[v] !== 'undefined' && correct_answers[v].length === 1) {
+                found++;
+                l = 0;
+                return;
+            }
+            if (typeof correct_answers[v] !== 'undefined') {
+                l++;
+                i = v;
+                return;
+            }
+            if (typeof i === 'undefined') {
+                answers[a_id].wrong++;
+                l = 0;
+                return;
+            }
+            if (typeof correct_answers[i] === 'undefined') {
+                i = void 0;
+                answers[a_id].wrong++;
+                l = 0;
+                return;
+            }
+            if (correct_answers[i].length === l+1) {
+                found++;
+                l = void 0;
+                return;
+            }
+            if (correct_answers[i].length > ++l) {
+                return;
+            }
+
+            answers[a_id].wrong++;
+            i = void 0;
+            l = 0;
+        }
+    );
+
+    if (found < questions[a_id].correct_answers.length ||
+        answers[a_id].wrong > 0) {
+        answers[a_id].passed = false;
+    }
+    ilias.questions.showFeedback(a_id);
+};
+
+ilias.questions.showFeedback = function(a_id) {
 	jQuery('#feedback'+a_id).hide();
 
 	// "image map as single choice" not supported yet
@@ -1273,32 +1286,19 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			//end assTextSubset
 
 		case 'assErrorText':
-			for(var i=0;i<questions[a_id].answers.length;i++)
-			{
-				var node = jQuery("div#container" + a_id + " span#" + questions[a_id].answers[i]["order"]);
-				if(node.length)
-				{
-					var is_wrong = false;
-					var correct = "";
-					for(var j=0;j<questions[a_id].correct_answers.length;j++)
-					{
-						if(questions[a_id].answers[i]["answertext"] == questions[a_id].correct_answers[j]["answertext_wrong"] &&
-							questions[a_id].correct_answers[j]["pos"] == questions[a_id].answers[i]["order"]) // #14115
-						{
-							is_wrong = true;
-							correct = questions[a_id].correct_answers[j]["answertext_correct"];
-						}
-					}
-					if(is_wrong == false)
-					{
-						jQuery(node).html(questions[a_id].answers[i]["answertext"]);
-					}
-					else
-					{
-						jQuery(node).html('<span class="ilc_qetcorr_ErrorTextCorrected">' +
-							questions[a_id].answers[i]["answertext"] + '</span>' + correct);
-					}
-				}
+            correct_answers = questions[a_id].correct_answers;
+            for (let i=0;i<correct_answers.length;i++) {
+                let node = document.getElementById(correct_answers[i]['pos']);
+                if (node.length === 0) {
+                    continue;
+                }
+                for (let j=1;j<correct_answers[i].length;j++) {
+                    node.parentNode.nextElementSibling.remove();
+                }
+
+                node.outerHTML = '<span class="ilc_qetcorr_ErrorTextCorrected">' +
+					correct_answers[i]["answertext_wrong"] + '</span>' + correct_answers[i]["answertext_correct"];
+
 			}
 			break;
 			//end assErrorText

@@ -1087,6 +1087,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
 assessment#:#qpl_tab_competences#:#Kompetenzen
+assessment#:#qst_error_text_too_long#:#Einer oder mehrere der als fehlerhaft markierten Textelemente ist zu lang. Die maximale Länge für ein als fehlerhaft markiertes Textelement ist 150 Zeichen.
 assessment#:#qst_essay_allready_written_words#:#Bereits geschriebene Wörter:
 assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
 assessment#:#qst_essay_wordcounter_enabled#:#Wörter zählen
