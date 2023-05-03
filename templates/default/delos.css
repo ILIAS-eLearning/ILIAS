@@ -11194,7 +11194,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 20px;
   text-align: left;
   word-break: normal;
@@ -12201,8 +12201,8 @@ footer {
   min-height: 50px;
   padding: 6px 12px;
   margin-bottom: 2px;
-  font-size: 0.9375rem;
-  line-height: 1.0625rem;
+  font-size: 0.875rem;
+  line-height: 0.9916666667rem;
 }
 .il-drilldown hr {
   margin: 6px 0;
