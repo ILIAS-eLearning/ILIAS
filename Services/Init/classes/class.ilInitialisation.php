@@ -1851,16 +1851,7 @@ class ilInitialisation
 
     protected static function getCurrentCmd(): string
     {
-        $cmd = '';
-
-        $get = $_GET['cmd'] ?? '';
-        if (is_string($get) && $get !== '') {
-            $cmd = $get;
-        }
-
-        if ($cmd === '' || $cmd === 'post') {
-            $cmd = $_POST['cmd'] ?? '';
-        }
+        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
 
         if (is_array($cmd)) {
             $cmd_keys = array_keys($cmd);
