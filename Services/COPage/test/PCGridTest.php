@@ -122,6 +122,128 @@ EOT;
         );
     }
 
+    public function testWidths(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_MAIN_SIDE,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+        $page->addHierIDs();
+        $pc->saveWidths(
+            [
+            "1_1:" => 12,
+            "1_2:" => 12
+        ],
+            [
+            "1_1:" => 12,
+            "1_2:" => 12
+        ],
+            [
+            "1_1:" => 6,
+            "1_2:" => 6
+        ],
+            [
+            "1_1:" => 6,
+            "1_2:" => 6
+        ],
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="12" WIDTH_L="6" WIDTH_XL="6"/><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="12" WIDTH_L="6" WIDTH_XL="6"/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testDelete(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_MAIN_SIDE,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+        $page->addHierIDs();
+        $pc->deleteGridCell("1_2", "");
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="8" WIDTH_XL="9"/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testAddGridCell(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_MANUAL,
+            1,
+            12,
+            6,
+            3,
+            3
+        );
+        $pc->addGridCell(12, 12, 12, 6);
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="3" WIDTH_XL="3"/><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="12" WIDTH_L="12" WIDTH_XL="6"/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testAddCell(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_MANUAL,
+            1,
+            12,
+            6,
+            3,
+            3
+        );
+        $pc->addCell();
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="3" WIDTH_XL="3"/><GridCell WIDTH_XS="" WIDTH_S="" WIDTH_M="" WIDTH_L="" WIDTH_XL=""/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+
     public function testCellData(): void
     {
         $page = $this->getEmptyPageWithDom();
