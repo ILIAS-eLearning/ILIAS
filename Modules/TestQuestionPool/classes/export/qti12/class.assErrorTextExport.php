@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -76,14 +77,26 @@ class assErrorTextExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getErrorText());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "parsederrortext");
+        $a_xml_writer->xmlElement("fieldentry", null, serialize($this->object->getParsedErrorText()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "textsize");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getTextSize());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "errordata");
-        $serialized = array();
+        $serialized = [];
         foreach ($this->object->getErrorData() as $data) {
-            array_push($serialized, array($data->text_correct, $data->text_wrong, $data->points));
+            array_push(
+                $serialized,
+                [
+                    $data->getTextCorrect(),
+                    $data->getTextWrong(),
+                    $data->getPoints(),
+                    $data->getPosition()
+                ]
+            );
         }
         $a_xml_writer->xmlElement("fieldentry", null, serialize($serialized));
         $a_xml_writer->xmlEndTag("qtimetadatafield");

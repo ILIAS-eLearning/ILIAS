@@ -27,9 +27,6 @@
 class ilAssErrorTextFeedback extends ilAssMultiOptionQuestionFeedback
 {
     /**
-     * returns the answer options mapped by answer index
-     * (overwrites parent method from ilAssMultiOptionQuestionFeedback)
-     *
      * @return string[] $answerOptionsByAnswerIndex
      */
     public function getAnswerOptionsByAnswerIndex(): array
@@ -38,16 +35,13 @@ class ilAssErrorTextFeedback extends ilAssMultiOptionQuestionFeedback
     }
 
     /**
-     * builds an answer option label from given (mixed type) index and answer
-     * (overwrites parent method from ilAssMultiOptionQuestionFeedback)
-     * @param integer $index
-     * @param mixed $answer
+     * @param assAnswerErrorText $answer
      */
     protected function buildAnswerOptionLabel(int $index, $answer): string
     {
         $caption = $ordinal = $index + 1;
-        $caption .= '. <br />"' . $answer->text_wrong . '" =&gt; ';
-        $caption .= '"' . $answer->text_correct . '"';
+        $caption .= '. <br />"' . $answer->getTextWrong() . '" =&gt; ';
+        $caption .= '"' . $answer->getTextCorrect() . '"';
         $caption .= '</i>';
 
         return $caption;

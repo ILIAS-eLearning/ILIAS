@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types = 1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -88,6 +89,37 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
                 'qpl_num_range',
                 $fields,
                 'i6'
+            );
+        }
+    }
+
+    public function step_6(): void
+    {
+        if (!$this->db->tableColumnExists('qpl_a_errortext', 'position')) {
+            $this->db->addTableColumn(
+                'qpl_a_errortext',
+                'position',
+                [
+                    'type' => ilDBConstants::T_INTEGER,
+                    'length' => 2,
+                    'notnull' => false,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    public function step_7(): void
+    {
+        if (!$this->db->tableColumnExists('qpl_qst_errortext', 'parsed_errortext')) {
+            $this->db->addTableColumn(
+                'qpl_qst_errortext',
+                'parsed_errortext',
+                [
+                    'type' => ilDBConstants::T_CLOB,
+                    'notnull' => false,
+                    'default' => null
+                ]
             );
         }
     }
