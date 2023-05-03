@@ -1,8 +1,10 @@
 ILIAS Maintenance
 =================
-The development of the ILIAS source code is coordinated and maintained by a coordination team within the ILIAS 
-network. Besides the main responsibilities for the project, several developers and users are maintaining certain 
-modules of ILIAS.
+The development of ILIAS is coordinated by the Product Manager and the
+Technical Board. Many decisions are taken at the biweekly Jour Fixe, which is
+open for participation to everyone. The source code is maintained by a growing
+group of people, ranging from devoted maintainers to regular or even one-time
+contributors.
 
 # Special Roles
 
@@ -13,350 +15,411 @@ modules of ILIAS.
 * **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/goto_docu_usr_94205.html)
 * **Online Help**: [Alexandra Tödt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
-# Maintainers
-We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS 
-source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described 
-in the development guide.
- 
-Communication among developers that are working on a specific component needs to be assured. Final decision about 
-getting write access to the ILIAS development system (Github) is handled by the product manager.
- 
-ILIAS is currently maintained by two types of maintainerships:
+# Authorities
+The ILIAS-Community strives to create and maintain a secure, reliable, and
+adaptable learning management. We foster participation by a diverse set of
+developers, designers, testers and other contributors, but we also have to
+guarantee the sustainability and the quality of the ILIAS source code.
 
-- **Classic Model** with First Maintainer and sometimes Second Maintainer
-- **[Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md)**
- 
-The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
-listed component maintainer (see below):
+To make sure people with diverse backgrounds and capabilities can participate
+in our Community and contribute to the development of ILIAS and its code base,
+we split the code into units (often called components, even though the term
+is hard to define) and we define a set of authorities community members can have
+concerning these units of code. We understand an authority as the counterpart of
+a responsibility: the people having the authorities to do something in a unit of
+code also assume the responsibility for the corresponding functions.
 
-1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager 
-in the Jour Fixe meetings after an open discussion.
-2. Components under the Classic Model have a first and sometimes second maintainer. Code changes are usually done by the first maintainer. The first 
-maintainer may forward new implementations to the second maintainer.
+For the context of ILIAS, we define **four** different authorities:
 
-Responsibilities of a component maintainer:
+1. **Authority to Sign off Code Changes**
+2. **Authority to Sign off Conceptual Changes**
+3. **Authority to Sign off Testcase Changes**
+4. **Authority to (De-)Assign Authorities**
 
-- Component maintainer must assure maintenance of their component for at least three years (approx. three ILIAS major 
-releases).
-- Component maintainers must agree to coordinate the development of their component with the product manager.
-- Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically 
-by the [Issue-Tracker](https://mantis.ilias.de).
-- Component maintainers are responsible for Pull Requests to their component and get assigned related Pull Requests 
-by the Technical Board according to the [Rules for Maintainers and Coordinators assigned to PRs[(Rules for Maintainers and Coordinators assigned to PRs)
+Each of these authorities can be held by a different set of people. This means
+that the social organisation of different groups working on different parts of
+the code of ILIAS can be different.
+Right now ILIAS knows a few different social structures for the maintenance of
+units in the code of ILIAS:
 
+* In the **"Classic Model"** all authorities are concentrated in one person and
+this person works mostly alone.
+* In the **Coordinator Model** all authorities are concentrated in one or more
+people and they work together with other developers in the community to improve
+the code.
+* In the **"Test and Assessment Model"** the authorities **to Sign off Conceptual
+Changes**, **to Sign off Testcase Changes**, and **to (De-)Assign Authorities**
+lie with one person and the **Authority to Sign off Code Changes** with two
+others.
 
-## Becoming a Maintainer
+More will surely emerge as the optimal solution for each unit is found.
 
-Applications for maintainerships can be handed in to the product manager. The product manager together with the 
-technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
-addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
-propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
-for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
-substantially in the general condition of the component and the proposed maintainer meets the criteria.
+# Responsibilites
+Independently of the social organisation, for each [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md) the following
+responsibilites need to be assumed:
 
-## Implicit Maintainers
-If a component is currently unmaintained, a developer can take responsibility for it without agreeing to give full support. 
-An implicit maintainer will get assigned related bugs automatically and will keep the component working through the update cycle. 
-S/he will not implement new features or develop the component further. If enhancements of the component are wanted, an
-explicit maintainer or coordinator must be assigned.
+* All people holding an authority must agree to coordinate the development
+of their [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md) with the Product Manager and with the people maintaining
+other units of code.
+* One of the people holding either the **Authority to Sign off Code Changes** or
+the **Authority to Sign off Conceptual Changes** gets assigned related bugs
+automatically by the [Issue-Tracker](https://mantis.ilias.de). S/he is responsible
+to make sure all issues receive a response within the defined time frame and are
+either fixed in a timely manner or postponed/closed with a solid explanation.
+* The people holding the **Authority to Sign off Code Changes** are responsible
+for pull requests to their component and get assigned related pull requests
+by the Technical Board according to the [Rules for Maintainers and Coordinators
+assigned to PRs](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#rules-for-maintainers-assigned-to-prs).
+* The person/people holding the **Authority to (De-)Assign Authorities**
+coordinate assignments of authorities with the Product Manager and the Technical
+Board, who hold a vetoing power over these decisions.
 
-## Additional Competences
-A maintainer can pass certain of her/his competences to other people in the community. Currently these are:
+# Additional Rules and Guidelines
+* Although the first decision on new features or feature removals in a unit of
+code lie with the person/people holding the **Authority to Sign off Conceptual
+Changes** the final decisions are made by them together with the Product
+Manager during the Jour Fixe meetings after an open discussion.
+* If nobody holds the **Authority to (De-)Assign Authorities** for a
+[component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md),
+it defaults to the Technical Board.
+* Final decision about getting write access to the ILIAS development system
+(GitHub) is handled by the Product Manager together with the Technical Board.
+* Authorities are listed with the name of the person holding the authority. In
+addition the company the person is working for can be listed, too.
+* If a company is listed for the last assignee of the **Authority to (De-)Assign
+Authorities** the company can propose a prioritized candidate for the
+succession.
 
-* The **competence to handle pull requests** including the rights to merge or close them.
-* The **competence to handle issues in Mantis** including the rights to relable, reassign, close, or reopen them.
+## How Authority Assignments are Stored
+Authorities are tracked in `maintenance.json` files placed in the root of the
+corresponding [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
+of ILIAS. The file contains the following fields:
 
-If nobody is fulfilling the responsibilities of the component maintainer, the Product Manager together with the Technical Board 
-can look for members of the community and assign these competences to them.
-
-## Tracking Maintainerships
-Maintainerships are tracked in maintenance.json files placed in the root of the corresponding components of ILIAS. The 
-file containes the following fields:
-
-* **maintenance_model**: Currently there are two possible entries for this field
-	* "[Classic](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)"
-	* "[Coordinator](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md#coordinator-model)".
-* **"first_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
-	https://docu.ilias.de. Only relevant if **the maintenance_model** is set to "Classic".
-* **"second_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on https://docu.ilias.de. 
-	Only relevant if **the maintenance_model** is set to "Classic".
-* **"[implicit_maintainers](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#implicit-maintainers)"**: 
-    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de. Only relevant if 
-    **the maintenance_model** is set to "Classic" **and** neither a first nor a second maintainers is set.
-* **"coordinator"**: An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
-	Only relevant if **the maintenance_model** is set to "Coordinator".
-* **"[pr_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
-    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
-* **"[issue_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** :
-  An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
-* **"tester"**: One entry in the form `<username> (<userid>)` pointing to a valid user on
-  https://docu.ilias.de.
-* **"testcase_writer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on
-  https://docu.ilias.de.
+* **"Authority to Sign off Code Changes"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users/companies on https://docu.ilias.de.
+* **"Authority to Sign off Conceptual Changes"**:
+    An array in the form [ `<username> (<userid>, <company> (<company_page>)` ]
+    pointing to valid users on https://docu.ilias.de.
+* **"Authority to Sign off Testcase Changes"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users on https://docu.ilias.de.
+* **"Authority to (De-)Assign Authorities"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users on https://docu.ilias.de.
+* **"tester"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users on https://docu.ilias.de.
+* **"testcase_writer"**:
+    An array in the form [ `<username> (<userid>), <company> (<company_page>)` ]
+    pointing to valid users on https://docu.ilias.de.
+* **"Units-pecific Guidelines, Rules, and Regulations"**:
+    Link to a file `COMMUNITY.md` in the root of the unity in the trunk branch on
+    GitHub specifying the guidelines, rules, and regulations for collaboration.
 
 ## Current Maintainerships
 
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-	* Maintenance Model: Classic
-    * 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Authority to Sign off Conceptual Changes: [[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes:[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ActiveRecord)
 
 [//]: # (BEGIN Administration)
 
 * **Administration**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+	* Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Administration)
 
 [//]: # (BEGIN AdministrativeNotifications)
 
 * **Administrative Notifications**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END AdministrativeNotifications)
 
 [//]: # (BEGIN BackgroundTasks)
 
 * **BackgroundTasks**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BackgroundTasks)
 
 [//]: # (BEGIN Badges)
 
 * **Badges**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Badges)
 
 [//]: # (BEGIN BibliographicListItem)
 
 * **Bibliographic List Item**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BibliographicListItem)
 
 [//]: # (BEGIN Blog)
 
 * **Blog**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [PaBer](https://docu.ilias.de/goto_docu_usr_33766.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Blog)
 
 [//]: # (BEGIN BookingTool)
 
 * **Booking Tool**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [wolfganghuebsch](https://docu.ilias.de/goto_docu_usr_18455.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BookingTool)
 
 [//]: # (BEGIN Calendar)
 
 * **Calendar**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Testcases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Calendar)
 
 [//]: # (BEGIN CategoryAndRepository)
 
 * **Category and Repository**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        ,  [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CategoryAndRepository)
 
 [//]: # (BEGIN Certificate)
 
 * **Certificate**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Certificate)
 
 [//]: # (BEGIN Chat)
 
 * **Chat**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Chat)
 
 [//]: # (BEGIN cmi5AndxAPIObject)
 
 * **cmi5/xAPI Object**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END cmi5AndxAPIObject)
 
 [//]: # (BEGIN Comments)
-
 * **Comments**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Comments)
 
 [//]: # (BEGIN CompetenceManagement)
 
 * **Competence Management**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to Sign off Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to (De-)Assign Authoritiees: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CompetenceManagement)
 
 [//]: # (BEGIN Component)
 
 * **Component**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+        ,  [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Component)
 
 [//]: # (BEGIN Contacts)
 
 * **Contacts**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Contacts)
 
 [//]: # (BEGIN ContentPage)
 
 * **ContentPage**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ContentPage)
 
 [//]: # (BEGIN CourseManagement)
 
 * **Course Management**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Testcases: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
 	  , [TESTER MISSING FOR LOC](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CourseManagement)
 
 [//]: # (BEGIN CronService)
 
 * **Cron Service**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CronService)
 
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Testcase Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to (De-)Assign Authoritiees: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CSSAndTemplates)
 
 [//]: # (BEGIN Dashboard)
 
 * **Dashboard**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html) and [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
 	* Tester: [silvia.marine](https://docu.ilias.de/goto_docu_usr_71642.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Dashboard)
 
 [//]: # (BEGIN Data)
 
 * **Data**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Data)
 
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-	* Maintenance Model: Coordinator
-	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html) & [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
+        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
+        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
+        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
+        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DataCollection)
 
@@ -374,286 +437,321 @@ file containes the following fields:
 [//]: # (BEGIN Database)
 
 * **Database**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Database)
 
 [//]: # (BEGIN DidacticTemplates)
 
 * **Didactic Templates**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DidacticTemplates)
 
 [//]: # (BEGIN ECSInterface)
 
 * **ECS Interface**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Testcase Changes: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
+    * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Tester: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ECSInterface)
 
 [//]: # (BEGIN EmployeeTalk)
 
 * **EmployeeTalk**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-	* 2nd Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* Testcases: N.A.
+    * Authority to Sign off Code Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+        , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off Conceptual Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to Sign off Testcase Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to (De-)Assign Authoritiees: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END EmployeeTalk)
 
 [//]: # (BEGIN Exercise)
 
 * **Exercise**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [miriamwegener](https://docu.ilias.de/goto_docu_usr_23051.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Exercise)
 
 [//]: # (BEGIN Export)
 
 * **Export**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Export)
 
 [//]: # (BEGIN Favourites)
 
 * **Favourites**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Favourites)
 
 [//]: # (BEGIN File)
 
 * **File**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: Heinz Winter, CaT
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END File)
 
 [//]: # (BEGIN Forum)
 
 * **Forum**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
-	* Testcases: FH Aachen
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: FH Aachen
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
-	  und [anna.s.vogel](https://docu.ilias.de/goto_docu_usr_71954.html)
+        , [anna.s.vogel](https://docu.ilias.de/goto_docu_usr_71954.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Forum)
 
 [//]: # (BEGIN GeneralKiosk-Mode)
 
 * **General Kiosk-Mode**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GeneralKiosk-Mode)
 
 [//]: # (BEGIN GlobalCache)
 
 * **GlobalCache**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GlobalCache)
 
 [//]: # (BEGIN GlobalScreen)
 
 * **GlobalScreen**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GlobalScreen)
 
 [//]: # (BEGIN Glossary)
 
 * **Glossary**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Glossary)
 
 [//]: # (BEGIN Group)
 
 * **Group**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Testcases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Group)
 
 [//]: # (BEGIN HTTP-Request)
 
 * **HTTP-Request**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END HTTP-Request)
 
 [//]: # (BEGIN ILIASPageEditor)
 
 * **ILIAS Page Editor**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: FH Aachen
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ILIASPageEditor)
 
 [//]: # (BEGIN IndividualAssessment)
 
 * **IndividualAssessment**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END IndividualAssessment)
 
 [//]: # (BEGIN InfoPage)
 
 * **Info Page**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END InfoPage)
 
 [//]: # (BEGIN InitialisationService)
 
 * **Initialisation Service**
-	* Maintenance Model: Coordinator
-	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END InitialisationService)
 
 [//]: # (BEGIN ItemGroup)
 
 * **ItemGroup**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ItemGroup)
 
 [//]: # (BEGIN LanguageHandling)
 
 * **Language Handling**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-	* 2nd Maintainer: [katrin.grosskopf](https://docu.ilias.de/goto_docu_usr_68340.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+        , [katrin.grosskopf](https://docu.ilias.de/goto_docu_usr_68340.html)
+    * Authority to Sign off Conceptual Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LanguageHandling)
 
 [//]: # (BEGIN LearningHistory)
 
 * **Learning History**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningHistory)
 
 [//]: # (BEGIN LearningModuleHTML)
 
 * **Learning Module HTML**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleHTML)
 
 [//]: # (BEGIN LearningModuleILIAS)
 
 * **Learning Module ILIAS**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleILIAS)
 
 [//]: # (BEGIN LearningModuleSCORM)
 
 * **Learning Module SCORM**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: n.n., Qualitus
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Testcase Changes: n.n., Qualitus
+    * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: n.n., Qualitus
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleSCORM)
 
 [//]: # (BEGIN LearningSequence)
 
 * **Learning Sequence**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [mglaubitz](https://docu.ilias.de/goto_docu_usr_28309.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningSequence)
 
@@ -671,589 +769,669 @@ file containes the following fields:
 [//]: # (BEGIN Like)
 
 * **Like**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Like)
 
 [//]: # (BEGIN Logging)
 
 * **Logging**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Logging)
 
 [//]: # (BEGIN LoginAuthAndRegistration)
 
 * **Login, Auth & Registration**
-	* Maintenance Model: Coordinator
-	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html) & [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html)
 	  , [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
 	  , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LoginAuthAndRegistration)
 
 [//]: # (BEGIN LTI)
 
 * **LTI**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [stv](https://docu.ilias.de/goto_docu_usr_45359.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTI)
 
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Testcase Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to (De-)Assign Authoritiees: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
 
 [//]: # (BEGIN Mail)
 
 * **Mail**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Till Lennart Vogt/Test-Team OWL
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Mail)
 
 [//]: # (BEGIN MainMenu)
 
 * **MainMenu**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MainMenu)
 
 [//]: # (BEGIN Maps)
 
 * **Maps**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Maps)
 
 [//]: # (BEGIN MathJax)
 
 * **MathJax**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off Code Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off Conceptual Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off Testcase Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to (De-)Assign Authoritiees: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
 	* Tester: [resi](https://docu.ilias.de/goto_docu_usr_72790.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MathJax)
 
 [//]: # (BEGIN MediaObjects)
 
 * **Media Objects**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaObjects)
 
 [//]: # (BEGIN MediaPool)
 
 * **Media Pool**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaPool)
 
 [//]: # (BEGIN MediaCast)
 
 * **MediaCast**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaCast)
 
 [//]: # (BEGIN Membership)
 
 * **Membership**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Membership)
 
 [//]: # (BEGIN Metadata)
 
 * **Metadata**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-	* Testcases: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Metadata)
 
 [//]: # (BEGIN News)
 
 * **News**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END News)
 
 [//]: # (BEGIN NotesAndComments)
 
 * **Notes and Comments**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END NotesAndComments)
 
 [//]: # (BEGIN Notifications)
 
 * **Notifications**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-	* Testcases: N.A.
-	* Tester: N.A.
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Notifications)
 
 [//]: # (BEGIN ObjectService)
 
 * **Object Service**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: N.A.
-	* Tester: N.A.
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ObjectService)
 
 [//]: # (BEGIN OnlineHelp)
 
 * **Online Help**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OnlineHelp)
 
 [//]: # (BEGIN OpenIdConect)
 
 * **Open ID Connect**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: N.A.
-	* Tester: N.A.
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OpenIdConect)
 
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OrganisationalUnits)
 
 [//]: # (BEGIN PDF)
 
 * **PDF**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
+    * Authority to Sign off Conceptual Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
+    * Authority to Sign off Testcase Changes: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
+    * Authority to (De-)Assign Authoritiees: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END PDF)
 
 [//]: # (BEGIN PersonalAndSharedResources)
 
 * **Personal and Shared Resources**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END PersonalAndSharedResources)
 
-[//]: # (BEGIN Poll)
+[//]: # (BEGIN PersonalProfile)
 
 * **Poll**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Poll)
 
 [//]: # (BEGIN Portfolio)
 
 * **Portfolio**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases Portfolio: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
- 	* Testcases Portfolio Template: N.A. 
-	* Tester Portfolio: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
-	* Tester Portfolio Template: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* Tester: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Portfolio)
 
 [//]: # (BEGIN PreconditionHandling)
 
 * **Precondition Handling**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [mkloes](https://docu.ilias.de/goto_docu_usr_22174.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END PreconditionHandling)
 
 [//]: # (BEGIN Rating)
 
 * **Rating**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Rating)
 
 [//]: # (BEGIN RBAC)
 
 * **RBAC / Access Control**
-	* Maintenance Model: Classic
-    * 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Until ILIAS 8: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END RBAC)
 
 [//]: # (BEGIN Refinery)
 
 * **Refinery**
-	* Maintenance Model: Coordinator
-	* Coordinators: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Used in Directories: src/Refinery
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Refinery)
 
 [//]: # (BEGIN SAML)
 
 * **SAML**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Alexander Grundkötter, Qualitus
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END SAML)
 
 [//]: # (BEGIN Search)
 
 * **Search**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Search)
 
 [//]: # (BEGIN Session)
 
 * **Session**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Session)
 
 [//]: # (BEGIN Setup)
 
 * **Setup**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Setup)
 
 [//]: # (BEGIN ShibbolethAuthentication)
 
 * **Shibboleth Authentication**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ShibbolethAuthentication)
 
 [//]: # (BEGIN SOAP)
 
 * **SOAP / Webservices**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-	* 2nd Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Conceptual Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to Sign off Testcase Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to (De-)Assign Authoritiees: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END SOAP)
 
 [//]: # (BEGIN Staff)
 
 * **Staff**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to Sign off Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off Testcase Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to (De-)Assign Authoritiees: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Staff)
 
 [//]: # (BEGIN StatisticsAndLearningProgress)
 
 * **Statistics and Learning Progress**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END StatisticsAndLearningProgress)
 
 [//]: # (BEGIN StudyProgramme)
 
 * **Study Programme**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* 2nd Maintainer: [shecken](https://docu.ilias.de/goto_docu_usr_45419.html)
-	* Testcases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+        , [shecken](https://docu.ilias.de/goto_docu_usr_45419.html)
+    * Authority to Sign off Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off Testcase Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to (De-)Assign Authoritiees: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* Tester: Florence Seydoux, s+r
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END StudyProgramme)
 
 [//]: # (BEGIN Survey)
 
 * **Survey**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Survey)
 
 [//]: # (BEGIN SystemCheck)
 
 * **System Check**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END SystemCheck)
 
 [//]: # (BEGIN Tagging)
 
 * **Tagging**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* Testcases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tagging)
 
 [//]: # (BEGIN Tasks)
 
 * **Tasks**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tasks)
 
 [//]: # (BEGIN Taxonomy)
 
 * **Taxonomy**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: Tested separately in each module that supports taxonomies
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: Tested separately in each module that supports taxonomies
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: Tested separately in each module that supports taxonomies
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Taxonomy)
 
 [//]: # (BEGIN TermsOfService)
 
-* **Terms of Service**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* Testcases: Stefania Akgül (CaT)
+* **Terms of Services**
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html),
+        [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Testcase Changes: Stefania Akgül (CaT)
+    * Authority to (De-)Assign Authoritiees: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: Heinz Winter (CaT)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END TermsOfService)
 
 [//]: # (BEGIN TestAndAssessment)
 
 * **Test & Assessment**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
-	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+    * Authority to Sign off Code Changes: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+        , [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* Authority to Sign off Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to Sign off Testcase Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to (De-)Assign Authoritiees: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* Testcases: SIG E-Assessment
 	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU)
 	  , [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
           , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
-	  , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)	
+	  , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)
 
 [//]: # (END TestAndAssessment)
 
 [//]: # (BEGIN Tree)
 
 * **Tree**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off Conceptual Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off Testcase Changes: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to (De-)Assign Authoritiees: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tree)
 
 [//]: # (BEGIN UserService)
 
 * **User Service**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to (De-)Assign Authoritiees: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UserService)
 
 [//]: # (BEGIN UICore)
 
 * **UICore**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Conceptual Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+    * Authority to Sign off Testcase Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+    * Authority to (De-)Assign Authoritiees: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
 	* Tester: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UICore)
 
 [//]: # (BEGIN UI-Service)
 
 * **UI-Service**
-	* Maintenance Model: Coordinator
-	* Coordinators: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Test cases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+    * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+    * Authority to Sign off Testcase Changes: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Authority to (De-)Assign Authoritiees: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
 	* Tester: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-	* Used in Directories: src/UI
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UI-Service)
 
 [//]: # (BEGIN VirusScanner)
 
 * **Virus Scanner**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
+    * Authority to Sign off Conceptual Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
+    * Authority to Sign off Testcase Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
+    * Authority to (De-)Assign Authoritiees: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END VirusScanner)
 
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Testcases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+        , [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Authority to (De-)Assign Authoritiees: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebAccessChecker)
 
 [//]: # (BEGIN WebFeed)
 
 * **Web Feed**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebFeed)
 
 [//]: # (BEGIN WebDAV)
 
 * **WebDAV**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* 2nd Maintainer: [rheer](https://docu.ilias.de/goto_docu_usr_47872.html)
-	* Testcases: [fawinike](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign of Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+	* Authority to Sign of Conceptual Changes: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
+    * Authority to Sign of Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_70029.html)
+    * Authority to (De-)Assign Authoritiees: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
+	* Testcases: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
 	* Tester: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
 
 [//]: # (END WebDAV)
@@ -1261,55 +1439,60 @@ file containes the following fields:
 [//]: # (BEGIN Weblink)
 
 * **Weblink**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
+    * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off Testcase Changes: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
+    * Authority to (De-)Assign Authoritiees: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Tester: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Weblink)
 
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to Sign off Conceptual Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to Sign off Testcase Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to (De-)Assign Authoritiees: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Webservices)
 
 [//]: # (BEGIN WhoIsOnline)
 
 * **Who is online?**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WhoIsOnline)
 
 [//]: # (BEGIN Wiki)
 
 * **Wiki**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: N.N., Uni Köln
-	* Tester: N.N., Uni Köln
+    * Authority to Sign off Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off Testcase Changes: n.n., Uni Köln
+    * Authority to (De-)Assign Authoritiees: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* Tester: n.n., Uni Köln
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Wiki)
 
 [//]: # (BEGIN xAPIAndcmi5)
 
 * **xAPI/cmi5**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Code Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
+    * Authority to Sign off Conceptual Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
+    * Authority to Sign off Testcase Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
+    * Authority to (De-)Assign Authoritiees: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END xAPIAndcmi5)
 

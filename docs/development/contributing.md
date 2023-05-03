@@ -40,14 +40,14 @@ mail to the [Technical Board of the ILIAS society](mailto:tb@lists.ilias.de).
 ### Pull Request to the Repositories
 
 Pull requests (PRs) will be assigned by the [Technical Board
-(TB)](http://www.ilias.de/docu/goto.php?target=grp_5089&client_id=docu) to the
+(TB)](https://docu.ilias.de/goto.php?target=grp_5089&client_id=docu) to the
 responsible maintainer. The TB will also help to resolve problems with PRs and
 associated processes, if you require mediation please leave a mention via
 `@ILIAS-eLearning/technical-board` in the discussion of the PR.
 
 Please make sure to understand that the ILIAS society has a [process for
-functional feature request](https://www.ilias.de/docu/goto_docu_wiki_wpage_788_1357.html) 
-before starting to create your PR. Your PR should thus only contain bug fixes or 
+functional feature request](https://docu.ilias.de/goto_docu_wiki_wpage_788_1357.html)
+before starting to create your PR. Your PR should thus only contain bug fixes or
 non-functional changes to our code base.
 
 <a name="rules-for-contributors"></a>
@@ -67,8 +67,8 @@ code please make sure:
 * that your code could be understood and is documented - this will help
   reviewers as well
 * that your commit follows the [ILIAS coding
-  guidelines](http://www.ilias.de/docu/goto_docu_pg_202_42.html) - this is a
-  bare minimum of style we want to maintain for new code
+  guidelines](https://docu.ilias.de/goto_docu_pg_202_42.html) - this is a
+  bare minimun of style we want to maintain for new code
 * you don't introduce new code violations which could have been easily found by
   importing and running our
   [PhpStorm PHP Inspection Profile](./inspection-configs/php-storm-php-inspections.xml)
@@ -92,7 +92,7 @@ accidentally.
 <a name="list-of-labels"></a>
 ## List of Labels
 
-There are currently the following labels used for Pull-Requests. These labels will 
+There are currently the following labels used for Pull-Requests. These labels will
 be assigned by the Technical Board or Maintainers:
 
 | Label           | Description                                                                                                                                                               |
@@ -105,7 +105,7 @@ be assigned by the Technical Board or Maintainers:
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
 <a name="rules-for-maintainers-assigned-to-prs"></a>
-#### Rules for Maintainers and Coordinators assigned to PRs
+#### Rules for Community Members assigned to PRs
 
 As an FOSS community we should be glad that people want to contribute code to
 our project as this reflects usage of our project. To show this when handling
@@ -123,15 +123,15 @@ We are happy to get contributions that are no commits as well. There are many
 other things you could contribute to ILIAS:
 
 * **Ideas for new Features**: The development of ILIAS is driven by requirements
-  from the community. Contribute your ideas via [feature requests](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
+  from the community. Contribute your ideas via [feature requests](https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
 * **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
-  yet. Check out how the ILIAS Community handles [bug reports](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
+  yet. Check out how the ILIAS Community handles [bug reports](https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
 * **Information about Security Issues**: Check out how the ILIAS community
-  handles [security issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112). 
+  handles [security issues](https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112).
   Reporter of security issues will also be named in the release notes.
 * **Time for Testing or Testcases**: We always need people that contribute
   testcases and perform them before new releases. Please have a look
-  [here](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html) (German only).
+  [here](https://docu.ilias.de/goto_docu_pg_64423_4793.html) (German only).
   An English translation of the Tester Guide will be provided in summer 2017. If
   you have questions before that, do not hesitate to contact our test case
   manager Fabian Kruse (fabian@ilias.de).
