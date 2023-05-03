@@ -81,7 +81,7 @@ class assOrderingQuestionExport extends assQuestionExport
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "thumb_geometry");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbGeometry());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbSize());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "element_height");

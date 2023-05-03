@@ -1598,8 +1598,8 @@ class ilInitialisation
             $cmd = $get;
         }
 
-        if ($cmd === '') {
-            $cmd = $_POST['cmd'] ?? '';
+        if ($cmd === '' || $cmd === 'post') {
+            $cmd = $_POST['cmd'] ?? [];
         }
 
         if (is_array($cmd)) {

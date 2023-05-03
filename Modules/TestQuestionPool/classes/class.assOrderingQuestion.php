@@ -65,13 +65,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     protected $ordering_type;
 
-    /**
-    * Maximum thumbnail geometry
-    *
-    * @var integer
-    */
-    public $thumb_geometry = 100;
-
     public ?int $element_height = null;
 
     public $old_ordering_depth = array();
@@ -190,7 +183,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->ordering_type = strlen($data["ordering_type"]) ? $data["ordering_type"] : OQ_TERMS;
-            $this->thumb_geometry = $data["thumb_geometry"];
+            if ($data['thumb_geometry'] !== null && $data['thumb_geometry'] >= self::MINIMUM_THUMB_SIZE) {
+                $this->setThumbSize($data['thumb_geometry']);
+            }
             $this->element_height = $data["element_height"] ? (int) $data['element_height'] : null;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
@@ -455,7 +450,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 $this->setOrderingType(self::OQ_PICTURES);
             }
-            $this->setThumbGeometry($this->getThumbGeometry());
+            $this->setThumbSize($this->getThumbSize());
         }
         if ($ct == self::OQ_CT_TERMS) {
             if ($this->isOrderingTypeNested()) {
@@ -853,22 +848,30 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $target_filepath = $this->getImagePath() . $target_filename;
         if (ilFileUtils::moveUploadedFile($upload_file, $target_filename, $target_filepath)) {
             $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
-            if ($this->getThumbGeometry()) {
-                ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbGeometry());
-            }
+            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbSize());
+
             return $target_filename;
         }
 
         return null;
     }
 
-    /**
-    * Checks the data to be saved for consistency
-    *
-  * @return boolean True, if the check was ok, False otherwise
-    * @access public
-    * @see $answers
-    */
+    public function updateImageFile(string $existing_image_name): ?string
+    {
+        $existing_image_path = $this->getImagePath() . $existing_image_name;
+        $target_filename = $this->buildHashedImageFilename($existing_image_name, true);
+        $target_filepath = $this->getImagePath() . $target_filename;
+        if (ilFileUtils::rename($existing_image_path, $target_filepath)) {
+            unlink($this->getImagePath() . $this->getThumbPrefix() . $existing_image_name);
+            $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
+            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbSize());
+
+            return $target_filename;
+        }
+
+        return $existing_image_name;
+    }
+
     public function validateSolutionSubmit(): bool
     {
         $submittedSolutionList = $this->getSolutionListFromPostSubmit();
@@ -936,20 +939,20 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // save additional data
         $ilDB->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            ["integer"],
+            [$this->getId()]
         );
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height)
                             VALUES (%s, %s, %s, %s)",
-            array( "integer", "text", "integer", "integer" ),
-            array(
-                                $this->getId(),
-                                $this->ordering_type,
-                                $this->getThumbGeometry(),
-                                ($this->getElementHeight() > 20) ? $this->getElementHeight() : null
-                            )
+            ["integer", "text", "integer", "integer"],
+            [
+                $this->getId(),
+                $this->ordering_type,
+                $this->getThumbSize(),
+                ($this->getElementHeight() > 20) ? $this->getElementHeight() : null
+            ]
         );
     }
 
@@ -1069,31 +1072,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $startrow + $i + 1;
     }
 
-    /*
-    * Get the thumbnail geometry
-    *
-    * @return integer Geometry
-    */
-    public function getThumbGeometry(): ?int
-    {
-        return $this->thumb_geometry;
-    }
-
-    public function getThumbSize(): ?int
-    {
-        return $this->getThumbGeometry();
-    }
-
-    /*
-    * Set the thumbnail geometry
-    *
-    * @param integer $a_geometry Geometry
-    */
-    public function setThumbGeometry($a_geometry): void
-    {
-        $this->thumb_geometry = ((int)$a_geometry < 1) ? 100 : $a_geometry;
-    }
-
     public function getElementHeight(): ?int
     {
         return $this->element_height;
@@ -1111,7 +1089,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         if ($this->isImageOrderingType()) {
             foreach ($this->getOrderElements() as $orderingElement) {
-                $this->generateThumbForFile($this->getImagePath(), $orderingElement->getContent());
+                if ($orderingElement->getContent() !== '') {
+                    $this->generateThumbForFile($this->getImagePath(), $orderingElement->getContent());
+                }
             }
         }
     }
@@ -1139,7 +1119,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
         }
     }
 
@@ -1598,7 +1578,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $formDataConverter->setImageUrlPath($this->getImagePathWeb());
         $formDataConverter->setImageFsPath($this->getImagePath());
 
-        if ($this->getThumbSize() && $this->getThumbPrefix()) {
+        if ($this->getThumbPrefix()) {
             $formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
         }
         return $formDataConverter;
