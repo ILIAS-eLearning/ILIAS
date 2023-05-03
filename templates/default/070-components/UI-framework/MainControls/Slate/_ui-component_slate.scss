@@ -73,7 +73,6 @@
 
 	&.il-maincontrols-slate-notification{
 		.il-maincontrols-slate-notification-title{
-			text-transform: uppercase;
 			padding: $il-padding-large-horizontal;
 			.btn-bulky{
 				.glyph{
@@ -91,7 +90,6 @@
 				padding: $il-padding-large-horizontal;
 
 				background-color: transparent;
-				text-transform: uppercase;
 
 				width: 50%;
 			}

@@ -10323,6 +10323,7 @@ input[type=checkbox]:focus:focus-visible {
   padding-right: 18px;
 }
 .il-notification-item .il-item-notification-title {
+  font-size: 1rem;
   display: inline-block;
   margin: 0;
 }
@@ -11202,7 +11203,6 @@ footer {
   background-color: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
-  text-transform: uppercase;
   padding: 12px;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
@@ -11212,7 +11212,6 @@ footer {
   border-right-color: #f9f9f9;
   padding: 12px;
   background-color: transparent;
-  text-transform: uppercase;
   width: 50%;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {

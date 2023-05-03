@@ -145,6 +145,7 @@ $il-item-gap-xs: 1px;
 	padding-right: calc($il-item-padding + 3px);
 
 	.il-item-notification-title {
+		font-size: $il-font-size-large;
 		display: inline-block;
 		margin: 0;
 	}
