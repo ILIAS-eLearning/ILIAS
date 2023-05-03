@@ -7819,6 +7819,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-right: 18px;
 }
 .il-notification-item .il-item-notification-title {
+  font-size: 1rem;
   display: inline-block;
   margin: 0;
 }
@@ -9749,7 +9750,6 @@ footer {
   background-color: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
-  text-transform: uppercase;
   padding: 12px;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
