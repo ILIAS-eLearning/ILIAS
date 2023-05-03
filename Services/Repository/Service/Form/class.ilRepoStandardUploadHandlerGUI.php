@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\FileInfoResult;
@@ -74,15 +73,6 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return $this->ctrl->getLinkTargetByClass($this->getCtrlPath(), self::CMD_INFO);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getFileRemovalURL(): string
-    {
-        return $this->ctrl->getLinkTargetByClass($this->getCtrlPath(), self::CMD_REMOVE);
-    }
-
     protected function debug(string $mess): void
     {
         if (!is_null($this->log)) {
@@ -116,16 +106,6 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             $this->debug("has no upload...");
         }
         return $result;
-    }
-
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_OK,
-            $identifier,
-            ''
-        );
     }
 
     public function getInfoResult(string $identifier): ?FileInfoResult

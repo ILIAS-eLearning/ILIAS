@@ -131,25 +131,6 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
     }
 
-    public function getFileRemovalURL(): string
-    {
-        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
-    }
-
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        if (null !== ($id = $this->irss->manage()->find($identifier))) {
-            $this->irss->manage()->remove($id, $this->stakeholder);
-            $status = HandlerResult::STATUS_OK;
-            $message = "file removal OK";
-        } else {
-            $status = HandlerResult::STATUS_OK;
-            $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
-        }
-
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
         if (null !== ($id = $this->irss->manage()->find($identifier))) {

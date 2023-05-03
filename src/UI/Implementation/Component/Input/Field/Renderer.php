@@ -968,7 +968,6 @@ class Renderer extends AbstractComponentRenderer
                         il.UI.Input.File.init(
                             '$id',
                             '{$input->getUploadHandler()->getUploadURL()}',
-                            '{$input->getUploadHandler()->getFileRemovalURL()}',
                             '{$input->getUploadHandler()->getFileIdentifierParameterName()}',
                             $current_file_count,
                             {$input->getMaxFiles()},
