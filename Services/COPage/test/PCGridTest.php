@@ -285,4 +285,74 @@ EOT;
             $pc->getCellData()
         );
     }
+
+    //
+    // Test file items
+    //
+
+    protected function getPageWithGrid(): ilPageObject
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_MAIN_SIDE,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+        $page->addHierIDs();
+        $page->insertPCIds();
+        $pc->setHierId("1");
+        return $page;
+    }
+
+    protected function getCellForHierId(ilPageObject $page, string $hier_id): ilPCGridCell
+    {
+        $pc_id = $page->getPCIdForHierId($hier_id);
+        $cont_node = $page->getContentNode($hier_id);
+        $pc = new ilPCGridCell($page);
+        $pc->setNode($cont_node);
+        $pc->setHierId($hier_id);
+        $pc->setPcId($pc_id);
+        return $pc;
+    }
+
+    public function testMoveRight(): void
+    {
+        $page = $this->getPageWithGrid();
+        $cell = $this->getCellForHierId($page, "1_1");
+        $cell->moveCellRight();
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="4" WIDTH_XL="3"/><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="8" WIDTH_XL="9"/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testMoveLeft(): void
+    {
+        $page = $this->getPageWithGrid();
+        $cell = $this->getCellForHierId($page, "1_2");
+        $cell->moveCellLeft();
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="4" WIDTH_XL="3"/><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="8" WIDTH_XL="9"/></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }

@@ -32,25 +32,25 @@ class ilPCGridCell extends ilPageContent
 
     public function deleteCell(): void
     {
-        $grid_cell = $this->getNode();
-        $grid_cell->unlink($grid_cell);
+        $grid_cell = $this->getDomNode();
+        $grid_cell->parentNode->removeChild($grid_cell);
     }
 
     public function moveCellRight(): void
     {
-        $grid_cell = $this->getNode();
-        $next = $grid_cell->next_sibling();
-        $next_copy = $next->clone_node(true);
-        $grid_cell->insert_before($next_copy, $grid_cell);
-        $next->unlink($next);
+        $grid_cell = $this->getDomNode();
+        $next = $grid_cell->nextSibling;
+        $next_copy = $next->cloneNode(true);
+        $grid_cell->parentNode->insertBefore($next_copy, $grid_cell);
+        $next->parentNode->removeChild($next);
     }
 
     public function moveCellLeft(): void
     {
-        $grid_cell = $this->getNode();
-        $prev = $grid_cell->previous_sibling();
-        $grid_cell_copy = $grid_cell->clone_node(true);
-        $prev->insert_before($grid_cell_copy, $prev);
-        $grid_cell->unlink($grid_cell);
+        $grid_cell = $this->getDomNode();
+        $prev = $grid_cell->previousSibling;
+        $grid_cell_copy = $grid_cell->cloneNode(true);
+        $prev->parentNode->insertBefore($grid_cell_copy, $prev);
+        $grid_cell->parentNode->removeChild($grid_cell);
     }
 }
