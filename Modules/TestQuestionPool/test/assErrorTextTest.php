@@ -64,33 +64,34 @@ class assErrorTextTest extends assBaseTestCase
 
     public function test_getErrorsFromText(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
+        $instance->setPointsWrong(-2);
 
         $errortext = '
-			Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
+			Eine Kündigung kommt durch zwei ((gleichlautende Willenserklärungen zustande)).
 			Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
 			Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
-			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
+			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes Handeln.))';
 
-        $expected = array(
-            'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
-            'words' => array( 2 => 'Supermarkt')
-        );
+        $expected = [
+            new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 6),
+            new assAnswerErrorText('drei gleichlaute', '', 0.0, 13),
+            new assAnswerErrorText('Supermarkt', '', 0.0, 23),
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40)
+        ];
 
-        // Act
-        $actual = $instance->getErrorsFromText($errortext);
+        $instance->setErrorText($errortext);
+        $instance->parseErrorText();
+        $instance->setErrorsFromParsedErrorText();
+        $actual = $instance->getErrorData();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
     public function test_getErrorsFromText_noMatch(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
+        $instance->setPointsWrong(-2);
 
         $errortext = '
 			Eine Kündigung)) kommt durch zwei gleichlautende (Willenserklärungen) zustande.
@@ -98,78 +99,98 @@ class assErrorTextTest extends assBaseTestCase
 			Ein Kaufvertrag an der Kasse im Supermarkt [kommt] durch das legen von Ware auf das
 			Kassierband und den [[Kassiervorgang]] zustande. Dies nennt man *konsequentes Handeln.';
 
-        $expected = array();
+        $expected = [];
 
-        // Act
-        $actual = $instance->getErrorsFromText($errortext);
+        $instance->setErrorText($errortext);
+        $instance->parseErrorText();
+        $instance->setErrorsFromParsedErrorText();
+        $actual = $instance->getErrorData();
 
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
-    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
-    public function test_getErrorsFromText_emptyArgShouldPullInternal(): void
+    public function test_setErrordata(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
+        $instance->setPointsWrong(-2);
 
-        $errortext = '
-            Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
-            Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
-            Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
-            Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
-
-        $expected = array(
-            'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
-            'words' => array( 2 => 'Supermarkt')
-        );
-
-        // Act
-        $instance->setErrorText($errortext);
-        $actual = $instance->getErrorsFromText('');
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    } */
-
-    public function test_setErrordata_newError(): void
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
-        $instance = new assErrorText();
-
-        $errordata = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
-        require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        $expected = new assAnswerErrorText($errordata['passages'][0], '', 0.0);
-
-        // Act
+        $errordata = [new assAnswerErrorText('drei Matrosen')];
+        $expected = [new assAnswerErrorText('drei Matrosen', '', 0.0, null)];
         $instance->setErrorData($errordata);
+        $actual = $instance->getErrorData();
 
-        $all_errors = $instance->getErrorData();
-        $actual = $all_errors[0];
-
-        // Assert
         $this->assertEquals($expected, $actual);
     }
 
     public function test_setErrordata_oldErrordataPresent(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
+        $instance->setPointsWrong(-2);
 
-        $errordata = array('passages' => array( 0 => 'zwei Matrosen'), 'words' => array());
-        $expected = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
-        $instance->setErrorData($expected);
+        $old_errordata = [
+            new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 6),
+            new assAnswerErrorText('drei gleichlaute', '', 0.0, 13),
+            new assAnswerErrorText('Supermarkt', '', 0.0, 23),
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 40)
+        ];
+        $new_errordata = [
+            new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 2),
+            new assAnswerErrorText('drei gleichlaute', '', 0.0, 3),
+            new assAnswerErrorText('Supermarkt', '', 0.0, 11),
+            new assAnswerErrorText('konsequentes Handeln.', '', 0.0, 32)
+        ];
 
-        // Act
+        $instance->setErrorData($old_errordata);
+        $instance->setErrorData($new_errordata);
+
+        $actual = $instance->getErrorData();
+
+        $this->assertEquals($new_errordata, $actual);
+    }
+    public function test_removeErrorDataWithoutPosition(): void
+    {
+        $instance = new assErrorText();
+        $instance->setPointsWrong(-2);
+
+        $parsed_errortext = [
+            0 => [
+                ['text' => '1', 'error_type' => 'none'],
+                [
+                    'text' => 'gleichlautende',
+                    'text_wrong' => 'gleichlautende Willenserklärungen zustande.',
+                    'error_type' => 'passage_start',
+                    'error_position' => 1,
+                    'text_correct' => '',
+                    'points' => 1
+                ],
+                ['text' => '2', 'error_type' => 'none'],
+                [
+                    'text' => 'Supermarkt',
+                    'text_wrong' => 'Supermarkt',
+                    'error_type' => 'word',
+                    'error_position' => 3,
+                    'text_correct' => '',
+                    'points' => 1
+                ]
+            ]
+        ];
+
+        $errordata = [
+            new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0),
+            new assAnswerErrorText('drei gleichlaute', '', 0.0),
+            new assAnswerErrorText('Supermarkt', '', 0.0),
+            new assAnswerErrorText('konsequentes Handeln.', '', )
+        ];
+        $expected = [
+            new assAnswerErrorText('gleichlautende Willenserklärungen zustande.', '', 0.0, 1),
+            new assAnswerErrorText('Supermarkt', '', 0.0, 3)
+        ];
+
+        $instance->setParsedErrorText($parsed_errortext);
         $instance->setErrorData($errordata);
+        $instance->removeErrorDataWithoutPosition();
+        $actual = $instance->getErrorData();
 
-        $all_errors = $instance->getErrorData();
-        /** @var assAnswerErrorText $actual */
-        $actual = $all_errors[0];
-        // Assert
-        $this->assertEquals($errordata['passages'][0], $actual->text_wrong);
+        $this->assertEquals($expected, $actual);
     }
 }

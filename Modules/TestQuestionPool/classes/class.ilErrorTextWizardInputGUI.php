@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +29,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     protected $key_size = 20;
     protected $value_size = 20;
     protected $key_maxlength = 255;
-    protected $value_maxlength = 255;
+    protected $value_maxlength = 150;
     protected $key_name = "";
     protected $value_name = "";
 
@@ -212,7 +213,6 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         }
         $max_points = 0;
 
-
         if (is_array($foundvalues) && count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['key']) && is_array($foundvalues['value'])) {
@@ -270,22 +270,22 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (is_object($value)) {
-                if (strlen($value->text_wrong)) {
+                if (strlen($value->getTextWrong())) {
                     $tpl->setCurrentBlock("prop_key_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getTextWrong()));
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->text_correct)) {
+                if (strlen($value->getTextCorrect())) {
                     $tpl->setCurrentBlock("prop_value_propval");
                     $tpl->setVariable(
                         "PROPERTY_VALUE",
-                        ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct)
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getTextCorrect())
                     );
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->points)) {
+                if (strlen($value->getPoints())) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints()));
                     $tpl->parseCurrentBlock();
                 }
             }

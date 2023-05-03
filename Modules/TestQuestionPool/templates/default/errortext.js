@@ -1,29 +1,44 @@
-$().ready(function() {
-	$('div.errortext a').on('click', function(e) {
-		var $elm = $(this);
+(function () {
+    let errortext = () => {
+        let init = () => {
+            let errortext = document.querySelectorAll('div.errortext a');
+            errortext.forEach((elem) => {
+                elem.addEventListener('click', click_function);
+            });
+        };
 
-		if($elm.hasClass('ilc_qetitem_ErrorTextItem'))
-		{
-            $elm.removeClass('ilc_qetitem_ErrorTextItem');
-            $elm.addClass('ilc_qetitem_ErrorTextSelected');
-		}
-		else if($elm.hasClass('ilc_qetitem_ErrorTextSelected'))
-		{
-            $elm.removeClass('ilc_qetitem_ErrorTextSelected');
-            $elm.addClass('ilc_qetitem_ErrorTextItem');
-			
-		}
+        let click_function = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-		var context  = $elm.closest('.errortext');
-		var selected = [];
-		context.find('a').each(function(i) {
-			if ($(this).hasClass('ilc_qetitem_ErrorTextSelected')) {
-				selected.push(i);
-			}
-		});
-		context.find('input[type=hidden]').val(selected.join(','));
+            let context  = e.target.closest('.errortext');
+            let class_list = e.target.classList;
 
-		e.preventDefault();
-		e.stopPropagation();
-	});
-});
+            if (class_list.contains('ilc_qetitem_ErrorTextItem')) {
+                class_list.remove('ilc_qetitem_ErrorTextItem');
+                class_list.add('ilc_qetitem_ErrorTextSelected');
+            } else if (class_list.contains('ilc_qetitem_ErrorTextSelected')) {
+                class_list.remove('ilc_qetitem_ErrorTextSelected');
+                class_list.add('ilc_qetitem_ErrorTextItem');
+            }
+
+            let selected = [];
+            context.querySelectorAll('a').forEach((e,i) => {
+                if (e.classList.contains('ilc_qetitem_ErrorTextSelected')) {
+                    selected.push(i);
+                }
+            });
+            context.querySelector('input[type=hidden]').value = selected.join(',');
+        };
+
+        let public_interface = {
+            init
+        };
+        return public_interface;
+    };
+
+    il = il || {};
+    il.test = il.test || {};
+    il.test.player = il.test.player || {};
+    il.test.player.errortext = errortext();
+}());
