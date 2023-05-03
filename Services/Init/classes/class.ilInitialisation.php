@@ -1858,7 +1858,7 @@ class ilInitialisation
             $cmd = $get;
         }
 
-        if ($cmd === '') {
+        if ($cmd === '' || $cmd === 'post') {
             $cmd = $_POST['cmd'] ?? '';
         }
 
