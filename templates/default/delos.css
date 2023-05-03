@@ -10279,6 +10279,7 @@ footer {
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: #B54F00;
+  border: 0;
   color: white;
   padding: 0;
 }
