@@ -267,7 +267,7 @@ class ilObjUser extends ilObject
         $this->setFirstname((string) ($a_data["firstname"] ?? ''));
         $this->setLastname((string) ($a_data["lastname"] ?? ''));
         $this->setFullname();
-        if (isset($a_data['birthday']) && is_array($a_data['birthday'])) {
+        if (isset($a_data['birthday']) && is_string($a_data['birthday'])) {
             $this->setBirthday($a_data['birthday']);
         } else {
             $this->setBirthday(null);
