@@ -5,8 +5,6 @@
     use GuzzleHttp\Promise;
     use GuzzleHttp\RequestOptions;
     use GuzzleHttp\Psr7\Request;
-    //use GuzzleHttp\Exception\ConnectException;
-    //use GuzzleHttp\Exception\RequestException;
     use GuzzleHttp\Psr7\Uri;
 
     class XapiProxyRequest {
@@ -26,33 +24,117 @@
             $this->xapiProxyResponse = $this->xapiproxy->getXapiProxyResponse();
             $request = $this->dic->http()->request();
             $cmdParts = $this->xapiproxy->cmdParts();
-            if (count($cmdParts) === 4) {
-                if ($cmdParts[3] === "statements") {
-                    $this->xapiproxy->log()->debug($this->msg("handleStatementsRequest"));
+            $this->xapiproxy->log()->debug($this->msg(var_export($cmdParts, true)));
+            if (count($cmdParts) === 5) {
+                $cmd = $cmdParts[3];
+                if ($cmd === "statements") {
                     $this->handleStatementsRequest($request);
+                } elseif ($cmd === "activities") {
+                    $this->handleActivitiesRequest($request);
+                } elseif ($cmd === "activities/profile") {
+                    $this->handleActivitiesProfileRequest($request);
+                } elseif ($cmd === "activities/state") {
+                    $this->handleActivitiesStateRequest($request);
+                } elseif ($cmd === "agents") {
+                    $this->handleAgentsRequest($request);
+                } elseif ($cmd === "agents/profile") {
+                    $this->handleAgentsProfileRequest($request);
+                } elseif ($cmd === "about") {
+                    $this->handleAboutRequest($request);
                 } else {
-                    $this->xapiproxy->log()->debug($this->msg("Not handled xApi Query: " . $cmdParts[3]));
-                    $this->handleProxy($request);
+                    $this->xapiproxy->log()->debug($this->msg("Wrong xApi Query: " . $request->getUri()));
+                    $this->xapiProxyResponse->exitBadRequest();
                 }
             } else {
                 $this->xapiproxy->log()->error($this->msg("Wrong xApi Query: " . $request->getUri()));
-                $this->handleProxy($request);
+                $this->xapiProxyResponse->exitBadRequest();
             }
         }
 
-        private function handleStatementsRequest($request) {
+        private function handleStatementsRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("handleStatementsRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
             $method = $this->xapiproxy->method();
             if ($method === "post" || $method === "put") {
                 $this->handlePostPutStatementsRequest($request);
+            } elseif ($method === "get") {
+                $this->handleGetStatementsRequest($request);
+            } else {
+                $this->xapiProxyResponse->exitBadRequest();
             }
-            else {
-                // get Method is not handled yet
-                $this->handleProxy($request);
+        }
+
+        private function handleGetStatementsRequest($request)
+        {
+            if ($this->xapiproxy->cmdParts()[4] == "") {
+                $this->xapiproxy->log()->warning($this->msg("unfiltered get statements requests are not allowed for security reasons"));
+                $this->xapiProxyResponse->exitBadRequest();
+            }
+            $this->xapiproxy->log()->debug($this->msg("handleGetStatementsRequest: " . $request->getUri()));
+            // no outcomesAccess
+            try {
+                $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->xapiproxy->token());
+                $obj = \ilObjCmiXapi::getInstance($authToken->getRefId(), true);
+                $access = \ilCmiXapiAccess::getInstance($obj);
+                $params = $this->dic->http()->wrapper()->query();
+                if ($params->has('statementId')) {
+                    $this->xapiproxy->log()->debug($this->msg("single statementId requests can not be secured. It is not allowed to append any additional parameter like registration or activity (tested in LL7)"));
+                    // single statementId can not be handled. it is not allowed to append a registration on single statement requests (tested in LL7)
+                    $this->handleProxy($request);
+                } else {
+                    if (!$access->hasOutcomesAccess($authToken->getUsrId())) {
+                        // ToCheck
+                        /*
+                        if (!$access->hasStatementsAccess()) {
+                            $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
+                            $this->xapiProxyResponse->exitBadRequest();
+                        }
+                        */
+                        if ($obj->getContentType() == \ilObjCmiXapi::CONT_TYPE_CMI5) {
+                            $regUserObject = \ilCmiXapiUser::getCMI5RegistrationFromAuthToken($authToken);
+                        } else {
+                            $regUserObject = \ilCmiXapiUser::getRegistrationFromAuthToken($authToken);
+                        }
+                        if ($params->has('registration')) {
+//                            no check in 6
+//                            $regParam = $params->retrieve('registration', $this->dic->refinery()->kindlyTo()->string());
+//                            if ($regParam != $regUserObject) {
+//                                $this->xapiproxy->log()->debug($this->msg("wrong registration: " . $regParam . " != " . $regUserObject));
+//                                $this->xapiProxyResponse->exitBadRequest();
+//                            } else {
+                                $this->handleProxy($request);
+//                            }
+                        } else { // add registration
+                            $this->xapiproxy->log()->debug($this->msg("add registration: " . $regUserObject));
+                            $uri = $request->getUri() . "&registration=" . $regUserObject;
+                            $req = new Request($request->getMethod(), $uri, $request->getHeaders());
+                            $this->handleProxy($req);
+                        }
+                    } else {
+                        // ToCheck: Grouped statement requests from content scopes should not override LMS switch.
+                        if (!$access->hasStatementsAccess()) {
+                            $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
+                            $this->xapiProxyResponse->exitBadRequest();
+                        }
+                        if ($params->has('activity')) {
+                            // ToDo: how this can be verified? the object only knows the top activityId
+                            $this->handleProxy($request);
+                        } else {
+                            $this->xapiproxy->log()->debug($this->msg("add activity: " . $obj->getActivityId()));
+                            $uri = $request->getUri() . "&activity=" . $obj->getActivityId() . "&related_activities=true";
+                            $req = new Request($request->getMethod(), $uri, $request->getHeaders());
+                            $this->handleProxy($req);
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                $this->xapiproxy->log()->error($this->msg($e->getMessage()));
             }
         }
 
         private function handlePostPutStatementsRequest($request)
         {
+            $this->xapiproxy->log()->debug($this->msg("handlePostPutStatementsRequest: " . $request->getUri()));
             $body = $request->getBody()->getContents();
             if (empty($body)) {
                 $this->xapiproxy->log()->warning($this->msg("empty body in handlePostPutRequest"));
@@ -81,6 +163,42 @@
                     $this->handleProxy($request, $fakePostBody);
                 }
             }
+        }
+
+        private function handleActivitiesRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("blocked handleActivitiesRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->xapiProxyResponse->exitBadRequest();
+        }
+
+        private function handleActivitiesProfileRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("handleActivitiesProfileRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->handleProxy($request);
+        }
+
+        private function handleActivitiesStateRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("handleActivitiesStateRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->handleProxy($request);
+        }
+
+        private function handleAgentsRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("blocked handleAgentsRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->xapiProxyResponse->exitBadRequest();
+        }
+
+        private function handleAgentsProfileRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("handleAgentsProfileRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->handleProxy($request);
+        }
+
+        private function handleAboutRequest($request)
+        {
+            $this->xapiproxy->log()->debug($this->msg("handleAboutRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->handleProxy($request);
         }
 
         private function handleProxy($request, $fakePostBody = NULL) {

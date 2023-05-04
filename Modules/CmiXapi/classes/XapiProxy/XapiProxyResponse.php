@@ -72,7 +72,16 @@
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post===NULL) {
                 $this->xapiproxy->log()->debug($this->msg("post === NULL"));
-                header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+                try {
+                    $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                    if (isset($origin) && $origin != "") {
+                        header('Access-Control-Allow-Origin: ' . $origin);
+                    } else {
+                        $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                    }
+                } catch (\Exception $e) {
+                    $this->xapiproxy->log()->warning($e->getMessage());
+                }
                 header('Access-Control-Allow-Credentials: true');
                 header('X-Experience-API-Version: 1.0.3');
                 header('HTTP/1.1 204 No Content');
@@ -81,7 +90,16 @@
             else {
                 $ids = json_encode($post);
                 $this->xapiproxy->log()->debug($this->msg("post: " . $ids));
-                header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+                try {
+                    $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                    if (isset($origin) && $origin != "") {
+                        header('Access-Control-Allow-Origin: ' . $origin);
+                    } else {
+                        $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                    }
+                } catch (\Exception $e) {
+                    $this->xapiproxy->log()->warning($e->getMessage());
+                }
                 header('Access-Control-Allow-Credentials: true');
                 header('X-Experience-API-Version: 1.0.3');
                 header('Content-Length: ' . strlen($ids));
@@ -93,7 +111,16 @@
         }
 
         public function exitResponseError() {
-            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            try {
+                $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                if (isset($origin) && $origin != "") {
+                    header('Access-Control-Allow-Origin: ' . $origin);
+                } else {
+                    $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                }
+            } catch (\Exception $e) {
+                $this->xapiproxy->log()->warning($e->getMessage());
+            }
             header('Access-Control-Allow-Credentials: true');
             header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 412 Wrong Response");
@@ -102,7 +129,16 @@
         }
         
         public function exitProxyError() {
-            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            try {
+                $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                if (isset($origin) && $origin != "") {
+                    header('Access-Control-Allow-Origin: ' . $origin);
+                } else {
+                    $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                }
+            } catch (\Exception $e) {
+                $this->xapiproxy->log()->warning($e->getMessage());
+            }
             header('Access-Control-Allow-Credentials: true');
             header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 500 XapiProxy Error (Ask For Logs)");
@@ -110,9 +146,37 @@
             exit;
         }
 
+        public function exitBadRequest(): void
+        {
+            try {
+                $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                if (isset($origin) && $origin != "") {
+                    header('Access-Control-Allow-Origin: ' . $origin);
+                } else {
+                    $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                }
+            } catch (\Exception $e) {
+                $this->xapiproxy->log()->warning($e->getMessage());
+            }
+            header('Access-Control-Allow-Credentials: true');
+            header('X-Experience-API-Version: 1.0.3');
+            header("HTTP/1.1 400 XapiProxy Bad Request (Ask For Logs)");
+            echo "HTTP/1.1 400 XapiProxy Bad Request (Ask For Logs)";
+            exit;
+        }
+
         public function sendData($obj) {
             $this->xapiproxy->log()->debug($this->msg("senData: " . $obj));
-            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            try {
+                $origin = (isset($_SERVER["HTTP_ORIGIN"])) ? $_SERVER["HTTP_ORIGIN"] : $_SERVER["HTTP_REFERRER"];
+                if (isset($origin) && $origin != "") {
+                    header('Access-Control-Allow-Origin: ' . $origin);
+                } else {
+                    $this->xapiproxy->log()->warning("could not get \$_SERVER[\"HTTP_ORIGIN\"] or \$_SERVER[\"HTTP_REFERRER\"]");
+                }
+            } catch (\Exception $e) {
+                $this->xapiproxy->log()->warning($e->getMessage());
+            }
             header('Access-Control-Allow-Credentials: true');
             header('X-Experience-API-Version: 1.0.3');
             header('Content-Length: ' . strlen($obj));
