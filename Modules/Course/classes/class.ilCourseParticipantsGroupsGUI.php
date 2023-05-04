@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=0);
+<?php declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -131,11 +129,11 @@ class ilCourseParticipantsGroupsGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $usr_id = 0;
+        $usr_id = [];
         if ($this->http->wrapper()->post()->has('usr_id')) {
             $usr_id = $this->http->wrapper()->post()->retrieve(
                 'usr_id',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             );
         }
         if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
