@@ -119,7 +119,13 @@ class ilObjRole extends ilObject
 
     public function getPresentationTitle(): string
     {
-        return ilObjRole::_getTranslation($this->getTitle());
+        $r = ilObjRole::_getTranslation($this->getTitle());
+
+        if ($r === $this->getUntranslatedTitle()) {
+            return $r;
+        }
+
+        return $r . ' (' . $this->getUntranslatedTitle() . ')';
     }
 
     public function toggleAssignUsersStatus(bool $a_assign_users): void
