@@ -23,6 +23,7 @@ declare(strict_types=1);
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
+
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
@@ -57,8 +58,6 @@ class ilForumPostingFilesMigration implements Migration
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
-
         $r = $this->helper->getDatabase()->query(
             "SELECT
     frm_posts.pos_pk AS posting_id,
@@ -71,9 +70,9 @@ LIMIT 1;"
         );
 
         $d = $this->helper->getDatabase()->fetchObject($r);
-        $posting_id = (int)$d->posting_id;
-        $object_id = (int)$d->object_id;
-        $resource_owner_id = (int)$d->owner_id;
+        $posting_id = (int) $d->posting_id;
+        $object_id = (int) $d->object_id;
+        $resource_owner_id = (int) $d->owner_id;
 
         $base_path = $this->buildBasePath();
         $filename_pattern = '/^' . $object_id . '\_' . $posting_id . '\_(.*)/m';
@@ -107,7 +106,7 @@ WHERE frm_posts.rcid IS NULL OR frm_posts.rcid = '';"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
-        return (int)$d->amount;
+        return (int) $d->amount;
     }
 
     protected function buildBasePath(): string
