@@ -1,4 +1,4 @@
-<?php declare(strict_types=0);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
