@@ -690,4 +690,14 @@ class ilCmiXapiUser
     {
         return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $obj->getRefId() . '-' . $user->getId());
     }
+    
+    public static function getCMI5RegistrationFromAuthToken(ilCmiXapiAuthToken $authToken) : \Ramsey\Uuid\UuidInterface
+    {
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getObjId() . '-' . $authToken->getUsrId());
+    }
+
+    public static function getRegistrationFromAuthToken(ilCmiXapiAuthToken $authToken) : \Ramsey\Uuid\UuidInterface
+    {
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getRefId() . '-' . $authToken->getUsrId());
+    }
 }
