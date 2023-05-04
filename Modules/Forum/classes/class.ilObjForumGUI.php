@@ -2455,9 +2455,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ilForumUtil::saveMediaObjects($post_message, 'frm:html', $newPost, $mob_direction);
             $post_obj= new ilForumPost($newPost);
 
-            if($draft_obj->getRCID() > 0){
-              $post_obj->setRCID($draft_obj->getRCID());
-              $post_obj->update();
+            if ($draft_obj->getRCID() > 0) {
+                $post_obj->setRCID($draft_obj->getRCID());
+                $post_obj->update();
             }
 
             if ($this->objProperties->isFileUploadAllowed()) {

@@ -37,7 +37,6 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
     private ilForumPostingFileStakeholder $stakeholder;
     private int $draft_id = 0;
 
-
     public function __construct(private int $obj_id = 0, private int $pos_id = 0)
     {
         global $DIC;
@@ -103,8 +102,6 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         $this->pos_id = $posting_id;
     }
 
-
-
     public function getForumPath(): string
     {
         return self::FORUM_PATH_RCID;
@@ -149,7 +146,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
-        if($posting_ids_to_delete == null) {
+        if ($posting_ids_to_delete == null) {
             return true;
         }
         foreach ($posting_ids_to_delete as $post_id) {
@@ -237,7 +234,6 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         return true;
     }
 
-
     public function deliverFile(string $file): void
     {
         $rid = $this->getResourceIdByHash($file);
@@ -252,8 +248,8 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         $rcid = $this->getCurrentCollection()->getIdentification();
 
         $this->irss->consume()->downloadCollection($rcid, $zip_filename)
-            ->useRevisionTitlesForFileNames(false)
-            ->run();
+                   ->useRevisionTitlesForFileNames(false)
+                   ->run();
         return true;
     }
 

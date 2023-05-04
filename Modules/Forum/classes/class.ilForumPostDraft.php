@@ -91,7 +91,7 @@ class ilForumPostDraft
     {
         $this->rcid = $rcid;
     }
-    
+
     public function isPostNotificationEnabled(): bool
     {
         return $this->post_notify;
