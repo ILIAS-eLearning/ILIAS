@@ -479,6 +479,20 @@ class ilObjForum extends ilObject
         $tmp_file_obj = new ilFileDataForum($this->getId());
         $tmp_file_obj->delete($posting_ids);
 
+        // Get All draft IDs
+        $posting_ids = [];
+        $res = $this->db->query(
+            'SELECT draft_id FROM frm_posts_drafts WHERE  '
+            . $this->db->in('thread_id', $thread_ids_to_delete)
+        );
+
+        while ($row = $res->fetchObject()) {
+            $draft_ids[] = (int)$row->draft_id;
+        }
+
+        $tmp_file_obj = new ilFileDataForumDrafts($this->getId());
+        $tmp_file_obj->delete($draft_ids);
+
         $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
             'thr_fk',
             $thread_ids_to_delete,

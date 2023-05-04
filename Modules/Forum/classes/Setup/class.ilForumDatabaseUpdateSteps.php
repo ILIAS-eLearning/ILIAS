@@ -81,4 +81,20 @@ class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_6(): void
+    {
+        if (!$this->db->tableColumnExists('frm_posts_drafts', 'rcid')) {
+            $this->db->addTableColumn(
+                'frm_posts_drafts',
+                'rcid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }

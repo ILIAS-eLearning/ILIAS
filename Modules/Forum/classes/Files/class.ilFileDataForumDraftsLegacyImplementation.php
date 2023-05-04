@@ -25,13 +25,16 @@ use ILIAS\Filesystem\Stream\Streams;
  * @author    Nadia Matuschek <nmatuschek@databay.de>
  * @ingroup   ModulesForum
  */
-class ilFileDataForumDrafts extends ilFileData
+class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements ilFileDataForumInterface
 {
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
     private ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\ResourceStorage\Services $irss;
+
+
+
 
     public function __construct(private int $obj_id, private int $draft_id)
     {
@@ -127,46 +130,8 @@ class ilFileDataForumDrafts extends ilFileData
         return $files;
     }
 
-    public function moveFilesOfDraft(string $forum_path, int $new_post_id): bool
-    {
-        // This will get a lot easier once we have a ResourceCollection for the draft files as well.
-        // You can use $this->irss->collection()->clone() then.
-        // For now we must know the files of a posting are already in IRSS by passing back
-        // ilFileDataForumRCImplementation::FORUM_PATH_RCID as the Forum path.
-        if ($forum_path === ilFileDataForumRCImplementation::FORUM_PATH_RCID) {
-            $post = new ilForumPost($new_post_id);
-            if ($post->getRCID() === ilForumPost::NO_RCID || empty($post->getRCID())) {
-                $rcid = $this->irss->collection()->id();
-                $post->setRCID($rcid->serialize());
-                $post->update();
-            } else {
-                $rcid = $this->irss->collection()->id($post->getRCID());
-            }
-            $collection = $this->irss->collection()->get($rcid);
-            $stakeholder = new ilForumPostingFileStakeholder();
-            foreach ($this->getFilesOfPost() as $file) {
-                $rid = $this->irss->manage()->stream(
-                    Streams::ofResource(fopen($file['path'], 'rb')),
-                    $stakeholder,
-                    md5($file['name'])
-                );
-                $collection->add($rid);
-            }
-            $this->irss->collection()->store($collection);
-            return true;
-        } else {
-            foreach ($this->getFilesOfPost() as $file) {
-                copy(
-                    $file['path'],
-                    $forum_path . '/' . $this->obj_id . '_' . $new_post_id . '_' . $file['name']
-                );
-            }
 
-            return true;
-        }
-    }
-
-    public function delete(): bool
+    public function delete(array $posting_ids_to_delete = null): bool
     {
         ilFileUtils::delDir($this->getDraftsPath() . '/' . $this->getDraftId());
         return true;
@@ -345,5 +310,36 @@ class ilFileDataForumDrafts extends ilFileData
         }
 
         return $zip_file;
+    }
+
+    public function getPosId(): int
+    {
+        // TODO: Implement getPosId() method.
+    }
+
+    public function setPosId(int $posting_id): void
+    {
+        // TODO: Implement setPosId() method.
+    }
+
+    public function getForumPath(): string
+    {
+        // TODO: Implement getForumPath() method.
+    }
+
+    public function moveFilesOfPost(int $new_frm_id = 0): bool
+    {
+        // TODO: Implement moveFilesOfPost() method.
+    }
+
+    public function ilClone(int $new_obj_id, int $new_posting_id): bool
+    {
+        // TODO: Implement ilClone() method.
+    }
+
+    public function storeUploadedFiles(): bool
+    {
+        // TODO: Implement storeUploadedFiles() method.
+        return true;
     }
 }
