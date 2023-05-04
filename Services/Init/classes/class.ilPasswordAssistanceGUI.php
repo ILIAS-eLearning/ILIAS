@@ -291,14 +291,7 @@ class ilPasswordAssistanceGUI
 
         require_once 'include/inc.pwassist_session_handler.php';
 
-        // Create a new session id
-        // #9700 - this didn't do anything before?!
-        // db_set_save_handler();
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
         $pwassist_session['pwassist_id'] = db_pwassist_create_id();
-        session_destroy();
         db_pwassist_session_write(
             $pwassist_session['pwassist_id'],
             3600,
