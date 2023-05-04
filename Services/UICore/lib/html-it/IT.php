@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 // +----------------------------------------------------------------------+
@@ -16,6 +32,13 @@ declare(strict_types=1);
 // | Author: Ulf Wendel <ulf.wendel@phpdoc.de>                            |
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
+use ILIAS\Services\UICore\Cache\BlockCache;
+use ILIAS\Services\UICore\Cache\VariableCache;
+use ILIAS\Services\UICore\Cache\TemplateCache;
+use ILIAS\Refinery\Custom\Transformation;
+use ILIAS\Refinery\To\Transformation\ListTransformation;
+use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\DI\Container;
 
 require_once __DIR__ . '/../../exceptions/class.ilTemplateException.php';
 
@@ -103,6 +126,9 @@ class HTML_Template_IT
     public const IT_BLOCK_DUPLICATE = -4;
     public const IT_UNKNOWN_OPTION = -6;
     public const IT_DEFAULT_BLOCK = '__global__';
+    private \ILIAS\Cache\Container\Container $block_cache;
+    private \ILIAS\Cache\Container\Container $variable_cache;
+    private \ILIAS\Cache\Container\Container $template_cache;
 
     /**
      * Contains the error objects.
@@ -297,6 +323,12 @@ class HTML_Template_IT
      */
     public function __construct(string $root = '', array $options = null)
     {
+        global $DIC;
+        $DIC = $DIC instanceof Container ? $DIC : new Container([]);
+        $this->block_cache = $DIC->globalCache()->get(new BlockCache());
+        $this->variable_cache = $DIC->globalCache()->get(new VariableCache());
+        $this->template_cache = $DIC->globalCache()->get(new TemplateCache());
+
         if (!is_null($options)) {
             $this->setOptions($options);
         }
@@ -564,28 +596,25 @@ class HTML_Template_IT
     protected function init(): void
     {
         $this->free();
-        $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
 
-        if ($blockdata = $blocks->get($this->real_filename)) {
+        if (($blockdata = $this->block_cache->get($this->real_filename, new ListTransformation(new StringTransformation()))) !== null) {
             $this->blockdata = $blockdata['blockdata'];
             $this->blocklist = $blockdata['blocklist'];
         } else {
-            ilGlobalCache::log('have to build blocks...', ilGlobalCacheSettings::LOG_LEVEL_FORCED);
             $this->findBlocks($this->template);
             $blockdata['blockdata'] = $this->blockdata;
             $blockdata['blocklist'] = $this->blocklist;
-            $blocks->set($this->real_filename, $blockdata, 60);
+            $this->block_cache->set($this->real_filename, $blockdata);
         }
 
         // we don't need it any more
         $this->template = '';
 
-        $variables = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_VARIABLES);
-        if ($blockvariables = $variables->get($this->real_filename)) {
+        if (($blockvariables = $this->variable_cache->get($this->real_filename))!==null) {
             $this->blockvariables = $blockvariables;
         } else {
             $this->buildBlockvariablelist();
-            $variables->set($this->real_filename, $this->blockvariables, 60);
+            $this->variable_cache->set($this->real_filename, $this->blockvariables);
         }
     }
 
@@ -756,8 +785,8 @@ class HTML_Template_IT
         $filename = $this->fileRoot . $filename;
 
         $this->real_filename = $filename;
-        $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
-        if (!$content = $ilGlobalCache->get($filename)) {
+
+        if (($content = $this->template_cache->get($filename, new StringTransformation())) === null) {
             if (!($fh = @fopen($filename, 'rb'))) {
                 throw new ilTemplateException($this->errorMessage(self::IT_TPL_NOT_FOUND) . ': "' . $filename . '"');
             }
@@ -769,7 +798,7 @@ class HTML_Template_IT
             }
 
             $content = fread($fh, $fsize);
-            $ilGlobalCache->set($filename, $content, 60);
+            $this->template_cache->set($filename, $content);
             fclose($fh);
         }
 

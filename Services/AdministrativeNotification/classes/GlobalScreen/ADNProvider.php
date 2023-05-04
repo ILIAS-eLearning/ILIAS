@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\AdministrativeNotification\GlobalScreen;
 
@@ -34,12 +34,21 @@ use ILIAS\DI\Container;
  */
 class ADNProvider extends AbstractNotificationProvider
 {
+    protected \ILIAS\Refinery\String\MarkdownFormattingToHTML $markdown;
     protected \ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures $access;
 
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
         $this->access = BasicAccessCheckClosuresSingleton::getInstance();
+        $this->markdown = $dic->refinery()->string()->markdown();
+    }
+
+    protected function getSummary(ilADNNotification|\ActiveRecord $item): string
+    {
+        return $this->markdown->toHTML()->transform(
+            $item->getBody()
+        );
     }
 
     /**
@@ -63,7 +72,9 @@ class ADNProvider extends AbstractNotificationProvider
          * @var $adn  AdministrativeNotification
          */
         foreach (ilADNNotification::get() as $item) {
-            $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary($item->getBody());
+            $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary(
+                $this->getSummary($item)
+            );
             $adn = $this->handleDenotation($item, $adn);
 
             $is_visible = static fn (): bool => true;

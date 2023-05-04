@@ -103,7 +103,10 @@ class ilADNNotificationUIFormGUI
     {
         $field = $this->ui->input()->field();
         $custom_trafo = fn (callable $c): Transformation => $this->refinery->custom()->transformation($c);
-        $custom_constraint = fn (callable $c, string $error): Transformation => $this->refinery->custom()->constraint($c, $error);
+        $custom_constraint = fn (callable $c, string $error): Transformation => $this->refinery->custom()->constraint(
+            $c,
+            $error
+        );
 
         // DENOTATION
         $types = $this->getDenotations();
@@ -127,7 +130,11 @@ class ilADNNotificationUIFormGUI
                        );
 
         // BODY
-        $body = $field->textarea($this->txt(self::F_BODY), $this->infoTxt(self::F_BODY))
+        $body = $field->markdown(
+            new ilUIMarkdownPreviewGUI(),
+            $this->txt(self::F_BODY),
+            $this->infoTxt(self::F_BODY)
+        )
                       ->withValue($this->notification->getBody())
                       ->withAdditionalTransformation(
                           $custom_trafo(function ($v): void {
