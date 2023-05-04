@@ -2466,13 +2466,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $tmp_file_obj = new ilFileDataForum($this->object->getId(), $newPost);
                     $tmp_file_obj->storeUploadedFiles();
                 }
-
-                // The files must not be moved to another directory anymore!
-                //move files of draft to posts directory
-                //$oFDForum = new ilFileDataForum($this->object->getId(), $newPost);
-//                $oFDForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draft_obj->getDraftId());
-//                $oFDForumDrafts->moveFilesOfDraft($oFDForum->getForumPath(), $newPost);
-//                $oFDForumDrafts->delete();
             }
 
             if (ilForumPostDraft::isSavePostDraftAllowed()) {

@@ -33,9 +33,6 @@ class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements il
     private ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\ResourceStorage\Services $irss;
 
-
-
-
     public function __construct(private int $obj_id, private int $draft_id)
     {
         global $DIC;
@@ -129,7 +126,6 @@ class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements il
 
         return $files;
     }
-
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
@@ -248,7 +244,9 @@ class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements il
 
     private function initDirectory(): void
     {
-        if (is_writable($this->getPath()) && ilFileUtils::makeDirParents($this->getDraftsPath() . '/' . $this->getDraftId()) && chmod(
+        if (is_writable($this->getPath()) && ilFileUtils::makeDirParents(
+            $this->getDraftsPath() . '/' . $this->getDraftId()
+        ) && chmod(
             $this->getDraftsPath() . '/' . $this->getDraftId(),
             0755
         )) {
@@ -314,32 +312,30 @@ class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements il
 
     public function getPosId(): int
     {
-        // TODO: Implement getPosId() method.
+        return 0;
     }
 
     public function setPosId(int $posting_id): void
     {
-        // TODO: Implement setPosId() method.
     }
 
     public function getForumPath(): string
     {
-        // TODO: Implement getForumPath() method.
+        return '';
     }
 
     public function moveFilesOfPost(int $new_frm_id = 0): bool
     {
-        // TODO: Implement moveFilesOfPost() method.
+        return true;
     }
 
     public function ilClone(int $new_obj_id, int $new_posting_id): bool
     {
-        // TODO: Implement ilClone() method.
+        return true;
     }
 
     public function storeUploadedFiles(): bool
     {
-        // TODO: Implement storeUploadedFiles() method.
         return true;
     }
 }
