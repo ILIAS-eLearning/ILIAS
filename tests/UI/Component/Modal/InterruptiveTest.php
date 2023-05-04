@@ -74,8 +74,8 @@ class InterruptiveTest extends ModalBase
     public function test_simple_rendering(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'myAction.php');
-        $expected = $this->normalizeHTML($this->getExpectedHTML());
-        $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($interruptive));
+        $expected = $this->brutallyTrimHTML($this->getExpectedHTML());
+        $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($interruptive));
         $this->assertEquals($expected, $actual);
     }
 
@@ -117,8 +117,8 @@ class InterruptiveTest extends ModalBase
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close">
-					<span aria-hidden="true"></span></button><span class="modal-title">Title</span>
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="cancel">
+					<span aria-hidden="true">&times;</span></button><span class="modal-title">Title</span>
 				</div>
 				<div class="modal-body">
 					<div class="alert alert-warning c-modal--interruptive__message" role="alert">Message</div>
@@ -142,7 +142,7 @@ EOT;
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="delete"/>
-					<button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
+					<button class="btn btn-default" data-dismiss="modal">cancel</button>
 				</div>
 			</div>
 		</form>

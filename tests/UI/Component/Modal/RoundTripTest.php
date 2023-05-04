@@ -74,8 +74,8 @@ class RoundTripTest extends ModalBase
                 $this->getButtonFactory()->primary('Action 1', ''),
                 $this->getButtonFactory()->standard('Action 2', ''),
             ]);
-        $expected = $this->normalizeHTML($this->getExpectedHTML());
-        $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($roundtrip));
+        $expected = $this->brutallyTrimHTML($this->getExpectedHTML());
+        $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($roundtrip));
         $this->assertHTMLEquals($expected, $actual);
     }
 
@@ -90,7 +90,9 @@ class RoundTripTest extends ModalBase
          </div>
          <div class="modal-body">Content</div>
          <div class="modal-footer">
-            <button class="btn btn-default btn-primary" data-action="">Action 1</button><button class="btn btn-default" data-action="">Action 2</button><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
+            <button class="btn btn-default btn-primary" data-action="">Action 1</button>
+            <button class="btn btn-default" data-action="">Action 2</button>
+            <button class="btn btn-default" data-dismiss="modal">cancel</button>
          </div>
       </div>
    </div>
