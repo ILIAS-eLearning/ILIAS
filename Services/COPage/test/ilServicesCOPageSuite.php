@@ -74,6 +74,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCGridTest.php");
         $suite->addTestSuite("PCGridTest");
 
+        require_once("./Services/COPage/test/PCInteractiveImageTest.php");
+        $suite->addTestSuite("PCInteractiveImageTest");
+
         return $suite;
     }
 }

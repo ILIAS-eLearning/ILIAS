@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\COPage\Page\PageManagerInterface;
+use ILIAS\Repository\Object\ObjectAdapterInterface;
 
 /**
  * Content object of ilPageObject (see ILIAS DTD). Every concrete object
@@ -51,9 +52,13 @@ abstract class ilPageContent
 
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
 
+    protected ?PageManagerInterface $page_manager = null;
+    protected ?ObjectAdapterInterface $object = null;
+
     final public function __construct(
         ilPageObject $a_pg_obj,
-        ?PageManagerInterface $page_manager = null
+        ?PageManagerInterface $page_manager = null,
+        ?ObjectAdapterInterface $object_adapter = null
     ) {
         global $DIC;
 
@@ -69,6 +74,10 @@ abstract class ilPageContent
                                                    ->internal()
                                                    ->domain()
                                                    ->page();
+        $this->object = $object_adapter ?? $DIC->copage()
+                                                   ->internal()
+                                                   ->domain()
+                                                   ->object();
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 

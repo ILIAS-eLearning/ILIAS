@@ -59,7 +59,7 @@ class ilPCInteractiveImage extends ilPageContent
         if (isset($this->med_alias_node) && $this->med_alias_node->myDOMNode != null) {
             $id = $this->med_alias_node->get_attribute("OriginId");
             $mob_id = ilInternalLink::_extractObjIdOfTarget($id);
-            if (ilObject::_lookupType($mob_id) == "mob") {
+            if ($this->object->getTypeForObjId($mob_id) == "mob") {
                 $this->setMediaObject(new ilObjMediaObject($mob_id));
             }
         }
@@ -70,11 +70,6 @@ class ilPCInteractiveImage extends ilPageContent
             $this->readPCId(),
             "InteractiveImage"
         );
-    }
-
-    public function setDom(php4DOMDocument $a_dom): void
-    {
-        $this->dom = $a_dom;
     }
 
     public function setMediaObject(ilObjMediaObject $a_mediaobject): void
@@ -94,7 +89,7 @@ class ilPCInteractiveImage extends ilPageContent
 
     public function create(): void
     {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
     }
 
     public function getStandardMediaItem(): ilMediaItem
@@ -134,12 +129,6 @@ class ilPCInteractiveImage extends ilPageContent
 
         $layout_node = $this->dom->create_element("Layout");
         $layout_node = $item_node->append_child($layout_node);
-        if ($media_item->getWidth() > 0) {
-            //$layout_node->set_attribute("Width", $media_item->getWidth());
-        }
-        if ($media_item->getHeight() > 0) {
-            //$layout_node->set_attribute("Height", $media_item->getHeight());
-        }
         $layout_node->set_attribute("HorizontalAlign", "Left");
 
         // caption

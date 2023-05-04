@@ -25,6 +25,8 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\ResourceStorage;
 use ILIAS\Refinery;
+use ILIAS\Repository\Object\ObjectAdapterInterface;
+use ILIAS\Repository\Object\ObjectAdapter;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -96,5 +98,10 @@ trait GlobalDICDomainServices
     public function objectDefinition(): \ilObjectDefinition
     {
         return $this->DIC["objDefinition"];
+    }
+
+    public function object(): ObjectAdapterInterface
+    {
+        return new ObjectAdapter();
     }
 }
