@@ -215,7 +215,6 @@ abstract class ilTestExport
 
         $worksheet = (new ilExcelTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', true, false))
             ->withResultsPage()
-            ->withAllUsersPages()
             ->withUserPages()
             ->getContent();
         $worksheet->writeToFile($this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));
