@@ -610,40 +610,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $this->separator = $a_value;
     }
 
-    public function __get($value)
-    {
-        switch ($value) {
-            case "ordertext":
-                return $this->getOrderText();
-                break;
-            case "textsize":
-                return $this->getTextSize();
-                break;
-            case "separator":
-                return $this->getSeparator();
-                break;
-        }
-        return null;
-    }
-
-    /**
-    * Object setter
-    */
-    public function __set($key, $value)
-    {
-        switch ($key) {
-            case "ordertext":
-                $this->setOrderText($value);
-                break;
-            case "textsize":
-                $this->setTextSize($value);
-                break;
-            case "separator":
-                $this->setSeparator($value);
-                break;
-        }
-    }
-
     public function supportsJavascriptOutput(): bool
     {
         return true;

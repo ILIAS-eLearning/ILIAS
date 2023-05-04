@@ -1019,40 +1019,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $this->allowedextensions = strtolower(trim($a_value));
     }
 
-    public function __get($value)
-    {
-        switch ($value) {
-            case "maxsize":
-                return $this->getMaxSize();
-                break;
-            case "allowedextensions":
-                return $this->getAllowedExtensions();
-                break;
-            case 'completion_by_submission':
-                return $this->isCompletionBySubmissionEnabled();
-                break;
-        }
-        return null;
-    }
-
-    /**
-    * Object setter
-    */
-    public function __set($key, $value)
-    {
-        switch ($key) {
-            case "maxsize":
-                $this->setMaxSize($value ? (int) $value : null);
-                break;
-            case "allowedextensions":
-                $this->setAllowedExtensions($value);
-                break;
-            case 'completion_by_submission':
-                $this->setCompletionBySubmission($value);
-                break;
-        }
-    }
-
     /**
      * Checks if file uploads exist for a given test and the original id of the question
      *
