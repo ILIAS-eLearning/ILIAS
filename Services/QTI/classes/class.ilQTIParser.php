@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * QTI Parser
@@ -48,7 +47,7 @@ class ilQTIParser extends ilSaxParser
     public ?ilQTIItem $item = null;
 
     /**
-     * @var SplObjectStorage<XmlParser|resource, int>
+     * @var SplObjectStorage<XMLParser, int>|array<resource, int>
      */
     public $depth;
 
@@ -199,7 +198,8 @@ class ilQTIParser extends ilSaxParser
         if (is_array($a_import_idents)) {
             $this->import_idents = &$a_import_idents;
         }
-        $this->depth = new SplObjectStorage();
+
+        $this->depth = $this->createParserStorage();
     }
 
     public function isIgnoreItemsEnabled(): bool
@@ -1779,5 +1779,17 @@ class ilQTIParser extends ilSaxParser
                     break;
             }
         }
+    }
+
+    /**
+     * @return SplObjectStorage<XMLParser, int>|array<resource, int>
+     */
+    private function createParserStorage()
+    {
+        $parser = xml_parser_create();
+        $is_resource = is_resource($parser);
+        xml_parser_free($parser);
+
+        return $is_resource ? [] : new SplObjectStorage();
     }
 }
