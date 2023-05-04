@@ -76,8 +76,7 @@
                 $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->xapiproxy->token());
                 $obj = \ilObjCmiXapi::getInstance($authToken->getRefId(), true);
                 $access = \ilCmiXapiAccess::getInstance($obj);
-                $params = $this->dic->http()->wrapper()->query();
-                if ($params->has('statementId')) {
+                if (isset($_GET['statementId'])) {
                     $this->xapiproxy->log()->debug($this->msg("single statementId requests can not be secured. It is not allowed to append any additional parameter like registration or activity (tested in LL7)"));
                     // single statementId can not be handled. it is not allowed to append a registration on single statement requests (tested in LL7)
                     $this->handleProxy($request);
@@ -95,15 +94,14 @@
                         } else {
                             $regUserObject = \ilCmiXapiUser::getRegistrationFromAuthToken($authToken);
                         }
-                        if ($params->has('registration')) {
-//                            no check in 6
-//                            $regParam = $params->retrieve('registration', $this->dic->refinery()->kindlyTo()->string());
-//                            if ($regParam != $regUserObject) {
-//                                $this->xapiproxy->log()->debug($this->msg("wrong registration: " . $regParam . " != " . $regUserObject));
-//                                $this->xapiProxyResponse->exitBadRequest();
-//                            } else {
+                        if (isset($_GET['registration'])) {
+                            $regParam = $_GET['registration'];
+                            if ($regParam != $regUserObject) {
+                                $this->xapiproxy->log()->debug($this->msg("wrong registration: " . $regParam . " != " . $regUserObject));
+                                $this->xapiProxyResponse->exitBadRequest();
+                            } else {
                                 $this->handleProxy($request);
-//                            }
+                            }
                         } else { // add registration
                             $this->xapiproxy->log()->debug($this->msg("add registration: " . $regUserObject));
                             $uri = $request->getUri() . "&registration=" . $regUserObject;
@@ -116,12 +114,12 @@
                             $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
                             $this->xapiProxyResponse->exitBadRequest();
                         }
-                        if ($params->has('activity')) {
+                        if (isset($_GET['activityId'])) {
                             // ToDo: how this can be verified? the object only knows the top activityId
                             $this->handleProxy($request);
                         } else {
-                            $this->xapiproxy->log()->debug($this->msg("add activity: " . $obj->getActivityId()));
-                            $uri = $request->getUri() . "&activity=" . $obj->getActivityId() . "&related_activities=true";
+                            $this->xapiproxy->log()->debug($this->msg("add activityId: " . $obj->getActivityId()));
+                            $uri = $request->getUri() . "&activityId=" . $obj->getActivityId() . "&related_activities=true";
                             $req = new Request($request->getMethod(), $uri, $request->getHeaders());
                             $this->handleProxy($req);
                         }
