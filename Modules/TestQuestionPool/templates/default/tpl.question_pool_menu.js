@@ -1,6 +1,5 @@
 <script type="text/javascript">
 	var qpMenu;
-	
 	function createQpFilterMenu(p_oEvent) 
 	{
 		var filtericon = document.getElementById("qpfilter");
@@ -15,7 +14,6 @@
 <!-- BEGIN menuitem -->			{ text:"{ITEM_TEXT}", url:"{ITEM_URL}"<!-- BEGIN selected -->, selected: true, checked: true<!-- END selected --> },<!-- END menuitem -->
 		]);
 	}
-
 	function onQpFilterMenuMouseDown(p_oEvent) 
 	{
 		YAHOO.util.Event.stopPropagation(p_oEvent);
@@ -40,7 +38,6 @@
 		qpMenu.moveTo(xPos, yPos);
 		qpMenu.show();
 	}
-
 	YAHOO.util.Event.addListener(window, "load", createQpFilterMenu);
 	YAHOO.util.Event.addListener("qpfilter", "mousedown", onQpFilterMenuMouseDown);
 </script>

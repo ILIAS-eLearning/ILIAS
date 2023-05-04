@@ -1,11 +1,15 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN ordering -->
 	<td class="std" style="vertical-align: top; padding-top: 18px;" >
-		<input type="text" name="position[{VAL_ITEM}]" value="{VAL_POS}" size="3" maxlength="4" />
+		<input type="text" name="position[{VAL_ITEM}]"
+			   aria-label="position[{VAL_ITEM}]"
+			   value="{VAL_POS}" size="3" maxlength="4" />
 	</td>
 	<!-- END ordering -->
 	<td class="std" style="vertical-align: top; padding: 18px;" >
-		<a href="{TARGET}"{FRAME}<!-- BEGIN noopener -->rel="noopener"<!-- END noopener -->>{TITLE}</a>
+		<a aria-label="{TITLE}" href="{TARGET}"{FRAME} <!-- BEGIN noopener --> rel="noopener"<!-- END noopener -->>
+			{TITLE}
+		</a>
 		<!-- BEGIN desc_bl -->
 		<div class="il_Description">
 			{DESCRIPTION}
@@ -14,7 +18,9 @@
 	</td>
 	<!-- BEGIN act -->
 	<td class="std" style="vertical-align: top; padding: 18px;" nowrap="nowrap">
-		<div style="float:right">{ACTION_HTML}</div>
+		<div style="float:right">
+			{ACTION_HTML}
+		</div>
 	</td>
 	<!-- END act -->
 </tr>

@@ -1,12 +1,18 @@
 <div class="form-inline">
-    <p>{TXT_ANSWERS}: {NUM_ANSWERS} <a id="link_{POSTVAR}">[{TXT_SHOW}]</a></p>
-    <p>{TXT_CORRECT_ANSWERS}</p>
+    <p>
+        {TXT_ANSWERS}: {NUM_ANSWERS}
+        <a aria-label="{TXT_SHOW}" id="link_{POSTVAR}">
+            [{TXT_SHOW}]
+        </a>
+    </p>
+    <p>
+        {TXT_CORRECT_ANSWERS}
+    </p>
     {TAG_INPUT}
     {ANSWERS_MODAL}
 </div>
 <script type="text/javascript">
 (function($){ $(document).ready(function(){
-
         $('#link_{POSTVAR}').click(function(e)
         {
             $('#modal_{POSTVAR}').modal('show');
@@ -16,6 +22,5 @@
             
             return false;
         });
-        
 }); }(jQuery));
 </script>

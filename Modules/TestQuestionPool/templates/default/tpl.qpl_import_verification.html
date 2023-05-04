@@ -1,9 +1,17 @@
-<h1>{VERIFICATION_HEADING}</h1>
-<p>{FOUND_QUESTIONS_INTRODUCTION}</p>
+<h1>
+    {VERIFICATION_HEADING}
+</h1>
+<p>
+    {FOUND_QUESTIONS_INTRODUCTION}
+</p>
 <form role="form" name="{VERIFICATION_FORM_NAME}" method="post" action="{FORMACTION}">
-<!-- BEGIN import_qpl -->
-<p>{TEXT_CREATE_NEW_QUESTIONPOOL}: <input type="text" name="qpl_new" size="30" value="{VALUE_NEW_QUESTIONPOOL}" /></p>
-<!-- END import_qpl -->
-<input type="hidden" name="questions_only" value="{VALUE_QUESTIONS_ONLY}" />
-{VERIFICATION_TABLE}
+    <!-- BEGIN import_qpl -->
+    <p>
+        {TEXT_CREATE_NEW_QUESTIONPOOL}:
+        <input type="text" aria-label="{TEXT_CREATE_NEW_QUESTIONPOOL}"
+               name="qpl_new" size="30" value="{VALUE_NEW_QUESTIONPOOL}" />
+    </p>
+    <!-- END import_qpl -->
+    <input aria-hidden="true" type="hidden" name="questions_only" value="{VALUE_QUESTIONS_ONLY}" />
+    {VERIFICATION_TABLE}
 </form>

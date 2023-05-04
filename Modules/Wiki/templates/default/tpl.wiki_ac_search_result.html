@@ -1,11 +1,18 @@
 <div id="ilWikiACSearchResult">
-<div class="help-block">{INFOTEXT}</div>
-<ul>
-<!-- BEGIN item -->
-	<li><a href="#">{WIKI_TITLE}</a></li>
-<!-- END item -->
-</ul>
+	<div class="help-block">
+		{INFOTEXT}
+	</div>
+	<ul>
+	<!-- BEGIN item -->
+		<li>
+			<a aria-label="{WIKI_TITLE}" href="#">
+				{WIKI_TITLE}
+			</a>
+		</li>
+	<!-- END item -->
+	</ul>
 </div>
 <p>
-	<input type="submit" class="btn btn-default" id="ilWikiACSearchCancel" value="{TXT_BACK}" />
+	<input type="submit" class="btn btn-default" id="ilWikiACSearchCancel"
+		   role="button" value="{TXT_BACK}" />
 </p>

@@ -1,15 +1,15 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
-		<input type="checkbox" name="id[]" value="{ID}"/>
-		<input type="hidden" name="all_ids[]" value="{ID}"/>
+		<input type="checkbox" aria-label="id[]" name="id[]" value="{ID}"/>
+		<input type="hidden" aria-label="all_ids[]" name="all_ids[]" value="{ID}"/>
 	</td>
 	<td class="std">
 		{TITLE}
 	</td>
 	<td class="std">
-		<input type="checkbox" name="new_pages[{ID}]" value="1" {NEW_PAGES_CHECKED}/>
+		<input type="checkbox" aria-label="new_pages[{ID}]" name="new_pages[{ID}]" value="1" {NEW_PAGES_CHECKED}/>
 	</td>
 	<td class="std">
-		<input type="checkbox" name="add_to_page[{ID}]" value="1" {ADD_TO_PAGE_CHECKED}/>
+		<input type="checkbox" aria-label="add_to_page[{ID}]" name="add_to_page[{ID}]" value="1" {ADD_TO_PAGE_CHECKED}/>
 	</td>
 </tr>

@@ -1,10 +1,16 @@
 <div class="small" style="margin-left:5px;">
-<!-- BEGIN item -->
-<!-- BEGIN plain -->
-<p>{PLAIN}</p>
-<!-- END plain -->
-<!-- BEGIN action -->
-<p><a href="{HREF}"  {ONCLICK} {ACT_ID}>{TXT}</a></p>
-<!-- END action -->
-<!-- END item -->
+    <!-- BEGIN item -->
+    <!-- BEGIN plain -->
+    <p>
+        {PLAIN}
+    </p>
+    <!-- END plain -->
+    <!-- BEGIN action -->
+    <p>
+        <a aria-label="{TXT}" href="{HREF}"  {ONCLICK} {ACT_ID}>
+            {TXT}
+        </a>
+    </p>
+    <!-- END action -->
+    <!-- END item -->
 </div>

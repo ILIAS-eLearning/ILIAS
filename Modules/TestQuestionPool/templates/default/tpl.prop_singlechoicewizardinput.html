@@ -5,7 +5,7 @@
 				<th scope="col">
 					{ANSWER_TEXT}
 				</th>
-				<th class="imagecolumn" scope="col">
+				<th scope="col" class="imagecolumn" scope="col">
 					<!-- BEGIN image_heading -->
 					{ANSWER_IMAGE}
 					<!-- END image_heading -->
@@ -79,20 +79,43 @@
 				</td>
 				<!-- BEGIN points -->
 				<td class="ilValignTop">
-					<input type="text" class="form-control text-right" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+					<input type="text" class="form-control text-right" size="5" id="{POINTS_ID}"
+						   aria-label="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]"
+						   name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]"
+					<!-- BEGIN prop_points_propval -->
+					value="{PROPERTY_VALUE}"
+					<!-- END prop_points_propval -->
+					{DISABLED_POINTS} />
 				</td>
 				<!-- END points -->
 				<td class="ilValignTop">
-					<button type="button" name="{CMD_ADD}" class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
-					<button type="button" name="{CMD_REMOVE}" class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>
+					<button type="button" name="{CMD_ADD}" aria-label="{ADD_BUTTON}"
+							class="singlechoice_add btn btn-link" id="add_{ID}">
+						{ADD_BUTTON}
+					</button>
+					<button type="button" name="{CMD_REMOVE}" aria-label="{REMOVE_BUTTON}"
+							class="singlechoice_remove btn btn-link" id="remove_{ID}">
+						{REMOVE_BUTTON}
+					</button>
 					<!-- BEGIN move -->
-					<button type="button" name="{CMD_UP}" class="singlechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
-					<button type="button" name="{CMD_DOWN}" class="singlechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
+					<button type="button" name="{CMD_UP}" aria-label="{UP_BUTTON}"
+							class="singlechoice_up btn btn-link" id="up_{ID}">
+						{UP_BUTTON}
+					</button>
+					<button type="button" name="{CMD_DOWN}" aria-label="{DOWN_BUTTON}"
+							class="singlechoice_down btn btn-link" id="down_{ID}">
+						{DOWN_BUTTON}
+					</button>
 					<!-- END move -->
 				</td>
 			</tr>
 			<!-- END row -->
 		</tbody>
 	</table>
-	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+	<div class="ilFormInfo">
+		{TXT_MAX_SIZE}
+		<!-- BEGIN allowed_image_suffixes -->
+		{TXT_ALLOWED_SUFFIXES}
+		<!-- END allowed_image_suffixes -->
+	</div>
 </div>
