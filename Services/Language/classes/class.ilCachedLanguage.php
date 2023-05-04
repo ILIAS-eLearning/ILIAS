@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,10 +14,12 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
+declare(strict_types=1);
+
+use ILIAS\Cache\Container\Request;
+use ILIAS\Refinery\Custom\Transformation;
 
 /**
  * Class ilCachedLanguage
@@ -27,9 +27,9 @@ require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilCachedLanguage
+class ilCachedLanguage implements Request
 {
-    protected \ilGlobalCache $global_cache;
+    protected \ILIAS\Cache\Container\Container $language_cache;
     protected bool $loaded = false;
     protected string $language_key = "en";
     protected array $translations = array();
@@ -40,8 +40,9 @@ class ilCachedLanguage
      */
     protected function __construct(string $language_key)
     {
+        global $DIC;
         $this->setLanguageKey($language_key);
-        $this->global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_CLNG);
+        $this->language_cache = $DIC->globalCache()->get($this);
         $this->readFromCache();
         if (!$this->getLoaded()) {
             $this->readFromDB();
@@ -50,12 +51,23 @@ class ilCachedLanguage
         }
     }
 
+    public function getContainerKey(): string
+    {
+        return 'clng';
+    }
+
+
+    public function isForced(): bool
+    {
+        return true;
+    }
+
     /**
      * Return whether the global cache is active
      */
     public function isActive(): bool
     {
-        return $this->global_cache->isActive();
+        return true;
     }
 
     /**
@@ -63,8 +75,19 @@ class ilCachedLanguage
      */
     protected function readFromCache(): void
     {
-        if ($this->global_cache->isActive()) {
-            $translations = $this->global_cache->get("translations_" . $this->getLanguageKey());
+        $key = "translations_" . $this->getLanguageKey();
+        if ($this->language_cache->has($key)) {
+            // This is a workaround for the fact that transformatuin cannot be created by
+            // $DIC->refinery()->xy() since we are in a hell of dependencies. E.g. we cant instantiate the
+            // caching service with $DIC->refinery() since the Refinery needs ilLanguage, but ilLanguage
+            // needs the caching service and so on...
+            $always = new Transformation(
+                function ($v) {
+                    return is_array($v) ? $v : null;
+                }
+            );
+
+            $translations = $this->language_cache->get($key, $always);
             if (is_array($translations)) {
                 $this->setTranslations($translations);
                 $this->setLoaded(true);
@@ -77,9 +100,7 @@ class ilCachedLanguage
      */
     public function writeToCache(): void
     {
-        if ($this->global_cache->isActive()) {
-            $this->global_cache->set("translations_" . $this->getLanguageKey(), $this->getTranslations());
-        }
+        $this->language_cache->set("translations_" . $this->getLanguageKey(), $this->getTranslations());
     }
 
     /**
@@ -90,10 +111,8 @@ class ilCachedLanguage
      */
     public function deleteInCache(): void
     {
-        if ($this->global_cache->isActive()) {
-            $this->global_cache->delete("translations_" . $this->getLanguageKey());
-            $this->setLoaded(false);
-        }
+        $this->language_cache->delete("translations_" . $this->getLanguageKey());
+        $this->setLoaded(false);
     }
 
     /**
@@ -131,9 +150,7 @@ class ilCachedLanguage
 
     public function flush(): void
     {
-        if ($this->global_cache->isActive()) {
-            $this->global_cache->flush();
-        }
+        $this->language_cache->flush();
         $this->readFromDB();
         $this->writeToCache();
     }
