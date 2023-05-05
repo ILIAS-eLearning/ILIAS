@@ -20,7 +20,7 @@
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerSettingsGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerXapiStatementsGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerEmbeddedContentGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
@@ -35,7 +35,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
     const TAB_ID_PERMISSIONS = 'perm_settings';
     
-    const DEFAULT_CMD = 'infoScreen';
+    const DEFAULT_CMD = 'launch';
     
     /**
      * @var ilObjLTIConsumer
@@ -400,7 +400,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         
         // TODO: general access checks (!)
 
-        if (!ilLTIConsumerEmbeddedContentGUI::isEmbeddedLaunchRequest()) {
+        if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
             $this->addHeaderAction();
         }
@@ -489,12 +489,19 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 break;
             
-            case strtolower(ilLTIConsumerEmbeddedContentGUI::class):
+            case strtolower(ilLTIConsumerContentGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
 
-                $gui = new ilLTIConsumerEmbeddedContentGUI($this->object);
+                $gui = new ilLTIConsumerContentGUI($this->object);
                 $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilInfoScreenGUI::class):
+
+                $DIC->tabs()->activateTab(self::TAB_ID_INFO);
+                $this->infoScreen();
 
                 break;
 
@@ -511,22 +518,23 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         $DIC->help()->setScreenIdComponent("lti");
 
-        $DIC->tabs()->addTab(
-            self::TAB_ID_INFO,
-            $DIC->language()->txt(self::TAB_ID_INFO),
-            $DIC->ctrl()->getLinkTargetByClass(self::class)
-        );
-        
-        if (!$this->object->getOfflineStatus() && $this->object->isLaunchMethodEmbedded() &&
+        if (!$this->object->getOfflineStatus() &&
             $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE
         ) {
             $DIC->tabs()->addTab(
                 self::TAB_ID_CONTENT,
                 $DIC->language()->txt(self::TAB_ID_CONTENT),
-                $DIC->ctrl()->getLinkTargetByClass(ilLTIConsumerEmbeddedContentGUI::class)
+                $DIC->ctrl()->getLinkTargetByClass(ilLTIConsumerContentGUI::class)
             );
         }
-        
+
+        $DIC->tabs()->addTab(
+            self::TAB_ID_INFO,
+            $DIC->language()->txt(self::TAB_ID_INFO),
+            $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class)
+        );
+
+
         if ($this->ltiAccess->hasWriteAccess()) {
             $DIC->tabs()->addTab(
                 self::TAB_ID_SETTINGS,
@@ -662,6 +670,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
     }
+
+    protected function launch() : void
+    {
+        /** @var ilObjLTIConsumer $obj */
+        $obj = $this->object;
+        $this->tabs_gui->activateTab(self::TAB_ID_CONTENT);
+        $gui = new ilLTIConsumerContentGUI($obj);
+        $this->ctrl->forwardCommand($gui);
+    }
     
     protected function infoScreen()
     {
@@ -684,8 +701,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
         
         $this->handleAvailablityMessage();
-        $this->initInfoScreenToolbar();
-        
+
         $info = new ilInfoScreenGUI($this);
         
         $info->enablePrivateNotes();
@@ -760,74 +776,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function initInfoScreenToolbar()
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        if ($this->object->getOfflineStatus() ||
-            $this->object->isLaunchMethodEmbedded() ||
-            $this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
-            return;
-        }
-        
-        $cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(), $this->object->getProvider()->getPrivacyIdent());
-        $user_ident = $cmixUser->getUsrIdent();
-        if ($user_ident == '' || $user_ident == null) {
-            $user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());
-            $cmixUser->setUsrIdent($user_ident);
-            $cmixUser->save();
-        }
-        
-        include_once("./Modules/LTIConsumer/classes/class.ilLTIConsumerLaunch.php");
-        $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
-        $context = $ilLTIConsumerLaunch->getContext();
-        $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
-        $contextId = $context["id"];
-        $contextTitle = $context["title"];
-        
-        require_once("Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-        require_once('./Services/Link/classes/class.ilLink.php');
-        
-        $token = ilCmiXapiAuthToken::fillToken(
-            $DIC->user()->getId(),
-            $this->object->getRefId(),
-            $this->object->getId()
-        );
-        
-        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
-            '&amp;',
-            '&',
-            ILIAS_HTTP_PATH . "/" . $DIC->ctrl()->getLinkTarget($this, "", "", false)
-        );
-        
-        $launchParameters = $this->object->buildLaunchParameters(
-            $cmixUser,
-            $token,
-            $contextType,
-            $contextId,
-            $contextTitle,
-            $returnUrl
-        );
-        
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
-        $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-        
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        foreach ($launchParameters as $field => $value) {
-            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
-        }
-        $output .= $button;
-        $output .= '</form>';
-        $output .= '<span id ="lti_launched" style="display:none">' . $this->lng->txt("launched") . '</span>';
-        $output .= '<script type="text/javascript">
-        function ltilaunch() {
-            document.lti_launch_form.submit();
-            document.getElementById("lti_launch_form").style.display = "none";
-            document.getElementById("lti_launched").style.display = "inline";
-        }</script>';
-        $DIC->toolbar()->addText($output);
-    }
-    
     protected function handleAvailablityMessage()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
