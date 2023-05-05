@@ -1686,6 +1686,6 @@ $ilDB->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]
 <#98>
 <?php
 if (!$ilDB->indexExistsByFields('webr_items', array('webr_id'))) {
-    $ilDB->addIndex('webr_items', array('webr_id'), 'i2');
+    $ilDB->addIndex('webr_items', array('webr_id'), 'i3');
 }
 ?>
