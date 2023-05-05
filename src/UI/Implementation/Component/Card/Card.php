@@ -29,7 +29,6 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Clickable;
-use ILIAS\UI\NotImplementedException;
 
 class Card implements C\Card
 {
@@ -54,6 +53,11 @@ class Card implements C\Card
      */
     protected $title_action = '';
     protected bool $highlight = false;
+
+    /**
+     * @var Component[]
+     */
+    protected array $hidden_sections = [];
 
     /**
      * @param string|Shy$title
@@ -133,12 +137,15 @@ class Card implements C\Card
 
     public function withHiddenSections(array $sections): Card
     {
-        throw new NotImplementedException();
+        $clone = clone $this;
+        $clone->hidden_sections = $sections;
+
+        return $clone;
     }
 
     public function getHiddenSections(): array
     {
-        throw new NotImplementedException();
+        return $this->hidden_sections;
     }
 
     /**

@@ -26,7 +26,6 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\NotImplementedException;
 use ILIAS\UI\Component\Card\Card;
 
 /**
@@ -99,6 +98,6 @@ class Factory implements M\Factory
 
     public function lightboxCardPage(Card $card): M\LightboxCardPage
     {
-        throw new NotImplementedException();
+        return new LightboxCardPage($card);
     }
 }
