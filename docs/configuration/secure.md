@@ -271,7 +271,7 @@ Depending on your (especially external) user content (liked embedded media, SCOR
 initially define a CSP which is as strict as possible.
 
 You could use the [Reporting Feature](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#enabling_reporting) to
-log and analyse CSP violations to finally make the CSP (carefully) more loose, if necessary.
+log and analyse CSP violations to loosen the CSP gradually and carefully, if necessary.
 
 A minimum endpoint to log the CSP violations could be:
 
