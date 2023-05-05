@@ -913,7 +913,12 @@ class ilObjSession extends ilObject
     public function initFiles()
     {
         include_once('./Modules/Session/classes/class.ilSessionFile.php');
-        $this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
+        /**
+         * BT 31608: ilSessionFile is an unused remnant of a previous refactoring.
+         *  It will be removed in R9, and as a minimally invasive performance
+         *  fix disabled in R7 and R8.
+         */
+        //$this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
     }
     
     
