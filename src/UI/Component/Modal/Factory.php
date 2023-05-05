@@ -23,6 +23,7 @@ namespace ILIAS\UI\Component\Modal;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Modal\InterruptiveItem;
+use ILIAS\UI\Component\Card\Card;
 
 /**
  * Interface Factory
@@ -215,4 +216,26 @@ interface Factory
      * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
     public function lightboxTextPage(string $text, string $title): LightboxTextPage;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       A lightbox card page shows a card as a Lightbox modal.
+     *   composition: >
+     *       The page shows a card with it's hidden sections.
+     *   effect: >
+     *       The card title is used as the modal title and the sections and hidden sections are
+     *       displayed in the content section of the lightbox modal.
+     * rules:
+     *   usage:
+     *     1: >
+     *       A Lightbox card page MUST show a card.
+     *     2: >
+     *       A Lightbox card page SHOULD be used to show further information.
+     * ---
+     * @param Card $card
+     * @return \ILIAS\UI\Component\Modal\LightboxCardPage
+     */
+    public function lightboxCardPage(Card $card): LightboxCardPage;
 }
