@@ -9,8 +9,8 @@
     "node-mysql": "^0.4.2",
     "node-schedule": "^2.1.0",
     "node-uuid": "^1.4.8",
-    "socket.io": "^4.5.4",
-    "socket.io-client": "^4.5.4",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "winston": "^2.4.1"
   }
 }
