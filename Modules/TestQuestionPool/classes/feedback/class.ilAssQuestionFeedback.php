@@ -836,23 +836,19 @@ abstract class ilAssQuestionFeedback
      */
     private function ensurePageObjectExists($pageObjectType, $pageObjectId)
     {
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
-            if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssGenFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK
+            && !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssGenFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
-            if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssSpecFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK
+            && !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssSpecFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
     }
 
