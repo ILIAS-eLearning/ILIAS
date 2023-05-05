@@ -123,155 +123,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         $this->show_footer = false;
     }
 
-    /**
-     * @throws ilTemplateException
-     * @throws ilCtrlException
-     */
-    protected function fillFooter(): void
-    {
-        if (!$this->show_footer) {
-            return;
-        }
-
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $ilDB = $DIC->database();
-
-        $ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-
-        $php = "";
-        if (DEVMODE) {
-            $php = ", PHP " . PHP_VERSION;
-        }
-        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
-
-        $link_items = [];
-
-        // imprint
-        $call_history = $ilCtrl->getCallHistory();
-        if (isset($call_history[0][ilCtrlInterface::PARAM_CMD_CLASS]) &&
-            $call_history[0][ilCtrlInterface::PARAM_CMD_CLASS] !== "ilImprintGUI" &&
-            ilImprint::isActive()
-        ) {
-            $link_items[ilLink::_getStaticLink(0, "impr")] = [$lng->txt("imprint"), true];
-        }
-
-        // system support contacts
-        if (($l = ilSystemSupportContactsGUI::getFooterLink()) !== "") {
-            $link_items[$l] = [ilSystemSupportContactsGUI::getFooterText(), false];
-        }
-
-        if (DEVMODE && function_exists("tidy_parse_string")) {
-            // I think $_SERVER in dev mode is ok.
-            $link_items[ilUtil::appendUrlParameterString(
-                $_SERVER["REQUEST_URI"],
-                "do_dev_validate=xhtml"
-            )] = ["Validate", true];
-            $link_items[ilUtil::appendUrlParameterString(
-                $_SERVER["REQUEST_URI"],
-                "do_dev_validate=accessibility"
-            )] = ["Accessibility", true];
-        }
-
-        // output translation link
-        if (ilObjLanguageAccess::_checkTranslate() && !ilObjLanguageAccess::_isPageTranslation()) {
-            $link_items[ilObjLanguageAccess::_getTranslationLink()] = [$lng->txt('translation'), true];
-        }
-
-        $cnt = 0;
-        foreach ($link_items as $url => $caption) {
-            $cnt++;
-            if ($caption[1]) {
-                $ftpl->touchBlock("blank");
-            }
-            if ($cnt < count($link_items)) {
-                $ftpl->touchBlock("item_separator");
-            }
-
-            $ftpl->setCurrentBlock("items");
-            $ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
-            $ftpl->setVariable("TXT_ITEM", $caption[0]);
-            $ftpl->parseCurrentBlock();
-        }
-
-        if (DEVMODE) {
-            // execution time
-            $t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
-            $t2 = explode(" ", microtime());
-            $diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
-
-            $mem_usage = [];
-            if (function_exists("memory_get_usage")) {
-                $mem_usage[] =
-                    "Memory Usage: " . memory_get_usage() . " Bytes";
-            }
-            if (function_exists("xdebug_peak_memory_usage")) {
-                $mem_usage[] =
-                    "XDebug Peak Memory Usage: " . xdebug_peak_memory_usage() . " Bytes";
-            }
-            $mem_usage[] = round($diff, 4) . " Seconds";
-
-            if (count($mem_usage)) {
-                $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
-            }
-
-            // controller history
-            if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
-                $ftpl->blockExists("call_history")) {
-                $hist = $ilCtrl->getCallHistory();
-                foreach ($hist as $entry) {
-                    $ftpl->setCurrentBlock("c_entry");
-                    $ftpl->setVariable("C_ENTRY", $entry["class"]);
-                    if (is_object($ilDB)) {
-                        $file = $ilCtrl->lookupClassPath($entry["class"]);
-                        $add = $entry["mode"] . " - " . $entry["cmd"];
-                        if ($file !== "") {
-                            $add .= " - " . $file;
-                        }
-                        $ftpl->setVariable("C_FILE", $add);
-                    }
-                    $ftpl->parseCurrentBlock();
-                }
-                $ftpl->setCurrentBlock("call_history");
-                $ftpl->parseCurrentBlock();
-            }
-
-            // included files
-            if (is_object($ilCtrl) && $ftpl->blockExists("i_entry") &&
-                $ftpl->blockExists("included_files")) {
-                $fs = get_included_files();
-                $ifiles = [];
-                $total = 0;
-                foreach ($fs as $f) {
-                    $ifiles[] = [
-                        "file" => $f,
-                        "size" => filesize($f),
-                    ];
-                    $total += filesize($f);
-                }
-                $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
-                foreach ($ifiles as $f) {
-                    $ftpl->setCurrentBlock("i_entry");
-                    $ftpl->setVariable(
-                        "I_ENTRY",
-                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)"
-                    );
-                    $ftpl->parseCurrentBlock();
-                }
-                $ftpl->setCurrentBlock("i_entry");
-                $ftpl->setVariable("I_ENTRY", "Total (" . $total . " Bytes, 100%)");
-                $ftpl->parseCurrentBlock();
-                $ftpl->setCurrentBlock("included_files");
-                $ftpl->parseCurrentBlock();
-            }
-        }
-
-        $this->setVariable("FOOTER", $ftpl->get());
-    }
-
     protected function getMainMenu(): void
     {
     }
@@ -519,11 +370,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         Container $DIC
     ): string {
         $this->fillMessage();
-
-        // display ILIAS footer
-        if ($part !== '') {
-            $this->fillFooter();
-        }
 
         // set standard parts (tabs and title icon)
         $this->fillBodyClass();
@@ -1077,10 +923,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     ): string {
         if ($add_error_mess) {
             $this->fillMessage();
-        }
-
-        if ($add_ilias_footer) {
-            $this->fillFooter();
         }
 
         // set standard parts (tabs and title icon)

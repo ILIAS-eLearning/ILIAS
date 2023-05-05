@@ -81,113 +81,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     //***********************************
     //
-    // FOOTER
-    //
-    // Used in:
-    //  * ilStartUPGUI
-    //  * ilTestSubmissionReviewGUI
-    //  * ilTestPlayerAbstractGUI
-    //  * ilAssQuestionHintRequestGUI
-    //
-    //***********************************
-
-    private bool $show_footer = true;
-
-    /**
-     * Make the template hide the footer.
-     */
-    public function hideFooter(): void
-    {
-        $this->show_footer = false;
-    }
-
-    /**
-     * Fill the footer area.
-     */
-    private function fillFooter(): void
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        $lng = $DIC->language();
-
-        $ilCtrl = $DIC->ctrl();
-        $ilDB = $DIC->database();
-
-        if (!$this->show_footer) {
-            return;
-        }
-
-        $ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-
-        $php = "";
-        if (DEVMODE) {
-            $php = ", PHP " . phpversion();
-        }
-        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
-
-        $link_items = array();
-
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-
-        // imprint
-        if ($this->http->wrapper()->query()->has('record_id')) {
-            $baseClass = $this->http->wrapper()->query()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
-        }
-        if ($this->http->wrapper()->post()->has('record_id')) {
-            $baseClass = $this->http->wrapper()->post()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
-        }
-        if ($baseClass != "ilImprintGUI" && ilImprint::isActive()) {
-            $link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
-        }
-
-        // system support contacts
-        if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "") {
-            $link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
-        }
-
-        if (DEVMODE) {
-            if (function_exists("tidy_parse_string")) {
-                $link_items[ilUtil::appendUrlParameterString(
-                    $_SERVER["REQUEST_URI"],
-                    "do_dev_validate=xhtml"
-                )] = array("Validate", true);
-                $link_items[ilUtil::appendUrlParameterString(
-                    $_SERVER["REQUEST_URI"],
-                    "do_dev_validate=accessibility"
-                )] = array("Accessibility", true);
-            }
-        }
-
-        // output translation link
-        if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-        }
-
-        $cnt = 0;
-        foreach ($link_items as $url => $caption) {
-            $cnt++;
-            if ($caption[1]) {
-                $ftpl->touchBlock("blank");
-            }
-            if ($cnt < sizeof($link_items)) {
-                $ftpl->touchBlock("item_separator");
-            }
-
-            $ftpl->setCurrentBlock("items");
-            $ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
-            $ftpl->setVariable("TXT_ITEM", $caption[0]);
-            $ftpl->parseCurrentBlock();
-        }
-
-        $this->setVariable("FOOTER", $ftpl->get());
-    }
-
-
-    //***********************************
-    //
     // MAIN MENU
     //
     //***********************************
@@ -204,6 +97,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     }
 
     private function initHelp(): void
+    {
+    }
+
+    public function hideFooter(): void
     {
     }
 
@@ -1104,10 +1001,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->fillMessage();
         }
 
-        if ($add_ilias_footer) {
-            $this->fillFooter();
-        }
-
         // set standard parts (tabs and title icon)
         if ($add_standard_elements) {
             if ($this->blockExists("content") && $a_tabs) {
@@ -1199,11 +1092,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 header("Content-type: text/html; charset=UTF-8");
 
                 $this->fillMessage();
-
-                // display ILIAS footer
-                if ($part !== false) {
-                    $this->fillFooter();
-                }
 
                 // set standard parts (tabs and title icon)
                 $this->fillBodyClass();
