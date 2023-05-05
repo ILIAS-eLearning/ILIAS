@@ -35,7 +35,7 @@ class ilWebResourceDBUpdateSteps implements ilDatabaseUpdateSteps
     {
         // Add index
         if (!$this->db->indexExistsByFields('webr_items', ['webr_id'])) {
-            $this->db->addIndex('webr_items', array('webr_id'), 'i2');
+            $this->db->addIndex('webr_items', ['webr_id'], 'i3');
         }
     }
 }
