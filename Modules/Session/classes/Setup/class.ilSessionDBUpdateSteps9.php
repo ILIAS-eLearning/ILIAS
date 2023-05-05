@@ -37,4 +37,10 @@ class ilSessionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             $this->db->addIndex('event_appointment', ['event_id'], 'i1');
         }
     }
+
+    public function step_2(): void
+    {
+        // drop unused table
+        $this->db->dropTable('event_file', false);
+    }
 }
