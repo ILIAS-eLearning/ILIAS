@@ -44,21 +44,27 @@ class LightboxTest extends ModalBase
         $this->assertEquals($pages, $lightbox->getPages());
     }
 
-    public function test_simple_image_page_rendering(): void
+    /**
+     * @dataProvider pageProvider
+     */
+    public function test_simple_page_rendering(string $method, array $args, string $expected_html): void
     {
-        $image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
-        $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxImagePage($image, 'title'));
-        $expected = $this->normalizeHTML($this->getExpectedImagePageHTML());
+        $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->$method(...$args));
+        $expected = $this->normalizeHTML($expected_html);
         $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_simple_text_page_rendering(): void
+    public function pageProvider(): array
     {
-        $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->lightboxTextPage('HelloWorld', 'title'));
-        $expected = $this->normalizeHTML($this->getExpectedTextPageHTML());
-        $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
-        $this->assertEquals($expected, $actual);
+        $image = new I\Component\Image\Image("responsive", 'src/fake/image.jpg', 'description');
+        $card = new I\Component\Card\Card('foo');
+
+        return [
+            'Render image page' => ['lightboxImagePage', [$image, 'title'], $this->getExpectedImagePageHTML()],
+            'Render text page' => ['lightboxTextPage', ['HelloWorld', 'title'], $this->getExpectedTextPageHTML()],
+            'Render card page' => ['lightboxCardPage', [$card], $this->getExpectedCardPageHTML()],
+        ];
     }
 
     public function test_different_page_type_rendering(): void
@@ -99,7 +105,7 @@ class LightboxTest extends ModalBase
 					<div class="carousel-inner" role="listbox">
 						
 						<div class="item active text-only" data-title="title">
-							<div class="item-content">
+							<div class="item-content ">
 							HelloWorld
 							</div>
 							
@@ -164,7 +170,7 @@ EOT;
 					<div class="carousel-inner" role="listbox">
 						
 						<div class="item active" data-title="title">
-							<div class="item-content">
+							<div class="item-content ">
 							
 
 
@@ -248,14 +254,14 @@ EOT;
 					<div class="carousel-inner" role="listbox">
 						
 						<div class="item active text-only" data-title="title">
-							<div class="item-content">
+							<div class="item-content ">
 							HelloWorld
 							</div>
 							
 						</div>
 						
-						<div class="item" data-title="title">
-							<div class="item-content">
+						<div class="item " data-title="title">
+							<div class="item-content ">
 							
 
 
@@ -318,6 +324,62 @@ EOT;
 			$('#id_1').find('.modal-title').text(title);
 		});
 	}, 0);
+</script>
+EOT;
+    }
+
+    private function getExpectedCardPageHTML(): string
+    {
+        return <<<EOT
+<div class="modal fade il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content il-modal-lightbox-page">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="close">
+					<span aria-hidden="true"></span>
+				</button>
+				<span class="modal-title">
+					foo
+				</span>
+			</div>
+			<div class="modal-body">
+				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+					<div class="carousel-inner" role="listbox">
+						<div class="item active" data-title="foo">
+							<div class="item-content item-vertical"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+window.setTimeout(function() {
+	$('#id_1').on('shown.bs.modal', function() {
+		$('.modal-backdrop.in').css('opacity', '0.9');
+	});
+	$('#id_1').on('show.bs.modal', function (e) {
+		var elm = $(this).find('.carousel-inner .item.active').first();
+		if (elm.hasClass('text-only')) {
+			elm.closest('.carousel').addClass('text-only');
+		} else {
+			elm.closest('.carousel').removeClass('text-only');
+		}
+	});
+	$('#id_1_carousel').on('slide.bs.carousel', function(e) {
+		var elm = $(e.relatedTarget);
+		if (elm.hasClass('text-only')) {
+			elm.closest('.carousel').addClass('text-only');
+		} else {
+			elm.closest('.carousel').removeClass('text-only');
+		}
+	});
+	$('#id_1_carousel').on('slid.bs.carousel', function() {
+		var title = $(this).find('.carousel-inner .item.active').attr('data-title');
+		$('#id_1').find('.modal-title').text(title);
+	});
+}, 0);
 </script>
 EOT;
     }

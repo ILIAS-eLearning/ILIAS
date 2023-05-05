@@ -18,10 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component\Modal\LightboxCardPage as CardPage;
 use ILIAS\UI\Component\Card\Card;
+use ILIAS\UI\Component\Component;
 
-interface LightboxCardPage extends LightboxPage
+class LightboxCardPage implements CardPage
 {
+    public function __construct(private readonly Card $card)
+    {
+    }
+
+    public function getTitle(): string
+    {
+        return $this->card->getTitle();
+    }
+
+    public function getComponent(): Component
+    {
+        return $this->card;
+    }
 }
