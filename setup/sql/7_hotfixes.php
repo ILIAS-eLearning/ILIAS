@@ -1679,3 +1679,8 @@ if (!$ilDB->indexExistsByFields('style_usage', array('style_id'))) {
     $ilDB->addIndex('style_usage', array('style_id'), 'i1');
 }
 ?>
+<#97>
+<?php
+$ilDB->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]);
+?>
+
