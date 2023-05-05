@@ -267,7 +267,7 @@ see also: [Browser compatibility of HTTP headers](https://developer.mozilla.org/
 
 The proposed CSP is to be understood as a starting point. ILIAS is a generic software to support many different LMS scenarios and thus can't
 provide a suggestion which fits all circumstances and guarantees the best security.
-Depending on your (especially external) user content (liked embedded media, SCORM packages, etc.) you should try to
+Depending on the content your users can provide (embedded media, SCORM packages, etc.) you should try to
 initially define a CSP which is as strict as possible.
 
 You could use the [Reporting Feature](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#enabling_reporting) to
