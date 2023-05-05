@@ -2566,6 +2566,8 @@ book#:#book_reminder_day#:#Pred rezervacijo
 book#:#book_reminder_day_info#:#Uporabnikom s pravicami za pisanje pošlje seznam lastnih rezervacij na čakanju in dodatno skupen seznam. 
 book#:#book_reminder_days#:#Dan/dnevi
 book#:#book_reminder_setting#:#Opomnik
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s je na voljo
 book#:#book_reservation_confirmed#:#Rezervacija je bila uspešno izvedena.
 book#:#book_reservation_failed#:#Rezervacija ni bila uspešna.
@@ -5583,6 +5585,7 @@ common#:#short_inst_name#:#Kratek naslov
 common#:#short_inst_name_info#:#To besedilo se bo pojavilo skupaj z naslovom strani kot naslov zavihka v brskalniku. Če tukaj ne vnesete ničesar, bo prikazano 'ILIAS'.
 common#:#show#:#Prikaži
 common#:#show_all_details#:#Prikaži vse podrobnosti
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Prikaži podrobnosti
 common#:#show_filter#:#Prikaži filter
 common#:#show_hidden_sections#:#Prikaži nadaljnje informacije &raquo;
@@ -6477,6 +6480,8 @@ content#:#cont_grid_width_s#:#Majhen (small)
 content#:#cont_grid_width_s_info#:#npr. pametni telefon
 content#:#cont_grid_width_xl#:#Zelo velik (extra large)
 content#:#cont_grid_width_xl_info#:#npr. široko namizje
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Glava
 content#:#cont_height#:#Višina v pikslih
 content#:#cont_help_no_valid_tooltip_id#:#Vnesen ID opisa orodja ni veljaven.
@@ -10551,6 +10556,7 @@ lti#:#lti_object_consumer#:#Potrošniki LTI
 lti#:#lti_object_release_settings_form#:#Uredi odobritve LTI
 lti#:#lti_provider#:#Odobritve LTI
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Odobritve objektov
 lti#:#lti_select_provider#:#Select Provider

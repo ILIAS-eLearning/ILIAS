@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#Definições de apresentação
 book#:#book_reminder_day_info#:#Software de terceiros
 book#:#book_reminder_days#:#Personalizar página
 book#:#book_reminder_setting#:#Caminho absoluto
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponível
 book#:#book_reservation_confirmed#:#A sua reserva foi confirmada.
 book#:#book_reservation_failed#:#A sua reserva falhou.
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#Título curto
 common#:#short_inst_name_info#:#Note que as páginas têm de preceder todos os subcapítulos do mesmo nível.
 common#:#show#:#Capítulos e páginas
 common#:#show_all_details#:#Mostrar todos os detalhes
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Capítulo marcado para mover. Selecione destino agora.
 common#:#show_filter#:#Classe de estilo
 common#:#show_hidden_sections#:#Mostrar mais informação &raquo;
@@ -6463,6 +6466,8 @@ content#:#cont_grid_width_s#:#Pequeno
 content#:#cont_grid_width_s_info#:#P. ex. smartphone
 content#:#cont_grid_width_xl#:#Extra grande
 content#:#cont_grid_width_xl_info#:#P. ex. wide desktop
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Cabeçalho
 content#:#cont_height#:#Cron job reativado por administrador
 content#:#cont_help_no_valid_tooltip_id#:#O ID da dica de contexto que inseriu não era válido.
@@ -10537,6 +10542,7 @@ lti#:#lti_object_consumer#:#Consumidores LTI
 lti#:#lti_object_release_settings_form#:#Simulação
 lti#:#lti_provider#:#Tamanho
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Nível de competência
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable

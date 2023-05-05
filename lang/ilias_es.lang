@@ -2554,6 +2554,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Su reserva ha sido solicitada
 book#:#book_reservation_failed#:#Su reserva no ha sido posible
@@ -5571,6 +5573,7 @@ common#:#short_inst_name#:#Título corto
 common#:#short_inst_name_info#:#Este título aparecerá en la barra de título del navegador. Si no existe, se usará la cadena 'ILIAS'
 common#:#show#:#Mostrar
 common#:#show_all_details#:#Mostrar todos los detalles
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#mostrar detalles
 common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar información adicional&raquo;
@@ -6465,6 +6468,8 @@ content#:#cont_grid_width_s#:#Pequeña
 content#:#cont_grid_width_s_info#:#P. ej., smartphone
 content#:#cont_grid_width_xl#:#Extra grande
 content#:#cont_grid_width_xl_info#:#P. ej., escritorio ancho
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Cabecera
 content#:#cont_height#:#Altura
 content#:#cont_help_no_valid_tooltip_id#:#El ID de sugerencia introducido no es válido
@@ -10539,6 +10544,7 @@ lti#:#lti_object_consumer#:#Consumidores de LTI
 lti#:#lti_object_release_settings_form#:#editar recursos compartidos de LTI
 lti#:#lti_provider#:#Recursos compartidos de LTI
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objetos compartidos
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable

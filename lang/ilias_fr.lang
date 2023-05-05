@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Votre réservation a été confirmée.
 book#:#book_reservation_failed#:#Votre réservation a échoué.
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#Titre Court
 common#:#short_inst_name_info#:#Ce titre apparaît dans la barre de titre du navigateur. Si aucune valeur n'est entrée, 'ILIAS' sera utilisé.
 common#:#show#:#Afficher
 common#:#show_all_details#:#Montrer les détails
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Afficher Détails
 common#:#show_filter#:#Afficher le Filtre
 common#:#show_hidden_sections#:#Afficher plus d'informations &raquo;
@@ -6463,6 +6466,8 @@ content#:#cont_grid_width_s#:#Petite
 content#:#cont_grid_width_s_info#:#Par ex. smartphone
 content#:#cont_grid_width_xl#:#Extra large
 content#:#cont_grid_width_xl_info#:#Par ex. ordinateur large
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Entête
 content#:#cont_height#:#Hauteur
 content#:#cont_help_no_valid_tooltip_id#:#L'ID d'info-bulle que vous avez saisi n'était pas valide.
@@ -10537,6 +10542,7 @@ lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable

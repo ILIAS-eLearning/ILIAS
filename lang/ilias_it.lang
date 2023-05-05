@@ -2566,6 +2566,8 @@ book#:#book_reminder_day#:#Prima della prenotazione
 book#:#book_reminder_day_info#:#Invia l'elenco delle proprie prenotazioni agli utenti e l'elenco completo delle prenotazioni agli amministratori.
 book#:#book_reminder_days#:#Giorno(i)
 book#:#book_reminder_setting#:#Promemoria
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponibile
 book#:#book_reservation_confirmed#:#La tua prenotazione è stata confermata.
 book#:#book_reservation_failed#:#La tua prenotazione è fallita.
@@ -5583,6 +5585,7 @@ common#:#short_inst_name#:#Titolo breve
 common#:#short_inst_name_info#:#Questo titolo verrà visualizzato nella barra del titolo dell'intestazione del browser. Se non viene inserito alcun valore, viene utilizzato "ILIAS".
 common#:#show#:#Mostra
 common#:#show_all_details#:#Mostra tutti i dettagli
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Mostra dettagli
 common#:#show_filter#:#Mostra filtro
 common#:#show_hidden_sections#:#Mostra maggiori informazioni &raquo;
@@ -6477,6 +6480,8 @@ content#:#cont_grid_width_s#:#Piccolo
 content#:#cont_grid_width_s_info#:#p.es. smartphone
 content#:#cont_grid_width_xl#:#Molto grande (Extra Large)
 content#:#cont_grid_width_xl_info#:#p.es. desktop ampio
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Intestazione
 content#:#cont_height#:#Altezza
 content#:#cont_help_no_valid_tooltip_id#:#L’ID descrizione comando immesso non è valido.
@@ -10551,6 +10556,7 @@ lti#:#lti_object_consumer#:#Consumatori LTI
 lti#:#lti_object_release_settings_form#:#Modifica versioni LTI
 lti#:#lti_provider#:#Versioni LTI
 lti#:#lti_provider_not_avail_msg#:#Il fornitore è impostato come 'Non disponibile'
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS come fornitore LTI
 lti#:#lti_released_objects#:#Versioni degli Oggetti
 lti#:#lti_select_provider#:#Seleziona un fornitore

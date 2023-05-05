@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#予約前
 book#:#book_reminder_day_info#:#自己予約リストをユーザと予約のフルリスト管理者へ送る
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#注意喚起
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s利用可能
 book#:#book_reservation_confirmed#:#予約が確認されました。
 book#:#book_reservation_failed#:#予約できませんでした。
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#ショートタイトル
 common#:#short_inst_name_info#:#このタイトルはブラウザヘッダータイトルバーに表示されます。 値がない場合は 'ILIAS'を使用します。
 common#:#show#:#表示
 common#:#show_all_details#:#全詳細を表示
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_sections#:#詳細を表示  &raquo;
@@ -6463,6 +6466,8 @@ content#:#cont_grid_width_s#:#Small
 content#:#cont_grid_width_s_info#:#例 スマートフォン
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#例 ワイドデスクトップ
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#ヘッダー
 content#:#cont_height#:#高さ
 content#:#cont_help_no_valid_tooltip_id#:#入力されたtooltip IDは無効です。
@@ -10537,6 +10542,7 @@ lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#LTI Shareを編集
 lti#:#lti_provider#:#LTI-Share
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
 lti#:#lti_released_objects#:#Object-Share
 lti#:#lti_select_provider#:#プロバイダーを選択
