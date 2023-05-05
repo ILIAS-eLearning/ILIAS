@@ -1698,3 +1698,9 @@ if (!$ilDB->indexExistsByFields('cal_entries', array('enda'))) {
     $ilDB->addIndex('cal_entries', array('enda'), 'i4');
 }
 ?>
+<#100>
+<?php
+if (!$ilDB->indexExistsByFields('event_appointment', array('event_id'))) {
+    $ilDB->addIndex('event_appointment', array('event_id'), 'i1');
+}
+?>
