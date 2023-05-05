@@ -219,7 +219,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
+                        <button class="btn btn-default" data-dismiss="modal">cancel</button>
                         <button class="btn btn-default" id="id_4">save</button>
                     </div>
                 </div>

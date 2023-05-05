@@ -47,7 +47,7 @@ class WrapperTest extends FileTestBase
                             <div class=\"modal-body\">
                             </div>
                             <div class=\"modal-footer\">
-                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-label=\"close\">cancel</button>
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\">cancel</button>
                             </div>
                         </div>
                     </div>

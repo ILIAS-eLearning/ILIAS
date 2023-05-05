@@ -1412,8 +1412,6 @@ assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
-assessment#:#tst_exp_sc_short#:#Item-Statistik-Export für reinen Single Choice-Test
-assessment#:#tst_exp_sc_short_desc#:#Im Reiter „Statistik“ kann eine Export-Option „MS Excel“ ausgewählt werden. Das erzeugte Datenblatt kann außerhalb von ILIAS für eine Item-Statistik ausgewertet werden. Diese Option funktioniert nur für reine Single Choice-Tests.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_info#:#Falls die Bearbeitungszeit eines Testteilnehmers mehrmals verlängert wird, geben Sie hier bitte die Summe aller seiner Zeitverlängerungen an.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -16097,7 +16095,7 @@ survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_import_codes#:#Schlüssel importieren
 survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
-survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feebdack-Geber.
+survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feedback-Geber.
 survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
 survey#:#svy_mail_confirmation_subject#:#Umfrage "%s" - Ihre Teilnahmebestätigung
 survey#:#svy_mail_context_rater_invitation_info#:#Feedback-Geber zur Teilnahme in einer Umfrage einladen.

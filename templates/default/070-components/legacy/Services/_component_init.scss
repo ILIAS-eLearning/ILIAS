@@ -24,8 +24,17 @@ div.ilStartupFrame {
 	margin-left: auto;
 	margin-right: auto;
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		padding-top: 15px;
-	}
+      padding-top: 15px;
+
+      width: auto;
+
+      .control-label {
+        width: 100%;
+        & + div {
+          width: 100%;
+        }
+      }
+    }
 }
 
 

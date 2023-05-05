@@ -97,7 +97,7 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
                 ->withPrintBestSolutionWithResult((bool) $row['print_bs_with_res'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings'])
-                ->withTaxonomyFilterIds(unserialize($row['result_tax_filters'])),
+                ->withTaxonomyFilterIds(unserialize((string)$row['result_tax_filters'])),
             (new ilObjTestSettingsGamification($test_id))
                 ->withHighscoreEnabled((bool) $row['highscore_enabled'])
                 ->withHighscoreAnon((bool) $row['highscore_anon'])

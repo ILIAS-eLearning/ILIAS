@@ -232,7 +232,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      */
     protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void
     {
-        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
+        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId, '', true)) {
             $pageObject = new ilAssHintPage();
             $pageObject->setParentId($this->questionOBJ->getId());
             $pageObject->setId($pageObjectId);

@@ -128,7 +128,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('FORM_ACTION', $value);
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
-        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
 
         $standard_items = $this->renderInterruptiveItemsByClass(
             Component\Modal\InterruptiveItem\Standard::class,
@@ -152,6 +151,8 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('ACTION_BUTTON_LABEL', $modal->getActionButtonLabel() ?? $this->txt('delete'));
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
+        $tpl->setVariable('CLOSE_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
+
         return $tpl->get();
     }
 

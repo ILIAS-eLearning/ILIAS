@@ -24,20 +24,15 @@ use ILIAS\Setup\Config;
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
  */
-class ilWebResourceSetupAgent extends Setup\Agent\NullAgent
+class ilCalendarSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            'WebLinks',
-            false,
-            new ilDatabaseUpdateStepsExecutedObjective(new ilWebResourceDBUpdateSteps()),
-            new ilDatabaseUpdateStepsExecutedObjective(new ilWebResourceDropValidSteps())
-        );
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilCalendarDBUpdateSteps9());
     }
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilWebResourceDropValidSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCalendarDBUpdateSteps9());
     }
 }

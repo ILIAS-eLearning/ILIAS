@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -9571,22 +9572,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->exportsettings = $a_settings;
         } else {
             $this->exportsettings = 0;
-        }
-    }
-
-    public function getExportSettingsSingleChoiceShort(): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getExportSettingsSingleChoiceShort();
-    }
-
-    public function setExportSettingsSingleChoiceShort($a_settings)
-    {
-        if ($a_settings) {
-            $this->exportsettings = $this->exportsettings | 1;
-        } else {
-            if ($this->getExportSettingsSingleChoiceShort()) {
-                $this->exportsettings = $this->exportsettings ^ 1;
-            }
         }
     }
 

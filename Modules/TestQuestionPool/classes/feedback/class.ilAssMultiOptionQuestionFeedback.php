@@ -287,14 +287,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
             [$questionId, $questionIndex, $answerIndex]
         );
 
-        $feedbackId = -1;
-
-        if ($this->db->numRows($res) > 0) {
-            $row = $this->db->fetchAssoc($res);
-            $feedbackId = (int) $row['feedback_id'];
-        }
-
-        return $feedbackId;
+        $row = $this->db->fetchAssoc($res);
+        return $row['feedback_id'] ?? -1;
     }
 
     protected function isSpecificAnswerFeedbackId(int $feedbackId): bool
