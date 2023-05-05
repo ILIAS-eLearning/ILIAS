@@ -959,7 +959,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $duration->setShowHours(true);
         $duration->setShowMinutes(true);
 
-        $pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
+        $pw_time_array = ["00", "000", "00", "00", "00"];
+        if($this->testOBJ->getPassWaiting() !== '') {
+            $pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
+        }
+
         $duration->setMonths((int) $pw_time_array[0]);
         $duration->setDays((int) $pw_time_array[1]);
         $duration->setHours((int) $pw_time_array[2]);
