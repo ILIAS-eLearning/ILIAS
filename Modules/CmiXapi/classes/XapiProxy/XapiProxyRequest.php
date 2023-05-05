@@ -160,8 +160,10 @@
 
         private function handleActivitiesRequest($request)
         {
-            $this->xapiproxy->log()->debug($this->msg("blocked handleActivitiesRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
-            $this->xapiProxyResponse->exitBadRequest();
+//            $this->xapiproxy->log()->debug($this->msg("blocked handleActivitiesRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+//            $this->xapiProxyResponse->exitBadRequest();
+            $this->xapiproxy->log()->debug($this->msg("handleActivitiesRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+            $this->handleProxy($request);
         }
 
         private function handleActivitiesProfileRequest($request)
