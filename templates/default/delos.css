@@ -17079,6 +17079,13 @@ body.ilBodyPrint {
 @media only screen and (max-width: 768px) {
   .ilStartupSection {
     padding-top: 15px;
+    width: auto;
+  }
+  .ilStartupSection .control-label {
+    width: 100%;
+  }
+  .ilStartupSection .control-label + div {
+    width: 100%;
   }
 }
 ul.ilStartupSectionRegistrationLinks {
