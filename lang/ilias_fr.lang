@@ -402,9 +402,9 @@ adve#:#adve_grp_test#:#Test & évaluation
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_minutes#:#Inactivité (minutes)
 adve#:#adve_minutes_info#:#Temps d'inactivité avant que le verrouillage de page n'expire et qu'un autre utilisateur puisse l'éditer.
-adve#:#adve_page_editor_settings#:#éditeur ILIAS
+adve#:#adve_page_editor_settings#:#Éditeur ILIAS
 adve#:#adve_pe_general#:#Paramètres Généraux
-adve#:#adve_rte_settings#:#éditeur TinyMCE
+adve#:#adve_rte_settings#:#Éditeur TinyMCE
 adve#:#adve_text_content_features#:#Options de l'éditeur de Texte
 adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
@@ -670,9 +670,9 @@ assessment#:#ects_grade_e_desc#:#La performance répond aux critères minimum
 assessment#:#ects_grade_f_desc#:#travail supplémentaire considérable est nécessaire
 assessment#:#ects_grade_fx_desc#:#plus de travail requis avant de pouvoir attribuer le crédit
 assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
-assessment#:#edit_answer#:#éditer la Réponse
-assessment#:#edit_page#:#éditer la Page
-assessment#:#edit_question#:#éditer la Question
+assessment#:#edit_answer#:#Éditer la Réponse
+assessment#:#edit_page#:#Éditer la Page
+assessment#:#edit_question#:#Éditer la Question
 assessment#:#edit_test_questions#:#Vue par Liste
 assessment#:#element_height#:#Hauteur minimale
 assessment#:#element_height_info#:#Hauteur minimale en pixels pour les termes et définitions/images à  l'affichage de la question.
