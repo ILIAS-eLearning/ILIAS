@@ -1689,3 +1689,12 @@ if (!$ilDB->indexExistsByFields('webr_items', array('webr_id'))) {
     $ilDB->addIndex('webr_items', array('webr_id'), 'i3');
 }
 ?>
+<#99>
+<?php
+if (!$ilDB->indexExistsByFields('cal_entries', array('starta'))) {
+    $ilDB->addIndex('cal_entries', array('starta'), 'i3');
+}
+if (!$ilDB->indexExistsByFields('cal_entries', array('enda'))) {
+    $ilDB->addIndex('cal_entries', array('enda'), 'i4');
+}
+?>
