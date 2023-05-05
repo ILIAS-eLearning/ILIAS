@@ -18,6 +18,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
+
 /**
  * Class ilObjLTIConsumer
  *
@@ -665,7 +669,7 @@ class ilObjLTIConsumer extends ilObject2
 
         $usrImage = '';
         if ($this->getProvider()->getIncludeUserPicture()) {
-            $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usrImage = self::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
 
         $documentTarget = "window";
@@ -709,7 +713,7 @@ class ilObjLTIConsumer extends ilObject2
         $merged_params = array_merge($provider_custom_params, $custom_params);
 
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
+        $parseIliasUrl = parse_url(self::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
             $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
         }
@@ -745,7 +749,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -783,7 +787,7 @@ class ilObjLTIConsumer extends ilObject2
 
         $usrImage = '';
         if ($this->getProvider()->getIncludeUserPicture()) {
-            $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usrImage = self::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
 
         $documentTarget = "window";
@@ -819,7 +823,7 @@ class ilObjLTIConsumer extends ilObject2
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
 
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
+        $parseIliasUrl = parse_url(self::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
             $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
         }
@@ -837,7 +841,7 @@ class ilObjLTIConsumer extends ilObject2
             "lis_person_name_family" => $nameFamily,
             "lis_person_name_full" => $nameFull,
             "lis_person_contact_email_primary" => $emailPrimary,
-            "context_id" => (string) $contextId,
+            "context_id" => $contextId,
             "context_type" => $contextType,
             "context_title" => $contextTitle,
             "context_label" => $contextType . " " . $contextId,
@@ -855,7 +859,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => "",//$token,
-            "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -864,6 +868,18 @@ class ilObjLTIConsumer extends ilObject2
         $merged_params = array_merge($provider_custom_params, $custom_params);
         foreach ($merged_params as $key => $value) {
             $launch_vars['custom_' . $key] = $value;
+        }
+
+        if ($this->getProvider()->isGradeSynchronization()) {
+            include_once("Modules/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
+            $gradeservice = new ilLTIConsumerGradeService();
+            $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+
+            // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
+            // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
+            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+
+            $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
         }
 
         if (!empty(self::verifyPrivateKey())) {
@@ -894,7 +910,7 @@ class ilObjLTIConsumer extends ilObject2
         $roles = "Instructor";
         $usrImage = '';
         if ($provider->getIncludeUserPicture()) {
-            $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
+            $usrImage = self::getIliasHttpPath() . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
         $documentTarget = "window";
         if ($provider->getLaunchMethod() == self::LAUNCH_METHOD_EMBEDDED) {
@@ -924,7 +940,7 @@ class ilObjLTIConsumer extends ilObject2
         $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
         $emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
-        $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
+        $parseIliasUrl = parse_url(self::getIliasHttpPath());
         if (array_key_exists("path", $parseIliasUrl)) {
             $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
         }
@@ -1009,7 +1025,7 @@ class ilObjLTIConsumer extends ilObject2
             'iat' => $now,
             'exp' => $now + 60,
         );
-        $payLoad['iss'] = ILIAS_HTTP_PATH; // TODO!!
+        $payLoad['iss'] = self::getIliasHttpPath();
         $payLoad['aud'] = $oAuthConsumerKey;
         $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/deployment_id'] = strval($typeId);
         if (!empty($endpoint)) {  // only for launch request
@@ -1045,6 +1061,7 @@ class ilObjLTIConsumer extends ilObject2
                 $payLoad["{$claim}/claim/ext"][substr($key, 4)] = $value;
             }
         }
+        //self::getLogger()->debug(json_encode($payLoad,JSON_PRETTY_PRINT));
         if (!empty(self::verifyPrivateKey())) {
             throw new DomainException(self::ERROR_OPEN_SSL_CONF);
         }
@@ -1200,6 +1217,9 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function getOpenidConfig(): array
     {
+        $scopesSupported = array('openid');
+        $gradeservice = new ilLTIConsumerGradeService();
+        $scopesSupported = array_merge($scopesSupported, $gradeservice->getPermittedScopes());
         return [
             "issuer" => self::getPlattformId(),
             "authorization_endpoint" => self::getAuthenticationRequestUrl(),
@@ -1208,7 +1228,7 @@ class ilObjLTIConsumer extends ilObject2
             "token_endpoint_auth_signing_alg_values_supported" => ["RS256"],
             "jwks_uri" => self::getPublicKeysetUrl(),
             "registration_endpoint" => self::getRegistrationUrl(),
-            "scopes_supported" => ["openid"],
+            "scopes_supported" => $scopesSupported,
             "response_types_supported" => ["id_token"],
             "subject_types_supported" => ["public", "pairwise"],
             "id_token_signing_alg_values_supported" => ["RS256"],
@@ -1274,14 +1294,17 @@ class ilObjLTIConsumer extends ilObject2
         return ILIAS\LTI\ToolProvider\Util::getRandomString(15);
     }
 
-    public static function sendResponseError(int $code, string $message): void
+    public static function sendResponseError(int $code, string $message, $log = true): void
     {
         global $DIC;
         try {
+            if ($log) {
+                self::getLogger()->error("$code $message");
+            }
             $DIC->http()->saveResponse(
                 $DIC->http()->response()
                     ->withStatus($code)
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString($message))
+                    ->withBody(Streams::ofString($message))
             );
             $DIC->http()->sendResponse();
             $DIC->http()->close();
@@ -1294,6 +1317,8 @@ class ilObjLTIConsumer extends ilObject2
     {
         try {
             header('Content-Type: application/json; charset=utf-8');
+            header('Cache-Control: no-store');
+            header('Pragma: no-cache');
             echo json_encode($obj, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             self::sendResponseError(500, "error in sendResponseJson");
@@ -1309,5 +1334,40 @@ class ilObjLTIConsumer extends ilObject2
     public function isMixedContentType(): bool
     {
         return true;
+    }
+
+    public static function getRawData(): ?string
+    {
+        return file_get_contents('php://input');
+    }
+
+    public static function getTokenObject(string $token): ?object
+    {
+        try {
+            $keys = JWK::parseKeySet(self::getJwks());
+            return JWT::decode($token, $keys);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public static function verifyToken(): ?object
+    {
+        global $DIC;
+        $auth = $DIC->http()->request()->getHeader("Authorization");
+        if (count($auth) < 1) {
+            self::sendResponseError(405, "missing Authorization header");
+        }
+        preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
+        if (count($matches) != 2) {
+            self::sendResponseError(405, "missing required Authorization Baerer token");
+        }
+        $token = $matches[1];
+        return self::getTokenObject($token);
+    }
+
+    public static function getLogger(): ilLogger
+    {
+        return ilLoggerFactory::getLogger('lti');
     }
 }
