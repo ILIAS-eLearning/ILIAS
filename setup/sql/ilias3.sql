@@ -1641,7 +1641,9 @@ CREATE TABLE `cal_entries` (
   `context_info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cal_id`),
   KEY `i1_idx` (`last_update`),
-  KEY `i2_idx` (`context_id`)
+  KEY `i2_idx` (`context_id`),
+  KEY `i3_idx` (`starta`),
+  KEY `i4_idx` (`enda`)
 ) ;
 
 --
@@ -19933,7 +19935,7 @@ INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
 INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','95');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','99');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5751');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
@@ -21042,7 +21044,8 @@ CREATE TABLE `style_template_seq` (
 CREATE TABLE `style_usage` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `style_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`obj_id`)
+  PRIMARY KEY (`obj_id`),
+  KEY `i1_idx` (`style_id`)
 ) ;
 
 --
@@ -24431,7 +24434,8 @@ CREATE TABLE `webr_items` (
   `valid` tinyint(4) NOT NULL DEFAULT 0,
   `internal` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`link_id`),
-  KEY `i1_idx` (`link_id`,`webr_id`)
+  KEY `i1_idx` (`link_id`,`webr_id`),
+  KEY `i3_idx` (`webr_id`)
 ) ;
 
 --
@@ -25026,4 +25030,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-04-05 17:39:51
+-- Dump completed on 2023-05-05 15:41:13

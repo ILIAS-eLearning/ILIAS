@@ -3493,6 +3493,12 @@ $ilDB->addIndex("cal_entries", $in_fields, "i1", false);
 $in_fields = array("context_id");
 $ilDB->addIndex("cal_entries", $in_fields, "i2", false);
 
+$in_fields = array("starta");
+$ilDB->addIndex("cal_entries", $in_fields, "i3", false);
+
+$in_fields = array("enda");
+$ilDB->addIndex("cal_entries", $in_fields, "i4", false);
+
 $ilDB->createSequence("cal_entries", 1);
 
 
@@ -47334,7 +47340,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '95')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '99')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
@@ -50098,6 +50104,9 @@ $ilDB->createTable("style_usage", $fields);
 
 $pk_fields = array("obj_id");
 $ilDB->addPrimaryKey("style_usage", $pk_fields);
+
+$in_fields = array("style_id");
+$ilDB->addIndex("style_usage", $in_fields, "i1", false);
 
 
 //
@@ -58186,6 +58195,9 @@ $ilDB->addPrimaryKey("webr_items", $pk_fields);
 
 $in_fields = array("link_id","webr_id");
 $ilDB->addIndex("webr_items", $in_fields, "i1", false);
+
+$in_fields = array("webr_id");
+$ilDB->addIndex("webr_items", $in_fields, "i3", false);
 
 $ilDB->createSequence("webr_items", 1);
 
