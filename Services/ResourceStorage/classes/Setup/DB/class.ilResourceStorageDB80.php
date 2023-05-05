@@ -335,4 +335,13 @@ SET il_resource_info.version_number = il_resource_revision.version_number
             ['length' => 4]
         );
     }
+
+    public function step_12(): void
+    {
+        $this->db->renameTableColumn(
+            'il_resource_rc',
+            'owner',
+            'owner_id',
+        );
+    }
 }
