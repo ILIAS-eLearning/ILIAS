@@ -537,7 +537,7 @@ class ilContainer extends ilObject
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $style_id = $this->getStyleSheetId();
         if ($style_id > 0) {
-            if (!!ilObjStyleSheet::_lookupStandard($style_id)) {
+            if (!ilObjStyleSheet::_lookupStandard($style_id)) {
                 $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
                 $new_id = $style_obj->ilClone();
                 $new_obj->setStyleSheetId($new_id);
