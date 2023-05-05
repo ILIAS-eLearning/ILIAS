@@ -252,4 +252,247 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testAddTriggerMarker(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker(
+        );
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="0" MarkerY="0" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testGetTriggerNodes(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+        $pc->addTriggerMarker();
+        $page->stripPCIDs();
+        $nodes = $pc->getTriggerNodes("1", "");
+        $this->assertEquals(
+            "Trigger",
+            $nodes[0]->myDOMNode->nodeName
+        );
+    }
+
+    public function testGetTriggers(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+        $pc->addTriggerMarker();
+        $triggers = $pc->getTriggers();
+        $this->assertEquals(
+            "Marker",
+            $triggers[0]["Type"]
+        );
+    }
+
+    public function testDeleteTrigger(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerArea(
+            $pc->getStandardAliasItem(),
+            IL_AREA_RECT,
+            "20,20,200,200",
+            "Area Title"
+        );
+        $ma = $pc->getStandardAliasItem();
+        $pc->deleteTrigger($ma, "1");
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetOverlays(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerArea(
+            $pc->getStandardAliasItem(),
+            IL_AREA_RECT,
+            "20,20,200,200",
+            "Area Title"
+        );
+        $pc->setTriggerOverlays([
+            "1" => "image1.jpg"
+        ]);
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/><MapArea Shape="Rect" Coords="20,20,200,200" Id="1"><ExtLink Href="#">Area Title</ExtLink></MapArea></MediaAliasItem><Trigger Type="Area" Title="Area Title" Nr="1" OverlayX="0" OverlayY="0" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200" Overlay="image1.jpg"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerOverlayPositions(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerArea(
+            $pc->getStandardAliasItem(),
+            IL_AREA_RECT,
+            "20,20,200,200",
+            "Area Title"
+        );
+        $pc->setTriggerOverlayPositions([
+            "1" => "10,20"
+        ]);
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/><MapArea Shape="Rect" Coords="20,20,200,200" Id="1"><ExtLink Href="#">Area Title</ExtLink></MapArea></MediaAliasItem><Trigger Type="Area" Title="Area Title" Nr="1" OverlayX="10" OverlayY="20" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerMarkerPositions(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker();
+        $pc->setTriggerMarkerPositions(
+            ["1" => "50,100"]
+        );
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="50" MarkerY="100" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerPopupPositions(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker();
+        $pc->setTriggerPopupPositions(
+            ["1" => "40,30"]
+        );
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="0" MarkerY="0" PopupX="40" PopupY="30" PopupWidth="150" PopupHeight="200"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerPopupSize(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker();
+        $pc->setTriggerPopupSize(
+            ["1" => "220,330"]
+        );
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="0" MarkerY="0" PopupX="0" PopupY="0" PopupWidth="220" PopupHeight="330"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerPopups(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker();
+        $pc->setTriggerPopups(
+            ["1" => "1"]
+        );
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="0" MarkerY="0" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200" PopupNr="1"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSetTriggerTitles(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = $this->getInteractiveImageInPage($page);
+
+        $pc->addTriggerMarker();
+        $pc->setTriggerTitles(
+            ["1" => "My Title"]
+        );
+
+        $page->stripHierIDs();
+        $page->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><InteractiveImage><MediaAlias OriginId="il__mob_0"/><MediaAliasItem Purpose="Standard"><Layout HorizontalAlign="Left"/></MediaAliasItem><Trigger Type="Marker" Nr="1" OverlayX="0" OverlayY="0" MarkerX="0" MarkerY="0" PopupX="0" PopupY="0" PopupWidth="150" PopupHeight="200" Title="My Title"/></InteractiveImage></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }
