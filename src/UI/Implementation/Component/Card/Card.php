@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\NotImplementedException;
 
 class Card implements C\Card
 {
@@ -128,6 +129,16 @@ class Card implements C\Card
     public function getSections(): array
     {
         return $this->content_sections;
+    }
+
+    public function withHiddenSections(array $sections): Card
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getHiddenSections(): array
+    {
+        throw new NotImplementedException();
     }
 
     /**
