@@ -199,7 +199,9 @@ class ilCmiXapiLaunchGUI
                 $this->cmixUser->setRegistration(ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
             }
             $this->cmixUser->save();
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            if (!ilObjUser::_isAnonymous($DIC->user()->getId())) {
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            }
         }
         // if ($doLpUpdate) {
             // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
