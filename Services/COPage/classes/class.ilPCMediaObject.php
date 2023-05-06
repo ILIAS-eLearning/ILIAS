@@ -44,7 +44,6 @@ class ilPCMediaObject extends ilPageContent
         $this->setType("media");
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
-        $this->global_tpl = $DIC['tpl'];
         $this->mob_usage_repo = $DIC->mediaObjects()
             ->internal()
             ->repo()
@@ -429,6 +428,9 @@ class ilPCMediaObject extends ilPageContent
         string $a_mode,
         bool $a_abstract_only = false
     ): string {
+        global $DIC;
+
+        $this->global_tpl = $DIC['tpl'];
         $ilUser = $this->user;
 
         if ($a_mode == "offline") {

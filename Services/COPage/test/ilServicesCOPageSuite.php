@@ -80,6 +80,15 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCListTest.php");
         $suite->addTestSuite("PCListTest");
 
+        require_once("./Services/COPage/test/PCLoginPageElementTest.php");
+        $suite->addTestSuite("PCLoginPageElementTest");
+
+        require_once("./Services/COPage/test/PCMapTest.php");
+        $suite->addTestSuite("PCMapTest");
+
+        require_once("./Services/COPage/test/PCMediaObjectTest.php");
+        $suite->addTestSuite("PCMediaObjectTest");
+
         return $suite;
     }
 }
