@@ -1892,7 +1892,9 @@
 		<xsl:if test="$mode != 'print'">
 			<xsl:if test="$mode != 'offline'">
 				<a class="ilc_flist_a_FileListItemLink" target="_blank">
-					<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+					<xsl:if test="$enable_href">
+						<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+					</xsl:if>
 					<xsl:call-template name="FileItemText"/>
 				</a>
 			</xsl:if>

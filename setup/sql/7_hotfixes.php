@@ -1664,3 +1664,43 @@ $DIC->database()->modifyTableColumn("object_translation", "title", [
     "notnull" => false
 ]);
 ?>
+<#95>
+<?php
+if (!$ilDB->indexExistsByFields('il_dcl_field_prop', array('id', 'field_id'))) {
+    $ilDB->addIndex('il_dcl_field_prop', array('id', 'field_id'), 'i1');
+}
+if (!$ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
+    $ilDB->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
+}
+?>
+<#96>
+<?php
+if (!$ilDB->indexExistsByFields('style_usage', array('style_id'))) {
+    $ilDB->addIndex('style_usage', array('style_id'), 'i1');
+}
+?>
+<#97>
+<?php
+$ilDB->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]);
+?>
+<#98>
+<?php
+if (!$ilDB->indexExistsByFields('webr_items', array('webr_id'))) {
+    $ilDB->addIndex('webr_items', array('webr_id'), 'i3');
+}
+?>
+<#99>
+<?php
+if (!$ilDB->indexExistsByFields('cal_entries', array('starta'))) {
+    $ilDB->addIndex('cal_entries', array('starta'), 'i3');
+}
+if (!$ilDB->indexExistsByFields('cal_entries', array('enda'))) {
+    $ilDB->addIndex('cal_entries', array('enda'), 'i4');
+}
+?>
+<#100>
+<?php
+if (!$ilDB->indexExistsByFields('event_appointment', array('event_id'))) {
+    $ilDB->addIndex('event_appointment', array('event_id'), 'i1');
+}
+?>

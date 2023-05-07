@@ -26,7 +26,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     // hey: prevPassSolutions - wtf is imagemap ^^
     public $currentSolution = array();
     // hey.
-    
+
     const MODE_SINGLE_CHOICE = 0;
     const MODE_MULTIPLE_CHOICE = 1;
 
@@ -43,7 +43,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     /** @var $imagemap_contents string The variable containing contents of an imagemap file. */
     public $imagemap_contents;
-    
+
     /** @var $coords array */
     public $coords;
 
@@ -165,13 +165,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $ilDB->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             array( "integer" ),
             array( $this->getId() )
         );
-        
+
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
                                                                         ) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
@@ -198,16 +198,16 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -229,9 +229,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
         // duplicate the image
         $clone->duplicateImage($this_id, $thisObjId);
-        
+
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-        
+
         return $clone->id;
     }
 
@@ -266,9 +266,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         // duplicate the image
         $clone->copyImage($original_id, $source_questionpool_id);
-        
+
         $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-        
+
         return $clone->id;
     }
 
@@ -314,7 +314,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $imagepath = $this->getImagePath();
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        
+
         if ((int) $objectId > 0) {
             $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
         }
@@ -385,13 +385,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
             $this->setImageFilename($data["image_file"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -662,10 +662,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
-        
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $found_values = array();
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
@@ -676,7 +676,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 array_push($found_values, $data["value1"]);
             }
         }
-        
+
         $points = $this->calculateReachedPointsForSolution($found_values);
 
         return $points;
@@ -688,7 +688,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
-        
+
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
@@ -721,11 +721,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if ($authorized) {
                 // remove the dummy record of the intermediate solution
                 $this->deleteDummySolutionRecord($active_id, $pass);
-                
+
                 // delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
                 $this->removeCurrentSolution($active_id, $pass, true);
                 $this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
-                
+
                 $solutionSelectionChanged = true;
             } else {
                 $this->forceExistingIntermediateSolution(
@@ -733,21 +733,21 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $pass,
                     $this->is_multiple_choice
                 );
-                
+
                 if ($this->isReuseSolutionSelectionRequest()) {
                     $selection = $this->getReuseSolutionSelectionParameter();
-                    
+
                     foreach ($selection as $selectedIndex) {
                         $this->saveCurrentSolution($active_id, $pass, (int) $selectedIndex, null, $authorized);
                         $solutionSelectionChanged = true;
                     }
                 } elseif ($this->isRemoveSolutionSelectionRequest()) {
                     $selection = $this->getRemoveSolutionSelectionParameter();
-                    
+
                     $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
                         'value1' => (int) $selection
                     ));
-                    
+
                     $solutionSelectionChanged = true;
                 } elseif ($this->isAddSolutionSelectionRequest()) {
                     $selection = $this->getAddSolutionSelectionParameter();
@@ -761,7 +761,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     }
 
                     $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
-                    
+
                     $solutionSelectionChanged = true;
                 }
             }
@@ -786,12 +786,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->is_multiple_choice && strlen($_GET['remImage'])) {
             unset($solution[(int) $_GET['remImage']]);
         }
-        
+
         if (strlen($_GET['selImage'])) {
             if (!$this->is_multiple_choice) {
                 $solution = array();
             }
-            
+
             $solution[(int) $_GET['selImage']] = (int) $_GET['selImage'];
         }
 
@@ -870,7 +870,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getAnswers() as $id => $answer) {
             $worksheet->setCell($startrow + $i, 0, $answer->getArea() . ": " . $answer->getCoords());
             $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-            
+
             $cellValue = 0;
             foreach ($solution as $solIndex => $sol) {
                 if ($sol['value1'] == $id) {
@@ -878,8 +878,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     break;
                 }
             }
-            
-            $worksheet->setCell($startrow + $i, 1, $cellValue);
+
+            $worksheet->setCell($startrow + $i, 2, $cellValue);
 
             $i++;
         }
@@ -917,7 +917,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
         $result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
-        
+
         $answers = array();
         $order = 0;
         foreach ($this->getAnswers() as $key => $answer_obj) {
@@ -939,7 +939,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
-        
+
         return json_encode($result);
     }
 
@@ -1050,17 +1050,17 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return $this->getAnswers();
         }
     }
-    
+
     // hey: prevPassSolutions - wtf is imagemap ^^
     public function getTestOutputSolutions($activeId, $pass)
     {
         $solution = parent::getTestOutputSolutions($activeId, $pass);
-        
+
         $this->currentSolution = array();
         foreach ($solution as $record) {
             $this->currentSolution[] = $record['value1'];
         }
-        
+
         return $solution;
     }
     protected function getAddSolutionSelectionParameter()
@@ -1068,7 +1068,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!$this->isAddSolutionSelectionRequest()) {
             return null;
         }
-        
+
         return $_GET["selImage"];
     }
     protected function isAddSolutionSelectionRequest()
@@ -1076,11 +1076,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!isset($_GET["selImage"])) {
             return false;
         }
-        
+
         if (!strlen($_GET["selImage"])) {
             return false;
         }
-        
+
         return true;
     }
     protected function getRemoveSolutionSelectionParameter()
@@ -1088,7 +1088,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!$this->isRemoveSolutionSelectionRequest()) {
             return null;
         }
-        
+
         return $_GET["remImage"];
     }
     protected function isRemoveSolutionSelectionRequest()
@@ -1096,15 +1096,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!$this->is_multiple_choice) {
             return false;
         }
-        
+
         if (!isset($_GET["remImage"])) {
             return false;
         }
-        
+
         if (!strlen($_GET["remImage"])) {
             return false;
         }
-        
+
         return true;
     }
     protected function getReuseSolutionSelectionParameter()
@@ -1112,7 +1112,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!$this->isReuseSolutionSelectionRequest()) {
             return null;
         }
-        
+
         return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
     }
     protected function isReuseSolutionSelectionRequest()
@@ -1120,19 +1120,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!$this->getTestPresentationConfig()->isPreviousPassSolutionReuseAllowed()) {
             return false;
         }
-        
+
         if (!isset($_GET["reuseSelection"])) {
             return false;
         }
-        
+
         if (!strlen($_GET["reuseSelection"])) {
             return false;
         }
-        
+
         if (!preg_match('/\d(,\d)*/', $_GET["reuseSelection"])) {
             return false;
         }
-        
+
         return true;
     }
     // hey.

@@ -175,7 +175,7 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($escape)) {
             $value = $escape($value);
         }
-        if ($value) {
+        if (isset($value) && strlen($value) > 0) {
             $tpl->setVariable("VALUE", $value);
         }
     }
@@ -241,7 +241,7 @@ class Renderer extends AbstractComponentRenderer
         $dependant_group_html = $default_renderer->render($component->getInputs());
 
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), "", $dependant_group_html);
+        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer) : string

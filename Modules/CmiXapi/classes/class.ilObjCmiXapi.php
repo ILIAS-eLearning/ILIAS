@@ -2050,7 +2050,7 @@ class ilObjCmiXapi extends ilObject2
         $promises = array();
         $promises['defaultLastStatement'] = $client->sendAsync($defaultLastStatementRequest, $req_opts);
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultLastStatement'], $body, [200]);
             return json_decode($body, JSON_OBJECT_AS_ARRAY);

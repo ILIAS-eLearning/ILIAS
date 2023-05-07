@@ -188,7 +188,6 @@ class ilModalGUI
         } else {
             $tpl = $DIC["tpl"];
         }
-
         $tpl->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
     }
 }

@@ -1,14 +1,33 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Iterator;
 
 /**
  * Class Map
@@ -17,24 +36,23 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  */
 class Map implements Filterable, Walkable
 {
-
     /**
-     * @var ArrayObject
+     * @var \ArrayObject
      */
-    protected $raw;
+    private $raw;
     /**
      * @var Closure[]
      */
-    protected $filters = [];
+    private $filters = [];
     /**
-     * @var ArrayObject
+     * @var \ArrayObject
      */
     private $filtered;
     /**
-     * @var MainMenuItemFactory
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory
      */
     private $factory;
-    
+
     /**
      * Tree constructor.
      */
@@ -43,14 +61,14 @@ class Map implements Filterable, Walkable
         $this->raw = new ArrayObject();
         $this->factory = $factory;
     }
-    
+
     private function getSorter() : Closure
     {
         return function (isItem $item_one, isItem $item_two) : int {
             return $item_one->getPosition() - $item_two->getPosition();
         };
     }
-    
+
     /**
      * @param isItem $item
      */
@@ -78,9 +96,12 @@ class Map implements Filterable, Walkable
      */
     public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
     {
-        $item = $this->raw->offsetGet($identification->serialize());
+        if ($this->raw->offsetExists($identification->serialize())) {
+            $item = $this->raw->offsetGet($identification->serialize());
 
-        return $item ?? $this->getLostItem($identification);
+            return $item ?? $this->getLostItem($identification);
+        }
+        return $this->getLostItem($identification);
     }
 
     /**
@@ -90,7 +111,10 @@ class Map implements Filterable, Walkable
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
         $this->applyFilters();
-        $item = $this->filtered->offsetGet($identification->serialize());
+
+        if ($this->filtered->offsetExists($identification->serialize())) {
+            $item = $this->filtered->offsetGet($identification->serialize());
+        }
 
         return $item ?? $this->getLostItem($identification);
     }
@@ -114,28 +138,27 @@ class Map implements Filterable, Walkable
         return $this->filtered->offsetExists($identification->serialize());
     }
 
-    
     public function has() : bool
     {
         return $this->raw->count() > 0;
     }
-    
+
 
     private function applyFilters() : void
     {
-        if ($this->filtered === null) {
+        if (!isset($this->filtered)) {
             $this->filtered = new ArrayObject($this->raw->getArrayCopy());
         }
         if (count($this->filters) > 0) {
-            $filter_copy = [];
-            if ($this->filtered === null) {
+            if (!isset($this->filtered)) {
                 $filter_copy = $this->raw->getArrayCopy();
-            }
-            if ($this->filtered instanceof ArrayObject) {
+            } else {
                 $filter_copy = $this->filtered->getArrayCopy();
             }
             foreach ($this->filters as $filter) {
-                $filter_copy = array_filter($filter_copy, $filter);
+                $filter_copy = array_filter($filter_copy, $filter ?? function ($v, $k) : bool {
+                    return !empty($v);
+                }, $filter === null ? ARRAY_FILTER_USE_BOTH : 0);
             }
             $this->filtered->exchangeArray($filter_copy);
             $this->filters = [];
@@ -149,7 +172,6 @@ class Map implements Filterable, Walkable
     {
         yield from $this->raw;
     }
-
 
     /**
      * @return \Generator|isItem[]
@@ -185,7 +207,7 @@ class Map implements Filterable, Walkable
         $this->applyFilters();
 
         $this->filtered->uasort($this->getSorter());
-        
+
         $replace_children_sorted = function (isItem &$item) {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
@@ -195,7 +217,7 @@ class Map implements Filterable, Walkable
         };
         $this->walk($replace_children_sorted);
     }
-    
+
     private function getLostItem(IdentificationInterface $identification) : Lost
     {
         return $this->factory->custom(Lost::class, new NullIdentification($identification))

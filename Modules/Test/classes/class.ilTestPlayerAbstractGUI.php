@@ -339,7 +339,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return $button;
     }
 
-    protected function populateSpecificFeedbackBlock(assQuestionGUI $question_gui)
+    /**
+     * @return bool     true, if there is some feedback populated
+     */
+    protected function populateSpecificFeedbackBlock(assQuestionGUI $question_gui) : bool
     {
         $solutionValues = $question_gui->object->getSolutionValues(
             $this->testSession->getActiveId(),
@@ -350,12 +353,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $question_gui->object->fetchIndexedValuesFromValuePairs($solutionValues)
         );
 
-        $this->tpl->setCurrentBlock("specific_feedback");
-        $this->tpl->setVariable("SPECIFIC_FEEDBACK", $feedback);
-        $this->tpl->parseCurrentBlock();
+        if (!empty($feedback)) {
+            $this->tpl->setCurrentBlock("specific_feedback");
+            $this->tpl->setVariable("SPECIFIC_FEEDBACK", $feedback);
+            $this->tpl->parseCurrentBlock();
+            return true;
+        }
+        return false;
     }
 
-    protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
+    /**
+     * @return bool     true, if there is some feedback populated
+     */
+    protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect) : bool
     {
         // fix #031263: add pass
         $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), $this->testSession->getPass());
@@ -370,7 +380,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->tpl->setVariable("ANSWER_FEEDBACK", $feedback);
             $this->tpl->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $this->tpl->parseCurrentBlock();
+            return true;
         }
+        return false;
     }
 
     protected function populateScoreBlock($reachedPoints, $maxPoints)
@@ -483,7 +495,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return $this->showMaximumAllowedUsersReachedMessage();
         }
 
-        if ($this->testSession->isAnonymousUser() && !$this->testSession->getActiveId()) {
+        if ($this->testSession->isAnonymousUser()
+            && !$this->testSession->doesAccessCodeInSessionExists()) {
             $accessCode = $this->testSession->createNewAccessCode();
 
             $this->testSession->setAccessCodeToSession($accessCode);
@@ -493,7 +506,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, ilTestPlayerCommands::DISPLAY_ACCESS_CODE);
         }
 
-        $this->testSession->unsetAccessCodeInSession();
+        if (!$this->testSession->isAnonymousUser()) {
+            $this->testSession->unsetAccessCodeInSession();
+        }
         $this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
     }
 
@@ -1025,7 +1040,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         return;
     }
-
     public function redirectBackCmd()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -2266,15 +2280,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     }
     // fau;
 
-
     /**
-     * @param assQuestionGUI $questionGui
+     * @see ilAssQuestionPreviewGUI::handleInstantResponseRendering()
      */
     protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
     {
-        $this->populateFeedbackBlockHeader(
-            !$this->object->getSpecificAnswerFeedback() || !$questionGui->hasInlineFeedback()
-        );
+        $response_available = false;
+        $jump_to_response = false;
 
         // This controls if the solution should be shown.
         // It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"
@@ -2295,6 +2307,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             );
             $solutionoutput = str_replace('<h1 class="ilc_page_title_PageTitle"></h1>', '', $solutionoutput);
             $this->populateSolutionBlock($solutionoutput);
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         $reachedPoints = $questionGui->object->getAdjustedReachedPoints(
@@ -2311,18 +2325,38 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"
         if ($this->object->getAnswerFeedbackPoints()) {
             $this->populateScoreBlock($reachedPoints, $maxPoints);
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         // This controls if the generic feedback should be shown.
         // It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"
         if ($this->object->getGenericAnswerFeedback()) {
-            $this->populateGenericFeedbackBlock($questionGui, $solutionCorrect);
+            if ($this->populateGenericFeedbackBlock($questionGui, $solutionCorrect)) {
+                $response_available = true;
+                $jump_to_response = true;
+            }
         }
 
         // This controls if the specific feedback should be shown.
         // It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
         if ($this->object->getSpecificAnswerFeedback()) {
-            $this->populateSpecificFeedbackBlock($questionGui);
+            if ($questionGui->hasInlineFeedback()) {
+                // Don't jump to the feedback below the question if some feedback is shown within the question
+                $jump_to_response = false;
+            } elseif ($this->populateSpecificFeedbackBlock($questionGui)) {
+                $response_available = true;
+                $jump_to_response = true;
+            }
+        }
+
+        $this->populateFeedbackBlockHeader($jump_to_response);
+        if (!$response_available) {
+            if ($questionGui->hasInlineFeedback()) {
+                $this->populateFeedbackBlockMessage($this->lng->txt('tst_feedback_is_given_inline'));
+            } else {
+                $this->populateFeedbackBlockMessage($this->lng->txt('tst_feedback_not_available_for_answer'));
+            }
         }
     }
 
@@ -2338,6 +2372,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
         $this->tpl->parseCurrentBlock();
     }
+
+    protected function populateFeedbackBlockMessage(string $a_message)
+    {
+        $this->tpl->setCurrentBlock('instant_response_message');
+        $this->tpl->setVariable('INSTANT_RESPONSE_MESSAGE', $a_message);
+        $this->tpl->parseCurrentBlock();
+    }
+
 
     protected function getCurrentSequenceElement()
     {
@@ -2403,8 +2445,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function getNavigationUrlParameter()
     {
         if (isset($_POST['test_player_navigation_url'])) {
-            return $_POST['test_player_navigation_url'];
+            $navigation_url = $_POST['test_player_navigation_url'];
+
+            $navigation_url_parts = parse_url($navigation_url);
+            $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+
+            if (!isset($navigation_url_parts['host']) || ($ilias_url_parts['host'] === $navigation_url_parts['host'])) {
+                return $navigation_url;
+            }
         }
+
         return null;
     }
     // fau.

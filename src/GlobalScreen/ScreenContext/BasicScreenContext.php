@@ -1,22 +1,39 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\ScreenContext;
 
 use ILIAS\Data\ReferenceId;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
 /**
  * Class BasicScreenContext
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class BasicScreenContext implements ScreenContext
 {
-
     /**
-     * @var ReferenceId
+     * @var \ILIAS\Data\ReferenceId
      */
     protected $reference_id;
     /**
-     * @var Collection
+     * @var \ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection
      */
     protected $additional_data;
     /**
@@ -24,10 +41,8 @@ class BasicScreenContext implements ScreenContext
      */
     protected $context_identifier = '';
 
-
     /**
      * BasicScreenContext constructor.
-     *
      * @param string $context_identifier
      */
     public function __construct(string $context_identifier)
@@ -37,15 +52,13 @@ class BasicScreenContext implements ScreenContext
         $this->reference_id = new ReferenceId(0);
     }
 
-
     /**
      * @inheritDoc
      */
     public function hasReferenceId() : bool
     {
-        return $this->reference_id instanceof ReferenceId && $this->reference_id->toInt() > 0;
+        return $this->reference_id->toInt() > 0;
     }
-
 
     /**
      * @inheritDoc
@@ -54,7 +67,6 @@ class BasicScreenContext implements ScreenContext
     {
         return $this->reference_id;
     }
-
 
     /**
      * @inheritDoc
@@ -67,7 +79,6 @@ class BasicScreenContext implements ScreenContext
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -79,7 +90,6 @@ class BasicScreenContext implements ScreenContext
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -87,7 +97,6 @@ class BasicScreenContext implements ScreenContext
     {
         return $this->additional_data;
     }
-
 
     /**
      * @inheritDoc
@@ -98,7 +107,6 @@ class BasicScreenContext implements ScreenContext
 
         return $this;
     }
-
 
     /**
      * @inheritDoc

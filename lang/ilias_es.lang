@@ -1374,6 +1374,7 @@ assessment#:#tst_count_correct_solutions#:#Contar sólo soluciones completas
 assessment#:#tst_count_correct_solutions_desc#:#Los participantes puntúan el número máximo de puntos para una respuesta totalmente correcta y completa ó 0 puntos en cualquier otro caso.
 assessment#:#tst_count_partial_solutions#:#Contar soluciones parciales
 assessment#:#tst_count_partial_solutions_desc#:#Se cuentan puntos por respuestas correctas parciales previstas: Los participantes pueden ganar puntos por las respuestas incompletas o parcialmente incorrectas.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Configuraciones de test por defecto
 assessment#:#tst_defaults_applied#:#Los valores por defecto seleccionados para el test han sido aplicados
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS no pudo aplicar los valores por defecto seleccionados para este test. Quizá este test ya contiene preguntas y/o datos de los participantes.
@@ -1427,6 +1428,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#Se ha omitido la importación de umbrales para las competencias siguientes, porque las competencias correspondientes en el sistema local están configuradas con una lista de niveles diferente.
 assessment#:#tst_feedback#:#Comentarios del tutor
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Tipo de pregunta
 assessment#:#tst_filter_question_type_enabled#:#Usar tipo de pregunta como filtro
@@ -2029,6 +2032,7 @@ auth#:#auth_info_migrate#:#Si ya tiene una cuenta ILIAS introduzca nombre de usu
 auth#:#auth_ldap_server_ds#:#Sevidor LDAP
 auth#:#auth_login_editor#:#Editor pantalla de acceso
 auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
@@ -2044,6 +2048,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###30 04 2021 new variable
@@ -2068,6 +2074,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der A
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2507,6 +2517,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###
 book#:#book_not#:#No
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences###07 02 2020 new variable
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###07 02 2020 new variable
@@ -2543,6 +2554,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Su reserva ha sido solicitada
 book#:#book_reservation_failed#:#Su reserva no ha sido posible
@@ -3642,7 +3655,6 @@ common#:#categories_imported#:#Importación de Categorías completada.
 common#:#catr#:#Enlace a categoría
 common#:#catr_edit_info#:#Por favor, seleccione una categoría para crear un enlace nuevo.
 common#:#catr_new#:#Crear nuevo enlace a categoría
-common#:#cc#:#CC
 common#:#certificate#:#Informe
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###07 02 2020 new variable
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###07 02 2020 new variable
@@ -3835,8 +3847,6 @@ common#:#day#:#Día
 common#:#days#:#Días
 common#:#db_host#:#host Base de Datos
 common#:#db_name#:#nombre de la Base de Datos
-common#:#db_need_hotfix#:#Actualización BBDD disponible. Por favor, ejecute el programa de configuración.
-common#:#db_need_update#:#La Base de Datos necesita una actualización!
 common#:#db_pass#:#contraseña de la base de datos
 common#:#db_type#:#tipo de base de datos
 common#:#db_user#:#usuario de conexión
@@ -5243,6 +5253,7 @@ common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#preferences#:#Preferencias definidas por usuario
 common#:#presentation_table_more#:#more
 common#:#preview#:#Avance
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Crear vista previa
 common#:#preview_delete#:#Eliminar vista previa
 common#:#preview_learner_info#:#Si está habilitado, los administradores del curso y grupo tienen la posibilidad de ver el formulario de contenido desde la perspectiva de un alumno.
@@ -5562,6 +5573,7 @@ common#:#short_inst_name#:#Título corto
 common#:#short_inst_name_info#:#Este título aparecerá en la barra de título del navegador. Si no existe, se usará la cadena 'ILIAS'
 common#:#show#:#Mostrar
 common#:#show_all_details#:#Mostrar todos los detalles
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#mostrar detalles
 common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar información adicional&raquo;
@@ -5964,6 +5976,7 @@ cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
 cont#:#cont_filter_record#:#Record###07 02 2020 new variable
 cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_mem_skills#:#Competencias
 cont#:#cont_news_edited#:#Editado
@@ -6017,6 +6030,7 @@ cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
 cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
 cont#:#cont_tile_view#:#Tiles
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Contactos aprobados
 contact#:#contact_awrn_ap_contacts_info#:#Se muestran todos los contactos aprobados por el usuario.
 contact#:#contact_awrn_req_contacts#:#Solicitudes de contactos
@@ -6454,6 +6468,8 @@ content#:#cont_grid_width_s#:#Pequeña
 content#:#cont_grid_width_s_info#:#P. ej., smartphone
 content#:#cont_grid_width_xl#:#Extra grande
 content#:#cont_grid_width_xl_info#:#P. ej., escritorio ancho
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Cabecera
 content#:#cont_height#:#Altura
 content#:#cont_help_no_valid_tooltip_id#:#El ID de sugerencia introducido no es válido
@@ -10528,6 +10544,7 @@ lti#:#lti_object_consumer#:#Consumidores de LTI
 lti#:#lti_object_release_settings_form#:#editar recursos compartidos de LTI
 lti#:#lti_provider#:#Recursos compartidos de LTI
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objetos compartidos
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -10590,7 +10607,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variabl
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Volver a la carpeta
-mail#:#bc#:#CCO
 mail#:#chat_users_have_been_invited#:#Los usuarios han sido invitados.
 mail#:#chat_users_without_login#:#Los siguientes usuarios no tienen una cuenta de ILIAS y no pueden ser invitados a una sala de Chat.
 mail#:#chat_users_without_permission#:#Los siguientes usuarios no tienen acceso a la sala de Chat seleccionada.
@@ -10615,9 +10631,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Asignar una entrada de su agenda a la
 mail#:#mail_attachment_file_not_exist#:#Al menos uno de los siguientes elementos adjuntos no existe: %1$s
 mail#:#mail_attachments#:#adjuntos
 mail#:#mail_auto_generated_info#:#Este correo le fue enviado automáticamente por la instalación de ILIAS %s, %s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s###07 02 2020 new variable
 mail#:#mail_bg_task_title#:#E-mail Delivery###07 02 2020 new variable
 mail#:#mail_both_email#:#Ambas direcciones de correo electrónico
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Cambiar a carpeta:
 mail#:#mail_create_tpl#:#Crear plantillas de texto
 mail#:#mail_cronjob_notification_info#:#Puede activar una notificación periódica sobre nuevo correo aquí.
@@ -10678,6 +10696,7 @@ mail#:#mail_generic_rcp_error#:#Se produjo un error mientras se validaban los re
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Enviar correo a roles del grupo
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Correos recibidos
 mail#:#mail_incoming_both#:#local y reenvío
 mail#:#mail_incoming_local#:#sólo local
@@ -10831,6 +10850,7 @@ mail#:#placeholders_advise#:#Las variables sólo se resuelven para destinatarios
 mail#:#search_content#:#Buscar resultado
 mail#:#search_recipients#:#Buscar destinatarios
 mail#:#second_email_missing_info#:#No es posible la selección porque no se ha especificado una segunda dirección de correo electrónico
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Todos los administradores
 mail#:#send_mail_members#:#Todos los miembros
 mail#:#send_mail_to#:#Enviar correo a

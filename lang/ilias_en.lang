@@ -86,7 +86,7 @@ adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Contr
 adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept
 adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
 adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
-adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
+adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'.
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
 administration#:#adm_achievements#:#Achievements
@@ -945,7 +945,7 @@ assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
-assessment#:#next_question_rows#:#Questions %d - %d of %d »
+assessment#:#next_question_rows#:#Questions %d - %d of %d →
 assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema was not saved.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
@@ -1440,6 +1440,8 @@ assessment#:#tst_failed#:#Failed
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The according competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
 assessment#:#tst_feedback#:#Feedback
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
@@ -1643,8 +1645,8 @@ assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed
+assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
+assessment#:#tst_pass_deletion_not_allowed#:#Non-scoring attempts may not be deleted.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
@@ -2257,7 +2259,7 @@ bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s
 bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
 bgtask#:#bgtask_failure#:#Error
 bgtask#:#bgtask_processing#:#Creating download
-bgtask#:#bgtask_setting#:#«Background download» enabled
+bgtask#:#bgtask_setting#:#'Background Download' enabled
 bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
 bgtask#:#bgtask_setting_limit#:#Global Limit
 bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
@@ -2564,6 +2566,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#Your booking has failed.
@@ -3795,7 +3799,7 @@ common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enab
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Update Lucene search index
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
+common#:#cron_lucene_index_info#:#If enabled, the Lucene search index will be updated. Please configure the Lucene server in the Administration at 'Search and Find » Search', tab 'Lucene'.
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#cron_mail_notification_cron#:#regularly per cron job
 common#:#cron_mail_notification_desc#:#On request, ILIAS sends e-mail notifications about new mails. In contrast to the immediate forwarding of all mails, this cronjob collects the mails of one day and delivers them as a package. Please enable the option '%s' to use this feature. Additionally, the e-mail notifications for each ILIAS account have to be activated in the personal mail settings.
@@ -3855,8 +3859,6 @@ common#:#day#:#Day
 common#:#days#:#Days
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
-common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
-common#:#db_need_update#:#Database needs an update!
 common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
@@ -3952,17 +3954,17 @@ common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
 common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.
-common#:#enable_download_folder#:#"Download Action for Folders" enabled
-common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
+common#:#enable_download_folder#:#Action 'Download Folder' enabled
+common#:#enable_download_folder_info#:#Enables a 'Download' option inside the Actions drop-down of folders.
 common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
-common#:#enable_multi_download#:#«Download multiple objects» enabled
-common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
-common#:#enable_password_assistance#:#Enable password assistance
+common#:#enable_multi_download#:#'Download of multiple objects' enabled
+common#:#enable_multi_download_info#:#Multiple folders/files can be selected and downloaded as zip archive.
+common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
 common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
@@ -5263,6 +5265,7 @@ common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
 common#:#preview#:#Preview
+common#:#preview_caption#:#Preview %sof %s
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
@@ -5341,7 +5344,7 @@ common#:#reg_account_confirmation_successful#:#Your user account has been activa
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
-common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
+common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function 'Forgot password?' at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
 common#:#reg_mail_body_text2#:#To access ILIAS use the following data:
@@ -5582,6 +5585,7 @@ common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
 common#:#show#:#Show
 common#:#show_all_details#:#Show all details
+common#:#show_content#:#Show Content
 common#:#show_details#:#Show Details
 common#:#show_filter#:#Show Filter
 common#:#show_hidden_sections#:#Show More Information &raquo;
@@ -6137,7 +6141,7 @@ content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
 content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
 content#:#cont_auto_suspend#:#Safeguard tracking data
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
 content#:#cont_autoindent#:#Auto Indent
 content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.
@@ -6262,7 +6266,7 @@ content#:#cont_deactivated#:#Deactivated
 content#:#cont_debug#:#Enable Test Tool
 content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
 content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.
-content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Repository and Objects » Learning Modules).
+content#:#cont_debug_deactivated#:#The Test Tool is currently globally deactivated in the ILIAS administration: 'Administration » Repository and Objects » Learning Modules'.
 content#:#cont_debugging#:#Debugging
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
@@ -6476,6 +6480,8 @@ content#:#cont_grid_width_s#:#Small
 content#:#cont_grid_width_s_info#:#E.g. smartphone
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.
 content#:#cont_header#:#Header
 content#:#cont_height#:#Height in pixels
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
@@ -6932,7 +6938,7 @@ content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only.
 content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
-content#:#cont_select_other_qpool#:#Select other Pool
+content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
@@ -7050,7 +7056,7 @@ content#:#cont_tracking_data#:#Tracking Data
 content#:#cont_tracking_items#:#Tracking Items
 content#:#cont_tracking_modify#:#Modify Data
 content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
-content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under 'Settings » Multilingualism'.
 content#:#cont_tree_fixed#:#Tree structure has been fixed.
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_remaining#:#Tries Remaining
@@ -7077,7 +7083,7 @@ content#:#cont_update_verification#:#Edit Certificate
 content#:#cont_upload_dir#:#Upload directory
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
 content#:#cont_upload_file#:#Upload File
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" ➜ "my_video_en.srt".
 content#:#cont_uploaded_file#:#Existing File
 content#:#cont_url_info#:#URL of a media file or Youtube URL.
 content#:#cont_usage#:#Usage
@@ -7607,7 +7613,7 @@ crs#:#crs_objective_pretest#:#After initial test
 crs#:#crs_objective_qst_summary#:#Overview Question Assignment
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 crs#:#crs_objective_result#:#After final test
-crs#:#crs_objective_result_details#:#« Show Details
+crs#:#crs_objective_result_details#:#⬅︎ Show Details
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
@@ -8773,7 +8779,7 @@ ecs#:#ecs_communities#:#Participants
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
-ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.
+ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only possible, if ECS server is configured in administration at 'Extending ILIAS » ECS'.
 ecs#:#ecs_crs_alloc#:#Course Allocation
 ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation
 ecs#:#ecs_crs_export#:#Course Releases
@@ -10041,7 +10047,7 @@ itgr#:#itgr_materials#:#Materials
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the Â«, Â» buttons to select year - Use the <, > buttons to select month - Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and »  to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
@@ -10116,7 +10122,7 @@ ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.
 ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule
-ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
+ldap#:#ldap_edit_role_assignment#:#Edit Role ➜ Group Assignment
 ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.
 ldap#:#ldap_escapedn#:#Escape DN
 ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.
@@ -10156,7 +10162,7 @@ ldap#:#ldap_memberisdn#:#Attribute Value is DN
 ldap#:#ldap_missing_bind_user#:#You have chosen ‘Bind as User’: Please enter a valid LDAP username and password.
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
 ldap#:#ldap_moment_sync#:#Type of Synchronization
-ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
+ldap#:#ldap_new_role_assignment#:#Add New Role ➜ Group Assignment
 ldap#:#ldap_plugin#:#Assignment by Plugin
 ldap#:#ldap_plugin_id#:#Plugin Id
 ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
@@ -10175,13 +10181,13 @@ ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP us
 ldap#:#ldap_role_by_attribute#:#LDAP Attribute
 ldap#:#ldap_role_by_group#:#Groupmembership
 ldap#:#ldap_role_by_plugin#:#By Plugin
-ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
+ldap#:#ldap_role_group_assignments#:#Existing Role ➜ Group Assignments
 ldap#:#ldap_role_grp_at#:#Attribute
 ldap#:#ldap_role_grp_dn_info#:#Please enter the ‘Distinguished Name’ of the LDAP Group.
 ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN
 ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
-ldap#:#ldap_role_mapping#:#ILIAS Role -> LDAP Group Mapping
+ldap#:#ldap_role_mapping#:#ILIAS Role ➜ LDAP Group Mapping
 ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.
 ldap#:#ldap_role_not_exists#:#A role with that name does not exist
 ldap#:#ldap_role_selection#:#Role Selection
@@ -10549,7 +10555,8 @@ lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider.
 lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
 lti#:#lti_provider#:#LTI Releases
-lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'.
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Object Releases
 lti#:#lti_select_provider#:#Select Provider
@@ -10701,6 +10708,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.
 mail#:#mail_incoming#:#Incoming mail
 mail#:#mail_incoming_both#:#local and forwarding
 mail#:#mail_incoming_local#:#only local
@@ -10850,10 +10858,11 @@ mail#:#only_inbox_trash#:#Only consider inbox / trash
 mail#:#only_inbox_trash_info#:#If enabled, e-mails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder.
 mail#:#orphaned_mail_body#:#The following old or orphaned mails are in your mailbox. Please note, that these mails will be deleted automatically soon.
 mail#:#orphaned_mail_subject#:#Notification about orphaned mails
-mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
+mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the 'To' field. %s personal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Search Recipients
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“
 mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
@@ -10885,7 +10894,7 @@ mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
 mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
-mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_home_link#:# ➜︎ MathJax web site
 mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
 mathjax#:#mathjax_mathjax#:#MathJax
@@ -10896,14 +10905,14 @@ mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
-mathjax#:#mathjax_server_clear_cache#:# » Clear Cache
+mathjax#:#mathjax_server_clear_cache#:# ➜ Clear Cache Now
 mathjax#:#mathjax_server_for_browser#:#Use for Browser
 mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.
 mathjax#:#mathjax_server_for_export#:#Use for HTML Export
 mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.
 mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
 mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
-mathjax#:#mathjax_server_installation#:# » Installation
+mathjax#:#mathjax_server_installation#:# ➜ Installation Manual
 mathjax#:#mathjax_server_timeout#:#Timeout
 mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
 mathjax#:#mathjax_settings#:#MathJax Settings
@@ -13794,7 +13803,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link i
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links. Recommended value is 1800 seconds.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link is incomplete.
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direct Registration
@@ -14532,7 +14541,7 @@ skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the p
 skll#:#skll_skill_notification#:#Competence Notification
 skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
 skmg#:#scat#:#Competence Category
-skmg#:#skll#:#Basic Competence
+skmg#:#skll#:#Competence
 skmg#:#skmg_360_survey#:#360° Survey
 skmg#:#skmg_add_assignment#:#Add Roles / Members
 skmg#:#skmg_add_level#:#Add Level
@@ -14586,7 +14595,7 @@ skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Eval
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
-skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Competences from Clipboard
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Competences from Clipboard
 skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.
 skmg#:#skmg_insert_skill_category_from_clip#:#Insert Competence Categories from Clipboard
 skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard
@@ -16288,7 +16297,7 @@ user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
-user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
+user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in 'Administration » Users and Roles » User Management', tab 'Settings : New Account Mail'.
 user#:#interests#:#Interests
 user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
@@ -16319,7 +16328,7 @@ user#:#user_account_code_generated#:#Date Of Generation
 user#:#user_account_code_generated_all#:#All Dates
 user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.
 user#:#user_account_code_setting#:#Enable Account Re-Activation By Code
-user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.
+user#:#user_account_code_setting_info#:#Users can re-activate their expired user account with a pre-defined code. Corresponding codes for the renewal of temporary ILIAS accounts are generated in 'Administration » Users and Roles » Authentication and Registration', tab 'ILIAS Auth / Self-Registration : Registration Codes'. Inactive accounts cannot be re-activated by codes.
 user#:#user_account_code_used#:#Date Of Use
 user#:#user_account_code_valid_until#:#Valid Until
 user#:#user_account_code_valid_until_dynamic#:#Number of Days
@@ -16566,7 +16575,7 @@ wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page
 wiki#:#wiki_page#:#Page
 wiki#:#wiki_page_actions#:#Page Actions
 wiki#:#wiki_page_already_exists#:#A page with this title already exists.
-wiki#:#wiki_page_blocked#:#Wiki page is set to read-only. Only users with «Edit Settings» permission have write access.
+wiki#:#wiki_page_blocked#:#Wiki page is set to 'read-only'. Only users with 'Edit Settings' permission have write access.
 wiki#:#wiki_page_changes#:#Page Changes
 wiki#:#wiki_page_deleted#:#Wiki page deleted.
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?

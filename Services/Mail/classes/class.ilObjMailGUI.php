@@ -404,7 +404,7 @@ class ilObjMailGUI extends ilObjectGUI
             $GLOBALS['DIC']->user()->getEmail(),
             '',
             '',
-            $this->lng->txt('mail_email_' .$lngVariablePrefix . '_subject'),
+            $this->lng->txt('mail_email_' . $lngVariablePrefix . '_subject'),
             $this->lng->txt('mail_email_' . $lngVariablePrefix . '_body'),
             []
         );

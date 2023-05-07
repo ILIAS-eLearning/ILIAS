@@ -56,6 +56,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected $mep_log;
 
     /**
+     * @var int
+     */
+    protected $mep_item_id = 0;
+
+    /**
      * Constructor
      */
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -74,6 +79,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->upload = $DIC->upload();
 
         $this->mep_log = ilLoggerFactory::getLogger("mep");
+        $this->mep_item_id = (int) $_GET["mepitem_id"];
     }
 
     public $output_prepared;
@@ -172,11 +178,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             case 'ilmediapoolpagegui':
                 $this->checkPermission("write");
                 $this->prepareOutput();
-                $this->addHeaderAction();
+                //$this->addHeaderAction();
                 $ilTabs->clearTargets();
-                include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+                $ilCtrl->setReturn($this, "returnFromItem");
                 $mep_page_gui = new ilMediaPoolPageGUI($_GET["mepitem_id"], $_GET["old_nr"]);
-
                 if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) {
                     $mep_page_gui->setEnableEditing(false);
                 }
@@ -2204,5 +2209,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, "listMedia");
+    }
+
+    /**
+     * Return from item editing
+     */
+    protected function returnFromItem(): void
+    {
+        $ctrl = $this->ctrl;
+
+        $type = ilMediaPoolItem::lookupType($this->mep_item_id);
+        if ($type !== "fold") {
+            $tree = $this->object->getTree();
+            $fold_id = $tree->getParentId($this->mep_item_id);
+            if ($fold_id > 0) {
+                $ctrl->setParameter($this, "mepitem_id", $fold_id);
+                $ctrl->redirect($this, "listMedia");
+            }
+        }
+        $this->listMedia();
     }
 }

@@ -1,20 +1,40 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
+use Closure;
 
 /**
  * Class AbstractBaseItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractBaseItem implements isItem
 {
     use ComponentDecoratorTrait;
+
     /**
-     * @var BaseMetaBarItemRenderer
+     * @var \ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer
      */
     protected $renderer;
     /**
@@ -22,22 +42,20 @@ abstract class AbstractBaseItem implements isItem
      */
     protected $position = 0;
     /**
-     * @var
+     * @var \Closure|null
      */
-    protected $available_callable = true;
+    protected $available_callable;
     /**
-     * @var IdentificationInterface
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     protected $provider_identification;
     /**
-     * @var callable
+     * @var \Closure|null
      */
     protected $visiblility_callable;
 
-
     /**
      * AbstractBaseItem constructor.
-     *
      * @param IdentificationInterface $provider_identification
      */
     public function __construct(IdentificationInterface $provider_identification)
@@ -45,7 +63,6 @@ abstract class AbstractBaseItem implements isItem
         $this->provider_identification = $provider_identification;
         $this->renderer = new BaseMetaBarItemRenderer();
     }
-
 
     /**
      * @inheritDoc
@@ -55,7 +72,6 @@ abstract class AbstractBaseItem implements isItem
         return $this->renderer;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -63,7 +79,6 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->provider_identification;
     }
-
 
     /**
      * @inheritDoc
@@ -75,7 +90,6 @@ abstract class AbstractBaseItem implements isItem
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -96,7 +110,6 @@ abstract class AbstractBaseItem implements isItem
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -107,7 +120,6 @@ abstract class AbstractBaseItem implements isItem
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -125,7 +137,6 @@ abstract class AbstractBaseItem implements isItem
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -133,7 +144,6 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->position;
     }
-
 
     /**
      * @inheritDoc

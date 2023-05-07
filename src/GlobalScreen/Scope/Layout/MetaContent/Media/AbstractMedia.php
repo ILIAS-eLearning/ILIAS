@@ -1,30 +1,35 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+
 /**
  * Class Js
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractMedia
 {
-
     /**
      * @var string
      */
     protected $content = "";
+
     /**
      * @var string
      */
@@ -32,7 +37,6 @@ abstract class AbstractMedia
 
     /**
      * AbstractMedia constructor.
-     *
      * @param string $content
      */
     public function __construct(string $content, string $version)
@@ -40,7 +44,6 @@ abstract class AbstractMedia
         $this->content = $content;
         $this->version = $version;
     }
-
 
     /**
      * @return string

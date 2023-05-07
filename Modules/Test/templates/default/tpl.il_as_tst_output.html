@@ -1,4 +1,5 @@
-<!-- BEGIN kiosk_message -->{MESSAGE}
+<!-- BEGIN kiosk_message -->
+{MESSAGE}
 <!-- END kiosk_message -->
 <!-- BEGIN kiosk_options -->
 {KIOSK_HEAD}
@@ -72,6 +73,9 @@
 					</h2>
 					</div>
 					<!-- END instant_response_header -->
+					<!-- BEGIN instant_response_message -->
+					<p>{INSTANT_RESPONSE_MESSAGE}</p>
+					<!-- END instant_response_message -->
 					<!-- BEGIN received_points_information -->
 					<p>
 						{RECEIVED_POINTS_INFORMATION}
@@ -177,7 +181,6 @@
 				});
 			}
 			); })(jQuery);
-
 			</script>
 		</form>
 	</div>

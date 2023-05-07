@@ -393,8 +393,10 @@ class ilExAssignmentEditorGUI
 
         $desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
         $desc_input->setRows(20);
-        $desc_input->setUseRte(true);
-        $desc_input->setRteTagSet("mini");
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $desc_input->setUseRte(true);
+            $desc_input->setRteTagSet("mini");
+        }
         $form->addItem($desc_input);
 
         // files

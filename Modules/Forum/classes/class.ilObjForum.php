@@ -1204,7 +1204,7 @@ class ilObjForum extends ilObject
         );
     }
     
-    public function getNumStickyThreads(): int
+    public function getNumStickyThreads() : int
     {
         $res = $this->db->query(
             'SELECT COUNT(is_sticky) num_sticky FROM frm_threads

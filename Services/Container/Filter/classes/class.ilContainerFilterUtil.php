@@ -168,8 +168,13 @@ class ilContainerFilterUtil
                     case ilAdvancedMDFieldDefinition::TYPE_SELECT:
                     case ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI:
                         $options = [];
-                        foreach ($service->advancedMetadata()->getOptions($field->getFieldId()) as $op) {
-                            $options[$op] = $op;
+                        foreach ($service->advancedMetadata()->getOptions($field->getFieldId()) as $id => $op) {
+                            /**
+                             * Workaround: Adding 1 to the value for selects is necessary in
+                             * R7 since KS selects are confused by the value 0. For R8 this
+                             * is somehow not a problem.
+                             */
+                            $options[$id + 1] = $op;
                         }
                         $fields["adv_" . $field->getFieldId()] =
                             $ui->input()->field()->select($title, $options);

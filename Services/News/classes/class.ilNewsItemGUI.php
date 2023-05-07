@@ -322,7 +322,9 @@ class ilNewsItemGUI
         $text_area->setInfo("");
         $text_area->setRequired(false);
         $text_area->setRows("4");
-        $text_area->setUseRte(true);
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $text_area->setUseRte(true);
+        }
         $form->addItem($text_area);
 
         // Property Visibility

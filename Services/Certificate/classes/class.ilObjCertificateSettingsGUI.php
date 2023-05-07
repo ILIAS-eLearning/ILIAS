@@ -53,6 +53,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
      */
     protected $error;
     private static $ERROR_MESSAGE;
+    /** @var ILIAS\DI\HTTPServices */
+    protected $httpState;
+    /** @var \ILIAS\FileUpload\FileUpload */
+    protected $upload;
 
 
     /**
@@ -65,6 +69,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         global $DIC;
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        $this->httpState = $DIC->http();
+        $this->upload = $DIC->upload();
         $this->type = 'cert';
         $this->lng->loadLanguageModule("certificate");
         $this->lng->loadLanguageModule("trac");
@@ -160,17 +166,28 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
         $bgimage->setRequired(false);
-        if (count($_POST)) {
-            // handle the background upload
-            if (strlen($_FILES["background"]["tmp_name"])) {
-                if ($bgimage->checkInput()) {
-                    $result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
-                    if ($result == false) {
-                        $bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+
+        if (
+            $this->upload->hasUploads() &&
+            $this->httpState->request()->getMethod() === 'POST' &&
+            $bgimage->checkInput()
+        ) {
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
+            }
+
+            if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
+                $results = $this->upload->getResults();
+                $file = array_pop($results);
+                if ($file->isOK()) {
+                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    if ($result === false) {
+                        $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
                     }
                 }
             }
         }
+
         if (strlen($this->object->hasBackgroundImage())) {
             require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);

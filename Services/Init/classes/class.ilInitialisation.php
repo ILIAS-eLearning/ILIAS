@@ -205,10 +205,10 @@ class ilInitialisation
                 break;
             case "icap":
                 define("IL_VIRUS_SCANNER", "icap");
-                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "i_cap_host"));
-                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
-                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
-                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
+                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "icap_host"));
+                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "icap_port"));
+                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "icap_service_name"));
+                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "icap_client_path"));
                 break;
 
             default:
@@ -1849,19 +1849,16 @@ class ilInitialisation
         }
     }
 
-    /**
-     * Extract current cmd from request
-     *
-     * @return string
-     */
-    protected static function getCurrentCmd()
+    protected static function getCurrentCmd(): string
     {
-        $cmd = $_REQUEST["cmd"];
+        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
+
         if (is_array($cmd)) {
-            return array_shift(array_keys($cmd));
-        } else {
-            return $cmd;
+            $cmd_keys = array_keys($cmd);
+            $cmd = array_shift($cmd_keys) ?? '';
         }
+
+        return $cmd;
     }
 
     /**
@@ -1907,9 +1904,9 @@ class ilInitialisation
             return true;
         }
 
-        $requestBaseClass = strtolower((string) $_REQUEST['baseClass']);
+        $requestBaseClass = strtolower((string) ($_GET['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) $_REQUEST['cmdClass']);
+            $requestCmdClass = strtolower((string) ($_GET['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
@@ -2093,7 +2090,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance($c->database());
         };
 
         $c["bt.injector"] = function ($c) {

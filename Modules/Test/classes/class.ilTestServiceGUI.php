@@ -801,6 +801,10 @@ class ilTestServiceGUI
             $uname = $this->object->userLookupFullName($user_id, true);
         }
 
+        if ($this->object->getAnonymity()) {
+            $uname = $this->lng->txt('anonymous');
+        }
+
         if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass))) {
             if (is_null($pass)) {
                 $pass = $_GET["pass"];
@@ -810,7 +814,6 @@ class ilTestServiceGUI
         if (!is_null($pass)) {
             require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
-
             $objectivesList = null;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {

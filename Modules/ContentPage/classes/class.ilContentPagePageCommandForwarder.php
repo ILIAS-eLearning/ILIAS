@@ -23,6 +23,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
     const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    public const PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
 
     /** @var string */
     protected $presentationMode = self::PRESENTATION_MODE_EDITING;
@@ -94,6 +95,20 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         }
     }
 
+    public function addPageTabs() : void
+    {
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT, '1');
+        $this->tabs->addTarget(
+            'obj_sty',
+            $this->ctrl->getLinkTargetByClass([
+                ilRepositoryGUI::class,
+                ilObjContentPageGUI::class
+            ], self::UI_CMD_STYLES_EDIT),
+            self::UI_CMD_STYLES_EDIT
+        );
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT, null);
+    }
+
     /**
      * @param callable $updateListener
      */
@@ -150,7 +165,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     protected function setBackLinkTab() : void
     {
-        $backUrl = $this->ctrl->getLinkTargetByClass('ilObjContentPageGUI', self::UI_CMD_VIEW);
+        $backUrl = $this->ctrl->getLinkTargetByClass(ilContentPagePageGUI::class, self::UI_CMD_COPAGE_EDIT);
         if (strlen($this->backUrl) > 0) {
             $backUrlParts = parse_url(ilUtil::stripSlashes($this->backUrl));
 
@@ -182,6 +197,8 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         $page = $pageObjectGUI->getPageObject();
         $page->addUpdateListener($this, 'onPageUpdate', ['page' => $page]);
 
+        $pageObjectGUI->setTabHook($this, 'addPageTabs');
+
         return $pageObjectGUI;
     }
 
@@ -202,6 +219,24 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
                 $this->parentObject->getType()
             )
         );
+
+        return $pageObjectGUI;
+    }
+
+    protected function buildPreviewPageObjectGUI(string $language) : ilContentPagePageGUI
+    {
+        $this->ensurePageObjectExists($language);
+
+        $pageObjectGUI = $this->getPageObjectGUI($language);
+
+        $pageObjectGUI->setStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
+                $this->parentObject->getStyleSheetId(),
+                $this->parentObject->getType()
+            )
+        );
+
+        $pageObjectGUI->setTabHook($this, 'addPageTabs');
 
         return $pageObjectGUI;
     }
@@ -251,6 +286,10 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 
                 $pageObjectGui = $this->buildEditingPageObjectGUI($this->isMediaRequest ? $language : '');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
+
+            case self::PRESENTATION_MODE_PREVIEW:
+                $pageObjectGui = $this->buildPreviewPageObjectGUI($this->isMediaRequest ? $language : '');
+                return (string) $this->ctrl->getHTML($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
                 $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);

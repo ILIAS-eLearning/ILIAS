@@ -335,42 +335,66 @@ class ilAssQuestionPreviewGUI
         $this->questionGUI->assessment();
     }
 
+    /**
+     * @see ilTestPlayerAbstractGUI::populateInstantResponseBlocks()
+     */
     protected function handleInstantResponseRendering(ilTemplate $tpl)
     {
-        $renderHeader = false;
-        $renderAnchor = false;
+        $response_required = false;
+        $response_available = false;
+        $jump_to_response = false;
 
         if ($this->isShowReachedPointsRequired()) {
             $this->populateReachedPointsOutput($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
+            $response_required = true;
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         if ($this->isShowBestSolutionRequired()) {
             $this->populateSolutionOutput($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
+            $response_required = true;
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         if ($this->isShowGenericQuestionFeedbackRequired()) {
-            $this->populateGenericQuestionFeedback($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
-        }
-
-        if ($this->isShowSpecificQuestionFeedbackRequired()) {
-            $renderHeader = true;
-
-            if ($this->questionGUI->hasInlineFeedback()) {
-                $renderAnchor = false;
-            } else {
-                $this->populateSpecificQuestionFeedback($tpl);
-                $renderAnchor = true;
+            $response_required = true;
+            if ($this->populateGenericQuestionFeedback($tpl)) {
+                $response_available = true;
+                $jump_to_response = true;
             }
         }
 
-        if ($renderHeader) {
-            $this->populateInstantResponseHeader($tpl, $renderAnchor);
+        if ($this->isShowSpecificQuestionFeedbackRequired()) {
+            $response_required = true;
+
+            if ($this->questionGUI->hasInlineFeedback()) {
+                // Don't jump to the feedback below the question if some feedback is shown within the question
+                $jump_to_response = false;
+            } else {
+                if ($this->populateSpecificQuestionFeedback($tpl)) {
+                    $response_available = true;
+                    $jump_to_response = true;
+                }
+            }
+        }
+
+        if ($response_required) {
+            $this->populateInstantResponseHeader($tpl, $jump_to_response);
+            if (!$response_available) {
+                if ($this->questionGUI->hasInlineFeedback()) {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_is_given_inline')
+                    );
+                } else {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_not_available_for_answer')
+                    );
+                }
+            }
         }
     }
 
@@ -535,7 +559,11 @@ class ilAssQuestionPreviewGUI
         return $this->ctrl->getHTML($navGUI);
     }
 
-    private function populateGenericQuestionFeedback(ilTemplate $tpl)
+    /**
+     * Populate the block for an instant generic feedback
+     * @return bool     true, if there is some feedback populated
+     */
+    private function populateGenericQuestionFeedback(ilTemplate $tpl) : bool
     {
         if ($this->questionOBJ->isPreviewSolutionCorrect($this->previewSession)) {
             $feedback = $this->questionGUI->getGenericFeedbackOutputForCorrectSolution();
@@ -550,18 +578,28 @@ class ilAssQuestionPreviewGUI
             $tpl->setVariable('GENERIC_FEEDBACK', $feedback);
             $tpl->setVariable('ILC_FB_CSS_CLASS', $cssClass);
             $tpl->parseCurrentBlock();
+            return true;
         }
+        return false;
     }
 
-    private function populateSpecificQuestionFeedback(ilTemplate $tpl)
+    /**
+     * Populate the block for an instant specific feedback
+     * @return bool     true, if there is some feedback populated
+     */
+    private function populateSpecificQuestionFeedback(ilTemplate $tpl) : bool
     {
         $fb = $this->questionGUI->getSpecificFeedbackOutput(
             (array) $this->previewSession->getParticipantsSolution()
         );
 
-        $tpl->setCurrentBlock('instant_feedback_specific');
-        $tpl->setVariable('ANSWER_FEEDBACK', $fb);
-        $tpl->parseCurrentBlock();
+        if (!empty($fb)) {
+            $tpl->setCurrentBlock('instant_feedback_specific');
+            $tpl->setVariable('ANSWER_FEEDBACK', $fb);
+            $tpl->parseCurrentBlock();
+            return true;
+        }
+        return false;
     }
 
     protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor)
@@ -574,6 +612,13 @@ class ilAssQuestionPreviewGUI
 
         $tpl->setCurrentBlock('instant_response_header');
         $tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
+        $tpl->parseCurrentBlock();
+    }
+
+    protected function populateInstantResponseMessage(ilTemplate $tpl, string $a_message)
+    {
+        $tpl->setCurrentBlock('instant_response_message');
+        $tpl->setVariable('INSTANT_RESPONSE_MESSAGE', $a_message);
         $tpl->parseCurrentBlock();
     }
 

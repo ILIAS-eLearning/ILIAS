@@ -314,12 +314,20 @@ export default class ParagraphUIActionHandler {
     });
   }
 
-  sendUpdateCommand(pcid, pcmodel, page_model) {
+  /**
+   *
+   * @param pcid
+   * @param pcmodel
+   * @param page_model
+   * @param initialSectionClass only set from cancel command, if reset is necessary
+   */
+  sendUpdateCommand(pcid, pcmodel, page_model, initialSectionClass = null) {
     const af = this.actionFactory;
     const update_action = af.paragraph().command().update(
       pcid,
       pcmodel.text,
-      pcmodel.characteristic
+      pcmodel.characteristic,
+      initialSectionClass
     );
     this.client.sendCommand(update_action).then(result => {
       const pl = result.getPayload();
@@ -502,10 +510,14 @@ export default class ParagraphUIActionHandler {
         this.sendDeleteCommand(page_model.getCurrentPCId());
 
       } else {
+        if (page_model.getInitialSectionClass()) {
+          this.ui.setSectionClass(page_model.getCurrentPCId(), page_model.getInitialSectionClass());
+        }
         // we need to save the "undo" state back, if autosave made changes
         this.sendUpdateCommand(page_model.getCurrentPCId(),
           page_model.getPCModel(page_model.getCurrentPCId()),
-          page_model
+          page_model,
+          page_model.getInitialSectionClass()
         );
       }
     }

@@ -384,4 +384,14 @@ class ilBookingPreferencesManager
         }
         return 0;
     }
+
+    public function hasRun() : bool
+    {
+        return $this->book_repo->hasRun($this->pool->getId());
+    }
+
+    public function resetRun() : void
+    {
+        $this->book_repo->resetRun($this->pool->getId());
+    }
 }

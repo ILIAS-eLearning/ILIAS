@@ -172,7 +172,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($field_clone && $record_clone) {
             $record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
             $clone_references = $record_field_clone->getValue();
-            
+
             if (is_array($clone_references)) {
                 $value = [];
                 foreach ($clone_references as $clone_reference) {
@@ -180,7 +180,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                         $value[] = $temp_value;
                     }
                 }
-            } elseif (!is_null($temp_value = $this->getCloneRecordId($clone_reference))) {
+            } elseif (!is_null($temp_value = $this->getCloneRecordId($clone_references))) {
                 $value = $temp_value;
             }
 
@@ -188,12 +188,13 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             $this->doUpdate();
         }
     }
-    
-    protected function getCloneRecordId(string $clone_reference) : ?string
+
+    protected function getCloneRecordId(string $clone_reference): ?string
     {
         $reference_record = ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD);
         if ($reference_record) {
             return (string) $reference_record->getId();
         }
+        return null;
     }
 }

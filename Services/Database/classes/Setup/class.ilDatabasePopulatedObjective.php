@@ -103,10 +103,42 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
                 "Cannot read database dump file: $path_to_db_dump"
             );
         }
+        foreach ($this->queryReader(realpath($path_to_db_dump)) as $query) {
+            try {
+                $statement = $db->prepareManip($query);
+                $db->execute($statement);
+            } catch (Throwable $e) {
+                throw new Setup\UnachievableException(
+                    "Cannot populate database with dump file: $path_to_db_dump. Query failed: $query wih message " . $e->getMessage(
+                    )
+                );
+            }
+        }
+    }
 
-        $sql = file_get_contents(realpath($path_to_db_dump));
-        $statement = $db->prepareManip($sql);
-        $db->execute($statement);
+    private function queryReader(string $path_to_db_dump): Generator
+    {
+        $stack = '';
+        $handle = fopen($path_to_db_dump, "r");
+        while (($line = fgets($handle)) !== false) {
+            if (preg_match('/^--/', $line)) { // Skip comments
+                continue;
+            }
+            if (preg_match('/^\/\*/', $line)) { // Run Variables Assignments as single query
+                yield $line;
+                $stack = '';
+                continue;
+            }
+            if (!preg_match('/;$/', $line)) { // Break after ; character which indicates end of query
+                $stack .= $line;
+            } else {
+                $stack .= $line;
+                yield $stack;
+                $stack = '';
+            }
+        }
+
+        fclose($handle);
     }
 
     /**

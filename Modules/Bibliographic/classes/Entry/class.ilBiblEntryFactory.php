@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
  * Class ilBiblEntryFactory
@@ -8,7 +24,7 @@
  */
 class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
 {
-
+    use ilBibliographicSecureString;
     /**
      * ILIAS-Id of bibliographic-object
      *
@@ -63,6 +79,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     }
 
 
+
     /**
      * @inheritDoc
      */
@@ -79,9 +96,13 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
         }
         $parsed_attributes = array();
         foreach ($attributes as $attribute) {
+            $value = $this->secure($attribute->getValue());
             // surround links with <a href="">
             // Allowed signs in URL: a-z A-Z 0-9 . ? & _ / - ~ ! ' * ( ) + , : ; @ = $ # [ ] %
-            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>", $attribute->getValue());
+            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>", $value);
+
+
+
             $attribute->setValue($value);
             $parsed_attributes[strtolower($this->file_type->getStringRepresentation() . '_' . $type . '_' . $attribute->getName())] = $value;
 

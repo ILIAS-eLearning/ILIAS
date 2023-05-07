@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
@@ -42,7 +58,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      * @var ilLanguage
      */
     private $lng;
-
+    /**
+     * @var ilSetting
+     */
+    private $il_settings;
 
     /**
      * @inheritDoc
@@ -109,6 +128,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareOutputHeaders();
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
+
+        $this->http->sendResponse();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());

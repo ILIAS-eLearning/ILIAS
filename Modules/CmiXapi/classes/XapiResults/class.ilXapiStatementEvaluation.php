@@ -69,7 +69,9 @@ class ilXapiStatementEvaluation
             $this->evaluateStatement($xapiStatement, $cmixUser->getUsrId());
 
             $this->log->debug('update lp for object (' . $this->object->getId() . ')');
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $cmixUser->getUsrId());
+            if ($cmixUser->getUsrId() != ANONYMOUS_USER_ID) {
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $cmixUser->getUsrId());
+            }
         }
     }
     
@@ -380,7 +382,7 @@ class ilXapiStatementEvaluation
         $promises = array();
         $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultSatisfiedStatement'], $body, [204]);
         } catch (Exception $e) {

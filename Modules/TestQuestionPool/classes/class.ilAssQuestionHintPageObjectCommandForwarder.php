@@ -18,24 +18,24 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      * presentation mode for authoring
      */
     const PRESENTATION_MODE_AUTHOR = 'PRESENTATION_MODE_AUTHOR';
-    
+
     /**
      * presentation mode for authoring
      */
     const PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
-    
+
     /**
      * presentation mode for requesting
      */
     const PRESENTATION_MODE_REQUEST = 'PRESENTATION_MODE_REQUEST';
-    
+
     /**
      * currently set presentation mode
      *
      * @var string
      */
     protected $presentationMode = null;
-    
+
     /**
      * object instance of question hint
      *
@@ -43,7 +43,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      * @var ilAssQuestionHint
      */
     protected $questionHint = null;
-    
+
     /**
      * Constructor
      *
@@ -56,7 +56,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
         parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
-        
+
         $this->questionHint = new ilAssQuestionHint();
 
         if (!isset($_GET['hint_id']) || !(int) $_GET['hint_id'] || !$this->questionHint->load((int) $_GET['hint_id'])) {
@@ -64,7 +64,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
         }
     }
-    
+
     /**
      * forward method
      *
@@ -74,26 +74,26 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     {
         switch ($this->getPresentationMode()) {
             case self::PRESENTATION_MODE_AUTHOR:
-                
+
                 $pageObjectGUI = $this->buildAuthorPresentationPageObjectGUI();
                 break;
-            
+
             case self::PRESENTATION_MODE_PREVIEW:
-                
+
                 $pageObjectGUI = $this->buildPreviewPresentationPageObjectGUI();
                 break;
-            
+
             case self::PRESENTATION_MODE_REQUEST:
-                
+
                 $pageObjectGUI = $this->buildRequestPresentationPageObjectGUI();
                 break;
         }
 
         $this->ctrl->setParameter($pageObjectGUI, 'hint_id', $this->questionHint->getId());
-        
+
         $this->ctrl->forwardCommand($pageObjectGUI);
     }
-    
+
     /**
      * forwards the command to page object gui for author presentation
      *
@@ -106,18 +106,18 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
             $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST)
         );
-        
+
         $pageObjectGUI = $this->getPageObjectGUI(
             $this->questionHint->getPageObjectType(),
             $this->questionHint->getId()
         );
-        
+
         $pageObjectGUI->setEnabledTabs(false);
-        
+
         $pageObjectGUI->setPresentationTitle(
             ilAssQuestionHint::getHintIndexLabel($this->lng, $this->questionHint->getIndex())
         );
-        
+
         return $pageObjectGUI;
     }
 
@@ -133,22 +133,22 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
             $this->ctrl->getLinkTargetByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST)
         );
-        
+
         $pageObjectGUI = $this->getPageObjectGUI(
             $this->questionHint->getPageObjectType(),
             $this->questionHint->getId()
         );
-        
+
         $pageObjectGUI->setEnabledTabs(false);
         $pageObjectGUI->setEnableEditing(false);
-        
+
         $pageObjectGUI->setPresentationTitle(
             ilAssQuestionHint::getHintIndexLabel($this->lng, $this->questionHint->getIndex())
         );
-        
+
         return $pageObjectGUI;
     }
-    
+
     /**
      * forwards the command to page object gui for author presentation
      *
@@ -161,22 +161,22 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
             $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST)
         );
-        
+
         $this->ensurePageObjectExists(
             $this->questionHint->getPageObjectType(),
             $this->questionHint->getId()
         );
-        
+
         $pageObjectGUI = $this->getPageObjectGUI(
             $this->questionHint->getPageObjectType(),
             $this->questionHint->getId()
         );
-        
+
         $pageObjectGUI->setEnabledTabs(true);
-        
+
         return $pageObjectGUI;
     }
-    
+
     /**
      * getter for presentation mode
      *
@@ -186,7 +186,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     {
         return $this->presentationMode;
     }
-    
+
     /**
      * setter for presentation mode
      *
@@ -199,14 +199,14 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             case self::PRESENTATION_MODE_AUTHOR:
             case self::PRESENTATION_MODE_PREVIEW:
             case self::PRESENTATION_MODE_REQUEST:
-                
+
                 $this->presentationMode = $presentationMode;
                 break;
-            
+
             default: throw new ilTestQuestionPoolException('invalid presentation mode given: ' . $presentationMode);
         }
     }
-    
+
     /**
      * instantiates, initialises and returns a page object gui object
      *
@@ -224,7 +224,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
         );
         return $pageObjectGUI;
     }
-    
+
     /**
      * ensures an existing page object with giben type/id
      *
@@ -233,7 +233,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     protected function ensurePageObjectExists($pageObjectType, $pageObjectId)
     {
         include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
-        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
+        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId, '', true)) {
             $pageObject = new ilAssHintPage();
             $pageObject->setParentId($this->questionOBJ->getId());
             $pageObject->setId($pageObjectId);

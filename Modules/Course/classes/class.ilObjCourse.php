@@ -75,7 +75,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @var bool
      */
-    protected $crs_start_time_indication = false;
+    protected $course_start_time_indication = false;
 
     /**
      * @var \ilDateTime | null
@@ -1031,12 +1031,15 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $certificateLogger,
             new ilCertificateObjectHelper()
         );
-
         $cloneAction->cloneCertificate($this, $new_obj);
 
         $book_service = new ilBookingService();
         $book_service->cloneSettings($this->getId(), $new_obj->getId());
 
+        $badges = ilBadge::getInstancesByParentId($this->getId());
+        foreach ($badges as $badge) {
+            $badge->clone($new_obj->getId());
+        }
 
         return $new_obj;
     }

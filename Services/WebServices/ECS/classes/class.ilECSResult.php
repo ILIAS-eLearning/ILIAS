@@ -36,21 +36,16 @@ class ilECSResult
 {
     const RESULT_TYPE_JSON = 1;
     const RESULT_TYPE_URL_LIST = 2;
-    
-    const HEADER_ECS_SENDER = 'X-EcsSender';
-    
+
     protected $log;
     
     protected $result_string = '';
-    protected $result_header = '';
     protected $http_code = '';
     protected $result;
     protected $result_type;
-    protected $header_parsing = false;
-    
+
     protected $headers = array();
-    protected $header_map = array();
-    
+
     /**
      * Constructor
      *
@@ -60,7 +55,7 @@ class ilECSResult
      * @throws ilECSConnectorException
      *
      */
-    public function __construct($a_res, $with_headers = false, $a_type = self::RESULT_TYPE_JSON)
+    public function __construct($a_res, $a_type = self::RESULT_TYPE_JSON)
     {
         global $DIC;
 
@@ -70,11 +65,7 @@ class ilECSResult
         
         $this->result_string = $a_res;
         $this->result_type = $a_type;
-        
-        if ($with_headers) {
-            $this->header_parsing = true;
-        }
-    
+
         $this->init();
     }
     
@@ -139,7 +130,7 @@ class ilECSResult
      */
     public function getHeaders()
     {
-        return $this->headers ? $this->headers : array();
+        return $this->headers ?: [];
     }
     
     /**
@@ -149,12 +140,6 @@ class ilECSResult
      */
     private function init()
     {
-        if ($this->header_parsing and $this->result_string) {
-            $this->splitHeader();
-            $this->parseHeader();
-        }
-
-        
         switch ($this->result_type) {
             case self::RESULT_TYPE_JSON:
                 if ($this->result_string) {
@@ -167,56 +152,6 @@ class ilECSResult
             case self::RESULT_TYPE_URL_LIST:
                 $this->result = $this->parseUriList($this->result_string);
                 break;
-        }
-        return true;
-    }
-    
-    /**
-     * Split header and content
-     *
-     * @access private
-     * @throws ilECSConnectorException
-     *
-     */
-    private function splitHeader()
-    {
-        $pos = strpos($this->result_string, "\r\n\r\n");
-        if ($pos !== false) {
-            $this->result_header = substr($this->result_string, 0, $pos + 2);
-            $this->result_string = substr($this->result_string, $pos + 2, -1);
-            return true;
-        } else {
-            $this->log->write(__METHOD__ . ': Cannot find header entry');
-            throw new ilECSConnectorException('Cannot find header part.');
-        }
-    }
-    
-    /**
-     * Parse header
-     *
-     * @access private
-     *
-     */
-    private function parseHeader()
-    {
-        // In the moment only look for "Location:" value
-        $location_start = strpos($this->result_header, "Location:");
-        if ($location_start !== false) {
-            $location_start += 10;
-            $location_end = strpos($this->result_header, "\r\n", $location_start);
-            
-            $location = substr($this->result_header, $location_start, $location_end - $location_start);
-            $this->headers['Location'] = $location;
-        }
-        
-        $ecs_sender = strpos($this->result_header, self::HEADER_ECS_SENDER);
-        if ($ecs_sender !== false) {
-            $sender_start = +13;
-            $sender_end = strpos($this->result_header, "\r\n", $sender_start);
-            $sender = substr($this->result_header, $sender_start, $sender_end - $sender_start);
-            
-            $senders_arr = explode(',', $sender);
-            $this->header_map[self::HEADER_ECS_SENDER] = $senders_arr;
         }
         return true;
     }

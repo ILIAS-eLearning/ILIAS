@@ -1,4 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -12,9 +32,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 
 /**
  * Class Lost
@@ -23,12 +44,13 @@ use ILIAS\UI\Component\Symbol\Symbol;
 class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
     use SymbolDecoratorTrait;
+
     /**
-     * @var isChild[]
+     * @var mixed[]
      */
-    private $children = array();
+    private $children = [];
     /**
-     * @var IdentificationInterface
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     private $parent;
     /**
@@ -135,6 +157,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
 
     /**
      * @inheritDoc
+     * @param isChild[] $children
      */
     public function withChildren(array $children) : isParent
     {
@@ -170,7 +193,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function hasChildren() : bool
     {
-        return count($this->children) > 0;
+        return $this->children !== [];
     }
 
     /**
@@ -220,7 +243,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function getSymbol() : Symbol
     {
-        return null;
+        return new Glyph(Glyph::MORE, '');
     }
 
     /**

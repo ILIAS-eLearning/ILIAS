@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilDataCollectionField
@@ -100,11 +114,12 @@ class ilBiblEntryTableGUI extends ilTable2GUI
      */
     public function fillRow($a_set)
     {
-        $ilBiblOverviewGUI = $a_set['overview_gui'];
+        /** @var ilBiblEntryTablePresentationGUI $presentation_gui */
+        $presentation_gui = $a_set['overview_gui'];
         $this->tpl->setVariable(
             'SINGLE_ENTRY',
             ilBiblEntryDetailPresentationGUI::prepareLatex(
-                $ilBiblOverviewGUI->getHtml()
+                $presentation_gui->getHtml()
             )
         );
         //Detail-Link
@@ -116,7 +131,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         foreach ($libraries as $library) {
             if ($library->getShowInList()) {
                 $presentation = new ilBiblLibraryPresentationGUI($library, $this->facade);
-                $arr_library_link[] = $presentation->getButton($this->facade, $ilBiblOverviewGUI->getEntry());
+                $arr_library_link[] = $presentation->getButton($this->facade, $presentation_gui->getEntry());
             }
         }
         if (count($arr_library_link)) {
@@ -169,11 +184,11 @@ class ilBiblEntryTableGUI extends ilTable2GUI
             $entry['overview_gui'] = $overview_gui;
             $entries[] = $entry;
         }
-    
+
         usort($entries, function ($a, $b) {
             return $a['content'] > $b['content'];
         });
-        
+
         $this->setData($entries);
     }
 }

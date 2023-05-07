@@ -537,7 +537,7 @@ class ilContainer extends ilObject
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $style_id = $this->getStyleSheetId();
         if ($style_id > 0) {
-            if (!!ilObjStyleSheet::_lookupStandard($style_id)) {
+            if (!ilObjStyleSheet::_lookupStandard($style_id)) {
                 $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
                 $new_id = $style_obj->ilClone();
                 $new_obj->setStyleSheetId($new_id);
@@ -1381,17 +1381,24 @@ class ilContainer extends ilObject
                      * Only text fields take care of $parser_value being passed through
                      * new ilQueryParser($parser_value), thus other fields pass values by setting
                      * directly in the ADT objects. This could go to a new bridge.
+                     * Workaround #2:
+                     * Subtracting the value by 1 for selects completes the workaround started in
+                     * ilContainerFilterUtil::getFilterForRefId. This is necessary in R7 since KS
+                     * selects are confused by the value 0. For R8 this is somehow not a problem.
                      */
                     if ($field instanceof ilAdvancedMDFieldDefinitionSelectMulti) {
-                        $field_form->getADT()->setSelections([$val]);
+                        $field_form->getADT()->setSelections([$val - 1]);
                     }
                     if ($field instanceof ilAdvancedMDFieldDefinitionSelect) {
                         $adt = $field_form->getADT();
                         if ($adt instanceof ilADTMultiEnumText) {
-                            $field_form->getADT()->setSelections([$val]);
+                            $field_form->getADT()->setSelections([$val - 1]);
                         } else {
-                            $field_form->getADT()->setSelection($val);
+                            $field_form->getADT()->setSelection($val - 1);
                         }
+                    }
+                    if ($field instanceof ilAdvancedMDFieldDefinitionInteger) {
+                        $field_form->getADT()->setNumber((int) $val);
                     }
 
                     include_once 'Services/Search/classes/class.ilQueryParser.php';

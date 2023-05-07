@@ -104,7 +104,8 @@ export default class PageModel {
       mediaFormat: "",
       addedSection: false,
       pasting: false,
-      autoSavedPCID: null
+      autoSavedPCID: null,
+      initialSectionClass: null
     };
 
     this.splitIds = [];
@@ -463,4 +464,13 @@ export default class PageModel {
   getAddedSection() {
     return this.model.addedSection;
   }
+
+  setInitialSectionClass(c) {
+    this.model.initialSectionClass = c;
+  }
+
+  getInitialSectionClass() {
+    return this.model.initialSectionClass;
+  }
+
 }

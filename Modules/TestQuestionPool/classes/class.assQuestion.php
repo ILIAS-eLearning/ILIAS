@@ -1403,72 +1403,85 @@ abstract class assQuestion
 
         $pass = ilObjTest::_getResultPass($active_id);
 
-        $query = "
+        if ($pass !== null) {
+            $query = "
 			SELECT		tst_pass_result.*
 			FROM		tst_pass_result
 			WHERE		active_fi = %s
 			AND			pass = %s
 		";
 
-        $result = $ilDB->queryF(
-            $query,
-            array('integer','integer'),
-            array($active_id, $pass)
-        );
-
-        $row_result = $ilDB->fetchAssoc($result);
-
-        $max = $row_result['maxpoints'];
-        $reached = $row_result['points'];
-
-        $obligationsAnswered = (int) $row_result['obligations_answered'];
-
-        include_once "./Modules/Test/classes/class.assMarkSchema.php";
-
-        $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
-
-        $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
-
-        $isPassed = ($mark["passed"] ? 1 : 0);
-        $isFailed = (!$mark["passed"] ? 1 : 0);
-
-        $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isFailed, $isPassed, $obligationsAnswered, $row_result, $mark) {
-            $passedOnceBefore = 0;
-            $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
-            $res = $ilDB->queryF($query, array('integer'), array($active_id));
-            while ($row = $ilDB->fetchAssoc($res)) {
-                $passedOnceBefore = (int) $row['passed_once'];
-            }
-
-            $passedOnce = (int) ($isPassed || $passedOnceBefore);
-
-            $ilDB->manipulateF(
-                "DELETE FROM tst_result_cache WHERE active_fi = %s",
-                array('integer'),
-                array($active_id)
+            $result = $ilDB->queryF(
+                $query,
+                array('integer', 'integer'),
+                array($active_id, $pass)
             );
 
-            $ilDB->insert('tst_result_cache', array(
-                'active_fi' => array('integer', $active_id),
-                'pass' => array('integer', strlen($pass) ? $pass : 0),
-                'max_points' => array('float', strlen($max) ? $max : 0),
-                'reached_points' => array('float', strlen($reached) ? $reached : 0),
-                'mark_short' => array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
-                'mark_official' => array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
-                'passed_once' => array('integer', $passedOnce),
-                'passed' => array('integer', $isPassed),
-                'failed' => array('integer', $isFailed),
-                'tstamp' => array('integer', time()),
-                'hint_count' => array('integer', $row_result['hint_count']),
-                'hint_points' => array('float', $row_result['hint_points']),
-                'obligations_answered' => array('integer', $obligationsAnswered)
-            ));
-        };
+            $row_result = $ilDB->fetchAssoc($result);
 
-        if (is_object($processLocker)) {
-            $processLocker->executeUserTestResultUpdateLockOperation($userTestResultUpdateCallback);
-        } else {
-            $userTestResultUpdateCallback();
+            $max = $row_result['maxpoints'];
+            $reached = $row_result['points'];
+
+            $obligationsAnswered = (int) $row_result['obligations_answered'];
+
+            include_once "./Modules/Test/classes/class.assMarkSchema.php";
+
+            $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+
+            $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+
+            $isPassed = ($mark["passed"] ? 1 : 0);
+            $isFailed = (!$mark["passed"] ? 1 : 0);
+
+            $userTestResultUpdateCallback = function () use (
+                $ilDB,
+                $active_id,
+                $pass,
+                $max,
+                $reached,
+                $isFailed,
+                $isPassed,
+                $obligationsAnswered,
+                $row_result,
+                $mark
+            ) {
+                $passedOnceBefore = 0;
+                $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
+                $res = $ilDB->queryF($query, array('integer'), array($active_id));
+                while ($row = $ilDB->fetchAssoc($res)) {
+                    $passedOnceBefore = (int) $row['passed_once'];
+                }
+
+                $passedOnce = (int) ($isPassed || $passedOnceBefore);
+
+                $ilDB->manipulateF(
+                    "DELETE FROM tst_result_cache WHERE active_fi = %s",
+                    array('integer'),
+                    array($active_id)
+                );
+
+                $ilDB->insert('tst_result_cache', array(
+                    'active_fi' => array('integer', $active_id),
+                    'pass' => array('integer', strlen($pass) ? $pass : 0),
+                    'max_points' => array('float', strlen($max) ? $max : 0),
+                    'reached_points' => array('float', strlen($reached) ? $reached : 0),
+                    'mark_short' => array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
+                    'mark_official' => array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+                    'passed_once' => array('integer', $passedOnce),
+                    'passed' => array('integer', $isPassed),
+                    'failed' => array('integer', $isFailed),
+                    'tstamp' => array('integer', time()),
+                    'hint_count' => array('integer', $row_result['hint_count']),
+                    'hint_points' => array('float', $row_result['hint_points']),
+                    'obligations_answered' => array('integer', $obligationsAnswered)
+                ));
+            };
+
+            if (is_object($processLocker)) {
+                $processLocker->executeUserTestResultUpdateLockOperation($userTestResultUpdateCallback);
+            } else {
+                $userTestResultUpdateCallback();
+            }
         }
     }
 

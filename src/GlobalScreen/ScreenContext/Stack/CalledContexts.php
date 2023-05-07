@@ -1,4 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext\Stack;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use LogicException;
@@ -10,48 +30,38 @@ use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
  */
 final class CalledContexts extends ContextCollection
 {
-
     /**
-     * @var array
+     * @var mixed[]
      */
     private $call_locations = [];
 
-    /**
-     * @return ScreenContext
-     */
     public function current() : ScreenContext
     {
         return $this->getLast();
     }
 
-    /**
-     * @param ScreenContext $context
-     */
-    public function push(ScreenContext $context)
+    public function push(ScreenContext $context) : void
     {
         $this->claim(
             $context,
             $context->getUniqueContextIdentifier() === 'external'
         ); // external can be claimed multiple times
     }
-    
+
     public function external() : ContextCollection
     {
         $this->claim($this->repo->external(), true);
-    
+
         return $this;
     }
-    
+
     public function clear() : void
     {
         $this->call_locations = [];
         $this->stack = [];
     }
 
-    /**
-     * @param ScreenContext $context
-     */
-    protected function claim(ScreenContext $context, bool $silent = false)
+    protected function claim(ScreenContext $context, bool $silent = false) : void
     {
         $this->checkCallLocation($context, $silent);
 
@@ -65,14 +75,11 @@ final class CalledContexts extends ContextCollection
         parent::push($context);
     }
 
-    /**
-     * @param ScreenContext $context
-     */
-    private function checkCallLocation(ScreenContext $context, bool $silent = false)
+    private function checkCallLocation(ScreenContext $context, bool $silent = false) : void
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            function ($item) {
+            function ($item) : bool {
                 if (!isset($item['class'])) {
                     return false;
                 }
@@ -82,8 +89,8 @@ final class CalledContexts extends ContextCollection
         );
         array_walk(
             $called_classes,
-            function (& $item) {
-                $item = $item['class'] . ":" . $item['line'];
+            function (&$item) : void {
+                $item = ($item['class'] ?? '') . ":" . ($item['line'] ?? '');
             }
         );
 

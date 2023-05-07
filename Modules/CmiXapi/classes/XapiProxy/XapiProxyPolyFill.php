@@ -25,7 +25,7 @@
         protected $fallbackLrsKey = '';
         protected $fallbackLrsSecret = '';
 
-        const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
+        const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^?]+)?\??(.*))/';
 
         protected $sniffVerbs = array(
             "http://adlnet.gov/expapi/verbs/completed" => "completed",

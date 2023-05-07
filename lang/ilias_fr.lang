@@ -72,7 +72,7 @@ adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Contr
 adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###30 04 2021 new variable
 adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###07 02 2020 new variable
 adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###07 02 2020 new variable
-adm#:#adm_awrn_support_contacts_info#:#Tous les contacts de support technique sont répertoriés. Les utilisateurs sont définis comme des contacts de support technique dans la section "Paramètres Généraux"> "Informations de Contacts" .
+adm#:#adm_awrn_support_contacts_info#:#Tous les contacts de support technique sont répertoriés. Les utilisateurs sont définis comme des contacts de support technique dans la section « Paramètres Généraux → Informations de Contacts ».
 adm#:#adm_support_contacts#:#Support technique
 adm#:#adm_support_contacts_info#:#Contacts de support technique utilisés dans le lien de bas de page, et si activé dans le 'Qui est en ligne ?', comme liste séparée de comptes de connexion.
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Comptabiliser uniquement les solution
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
 assessment#:#tst_count_partial_solutions#:#Comptabiliser les solutions partielles
 assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Préférences
 assessment#:#tst_defaults_applied#:#Les paramètres du test sélectionnés par défaut ont été appliqués.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS ne peut appliquer les paramètres par défaut sélectionnés à  ce test ! Il est possible que ce test contienne déjà  des  questions et/ou de données de participant.
@@ -1425,6 +1426,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
 assessment#:#tst_failed_imp_skl_thresholds#:#L’importation des seuils pour les compétences suivantes a été passée car les compétences correspondantes dans le système local sont configurées avec une liste de niveaux différente.
 assessment#:#tst_feedback#:#Retour
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Type de question
 assessment#:#tst_filter_question_type_enabled#:#Utiliser le type de question comme filtre
@@ -2027,6 +2030,7 @@ auth#:#auth_info_migrate#:#Si vous avez déjà  un compte ILIAS, saisir nom d'ut
 auth#:#auth_ldap_server_ds#:#Serveur LDAP
 auth#:#auth_login_editor#:#Editeur de la page de connexion
 auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
@@ -2042,6 +2046,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###30 04 2021 new variable
@@ -2066,6 +2072,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der A
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
@@ -2505,6 +2515,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###
 book#:#book_not#:#Non
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences###07 02 2020 new variable
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###07 02 2020 new variable
@@ -2541,6 +2552,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Votre réservation a été confirmée.
 book#:#book_reservation_failed#:#Votre réservation a échoué.
@@ -3640,7 +3653,6 @@ common#:#categories_imported#:#Importation des catégorie terminée
 common#:#catr#:#Catégorie référente
 common#:#catr_edit_info#:#Veuillez choisir une catégorie pour créer un nouveau référent.
 common#:#catr_new#:#Créer nouvelle catégorie référente
-common#:#cc#:#CC
 common#:#certificate#:#Certificat
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###07 02 2020 new variable
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###07 02 2020 new variable
@@ -3773,7 +3785,7 @@ common#:#cron_forum_notification_crob_desc#:#Lorsque activé, les utilisateurs a
 common#:#cron_forum_notification_desc#:#Si autorisé, tous les utilisateurs , qui souhaitent être informés des nouveaux articles ajoutés aux sujets de discussion indiqués, recevront automatiquement des notifications par mail.
 common#:#cron_jobs#:#Tâches Cron
 common#:#cron_lucene_index#:#Mettre à jour l'index de recherche Lucene
-common#:#cron_lucene_index_info#:#Si actif, l'index de recherche de Lucene va être mis à  jour. Configurer le serveur Lucene à  'Administration -> rechercher'.
+common#:#cron_lucene_index_info#:#Si actif, l'index de recherche de Lucene va être mis à  jour. Configurer le serveur Lucene dans l'Administration « Rechercher et trouver → Rechercher ».
 common#:#cron_mail_notification#:#Notifications de nouveaux emails
 common#:#cron_mail_notification_cron#:#Régulièrement par tâche Cron
 common#:#cron_mail_notification_desc#:#Si actif, tous les utilisateurs demandant à  être informer, recevront des notifications par mail externe.
@@ -3833,8 +3845,6 @@ common#:#day#:#Jour
 common#:#days#:#Jours
 common#:#db_host#:#Hôte de la base de données
 common#:#db_name#:#Nom de base de données
-common#:#db_need_hotfix#:#Correctif disponible. Lancer le programme d'installation (setup)
-common#:#db_need_update#:#La base de données doit être mise à jour
 common#:#db_pass#:#Mot de passe de base de données
 common#:#db_type#:#Type de base de données
 common#:#db_user#:#Utilisateur de base de données
@@ -5241,6 +5251,7 @@ common#:#predefined_template#:#Modèle de rôle prédéfini
 common#:#preferences#:#Préférences Utilisateur-défini
 common#:#presentation_table_more#:#more
 common#:#preview#:#Aperçu
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Créer Aperçu
 common#:#preview_delete#:#Supprimer Aperçu
 common#:#preview_learner_info#:#Si actif, les administrateurs de cours et groupe auront la possibilité de visualiser la vue de l'apprenant.
@@ -5319,7 +5330,7 @@ common#:#reg_account_confirmation_successful#:#Votre compte utilisateur a été 
 common#:#reg_goto_parent_membership_info#:#Seuls les membres peuvent accéder à cet objet.
 common#:#reg_mail_body_2_confirmation#:#Le lien sera bon uniquement pour %s. Après, vous devrez recommencer depuis le début.
 common#:#reg_mail_body_3_confirmation#:#Si ce mail n'a aucune signification, il est possible que votre adresse mail a été saisie délibérament ou par accident. Veuillez donc ignorer ce mail.
-common#:#reg_mail_body_forgot_password_info#:#Pour obtenir votre mot de passe, veuillez utiliser la fonction "Mot de passe oublié ?" sur l'écran de connexion afin de demander un nouveau mot de passe pour ce compte.
+common#:#reg_mail_body_forgot_password_info#:#Pour obtenir votre mot de passe, veuillez utiliser la fonction « Mot de passe oublié ? » sur l'écran de connexion afin de demander un nouveau mot de passe pour ce compte.
 common#:#reg_mail_body_salutation#:#Bonjour
 common#:#reg_mail_body_text1#:#Bienvenue sur MediaEcole, votre compte a été créé sur la plateforme de formation du CIN de Saint-Mandrier. Ce compte est ouvert pour une durée variable selon les profils définis dans l'OP 4 - DDE.
 common#:#reg_mail_body_text2#:#Pour vous connecter, cliquer sur : http://p-form.intradef.gouv.fr/login.php?client_id=mediaecole
@@ -5560,6 +5571,7 @@ common#:#short_inst_name#:#Titre Court
 common#:#short_inst_name_info#:#Ce titre apparaît dans la barre de titre du navigateur. Si aucune valeur n'est entrée, 'ILIAS' sera utilisé.
 common#:#show#:#Afficher
 common#:#show_all_details#:#Montrer les détails
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Afficher Détails
 common#:#show_filter#:#Afficher le Filtre
 common#:#show_hidden_sections#:#Afficher plus d'informations &raquo;
@@ -5962,6 +5974,7 @@ cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
 cont#:#cont_filter_record#:#Record###07 02 2020 new variable
 cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
 cont#:#cont_item_list#:#List
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Item Presentation
 cont#:#cont_mem_skills#:#Compétences
 cont#:#cont_news_edited#:#Traitées
@@ -6015,6 +6028,7 @@ cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
 cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
 cont#:#cont_tile_view#:#Tiles
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Contacts Approuvés
 contact#:#contact_awrn_ap_contacts_info#:#Tous les contacts approuvés par l'utilisateur sont répertoriés.
 contact#:#contact_awrn_req_contacts#:#Demandes de Contacts
@@ -6452,6 +6466,8 @@ content#:#cont_grid_width_s#:#Petite
 content#:#cont_grid_width_s_info#:#Par ex. smartphone
 content#:#cont_grid_width_xl#:#Extra large
 content#:#cont_grid_width_xl_info#:#Par ex. ordinateur large
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Entête
 content#:#cont_height#:#Hauteur
 content#:#cont_help_no_valid_tooltip_id#:#L'ID d'info-bulle que vous avez saisi n'était pas valide.
@@ -7053,7 +7069,7 @@ content#:#cont_update_verification#:#Editer Certificat
 content#:#cont_upload_dir#:#Répertoire de téléversement
 content#:#cont_upload_dir_info#:#Répertoire du serveur depuis lequel des zip lourds SCORM et HTML peuvent être copiés au lieu d'être téléchargés. Seuls les administrateurs ILIAS verront les fichiers depuis ce répertoire. Veuillez saisir un chemin absolu de serveur sans slash.
 content#:#cont_upload_file#:#Upload File###30 04 2021 new variable
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" ➜ "my_video_en.srt".
 content#:#cont_uploaded_file#:#Fichier existant
 content#:#cont_url_info#:#URL of a media file or Youtube URL.###30 04 2021 new variable
 content#:#cont_usage#:#Utilisation
@@ -10017,7 +10033,7 @@ itgr#:#itgr_materials#:#Ressources
 itgr#:#itgr_show_title#:#Montrer titre
 itgr#:#itgr_show_title_info#:#Montre le titre du groupe d'articles dans la présentation pour l’apprenant.
 jscalendar#:#about_calendar#:#A propos du calendrier
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selectorn(c) dynarch.com 2002-2003nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.eplnDistribué  selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.nnSélection de la date:n- Utiliser les boutons << et >> pour sélectionner l'annéen- Utiliser les boutons < et > pour sélectionner le moisn- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selectorn(c) dynarch.com 2002-2003nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.eplnDistribué  selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.nnSélection de la date:n- Utiliser les boutons « et » pour sélectionner l'annéen- Utiliser les boutons < et > pour sélectionner le moisn- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.
 jscalendar#:#about_time#:#nnSélection de l'heure :n- Cliquer sur n'importe quelle partie de l'heure pour l'augmentern- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.
 jscalendar#:#close#:#Fermer
 jscalendar#:#day_first#:#Afficher %s en premier
@@ -10092,7 +10108,7 @@ ldap#:#ldap_deleted_role_mapping#:#Assignation supprimée.
 ldap#:#ldap_deleted_rule#:#Assignations de rôle sélectionnées supprimées.
 ldap#:#ldap_dn_info#:#Saisir le Distinguished Name du groupe LDAP.
 ldap#:#ldap_edit_role_ass_rule#:#Modifier règle d'assignation de rôle
-ldap#:#ldap_edit_role_assignment#:#Editer Rôle -> Association Groupe
+ldap#:#ldap_edit_role_assignment#:#Editer Rôle ➜ Association Groupe
 ldap#:#ldap_err_missing_plugin_id#:#Veuillez saisir un id de plugin valide.
 ldap#:#ldap_escapedn#:#Escape DN###30 04 2021 new variable
 ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###30 04 2021 new variable
@@ -10132,7 +10148,7 @@ ldap#:#ldap_memberisdn#:#La valeur d'attribut est DN
 ldap#:#ldap_missing_bind_user#:#Vous avez choisi "Bind comme utilisateur" : Veuillez saisir un nom d'utilisateur LDAP valide et un mot de passe.
 ldap#:#ldap_missing_role_assignment#:#Veuillez choisir un rôle global sur lequel les nouveaux utilisateurs seront assignés.
 ldap#:#ldap_moment_sync#:#Type de la synchronisation
-ldap#:#ldap_new_role_assignment#:#Ajouter nouveau rôle -> assignation de groupe
+ldap#:#ldap_new_role_assignment#:#Ajouter nouveau rôle ➜ assignation de groupe
 ldap#:#ldap_plugin#:#Assignation par Plugin
 ldap#:#ldap_plugin_id#:#Id de plugin
 ldap#:#ldap_plugin_info#:#Valider l'assignation de rôle avec un plugin. Veuillez saisir un id de plugin valide.
@@ -10151,13 +10167,13 @@ ldap#:#ldap_role_bind_user_info#:#Veuillez saisir le Distinguished Name d'un com
 ldap#:#ldap_role_by_attribute#:#Attribut LDAP
 ldap#:#ldap_role_by_group#:#Adhésion de groupe
 ldap#:#ldap_role_by_plugin#:#Par plugin
-ldap#:#ldap_role_group_assignments#:#Rôle existant -> assignations de groupe
+ldap#:#ldap_role_group_assignments#:#Rôle existant ➜ assignations de groupe
 ldap#:#ldap_role_grp_at#:#Attribut
 ldap#:#ldap_role_grp_dn_info#:#Veuillez saisir le Distinguished Nmanr du groupe LDAP.
 ldap#:#ldap_role_grp_info#:#Les membres d'un groupe LDAP spécifique seont assignés au rôle ILIAS fourni.
 ldap#:#ldap_role_grp_isdn#:#La valeur d'attribut est DN
 ldap#:#ldap_role_info#:#Saisir le nom d'un rôle ILIAS qui contrôlera l'adhésion à  un groupe LDAP.
-ldap#:#ldap_role_mapping#:#Groupe LDAP -> Mappage de rôle
+ldap#:#ldap_role_mapping#:#Groupe LDAP ➜ Mappage de rôle
 ldap#:#ldap_role_name_info#:#Veuillez soit choisir un rôle global soit saisir le nom d'un rôle local.
 ldap#:#ldap_role_not_exists#:#Un rôle avec ce nom n'existe pas
 ldap#:#ldap_role_selection#:#Sélection de rôle
@@ -10526,6 +10542,7 @@ lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -10588,7 +10605,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variabl
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Retour au dossier
-mail#:#bc#:#CCI
 mail#:#chat_users_have_been_invited#:#Les utilisateurs ont été invités.
 mail#:#chat_users_without_login#:#Les utilisateurs suivants n'ont pas de compte ILIAS et ne peuvent pas être invités à la salle de Chat.
 mail#:#chat_users_without_permission#:#Les utilisateurs suivants n'ont pas accès à la salle de Chat sélectionnée.
@@ -10613,9 +10629,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Ajouter un contact de votre carnet d'
 mail#:#mail_attachment_file_not_exist#:#Au moins une des pièces-attachées suivantes n’existe pas: %1$s
 mail#:#mail_attachments#:#Pièces Jointes
 mail#:#mail_auto_generated_info#:#Ce message vous a été automatiquement envoyé par la plateforme ILIAS %s, %s
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s###07 02 2020 new variable
 mail#:#mail_bg_task_title#:#E-mail Delivery###07 02 2020 new variable
 mail#:#mail_both_email#:#Les deux adresses mail
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Afficher le dossier :
 mail#:#mail_create_tpl#:#Créer des modèles de textes
 mail#:#mail_cronjob_notification_info#:#Vous pouvez activer une notification périodique des nouveaux messages.
@@ -10676,6 +10694,7 @@ mail#:#mail_generic_rcp_error#:#Une erreur est survenue lors de la validation de
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Envoyer mail aux rôles de groupes
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Messages reçus
 mail#:#mail_incoming_both#:#local et redirection
 mail#:#mail_incoming_local#:#local seulement
@@ -10825,10 +10844,11 @@ mail#:#only_inbox_trash#:#Considérer uniquement la boîte de réception / la co
 mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder.
 mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.
 mail#:#orphaned_mail_subject#:#Notification à propos des mails orphelins
-mail#:#placeholders_advise#:#Les chaînes de remplacement ne concernent que les destinataires indiqués dans le champs "À", et non les destinataires indiqués dans les champs "CC" et "CCI".
+mail#:#placeholders_advise#:#Les chaînes de remplacement ne concernent que les destinataires indiqués dans le champs « À », et non les destinataires indiqués dans les champs « CC » et « CCI ».
 mail#:#search_content#:#Résultats de Recherche
 mail#:#search_recipients#:#Rechercher Destinataires
 mail#:#second_email_missing_info#:#Sélection impossible car aucune adresse mail secondaire n’a été entrée
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#Tous les administrateurs
 mail#:#send_mail_members#:#Tous les membres
 mail#:#send_mail_to#:#Envoyer un message à
@@ -10860,7 +10880,7 @@ mathjax#:#mathjax_enable_mathjax#:#Activer MathJax
 mathjax#:#mathjax_enable_mathjax_info#:#Active le rendu MathJax des expressions mathématiques LaTeX.
 mathjax#:#mathjax_enable_server#:#Autoriser MathJax sur le serveur
 mathjax#:#mathjax_enable_server_info#:#Active un rendu côté serveur de TeX vers les graphiques.
-mathjax#:#mathjax_home_link#:# » MathJax
+mathjax#:#mathjax_home_link#:# ➜ Page Web de MathJax
 mathjax#:#mathjax_limiter#:#Séparateurs
 mathjax#:#mathjax_limiter_info#:#Définissez les séparateurs tels qu'ils sont configurés dans votre installation MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
@@ -10871,14 +10891,14 @@ mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Le cache MathJax a été supprimé.
 mathjax#:#mathjax_server_cache_size#:#Taille du cache
 mathjax#:#mathjax_server_cache_size_info#:#Espace disque utilisé pour le cache des graphiques rendus.
-mathjax#:#mathjax_server_clear_cache#:# » Supprimer cache
+mathjax#:#mathjax_server_clear_cache#:# ➜ Supprimer cache
 mathjax#:#mathjax_server_for_browser#:#Utiliser pour le navigateur
 mathjax#:#mathjax_server_for_browser_info#:#TeX sera affiché sous forme de graphiques SVG. Autoriser MathJax dans le navigateur n’est pas nécessaire.
 mathjax#:#mathjax_server_for_export#:#Utiliser pour l’exportation HTML
 mathjax#:#mathjax_server_for_export_info#:#TeX sera exporté sous forme de graphique SVG pour les exportations du module d’apprentissage vers HTML.
 mathjax#:#mathjax_server_for_pdf#:#Utiliser pour créer un PDF
 mathjax#:#mathjax_server_for_pdf_info#:#Le serveur sera utilisé lorsque les fichiers PDF sont générés.
-mathjax#:#mathjax_server_installation#:# » Installation
+mathjax#:#mathjax_server_installation#:# ➜ Installation
 mathjax#:#mathjax_server_timeout#:#Pause
 mathjax#:#mathjax_server_timeout_info#:#Pause pour appeler le serveur mathjax en quelques secondes
 mathjax#:#mathjax_settings#:#Paramètres MathJax
@@ -13788,7 +13808,7 @@ registration#:#reg_mail_body_confirmation#:#Pour confirmer l'enregistrement, veu
 registration#:#reg_mail_body_profile#:#Données du profil :
 registration#:#reg_mail_body_profile_changed#:#Votre profil a été modifié !
 registration#:#reg_mail_body_pwd_generation#:#Votre demande de compte utilisateur va être examiné par un administrateur et devrait être traitée sous 48h. Vous serez informé de la réponse par mail.
-registration#:#reg_mail_body_reason#:#Vous recevez cet Email parceque vous avez coché la case "notifier les nouveaux enregistrement" dans le menu administration->authentification
+registration#:#reg_mail_body_reason#:#Vous recevez cet Email parceque vous avez coché la case "notifier les nouveaux enregistrement" dans le menu administration ➜ authentification
 registration#:#reg_mail_body_timelimit#:#Votre compte a une période de validité limitée : %s.
 registration#:#reg_mail_new_user#:#Nouvelle inscription d'utilisateur
 registration#:#reg_mail_new_user_body#:#Un nouvel utilisateur a été enregistré.

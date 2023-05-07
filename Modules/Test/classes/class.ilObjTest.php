@@ -3594,7 +3594,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        #var_dump($question_id);
         if ($linkOnly) {
             $duplicate_id = $question_id;
         } else {
@@ -4041,7 +4040,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $results = $this->getResultsForActiveId($active_id);
 
-        if (is_null($pass)) {
+        if ($pass === null) {
             $pass = $results['pass'];
         }
 
@@ -4076,7 +4075,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
 
-        $arrResults = array();
+        $arrResults = [];
 
         $query = "
 			SELECT		tst_test_result.question_fi,
@@ -4128,7 +4127,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $result = $ilDB->query($query);
 
-        $unordered = array();
+        $unordered = [];
 
         $key = 1;
 
@@ -4176,7 +4175,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $pass_hint_points = 0;
         $key = 1;
 
-        $found = array();
+        $found = [];
 
         foreach ($sequence as $qid) {
             // building pass point sums based on prepared data
@@ -8130,6 +8129,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $bestrow = null;
             $bestfactor = 0;
             while ($row = $ilDB->fetchAssoc($result)) {
+                if ($bestrow === null) {
+                    $bestrow = $row;
+                    continue;
+                }
                 if ($row["maxpoints"] > 0) {
                     $factor = $row["points"] / $row["maxpoints"];
                 } else {
@@ -8144,10 +8147,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             if (is_array($bestrow)) {
                 return $bestrow["pass"];
             } else {
-                return 0;
+                return null;
             }
         } else {
-            return 0;
+            return null;
         }
     }
 
@@ -9261,19 +9264,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return string QTI material tag
     * @access public
     */
-    public function addQTIMaterial(&$a_xml_writer, $a_material)
+    public function addQTIMaterial(&$a_xml_writer, $a_material = '')
     {
         include_once "./Services/RTE/classes/class.ilRTE.php";
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
         $a_xml_writer->xmlStartTag("material");
+        $txt = $a_material;
         $attrs = array(
             "texttype" => "text/plain"
         );
         if ($this->isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
+            $txt = ilRTE::_replaceMediaObjectImageSrc($a_material, 0);
         }
-        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+        $a_xml_writer->xmlElement("mattext", $attrs, $txt);
 
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
         foreach ($mobs as $mob) {
@@ -10177,16 +10183,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $finalized_time = $feedback_old['finalized_tstamp'];
         }
 
-        if ($finalized === true || $feedback_old['finalized_evaluation'] == 1) {
-            if (!array_key_exists('evaluated', $_POST)) {
-                $update_default['finalized_evaluation'] = ['integer', 0];
-                $update_default['finalized_by_usr_id'] = ['integer', 0];
-                $update_default['finalized_tstamp'] = ['integer', 0];
-            } else {
-                $update_default['finalized_evaluation'] = ['integer', 1];
-                $update_default['finalized_by_usr_id'] = ['integer', $user];
-                $update_default['finalized_tstamp'] = ['integer', $finalized_time];
-            }
+        if ($finalized === false) {
+            $update_default['finalized_evaluation'] = ['integer', 0];
+            $update_default['finalized_by_usr_id'] = ['integer', 0];
+            $update_default['finalized_tstamp'] = ['integer', 0];
+        } elseif ($finalized === true) {
+            $update_default['finalized_evaluation'] = ['integer', 1];
+            $update_default['finalized_by_usr_id'] = ['integer', $user];
+            $update_default['finalized_tstamp'] = ['integer', $finalized_time];
         }
 
         $ilDB->insert('tst_manual_fb', $update_default);

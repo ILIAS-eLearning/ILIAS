@@ -1,33 +1,42 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+<?php
 
-use Generator;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+
+use Iterator;
+
 /**
  * Class Js
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractCollection
 {
-    protected $resource_version = '';
-
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
     protected $items = [];
+
+    /**
+     * @var string
+     */
+    protected $resource_version;
 
     /**
      * @param string $resource_version
@@ -37,16 +46,15 @@ abstract class AbstractCollection
         $this->resource_version = $resource_version;
     }
 
-    public function clear()
+    public function clear() : void
     {
         $this->items = [];
     }
 
-
     /**
-     * @return Generator
+     * @return Iterator <Css[]|InlineCss[]|Js[]|OnLoadCode[]>
      */
-    public function getItems() : Generator
+    public function getItems() : Iterator
     {
         yield from $this->items;
     }
@@ -59,10 +67,8 @@ abstract class AbstractCollection
         return $this->items;
     }
 
-
     /**
      * @param string $path
-     *
      * @return string
      */
     protected function stripPath(string $path) : string

@@ -118,6 +118,7 @@ function UploadHandler(blobInfo, success, failure, progress) {
         obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
     xhr.open('POST', uploadUrl);
+    xhr.setRequestHeader('Accept', 'application/json');
     //xhr.withCredentials = settings.credentials;
     xhr.upload.onprogress = function(e) {
         progress(e.loaded / e.total * 100);

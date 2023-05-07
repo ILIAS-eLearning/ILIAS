@@ -353,15 +353,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
             array('integer','integer','integer'),
             array($questionId, $questionIndex, $answerIndex)
         );
-
-        $feedbackId = null;
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            $feedbackId = $row['feedback_id'];
-            break;
-        }
-
-        return $feedbackId;
+        $row = $this->db->fetchAssoc($res);
+        return $row['feedback_id'] ?? null;
     }
 
     /**

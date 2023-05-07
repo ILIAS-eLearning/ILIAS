@@ -1372,6 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#Count only complete solutions###13 Ma
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.###27 01 2015 new variable
 assessment#:#tst_count_partial_solutions#:#Count partial solutions###13 May 2005 new variable
 assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.###27 01 2015 new variable
+assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###16 03 2023 new variable
 assessment#:#tst_default_settings#:#Personal Default Settings###01 10 2011 new variable
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
@@ -1425,6 +1426,8 @@ assessment#:#tst_failed#:#Failed###07 02 2020 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###31 08 2017 new variable
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###31 08 2017 new variable
 assessment#:#tst_feedback#:#Feedback###27 01 2015 new variable
+assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
 assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###07 02 2020 new variable
 assessment#:#tst_filter_question_type#:#Question Type###31 08 2017 new variable
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter###31 08 2017 new variable
@@ -2027,6 +2030,7 @@ auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username a
 auth#:#auth_ldap_server_ds#:#LDAP-Server###25 10 2016 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 auth#:#auth_oidc#:#OpenId Connect###10 11 2018 new variable
+auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###16 03 2023 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  ###10 11 2018 new variable
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten###10 11 2018 new variable
@@ -2042,6 +2046,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer#
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer###10 11 2018 new variable
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung###10 11 2018 new variable
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer###10 11 2018 new variable
+auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###16 03 2023 new variable
+auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###16 03 2023 new variable
 auth#:#auth_oidc_settings_img#:#Bild###10 11 2018 new variable
 auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.###10 11 2018 new variable
 auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###30 04 2021 new variable
@@ -2066,6 +2072,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der A
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge###10 11 2018 new variable
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung###10 11 2018 new variable
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.###10 11 2018 new variable
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###16 03 2023 new variable
+auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###16 03 2023 new variable
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
 auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
@@ -2505,6 +2515,7 @@ book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###
 book#:#book_not#:#No###06 08 2010 new variable
 book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.###07 02 2020 new variable
 book#:#book_notification#:#Send Reservation Notifications###10 11 2018 new variable
+book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###16 03 2023 new variable
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).###10 11 2018 new variable
 book#:#book_nr_of_preferences#:#Number of Preferences###07 02 2020 new variable
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.###07 02 2020 new variable
@@ -2541,6 +2552,8 @@ book#:#book_reminder_day#:#Before Reservation###10 11 2018 new variable
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.###10 11 2018 new variable
 book#:#book_reminder_days#:#Day(s)###10 11 2018 new variable
 book#:#book_reminder_setting#:#Reminder###10 11 2018 new variable
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s available###24 10 2013 new variable
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.###19 07 2010 new variable
 book#:#book_reservation_failed#:#Your booking has failed.###19 07 2010 new variable
@@ -3640,7 +3653,6 @@ common#:#categories_imported#:#Імпорт категорії завершен�
 common#:#catr#:#Category Reference###23 09 2008 new variable
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
 common#:#catr_new#:#Create new Category Reference###23 09 2008 new variable
-common#:#cc#:#CC
 common#:#certificate#:#Certificate###24 02 2009 new variable
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###07 02 2020 new variable
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###07 02 2020 new variable
@@ -3833,8 +3845,6 @@ common#:#day#:#День
 common#:#days#:#Дні
 common#:#db_host#:#Хост з Базою даних
 common#:#db_name#:#Ім'я Бази даних
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
-common#:#db_need_update#:#База даних потребує оновлення!
 common#:#db_pass#:#Пароль до Бази даних
 common#:#db_type#:#Тип Бази даних
 common#:#db_user#:#Користувач Бази даних
@@ -5241,6 +5251,7 @@ common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variab
 common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#presentation_table_more#:#more###10 11 2018 new variable
 common#:#preview#:#Preview###24 10 2013 new variable
+common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
 common#:#preview_create#:#Create Preview###24 10 2013 new variable
 common#:#preview_delete#:#Delete Preview###24 10 2013 new variable
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
@@ -5560,6 +5571,7 @@ common#:#short_inst_name#:#Short Title###02 04 2007 new variable
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
 common#:#show#:#Показати
 common#:#show_all_details#:#Show all details###24 10 2013 new variable
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#показати деталі###14 Jul 2005 content changed
 common#:#show_filter#:#Show Filter###07 09 2009 new variable
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
@@ -5962,6 +5974,7 @@ cont#:#cont_filter_fields#:#Filter Fields###07 02 2020 new variable
 cont#:#cont_filter_record#:#Record###07 02 2020 new variable
 cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
 cont#:#cont_item_list#:#List###10 11 2018 new variable
+cont#:#cont_item_list_info#:#Display content objects in a list.###16 03 2023 new variable
 cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
 cont#:#cont_mem_skills#:#Competences###31 08 2017 new variable
 cont#:#cont_news_edited#:#Bearbeitet###25 10 2016 new variable
@@ -6015,6 +6028,7 @@ cont#:#cont_std_filter_title_8#:#Object Type###07 02 2020 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###07 02 2020 new variable
 cont#:#cont_std_record_title#:#Standard###07 02 2020 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
+cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts###30 08 2015 new variable
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts#:#Contact Requests###30 08 2015 new variable
@@ -6452,6 +6466,8 @@ content#:#cont_grid_width_s#:#Small###31 08 2017 new variable
 content#:#cont_grid_width_s_info#:#E.g. smartphone###31 08 2017 new variable
 content#:#cont_grid_width_xl#:#Extra Large###31 08 2017 new variable
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop###31 08 2017 new variable
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Header###25 02 2007 new variable
 content#:#cont_height#:#Висота
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###26 09 2014 new variable
@@ -10526,6 +10542,7 @@ lti#:#lti_object_consumer#:#LTI Consumers###31 08 2017 new variable
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
 lti#:#lti_provider#:#LTI-Freigaben###31 08 2017 new variable
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -10588,7 +10605,6 @@ lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variabl
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
-mail#:#bc#:#BC
 mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
@@ -10613,9 +10629,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book 
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s###25 10 2016 new variable
 mail#:#mail_attachments#:#Прикріплення
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s###23 07 2008 new variable
+mail#:#mail_bcc#:#BCC###16 03 2023 new variable
 mail#:#mail_bg_task_desc#:#Subject: %s###07 02 2020 new variable
 mail#:#mail_bg_task_title#:#E-mail Delivery###07 02 2020 new variable
 mail#:#mail_both_email#:#Both Email Addresses###31 08 2017 new variable
+mail#:#mail_cc#:#CC###16 03 2023 new variable
 mail#:#mail_change_to_folder#:#Перемкнути в папку:
 mail#:#mail_create_tpl#:#Create Text Templates###30 08 2015 new variable
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
@@ -10676,6 +10694,7 @@ mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients
 mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
 mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
 mail#:#mail_incoming#:#Вхідна пошта
 mail#:#mail_incoming_both#:#локальні та ті що пересилаються
 mail#:#mail_incoming_local#:#тільки локальні
@@ -10829,6 +10848,7 @@ mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in th
 mail#:#search_content#:#Search Result###24 10 2013 new variable
 mail#:#search_recipients#:#Search Recipients###02 11 2007 new variable
 mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered###31 08 2017 new variable
+mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###16 03 2023 new variable
 mail#:#send_mail_admins#:#All Administrators###08 10 2015 new variable
 mail#:#send_mail_members#:#All Members###08 10 2015 new variable
 mail#:#send_mail_to#:#Mail to###16 08 2007 new variable

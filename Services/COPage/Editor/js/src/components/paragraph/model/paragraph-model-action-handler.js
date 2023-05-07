@@ -37,6 +37,7 @@ export default class ParagraphModelActionHandler {
           if (this.pageModel.getComponentState() !== this.pageModel.STATE_COMPONENT_SERVER_CMD) {
             this.pageModel.setAutoSavedPCId(null);
             this.pageModel.setAddedSection(false);
+            this.pageModel.setInitialSectionClass(null);
             this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
             this.pageModel.setPCModel(params.oldPcid, {
               text: params.oldParameters.text,
@@ -53,6 +54,7 @@ export default class ParagraphModelActionHandler {
         case PAGE_ACTIONS.COMPONENT_INSERT:
           this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setAddedSection(false);
+          this.pageModel.setInitialSectionClass(null);
           this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
             text: '',
             characteristic: 'Standard'
@@ -62,6 +64,7 @@ export default class ParagraphModelActionHandler {
         case PAGE_ACTIONS.COMPONENT_EDIT:
           this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setAddedSection(false);
+          this.pageModel.setInitialSectionClass(null);
           break;
 
       }
@@ -158,6 +161,9 @@ export default class ParagraphModelActionHandler {
         case ACTIONS.SECTION_CLASS:
           if (params.oldSectionCharacteristic === "" && params.newSectionCharacteristic !== "") {
             this.pageModel.setAddedSection(true);
+          }
+          if (this.pageModel.getInitialSectionClass() === null) {
+            this.pageModel.setInitialSectionClass(params.oldSectionCharacteristic);
           }
           this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
             text: params.parText,

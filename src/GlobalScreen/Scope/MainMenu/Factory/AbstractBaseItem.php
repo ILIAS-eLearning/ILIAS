@@ -1,10 +1,30 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
+use Closure;
 
 /**
  * Class AbstractBaseItem
@@ -13,28 +33,31 @@ use ILIAS\UI\Component\Legacy\Legacy;
 abstract class AbstractBaseItem implements isItem
 {
     use ComponentDecoratorTrait;
+
     /**
      * @var int
      */
     protected $position = 0;
+
     /**
-     * @var Legacy
+     * @var bool
      */
-    protected $non_available_reason;
+    private $is_visible_static;
+
     /**
-     * @var
-     */
-    protected $available_callable = true;
-    /**
-     * @var callable
-     */
-    protected $active_callable;
-    /**
-     * @var IdentificationInterface
+     * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     protected $provider_identification;
     /**
-     * @var callable
+     * @var \Closure|null
+     */
+    protected $available_callable;
+    /**
+     * @var \Closure|null
+     */
+    protected $active_callable;
+    /**
+     * @var \Closure|null
      */
     protected $visiblility_callable;
     /**
@@ -42,13 +65,13 @@ abstract class AbstractBaseItem implements isItem
      */
     protected $is_always_available = false;
     /**
-     * @var
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation|null
      */
     protected $type_information;
     /**
-     * @var bool
+     * @var \ILIAS\UI\Component\Legacy\Legacy|null
      */
-    private $is_visible_static;
+    protected $non_available_reason;
 
     /**
      * AbstractBaseItem constructor.
@@ -92,7 +115,7 @@ abstract class AbstractBaseItem implements isItem
         if (is_callable($this->visiblility_callable)) {
             $callable = $this->visiblility_callable;
 
-            $value = $callable();
+            $value = (bool) $callable();
 
             return $this->is_visible_static = $value;
         }
@@ -122,7 +145,7 @@ abstract class AbstractBaseItem implements isItem
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
 
-            return $callable();
+            return (bool) $callable();
         }
 
         return true;
@@ -200,9 +223,9 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getTypeInformation() : TypeInformation
+    public function getTypeInformation() : ?TypeInformation
     {
-        return $this->type_information instanceof TypeInformation ? $this->type_information : new TypeInformation(get_class($this), get_class($this));
+        return $this->type_information;
     }
 
     public function isTop() : bool
@@ -215,7 +238,7 @@ abstract class AbstractBaseItem implements isItem
                 return !$changed;
             }
         }
-    
+
         return $this instanceof isTopItem;
     }
 }

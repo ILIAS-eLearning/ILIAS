@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ResourceStorage\Preloader\SecureString;
+
 /**
 * File System Explorer GUI class
 *
@@ -11,6 +13,7 @@
 */
 class ilFileSystemGUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     public $ctrl;
 
     protected $use_upload_directory = false;
@@ -724,7 +727,7 @@ class ilFileSystemGUI
         }
 
         if (is_file($_FILES["new_file"]["tmp_name"])) {
-            $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+            $name = $this->secure(ilUtil::stripSlashes($_FILES["new_file"]["name"]));
             $tgt_file = $cur_dir . "/" . $name;
             try {
                 ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);

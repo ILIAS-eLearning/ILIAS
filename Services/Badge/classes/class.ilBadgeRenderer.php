@@ -89,8 +89,13 @@ class ilBadgeRenderer
                     $lng->txt("obj_" . $parent["type"])
                 )->withSize("medium");
 
-                $parent_icon_with_text = $this->factory->legacy($this->renderer->render($parent_icon) . $parent["title"]);
-                $badge_information[$lng->txt("object")] = $parent_icon_with_text;
+                $label = $parent['title'];
+                $ref = current(ilObject::_getAllReferences($parent['id']));
+                if ($ref) {
+                    $label = $this->factory->link()->standard($label, ilLink::_getLink($ref, $parent['type']));
+                    $label = $this->renderer->render($label);
+                }
+                $badge_information[$lng->txt("object")] = $this->renderer->render($parent_icon) . $label;
             }
         }
         

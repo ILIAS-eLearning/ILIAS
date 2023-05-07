@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
@@ -16,15 +35,12 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Interface ModificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ModificationProvider extends Provider, ScreenContextAwareProvider
 {
-
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return ContentModification
      */
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification;
@@ -43,55 +59,44 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      */
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification;
 
-
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return MetaBarModification|null
      */
     public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification;
 
-
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return BreadCrumbsModification|null
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification;
 
-
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return FooterModification|null
      */
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification;
 
-
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return PageBuilderModification|null
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification;
 
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return TitleModification|null
      */
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification;
 
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return ShortTitleModification|null
      */
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification;
 
     /**
      * @param CalledContexts $screen_context_stack
-     *
      * @return ViewTitleModification|null
      */
     public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification;

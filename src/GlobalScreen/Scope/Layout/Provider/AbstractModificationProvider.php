@@ -1,4 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
@@ -18,12 +38,10 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class AbstractModificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractModificationProvider extends AbstractProvider implements ModificationProvider
 {
-
     /**
      * @var ContextCollection
      */
@@ -32,7 +50,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
      * @var ToolFactory
      */
     protected $factory;
-
 
     /**
      * @inheritDoc
@@ -43,7 +60,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         $this->context_collection = $this->globalScreen()->tool()->context()->collection();
         $this->factory = $this->globalScreen()->layout()->factory();
     }
-
 
     /**
      * @inheritDoc
@@ -74,7 +90,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -82,7 +97,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc
@@ -92,7 +106,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -100,7 +113,6 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc
