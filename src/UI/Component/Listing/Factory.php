@@ -123,7 +123,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     Property Listings will list characteristic, labled values in a space
+     *     Property Listings will list characteristic, labeled values in a space
      *     saving manner. Property listing is ideal, when there are many values
      *     of reasonable, but not specific or primarily relevant importance.
      *   composition: >
