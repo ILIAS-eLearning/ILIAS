@@ -22,6 +22,10 @@ jobs:
         with:
           ref: trunk
 
+      - name: Copy config file to location outside webroot
+        run: |
+           cp CI/install-check/ilias-ci-config.json ../ilias-ci-config.json
+
       - name: Start MySQL Service
         run: |
            sudo /etc/init.d/mysql start
@@ -39,4 +43,4 @@ jobs:
 
       - name: Perform setup
         run: |
-           php setup/setup.php install -y CI/install-check/ilias-ci-config.json
+           php setup/setup.php install -y ../ilias-ci-config.json
