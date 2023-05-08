@@ -107,6 +107,18 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCResourcesTest.php");
         $suite->addTestSuite("PCResourcesTest");
 
+        require_once("./Services/COPage/test/PCSkillsTest.php");
+        $suite->addTestSuite("PCSkillsTest");
+
+        require_once("./Services/COPage/test/PCSourceCodeTest.php");
+        $suite->addTestSuite("PCSourceCodeTest");
+
+        require_once("./Services/COPage/test/PCTabsTest.php");
+        $suite->addTestSuite("PCTabsTest");
+
+        require_once("./Services/COPage/test/PCVerificationTest.php");
+        $suite->addTestSuite("PCVerificationTest");
+
         return $suite;
     }
 }
