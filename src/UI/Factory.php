@@ -983,7 +983,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Entitity Representation displays information about entities within
+     *     An Entity Representation displays information about entities within
      *     the system, such as Repository Objects, Users, OrgUnits, etc, when the
      *     purpose is to represent the entity itself.
      *     Properties and relations of the entity are arranged in semantic groups
