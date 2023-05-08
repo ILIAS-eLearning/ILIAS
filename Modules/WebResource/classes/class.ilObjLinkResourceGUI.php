@@ -679,7 +679,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         $link_post = (array) ($this->http->request()->getParsedBody(
-            )['links'] ?? []);
+        )['links'] ?? []);
 
         // Validate
         $invalid = [];
@@ -948,12 +948,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 );
                 break;
 
-            /*
-             * The async call for displaying the object explorer for
-             * internal links goes through ilPropertyFormGUI to get
-             * to the right ilLinkInputGUI, so we only add that field
-             * to the form here.
-             */
+                /*
+                 * The async call for displaying the object explorer for
+                 * internal links goes through ilPropertyFormGUI to get
+                 * to the right ilLinkInputGUI, so we only add that field
+                 * to the form here.
+                 */
             case self::LINK_MOD_ASYNC:
                 $this->addLinkInputToForm($a_mode);
                 return $this->form;
@@ -1087,12 +1087,22 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                     $this->lng->txt('links_value'),
                     'val'
                 );
+                /*
                 $val->setOptions(array_map(
                     function ($s) {
                         return $this->lng->txt($s);
                     },
                     ilWebLinkBaseParameter::VALUES_TEXT
                 ));
+                */
+                $options = [];
+                foreach(ilWebLinkBaseParameter::VALUES as $name => $identifier) {
+                    if($name === ilWebLinkBaseParameter::SESSION_ID_NAME) {
+                        continue;
+                    }
+                    $options[] = ilWebLinkBaseParameter::VALUES_TEXT[$identifier];
+                }
+                $val->setOptions($options);
                 $val->setValue(0);
                 $dyn->addSubItem($val);
 
