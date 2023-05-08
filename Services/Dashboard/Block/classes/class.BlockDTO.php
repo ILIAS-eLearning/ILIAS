@@ -18,26 +18,21 @@
 
 declare(strict_types=1);
 
-class ilBlockDTO
-{
-    private string $type;
-    private int $ref_id;
-    private int $obj_id;
-    private string $title;
-    private string $description;
-    private ?ilDateTime $startDate;
-    private ?ilDateTime $endDate;
-    private array $additional_data;
+namespace ILIAS\Services\Dashboard\Block;
 
+use ilDateTime;
+
+class BlockDTO
+{
     public function __construct(
-        string $type,
-        int $ref_id,
-        int $obj_id,
-        string $title,
-        string $description,
-        ?ilDateTime $startDate = null,
-        ?ilDateTime $endDate = null,
-        array $additional_data = []
+        private string $type,
+        private int $ref_id,
+        private int $obj_id,
+        private string $title,
+        private string $description,
+        private ?ilDateTime $startDate = null,
+        private ?ilDateTime $endDate = null,
+        private array $additional_data = []
     ) {
         $this->type = $type;
         $this->ref_id = $ref_id;

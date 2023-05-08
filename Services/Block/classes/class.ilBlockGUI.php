@@ -173,7 +173,7 @@ abstract class ilBlockGUI
 
     public function setOffset(int $a_offset): void
     {
-        if ($this->correctOffset($a_offset)) {
+        if ($this->checkOffset($a_offset)) {
             $this->offset = $a_offset;
         } else {
             throw new ilException("ilBlockGUI::setOffset(): Offset out of range.");
@@ -185,9 +185,9 @@ abstract class ilBlockGUI
         return $this->offset;
     }
 
-    public function correctOffset(int $offset): bool
+    public function checkOffset(int $offset): bool
     {
-        return $offset <= $this->max_count;
+        return $offset <= $this->max_count && $offset >= 0;
     }
 
     public function setLimit(int $a_limit): void

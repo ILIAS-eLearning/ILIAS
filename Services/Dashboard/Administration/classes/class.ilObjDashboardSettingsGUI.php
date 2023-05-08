@@ -131,9 +131,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("sorting");
-        $ui = $this->ui;
         $form = $this->getViewForm(self::VIEW_MODE_SORTING);
-        $this->tpl->setContent($ui->renderer()->renderAsync($form));
+        $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
     public function getViewForm(string $mode): StandardForm
@@ -144,11 +143,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 return $this->ui_factory->input()->container()->form()->standard(
                     $this->ctrl->getFormAction($this, 'save' . $mode),
                     array_map(
-                        fn (int $view): Section =>
-                        $this->getViewByMode(
-                            $mode,
-                            $view
-                        ),
+                        fn (int $view): Section => $this->getViewByMode($mode, $view),
                         $this->viewSettings->getPresentationViews()
                     )
                 );
@@ -204,51 +199,49 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getSettingsForm(): StandardForm
     {
-        $ui = $this->ui;
-        $f = $ui->factory();
-        $ctrl = $this->ctrl;
+        $field = $this->ui->factory()->input()->field();
         $lng = $this->lng;
 
         $side_panel = $this->side_panel_settings;
 
-        $fields["enable_favourites"] = $f->input()->field()->checkbox($lng->txt("dash_enable_favourites"))
+        $fields["enable_favourites"] = $field->checkbox($lng->txt("dash_enable_favourites"))
             ->withValue($this->viewSettings->enabledSelectedItems());
         $info_text = ($this->viewSettings->enabledMemberships())
             ? ""
-            : $lng->txt("dash_member_main_alt") . " " . $ui->renderer()->render(
-                $ui->factory()->link()->standard(
+            : $lng->txt("dash_member_main_alt") . " " . $this->ui->renderer()->render(
+                $this->ui->factory()->link()->standard(
                     $lng->txt("dash_click_here"),
-                    $ctrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjMainMenuGUI", "ilmmsubitemgui"])
+                    $this->ctrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjMainMenuGUI", "ilmmsubitemgui"])
                 )
             );
 
-        $fields["enable_recommended_content"] = $f->input()->field()->checkbox($lng->txt("dash_enable_recommended_content"))
+        $fields["enable_recommended_content"] = $field->checkbox($lng->txt("dash_enable_recommended_content"))
                                                   ->withValue(true)
                                                   ->withDisabled(true);
-        $fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"), $info_text)
+        $fields["enable_memberships"] = $field->checkbox($lng->txt("dash_enable_memberships"), $info_text)
             ->withValue($this->viewSettings->enabledMemberships());
 
 
-        $fields["enable_learning_sequences"] = $f->input()->field()->checkbox($lng->txt("dash_enable_learning_sequences"))
+        $fields["enable_learning_sequences"] = $field->checkbox($lng->txt("dash_enable_learning_sequences"))
             ->withValue($this->viewSettings->enabledLearningSequences());
 
-        $fields["enable_study_programmes"] = $f->input()->field()->checkbox($lng->txt("dash_enable_study_programmes"))
+        $fields["enable_study_programmes"] = $field->checkbox($lng->txt("dash_enable_study_programmes"))
             ->withValue($this->viewSettings->enabledStudyProgrammes());
 
         // main panel
-        $section1 = $f->input()->field()->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
+        $section1 = $field->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
 
         $sp_fields = [];
         foreach ($side_panel->getValidModules() as $mod) {
-            $sp_fields["enable_" . $mod] = $f->input()->field()->checkbox($lng->txt("dash_enable_" . $mod))
+            $sp_fields["enable_" . $mod] = $field->checkbox($lng->txt("dash_enable_" . $mod))
                 ->withValue($side_panel->isEnabled($mod));
         }
 
         // side panel
-        $section2 = $f->input()->field()->section($this->maybeDisable($sp_fields), $lng->txt("dash_side_panel"));
+        $section2 = $field->section($this->maybeDisable($sp_fields), $lng->txt("dash_side_panel"));
 
-        $form_action = $ctrl->getLinkTarget($this, "saveSettings");
-        return $f->input()->container()->form()->standard(
+        $form_action = $this->ctrl->getLinkTarget($this, "saveSettings");
+        return $this->ui->factory()->input()->container()->form()->standard(
             $form_action,
             ["main_panel" => $section1, "side_panel" => $section2]
         );
@@ -387,7 +380,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $this->viewSettings->storeViewPresentation(
                 $view,
                 $view_data['default_pres'],
-                $view_data['avail_pres'] ?: []
+                $view_data['avail_pres'] ?? []
             );
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

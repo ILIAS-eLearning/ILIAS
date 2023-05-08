@@ -1,5 +1,5 @@
 /**
- * @param {int} view
+ * @type {(view: int) => void}
  */
 const handleUserInputForSortationsByView = (function() {
     /**
@@ -28,7 +28,7 @@ const handleUserInputForSortationsByView = (function() {
     function switchBackToDefaultIfEnabled(selectionInput, checkboxInput) {
         selectionInput.querySelectorAll('option').forEach(function (element) {
             const checkboxOption = checkboxInput.querySelector('input[value="' + element.value + '"]');
-            if (element.hasAttribute('default') && checkboxOption && checkboxOption.checked === true) {
+            if (element.hasAttribute('default') && checkboxOption && checkboxOption.checked) {
                 selectionInput.querySelectorAll('option').forEach(function (option) {
                     option.removeAttribute('selected');
                 });

@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
     protected ?string $visible_on_pd_mode = null;
 
-    protected function getListItemForDataDTO(ilBlockDTO $data): ?Item
+    protected function getListItemForDataDTO(BlockDTO $data): ?Item
     {
         $item_gui = $this->byType($data->getType());
         $item_gui->initItem(
@@ -157,7 +158,7 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                 $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
             }
 
-            $items[] = new ilBlockDTO(
+            $items[] = new BlockDTO(
                 $prg->getType(),
                 $prg->getRefId(),
                 $prg->getId(),
@@ -199,12 +200,10 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
-        return;
     }
 
     public function confirmedRemoveObject(): void
     {
-        return;
     }
 
     public function removeMultipleEnabled(): bool

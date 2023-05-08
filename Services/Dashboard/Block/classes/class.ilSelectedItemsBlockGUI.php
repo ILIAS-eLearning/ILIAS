@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Services\Dashboard\Block\BlockDTO;
+
 /**
  * @ilCtrl_IsCalledBy ilSelectedItemsBlockGUI: ilColumnGUI
  */
@@ -71,10 +73,10 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     {
         $provider = new ilPDSelectedItemsBlockSelectedItemsProvider($this->user);
         $data = $provider->getItems();
-        $data = array_map(static function (array $item): ilBlockDTO {
+        $data = array_map(static function (array $item): BlockDTO {
             $start = isset($item['start']) && $item['start'] instanceof ilDateTime ? $item['start'] : null;
             $end = isset($item['end']) && $item['end'] instanceof ilDateTime ? $item['end'] : null;
-            return new ilBlockDTO(
+            return new BlockDTO(
                 $item['type'],
                 (int) $item['ref_id'],
                 (int) $item['obj_id'],
@@ -95,13 +97,12 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
-        return;
     }
 
     public function confirmedRemoveObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
+        if ($refIds === []) {
             $this->ctrl->redirect($this, 'manage');
         }
 

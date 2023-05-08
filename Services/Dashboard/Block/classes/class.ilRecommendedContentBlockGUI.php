@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Services\Dashboard\Block\BlockDTO;
+
 class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
 {
     private ilFavouritesManager $favourites;
@@ -62,7 +64,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
         $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
         $ctrl = $this->ctrl;
 
-        $recommendations = array_map(static function (int $ref_id) use ($short_desc, $short_desc_max_length): ilBlockDTO {
+        $recommendations = array_map(static function (int $ref_id) use ($short_desc, $short_desc_max_length): BlockDTO {
             $obj_id = ilObject::_lookupObjectId($ref_id);
             $desc = ilObject::_lookupDescription($obj_id);
             if ($short_desc && $short_desc_max_length !== 0) {
@@ -84,7 +86,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
                         break;
                 }
             }
-            return new ilBlockDTO(
+            return new BlockDTO(
                 ilObject::_lookupType($obj_id),
                 $ref_id,
                 $obj_id,
@@ -128,7 +130,7 @@ class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
     {
         $rec_manager = new ilRecommendedContentManager();
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
+        if ($refIds === []) {
             $this->ctrl->redirect($this, 'manage');
         }
 

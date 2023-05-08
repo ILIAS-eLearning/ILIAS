@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 /**
- *
  * @ilCtrl_IsCalledBy ilLearningSequenceBlockGUI: ilColumnGUI
  * @ilCtrl_Calls      ilLearningSequenceBlockGUI: ilCommonActionDispatcherGUI
  */
@@ -78,7 +78,7 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
                 continue;
             }
 
-            $data[] = new ilBlockDTO(
+            $data[] = new BlockDTO(
                 'lso',
                 $lso_ref_id,
                 $lso_obj->getId(),
@@ -92,11 +92,9 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
 
     protected function isRelevantLso(ilObjLearningSequence $obj): bool
     {
-        $relevant = false;
-
         $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
         if ($ls_lp_items === []) {
-            return $relevant;
+            return false;
         }
 
         foreach ($ls_lp_items as $item) {
@@ -105,7 +103,7 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
             }
         }
 
-        return $relevant;
+        return false;
     }
 
     public function getBlockType(): string
@@ -115,13 +113,12 @@ class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
-        return;
     }
 
     public function confirmedRemoveObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if (0 === count($refIds)) {
+        if ($refIds === []) {
             $this->ctrl->redirect($this, 'manage');
         }
 

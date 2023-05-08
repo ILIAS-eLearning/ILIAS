@@ -188,13 +188,12 @@ il.Util = {
 	 * @param {array} args
 	 * @param {callback} succ_cb
 	 */
-	sendAsyncAjaxPostRequestToUrl: function(url, data, args, succ_cb) {
-		var cb =
-			{
-				success: succ_cb,
-				failure: this.handleAjaxFailure,
-				argument: args
-			};
+	sendAsyncAjaxPostRequestToUrl: function (url, data, args, succ_cb) {
+		var cb = {
+			success: succ_cb,
+			failure: this.handleAjaxFailure,
+			argument: args
+		};
 		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb, data);
 	},
 

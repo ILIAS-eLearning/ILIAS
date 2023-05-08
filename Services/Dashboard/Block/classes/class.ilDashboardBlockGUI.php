@@ -23,6 +23,7 @@ use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use JetBrains\PhpStorm\NoReturn;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
@@ -43,7 +44,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     protected ILIAS\UI\Factory $factory;
     protected ILIAS\UI\Renderer $renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    /** @var array<string, ilBlockDTO[]>  */
+    /** @var array<string, BlockDTO[]>  */
     protected array $data;
 
     public function __construct()
@@ -74,7 +75,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     abstract public function emptyHandling(): string;
 
 
-    protected function getCardForData(ilBlockDTO $data): ?RepositoryObject
+    protected function getCardForData(BlockDTO $data): ?RepositoryObject
     {
         $itemListGui = $this->byType($data->getType());
         $card = $itemListGui->getAsCard(
@@ -107,7 +108,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $groupedCards;
     }
 
-    protected function getListItemForDataDTO(ilBlockDTO $data): ?Item
+    protected function getListItemForDataDTO(BlockDTO $data): ?Item
     {
         $itemListGui = $this->byType($data->getType());
         $this->addCustomCommandsToActionMenu($itemListGui, $data->getRefId());
@@ -173,12 +174,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
     }
 
+    #[NoReturn]
     protected function initAndShow(): void
     {
         $this->init();
         if ($this->ctrl->isAsynch()) {
             echo $this->getHTML();
-            exit;
+            $this->http->close();
         }
         $this->returnToContext();
     }
@@ -200,18 +202,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @param array<string, ilBlockDTO[]> $a_data
+     * @param array<string, BlockDTO[]> $a_data
      */
     public function setData(array $a_data): void
     {
         $this->data = array_filter(array_map(
-            static fn ($group) => array_filter($group, fn ($item) => $item instanceof ilBlockDTO),
+            static fn ($group) => array_filter($group, fn ($item) => $item instanceof BlockDTO),
             $a_data
         ));
     }
 
     /**
-     * @return array<string, ilBlockDTO[]>
+     * @return array<string, BlockDTO[]>
      */
     public function getData(): array
     {
@@ -219,12 +221,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDTO[]>
+     * @return array<string, BlockDTO[]>
      */
     public function groupItemsByStartDate(): array
     {
         $data = $this->getData();
-        /** @var ilBlockDTO[] $items */
+        /** @var BlockDTO[] $items */
         $items = array_merge(...array_values($data));
 
         $groups = [
@@ -247,7 +249,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             }
         }
 
-        $orderByDate = static function (ilBlockDTO $left, ilBlockDTO $right, bool $asc = true): int {
+        $orderByDate = static function (BlockDTO $left, BlockDTO $right, bool $asc = true): int {
             if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
                 IL_CAL_UNIX
             ) < $right->getStartDate()->get(IL_CAL_UNIX)) {
@@ -263,9 +265,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             return strcmp($left->getTitle(), $right->getTitle());
         };
 
-        uasort($groups['upcoming'], static fn (ilBlockDTO $left, ilBlockDTO $right): int => $orderByDate($left, $right));
-        uasort($groups['ongoing'], static fn (ilBlockDTO $left, ilBlockDTO $right): int => $orderByDate($left, $right, false));
-        uasort($groups['ended'], static fn (ilBlockDTO $left, ilBlockDTO $right): int => $orderByDate($left, $right));
+        uasort($groups['upcoming'], $orderByDate);
+        uasort($groups['ongoing'], static fn (BlockDTO $left, BlockDTO $right): int => $orderByDate($left, $right, false));
+        uasort($groups['ended'], $orderByDate);
         $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
 
         // map keys to titles
@@ -277,7 +279,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDTO[]>
+     * @return array<string, BlockDTO[]>
      */
     protected function groupItemsByType(): array
     {
@@ -286,7 +288,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         );
         $grouped_items = [];
         $data = $this->getData();
-        /** @var ilBlockDTO[] $data */
+        /** @var BlockDTO[] $data */
         $data = array_merge(...array_values($data));
         $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->viewSettings->getActor());
 
@@ -317,17 +319,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDTO[]>
+     * @return array<string, BlockDTO[]>
      */
     protected function groupItemsByLocation(): array
     {
         $grouped_items = [];
         $data = $this->getData();
-        /** @var ilBlockDTO[] $data */
+        /** @var BlockDTO[] $data */
         $data = array_merge(...array_values($data));
 
         $parent_ref_ids = array_values(array_unique(
-            array_map(fn (ilBlockDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
+            array_map(fn (BlockDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
         ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
@@ -428,11 +430,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return "";
     }
 
+    #[NoReturn]
     public function viewDashboardObject(): void
     {
         $this->initAndShow();
     }
 
+    #[NoReturn]
     public function changePDItemSortingObject(): void
     {
         $this->viewSettings->storeActorSortingMode(
@@ -442,6 +446,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->initAndShow();
     }
 
+    #[NoReturn]
     public function changePDItemPresentationObject(): void
     {
         $this->viewSettings->storeActorPresentationMode(
@@ -464,7 +469,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @return array<string, ilBlockDTO[]>
+     * @return array<string, BlockDTO[]>
      */
     public function getItemGroups(): array
     {
@@ -514,7 +519,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                 $modal = $this->ui->factory()->legacy($this->confirmRemoveObject());
         }
         echo $this->ui->renderer()->renderAsync($modal);
-        exit;
+        $this->http->close();
     }
 
     public function manage(ReplaceSignal $replace_signal = null): string
@@ -528,12 +533,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $top_tb->setFormName('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
         $top_tb->setId('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
+        $this->ctrl->setParameter($this, 'page', 'confirm');
         $url = $this->ctrl->getLinkTarget(
             $this,
             'removeFromDeskRoundtrip',
             '',
             true
-        ) . '&page=confirm';
+        );
+        $this->ctrl->clearParameters($this);
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
             ->withOnLoadCode(function ($id) use ($url): string {
                 return "
@@ -552,7 +559,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                     $items[] = $item;
                 }
             }
-            $group->setItems(array_map(static fn (ilBlockDTO $item): array => $item->toArray(), $items));
+            $group->setItems(array_map(static fn (BlockDTO $item): array => $item->toArray(), $items));
             $grouped_items[] = $group;
         }
         $top_tb->addStickyItem($button);
@@ -591,13 +598,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return (new ilDashObjectsTableRenderer($this))->render($grouped_items);
     }
 
-
     public function confirmRemoveObject(): string
     {
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
 
         $refIds = (array) ($this->http->request()->getParsedBody()['id'] ?? []);
-        if (0 === count($refIds)) {
+        if ($refIds === []) {
             $message_box = $this->ui->factory()->messageBox()->info($this->lng->txt('select_one'));
             return $this->ui->renderer()->render($message_box);
         }
@@ -668,13 +674,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @param ilBlockDTO[] $data
+     * @param BlockDTO[] $data
      */
     private function sortByTitle(array $data, bool $asc = true): array
     {
         uasort(
             $data,
-            static fn (ilBlockDTO $left, ilBlockDTO $right): int => $asc ?
+            static fn (BlockDTO $left, BlockDTO $right): int => $asc ?
                 strcmp($left->getTitle(), $right->getTitle()) :
                 strcmp($right->getTitle(), $left->getTitle())
         );
