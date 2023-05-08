@@ -111,7 +111,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
             foreach ($found_vars as $variable) {
                 if ($this->object->getVariable($variable) != null) {
-                    $varObj = new assFormulaQuestionVariable($variable, $_POST["range_min_$variable"], $_POST["range_max_$variable"], $this->object->getUnitrepository()->getUnit($_POST["unit_$variable"]), $_POST["precision_$variable"], $_POST["intprecision_$variable"]);
+                    $varObj = new assFormulaQuestionVariable(
+                        $variable,
+                        $_POST["range_min_$variable"],
+                        $_POST["range_max_$variable"],
+                        isset($_POST["unit_$variable"]) ? $this->object->getUnitrepository()->getUnit(
+                            $_POST["unit_$variable"]
+                        ) : null,
+                        $_POST["precision_$variable"],
+                        $_POST["intprecision_$variable"]
+                    );
                     $varObj->setRangeMinTxt($_POST["range_min_$variable"]);
                     $varObj->setRangeMaxTxt($_POST["range_max_$variable"]);
                     $this->object->addVariable($varObj);
@@ -151,7 +160,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
 
                 if ($this->object->getResult($result) != null) {
-                    $use_simple_rating = ($_POST["rating_advanced_$result"] == 1) ? false : true;
+                    $use_simple_rating = $this->request->int("rating_advanced_$result") !== 1;
                     $resObj = new assFormulaQuestionResult(
                         $result,
                         $_POST["range_min_$result"],
@@ -162,15 +171,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $_POST["points_$result"],
                         $_POST["precision_$result"],
                         $use_simple_rating,
-                        ($_POST["rating_advanced_$result"] == 1) ? $_POST["rating_sign_$result"] : "",
-                        ($_POST["rating_advanced_$result"] == 1) ? $_POST["rating_value_$result"] : "",
-                        ($_POST["rating_advanced_$result"] == 1) ? $_POST["rating_unit_$result"] : "",
-                        $_POST["result_type_$result"] != 0 ? $_POST["result_type_$result"] : 0
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_sign_$result"] : "",
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_value_$result"] : "",
+                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_unit_$result"] : "",
+                        $this->request->int("result_type_$result")
                     );
                     $resObj->setRangeMinTxt($_POST["range_min_$result"]);
                     $resObj->setRangeMaxTxt($_POST["range_max_$result"]);
                     $this->object->addResult($resObj);
-                    $this->object->addResultUnits($resObj, $_POST["units_$result"]);
+                    if (isset($_POST["units_$result"]) && is_array($_POST["units_$result"])) {
+                        $this->object->addResultUnits($resObj, $_POST["units_$result"]);
+                    }
                 }
             }
             if ($checked == false) {
