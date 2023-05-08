@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Services;
@@ -299,15 +299,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->blockView->setIsInManageMode(true);
 
         $top_tb = new ilToolbarGUI();
-        $top_tb->setFormAction($this->ctrl->getFormAction($this));
+        $top_tb->setFormAction($this->ctrl->getFormAction($this, 'confirmRemove'));
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
-        $button = ilSubmitButton::getInstance();
         $grouped_items = $this->blockView->getItemGroups();
-        if ($this->viewSettings->isSelectedItemsViewActive()) {
-            $button->setCaption('remove');
-        } else {
-            $button->setCaption('pd_unsubscribe_memberships');
+        $label = 'remove';
+        if (!$this->viewSettings->isSelectedItemsViewActive()) {
+            $label = 'pd_unsubscribe_memberships';
             foreach ($grouped_items as $group) {
                 $items = $group->getItems();
                 $group->setItems([]);
@@ -318,11 +316,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 }
             }
         }
-        $button->setCommand('confirmRemove');
+
+        $button = $this->ui->factory()->button()->standard($this->lng->txt($label), '');
         $top_tb->addStickyItem($button);
-
         $top_tb->setCloseFormTag(false);
-
         $bot_tb = new ilToolbarGUI();
         $bot_tb->setLeadingImage(ilUtil::getImagePath('arrow_downright.svg'), $this->lng->txt('actions'));
         $bot_tb->addStickyItem($button);
