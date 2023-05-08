@@ -505,7 +505,9 @@ abstract class assQuestionGUI
     public function getILIASPage(string $html = ""): string
     {
         $page_gui = new ilAssQuestionPageGUI($this->object->getId());
-        $page_gui->setQuestionHTML(array($this->object->getId() => $html));
+        $page_gui->setQuestionHTML(
+            [$this->object->getId() => $html]
+        );
         $presentation = $page_gui->presentation();
         $presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
         return $presentation;

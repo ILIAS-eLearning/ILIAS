@@ -47,9 +47,6 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             $max = 0;
@@ -58,17 +55,17 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
                     $max += $val;
                 }
                 if ($this->getRequired() && (strlen($val)) == 0) {
-                    $this->setAlert($lng->txt("msg_input_is_required"));
+                    $this->setAlert($this->lng->txt("msg_input_is_required"));
                     return false;
                 }
             }
             if ($max <= 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points"));
+                $this->setAlert($this->lng->txt("enter_enough_positive_points"));
                 return false;
             }
         } else {
             if ($this->getRequired()) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
+                $this->setAlert($this->lng->txt("msg_input_is_required"));
                 return false;
             }
         }
