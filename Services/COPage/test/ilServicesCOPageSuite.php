@@ -89,7 +89,7 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCMediaObjectTest.php");
         $suite->addTestSuite("PCMediaObjectTest");
 
-        require_once("./Services/COPage/test/PCPlaceHolderTest.php");
+        require_once("./Services/COPage/test/PCPlaceholderTest.php");
         $suite->addTestSuite("PCPlaceHolderTest");
 
         require_once("./Services/COPage/test/PCPluggedTest.php");
