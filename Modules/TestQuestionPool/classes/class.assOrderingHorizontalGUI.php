@@ -198,8 +198,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         //		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
-        if ($this->object->textsize >= 10) {
-            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+        if ($this->object->getTextSize() >= 10) {
+            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
         }
 
         $questionoutput = $template->get();
@@ -262,8 +262,8 @@ JS;
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
         $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
-        if ($this->object->textsize >= 10) {
-            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+        if ($this->object->getTextSize() >= 10) {
+            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
         }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         $questionoutput = $template->get();
@@ -323,8 +323,8 @@ JS;
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
-        if ($this->object->textsize >= 10) {
-            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+        if ($this->object->getTextSize() >= 10) {
+            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
         }
         $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
@@ -390,7 +390,7 @@ JS;
         $ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
         $ordertext->setValue((string) self::prepareTextareaOutput($this->object->getOrderText(), false, true));
         $ordertext->setRequired(true);
-        $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
+        $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->getSeparator()));
         $ordertext->setRows(10);
         $ordertext->setCols(80);
         $form->addItem($ordertext);
