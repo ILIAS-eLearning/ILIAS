@@ -110,29 +110,6 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    /**
-     * Create new page content (incl. paragraph) node at node
-     */
-    public function createAtNode(php4DOMElement $node): void
-    {
-        $this->node = $this->createPageContentNode();
-        $this->par_node = $this->dom->create_element("Paragraph");
-        $this->par_node = $this->node->append_child($this->par_node);
-        $this->par_node->set_attribute("Language", "");
-        $node->append_child($this->node);
-    }
-
-    /**
-     * Create new page content (incl. paragraph) node at node
-     */
-    public function createBeforeNode(php4DOMElement $node): void
-    {
-        $this->node = $this->createPageContentNode();
-        $this->par_node = $this->dom->create_element("Paragraph");
-        $this->par_node = $this->node->append_child($this->par_node);
-        $this->par_node->set_attribute("Language", "");
-        $node->insert_before($this->node, $node);
-    }
 
     /**
      * Create paragraph node (incl. page content node)
@@ -312,29 +289,6 @@ class ilPCParagraph extends ilPageContent
         return $error;
     }
 
-    protected function fixTextArray(array $text): array
-    {
-        $dom = new DOMDocument();
-        $dom->recover = true;
-        // try to fix
-        for ($i = 0, $iMax = count($text); $i < $iMax; $i++) {
-            $dom->loadXML(
-                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
-                LIBXML_NOWARNING | LIBXML_NOERROR
-            );
-            foreach ($dom->childNodes as $node) {
-                if ($node->nodeName == "Paragraph") {
-                    $inner = "";
-                    foreach ($node->childNodes as $child) {
-                        $inner .= $dom->saveXML($child);
-                    }
-                    $text[$i]["text"] = $inner;
-                }
-            }
-        }
-        return $text;
-    }
-
     /**
      * Get (xml) content of paragraph.
      */
@@ -350,65 +304,6 @@ class ilPCParagraph extends ilPageContent
         } else {
             return "";
         }
-    }
-
-    /**
-     * Get paragraph sequenc of current paragraph
-     */
-    public function getParagraphSequenceContent(
-        ilPageObject $a_pg_obj
-    ): string {
-        $childs = $this->par_node->parent_node()->parent_node()->child_nodes();
-        $seq = array();
-        $cur_seq = array();
-        $found = false;
-        $pc_id = $this->readPCId();
-        $hier_id = $this->readHierId();
-        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-            $pchilds = $childs[$i]->child_nodes();
-            if ($pchilds[0]->node_name() == "Paragraph" &&
-                $pchilds[0]->get_attribute("Characteristic") != "Code") {
-                $cur_seq[] = $childs[$i];
-
-                // check whether this is the sequence of the current paragraph
-                if ($childs[$i]->get_attribute("PCID") == $pc_id &&
-                    $childs[$i]->get_attribute("HierId") == $hier_id) {
-                    $found = true;
-                }
-
-                // if this is the current sequenc, get it
-                if ($found) {
-                    $seq = $cur_seq;
-                }
-            } else {
-                // non-paragraph element found -> init the current sequence
-                $cur_seq = array();
-                $found = false;
-            }
-        }
-
-        $content = "";
-        $ids = "###";
-        $id_sep = "";
-        foreach ($seq as $p_node) {
-            $ids .= $id_sep . $p_node->get_attribute("HierId") . ":" . $p_node->get_attribute("PCID");
-            $po = $a_pg_obj->getContentObject(
-                $p_node->get_attribute("HierId"),
-                $p_node->get_attribute("PCID")
-            );
-            $s_text = $po->getText();
-            $s_text = $po->xml2output($s_text, true, false);
-            $char = $po->getCharacteristic();
-            if ($char == "") {
-                $char = "Standard";
-            }
-            $s_text = ilPCParagraphGUI::xml2outputJS($s_text);
-            $content .= $s_text;
-            $id_sep = ";";
-        }
-        $ids .= "###";
-
-        return $ids . $content;
     }
 
     /**

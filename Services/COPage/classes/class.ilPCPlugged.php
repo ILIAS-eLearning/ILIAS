@@ -26,8 +26,8 @@ class ilPCPlugged extends ilPageContent
 {
     protected ilLanguage $lng;
     public php4DOMElement $plug_node;
-    protected ilComponentRepository $component_repository;
-    protected ilComponentFactory $component_factory;
+    protected ?ilComponentRepository $component_repository = null;
+    protected ?ilComponentFactory $component_factory = null;
 
     public function init(): void
     {
@@ -35,8 +35,8 @@ class ilPCPlugged extends ilPageContent
 
         $this->lng = $DIC->language();
         $this->setType("plug");
-        $this->component_repository = $DIC["component.repository"];
-        $this->component_factory = $DIC["component.factory"];
+        $this->component_repository = $DIC["component.repository"] ?? null;
+        $this->component_factory = $DIC["component.factory"] ?? null;
     }
 
     public function setNode(php4DOMElement $a_node): void

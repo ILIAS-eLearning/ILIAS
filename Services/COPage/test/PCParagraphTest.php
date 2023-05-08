@@ -424,4 +424,141 @@ class PCParagraphTest extends COPageTestBase
             );
         }
     }
+
+    public function testCharacteristic(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+        $pc->setCharacteristic("MyChar");
+
+        $this->assertEquals(
+            "MyChar",
+            $pc->getCharacteristic()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en" Characteristic="MyChar"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testSubCharacteristic(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+        $pc->setSubCharacteristic("MySubChar");
+
+        $this->assertEquals(
+            "MySubChar",
+            $pc->getSubCharacteristic()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en" SubCharacteristic="MySubChar"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testAutoIndent(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+        $pc->setAutoIndent("1");
+
+        $this->assertEquals(
+            "1",
+            $pc->getAutoIndent()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en" AutoIndent="1"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testDownloadTitle(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+        $pc->setDownloadTitle("title.txt");
+
+        $this->assertEquals(
+            "title.txt",
+            $pc->getDownloadTitle()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en" DownloadTitle="title.txt"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testShowLineNumbers(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+        $pc->setShowLineNumbers("y");
+
+        $this->assertEquals(
+            "y",
+            $pc->getShowLineNumbers()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en" ShowLineNumbers="y"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testLanguage(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCParagraph($page);
+        $pc->create($page, "pg");
+        $pc->setLanguage("en");
+
+        $this->assertEquals(
+            "en",
+            $pc->getLanguage()
+        );
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Paragraph Language="en"></Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }

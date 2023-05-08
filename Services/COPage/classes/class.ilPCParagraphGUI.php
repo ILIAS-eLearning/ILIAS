@@ -247,15 +247,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
     }
 
     /**
-     * Edit multiple paragraphs (Ajax mode, sends the content of the paragraphs)
-     */
-    public function editMultipleJS(): void
-    {
-        echo $this->content_obj->getParagraphSequenceContent($this->pg_obj);
-        exit;
-    }
-
-    /**
      * Prepare content for js output
      */
     public static function xml2outputJS(string $s_text): string

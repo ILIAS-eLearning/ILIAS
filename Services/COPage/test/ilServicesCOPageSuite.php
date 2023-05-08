@@ -89,6 +89,24 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCMediaObjectTest.php");
         $suite->addTestSuite("PCMediaObjectTest");
 
+        require_once("./Services/COPage/test/PCPlaceHolderTest.php");
+        $suite->addTestSuite("PCPlaceHolderTest");
+
+        require_once("./Services/COPage/test/PCPluggedTest.php");
+        $suite->addTestSuite("PCPluggedTest");
+
+        require_once("./Services/COPage/test/PCProfileTest.php");
+        $suite->addTestSuite("PCProfileTest");
+
+        require_once("./Services/COPage/test/PCQuestionTest.php");
+        $suite->addTestSuite("PCQuestionTest");
+
+        require_once("./Services/COPage/test/PCQuestionOverviewTest.php");
+        $suite->addTestSuite("PCQuestionOverviewTest");
+
+        require_once("./Services/COPage/test/PCResourcesTest.php");
+        $suite->addTestSuite("PCResourcesTest");
+
         return $suite;
     }
 }
