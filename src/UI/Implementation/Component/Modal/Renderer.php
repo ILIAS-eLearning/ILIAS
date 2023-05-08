@@ -127,7 +127,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('FORM_ACTION', $value);
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
-        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
         if (count($modal->getAffectedItems())) {
             $tpl->setCurrentBlock('with_items');
             foreach ($modal->getAffectedItems() as $item) {
@@ -144,6 +143,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
         $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
+        $tpl->setVariable('CLOSE_LABEL', $this->txt($modal->getCancelButtonLabel()));
+
         return $tpl->get();
     }
 

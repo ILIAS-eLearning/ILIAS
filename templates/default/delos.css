@@ -7819,6 +7819,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-right: 18px;
 }
 .il-notification-item .il-item-notification-title {
+  font-size: 1rem;
   display: inline-block;
   margin: 0;
 }
@@ -9740,7 +9741,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 20px;
   text-align: left;
   word-break: normal;
@@ -9749,7 +9750,6 @@ footer {
   background-color: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
-  text-transform: uppercase;
   padding: 12px;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
@@ -10324,8 +10324,12 @@ footer {
 .il-mainbar-tools-entries .btn-bulky.engaged,
 .il-mainbar-tools-entries .il-link.link-bulky.engaged {
   background-color: white;
-  border: 0;
   color: #2c2c2c;
+}
+.il-mainbar-tools-entries .btn-bulky.engaged:not(:focus-visible),
+.il-mainbar-tools-entries .btn-bulky.engaged:not(:focus-visible),
+.il-mainbar-tools-entries .il-link.link-bulky.engaged:not(:focus-visible) {
+  border: 0;
 }
 .il-mainbar-tools-entries .btn-bulky.engaged .icon,
 .il-mainbar-tools-entries .btn-bulky.engaged .icon,
@@ -10742,8 +10746,8 @@ footer {
   min-height: 50px;
   padding: 6px 12px;
   margin-bottom: 2px;
-  font-size: 0.9375rem;
-  line-height: 1.0625rem;
+  font-size: 0.875rem;
+  line-height: 0.99166667rem;
 }
 .il-drilldown hr {
   margin: 6px 0;
@@ -17075,6 +17079,13 @@ body.ilBodyPrint {
 @media only screen and (max-width: 768px) {
   .ilStartupSection {
     padding-top: 15px;
+    width: auto;
+  }
+  .ilStartupSection .control-label {
+    width: 100%;
+  }
+  .ilStartupSection .control-label + div {
+    width: 100%;
   }
 }
 ul.ilStartupSectionRegistrationLinks {
@@ -17212,6 +17223,16 @@ div.ilStartupSection form.form-horizontal .form-group {
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
   margin-right: 0;
+}
+.ilToolbar #il-add-new-item-gl .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.ilToolbar #il-add-new-item-gl li {
+  margin-right: 0;
+}
+.ilToolbar #il-add-new-item-gl li:not(.dropdown-header ) {
+  border-bottom: 0;
 }
 .ilToolbarContainer + .ilFilterContainer {
   margin-top: -20px;

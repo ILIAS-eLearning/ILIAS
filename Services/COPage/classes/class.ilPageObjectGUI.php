@@ -228,6 +228,11 @@ class ilPageObjectGUI
         $this->afterConstructor();
     }
 
+    public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
+    {
+        $this->tpl = $main_tpl;
+    }
+
     public function afterConstructor(): void
     {
     }

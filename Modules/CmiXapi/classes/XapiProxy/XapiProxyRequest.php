@@ -151,7 +151,7 @@ class XapiProxyRequest
                     }
                 }
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->xapiproxy->log()->error($this->msg($e->getMessage()));
         }
     }

@@ -199,6 +199,12 @@ class CodeManager
         return $this->code_repo->getByUserId($this->survey_id, $user_id);
     }
 
+    public function getByCodeId(
+        int $code_id
+    ): string {
+        return $this->code_repo->getByCodeId($this->survey_id, $code_id);
+    }
+
     /**
      * Get code object for an access key
      */

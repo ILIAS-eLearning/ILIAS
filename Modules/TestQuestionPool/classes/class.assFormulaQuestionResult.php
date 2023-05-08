@@ -549,7 +549,7 @@ class assFormulaQuestionResult
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
             }
             if (is_object($this->getUnit())) {
-                $base1 = $units[$unit];
+                $base1 = $units[$unit] ?? null;
                 if (is_object($base1)) {
                     $base1 = $units[$base1->getBaseUnit()];
                 }

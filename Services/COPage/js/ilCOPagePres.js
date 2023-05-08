@@ -869,7 +869,20 @@ il.COPagePres =
 		});
 	},
 
+	inIframe: function () {
+		try {
+			return window.self !== window.top;
+		} catch (e) {
+			return true;
+		}
+	},
+
 	openFullScreenModal: function (target) {
+		// see 32198
+		if (il.COPagePres.inIframe()) {
+			window.parent.il.COPagePres.openFullScreenModal(target);
+			return;
+		}
 		$("#il-copg-mob-fullscreen" + il.COPagePres.fullscreen_suffix).attr("src", target);
 		$(document).trigger(il.COPagePres.fullscreen_signal, {
 			id: il.COPagePres.fullscreen_signal,

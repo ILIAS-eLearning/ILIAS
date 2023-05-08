@@ -931,7 +931,7 @@ class ilLTIConsumeProvider
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $query = "SELECT * FROM lti_ext_provider WHERE client_id = %s";
-        $res = $DIC->database()->queryF($query, array('integer'), array($clientId));
+        $res = $DIC->database()->queryF($query, array('text'), array($clientId));
         $id = 0;
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $id = (int) $row['id'];

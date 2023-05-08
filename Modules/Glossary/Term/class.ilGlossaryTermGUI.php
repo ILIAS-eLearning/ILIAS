@@ -300,6 +300,7 @@ class ilGlossaryTermGUI
         for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
+            $page_gui->setTemplate($tpl);
             $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
             if ($a_offline) {
                 $page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt

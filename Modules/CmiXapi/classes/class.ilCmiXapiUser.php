@@ -597,4 +597,21 @@ class ilCmiXapiUser
     {
         return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getRefId() . '-' . $authToken->getUsrId());
     }
+
+    public static function getUsrIdForObjectAndUsrIdent(int $objId, string $userIdent): ?int
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $query = "SELECT usr_id FROM " . self::DB_TABLE_NAME . " WHERE obj_id = "
+            . $DIC->database()->quote($objId, 'integer')
+            . " AND" . $DIC->database()->like('usr_ident', 'text', $userIdent . '@%');
+        $res = $DIC->database()->query($query);
+
+        $usrId = null;
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $usrId = (int) $row['usr_id'];
+        }
+
+        return $usrId;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -946,8 +947,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
             $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
             if (strlen($solution["value1"])) {
-                $worksheet->setCell($startrow + $i, 1, $solution["value1"]);
-                $worksheet->setCell($startrow + $i, 2, $solution["value2"]);
+                $worksheet->setCell($startrow + $i, 2, $solution["value1"]);
+                $worksheet->setCell($startrow + $i, 3, $solution["value2"]);
             }
             $i++;
         }

@@ -27,6 +27,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Notes\DomainService $notes;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
@@ -112,6 +113,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->locator = $DIC["ilLocator"];
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
+        $this->global_screen = $DIC->globalScreen();
 
         $lng = $DIC->language();
         $rbacsystem = $DIC->rbac()->system();
@@ -330,7 +332,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 break;
 
             case "ilglossarydefpagegui":
-                $page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
+                // see #32198
+                //$page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
+                $page_gui = new ilGlossaryDefPageGUI($this->requested_pg_id);
                 $this->basicPageGuiInit($page_gui);
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
@@ -691,11 +695,17 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         ilAccordionGUI::addJavaScript($this->tpl);
         ilAccordionGUI::addCss($this->tpl);
 
-            // set style sheets
+        // set style sheets
         $this->setContentStyles();
         $this->setSystemStyle();
 
         $this->ilGlossary();
+
+        $js = $this->global_screen->layout()->meta()->getJs();
+        foreach ($js->getItemsInOrderOfDelivery() as $item) {
+            $this->tpl->addJavaScript($item->getContent());
+        }
+
         if (!$this->offlineMode()) {
             $this->tpl->printToStdout();
         } else {

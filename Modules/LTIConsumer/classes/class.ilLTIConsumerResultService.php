@@ -303,7 +303,7 @@ class ilLTIConsumerResultService
     /**
      * Read the LTI Consumer object properties
      */
-    private function readProperties(int $a_obj_id): void
+    public function readProperties(int $a_obj_id): void
     {
         global $DIC;
 

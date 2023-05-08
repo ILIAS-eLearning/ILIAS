@@ -36,7 +36,6 @@ class CollectionBuilder
 {
     use SecureString;
 
-    private const NO_SPECIFIC_OWNER = -1;
     private Repository\CollectionRepository $collection_repository;
     private ?CollectionIdentificationGenerator $id_generator = null;
     private ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null;
@@ -86,7 +85,7 @@ class CollectionBuilder
     {
         return $this->collection_repository->blank(
             $this->id_generator->getUniqueResourceCollectionIdentification(),
-            $owner ?? self::NO_SPECIFIC_OWNER
+            $owner ?? ResourceCollection::NO_SPECIFIC_OWNER
         );
     }
 

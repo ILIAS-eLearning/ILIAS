@@ -1599,20 +1599,13 @@ class ilInitialisation
         }
     }
 
-    /**
-     * Extract current cmd from request
-     */
     protected static function getCurrentCmd(): string
     {
-        if (!isset($_REQUEST["cmd"])) {
-            return '';
-        }
+        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
 
-        $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
-            $keys = array_keys($cmd);
-
-            return array_shift($keys);
+            $cmd_keys = array_keys($cmd);
+            $cmd = array_shift($cmd_keys) ?? '';
         }
 
         return $cmd;
@@ -1661,9 +1654,9 @@ class ilInitialisation
             return true;
         }
 
-        $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
+        $requestBaseClass = strtolower((string) ($_GET['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass'] ?? ''));
+            $requestCmdClass = strtolower((string) ($_GET['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)

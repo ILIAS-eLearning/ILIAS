@@ -637,7 +637,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         if (array_key_exists(0, $solutions) &&
             array_key_exists('value1', $solutions[0]) &&
             strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
+            $worksheet->setCell($startrow + $i, 2, $solutions[0]["value1"]);
         }
         $i++;
 

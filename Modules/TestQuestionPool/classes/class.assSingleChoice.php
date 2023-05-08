@@ -55,13 +55,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public $output_type;
 
     /**
-    * Thumbnail size
-    *
-    * @var integer
-    */
-    protected $thumb_size;
-
-    /**
      * 1 - Feedback is shown for all answer options.
      * 2 - Feedback is shown for all checked/selected options.
      * 3 - Feedback is shown for all correct options.
@@ -92,7 +85,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $output_type = OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->thumb_size = 150;
         $this->output_type = $output_type;
         $this->answers = array();
         $this->shuffle = 1;
@@ -232,7 +224,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
             $this->setShuffle((bool) $shuffle);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            $this->setThumbSize($data['thumb_size']);
+            if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
+                $this->setThumbSize($data['thumb_size']);
+            }
             $this->isSingleline = ($data['allow_images']) ? false : true;
             $this->lastChange = $data['tstamp'];
             $this->feedback_setting = $data['feedback_setting'];
@@ -989,24 +983,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 is_array($solution[0]) &&
                 strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
             ) {
-                $worksheet->setCell($startrow + $i, 1, 1);
+                $worksheet->setCell($startrow + $i, 2, 1);
             } else {
-                $worksheet->setCell($startrow + $i, 1, 0);
+                $worksheet->setCell($startrow + $i, 2, 0);
             }
             $i++;
         }
 
         return $startrow + $i + 1;
-    }
-
-    public function getThumbSize(): ?int
-    {
-        return $this->thumb_size;
-    }
-
-    public function setThumbSize(?int $a_size): void
-    {
-        $this->thumb_size = $a_size;
     }
 
     /**

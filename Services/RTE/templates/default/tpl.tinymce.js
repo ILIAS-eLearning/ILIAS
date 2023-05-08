@@ -140,6 +140,7 @@ function UploadHandler(blobInfo, success, failure, progress) {
     var xhr, formData;
     var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
+    xhr.setRequestHeader('Accept', 'application/json');
     xhr.open('POST', uploadUrl);
     //xhr.withCredentials = settings.credentials;
     xhr.upload.onprogress = function(e) {

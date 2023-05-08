@@ -33,6 +33,8 @@ class ilPCMediaObject extends ilPageContent
     protected ?ilObjMediaObject $mediaobject = null;
     protected ilLanguage $lng;
     protected ilGlobalPageTemplate $global_tpl;
+    protected static string $modal_show_signal = "";
+    protected static string $modal_suffix = "";
 
     public function init(): void
     {
@@ -468,10 +470,24 @@ class ilPCMediaObject extends ilPageContent
                 il.COPagePres.setFullscreenModalShowSignal('$show_signal', '$suffix');
             });
         ";
-
+        self::$modal_show_signal = $show_signal;
+        self::$modal_suffix = $suffix;
         $this->global_tpl->addOnloadCode($js);
 
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div>";
+        // async ensures to have onloadcode of modal in output
+        // if other main tpl is used, see #32198
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->renderAsync($modal) . "</div>";
+    }
+
+    public function getOnloadCode(string $a_mode): array
+    {
+        $onload_code = [];
+        // necessary due to 32198 (other main template used)
+        if (self::$modal_show_signal !== "") {
+            $onload_code[] = "il.COPagePres.setFullscreenModalShowSignal('" . self::$modal_show_signal .
+                "', '" . self::$modal_suffix . "');";
+        }
+        return $onload_code;
     }
 
     public function getJavascriptFiles(

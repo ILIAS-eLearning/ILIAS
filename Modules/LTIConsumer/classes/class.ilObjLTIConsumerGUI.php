@@ -480,17 +480,16 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public function saveContentSelection(ilLTIConsumeProvider $provider, string $token): void
     {
-        global $DIC;
         //ToDo: fetch with file_get_contents ok? needs caching?
         $jwks = file_get_contents($provider->getPublicKeyset());
         //ToDo: Errorhandling
         $keyset = json_decode($jwks, true);
         $keys = Firebase\JWT\JWK::parseKeySet($keyset);
         $data = Firebase\JWT\JWT::decode($token, $keys);
+        //ilObjLTIConsumer::getLogger()->debug(var_export($data,TRUE));
         $refId = $this->getRequestValue('ref_id');
 
         foreach ($data->{'https://purl.imsglobal.org/spec/lti-dl/claim/content_items'} as $item) {
-            //ToDo: i don't know why but this works :-}
             $gui = new ilObjLTIConsumerGUI(0, self::REPOSITORY_NODE_ID, (int) $refId);
             $description = "";
             if (isset($item->description)) {

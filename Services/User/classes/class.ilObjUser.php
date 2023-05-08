@@ -148,7 +148,7 @@ class ilObjUser extends ilObject
         $ilDB = $this->db;
 
         $r = $ilDB->queryF("SELECT * FROM usr_data " .
-             "WHERE usr_id= %s", array("integer"), array($this->id));
+             'WHERE usr_id= %s', ['integer'], [$this->id]);
 
         if ($data = $ilDB->fetchAssoc($r)) {
             // convert password storage layout used by table usr_data into
@@ -255,7 +255,7 @@ class ilObjUser extends ilObject
         $this->setFirstname((string) ($a_data["firstname"] ?? ''));
         $this->setLastname((string) ($a_data["lastname"] ?? ''));
         $this->setFullname();
-        if (isset($a_data['birthday']) && is_array($a_data['birthday'])) {
+        if (isset($a_data['birthday']) && is_string($a_data['birthday'])) {
             $this->setBirthday($a_data['birthday']);
         } else {
             $this->setBirthday(null);
@@ -443,64 +443,64 @@ class ilObjUser extends ilObject
             $this->setInactivationDate(null);
         }
 
-        $update_array = array(
-            "gender" => array("text", $this->gender),
-            "title" => array("text", $this->utitle),
-            "firstname" => array("text", $this->firstname),
-            "lastname" => array("text", $this->lastname),
-            "email" => array("text", trim($this->email)),
-            "second_email" => array("text", trim($this->second_email)),
-            "birthday" => array('date', $this->getBirthday()),
-            "hobby" => array("text", $this->hobby),
-            "institution" => array("text", $this->institution),
-            "department" => array("text", $this->department),
-            "street" => array("text", $this->street),
-            "city" => array("text", $this->city),
-            "zipcode" => array("text", $this->zipcode),
-            "country" => array("text", $this->country),
-            "sel_country" => array("text", $this->sel_country),
-            "phone_office" => array("text", $this->phone_office),
-            "phone_home" => array("text", $this->phone_home),
-            "phone_mobile" => array("text", $this->phone_mobile),
-            "fax" => array("text", $this->fax),
-            "referral_comment" => array("text", $this->referral_comment),
-            "matriculation" => array("text", $this->matriculation),
-            "client_ip" => array("text", $this->client_ip),
-            "approve_date" => array("timestamp", $this->approve_date),
-            "active" => array("integer", $this->active),
-            "time_limit_unlimited" => array("integer", $this->getTimeLimitUnlimited()),
-            "time_limit_until" => array("integer", $this->getTimeLimitUntil()),
-            "time_limit_from" => array("integer", $this->getTimeLimitFrom()),
-            "time_limit_owner" => array("integer", $this->getTimeLimitOwner()),
-            "time_limit_message" => array("integer", $this->getTimeLimitMessage()),
-            "profile_incomplete" => array("integer", $this->getProfileIncomplete()),
-            "auth_mode" => array("text", $this->getAuthMode()),
-            "ext_account" => array("text", $this->getExternalAccount()),
-            "latitude" => array("text", $this->latitude),
-            "longitude" => array("text", $this->longitude),
-            "loc_zoom" => array("integer", (int) $this->loc_zoom),
-            "last_password_change" => array("integer", $this->last_password_change_ts),
-            "passwd_policy_reset" => array("integer", $this->passwd_policy_reset),
-            "last_update" => array("timestamp", ilUtil::now()),
-            'inactivation_date' => array('timestamp', $this->inactivation_date),
-            'reg_hash' => array('text', null)
-            );
+        $update_array = [
+            "gender" => ["text", $this->gender],
+            "title" => ["text", $this->utitle],
+            "firstname" => ["text", $this->firstname],
+            "lastname" => ["text", $this->lastname],
+            "email" => ["text", trim($this->email)],
+            "second_email" => ["text", trim($this->second_email)],
+            "birthday" => ['date', $this->getBirthday()],
+            "hobby" => ["text", $this->hobby],
+            "institution" => ["text", $this->institution],
+            "department" => ["text", $this->department],
+            "street" => ["text", $this->street],
+            "city" => ["text", $this->city],
+            "zipcode" => ["text", $this->zipcode],
+            "country" => ["text", $this->country],
+            "sel_country" => ["text", $this->sel_country],
+            "phone_office" => ["text", $this->phone_office],
+            "phone_home" => ["text", $this->phone_home],
+            "phone_mobile" => ["text", $this->phone_mobile],
+            "fax" => ["text", $this->fax],
+            "referral_comment" => ["text", $this->referral_comment],
+            "matriculation" => ["text", $this->matriculation],
+            "client_ip" => ["text", $this->client_ip],
+            "approve_date" => ["timestamp", $this->approve_date],
+            "active" => ["integer", $this->active],
+            "time_limit_unlimited" => ["integer", $this->getTimeLimitUnlimited()],
+            "time_limit_until" => ["integer", $this->getTimeLimitUntil()],
+            "time_limit_from" => ["integer", $this->getTimeLimitFrom()],
+            "time_limit_owner" => ["integer", $this->getTimeLimitOwner()],
+            "time_limit_message" => ["integer", $this->getTimeLimitMessage()],
+            "profile_incomplete" => ["integer", $this->getProfileIncomplete()],
+            "auth_mode" => ["text", $this->getAuthMode()],
+            "ext_account" => ["text", $this->getExternalAccount()],
+            "latitude" => ["text", $this->latitude],
+            "longitude" => ["text", $this->longitude],
+            "loc_zoom" => ["integer", (int) $this->loc_zoom],
+            "last_password_change" => ["integer", $this->last_password_change_ts],
+            "passwd_policy_reset" => ["integer", $this->passwd_policy_reset],
+            "last_update" => ["timestamp", ilUtil::now()],
+            'inactivation_date' => ['timestamp', $this->inactivation_date],
+            'reg_hash' => ['text', null]
+            ];
 
         if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
-            $update_array["agree_date"] = array("timestamp", $this->agree_date);
+            $update_array["agree_date"] = ["timestamp", $this->agree_date];
         }
         switch ($this->passwd_type) {
             case self::PASSWD_PLAIN:
                 if (strlen($this->passwd)) {
                     ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
-                    $update_array['passwd'] = array('text', $this->getPasswd());
+                    $update_array['passwd'] = ['text', $this->getPasswd()];
                 } else {
-                    $update_array["passwd"] = array("text", $this->passwd);
+                    $update_array["passwd"] = ["text", $this->passwd];
                 }
                 break;
 
             case self::PASSWD_CRYPTED:
-                $update_array["passwd"] = array("text", $this->passwd);
+                $update_array["passwd"] = ["text", $this->passwd];
                 break;
 
             default:
@@ -508,10 +508,10 @@ class ilObjUser extends ilObject
                                    get_class($this) . "<br />Script: " . __FILE__ . "<br />Line: " . __LINE__, $ilErr->FATAL);
         }
 
-        $update_array['passwd_enc_type'] = array('text', $this->getPasswordEncodingType());
-        $update_array['passwd_salt'] = array('text', $this->getPasswordSalt());
+        $update_array['passwd_enc_type'] = ['text', $this->getPasswordEncodingType()];
+        $update_array['passwd_salt'] = ['text', $this->getPasswordSalt()];
 
-        $ilDB->update("usr_data", $update_array, array("usr_id" => array("integer", $this->id)));
+        $ilDB->update("usr_data", $update_array, ["usr_id" => ["integer", $this->id]]);
 
         $this->updateMultiTextFields();
 
@@ -528,7 +528,7 @@ class ilObjUser extends ilObject
         $ilAppEventHandler->raise(
             "Services/User",
             "afterUpdate",
-            array("user_obj" => $this)
+            ["user_obj" => $this]
         );
 
         return true;

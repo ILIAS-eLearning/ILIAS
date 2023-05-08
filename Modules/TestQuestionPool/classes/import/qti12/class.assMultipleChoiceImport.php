@@ -216,7 +216,10 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
         $this->object->setSelectionLimit($selectionLimit);
-        $this->object->setThumbSize((int) $item->getMetadataEntry("thumb_size"));
+        $thumb_size = (int) $item->getMetadataEntry("thumb_size");
+        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
+            $this->object->setThumbSize($thumb_size);
+        }
 
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {

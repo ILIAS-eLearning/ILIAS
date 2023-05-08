@@ -228,7 +228,7 @@
 				</xsl:when>
 			</xsl:choose>
 			<xsl:choose>
-				<xsl:when test="not(text())">
+				<xsl:when test="not(@class='emptyrow') and not(text()) and count(./node()) = 0">
 					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>

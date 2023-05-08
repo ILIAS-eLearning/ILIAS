@@ -730,6 +730,7 @@ class ilMailFormGUI
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 
         $inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
+        $inp->setMaxLength(null);
         $inp->setRequired(true);
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_to'] ?? ''));
@@ -737,12 +738,14 @@ class ilMailFormGUI
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('mail_cc'), 'rcp_cc');
+        $inp->setMaxLength(null);
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('mail_bcc'), 'rcp_bcc');
+        $inp->setMaxLength(null);
         $inp->setSize(50);
         $inp->setValue($mailData['rcp_bcc'] ?? '');
         $inp->setDataSource($dsDataLink, ',');

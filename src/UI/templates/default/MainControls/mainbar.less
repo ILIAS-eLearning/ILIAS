@@ -215,7 +215,9 @@
 		}
 		&.engaged {
 			background-color: @il-mainbar-tools-tab-btn-bg-engaged;
-			border: 0;
+			&:not(:focus-visible){
+				border: 0;
+			}
 			color: @il-mainbar-btn-color-engaged;
 			.icon {
 				filter: invert(60%);

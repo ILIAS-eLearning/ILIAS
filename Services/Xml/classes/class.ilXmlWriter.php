@@ -273,7 +273,7 @@ class ilXmlWriter
         if (is_array($attrs)) {
             // write attributes
             foreach ($attrs as $name => $value) {
-                if (!$value) {
+                if ($value === null) {
                     $value = '';
                 }
 
