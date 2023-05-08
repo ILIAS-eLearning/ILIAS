@@ -34,6 +34,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     public const VIEW_MODE_SETTINGS = 'Settings';
     public const VIEW_MODE_PRESENTATION = 'Presentation';
     public const VIEW_MODE_SORTING = 'Sorting';
+    public const DASH_SORT_PREFIX = 'dash_sort_by_';
+    public const DASH_ENABLE_PREFIX = 'dash_enable_';
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
@@ -161,7 +163,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $options = array_reduce(
             $availabe_sort_options,
             static function (array $options, string $option) use ($lng): array {
-                $options[$option] = $lng->txt("dash_sort_by_" . $option);
+                $options[$option] = $lng->txt(self::DASH_SORT_PREFIX . $option);
                 return $options;
             },
             []
@@ -204,7 +206,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $side_panel = $this->side_panel_settings;
 
-        $fields["enable_favourites"] = $field->checkbox($lng->txt("dash_enable_favourites"))
+        $fields[self::DASH_ENABLE_PREFIX . "favourites"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "favourites"))
             ->withValue($this->viewSettings->enabledSelectedItems());
         $info_text = ($this->viewSettings->enabledMemberships())
             ? ""
@@ -215,17 +217,17 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 )
             );
 
-        $fields["enable_recommended_content"] = $field->checkbox($lng->txt("dash_enable_recommended_content"))
+        $fields[self::DASH_ENABLE_PREFIX . "recommended_content"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "recommended_content"))
                                                   ->withValue(true)
                                                   ->withDisabled(true);
-        $fields["enable_memberships"] = $field->checkbox($lng->txt("dash_enable_memberships"), $info_text)
+        $fields[self::DASH_ENABLE_PREFIX . "memberships"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "memberships"), $info_text)
             ->withValue($this->viewSettings->enabledMemberships());
 
 
-        $fields["enable_learning_sequences"] = $field->checkbox($lng->txt("dash_enable_learning_sequences"))
+        $fields[self::DASH_ENABLE_PREFIX . "learning_sequences"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "learning_sequences"))
             ->withValue($this->viewSettings->enabledLearningSequences());
 
-        $fields["enable_study_programmes"] = $field->checkbox($lng->txt("dash_enable_study_programmes"))
+        $fields[self::DASH_ENABLE_PREFIX . "study_programmes"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "study_programmes"))
             ->withValue($this->viewSettings->enabledStudyProgrammes());
 
         // main panel
@@ -233,7 +235,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $sp_fields = [];
         foreach ($side_panel->getValidModules() as $mod) {
-            $sp_fields["enable_" . $mod] = $field->checkbox($lng->txt("dash_enable_" . $mod))
+            $sp_fields[self::DASH_ENABLE_PREFIX . $mod] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . $mod))
                 ->withValue($side_panel->isEnabled($mod));
         }
 
@@ -280,14 +282,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form = $this->getViewForm(self::VIEW_MODE_SETTINGS);
         $form = $form->withRequest($request);
         $form_data = $form->getData();
-        $this->viewSettings->enableSelectedItems(($form_data['main_panel']['enable_favourites']));
-        $this->viewSettings->enableMemberships(($form_data['main_panel']['enable_memberships']));
-        $this->viewSettings->enableRecommendedContent(($form_data['main_panel']['enable_recommended_content']));
-        $this->viewSettings->enableLearningSequences(($form_data['main_panel']['enable_learning_sequences']));
-        $this->viewSettings->enableStudyProgrammes(($form_data['main_panel']['enable_study_programmes']));
+        $this->viewSettings->enableSelectedItems(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'favourites']));
+        $this->viewSettings->enableMemberships(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'memberships']));
+        $this->viewSettings->enableRecommendedContent(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'recommended_content']));
+        $this->viewSettings->enableLearningSequences(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'learning_sequences']));
+        $this->viewSettings->enableStudyProgrammes(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'study_programmes']));
 
         foreach ($side_panel->getValidModules() as $mod) {
-            $side_panel->enable($mod, (bool) $form_data['side_panel']['enable_' . $mod]);
+            $side_panel->enable($mod, (bool) $form_data['side_panel'][self::DASH_ENABLE_PREFIX . $mod]);
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);

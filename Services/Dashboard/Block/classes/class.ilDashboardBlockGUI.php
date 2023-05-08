@@ -24,6 +24,8 @@ use JetBrains\PhpStorm\NoReturn;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Services\Dashboard\Block\BlockDTO;
+use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
@@ -179,7 +181,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     {
         $this->init();
         if ($this->ctrl->isAsynch()) {
-            echo $this->getHTML();
+            $responseStream = Streams::ofString($this->getHTML());
+            $response = $this->http->response()->withBody($responseStream);
+            $this->http->saveResponse($response);
+            $this->http->sendResponse();
             $this->http->close();
         }
         $this->returnToContext();
@@ -371,7 +376,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->ctrl->setParameter($this, 'sorting', $sorting);
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
-                $this->lng->txt('dash_sort_by_' . $sorting),
+                $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
                 $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
             );
             $this->ctrl->setParameter($this, 'sorting', null);
@@ -518,7 +523,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             default:
                 $modal = $this->ui->factory()->legacy($this->confirmRemoveObject());
         }
-        echo $this->ui->renderer()->renderAsync($modal);
+        $responseStream = Streams::ofString($this->ui->renderer()->renderAsync($modal));
+        $this->http->saveResponse(
+            $this->http->response()
+                       ->withBody($responseStream)
+                       ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+        );
+        $this->http->sendResponse();
         $this->http->close();
     }
 
