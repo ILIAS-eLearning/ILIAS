@@ -45,7 +45,9 @@ The ilExcCriteria class does stuff on application and gui level and should be di
 
 Subdirectories for domain concepts SHOULD be located directly under the `Exercise` main directory. The main `classes` subdirectory SHOULD only contain code has to be located in this directory due to rules of other components (e.g. the Object service).
 
-### Introduce stronger Tutor Concept
+### Introduce stronger Tutor Concept (Weak Tutor)
+
+Currently there is no tutor role defining the set of tutors in an exercise. Some reminder/notification features treat all users that activate "Notification for Submissions" in the exercise settings as tutors. This should be improved. A local tutor role might be feasible.
 
 ### Introduce Repository Pattern (ongoing)
 

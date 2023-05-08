@@ -41,7 +41,30 @@ This section documents the general concepts and structures of the Exercise Modul
 
 ## Exercise
 
+DB Table: `exc_data`
+
+* Object ID (`exc_data.obj_id`)
+* Instruction (`exc_data.instruction`): Deprecated
+* Time Stamp (`exc_data.time_stamp`): Deprecated
+* Pass Mode (`exc_data.time_stamp`):
+* Pass Nr (`exc_data.pass_nr`):
+* Mandatory Random Nr (`exc_data.nr_mandatory_random`):
+* Show Submissions (`exc_data.show_submissions`):
+* Completed by Submission (`exc_data.compl_by_submission`): If set, assignments are completed on submission, otherwise tutors set the completion status.
+* Certificate Visibility (`exc_data.certificate_visibility`):
+* Tutor Feedback (`exc_data.tfeedback`):
+
+### Submission Notification
+
+#### Business Rules
+
+- The setting "Notification on Submissions" is a personal setting for the user saving the settings form. If enabled the user is treated as a tutor by other notifications/reminder features, see [weak tutor in ROADMAP](./README.md).
+
 ## Assignment
+
+### Business Rules
+
+- If the **Remind Tutors to Grade** is activated, the recipients of the reminders are all users that activated the "Notification on Submissions" option in the exercise settings, see [weak tutor in ROADMAP](./README.md).
 
 ## Assignment Types
 
