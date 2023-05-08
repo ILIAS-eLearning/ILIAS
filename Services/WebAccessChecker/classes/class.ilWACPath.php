@@ -90,6 +90,9 @@ class ilWACPath
         $re = '/' . self::REGEX . '/';
         preg_match($re, $path, $result);
 
+        $url_parts = parse_url($path);
+        $result['path_without_query'] = $url_parts['path'];
+
         foreach ($result as $k => $v) {
             if (is_numeric($k)) {
                 unset($result[$k]);
@@ -379,8 +382,9 @@ class ilWACPath
      */
     public function getCleanURLdecodedPath(): string
     {
-        $path = explode("?", $this->path); // removing everything behind ?
-        return rawurldecode($path[0]);
+        $path_to_file = rawurldecode($this->getPathWithoutQuery());
+
+        return $path_to_file;
     }
 
     public function setPath(string $path): void
