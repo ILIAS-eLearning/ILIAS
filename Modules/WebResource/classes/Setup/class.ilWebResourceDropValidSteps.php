@@ -32,7 +32,6 @@ class ilWebResourceDropValidSteps implements ilDatabaseUpdateSteps
     {
         $this->db = $db;
     }
-
     public function step_1(): void
     {
         //Drops the column 'disable_check' from webr_items
@@ -54,6 +53,15 @@ class ilWebResourceDropValidSteps implements ilDatabaseUpdateSteps
         //Drops the column 'valid' from webr_items
         if ($this->db->tableColumnExists('webr_items', 'valid')) {
             $this->db->dropTableColumn('webr_items', 'valid');
+        }
+    }
+
+    public function step_4(): void
+    {
+        // Removes entries from table webr_params where 'value' is 2.
+        // This removes all link session_id link parameters
+        if ($this->db->tableExists('webr_params')) {
+            $this->db->manipulate("DELETE FROM webr_params WHERE value = " . $this->db->quote(2, 'integer'));
         }
     }
 }
