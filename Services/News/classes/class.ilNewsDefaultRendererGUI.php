@@ -106,4 +106,9 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
     {
         return ilLink::_getLink($this->getNewsRefId());
     }
+
+    public function preventEditing(): bool
+    {
+        return false;
+    }
 }

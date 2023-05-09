@@ -40,6 +40,8 @@ interface ilNewsRendererGUI
 
     public function addTimelineActions(ilAdvancedSelectionListGUI $list): void;
 
+    public function preventEditing(): bool;
+
     /**
      * Get link href for object link
      */
