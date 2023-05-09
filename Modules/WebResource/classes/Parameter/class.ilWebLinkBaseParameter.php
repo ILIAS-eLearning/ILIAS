@@ -40,13 +40,6 @@ abstract class ilWebLinkBaseParameter
         self::SESSION_ID_NAME => 2,
         self::LOGIN_NAME => 3,
         self::MATRICULATION_NAME => 4
-        /*
-        'undefined' => 0,
-        'user_id' => 1,
-        'session_id' => 2,
-        'login' => 3,
-        'matriculation' => 4
-        */
     ];
 
     /**
@@ -59,13 +52,6 @@ abstract class ilWebLinkBaseParameter
         self::VALUES[self::SESSION_ID_NAME] => 'links_session_id',
         self::VALUES[self::LOGIN_NAME] => 'links_user_name',
         self::VALUES[self::MATRICULATION_NAME] => 'matriculation',
-        /*
-        self::VALUES['undefined'] => 'links_select_one',
-        self::VALUES['user_id'] => 'links_user_id',
-        self::VALUES['session_id'] => 'links_session_id',
-        self::VALUES['login'] => 'links_user_name',
-        self::VALUES['matriculation'] => 'matriculation',
-        */
     ];
 
     protected int $value;
