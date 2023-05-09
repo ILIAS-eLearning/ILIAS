@@ -632,19 +632,12 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
-
-        // Check last admin
-        if (!$this->getMembersObject()->checkLastAdmin($participants)) {
-            ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_at_least_one_admin'), true);
-            $this->ctrl->redirect($this, 'participants');
-        }
         
         // if only position access is granted, show additional info
         if (!$this->checkPermissionBool('manage_members')) {
             $this->lng->loadLanguageModule('rbac');
             ilUtil::sendInfo($this->lng->txt('rbac_info_only_position_access'));
         }
-        
         
         // Access check for admin deletion
         if (
@@ -720,28 +713,37 @@ class ilMembershipGUI
                 }
             }
         }
-        
-        if (!$this->getMembersObject()->deleteParticipants($participants)) {
-            ilUtil::sendFailure('Error deleting participants.', true);
-            $this->ctrl->redirect($this, 'participants');
-        } else {
-            foreach ((array) $_POST["participants"] as $usr_id) {
-                $mail_type = 0;
-                // @todo more generic
-                switch ($this->getParentObject()->getType()) {
-                    case 'crs':
-                        $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
-                        break;
-                    case 'grp':
-                        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-                        $mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
-                        break;
-                    case 'lso':
-                        $mail_type = ilLearningSequenceMembershipMailNotification::TYPE_DISMISS_MEMBER;
-                        break;
+
+        foreach ($this->getMembersObject()->unsubscribeParticipants($participants) as $result) {
+            if ($result->isError()) {
+                if ($result->error() === $this->getMembersObject()::ERROR_LAST_ADMIN) {
+                    ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_at_least_one_admin'), true);
+                } else {
+                    ilUtil::sendFailure('Error deleting participants.', true);
+                    if ($result->error() instanceof Exception) {
+                        $this->getLogger()->warning($result->error()->getMessage());
+                    }
                 }
-                $this->getMembersObject()->sendNotification($mail_type, $usr_id);
+                $this->ctrl->redirect($this, 'participants');
             }
+        }
+
+        foreach ((array) $_POST["participants"] as $usr_id) {
+            $mail_type = 0;
+            // @todo more generic
+            switch ($this->getParentObject()->getType()) {
+                case 'crs':
+                    $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+                    break;
+                case 'grp':
+                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+                    $mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
+                    break;
+                case 'lso':
+                    $mail_type = ilLearningSequenceMembershipMailNotification::TYPE_DISMISS_MEMBER;
+                    break;
+            }
+            $this->getMembersObject()->sendNotification($mail_type, $usr_id);
         }
         ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");

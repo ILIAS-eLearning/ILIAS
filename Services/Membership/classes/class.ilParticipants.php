@@ -9,6 +9,8 @@
 * @ingroup ServicesMembership
 */
 
+use ILIAS\Data\Result;
+
 define("IL_CRS_ADMIN", 1);
 define("IL_CRS_TUTOR", 3);
 define("IL_CRS_MEMBER", 2);
@@ -28,6 +30,8 @@ define("IL_ROLE_POSITION_MEMBER", 3);
 
 abstract class ilParticipants
 {
+    public const ERROR_LAST_ADMIN = "last admin";
+
     protected $component = '';
     
     protected $obj_id = 0;
@@ -806,15 +810,13 @@ abstract class ilParticipants
         }
         return false;
     }
-    
+
     /**
      * Drop user from all roles
      *
-     * @access public
-     * @param int usr_id
-     *
+     * @param int $a_usr_id
      */
-    public function delete($a_usr_id)
+    public function delete($a_usr_id): bool
     {
         global $DIC;
 
@@ -844,6 +846,18 @@ abstract class ilParticipants
         );
         
         return true;
+    }
+
+    private function unsubscribe(int $usr_id): Result
+    {
+        if (!$this->checkLastAdmin([$usr_id])) {
+            return new Result\Error(self::ERROR_LAST_ADMIN);
+        }
+        try{
+            return new Result\Ok($this->delete($usr_id));
+        } catch (Exception $e) {
+            return new Result\Error($e);
+        }
     }
 
     /**
@@ -1042,21 +1056,29 @@ abstract class ilParticipants
         );
         return true;
     }
-    
 
     /**
-     * Delete users
-     *
-     * @access public
-     * @param array user ids
-     *
+     * @param int[] $user_ids
      */
-    public function deleteParticipants($a_user_ids)
+    public function deleteParticipants($user_ids): bool
     {
-        foreach ($a_user_ids as $user_id) {
+        foreach ($user_ids as $user_id) {
             $this->delete($user_id);
         }
         return true;
+    }
+
+    /**
+     * @param int[] $user_ids
+     * @return Result[]
+     */
+    public function unsubscribeParticipants(array $user_ids): array
+    {
+        $results = [];
+        foreach ($user_ids as $user_id) {
+            $results[] = $this->unsubscribe($user_id);
+        }
+        return $results;
     }
     
     /**
