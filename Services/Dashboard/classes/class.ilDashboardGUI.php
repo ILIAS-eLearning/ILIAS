@@ -227,8 +227,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
             case strtolower(ilObjStudyProgrammeGUI::class):
-                include_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php");
-                $gui = new $next_class();
+                $gui = new ilObjStudyProgrammeGUI();
                 $ret = $this->ctrl->forwardCommand($gui);
                 $this->tpl->printToStdout();
                 break;
