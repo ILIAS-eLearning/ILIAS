@@ -701,7 +701,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $this->content_object,
                 $chap["id"],
                 $parent_id,
-                $target,
+                (int) $target,
                 (string) ($chap["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")
