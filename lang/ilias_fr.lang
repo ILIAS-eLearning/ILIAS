@@ -418,10 +418,10 @@ adve#:#adve_grp_test#:#Test & évaluation
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_minutes#:#Inactivité (minutes)
 adve#:#adve_minutes_info#:#Temps d'inactivité avant que le verrouillage de page n'expire et qu'un autre utilisateur puisse l'éditer.
-adve#:#adve_page_editor_settings#:#à‰diteur ILIAS
+adve#:#adve_page_editor_settings#:#Éditeur ILIAS
 adve#:#adve_pe_general#:#Paramètres Généraux
-adve#:#adve_rte_settings#:#à‰diteur TinyMCE
-adve#:#adve_text_content_features#:#Options de lâ€™à‰diteur de Texte
+adve#:#adve_rte_settings#:#Éditeur TinyMCE
+adve#:#adve_text_content_features#:#Options de l'éditeur de Texte
 adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
@@ -685,9 +685,9 @@ assessment#:#ects_grade_e_desc#:#La performance répond aux critères minimum
 assessment#:#ects_grade_f_desc#:#travail supplémentaire considérable est nécessaire
 assessment#:#ects_grade_fx_desc#:#plus de travail requis avant de pouvoir attribuer le crédit
 assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
-assessment#:#edit_answer#:#à‰diter la Réponse
-assessment#:#edit_page#:#à‰diter la Page
-assessment#:#edit_question#:#à‰diter la Question
+assessment#:#edit_answer#:#Éditer la Réponse
+assessment#:#edit_page#:#Éditer la Page
+assessment#:#edit_question#:#Éditer la Question
 assessment#:#edit_test_questions#:#Vue par Liste
 assessment#:#element_height#:#Hauteur minimale
 assessment#:#element_height_info#:#Hauteur minimale en pixels pour les termes et définitions/images à  l'affichage de la question.
@@ -962,7 +962,7 @@ assessment#:#option_label_not_adequate#:#inadéquate
 assessment#:#option_label_not_applicable#:#non applicable
 assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
-assessment#:#option_label_right#:#droit
+assessment#:#option_label_right#:#vrai
 assessment#:#option_label_right_wrong#:#vrai / faux
 assessment#:#option_label_wrong#:#faux
 assessment#:#oq_btn_define_pictures#:#Passer à la vue de définition de l’image
@@ -1072,7 +1072,7 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#Compétence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Somme totale de points de compétence par compétence
 assessment#:#qpl_question_is_in_use#:#La question que vous êtes sur le point de modifier existe dans %s test(s).  Si vous changez cette question, vous ne la changerez pas dans ce(s) test(s), car le système crée une copie de la question quand elle est ajoutée dans un test.
 assessment#:#qpl_questions_deleted#:#Question(s) détruite(s).
-assessment#:#qpl_reset_preview#:#Réinitialiser l'aperà§u
+assessment#:#qpl_reset_preview#:#Réinitialiser l'aperàçu
 assessment#:#qpl_save_skill_assigns_update#:#Sauvegarder les tâches de compétence
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Lorsque activé, les taxinomies créées sont utilisées pour le filtrage.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtre de Taxinomie comme Arbre de Navigation
@@ -1107,7 +1107,7 @@ assessment#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Nombre de tentatives
-assessment#:#qst_preview_reset_msg#:#L'aperà§u a été réinitialisé.
+assessment#:#qst_preview_reset_msg#:#L'aperàçu a été réinitialisé.
 assessment#:#qst_use_nested_answers#:#Nested answers###29 07 2022 new variable
 assessment#:#que_contains_unused_var#:#Le texte de la question contient une variable qui n'est utilisée dans aucune formule de réponse.
 assessment#:#question_browse_area_info#:#Veuillez sélectionner un objet à partir duquel vous souhaitez importer des questions.
@@ -2631,7 +2631,7 @@ buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_a#:#Non liée
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
 buddysystem#:#buddy_enable#:#Activer les Contacts
-buddysystem#:#buddy_enable_info#:#Si activé, les utilisateurs sont autorisés à  communiquer entre eux en lanà§ant des demandes de contact. De plus, il y a un paramètre d'utilisateur personnel pour permettre ou éviter d'être contacté.
+buddysystem#:#buddy_enable_info#:#Si activé, les utilisateurs sont autorisés à  communiquer entre eux en lanàçant des demandes de contact. De plus, il y a un paramètre d'utilisateur personnel pour permettre ou éviter d'être contacté.
 buddysystem#:#buddy_handle_contact_request#:#Demande de contact
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###07 02 2020 new variable
 buddysystem#:#buddy_notification_contact_request#:#Demande de contact
