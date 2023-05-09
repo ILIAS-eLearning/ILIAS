@@ -30,20 +30,28 @@ class ilWebResourceItemExternalTest extends TestCase
     {
         $param1 = $this->getMockBuilder(ilWebLinkParameter::class)
                        ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink'])
+                       ->onlyMethods(['appendToLink', 'getValue'])
                        ->getMock();
         $param1->expects($this->once())
                ->method('appendToLink')
                ->with('target')
                ->willReturn('target?param1');
+        $param1->expects($this->any())
+            ->method('getValue')
+            ->willReturn(1);
+
+
         $param2 = $this->getMockBuilder(ilWebLinkParameter::class)
                        ->disableOriginalConstructor()
-                       ->onlyMethods(['appendToLink'])
+                       ->onlyMethods(['appendToLink', 'getValue'])
                        ->getMock();
         $param2->expects($this->once())
                ->method('appendToLink')
                ->with('target?param1')
                ->willReturn('target?param1&param2');
+        $param2->expects($this->any())
+               ->method('getValue')
+               ->willReturn(1);
 
         $item = new ilWebLinkItemExternal(
             0,
