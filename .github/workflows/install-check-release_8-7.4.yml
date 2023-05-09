@@ -1,11 +1,11 @@
-name: install-check-trunk
+name: install-check-release_8-7.4
 on:
   schedule:
     - cron: "0 12 * * *"
   workflow_dispatch:
 jobs:
   installation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       all: ${{ steps.changes.outputs.all }}
     strategy:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: trunk
+          ref: release_8
 
       - name: Copy config file to location outside webroot
         run: |
@@ -34,12 +34,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
-          tools: composer:v1
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
+          tools: composer:v2
           coverage: none
 
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress --no-dev
 
       - name: Perform setup
         run: |
