@@ -1,0 +1,55 @@
+{
+  "common" : {
+    "client_id" : "ilias",
+    "master_password" : "123456",
+    "server_timezone" : "gmt"
+  },
+  "database" : {
+    "user" : "root",
+    "database" : "ilias",
+    "type" : "innodb",
+    "create_database" : true,
+    "password" : "root"
+  },
+  "filesystem" : {
+    "data_dir" : "/home/runner/work/ILIAS/data/"
+  },
+  "systemfolder" : {
+    "client" : {
+      "name" : "ilias",
+      "description" : "ILIAS",
+      "institution" : "ILIAS e.V."
+    },
+    "contact" : {
+      "firstname" : "Laura",
+      "lastname" : "Herzog",
+      "email" : "laura.herzog@concepts-and-training.de"
+    }
+  },
+  "language" : {
+    "default_language" : "en"
+  },
+  "http" : {
+    "path" : "http://localhost"
+  },
+  "logging" : {
+    "enable" : true,
+    "path_to_logfile" : "/home/runner/work/ILIAS/ILIAS/logs/ilias.log",
+    "errorlog_dir" : "/home/runner/work/ILIAS/ILIAS/logs/"
+  },
+  "utilities" : {
+    "path_to_convert" : "/usr/bin/convert",
+    "path_to_zip" : "/usr/bin/zip",
+    "path_to_unzip" : "/usr/bin/unzip"
+  },
+  "virusscanner" : {
+    "virusscanner" : "none"
+  },
+  "webservices" : {
+    "soap_user_administration" : false,
+    "soap_wsdl_path" : "http://127.0.0.1/webservice/soap/server.php?wsdl",
+    "soap_connect_timeout" : 10,
+    "rpc_server_host" : "127.0.0.1",
+    "rpc_server_port" : "11111"
+  }
+}
