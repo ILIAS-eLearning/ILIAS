@@ -292,14 +292,25 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable('VAL_DYN_NAME', $a_set['name'] ?? '');
             $this->tpl->setVariable('DYN_ID', $a_set['id']);
+
+            $options = [];
+            foreach (ilWebLinkBaseParameter::VALUES as $name => $identifier) {
+                if ($name === ilWebLinkBaseParameter::SESSION_ID_NAME) {
+                    continue;
+                }
+                $options[] = ilWebLinkBaseParameter::VALUES_TEXT[$identifier];
+            }
             $this->tpl->setVariable(
                 'SEL_DYN_VAL',
                 ilLegacyFormElementsUtil::formSelect(
                     $a_set['value'] ?? 0,
                     'links[' . $a_set['id'] . '][val]',
+                    /*
                     array_map(function ($s) {
                         return $this->lng->txt($s);
                     }, ilWebLinkBaseParameter::VALUES_TEXT),
+                    */
+                    $options,
                     false,
                     true
                 )
