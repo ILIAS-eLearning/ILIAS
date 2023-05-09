@@ -63,9 +63,9 @@ class ilFavouritesListGUI
             }
         }
         if (count($item_groups) > 0) {
-            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "view", "0");
-            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "col_side", "center");
-            $ctrl->setParameterByClass("ilSelectedItemsBlockGUI", "block_type", "pditems");
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "view", "0");
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "col_side", "center");
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "block_type", "pditems");
 
             // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
             $config_item = $f->item()->standard(

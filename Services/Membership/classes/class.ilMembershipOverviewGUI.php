@@ -45,7 +45,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $cmd = $ctrl->getCmd("show");
         $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
         switch ($next_class) {
-            case "ilmembershipblockgui":
+            case strtolower(ilMembershipBlockGUI::class):
                 $ctrl->setReturn($this, "show");
                 $block = new ilMembershipBlockGUI();
                 $ret = $this->ctrl->forwardCommand($block);

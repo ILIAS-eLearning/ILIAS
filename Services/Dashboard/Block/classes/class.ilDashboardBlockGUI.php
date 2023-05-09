@@ -163,7 +163,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     public function init(): void
     {
         $this->initViewSettings();
-        $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/replaceModalContent.js');
+        $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()["item_ref_id"] ?? 0);
         $this->initData();
@@ -555,7 +555,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
             ->withOnLoadCode(function ($id) use ($url): string {
                 return "
-                        replaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
+                        ReplaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
                 ";
             });
 

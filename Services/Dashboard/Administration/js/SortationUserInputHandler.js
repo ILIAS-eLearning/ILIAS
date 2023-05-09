@@ -1,9 +1,9 @@
 /**
  * @type {(view: int) => void}
  */
-const handleUserInputForSortationsByView = (function() {
+const handleUserInputForSortationsByView = function() {
     /**
-     * @param {Element} selectionInput
+     * @param {Element} selectio.nInput
      * @param {Element} checkboxInput
      */
     function updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput) {
@@ -80,5 +80,5 @@ const handleUserInputForSortationsByView = (function() {
             ensureLastOptionNotDeselectable(checkboxInput);
         });
     };
-})();
+}();
 
