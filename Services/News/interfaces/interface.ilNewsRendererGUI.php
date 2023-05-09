@@ -40,6 +40,8 @@ interface ilNewsRendererGUI
 
     public function getTimelineActions(): array;
 
+    public function preventEditing(): bool;
+
     /**
      * Get link href for object link
      */

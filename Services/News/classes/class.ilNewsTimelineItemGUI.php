@@ -169,18 +169,20 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $actions = [];
 
         if ($i->getPriority() === 1 && ($i->getUserId() === $this->user->getId() || $this->getUserEditAll())) {
-            $actions[] = $ui_factory->button()->shy(
-                $this->lng->txt("edit"),
-                ""
-            )->withOnLoadCode(static function ($id) use ($i) {
-                return "document.getElementById('$id').addEventListener('click', () => {il.News.edit(" . $i->getId() . ");});";
-            });
-            $actions[] = $ui_factory->button()->shy(
-                $this->lng->txt("delete"),
-                ""
-            )->withOnLoadCode(static function ($id) use ($i) {
-                return "document.getElementById('$id').addEventListener('click', () => {il.News.delete(" . $i->getId() . ");});";
-            });
+            if (!$news_renderer->preventEditing()) {
+                $actions[] = $ui_factory->button()->shy(
+                    $this->lng->txt("edit"),
+                    ""
+                )->withOnLoadCode(static function ($id) use ($i) {
+                    return "document.getElementById('$id').addEventListener('click', () => {il.News.edit(" . $i->getId() . ");});";
+                });
+                $actions[] = $ui_factory->button()->shy(
+                    $this->lng->txt("delete"),
+                    ""
+                )->withOnLoadCode(static function ($id) use ($i) {
+                    return "document.getElementById('$id').addEventListener('click', () => {il.News.delete(" . $i->getId() . ");});";
+                });
+            }
         }
         foreach ($news_renderer->getTimelineActions() as $action) {
             $actions[] = $action;
