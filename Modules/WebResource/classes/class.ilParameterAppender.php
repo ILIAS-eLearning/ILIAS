@@ -213,11 +213,6 @@ class ilParameterAppender
                     case LINKS_LOGIN:
                         $a_link_data['target'] .= (urlencode($ilUser->getLogin()));
                         break;
-                    /*
-                    case LINKS_SESSION_ID:
-                        $a_link_data['target'] .= (session_id());
-                        break;
-                    */
                     case LINKS_USER_ID:
                         $a_link_data['target'] .= ($ilUser->getId());
                         break;
@@ -306,7 +301,6 @@ class ilParameterAppender
         return array(0 => $lng->txt('links_select_one'),
                      LINKS_USER_ID => $lng->txt('links_user_id'),
                      LINKS_LOGIN => $lng->txt('links_user_name'),
-                     // LINKS_SESSION_ID => $lng->txt('links_session_id'),
                      LINKS_MATRICULATION => $lng->txt('matriculation')
         );
     }
