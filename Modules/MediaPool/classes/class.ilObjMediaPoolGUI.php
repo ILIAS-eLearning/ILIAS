@@ -352,6 +352,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ot = ilObjectTranslation::getInstance($this->object->getId());
