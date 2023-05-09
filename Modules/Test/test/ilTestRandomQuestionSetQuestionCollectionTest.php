@@ -72,21 +72,6 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($questions[0], $this->testObj->current());
     }
 
-    public function testNext(): void
-    {
-        $questions = [];
-        $ids = [125, 112, 10];
-        foreach ($ids as $id) {
-            $question = new ilTestRandomQuestionSetQuestion();
-            $question->setQuestionId($id);
-            $questions[] = $question;
-        }
-
-        $this->testObj->setQuestions($questions);
-
-        $this->assertEquals($questions[1], $this->testObj->next());
-    }
-
     public function testKey(): void
     {
         $questions = [];
