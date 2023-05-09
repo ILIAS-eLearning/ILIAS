@@ -17154,10 +17154,10 @@ div.ilStartupSection form.form-horizontal .form-group {
 .ilToolbar .form-control {
   width: auto;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .ilToolbar .input-group {
-  vertical-align: top;
+  vertical-align: middle;
 }
 .ilToolbar input[type="file"] {
   display: inline-block;
@@ -17195,6 +17195,10 @@ div.ilStartupSection form.form-horizontal .form-group {
 }
 .ilToolbar li.ilToolbarGroup .navbar-text {
   margin-right: 0;
+}
+.ilToolbar .btn,
+.ilToolbar a {
+  vertical-align: middle;
 }
 .ilToolbar .btn[disabled] {
   padding: 3px 6px;
