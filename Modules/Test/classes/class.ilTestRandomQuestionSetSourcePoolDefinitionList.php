@@ -26,10 +26,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 {
     protected ilDBInterface $db;
     protected ilObjTest $testOBJ;
-    private array $sourcePoolDefinitions = array();
+    private array $sourcePoolDefinitions = [];
     private ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory;
-    protected array $lostPools = array();
-    protected array $trashedPools = array();
+    protected array $lostPools = [];
+    protected array $trashedPools = [];
 
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory)
     {
@@ -337,36 +337,25 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
         return true;
     }
 
-    /**
-     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->sourcePoolDefinitions);
+        reset($this->sourcePoolDefinitions);
     }
 
-    /**
-     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function current()
+    public function current(): ?ilTestRandomQuestionSetSourcePoolDefinition
     {
-        return current($this->sourcePoolDefinitions);
+        $current = current($this->sourcePoolDefinitions);
+        return $current !== false ? $current : null;
     }
 
-    /**
-     * @return int|null|string
-     */
-    public function key()
+    public function key(): ?int
     {
         return key($this->sourcePoolDefinitions);
     }
 
-    /**
-     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
-     */
-    public function next()
+    public function next(): void
     {
-        return next($this->sourcePoolDefinitions);
+        next($this->sourcePoolDefinitions);
     }
 
     /**

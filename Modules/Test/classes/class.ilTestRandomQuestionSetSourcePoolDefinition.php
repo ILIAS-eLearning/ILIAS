@@ -63,24 +63,24 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     /**
      * @var array taxId => [nodeId, ...]
      */
-    private $originalTaxonomyFilter = array();
+    private $originalTaxonomyFilter = [];
 
     /**
      * @var array taxId => [nodeId, ...]
      */
-    private $mappedTaxonomyFilter = array();
+    private $mappedTaxonomyFilter = [];
 
     /**
      * @var array
      */
-    private $typeFilter = array();
+    private $typeFilter = [];
     // fau.
     // fau.
 
     /**
      * @var array
      */
-    private $lifecycleFilter = array();
+    private $lifecycleFilter = [];
 
     private $questionAmount = null;
 
@@ -92,12 +92,12 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         $this->testOBJ = $testOBJ;
     }
 
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

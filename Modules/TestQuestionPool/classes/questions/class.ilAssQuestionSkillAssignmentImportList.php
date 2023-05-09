@@ -45,9 +45,10 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
         return count($this->assignments) > 0;
     }
 
-    public function current()
+    public function current(): ?ilAssQuestionSkillAssignmentImport
     {
-        return current($this->assignments);
+        $current = current($this->assignments);
+        return $current !== false ? $current : null;
     }
 
     public function next(): void
@@ -55,7 +56,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
         next($this->assignments);
     }
 
-    public function key(): int
+    public function key(): ?int
     {
         return key($this->assignments);
     }

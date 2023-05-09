@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -71,7 +71,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $this->type = "role";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
+        $this->ctrl->saveParameter($this, ['obj_id', 'rolf_ref_id']);
         $this->lng->loadLanguageModule('rbac');
     }
 
@@ -220,7 +220,8 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function showDefaultPermissionSettings(): bool
     {
-        return $this->obj_definition->isContainer($this->getContainerType());
+        return $this->obj_definition->isContainer($this->getContainerType())
+            || $this->obj_definition->isAdministrationObject($this->getContainerType());
     }
 
     protected function initFormRoleProperties(int $a_mode): ilPropertyFormGUI
@@ -526,9 +527,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
     protected function adoptPermObject(): void
     {
-        $output = array();
+        $output = [];
         $parent_role_ids = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);
-        $ids = array();
+        $ids = [];
         foreach (array_keys($parent_role_ids) as $id) {
             $ids[] = $id;
         }
@@ -718,17 +719,15 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->object->changeExistingObjects(
                 $start,
                 ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
-                array('all'),
-                array()
-                #$a_show_admin_permissions ? array('adm') : array()
+                ['all'],
+                []
             );
         } else {
             $this->object->changeExistingObjects(
                 $start,
                 ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
-                array('all'),
-                array()
-                #$a_show_admin_permissions ? array('adm') : array()
+                ['all'],
+                []
             );
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
@@ -867,7 +866,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         // check for each user if the current role is his last global role before deassigning him
-        $last_role = array();
+        $last_role = [];
         $global_roles = $this->rbac_review->getGlobalRoles();
         foreach ($selected_users as $user) {
             $assigned_roles = $this->rbac_review->assignedRoles($user);
@@ -937,10 +936,10 @@ class ilObjRoleGUI extends ilObjectGUI
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $tb,
-                array(
+                [
                     'auto_complete_name' => $this->lng->txt('user'),
                     'submit_name' => $this->lng->txt('add')
-                )
+                ]
             );
 
             $tb->addSpacer();
@@ -1038,15 +1037,15 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "edit_properties",
                 $this->ctrl->getLinkTarget($this, "edit"),
-                array("edit", "update"),
+                ["edit", "update"],
                 get_class($this)
             );
         }
-        if ($this->checkAccess('write', 'edit_permission') and $this->showDefaultPermissionSettings()) {
+        if ($this->checkAccess('write', 'edit_permission') && $this->showDefaultPermissionSettings()) {
             $this->tabs_gui->addTarget(
                 "default_perm_settings",
                 $this->ctrl->getLinkTarget($this, "perm"),
-                array(),
+                [],
                 get_class($this)
             );
         }
@@ -1058,7 +1057,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "user_assignment",
                 $this->ctrl->getLinkTarget($this, "userassignment"),
-                array("deassignUser", "userassignment", "assignUser", "searchUserForm", "search"),
+                ["deassignUser", "userassignment", "assignUser", "searchUserForm", "search"],
                 get_class($this)
             );
         }
@@ -1077,7 +1076,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'export',
                 $this->ctrl->getLinkTargetByClass('ilExportGUI'),
-                array()
+                []
             );
         }
     }
@@ -1093,7 +1092,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $mail_roles[] = (new \ilRoleMailboxAddress($this->object->getId()))->value();
         }
         ilSession::set('mail_roles', $mail_roles);
-        $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
+        $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', [], ['type' => 'role']);
         ilUtil::redirect($script);
     }
 
@@ -1276,10 +1275,10 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->locator->addItem(
                 ilObjRole::_getTranslation($this->object->getTitle()),
                 $this->ctrl->getLinkTargetByClass(
-                    array(
+                    [
                         "ilpermissiongui",
                         "ilobjrolegui"
-                    ),
+                    ],
                     "perm"
                 )
             );

@@ -712,7 +712,7 @@ class ilObjRole extends ilObject
             ) {
                 // Copy role permission intersection
                 $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
+                $this->createPermissionIntersection($policy_stack, $perms[$node['type']] ?? [], $node['child'], $node['type']);
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
                     $node_stack[] = $node;

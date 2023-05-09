@@ -584,7 +584,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $uname = ilObjUser::_lookupName($user_id);
 
         $name = "";
-        if (strlen($importname)) {
+        if ($importname === null
+            || $importname === '') {
             $name = $importname . ' (' . $lng->txt('imported') . ')';
         } elseif (strlen($uname["firstname"] . $uname["lastname"]) == 0) {
             $name = $lng->txt("deleted_user");

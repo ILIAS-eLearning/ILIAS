@@ -38,6 +38,9 @@ class ilWebLinkItemExternal extends ilWebLinkItem
         }
 
         foreach ($this->getParameters() as $parameter) {
+            if ($parameter->getValue() === ilWebLinkBaseParameter::VALUES[ilWebLinkBaseParameter::SESSION_ID_NAME]) {
+                continue;
+            }
             $link = $parameter->appendToLink($link);
         }
 

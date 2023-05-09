@@ -48,6 +48,9 @@ $il-modal-dark-color: $il-neutral-color;
 			display: flex;
 			justify-content: center
 		}
+                .item:not(.text-only) .item-content.item-vertical {
+			flex-direction: column;
+		}
 	}
 
 	.carousel-indicators {

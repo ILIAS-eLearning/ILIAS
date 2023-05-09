@@ -27,11 +27,10 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
     public ilCtrl $ctrl;
     public ilGlobalTemplateInterface $tpl;
 
-    private ?string $pdfExportLinkTarget = null;
     private ?string $certificateLinkTarget = null;
     private ?string $showBestSolutionsLinkTarget = null;
     private ?string $hideBestSolutionsLinkTarget = null;
-    private array $participantSelectorOptions = array();
+    private array $participantSelectorOptions = [];
 
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
     {
@@ -46,14 +45,17 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
         $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
-        if (strlen($this->getCertificateLinkTarget())) {
+        if ($this->getCertificateLinkTarget() !== null
+            && $this->getCertificateLinkTarget() !== '') {
             $this->addButton($this->lng->txt('certificate'), $this->getCertificateLinkTarget());
         }
 
-        if (strlen($this->getShowBestSolutionsLinkTarget())) {
+        if ($this->getShowBestSolutionsLinkTarget() !== null
+            && $this->getShowBestSolutionsLinkTarget() !== '') {
             $this->addSeparator();
             $this->addButton($this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget());
-        } elseif (strlen($this->getHideBestSolutionsLinkTarget())) {
+        } elseif ($this->getHideBestSolutionsLinkTarget() !== null
+            && $this->getHideBestSolutionsLinkTarget() !== '') {
             $this->addSeparator();
             $this->addButton($this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget());
         }

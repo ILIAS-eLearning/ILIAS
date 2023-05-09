@@ -902,7 +902,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * create new question
     */
-    public function &createQuestionForTestObject(): void
+    public function createQuestionForTestObject(): void
     {
         if (!$this->qplrequest->raw('q_id')) {
             if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
@@ -1374,7 +1374,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * edit question
     */
-    public function &editQuestionForTestObject(): void
+    public function editQuestionForTestObject(): void
     {
         global $DIC;
 
