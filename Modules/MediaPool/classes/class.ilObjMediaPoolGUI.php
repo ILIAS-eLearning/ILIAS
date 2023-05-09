@@ -335,6 +335,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $ilTabs->activateTab("export");
                 include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
@@ -2214,7 +2215,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * Return from item editing
      */
-    protected function returnFromItem(): void
+    protected function returnFromItem() : void
     {
         $ctrl = $this->ctrl;
 
