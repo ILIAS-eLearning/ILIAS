@@ -28,10 +28,10 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 	.form-control{
 		width: auto;
 		display: inline-block;
-		vertical-align: top;
+		vertical-align: middle;
 	}
 	.input-group  {
-		vertical-align: top;
+		vertical-align: middle;
 	}
 	input[type="file"] {
 		display: inline-block;
@@ -68,6 +68,9 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 				margin-right: 0;
 			}
 		}
+	}
+	.btn, a{
+		vertical-align: middle;
 	}
 
 	.btn[disabled]{
