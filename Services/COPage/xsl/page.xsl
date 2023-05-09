@@ -104,8 +104,8 @@
 		<xsl:value-of select="$pg_title"/>
 		</h1>
 	</xsl:if>
-	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:comment>COPage-PageTop</xsl:comment>
+	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div data-copg-ed-type="add-area">
