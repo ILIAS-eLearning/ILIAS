@@ -155,6 +155,18 @@ export default class ModelActionHandler {
         break;
 
       case "format.save":
+        let m, i;
+        const pcids = Array.from(
+          params.pcids).map(x => (x.split(":")[1])
+        );
+        for(i = 0; i < pcids.length; i++) {
+          m = this.model.getPCModel(pcids[i]);
+          // update paragraph characteristic
+          if (m.text) {
+            m.characteristic = params.parFormat;
+            this.model.setPCModel(pcids[i], m);
+          }
+        }
         this.model.selectNone();
         this.model.setState(this.model.STATE_PAGE);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
