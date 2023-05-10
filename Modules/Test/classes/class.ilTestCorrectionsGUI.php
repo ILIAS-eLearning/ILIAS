@@ -314,6 +314,7 @@ class ilTestCorrectionsGUI
 
     protected function addAnswer()
     {
+        require_once("Modules/TestQuestionPool/classes/forms/class.ilAddAnswerFormBuilder.php");
         $form_builder = new ilAddAnswerFormBuilder($this, $this->ui->factory(), $this->refinery, $this->language, $this->ctrl);
 
         $form = $form_builder->buildAddAnswerForm()
