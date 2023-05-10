@@ -983,9 +983,9 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Entity Representation displays information about entities within
-     *     the system, such as Repository Objects, Users, OrgUnits, etc, when the
-     *     purpose is to represent the entity itself.
+     *     An Entity displays information about entities within the system,
+     *     such as Repository Objects, Users, OrgUnits, etc, when the purpose is
+     *     to represent the entity itself.
      *     Properties and relations of the entity are arranged in semantic groups
      *     to structure and prioritize information.
      *   composition:
@@ -994,24 +994,37 @@ interface Factory
      *     string information or more sophisticated components.
      *     Items in 'Reactions', i.e. interactive aspects of the entity, are
      *     expressed by Glyphs and Tags.
+     *     Please also refer to the examples and background information.
+     *     Semantic groups are (and may hold):
+     *     - Primary Identifier (Symbol|Image|ShyButton|ShyLink)
+     *     - Secondary Identifier (Symbol|Image|ShyButton|ShyLink)
+     *     - Availability (PropertyListing|StandardLink)
+     *     - BlockingAvailabilityConditions (PropertyListing|StandardLink)
+     *     - FeaturedProperties (PropertyListing|StandardLink)
+     *     - PersonalStatus (PropertyListing)
+     *     - Details (PropertyListing)
+     *     - MainDetails ((PropertyListing))
+     *     - Reactions (Glyph|Tag)
+     *     - PrioritizedReactions (Glyph|Tag)
+     *     - Actions (Dropdown)
+     *
      *   effect:
      *     Entities themselves are not Clickable; however, there may be actions on
      *     their primary and secondary identifiers or elements in certain groups.
      *   rivals:
      *     Item: >
-     *       The Entity Representation is meant to replace the Item.
-     *       Use Entity Representation when possible.
+     *       The Entity is meant to replace the Item.
+     *       Use Entities when possible.
      *
      * background: ./docu/UI-Repository-Item_proposal.md
      *
      * rules:
      *   usage:
      *     1: >
-     *       Properties of an Entity Represenstation MUST be unique within the
-     *       Entity Represenstation instance: you MUST NOT list the same
-     *       information in more than one place.
+     *       Properties of an Entity MUST be unique within the Entity instance:
+     *       you MUST NOT list the same information in more than one place.
      *     2: >
-     *       Entity Represenstations SHOULD be part of a listing of (possibly)
+     *       Entities SHOULD be part of a listing of (possibly)
      *       other entities; they are not meant as the sole content of a page.
      *   wording:
      *     1: >

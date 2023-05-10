@@ -22,5 +22,15 @@ function base()
             false
         );
 
-    return $renderer->render($props);
+    $props2 = $props->withItems([
+        ['a', "1"],
+        ['y', "25", false],
+        ['link', $f->link()->standard('Goto ILIAS', 'http://www.ilias.de')]
+    ]);
+
+    return $renderer->render([
+            $props,
+            $f->divider()->horizontal(),
+            $props2
+    ]);
 }

@@ -173,6 +173,9 @@ trait ComponentHelper
                 if ($cls === "string" && is_string($value)) {
                     return true;
                 }
+                if ($cls === "array" && is_array($value)) {
+                    return true;
+                }
                 if ($cls === "int" && is_int($value)) {
                     return true;
                 } elseif ($value instanceof $cls) {

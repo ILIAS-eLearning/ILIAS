@@ -23,5 +23,4 @@ use ILIAS\UI\Component\Entity as I;
 
 class Standard extends Entity implements I\Standard
 {
-    //use ComponentHelper;
 }

@@ -19,11 +19,28 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing;
 
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Link\Standard as StandardLink;
+
 /**
  * Interface Property
  * @package ILIAS\UI\Component\Listing
  */
 interface Property extends Listing
 {
-    public function withProperty(string $label, $value, bool $show_label = true): self;
+    public const ALLOWED_VALUE_TYPES = [
+        Symbol::class,
+        Legacy::class,
+        StandardLink::class
+    ];
+
+    /**
+     * @param string|Symbol|Legacy|StandardLink|array<Symbol|Legacy|StandardLink> $value
+     */
+    public function withProperty(
+        string $label,
+        string|array|Symbol|Legacy|StandardLink $value,
+        bool $show_label = true
+    ): self;
 }

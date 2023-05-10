@@ -27,6 +27,8 @@ abstract class EntityListing implements I\EntityListing
 {
     use ComponentHelper;
 
+    protected mixed $data;
+
     public function __construct(
         protected EntityFactory $entity_factory
     ) {

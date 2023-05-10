@@ -59,6 +59,11 @@ interface Factory
      *   composition: >
      *     Descriptive Lists are composed of a key acting as title describing the type of
      *     information being displayed underneath.
+     *   rivals:
+     *      Property Listings: >
+     *        In Property Listings, the (visual) focus is on values rather than labels;
+     *        labels can also be omitted.
+     *        All properties are displayed in one line.
      * ----
      * @param array $items string (key) => (string|Component)[] (value)
      * @return  \ILIAS\UI\Component\Listing\Descriptive
@@ -110,8 +115,8 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Entity Listing yields Entity Representations according to a
-     *     consumer defined concept and lists them one after the other.
+     *     The Entity Listing yields Entities according to a consumer defined concept
+     *     and lists them one after the other.
      *   composition: >
      *     The Entity Listing will provide Entities.
      * ----
@@ -124,19 +129,21 @@ interface Factory
      * description:
      *   purpose: >
      *     Property Listings will list characteristic, labeled values in a space
-     *     saving manner. Property listing is ideal, when there are many values
-     *     of reasonable, but not specific or primarily relevant importance.
+     *     saving manner. Property listing is ideal when there are many values
+     *     of reasonable, but not specific or primarily relevant, importance.
      *   composition: >
      *     Entries are listed as label/value pair in one line.
-     *     The visibility of the label is optional.
+     *     Since the focus is strongly on the value, which might be
+     *     self-explaining, visibility of the label is optional.
+     *     The value is a string, or one or several Symbols, Links or Legacy Components.
      *   rivals:
-     *      CharacteristicValue: >
-     *        In CharakteristicValues, label/value pairs are displayed in a
+     *      Characteristic Value: >
+     *        In Charakteristic Values, label/value pairs are displayed in a
      *        tabular way; labels cannot be omitted for display.
      *      Descriptive: >
      *        The Descriptive's (visual) emphasis is on the key, not the value.
      * context:
-     *   - Property listing is used in Entities
+     *   - Property Listing is used in Entities
      *
      * ----
      * @return \ILIAS\UI\Component\Listing\Property

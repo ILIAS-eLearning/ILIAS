@@ -81,6 +81,9 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    /**
+     * @param Component\Component|string|null|array<Component\Component> $value
+     */
     protected function maybeRender(Component\Component|array|string|null $value, RendererInterface $default_renderer): ?string
     {
         if (is_null($value) || is_string($value)) {

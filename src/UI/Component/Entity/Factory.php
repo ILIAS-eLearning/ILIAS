@@ -33,8 +33,8 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Standard Entity Representation can (and should) be used to
-     *     list system entities such as repository objects, users and similar.
+     *     The Standard Entity can (and should) be used to list system entities
+     *     such as repository objects, users and similar.
      * ---
      * @return \ILIAS\UI\Component\Entity\Standard
      */

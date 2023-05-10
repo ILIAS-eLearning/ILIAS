@@ -42,7 +42,7 @@ function base()
     $blocking = $f->listing()->property();
     $availability = $f->listing()->property();
 
-    $precondition_link = $f->button()->shy("Preconditions", "http://www.ilias.de");
+    $precondition_link = $f->link()->standard("Preconditions", "http://www.ilias.de");
 
     // If preconditions aren't met
     $blocking = ($av_data['Expected Preconditions'] === $av_data['Passed Courses'])

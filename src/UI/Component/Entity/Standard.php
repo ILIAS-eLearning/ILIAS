@@ -20,7 +20,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Entity;
 
 /**
- * This describes a standard EntityRepresentation
+ * This describes a standard Entity
  */
 interface Standard extends Entity
 {

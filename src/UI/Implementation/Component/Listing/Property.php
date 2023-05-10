@@ -20,14 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Listing as IListing;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Link\Standard as StandardLink;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Property listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Property extends Listing implements C\Listing\Property
+class Property extends Listing implements IListing\Property
 {
+    use ComponentHelper;
+
     public function __construct()
     {
         $this->items = [];
@@ -36,8 +42,9 @@ class Property extends Listing implements C\Listing\Property
     /**
      * @inheritdoc
      */
-    public function withItems(array $items): C\Listing\Listing
+    public function withItems(array $items): self
     {
+        $this->checkArgListElements("items", $items, 'array');
         $clone = clone $this;
         $clone->items = [];
         foreach ($items as $item) {
@@ -46,8 +53,11 @@ class Property extends Listing implements C\Listing\Property
         return $clone;
     }
 
-    public function withProperty(string $label, $value, bool $show_label = true): self
+    public function withProperty(string $label, string|array|Symbol|Legacy|StandardLink $value, bool $show_label = true): self
     {
+        if (is_array($value)) {
+            $this->checkArgListElements("value", $value, self::ALLOWED_VALUE_TYPES);
+        }
         $clone = clone $this;
         $clone->items[] = [$label, $value, $show_label];
         return $clone;

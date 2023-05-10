@@ -22,12 +22,5 @@ function semantic_groups()
         ->withActions([$f->button()->shy('action', '#')])
     ;
 
-    return $renderer->render([
-        $f->image()->responsive(
-            'src/UI/examples/Entity/Standard/semantic_groups.png',
-            'Overview of the arrangement of semantig Groups within the Entity'
-        ),
-        $f->divider()->horizontal(),
-        $entity
-    ]);
+    return $renderer->render($entity);
 }
