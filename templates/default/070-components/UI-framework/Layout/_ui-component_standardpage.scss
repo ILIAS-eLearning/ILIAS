@@ -75,9 +75,21 @@ grid-based layout
 			display: none;
 		}
 	}
+	// Mantis 31419 layout-patch with image maps
+	.il-layout-page-content > div {
+		max-width: calc((100vw - $il-mainbar-btn-width - $il-standard-page-slate-width));
+	}
+
+
 	// main grid with active slates
 	&.with-mainbar-slates-engaged {
 		grid-template-columns: auto 1fr;
+
+		// Mantis 31419 layout-patch with image map
+		.il-layout-page-content > div {
+			max-width: calc((100vw - $il-mainbar-btn-width - $il-standard-page-slate-width));
+		}
+
 		.il-maincontrols-mainbar {
 			width: $il-standard-page-slate-width + $il-mainbar-btn-width;
 
