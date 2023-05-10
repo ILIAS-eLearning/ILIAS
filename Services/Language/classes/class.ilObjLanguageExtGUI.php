@@ -394,7 +394,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
                 $value = str_replace("<<", "«",$value);
-                $value = ilUtil::stripSlashes($value);
+                $value = ilUtil::stripSlashes($value, true, "<a><br><u>");
                 $save_array[$key] = $value;
 
                 // the comment has the key of the language with the suffix
