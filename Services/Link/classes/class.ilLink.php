@@ -59,14 +59,7 @@ class ilLink
                 return ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilAdministrationGUI&cmd=jump&ref_id=' . $a_ref_id;
             }
         }
-        switch ($a_type) {
-            case 'git':
-                //case 'pg':
-                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
-
-            default:
-                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
-        }
+        return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
     }
 
     /**
