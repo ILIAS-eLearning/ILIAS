@@ -134,15 +134,17 @@ class ilLMNavigationStatus
             $page_id = $obj_id;
             while ($succ_node && !$active) {
                 $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
-                $page_id = $succ_node["obj_id"];
-                $active = ilLMPage::_lookupActive(
-                    $page_id,
-                    $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
-                );
+                if (!is_null($succ_node)) {
+                    $page_id = $succ_node["obj_id"];
+                    $active = ilLMPage::_lookupActive(
+                        $page_id,
+                        $this->lm->getType(),
+                        $this->lm_set->get("time_scheduled_page_activation")
+                    );
+                }
             }
 
-            if ($succ_node["type"] != "pg") {
+            if (is_null($succ_node) || $succ_node["type"] != "pg") {
                 $this->chapter_has_no_active_page = true;
                 $this->current_page_id = 0;
                 return;

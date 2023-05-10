@@ -638,7 +638,7 @@ abstract class ilPageObject
         $res = $db->query("SELECT parent_id FROM page_object WHERE page_id = " . $db->quote($a_id, "integer") . " " .
             "AND parent_type=" . $db->quote($a_type, "text"));
         $rec = $db->fetchAssoc($res);
-        return (int) $rec["parent_id"];
+        return (int) ($rec["parent_id"] ?? 0);
     }
 
     public static function _writeParentId(string $a_parent_type, int $a_pg_id, int $a_par_id): void
