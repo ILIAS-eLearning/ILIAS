@@ -668,10 +668,7 @@ class ilGlossaryPresentationGUI
         }
 
         if (!$a_get_html) {
-            $tpl->setPermanentLink("git", $term_id, "", ILIAS_HTTP_PATH .
-                "/goto.php?target=" .
-                "git" .
-                "_" . $term_id . "_" . $ref_id . "&client_id=" . CLIENT_ID);
+            $tpl->setPermanentLink("git", "", $term_id . "_" . $ref_id);
 
             // show taxonomy
             $this->showTaxonomy();
