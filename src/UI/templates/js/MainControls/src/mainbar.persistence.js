@@ -113,7 +113,8 @@ var persistence = function() {
 
     public_interface = {
         read: readStates,
-        store: storeStates
+        store: storeStates,
+        storePageState : storePageState
     };
 
     return public_interface;
