@@ -163,7 +163,6 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
     protected function buildAddAnswerAction($data): string
     {
-        require_once("Modules/TestQuestionPool/classes/forms/class.ilAddAnswerFormBuilder.php");
         $ui_factory = $this->ui->factory();
         $ui_renderer = $this->ui->renderer();
 
