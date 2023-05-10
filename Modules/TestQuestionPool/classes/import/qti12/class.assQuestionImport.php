@@ -302,26 +302,4 @@ class assQuestionImport
             ->withImportId($value);
         $repo->update($solution);
     }
-
-    protected function findSolutionTypeByValue(string $value): ?string
-    {
-        foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
-            $search_type = '_' . $type . '_';
-            if (strpos($value, $search_type) !== false) {
-                return $type;
-            }
-        }
-        return null;
-    }
-
-
-    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
-    protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
-    {
-        if (is_null($this->suggestedsolution_repo)) {
-            $dic = ilQuestionPoolDIC::dic();
-            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
-        }
-        return $this->suggestedsolution_repo;
-    }
 }
