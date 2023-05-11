@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjForum
@@ -852,7 +852,10 @@ class ilObjForum extends ilObject
         if ($ilSetting->get('frm_store_new')) {
             $weeks = (int) $ilSetting->get('frm_store_new');
         }
-        $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
+
+        $new_deadline = (new DateTime())
+            ->setTimestamp(time() - 60 * 60 * 24 * 7 * $weeks)
+            ->format('Y-m-d H:i:s');
 
         if (!$ilUser->isAnonymous()) {
             $query = "
