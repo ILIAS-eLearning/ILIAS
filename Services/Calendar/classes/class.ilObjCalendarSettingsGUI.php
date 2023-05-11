@@ -384,7 +384,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $form->addItem($sec);
 
         $cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'), 'sync_cache');
-        $cache->setValue((string) $this->calendar_settings->isSynchronisationCacheEnabled());
+        $cache->setValue((string) (int) $this->calendar_settings->isSynchronisationCacheEnabled());
         $cache->setInfo($this->lng->txt('cal_sync_cache_info'));
         $cache->setRequired(true);
 
@@ -406,7 +406,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         // Calendar cache
         $cache = new ilRadioGroupInputGUI($this->lng->txt('cal_cache'), 'cache');
-        $cache->setValue((string) $this->calendar_settings->isCacheUsed());
+        $cache->setValue((string) (int) $this->calendar_settings->isCacheUsed());
         $cache->setInfo($this->lng->txt('cal_cache_info'));
         $cache->setRequired(true);
 
