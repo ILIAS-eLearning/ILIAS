@@ -102,6 +102,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $temp_file = $this->getPdfTempName();
         $args = $wkConfig->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
         $this->appendDefaultFontStyle($a_path_to_file, $wkConfig);
+        $this->fixIconSizeForPatchedQt($a_path_to_file);
         $return_value = ilShellUtil::execQuoted($wkConfig->getWKHTMLToPdfDefaultPath(), $args);
         $this->log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
         $this->checkReturnValueFromCommandLine($return_value, $temp_file, $a_target);
@@ -124,6 +125,19 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $originalFile = file_get_contents($a_path_to_file) . $backupStyle;
         file_put_contents($a_path_to_file, $originalFile);
     }
+
+    /**
+     * Fix for an issue of WkhtmlToPdf with patched QT
+     * Without a fixed width the icons would be distorted and corrupt the hole PDF
+     * @see https://mantis.ilias.de/view.php?id=36506
+     */
+    protected function fixIconSizeForPatchedQt(string $a_path_to_file) : void
+    {
+        $style = '<style>div.questionPrintview img.small {height: 20px; width: 20px;}</style>';
+        $originalFile = file_get_contents($a_path_to_file) . $style;
+        file_put_contents($a_path_to_file, $originalFile);
+    }
+
 
     public function prepareGenerationRequest(string $service, string $purpose): void
     {
