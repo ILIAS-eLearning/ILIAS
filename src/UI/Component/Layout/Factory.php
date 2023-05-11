@@ -35,4 +35,24 @@ interface Factory
      * @return  \ILIAS\UI\Component\Layout\Page\Factory
      */
     public function page(): Page\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     An Alignment positions Components in relation to each other
+     *     and defines breakpoints for changing screensizes. It therefore
+     *     does not have an visual manifestation by itself, but rather
+     *     groups and arranges Components.
+     *   composition: >
+     *     Alignment will accept Components implementing the "Block"-Interface.
+     *     It will not alter the appearance of the Component.
+     *   effect: >
+     *     When available screensize changes, the Alignment will arrange Blocks
+     *     according to its rules.
+     *
+     * ----
+     * @return  \ILIAS\UI\Component\Layout\Alignment\Factory
+     */
+    public function alignment(): Alignment\Factory;
 }

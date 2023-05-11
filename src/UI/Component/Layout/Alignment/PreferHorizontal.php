@@ -18,25 +18,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Layout;
+namespace ILIAS\UI\Component\Layout\Alignment;
 
-use ILIAS\UI\Component\Layout;
+use ILIAS\UI\Component\Component;
 
-class Factory implements Layout\Factory
+/**
+ * This describes the Prefer Horizontal Alignment.
+ */
+interface PreferHorizontal extends Alignment
 {
-    /**
-     * @inheritdoc
-     */
-    public function page(): Layout\Page\Factory
-    {
-        return new Page\Factory();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function alignment(): Layout\Alignment\Factory
-    {
-        return new Alignment\Factory();
-    }
 }
