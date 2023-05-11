@@ -990,6 +990,14 @@ class ilFileUtils
                         strtolower($a_old_suffix)) {
                         $pos = strrpos($a_dir . "/" . $file, ".");
                         $new_name = substr($a_dir . "/" . $file, 0, $pos) . "." . $a_new_suffix;
+                        // check if file exists
+                        if (file_exists($new_name)) {
+                            if (is_dir($new_name)) {
+                                ilFileUtils::delDir($new_name);
+                            } else {
+                                unlink($new_name);
+                            }
+                        }
                         rename($a_dir . "/" . $file, $new_name);
                     }
                 }
