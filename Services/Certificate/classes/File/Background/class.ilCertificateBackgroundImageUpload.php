@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystem;
@@ -33,7 +33,7 @@ class ilCertificateBackgroundImageUpload
 {
     private const BACKGROUND_IMAGE_NAME = 'background.jpg';
     private const BACKGROUND_THUMBNAIL_IMAGE_NAME = 'background.jpg.thumb.jpg';
-    private const BACKGROUND_TEMPORARY_FILENAME = 'background_upload.tmp';
+    private const BACKGROUND_TEMPORARY_FILENAME = 'background_upload_tmp';
     private FileUpload $fileUpload;
     private string $certificatePath;
     private ilLanguage $language;
@@ -116,9 +116,7 @@ class ilCertificateBackgroundImageUpload
             ilFileUtils::makeDirParents($imagepath);
         }
 
-        $backgroundImageTempFilePath = $this->createBackgroundImageTempfilePath();
-
-        $this->uploadFile($imageTempFilename, $backgroundImageTempFilePath, $pending_file);
+        $backgroundImageTempFilePath = $this->uploadFile($imageTempFilename, $pending_file);
 
         $backgroundImagePath = $this->certificatePath . 'background_' . $version . '.jpg';
 
@@ -158,8 +156,7 @@ class ilCertificateBackgroundImageUpload
     }
 
     /**
-     * @param string     $temporaryFilename
-     * @param string     $targetFileName
+     * @param string $temporaryFilename
      * @param array|null $pending_file
      * @throws FileNotFoundException
      * @throws IOException
@@ -167,15 +164,9 @@ class ilCertificateBackgroundImageUpload
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    private function uploadFile(string $temporaryFilename, string $targetFileName, ?array $pending_file = null): void
+    private function uploadFile(string $temporaryFilename, ?array $pending_file = null): string
     {
-        $targetFilename = basename($targetFileName);
-        $targetFilename = $this->fileUtilsHelper->getValidFilename($targetFilename);
-
-        $targetFilesystem = $this->getTargetFilesystem($targetFileName);
-        $targetDir = $this->getTargetDir($targetFileName);
-
-        if (false === $this->fileUpload->hasBeenProcessed()) {
+        if (!$this->fileUpload->hasBeenProcessed()) {
             $this->fileUpload->process();
         }
 
@@ -194,16 +185,36 @@ class ilCertificateBackgroundImageUpload
                 throw new ilException($processingStatus->getMessage());
             }
 
+            $extension = pathinfo($uploadResult->getName(), PATHINFO_EXTENSION);
+            $temp_file_path = $this->createBackgroundImageTempfilePath($extension);
+            $target_file_name = basename($temp_file_path);
+            $target_file_name = $this->fileUtilsHelper->getValidFilename($target_file_name);
+
+            $target_file_system = $this->getTargetFilesystem($temp_file_path);
+            $target_directory = $this->getTargetDir($temp_file_path);
+
             $this->fileUpload->moveOneFileTo(
                 $uploadResult,
-                $targetDir,
-                $targetFilesystem,
-                $targetFilename,
+                $target_directory,
+                $target_file_system,
+                $target_file_name,
                 true
             );
-        } elseif (!empty($pending_file)) {
+
+            return $temp_file_path;
+        } elseif (is_array($pending_file) && $pending_file !== []) {
+            $extension = pathinfo($pending_file['name'], PATHINFO_EXTENSION);
+            $temp_file_path = $this->createBackgroundImageTempfilePath($extension);
+
+            $target_file_name = basename($temp_file_path);
+            $target_file_name = $this->fileUtilsHelper->getValidFilename($target_file_name);
+
+            $target_directory = $this->getTargetDir($temp_file_path);
+
             $stream = $this->tmp_file_system->readStream(basename($pending_file['tmp_name']));
-            $this->fileSystem->writeStream($targetDir . '/' . $targetFilename, $stream);
+            $this->fileSystem->writeStream($target_directory . '/' . $target_file_name, $stream);
+
+            return $temp_file_path;
         } else {
             throw new ilException($this->language->txt('upload_error_file_not_found'));
         }
@@ -243,9 +254,14 @@ class ilCertificateBackgroundImageUpload
      * Returns the filesystem path of the background image temp file during upload
      * @return string The filesystem path of the background image temp file
      */
-    private function createBackgroundImageTempfilePath(): string
+    private function createBackgroundImageTempfilePath(string $extension): string
     {
-        return $this->rootDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME;
+        return implode('', [
+            $this->rootDirectory,
+            $this->certificatePath,
+            self::BACKGROUND_TEMPORARY_FILENAME,
+            '.' . $extension
+        ]);
     }
 
     /**

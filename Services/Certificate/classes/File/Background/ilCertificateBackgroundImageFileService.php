@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 
 /**
@@ -26,9 +26,10 @@ use ILIAS\Filesystem\Filesystem;
 class ilCertificateBackgroundImageFileService
 {
     public const BACKGROUND_IMAGE_NAME = 'background.jpg';
-    public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
+    public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload_tmp';
     public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
     public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
+    public const VALID_BACKGROUND_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];
 
     private Filesystem $fileSystem;
     private string $certificatePath;
@@ -86,8 +87,21 @@ class ilCertificateBackgroundImageFileService
         );
     }
 
-    public function getBackgroundImageTempfilePath(): string
+    public function getBackgroundImageTempfilePath(string $extension): string
     {
-        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
+        return implode('', [
+            $this->webDirectory,
+            $this->certificatePath,
+            self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME,
+            '.' . $extension
+        ]);
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getValidBackgroundImageFileExtensions(): array
+    {
+        return self::VALID_BACKGROUND_IMAGE_EXTENSIONS;
     }
 }
