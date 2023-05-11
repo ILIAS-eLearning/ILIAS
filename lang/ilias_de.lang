@@ -3665,6 +3665,8 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#change_sort_direction#:#Sortierrichtung ändern
+common#:#change_sort_direction_to_asc#:#Change sort direction to ascending
+common#:#change_sort_direction_to_desc#:#Change sort direction to descending
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
@@ -5616,8 +5618,10 @@ common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über di
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#sort_ascending#:#Aufsteigend sortieren
+common#:#sort_ascending_long#:#Sortierung ändern zu aufsteigend
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_descending#:#Absteigend sortieren
+common#:#sort_descending_long#:#Sortierung ändern zu absteigend
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_asc#:#Aufsteigend
 common#:#sorting_creation_header#:#Nach Erstellungsdatum

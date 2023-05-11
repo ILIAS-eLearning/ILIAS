@@ -1158,7 +1158,11 @@ class ilTable2GUI extends ilTableGUI
             if ($column["sort_field"] == $this->order_field) {
                 $order_dir = $this->sort_order;
 
-                $lng_change_sort = $this->lng->txt("change_sort_direction");
+                if ($order_dir === "asc") {
+                    $lng_change_sort = $this->lng->txt("sort_ascending_long");
+                } else {
+                    $lng_change_sort = $this->lng->txt("sort_descending_long");
+                }
                 $this->tpl->setVariable("TBL_ORDER_ALT", $lng_change_sort);
             }
 
