@@ -68,9 +68,9 @@ class ilForumAuthorInformationCache
                 $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);
-                $user->setTitle($row['title']);
-                $user->setFirstname($row['firstname']);
-                $user->setLastname($row['lastname']);
+                $user->setUTitle($row['title'] ?? '');
+                $user->setFirstname($row['firstname'] ?? '');
+                $user->setLastname($row['lastname'] ?? '');
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);
