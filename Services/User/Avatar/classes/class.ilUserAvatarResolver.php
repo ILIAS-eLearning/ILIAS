@@ -124,6 +124,9 @@ class ilUserAvatarResolver
     private function resolveProfilePicturePath(): string
     {
         $rid = $this->irss->manage()->find($this->rid);
+        if ($rid === null) {
+            return '';
+        }
         $flavour = $this->irss->flavours()->get($rid, $this->flavour_definition);
         $urls = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray(false);
 
