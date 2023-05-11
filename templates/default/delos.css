@@ -9285,8 +9285,14 @@ grid-based layout
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
 }
+.il-layout-page .il-layout-page-content > div {
+  max-width: calc(100vw - 80px - 329px);
+}
 .il-layout-page.with-mainbar-slates-engaged {
   grid-template-columns: auto 1fr;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-layout-page-content > div {
+  max-width: calc(100vw - 80px - 329px);
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 409px;
@@ -10787,56 +10793,21 @@ footer {
   display: inline-block;
   text-align: center;
 }
-.icon .abbreviation {
-  font-weight: 600;
-  position: absolute;
-}
-.icon img {
-  float: left;
-}
 .icon.small {
   height: 20px;
   line-height: 20px;
-}
-.icon.small .abbreviation {
-  font-size: 8px;
-  width: 20px;
-}
-.icon.small img {
-  width: 20px;
-  height: 20px;
 }
 .icon.medium {
   height: 35px;
   line-height: 35px;
 }
-.icon.medium .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.medium img {
-  height: 35px;
-}
 .icon.large {
   height: 45px;
   line-height: 45px;
 }
-.icon.large .abbreviation {
-  font-size: 18px;
-}
-.icon.large img {
-  height: 45px;
-}
 .icon.responsive {
   width: 100%;
   line-height: 35px;
-}
-.icon.responsive .abbreviation {
-  font-size: 14px;
-}
-.icon.responsive img {
-  width: 100%;
-  height: auto;
 }
 .icon.disabled {
   -webkit-filter: grayscale(100%);
@@ -11244,7 +11215,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -20048,3 +20019,4 @@ table.mceToolbar td {
     width: auto !important;
   }
 }
+/*# sourceMappingURL=Delos.css.map */
