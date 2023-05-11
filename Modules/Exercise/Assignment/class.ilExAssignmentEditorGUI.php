@@ -149,7 +149,7 @@ class ilExAssignmentEditorGUI
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));
 
-        $ilToolbar->addStickyItem($this->getTypeDropdown());
+        $ilToolbar->addStickyItem($this->getTypeDropdown(), true);
 
         $this->gui->button(
             $this->lng->txt("exc_add_assignment"),
