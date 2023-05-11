@@ -370,13 +370,12 @@ class ilExerciseManagementGUI
             foreach ($ass as $a) {
                 $options[$a->getId()] = $a->getTitle();
             }
-            $si = new ilSelectInputGUI($this->lng->txt(""), "ass_id");
+            $si = new ilSelectInputGUI($this->lng->txt("exc_assignment"), "ass_id");
             $si->setOptions($options);
             $si->setValue($this->assignment->getId());
-            $ilToolbar->addStickyItem($si);
-
+            $ilToolbar->addStickyItem($si, true);
             $button = ilSubmitButton::getInstance();
-            $button->setCaption("exc_select_ass");
+            $button->setCaption("select");
             $button->setCommand("selectAssignment");
             $ilToolbar->addStickyItem($button);
 
@@ -967,13 +966,12 @@ class ilExerciseManagementGUI
                 $options[$k] =
                     $m["lastname"] . ", " . $m["firstname"] . " [" . $m["login"] . "]";
             }
-            $si = new ilSelectInputGUI($this->lng->txt(""), "part_id");
+            $si = new ilSelectInputGUI($this->lng->txt("exc_participant"), "part_id");
             $si->setOptions($options);
             $si->setValue($current_participant);
-            $ilToolbar->addStickyItem($si);
-
+            $ilToolbar->addStickyItem($si, true);
             $button = ilSubmitButton::getInstance();
-            $button->setCaption("exc_select_part");
+            $button->setCaption("select");
             $button->setCommand("selectParticipant");
             $ilToolbar->addStickyItem($button);
         }
@@ -982,6 +980,7 @@ class ilExerciseManagementGUI
             $this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
             $this->ctrl->setParameter($this, "part_id", $current_participant);
 
+            $ilToolbar->addSeparator();
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
             $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
 
