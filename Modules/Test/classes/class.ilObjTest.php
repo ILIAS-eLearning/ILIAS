@@ -5417,7 +5417,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getImagePathWeb()
     {
         $relative_path = "/assessment/" . $this->getId() . "/images/";
-        return ilUtil::getDataWebPath($relative_path);
+        return self::getDataWebPath($relative_path);
     }
 
     /**
@@ -12283,5 +12283,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected function getHtmlQuestionContentPurifier() : ilAssHtmlUserSolutionPurifier
     {
         return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+    }
+
+    /**
+     * This is originally a fix for https://mantis.ilias.de/view.php?id=35707;
+     * in general, the handling of those pathes shold be improved or better, 
+     * avoided entirely (e.g. with the IRSS).
+     */
+    public static function getDataWebPath(string $relative_path = '') : string
+    {
+        $webdir = implode('/', [
+            ILIAS_HTTP_PATH,
+            ILIAS_WEB_DIR,
+            CLIENT_ID,
+            $relative_path
+        ]);
+        $parts = array_filter(explode('/', $webdir), function($p) {return trim($p) != '' && trim($p) != '.';});
+        return array_shift($parts) . '//' . implode('/', $parts) . '/';
     }
 }

@@ -1713,7 +1713,7 @@ abstract class assQuestion
     public function getJavaPathWeb()
     {
         $relative_path = "assessment/$this->obj_id/$this->id/java/";
-        return ilUtil::getDataWebPath($relative_path);
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     /**
@@ -1724,7 +1724,7 @@ abstract class assQuestion
     public function getSuggestedSolutionPathWeb()
     {
         $relative_path = "assessment/$this->obj_id/$this->id/solution/";
-        return ilUtil::getDataWebPath($relative_path);
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     /**
@@ -1739,7 +1739,7 @@ abstract class assQuestion
     {
         if (!$this->export_image_path) {
             $relative_path = "assessment/$this->obj_id/$this->id/images/";
-            return ilUtil::getDataWebPath($relative_path);
+            return ilObjTest::getDataWebPath($relative_path);
         } else {
             return $this->export_image_path;
         }
@@ -1754,7 +1754,7 @@ abstract class assQuestion
     public function getFlashPathWeb()
     {
         $relative_path = "assessment/$this->obj_id/$this->id/flash/";
-        return ilUtil::getDataWebPath($relative_path);
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     // hey: prevPassSolutions - accept and prefer intermediate only from current pass
