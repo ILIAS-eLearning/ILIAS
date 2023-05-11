@@ -45,8 +45,10 @@ class ilCertificateBackgroundImageDelete
             unlink($filename);
         }
 
-        if (is_file($this->fileService->getBackgroundImageTempfilePath())) {
-            unlink($this->fileService->getBackgroundImageTempfilePath());
+        foreach ($this->fileService->getValidBackgroundImageFileExtensions() as $extension) {
+            if (file_exists($this->fileService->getBackgroundImageTempfilePath($extension))) {
+                unlink($this->fileService->getBackgroundImageTempfilePath($extension));
+            }
         }
     }
 }
