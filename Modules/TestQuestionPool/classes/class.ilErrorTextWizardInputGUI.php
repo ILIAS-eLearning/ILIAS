@@ -211,7 +211,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         }
         $max_points = 0;
 
-        if (is_array($foundvalues)) {
+
+        if (is_array($foundvalues) && count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['key']) && is_array($foundvalues['value'])) {
                 foreach ($foundvalues['key'] as $val) {
@@ -248,10 +249,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
                 }
             }
         } else {
-            if ($this->getRequired()) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
-                return false;
-            }
+            $this->setAlert($lng->txt('errortext_info'));
+            return false;
         }
 
         return $this->checkSubItemsInput();
