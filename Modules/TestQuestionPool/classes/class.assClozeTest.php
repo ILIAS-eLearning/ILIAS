@@ -168,6 +168,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function cleanQuestiontext($text): string
     {
+        if ($text === null) {
+            return '';
+        }
         // fau: fixGapReplace - mask dollars for replacement
         $text = str_replace('$', 'GAPMASKEDDOLLAR', $text);
         $text = preg_replace("/\[gap[^\]]*?\]/", "[gap]", $text);
