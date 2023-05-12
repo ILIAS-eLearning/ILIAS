@@ -1228,7 +1228,6 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					{
 						correct_answer = correct_answer.toLowerCase();
 					}
-
 					if(correct_answer == answer)
 					{
 						found = true;
