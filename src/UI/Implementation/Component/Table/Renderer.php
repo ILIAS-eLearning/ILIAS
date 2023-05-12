@@ -120,6 +120,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
         $tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
+        if ($symbol = $component->getLeadingSymbol()) {
+            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
+        }
         $tpl->setVariable("HEADLINE", $component->getHeadline());
         $tpl->setVariable("TOGGLE_SIGNAL", $sig_toggle);
         $subheadline = $component->getSubheadline();

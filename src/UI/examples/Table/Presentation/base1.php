@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Presentation;
 
+/**
+ * You can also leave out "further fields", add one or more Blocks and Layouts
+ * to the content of the row and add an leading image.
+ */
 function base1()
 {
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    //build viewcontrols
     $actions = array("Alle" => "#", "Mehr als 5 Antworten" => "#");
     $aria_label = "filter entries";
     $view_controls = array(
@@ -20,6 +23,9 @@ function base1()
     $mapping_closure = function ($row, $record, $ui_factory, $environment) {
         return $row
         ->withHeadline($record['question_title'])
+        ->withLeadingSymbol(
+            $ui_factory->symbol()->icon()->standard('svy', '', 'small')
+        )
         ->withSubheadline($record['question_txt'])
         ->withImportantFields(
             array(
@@ -28,24 +34,27 @@ function base1()
                 'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title']
             )
         )
-        ->withContent(
-            $ui_factory->listing()->descriptive(
-                array(
-                    'Werte' => $environment['totals']($record['answers']),
-                    'Chart' => $environment['chart']($record['answers']),
-                )
-            )
-        )
-        ->withFurtherFieldsHeadline($record['type'])
-        ->withFurtherFields(
-            array(
-                'Beantwortet: ' => $record['stats']['total'],
-                'Übersprungen' => $record['stats']['skipped'],
+        ->withContent([
+            $ui_factory->layout()->alignment()->preferHorizontal(
+                [
+                    $ui_factory->listing()->descriptive([
+                        'Werte' => $environment['totals']($record['answers']),
+                    ])
+                ],
+                [
+                    $ui_factory->listing()->descriptive([
+                        'Chart' => $environment['chart']($record['answers'])
+                    ])
+                ]
+            ),
+            $ui_factory->listing()->characteristicValue()->text([
+                'Beantwortet: ' => (string)$record['stats']['total'],
+                'Übersprungen' => (string)$record['stats']['skipped'],
                 'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title'],
-                'Anzahl Häufigste: ' => $record['stats']['most_common_total'],
+                'Anzahl Häufigste: ' => (string)$record['stats']['most_common_total'],
                 'Median: ' => $record['answers'][$record['stats']['median']]['title']
-            )
-        )
+            ])
+        ])
         ->withAction($ui_factory->button()->standard('zur Frage', '#'));
     };
 
@@ -85,7 +94,7 @@ function environment()
 
 
     $chart = function ($answers) {
-        $ret = '<table style="width:100%">';
+        $ret = '<table style="width:350px">';
         foreach ($answers as $answer) {
             $ret .= '<tr style="border-bottom: 1px solid black;">'
                 . '<td style="width: 200px;">'
