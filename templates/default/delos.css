@@ -9115,9 +9115,15 @@ grid-based layout
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
 }
+.il-layout-page .il-layout-page-content > div {
+  max-width: calc(100vw - 80px - 329px);
+}
 .il-layout-page.with-mainbar-slates-engaged {
   -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-layout-page-content > div {
+  max-width: calc(100vw - 80px - 329px);
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 409px;
@@ -10360,10 +10366,13 @@ footer {
   border: 3px solid #B54F00;
   border-top: 0 none;
 }
+/* deactivated for Mantis #31419
+//
 .il-layout-page-content > div {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr
 }
+*/
 .il-mode-info span.il-mode-info-content {
   margin: auto;
   background-color: #B54F00;
