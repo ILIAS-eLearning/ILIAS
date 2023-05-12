@@ -19,7 +19,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     */
     public function setValue($a_value)
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
@@ -44,13 +44,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 1) {
-            foreach ($_POST[$this->getPostVar()]["answer"] as $index => $answer){
-                $_POST[$this->getPostVar()]["answer"][$index] = strip_tags($_POST[$this->getPostVar()]["answer"][$index],  ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-            }
+            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                    false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
         } elseif (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 0) {
-            foreach ($_POST[$this->getPostVar()]["answer"] as $index => $answer){
-                $_POST[$this->getPostVar()]["answer"][$index] = strip_tags($_POST[$this->getPostVar()]["answer"][$index],  "<em>, <strong>");
-            }
+                $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                    true, ilSingleChoiceWizardInputGUI::ALLOWED_PAGE_HTML_TAGS);
         }
 
         $foundvalues = $_POST[$this->getPostVar()];
