@@ -28,7 +28,7 @@ abstract class HorizontalAlignment implements I\Alignment
     use ComponentHelper;
 
     /**
-     * @var I\Block[]
+     * @var list<I\Block[]>
      */
     protected $blocks = [];
 
@@ -37,24 +37,16 @@ abstract class HorizontalAlignment implements I\Alignment
      */
     public function __construct(array ...$blocksets)
     {
-        foreach ($blocksets as $col => $set) {
-            $this->setBlocks($col, $set);
-        }
+        $sets = array_merge(...$blocksets);
+        $this->checkArgListElements('blocksets', $sets, [I\Block::class]);
+        $this->blocks = $blocksets;
     }
 
     /**
-     * @param I\Block[] $blocks
+     * @return list<I\Block[]>
      */
-    protected function setBlocks(int $col, array $blocks): void
+    public function getBlocksets(): array
     {
-        $this->blocks[$col] = $blocks;
-    }
-
-    /**
-     * @return I\Block[]
-     */
-    public function getBlocks(int $col): array
-    {
-        return array_key_exists($col, $this->blocks) ? $this->blocks[$col] : [];
+        return $this->blocks;
     }
 }

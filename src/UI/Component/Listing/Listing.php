@@ -21,8 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Listing;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
-interface Listing extends Component
+interface Listing extends Component, Block
 {
     /**
      * Sets the items to be listed
