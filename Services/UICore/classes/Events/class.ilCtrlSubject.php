@@ -30,6 +30,11 @@ class ilCtrlSubject
      */
     protected array $observer_groups = [];
 
+    public function __construct()
+    {
+        $this->initObserverGroup((ilCtrlEvent::ALL)->value);
+    }
+
     public function attach(ilCtrlObserver $observer, ilCtrlEvent $event): void
     {
         $this->initObserverGroup($event->value);
