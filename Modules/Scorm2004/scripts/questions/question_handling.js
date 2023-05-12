@@ -1220,14 +1220,14 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				for (var c=0;c<questions[a_id].correct_answers.length;c++)
 				{
 					var correct_answer = questions[a_id].correct_answers[c]["answertext"];
+					// decode the HTML entity encoding of the correct answer
+					var parsed = new DOMParser().parseFromString(correct_answer, "text/html");
+					correct_answer =  parsed.documentElement.textContent;
+
 					if(questions[a_id].matching_method == "ci")
 					{
 						correct_answer = correct_answer.toLowerCase();
 					}
-
-					// decode the HTML entity encoding of the correct answer
-					var parsed = new DOMParser().parseFromString(correct_answer, "text/html");
-					correct_answer =  parsed.documentElement.textContent;
 
 					if(correct_answer == answer)
 					{
