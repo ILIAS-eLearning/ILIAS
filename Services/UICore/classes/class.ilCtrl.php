@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -33,113 +34,29 @@ use GuzzleHttp\Psr7\Response;
  */
 class ilCtrl implements ilCtrlInterface
 {
-    /**
-     * Holds an instance of the http service's response sender.
-     * @var ResponseSenderStrategy
-     */
-    private ResponseSenderStrategy $response_sender;
-
-    /**
-     * Holds an instance of the current server request.
-     * @var ServerRequestInterface
-     */
-    private ServerRequestInterface $server_request;
-
-    /**
-     * Holds the current requests $_POST parameters.
-     * @var RequestWrapper
-     */
-    private RequestWrapper $post_parameters;
-
-    /**
-     * Holds the current requests $_GET parameters.
-     * @var RequestWrapper
-     */
-    private RequestWrapper $get_parameters;
-
-    /**
-     * Holds an instance of the refinery factory.
-     * @var Refinery
-     */
-    private Refinery $refinery;
-
-    /**
-     * Holds an instance of the currently read control structure.
-     * @var ilCtrlStructureInterface
-     */
-    private ilCtrlStructureInterface $structure;
-
-    /**
-     * Holds an instance of the token repository.
-     * @var ilCtrlTokenRepositoryInterface
-     */
-    private ilCtrlTokenRepositoryInterface $token_repository;
-
-    /**
-     * Holds the current context information.
-     * @var ilCtrlContextInterface
-     */
-    private ilCtrlContextInterface $context;
-
-    /**
-     * Holds an instance of the path factory.
-     * @var ilCtrlPathFactoryInterface
-     */
-    private ilCtrlPathFactoryInterface $path_factory;
-
-    /**
-     * Holds an instance of the component factory.
-     * @var ilComponentFactory
-     */
-    private ilComponentFactory $component_factory;
+    protected ?object $exec_object = null;
+    protected ?string $command = null;
 
     /**
      * Holds a history of calls made with the current ilCtrl instance.
+     *
      * @var array<int, string[]>
      */
-    private array $stacktrace = [];
+    protected array $stacktrace = [];
 
-    /**
-     * Holds an instance of the object that is currently executed.
-     * @var object|null
-     */
-    private ?object $exec_object = null;
-
-    /**
-     * ilCtrl Constructor
-     * @param ilCtrlStructureInterface       $structure
-     * @param ilCtrlTokenRepositoryInterface $token_repository
-     * @param ilCtrlPathFactoryInterface     $path_factory
-     * @param ilCtrlContextInterface         $context
-     * @param ResponseSenderStrategy         $response_sender
-     * @param ServerRequestInterface         $server_request
-     * @param RequestWrapper                 $post_parameters
-     * @param RequestWrapper                 $get_parameters
-     * @param Refinery                       $refinery
-     * @param ilComponentFactory             $component_factory
-     */
     public function __construct(
-        ilCtrlStructureInterface $structure,
-        ilCtrlTokenRepositoryInterface $token_repository,
-        ilCtrlPathFactoryInterface $path_factory,
-        ilCtrlContextInterface $context,
-        ResponseSenderStrategy $response_sender,
-        ServerRequestInterface $server_request,
-        RequestWrapper $post_parameters,
-        RequestWrapper $get_parameters,
-        Refinery $refinery,
-        ilComponentFactory $component_factory
+        protected ilCtrlStructureInterface $structure,
+        protected ilCtrlTokenRepositoryInterface $token_repository,
+        protected ilCtrlPathFactoryInterface $path_factory,
+        protected ilCtrlContextInterface $context,
+        protected ResponseSenderStrategy $response_sender,
+        protected ServerRequestInterface $server_request,
+        protected RequestWrapper $post_parameters,
+        protected RequestWrapper $get_parameters,
+        protected Refinery $refinery,
+        protected ilComponentFactory $component_factory,
+        protected ilCtrlSubject $subject,
     ) {
-        $this->structure = $structure;
-        $this->token_repository = $token_repository;
-        $this->response_sender = $response_sender;
-        $this->server_request = $server_request;
-        $this->post_parameters = $post_parameters;
-        $this->get_parameters = $get_parameters;
-        $this->refinery = $refinery;
-        $this->path_factory = $path_factory;
-        $this->context = $context;
-        $this->component_factory = $component_factory;
     }
 
     public function __clone()
@@ -196,6 +113,8 @@ class ilCtrl implements ilCtrlInterface
         $this->context
             ->setCmdMode(self::CMD_MODE_PROCESS);
 
+        $this->subject->notify(ilCtrlEvent::COMMAND_CLASS_FORWARD, $class_name);
+
         return $a_gui_object->executeCommand();
     }
 
@@ -237,47 +156,17 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCmd(string $fallback_command = null): ?string
     {
-        // retrieve $_GET and $_POST parameters.
-        $post_command = $this->getPostCommand();
-        $get_command = $this->getQueryParam(self::PARAM_CMD);
-        $table_command = $this->getTableCommand();
-
-        $is_post = (self::CMD_POST === $get_command);
-
-        // if the $_GET command is 'post', either the $_POST
-        // command or $_GETs fallback command is used.
-        // for now, the table command is used as fallback as well,
-        // but this will be removed once the implementation of
-        // table actions change.
-        $command = ($is_post) ?
-            $post_command ?? $table_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
-            $get_command;
-
-        // override the command that has been set during a
-        // request via ilCtrl::setCmd().
-        $context_command = $this->context->getCmd();
-        if (null !== $context_command && self::CMD_POST !== $context_command) {
-            $command = $context_command;
+        $command = $this->getDeterminedCommand() ?? $fallback_command;
+        if (null !== $this->command && $command === $this->command) {
+            // don't broadcast command determination event on consecutive
+            // method calls.
+            return $command;
         }
 
-        if (null !== $command) {
-            // if the command is for post requests, or the command
-            // is not considered safe, the csrf-validation must pass.
-            $cmd_class = $this->context->getCmdClass();
+        $this->subject->notify(ilCtrlEvent::COMMAND_DETERMINATION, $command);
+        $this->command = $command;
 
-            if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
-                $stored_token = $this->token_repository->getToken();
-                $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
-
-                if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
-                    return $command;
-                }
-            } else {
-                return $command;
-            }
-        }
-
-        return $fallback_command ?? '';
+        return $command ?? ''; // remove null-coalesce
     }
 
     /**
@@ -287,8 +176,10 @@ class ilCtrl implements ilCtrlInterface
     {
         if (!empty($a_cmd)) {
             $this->context->setCmd($a_cmd);
+            $this->command = $a_cmd;
         } else {
             $this->context->setCmd(null);
+            $this->command = null;
         }
     }
 
@@ -825,6 +716,66 @@ class ilCtrl implements ilCtrlInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function attachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
+    {
+        $this->subject->attach($observer, $event);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function detachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
+    {
+        $this->subject->detach($observer, $event);
+    }
+
+    protected function getDeterminedCommand(): ?string
+    {
+        // retrieve $_GET and $_POST parameters.
+        $post_command = $this->getPostCommand();
+        $get_command = $this->getQueryParam(self::PARAM_CMD);
+        $table_command = $this->getTableCommand();
+
+        $is_post = (self::CMD_POST === $get_command);
+
+        // if the $_GET command is 'post', either the $_POST
+        // command or $_GETs fallback command is used.
+        // for now, the table command is used as fallback as well,
+        // but this will be removed once the implementation of
+        // table actions change.
+        $command = ($is_post) ?
+            $post_command ?? $table_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
+            $get_command;
+
+        // override the command that has been set during a
+        // request via ilCtrl::setCmd().
+        $context_command = $this->context->getCmd();
+        if (null !== $context_command && self::CMD_POST !== $context_command) {
+            $command = $context_command;
+        }
+
+        if (null === $command) {
+            return $command;
+        }
+
+        // if the command is for post requests, or the command
+        // is not considered safe, the csrf-validation must pass.
+        $cmd_class = $this->context->getCmdClass();
+        if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
+            $stored_token = $this->token_repository->getToken();
+            $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
+
+            if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
+                return $command;
+            }
+        }
+
+        return $command;
+    }
+
+    /**
      * Returns a parameter with the given name from the current GET
      * request.
      * @param string $parameter_name
@@ -1192,7 +1143,7 @@ class ilCtrl implements ilCtrlInterface
         $this->stacktrace[] = [
             self::PARAM_CMD_CLASS => $obj_name,
             self::PARAM_CMD_MODE => $cmd_mode,
-            self::PARAM_CMD => $this->getCmd(),
+            self::PARAM_CMD => $this->getDeterminedCommand(),
         ];
     }
 

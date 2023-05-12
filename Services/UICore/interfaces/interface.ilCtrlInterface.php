@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -61,16 +62,18 @@ interface ilCtrlInterface
 
     /**
      * Calls the currently provided baseclass.
+     *
      * If no baseclass is provided as an argument, the current GET
-     * request MUST contain @param string|null $a_base_class
+     * request MUST contain ilCtrlInterface::PARAM_BASE_CLASS
+     *
+     * @param string|null $a_base_class
      * @throws ilCtrlException if no valid baseclass is provided.
-     * @see ilCtrlInterface::PARAM_BASE_CLASS.
      */
     public function callBaseClass(string $a_base_class = null): void;
 
     /**
      * Forwards the request by invoking executeCommand() on the
-     * given GUI object.
+     * given GUI object and fires an according ilCtrlEvent.
      *
      * If any output was generated in that method, it will be
      * returned by this method as well.
@@ -93,7 +96,8 @@ interface ilCtrlInterface
     public function getHTML(object $a_gui_object, array $a_parameters = null): string;
 
     /**
-     * Returns the command passed with the current POST or GET request.
+     * Returns the command passed with the current POST or GET request
+     * and fires an according ilCtrlEvent.
      *
      * @param string|null $fallback_command
      * @return string|null
@@ -516,4 +520,14 @@ interface ilCtrlInterface
      * @return array
      */
     public function getCurrentClassPath(): array;
+
+    /**
+     * Attaches an observer to ALL or a specific @see ilCtrlEvent
+     */
+    public function attachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void;
+
+    /**
+     * Detaches an observer from ALL or a specific @see ilCtrlEvent
+     */
+    public function detachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void;
 }
