@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,20 +15,23 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Listing\CharacteristicValue;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 /**
  * Interface Text
  */
-interface Text extends Component
+interface Text extends Component, Block
 {
     /**
      * Gets the items as array of key value pairs for the list.
      * Key is used as label for the value.
      *
-     * @return array $items string => string
+     * @return array<string, string> $items
      */
     public function getItems(): array;
 }
