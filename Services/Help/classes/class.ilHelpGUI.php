@@ -18,6 +18,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 use ILIAS\Help\StandardGUIRequest;
+use ILIAS\Services\Help\ScreenId\HelpScreenIdObserver;
 
 /**
  * Help GUI class.
@@ -58,6 +59,11 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             $DIC->http(),
             $DIC->refinery()
         );
+        $DIC['help.screen_id_collector'] = function () use ($DIC) {
+            return new HelpScreenIdObserver();
+        };
+
+        $DIC->ctrl()->attachObserver($DIC['help.screen_id_collector']);
     }
 
     protected function symbol(): \ILIAS\Repository\Symbol\SymbolAdapterGUI
