@@ -435,7 +435,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     // hey: prevPassSolutions - pass will be always available from now on
     public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-        // hey.
+    // hey.
     {
         $keys = $this->getChoiceKeys();
 
@@ -637,11 +637,12 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
+        $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
         if ($this->object->isSingleline()) {
-            foreach ($_POST['choice']['answer'] as $index => $answertext) {
-                $answertext = ilUtil::secureString(htmlentities($answertext));
+            foreach ($choice['answer'] as $index => $answertext) {
+                $answertext = htmlentities($answertext);
 
-                $picturefile = $_POST['choice']['imagename'][$index] ?? '';
+                $picturefile = $choice['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 
@@ -657,13 +658,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         }
                     }
                 }
-                $points = (float) str_replace(',', '.', $_POST['choice']['points'][$index]);
+                $points = (float) str_replace(',', '.', $choice['points'][$index]);
                 $this->object->addAnswer($answertext, $points, $index, $picturefile);
             }
         } else {
-            foreach ($_POST['choice']['answer'] as $index => $answer) {
+            foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
-                $this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index);
+                $this->object->addAnswer($answertext, $choice['points'][$index], $index);
             }
         }
     }

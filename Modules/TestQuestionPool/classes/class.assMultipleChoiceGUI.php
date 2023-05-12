@@ -629,11 +629,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         // HEY: affects next if (!) /// noneAboveChecked repaired but disabled because the checked input ..
         if (false) { // .. makes the qstEditController initialize the "edit" instead of the "answered" state
-        if ($this->isUseEmptySolutionInputChecked()) {
-            $tpl->setCurrentBlock('checked');
-            $tpl->touchBlock('checked');
-            $tpl->parseCurrentBlock();
-        }
+            if ($this->isUseEmptySolutionInputChecked()) {
+                $tpl->setCurrentBlock('checked');
+                $tpl->touchBlock('checked');
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $tpl->setCurrentBlock('checkbox');
@@ -698,11 +698,12 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
+        $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
         if ($this->object->isSingleline()) {
-            foreach ($_POST['choice']['answer'] as $index => $answertext) {
-                $answertext = ilUtil::secureString(htmlentities($answertext));
+            foreach ($choice['answer'] as $index => $answertext) {
+                $answertext = htmlentities($answertext);
 
-                $picturefile = $_POST['choice']['imagename'][$index] ?? '';
+                $picturefile = $choice['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 
@@ -721,19 +722,19 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
-                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
+                    (float) str_replace(',', '.', $choice['points'][$index]),
+                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
                     $index,
                     $picturefile
                 );
             }
         } else {
-            foreach ($_POST['choice']['answer'] as $index => $answer) {
+            foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    (float) str_replace(',', '.', $_POST['choice']['points'][$index]),
-                    (float) str_replace(',', '.', $_POST['choice']['points_unchecked'][$index]),
+                    (float) str_replace(',', '.', $choice['points'][$index]),
+                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
                     $index
                 );
             }

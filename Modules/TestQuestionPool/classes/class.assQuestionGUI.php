@@ -46,6 +46,13 @@ abstract class assQuestionGUI
 
     protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
 
+    /**
+     * sk - 12.05.2023: This const is also used in ilKprimChoiceWizardInputGUI.
+     * Don't ask, but I didn't find an easy fix without undoing two more
+     * question types.
+     */
+    public const ALLOWED_PLAIN_TEXT_TAGS = "<em>, <strong>";
+
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
@@ -2066,5 +2073,30 @@ abstract class assQuestionGUI
         }
 
         return $result;
+    }
+
+    /**
+     * sk - 12.05.2023: This is one more of those that we need, but don't want.
+     * @deprecated
+     */
+    protected function cleanupAnswerText(array $answer_text, bool $is_rte): array
+    {
+        if (!is_array($answer_text)) {
+            return [];
+        }
+
+        if ($is_rte) {
+            return ilArrayUtil::stripSlashesRecursive(
+                $answer_text,
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
+        }
+
+        return ilArrayUtil::stripSlashesRecursive(
+            $answer_text,
+            true,
+            self::ALLOWED_PLAIN_TEXT_TAGS
+        );
     }
 }
