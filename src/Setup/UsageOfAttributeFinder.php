@@ -21,26 +21,24 @@ declare(strict_types=1);
 namespace ILIAS\Setup;
 
 /**
- * Class ImplementationOfInterfaceFinder
- *
- * @package ILIAS\ArtifactBuilder\Generators
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ImplementationOfInterfaceFinder extends AbstractOfFinder
+class UsageOfAttributeFinder extends AbstractOfFinder
 {
     public function getMatchingClassNames(
-        string $interface,
+        string $attribute,
         array $additional_ignore = [],
         string $matching_path = null
     ): \Iterator {
         yield from $this->genericGetMatchingClassNames(
-            fn (\ReflectionClass $r) => $this->isClassMatching($interface, $r),
+            fn (\ReflectionClass $r) => $this->isClassMatching($attribute, $r),
             $additional_ignore,
             $matching_path
         );
     }
 
-    public function isClassMatching(string $interface, \ReflectionClass $r): bool
+    public function isClassMatching(string $attribute, \ReflectionClass $r): bool
     {
-        return ($r->isInstantiable() && $r->implementsInterface($interface));
+        return ($r->isInstantiable() && $r->getAttributes($attribute) !== []);
     }
 }
