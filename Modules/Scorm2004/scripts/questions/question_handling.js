@@ -1224,6 +1224,11 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					{
 						correct_answer = correct_answer.toLowerCase();
 					}
+
+					// decode the HTML entity encoding of the correct answer
+					var parsed = new DOMParser().parseFromString(correct_answer, "text/html");
+					correct_answer =  parsed.documentElement.textContent;
+
 					if(correct_answer == answer)
 					{
 						found = true;
