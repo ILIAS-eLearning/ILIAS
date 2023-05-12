@@ -1031,7 +1031,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->fillRightContent();
             $this->fillAdminPanel();
             $this->fillToolbar();
-            $this->fillPermanentLink();
 
             $this->setCenterColumnClass();
 
@@ -1126,7 +1125,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     $this->fillRightContent();
                     $this->fillAdminPanel();
                     $this->fillToolbar();
-                    $this->fillPermanentLink();
 
                     $this->setCenterColumnClass();
 
@@ -1320,25 +1318,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             "target" => $a_target,
             "title" => $a_title,
         );
-    }
-
-    /**
-     * Fill in permanent link
-     */
-    private function fillPermanentLink(): void
-    {
-        if (is_array($this->permanent_link)) {
-            $plinkgui = new ilPermanentLinkGUI(
-                $this->permanent_link["type"],
-                $this->permanent_link["id"],
-                $this->permanent_link["append"],
-                $this->permanent_link["target"]
-            );
-            if ($this->permanent_link["title"] != "") {
-                $plinkgui->setTitle($this->permanent_link["title"]);
-            }
-            $this->setVariable("PRMLINK", $plinkgui->getHTML());
-        }
     }
 
     /**

@@ -375,7 +375,7 @@ class ilObjFileGUI extends ilObject2GUI
         if (self::UPLOAD_ORIGIN_DROPZONE === $origin) {
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
-            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;;
+            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
             $files = $form->getData()[self::PARAM_FILES] ?? null;
@@ -732,10 +732,6 @@ class ilObjFileGUI extends ilObject2GUI
             $tpl = new ilTemplate("tpl.download_link.html", true, true, "Modules/File");
             $tpl->setVariable("LINK", ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
             $info->addProperty($this->lng->txt("download_link"), $tpl->get());
-        }
-
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
         }
 
         $preview = new ilObjFilePreviewRendererGUI($this->object_id);

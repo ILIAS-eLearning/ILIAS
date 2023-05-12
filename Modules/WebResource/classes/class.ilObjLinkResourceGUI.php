@@ -1475,13 +1475,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->object->getType()
         );
 
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $info->addProperty(
-                $this->lng->txt("perma_link"),
-                $this->getPermanentLinkWidget()
-            );
-        }
-
         // forward the command
         $this->ctrl->forwardCommand($info);
     }

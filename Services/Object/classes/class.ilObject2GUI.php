@@ -811,15 +811,4 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::redrawHeaderActionObject();
     }
-
-    protected function getPermanentLinkWidget(string $append = null, bool $center = false): string
-    {
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $append .= "_wsp";
-        }
-
-        $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $append);
-        $plink->setIncludePermanentLinkText(false);
-        return $plink->getHTML();
-    }
 }

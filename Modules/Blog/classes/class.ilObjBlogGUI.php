@@ -921,10 +921,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
-        if ($this->id_type === self::WORKSPACE_NODE_ID) {
-            $info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
-        }
-
         $this->ctrl->forwardCommand($info);
     }
 
