@@ -3637,7 +3637,7 @@ class ilUtil
                         // check if file exists
                         if (file_exists($new_name)) {
                             if (is_dir($new_name)) {
-                                ilFileUtils::delDir($new_name);
+                                ilUtil::delDir($new_name);
                             } else {
                                 unlink($new_name);
                             }
