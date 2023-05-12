@@ -13,8 +13,8 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
     /** @var string */
-    const ALLOWED_PAGE_HTML_TAGS = "<em>, <strong>";
-    
+    protected const ALLOWED_PAGE_HTML_TAGS = "<em>, <strong>";
+
     protected $values = [];
     protected $allowMove = false;
     protected $singleline = true;
