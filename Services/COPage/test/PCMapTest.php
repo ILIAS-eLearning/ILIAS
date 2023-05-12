@@ -145,4 +145,27 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testCaption(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCMap($page);
+        $pc->create($page, "pg");
+        $pc->setCaption("Moin");
+
+        $this->assertEquals(
+            "Moin",
+            $pc->getCaption()
+        );
+
+        $page->stripHierIDs();
+
+        $expected = <<<EOT
+<PageObject><PageContent><Map Latitude="0" Longitude="0" Zoom="3"><MapCaption>Moin</MapCaption></Map></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }

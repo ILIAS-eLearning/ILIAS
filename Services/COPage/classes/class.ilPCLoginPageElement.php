@@ -24,8 +24,6 @@
  */
 class ilPCLoginPageElement extends ilPageContent
 {
-    public php4DOMElement $res_node;
-
     private static array $types = array(
         'login-form' => 'login_form',
         'cas-login-form' => 'cas_login_form',
@@ -50,15 +48,6 @@ class ilPCLoginPageElement extends ilPageContent
         $this->setType('lpe');
     }
 
-    /**
-    * Set node
-    */
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);						// this is the PageContent node
-        $this->res_node = $a_node->first_child();		// this is the login page element
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
@@ -66,34 +55,34 @@ class ilPCLoginPageElement extends ilPageContent
     ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $lpe = $this->dom->create_element('LoginPageElement');
-        $this->res_node = $this->node->append_child($lpe);
+        $lpe = $this->dom_doc->createElement('LoginPageElement');
+        $this->getDomNode()->appendChild($lpe);
     }
 
     public function setLoginPageElementType(string $a_type): void
     {
         if (!empty($a_type)) {
-            $this->res_node->set_attribute('Type', $a_type);
+            $this->getChildNode()->setAttribute('Type', $a_type);
         }
     }
 
     public function getLoginPageElementType(): string
     {
-        if (is_object($this->res_node)) {
-            return $this->res_node->get_attribute('Type');
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute('Type');
         }
         return "";
     }
 
     public function setAlignment(string $a_alignment): void
     {
-        $this->res_node->set_attribute('HorizontalAlign', $a_alignment);
+        $this->getChildNode()->setAttribute('HorizontalAlign', $a_alignment);
     }
 
     public function getAlignment(): string
     {
-        if (isset($this->res_node) && is_object($this->res_node)) {
-            return $this->res_node->get_attribute('HorizontalAlign');
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute('HorizontalAlign');
         }
         return "";
     }

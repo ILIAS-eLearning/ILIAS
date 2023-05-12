@@ -33,13 +33,13 @@ class ilPCListItem extends ilPageContent
      */
     public function newItemAfter(): void
     {
-        $li = $this->getNode();
-        $new_li = $this->dom->create_element("ListItem");
-        if ($next_li = $li->next_sibling()) {
-            $new_li = $next_li->insert_before($new_li, $next_li);
+        $li = $this->getDomNode();
+        $new_li = $this->dom_doc->createElement("ListItem");
+        if ($next_li = $li->nextSibling) {
+            $new_li = $next_li->parentNode->insertBefore($new_li, $next_li);
         } else {
-            $parent_list = $li->parent_node();
-            $new_li = $parent_list->append_child($new_li);
+            $parent_list = $li->parentNode;
+            $new_li = $parent_list->appendChild($new_li);
         }
     }
 
@@ -49,9 +49,9 @@ class ilPCListItem extends ilPageContent
      */
     public function newItemBefore(): void
     {
-        $li = $this->getNode();
-        $new_li = $this->dom->create_element("ListItem");
-        $new_li = $li->insert_before($new_li, $li);
+        $li = $this->getDomNode();
+        $new_li = $this->dom_doc->createElement("ListItem");
+        $new_li = $li->parentNode->insertBefore($new_li, $li);
     }
 
 
@@ -60,15 +60,15 @@ class ilPCListItem extends ilPageContent
      */
     public function deleteItem(): void
     {
-        $parent_node = $this->getNode()->parent_node();
-        $cnt = count($parent_node->child_nodes());
+        $parent_node = $this->getDomNode()->parentNode;
+        $cnt = count($parent_node->childNodes);
         if ($cnt == 1) {
             // if list item is the last one -> delete whole list
-            $grandma = $parent_node->parent_node();
-            $grandma->unlink($grandma);
+            $grandma = $parent_node->parentNode;
+            $grandma->parentNode->removeChild($grandma);
         } else {
-            $li = $this->getNode();
-            $li->unlink($li);
+            $li = $this->getDomNode();
+            $li->parentNode->removeChild($li);
         }
     }
 
@@ -77,11 +77,11 @@ class ilPCListItem extends ilPageContent
      */
     public function moveItemDown(): void
     {
-        $li = $this->getNode();
-        $next = $li->next_sibling();
-        $next_copy = $next->clone_node(true);
-        $next_copy = $li->insert_before($next_copy, $li);
-        $next->unlink($next);
+        $li = $this->getDomNode();
+        $next = $li->nextSibling;
+        $next_copy = $next->cloneNode(true);
+        $next_copy = $li->parentNode->insertBefore($next_copy, $li);
+        $next->parentNode->removeChild($next);
     }
 
     /**
@@ -89,10 +89,10 @@ class ilPCListItem extends ilPageContent
      */
     public function moveItemUp(): void
     {
-        $li = $this->getNode();
-        $prev = $li->previous_sibling();
-        $li_copy = $li->clone_node(true);
-        $li_copy = $prev->insert_before($li_copy, $prev);
-        $li->unlink($li);
+        $li = $this->getDomNode();
+        $prev = $li->previousSibling;
+        $li_copy = $li->cloneNode(true);
+        $li_copy = $prev->parentNode->insertBefore($li_copy, $prev);
+        $li->parentNode->removeChild($li);
     }
 }
