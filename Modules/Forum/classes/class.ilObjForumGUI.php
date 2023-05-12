@@ -4949,7 +4949,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
-                    $draftFileData->storeUploadedFiles();
+                    if (isset($file['full_path'][0]) && !empty($file['full_path'][0])) {
+                        $draftFileData->storeUploadedFiles();
+                    }
                 }
             }
 
