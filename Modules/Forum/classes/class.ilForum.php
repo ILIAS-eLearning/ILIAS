@@ -1291,6 +1291,7 @@ class ilForum
         return [
             'type' => 'post',
             'pos_pk' => (int) $a_row->pos_pk,
+            'pos_thr_fk' => (int) $a_row->pos_thr_fk,
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,
