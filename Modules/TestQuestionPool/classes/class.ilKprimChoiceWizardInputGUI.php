@@ -51,7 +51,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
 
-        $this->files = array();
+        $this->files = [];
 
         $this->ignoreMissingUploadsEnabled = false;
     }
@@ -76,9 +76,12 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         return $this->ignoreMissingUploadsEnabled;
     }
 
-    public function setValue($a_value): void
+    public function setValue($value): void
     {
-        $this->values = array();
+        $this->values = [];
+
+        $is_rte = isset($_POST["answer_type"]) &&  $_POST["answer_type"] == "multiLine";
+        $a_value = $this->cleanupAnswerText($value, $is_rte);
 
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
@@ -450,5 +453,30 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 'size' => $_FILES[$this->getPostVar()]['size']['image'][$index]
             );
         }
+    }
+
+    /**
+     * sk - 12.05.2023: This is one more of those that we need, but don't want.
+     * @deprecated
+     */
+    private function cleanupAnswerText(array $answer_text, bool $is_rte): array
+    {
+        if (!is_array($answer_text)) {
+            return [];
+        }
+
+        if ($is_rte) {
+            return ilArrayUtil::stripSlashesRecursive(
+                $answer_text,
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
+        }
+
+        return ilArrayUtil::stripSlashesRecursive(
+            $answer_text,
+            true,
+            assQuestionGUI::ALLOWED_PLAIN_TEXT_TAGS
+        );
     }
 }
