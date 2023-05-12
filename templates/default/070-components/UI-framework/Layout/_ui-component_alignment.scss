@@ -1,0 +1,20 @@
+.c-layout-alignment__horizontal{
+	
+	display: flex;
+	width: 100%;
+
+	.c-layout-alignment__group {
+		width: 100%;
+		float: left;
+		border: 1px solid black;
+
+		.c-layout-alignment__block {
+			float: left;
+			border: 1px solid black;
+		}
+	}
+}
+
+.c-layout-alignment__horizontal.c-layout-alignment--forced{
+
+}
