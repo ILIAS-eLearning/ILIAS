@@ -282,7 +282,7 @@ EOT;
         $nodes = $pc->getTriggerNodes("1", "");
         $this->assertEquals(
             "Trigger",
-            $nodes[0]->myDOMNode->nodeName
+            $nodes->item(0)->nodeName
         );
     }
 

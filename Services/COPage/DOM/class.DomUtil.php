@@ -220,4 +220,43 @@ class DomUtil
             return "";
         }
     }
+
+    /**
+     * Places a new node $a_node_name directly before nodes with names of
+     * $a_successors. The content of the node is set to $a_content and the
+     * attributes to $a_attributes
+     */
+    public function addElementToList(
+        \DOMNode $parent_node,
+        string $a_node_name,
+        array $a_successors,
+        string $a_content,
+        array $a_attributes
+    ): \DOMNode {
+        $doc = $parent_node->ownerDocument;
+        $search = $a_successors;
+        $child = null;
+        $childs = $parent_node->childNodes;
+        $found = false;
+        foreach ($childs as $child) {
+            $child_name = $child->nodeName;
+            if (in_array($child_name, $search)) {
+                $found = true;
+                break;
+            }
+        }
+        // didn't successors -> append at the end
+        $new_node = $doc->createElement($a_node_name);
+        if (!$found) {
+            $new_node = $parent_node->appendChild($new_node);
+        } else {
+            $new_node = $parent_node->insertBefore($new_node, $child);
+        }
+        if ($a_content != "") {
+            $this->setContent($new_node, $a_content);
+        }
+        $this->setAttributes($new_node, $a_attributes);
+
+        return $new_node;
+    }
 }
