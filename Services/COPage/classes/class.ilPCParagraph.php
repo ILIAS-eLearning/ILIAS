@@ -27,8 +27,6 @@ class ilPCParagraph extends ilPageContent
 {
     protected string $inserted_pc_id;
     protected ilObjUser $user;
-    public ?php4DOMElement $par_node = null;
-
     protected ilLanguage $lng;
 
     protected static array $bb_tags = array(
@@ -98,35 +96,23 @@ class ilPCParagraph extends ilPageContent
         return array_flip(self::$bb_tags);
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-
-        $childs = $a_node->child_nodes();
-        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-            if ($childs[$i]->node_name() == "Paragraph") {
-                $this->par_node = $childs[$i];		//... and this the Paragraph node
-            }
-        }
-    }
-
-
     /**
      * Create paragraph node (incl. page content node)
      * after given node.
      */
-    public function createAfter(php4DOMElement $node): void
+    protected function createAfter(DomNode $node): void
     {
-        $this->node = $this->createPageContentNode(false);
-        if ($succ_node = $node->next_sibling()) {
-            $this->node = $succ_node->insert_before($this->node, $succ_node);
+        $node = $this->getNewPageContentNode();
+        if ($succ_node = $node->nextSibling) {
+            $node = $succ_node->parentNode->insertBefore($node, $succ_node);
         } else {
-            $parent_node = $node->parent_node();
-            $this->node = $parent_node->append_child($this->node);
+            $parent_node = $node->parentNode;
+            $node = $parent_node->appendChild($this->node);
         }
-        $this->par_node = $this->dom->create_element("Paragraph");
-        $this->par_node = $this->node->append_child($this->par_node);
-        $this->par_node->set_attribute("Language", "");
+        $par_node = $this->dom_doc->createElement("Paragraph");
+        $par_node = $node->appendChild($par_node);
+        $par_node->setAttribute("Language", "");
+        $this->setDomNode($node);
     }
 
     /**
@@ -141,7 +127,7 @@ class ilPCParagraph extends ilPageContent
     ): void {
         //echo "-$a_pc_id-";
         //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
-        $this->node = $this->dom->create_element("PageContent");
+        $this->createPageContentNode();
 
         // this next line kicks out placeholders, if something is inserted
         $a_pg_obj->insertContent(
@@ -152,9 +138,9 @@ class ilPCParagraph extends ilPageContent
             $from_placeholder
         );
 
-        $this->par_node = $this->dom->create_element("Paragraph");
-        $this->par_node = $this->node->append_child($this->par_node);
-        $this->par_node->set_attribute("Language", "");
+        $par_node = $this->dom_doc->createElement("Paragraph");
+        $par_node = $this->getDomNode()->appendChild($par_node);
+        $par_node->setAttribute("Language", "");
     }
 
     /**
@@ -180,29 +166,28 @@ class ilPCParagraph extends ilPageContent
         // remove all childs
         if (empty($error)) {
             $t = $text[0]["text"] ?? "";
-            $temp_dom = domxml_open_mem(
+            $temp_dom = $this->dom_util->docFromString(
                 '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $t . '</Paragraph>',
-                DOMXML_LOAD_PARSING,
                 $error
             );
 
             // delete children of paragraph node
-            $children = $this->par_node->child_nodes();
-            for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
-                $this->par_node->remove_child($children[$i]);
-            }
+            $this->dom_util->deleteAllChilds($this->getChildNode());
 
             // copy new content children in paragraph node
-            $xpc = xpath_new_context($temp_dom);
             $path = "//Paragraph";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) == 1) {
-                $new_par_node = $res->nodeset[0];
-                $new_childs = $new_par_node->child_nodes();
+            $nodes = $this->dom_util->path(
+                $temp_dom,
+                $path
+            );
+            if (count($nodes) == 1) {
+                $new_par_node = $nodes->item(0);
+                $new_childs = $new_par_node->childNodes;
 
-                for ($i = 0, $iMax = count($new_childs); $i < $iMax; $i++) {
-                    $cloned_child = $new_childs[$i]->clone_node(true);
-                    $this->par_node->append_child($cloned_child);
+                foreach ($new_childs as $new_child) {
+                    $cloned_child = $new_child->cloneNode(true);
+                    $cloned_child = $this->dom_doc->importNode($cloned_child, true);
+                    $this->getChildNode()->appendChild($cloned_child);
                 }
                 $orig_characteristic = $this->getCharacteristic();
 
@@ -212,13 +197,13 @@ class ilPCParagraph extends ilPageContent
                     $orig_characteristic = "";
                 }
                 if (isset($text[0]["level"]) && $text[0]["level"] > 0) {
-                    $this->par_node->set_attribute("Characteristic", 'Headline' . $text[0]["level"]);
+                    $this->getChildNode()->setAttribute("Characteristic", 'Headline' . $text[0]["level"]);
                 }
             }
 
             $ok = true;
 
-            $c_node = $this->node;
+            $c_node = $this->getDomNode();
             // add other chunks afterwards
             for ($i = 1, $iMax = count($text); $i < $iMax; $i++) {
                 if ($ok) {
@@ -249,16 +234,11 @@ class ilPCParagraph extends ilPageContent
             $text = str_replace("<SimpleNumberedList>", "\n<SimpleNumberedList>", $text);
             $text = str_replace("<Paragraph>\n", "<Paragraph>", $text);
             $text = str_replace("</Paragraph>", "</Paragraph>\n", $text);
-            $doc = new ilDOMDocument();
-            $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
-            //echo htmlentities($text);
-            $doc->loadXML($text);
-            $error = $doc->getErrors();
-            $estr = "";
-            foreach ($error as $e) {
-                $e = str_replace(" in Entity", "", $e);
-                $estr .= $e . "<br />";
-            }
+            $doc = $this->dom_util->docFromString(
+                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>',
+                $error
+            );
+            $estr = (string) $error;
             if (DEVMODE) {
                 $estr .= "<br />" . $text;
             }
@@ -270,22 +250,17 @@ class ilPCParagraph extends ilPageContent
     /**
      * Check text array
      */
-    protected function checkTextArray(array $text): ?array
+    protected function checkTextArray(array $text): ?string
     {
         $check = "";
         foreach ($text as $t) {
             $check .= "<Paragraph>" . $t["text"] . "</Paragraph>";
         }
         $error = null;
-        //try {
-        $temp_dom = domxml_open_mem(
+        $this->dom_util->docFromString(
             '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $check . '</Paragraph>',
-            DOMXML_LOAD_PARSING,
             $error
         );
-        //} catch (Exception $e) {
-
-        //}
         return $error;
     }
 
@@ -294,11 +269,10 @@ class ilPCParagraph extends ilPageContent
      */
     public function getText(bool $a_short_mode = false): string
     {
-        if (is_object($this->par_node)) {
+        if (is_object($this->getChildNode())) {
             $content = "";
-            $childs = $this->par_node->child_nodes();
-            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-                $content .= $this->dom->dump_node($childs[$i]);
+            foreach ($this->getChildNode()->childNodes as $c) {
+                $content .= $this->dom_util->dump($c);
             }
             return $content;
         } else {
@@ -306,74 +280,44 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    /**
-     * Set Characteristic of paragraph
-     */
     public function setCharacteristic(string $a_char): void
     {
-        if (!empty($a_char)) {
-            $this->par_node->set_attribute("Characteristic", $a_char);
-        } else {
-            if ($this->par_node->has_attribute("Characteristic")) {
-                $this->par_node->remove_attribute("Characteristic");
-            }
-        }
+        $this->dom_util->setAttribute($this->getChildNode(), "Characteristic", $a_char);
     }
 
     public function getCharacteristic(): string
     {
-        if (is_object($this->par_node)) {
-            return $this->par_node->get_attribute("Characteristic");
-        }
-        return "";
+        return (string) $this->getChildNode()?->getAttribute("Characteristic");
     }
 
     public function setSubCharacteristic(string $a_char): void
     {
-        if (!empty($a_char)) {
-            $this->par_node->set_attribute("SubCharacteristic", $a_char);
-        } else {
-            if ($this->par_node->has_attribute("SubCharacteristic")) {
-                $this->par_node->remove_attribute("SubCharacteristic");
-            }
-        }
+        $this->dom_util->setAttribute($this->getChildNode(), "SubCharacteristic", $a_char);
     }
 
     public function getAutoIndent(): string
     {
-        return (string) $this->par_node->get_attribute("AutoIndent");
+        return (string) $this->getChildNode()->getAttribute("AutoIndent");
     }
 
-    public function setAutoIndent(string $a_char): void
+    public function setAutoIndent(string $ind): void
     {
-        if (!empty($a_char)) {
-            $this->par_node->set_attribute("AutoIndent", $a_char);
-        } else {
-            if ($this->par_node->has_attribute("AutoIndent")) {
-                $this->par_node->remove_attribute("AutoIndent");
-            }
-        }
+        $this->dom_util->setAttribute($this->getChildNode(), "AutoIndent", $ind);
     }
 
     public function getSubCharacteristic(): string
     {
-        return $this->par_node->get_attribute("SubCharacteristic");
+        return (string) $this->getChildNode()?->getAttribute("SubCharacteristic");
     }
 
-    public function setDownloadTitle(string $a_char): void
+    public function setDownloadTitle(string $title): void
     {
-        if (!empty($a_char)) {
-            $this->par_node->set_attribute("DownloadTitle", $a_char);
-        } else {
-            if ($this->par_node->has_attribute("DownloadTitle")) {
-                $this->par_node->remove_attribute("DownloadTitle");
-            }
-        }
+        $this->dom_util->setAttribute($this->getChildNode(), "DownloadTitle", $title);
     }
 
     public function getDownloadTitle(): string
     {
-        return $this->par_node->get_attribute("DownloadTitle");
+        return (string) $this->getChildNode()?->getAttribute("DownloadTitle");
     }
 
     public function setShowLineNumbers(string $a_char): void
@@ -382,22 +326,22 @@ class ilPCParagraph extends ilPageContent
             ? "n"
             : $a_char;
 
-        $this->par_node->set_attribute("ShowLineNumbers", $a_char);
+        $this->getChildNode()->setAttribute("ShowLineNumbers", $a_char);
     }
 
     public function getShowLineNumbers(): string
     {
-        return $this->par_node->get_attribute("ShowLineNumbers");
+        return (string) $this->getChildNode()?->getAttribute("ShowLineNumbers");
     }
 
     public function setLanguage(string $a_lang): void
     {
-        $this->par_node->set_attribute("Language", $a_lang);
+        $this->getChildNode()->setAttribute("Language", $a_lang);
     }
 
     public function getLanguage(): string
     {
-        return $this->par_node->get_attribute("Language");
+        return $this->getChildNode()->getAttribute("Language");
     }
 
     public function input2xml(
@@ -1721,7 +1665,7 @@ class ilPCParagraph extends ilPageContent
             }
             // did we find anything? -> modify content
             if (count($found_terms) > 0) {
-                self::linkTermsInDom($this->dom, $found_terms, $this->par_node);
+                self::linkTermsInDom($this->dom_doc, $found_terms, $this->getChildNode());
             }
         }
     }
@@ -1730,9 +1674,9 @@ class ilPCParagraph extends ilPageContent
      * Link terms in a dom page object in bb style
      */
     protected static function linkTermsInDom(
-        php4DOMDocument $a_dom,
+        DOMDocument $a_dom,
         array $a_terms,
-        php4DOMElement $a_par_node = null
+        DOMNode $a_par_node = null
     ): void {
         $par_node = null;
         // sort terms by their length (shortes first)
@@ -1741,14 +1685,6 @@ class ilPCParagraph extends ilPageContent
             $a_terms[$k]["termlength"] = strlen($t["term"]);
         }
         $a_terms = ilArrayUtil::sortArray($a_terms, "termlength", "asc", true);
-
-
-        if ($a_dom instanceof php4DOMDocument) {
-            $a_dom = $a_dom->myDOMDocument;
-        }
-        if ($a_par_node instanceof php4DOMElement) {
-            $par_node = $a_par_node->myDOMNode;
-        }
 
         $xpath = new DOMXPath($a_dom);
 
@@ -1832,12 +1768,11 @@ class ilPCParagraph extends ilPageContent
             $text = self::intLinks2xml($text);
 
             // "set text"
-            $temp_dom = domxml_open_mem(
+            $error = null;
+            $temp_dom = $domutil->docFromString(
                 '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>',
-                DOMXML_LOAD_PARSING,
                 $error
             );
-            $temp_dom = $temp_dom->myDOMDocument;
 
             if (empty($error)) {
                 // delete children of paragraph node
@@ -1874,10 +1809,7 @@ class ilPCParagraph extends ilPageContent
         array $a_terms
     ): void {
         $a_page->buildDom();
-        $a_dom = $a_page->getDom();
-
-        self::linkTermsInDom($a_dom, $a_terms);
-
+        self::linkTermsInDom($a_page->getDomDoc(), $a_terms);
         $a_page->update();
     }
 

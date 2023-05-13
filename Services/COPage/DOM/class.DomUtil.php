@@ -24,7 +24,7 @@ namespace ILIAS\COPage\Dom;
  */
 class DomUtil
 {
-    public function docFromString(string $xml, string &$error_str): ?\DOMDocument
+    public function docFromString(string $xml, ?string &$error_str): ?\DOMDocument
     {
         $doc = new \DOMDocument();
         set_error_handler('staticxmlerror');
@@ -113,14 +113,32 @@ class DomUtil
         }
     }
 
+    public function deleteAllChilds(
+        \DOMNode $parent
+    ): void {
+        foreach ($parent->childNodes as $child) {
+            $parent->removeChild($child);
+        }
+    }
+
     /**
      * set attributes of a node
      */
     public function setAttributes(
-        \DOMNode $node,
+        ?\DOMNode $node,
         array $attributes
     ): void {
         foreach ($attributes as $attribute => $value) {
+            $this->setAttribute($node, $attribute, $value);
+        }
+    }
+
+    public function setAttribute(
+        ?\DOMNode $node,
+        string $attribute,
+        ?string $value
+    ): void {
+        if (!is_null($node)) {
             if (!is_null($value) && $value !== "") {
                 $node->setAttribute($attribute, $value);
             } elseif ($node->hasAttribute($attribute)) {

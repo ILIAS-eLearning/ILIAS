@@ -133,9 +133,9 @@ abstract class ilPageContent
         return $this->node;
     }
 
-    public function getDomNode(): DOMNode
+    public function getDomNode(): ?DOMNode
     {
-        return $this->node->myDOMNode;
+        return $this->node?->myDOMNode;
     }
 
     public function setDomNode(DOMNode $node): void
@@ -143,9 +143,9 @@ abstract class ilPageContent
         $this->node = new php4DOMElement($node);
     }
 
-    public function getChildNode(): DOMNode
+    public function getChildNode(): ?DOMNode
     {
-        return $this->getDomNode()->firstChild;
+        return $this->getDomNode()?->firstChild;
     }
 
     public function getJavascriptFiles(string $a_mode): array

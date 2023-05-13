@@ -33,7 +33,7 @@ class ilPCMap extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
 
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $map_node = $this->dom_doc->createElement("Map");
