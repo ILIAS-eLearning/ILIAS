@@ -23,12 +23,9 @@
  */
 class ilPCSection extends ilPageContent
 {
-    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
-    protected DOMElement $sec_dom_node;
     protected ilAccessHandler $access;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    public php4DOMElement $sec_node;
 
     public function init(): void
     {
@@ -38,14 +35,6 @@ class ilPCSection extends ilPageContent
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->setType("sec");
-        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
-    }
-
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->sec_node = $a_node->first_child();		// this is the Section node
-        $this->sec_dom_node = $this->sec_node->myDOMNode;
     }
 
     public function create(
@@ -53,29 +42,23 @@ class ilPCSection extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $this->sec_node = $this->dom->create_element("Section");
-        $this->sec_node = $this->node->append_child($this->sec_node);
-        $this->sec_node->set_attribute("Characteristic", "Block");
-        $this->sec_dom_node = $this->sec_node->myDOMNode;
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Section",
+            ["Characteristic" => "Block"]
+        );
     }
 
     public function setCharacteristic(string $a_char): void
     {
-        if (!empty($a_char)) {
-            $this->sec_dom_node->setAttribute("Characteristic", $a_char);
-        } else {
-            if ($this->sec_dom_node->hasAttribute("Characteristic")) {
-                $this->sec_dom_node->removeAttribute("Characteristic");
-            }
-        }
+        $this->dom_util->setAttribute($this->getChildNode(), "Characteristic", $a_char);
     }
 
     public function getCharacteristic(): string
     {
-        if (is_object($this->sec_dom_node)) {
-            $char = $this->sec_dom_node->getAttribute("Characteristic");
+        if (is_object($this->getChildNode())) {
+            $char = $this->getChildNode()->getAttribute("Characteristic");
             if (substr($char, 0, 4) == "ilc_") {
                 $char = substr($char, 4);
             }
@@ -117,13 +100,8 @@ class ilPCSection extends ilPageContent
 
     public function setActiveFrom(int $a_unix_ts): void
     {
-        if ($a_unix_ts > 0) {
-            $this->sec_dom_node->setAttribute("ActiveFrom", $a_unix_ts);
-        } else {
-            if ($this->sec_dom_node->hasAttribute("ActiveFrom")) {
-                $this->sec_dom_node->removeAttribute("ActiveFrom");
-            }
-        }
+        $a_unix_ts = ($a_unix_ts > 0) ? (string) $a_unix_ts : null;
+        $this->dom_util->setAttribute($this->getChildNode(), "ActiveFrom", $a_unix_ts);
     }
 
     /**
@@ -131,8 +109,8 @@ class ilPCSection extends ilPageContent
      */
     public function getActiveFrom(): int
     {
-        if (is_object($this->sec_dom_node)) {
-            return (int) $this->sec_dom_node->getAttribute("ActiveFrom");
+        if (is_object($this->getChildNode())) {
+            return (int) $this->getChildNode()->getAttribute("ActiveFrom");
         }
         return 0;
     }
@@ -142,42 +120,16 @@ class ilPCSection extends ilPageContent
      */
     public function setActiveTo(int $a_unix_ts): void
     {
-        if ($a_unix_ts > 0) {
-            $this->sec_dom_node->setAttribute("ActiveTo", $a_unix_ts);
-        } else {
-            if ($this->sec_dom_node->hasAttribute("ActiveTo")) {
-                $this->sec_dom_node->removeAttribute("ActiveTo");
-            }
-        }
+        $a_unix_ts = ($a_unix_ts > 0) ? (string) $a_unix_ts : null;
+        $this->dom_util->setAttribute($this->getChildNode(), "ActiveTo", $a_unix_ts);
     }
 
     public function getActiveTo(): int
     {
-        if (is_object($this->sec_dom_node)) {
-            return (int) $this->sec_dom_node->getAttribute("ActiveTo");
+        if (is_object($this->getChildNode())) {
+            return (int) $this->getChildNode()->getAttribute("ActiveTo");
         }
         return 0;
-    }
-
-    protected function setAttribute(
-        string $a_attr,
-        string $a_val
-    ): void {
-        if (!empty($a_val)) {
-            $this->sec_dom_node->setAttribute($a_attr, $a_val);
-        } else {
-            if ($this->sec_dom_node->hasAttribute($a_attr)) {
-                $this->sec_dom_node->removeAttribute($a_attr);
-            }
-        }
-    }
-
-    public function getAttribute(string $a_attr): string
-    {
-        if (is_object($this->sec_dom_node)) {
-            return $this->sec_dom_node->getAttribute($a_attr);
-        }
-        return "";
     }
 
     /**
@@ -186,22 +138,22 @@ class ilPCSection extends ilPageContent
      */
     public function setPermission(string $a_val): void
     {
-        $this->setAttribute("Permission", $a_val);
+        $this->dom_util->setAttribute($this->getChildNode(), "Permission", $a_val);
     }
 
     public function getPermission(): string
     {
-        return $this->getAttribute("Permission");
+        return $this->getChildNode()->getAttribute("Permission");
     }
 
     public function setPermissionRefId(int $a_ref_id): void
     {
-        $this->setAttribute("PermissionRefId", "il__ref_" . $a_ref_id);
+        $this->dom_util->setAttribute($this->getChildNode(), "PermissionRefId", "il__ref_" . $a_ref_id);
     }
 
     public function getPermissionRefId(): int
     {
-        $id = explode("_", $this->getAttribute("PermissionRefId"));
+        $id = explode("_", $this->getChildNode()->getAttribute("PermissionRefId"));
         if (in_array($id[1], array("", 0, IL_INST_ID))) {
             return (int) $id[3];
         }
@@ -213,7 +165,7 @@ class ilPCSection extends ilPageContent
      */
     public function setNoLink(): void
     {
-        $this->dom_util->deleteAllChildsByName($this->sec_dom_node, ["IntLink", "ExtLink"]);
+        $this->dom_util->deleteAllChildsByName($this->getChildNode(), ["IntLink", "ExtLink"]);
     }
 
     /**
@@ -225,7 +177,7 @@ class ilPCSection extends ilPageContent
         if (trim($a_href) != "") {
             $attributes = array("Href" => trim($a_href));
             $this->dom_util->setFirstOptionalElement(
-                $this->sec_dom_node,
+                $this->getChildNode(),
                 "ExtLink",
                 [],
                 "",
@@ -246,7 +198,7 @@ class ilPCSection extends ilPageContent
         $attributes = array("Type" => $a_type, "Target" => $a_target,
             "TargetFrame" => $a_target_frame);
         $this->dom_util->setFirstOptionalElement(
-            $this->sec_dom_node,
+            $this->getChildNode(),
             "IntLink",
             [],
             "",
@@ -256,7 +208,7 @@ class ilPCSection extends ilPageContent
 
     public function getLink(): array
     {
-        $childs = $this->sec_dom_node->childNodes;
+        $childs = $this->getChildNode()->childNodes;
         foreach ($childs as $child) {
             if ($child->nodeName === "ExtLink") {
                 return array("LinkType" => "ExtLink",
@@ -315,6 +267,7 @@ class ilPCSection extends ilPageContent
         global $DIC;
 
         $ilDB = $DIC->database();
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
 
         $ilDB->manipulate(
             "DELETE FROM copg_section_timings WHERE " .
@@ -322,16 +275,13 @@ class ilPCSection extends ilPageContent
             " AND parent_type = " . $ilDB->quote($a_page->getParentType(), "text")
         );
 
-        $xml = $a_page->getXMLFromDom();
-
-        $doc = domxml_open_mem($xml);
+        $doc = $a_page->getDomDoc();
 
         // media aliases
-        $xpc = xpath_new_context($doc);
         $path = "//Section";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $from = $res->nodeset[$i]->get_attribute("ActiveFrom");
+        $nodes = $dom_util->path($doc, $path);
+        foreach ($nodes as $node) {
+            $from = $node->getAttribute("ActiveFrom");
             if ($from != "") {
                 $ilDB->replace(
                     "copg_section_timings",
@@ -343,7 +293,7 @@ class ilPCSection extends ilPageContent
                     array()
                 );
             }
-            $to = $res->nodeset[$i]->get_attribute("ActiveTo");
+            $to = $node->getAttribute("ActiveTo");
             if ($to != "") {
                 $ilDB->replace(
                     "copg_section_timings",
@@ -437,8 +387,8 @@ class ilPCSection extends ilPageContent
 
     public function getProtected(): bool
     {
-        if (is_object($this->sec_dom_node)) {
-            return ($this->sec_dom_node->getAttribute("Protected") === "1");
+        if (is_object($this->getChildNode())) {
+            return ($this->getChildNode()->getAttribute("Protected") === "1");
         }
 
         return false;
@@ -447,15 +397,15 @@ class ilPCSection extends ilPageContent
     public function setProtected(bool $val): void
     {
         if ($val) {
-            $this->sec_dom_node->setAttribute("Protected", "1");
+            $this->getChildNode()->setAttribute("Protected", "1");
         } else {
-            $this->sec_dom_node->setAttribute("Protected", "0");
+            $this->getChildNode()->setAttribute("Protected", "0");
         }
     }
 
     public function getModel(): ?stdClass
     {
-        if ($this->sec_dom_node->nodeName !== "Section") {
+        if ($this->getChildNode()->nodeName !== "Section") {
             return null;
         }
         $model = new stdClass();

@@ -33,11 +33,12 @@ class ilPCTable extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $tab_node = $this->dom_doc->createElement("Table");
-        $tab_node = $this->getDomNode()->appendChild($tab_node);
-        $tab_node->setAttribute("Language", "");
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Table",
+            ["Language" => ""]
+        );
     }
 
     public function addRow(): DOMNode

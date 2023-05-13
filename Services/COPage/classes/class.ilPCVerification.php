@@ -36,30 +36,21 @@ class ilPCVerification extends ilPageContent
         $this->setType('vrfc');
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node); // this is the PageContent node
-        $this->vrfc_node = $a_node->first_child(); // this is the verification node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->vrfc_node = $this->dom->create_element('Verification');
-        $this->vrfc_node = $this->node->append_child($this->vrfc_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "Verification");
     }
 
     public function setData(
         string $a_type,
         int $a_id
     ): void {
-        $this->vrfc_node->set_attribute('Type', $a_type);
-        $this->vrfc_node->set_attribute('Id', $a_id);
-        $this->vrfc_node->set_attribute('User', $this->user->getId());
+        $this->getChildNode()->setAttribute('Type', $a_type);
+        $this->getChildNode()->setAttribute('Id', (string) $a_id);
+        $this->getChildNode()->setAttribute('User', (string) $this->user->getId());
     }
 
     /**
@@ -67,11 +58,11 @@ class ilPCVerification extends ilPageContent
      */
     public function getData(): ?array
     {
-        if (is_object($this->vrfc_node)) {
+        if (is_object($this->getChildNode())) {
             return [
-                'id' => $this->vrfc_node->get_attribute('Id'),
-                'type' => $this->vrfc_node->get_attribute('Type'),
-                'user' => $this->vrfc_node->get_attribute('User')
+                'id' => $this->getChildNode()->getAttribute('Id'),
+                'type' => $this->getChildNode()->getattribute('Type'),
+                'user' => $this->getChildNode()->getAttribute('User')
             ];
         }
 
@@ -97,10 +88,7 @@ class ilPCVerification extends ilPageContent
         // try to find verification in portfolio page
         $a_page->buildDom();
 
-        $dom = $a_page->getDom();
-        if ($dom instanceof php4DOMDocument) {
-            $dom = $dom->myDOMDocument;
-        }
+        $dom = $a_page->getDomDoc();
 
         $xpath_temp = new DOMXPath($dom);
         $nodes = $xpath_temp->query('//PageContent/Verification');

@@ -23,17 +23,9 @@
  */
 class ilPCQuestionOverview extends ilPageContent
 {
-    public php4DOMElement $qover_node;
-
     public function init(): void
     {
         $this->setType("qover");
-    }
-
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->qover_node = $a_node->first_child();		// this is the question overview node
     }
 
     public function create(
@@ -41,11 +33,12 @@ class ilPCQuestionOverview extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->qover_node = $this->dom->create_element("QuestionOverview");
-        $this->qover_node = $this->node->append_child($this->qover_node);
-        $this->qover_node->set_attribute("ShortMessage", "y");
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "QuestionOverview",
+            ["ShortMessage" => "y"]
+        );
     }
 
     /**
@@ -53,19 +46,14 @@ class ilPCQuestionOverview extends ilPageContent
      */
     public function setShortMessage(bool $a_val): void
     {
-        if ($a_val) {
-            $this->qover_node->set_attribute("ShortMessage", "y");
-        } else {
-            if ($this->qover_node->has_attribute("ShortMessage")) {
-                $this->qover_node->remove_attribute("ShortMessage");
-            }
-        }
+        $val = ($a_val) ? "y" : null;
+        $this->dom_util->setAttribute($this->getChildNode(), "ShortMessage", $val);
     }
 
     public function getShortMessage(): bool
     {
-        if (is_object($this->qover_node)) {
-            if ($this->qover_node->get_attribute("ShortMessage") == "y") {
+        if (is_object($this->getChildNode())) {
+            if ($this->getChildNode()->getAttribute("ShortMessage") == "y") {
                 return true;
             }
         }
@@ -74,19 +62,14 @@ class ilPCQuestionOverview extends ilPageContent
 
     public function setListWrongQuestions(bool $a_val): void
     {
-        if ($a_val) {
-            $this->qover_node->set_attribute("ListWrongQuestions", "y");
-        } else {
-            if ($this->qover_node->has_attribute("ListWrongQuestions")) {
-                $this->qover_node->remove_attribute("ListWrongQuestions");
-            }
-        }
+        $val = ($a_val) ? "y" : null;
+        $this->dom_util->setAttribute($this->getChildNode(), "ListWrongQuestions", $val);
     }
 
     public function getListWrongQuestions(): bool
     {
-        if (is_object($this->qover_node)) {
-            if ($this->qover_node->get_attribute("ListWrongQuestions") == "y") {
+        if (is_object($this->getChildNode())) {
+            if ($this->getChildNode()->getAttribute("ListWrongQuestions") == "y") {
                 return true;
             }
         }

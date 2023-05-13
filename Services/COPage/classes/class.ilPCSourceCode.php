@@ -43,31 +43,25 @@ class ilPCSourceCode extends ilPCParagraph
     ): string {
         $dom = $this->getPage()->getDom();
 
-        $xpc = xpath_new_context($dom);
-        $path = "//Paragraph"; //"[@Characteristic = 'Code']";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $context_node = $res->nodeset[$i];
-            $char = $context_node->get_attribute('Characteristic');
+        $nodes = $this->dom_util->path($this->dom_doc, "//Paragraph");
+        foreach ($nodes as $context_node) {
+            $char = $context_node->getAttribute('Characteristic');
 
             if ($char != "Code") {
                 continue;
             }
 
-            $n = $context_node->parent_node();
-            $char = $context_node->get_attribute('Characteristic');
-            $subchar = $context_node->get_attribute('SubCharacteristic');
-            $showlinenumbers = $context_node->get_attribute('ShowLineNumbers');
-            $downloadtitle = $context_node->get_attribute('DownloadTitle');
-            $autoindent = $context_node->get_attribute('AutoIndent');
-
-            $content = "";
+            $n = $context_node->parentNode;
+            $char = $context_node->getAttribute('Characteristic');
+            $subchar = $context_node->getAttribute('SubCharacteristic');
+            $showlinenumbers = $context_node->getAttribute('ShowLineNumbers');
+            $downloadtitle = $context_node->getAttribute('DownloadTitle');
+            $autoindent = $context_node->getAttribute('AutoIndent');
 
             // get XML Content
-            $childs = $context_node->child_nodes();
-
-            for ($j = 0; $j < count($childs); $j++) {
-                $content .= $dom->dump_node($childs[$j]);
+            $content = "";
+            foreach ($context_node->childNodes as $child) {
+                $content .= $this->dom_util->dump($child);
             }
 
             while ($context_node->has_child_nodes()) {

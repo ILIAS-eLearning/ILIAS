@@ -60,10 +60,7 @@ class ilPCGrid extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $grid_node = $this->dom_doc->createElement("Grid");
-        $this->getDomNode()->appendChild($grid_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "Grid");
     }
 
     public function applyTemplate(

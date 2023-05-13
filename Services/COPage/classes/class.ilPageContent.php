@@ -356,6 +356,21 @@ abstract class ilPageContent
         return $this->dom_doc->createElement("PageContent");
     }
 
+    protected function createInitialChildNode(
+        string $hier_id,
+        string $pc_id,
+        string $child,
+        array $child_attributes = []
+    ): void {
+        $this->createPageContentNode();
+        $node = $this->dom_doc->createElement($child);
+        $node = $this->getDomNode()->appendChild($node);
+        foreach ($child_attributes as $att => $value) {
+            $node->setAttribute($att, $value);
+        }
+        $this->getPage()->insertContent($this, $hier_id, IL_INSERT_AFTER, $pc_id);
+    }
+
     /**
      * Get lang vars needed for editing
      * @return string[] array of lang var keys

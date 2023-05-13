@@ -33,14 +33,12 @@ class ilPCMap extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $map_node = $this->dom_doc->createElement("Map");
-        $map_node = $this->getDomNode()->appendChild($map_node);
-        $map_node->setAttribute("Latitude", "0");
-        $map_node->setAttribute("Longitude", "0");
-        $map_node->setAttribute("Zoom", "3");
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Map",
+            ["Latitude" => "0","Longitude" => "0","Zoom" => "3"]
+        );
     }
 
     public function setLatitude(?float $a_lat = null): void

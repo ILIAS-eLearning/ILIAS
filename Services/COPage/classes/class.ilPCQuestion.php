@@ -26,7 +26,6 @@ class ilPCQuestion extends ilPageContent
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
-    public php4DOMElement $q_node;
     protected static bool $initial_done = false;
 
     /**
@@ -42,23 +41,17 @@ class ilPCQuestion extends ilPageContent
         $this->setType("pcqst");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->q_node = $a_node->first_child();		//... and this the Question
-    }
-
     public function setQuestionReference(string $a_questionreference): void
     {
-        if (is_object($this->q_node)) {
-            $this->q_node->set_attribute("QRef", $a_questionreference);
+        if (is_object($this->getChildNode())) {
+            $this->getChildNode()->setAttribute("QRef", $a_questionreference);
         }
     }
 
     public function getQuestionReference(): ?string
     {
-        if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("QRef");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("QRef");
         }
         return null;
     }
@@ -68,11 +61,12 @@ class ilPCQuestion extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-        $this->q_node = $this->dom->create_element("Question");
-        $this->q_node = $this->node->append_child($this->q_node);
-        $this->q_node->set_attribute("QRef", "");
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Question",
+            ["QRef" => ""]
+        );
     }
 
     /**
@@ -89,7 +83,7 @@ class ilPCQuestion extends ilPageContent
 
         ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
 
-        $this->q_node->set_attribute("QRef", "il__qst_" . $duplicate_id);
+        $this->getChildNode()->setAttribute("QRef", "il__qst_" . $duplicate_id);
     }
 
     public static function getLangVars(): array

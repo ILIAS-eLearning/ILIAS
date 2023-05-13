@@ -41,10 +41,7 @@ class ilPCBlog extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $blog_node = $this->dom_doc->createElement("Blog");
-        $this->getDomNode()->appendChild($blog_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "Blog");
     }
 
     /**

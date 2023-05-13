@@ -53,10 +53,7 @@ class ilPCLoginPageElement extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $lpe = $this->dom_doc->createElement('LoginPageElement');
-        $this->getDomNode()->appendChild($lpe);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "LoginPageElement");
     }
 
     public function setLoginPageElementType(string $a_type): void
