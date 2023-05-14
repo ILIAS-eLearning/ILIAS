@@ -195,14 +195,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         // start SCORM 2004 package parser/importer
         //        if ($this->getEditable()) {
-//            return $newPack->il_importLM(
-//                $this,
-//                $this->getDataDirectory(),
-//                $this->getImportSequencing()
-//            );
-//        } else {
+        //            return $newPack->il_importLM(
+        //                $this,
+        //                $this->getDataDirectory(),
+        //                $this->getImportSequencing()
+        //            );
+        //        } else {
         return (new ilSCORM13Package())->il_import($this->getDataDirectory(), $this->getId());
-//        }
+        //        }
     }
 
 
@@ -544,7 +544,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
 
-                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
                     $usersToDelete[] = $user_id;
                 } else {
                     $this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);

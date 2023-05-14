@@ -489,18 +489,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
                 switch ($data_rec["lvalue"]) {
-                        case "cmi.core.lesson_status":
-                            $status = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.lesson_status":
+                        $status = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.total_time":
-                            $time = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.total_time":
+                        $time = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.score.raw":
-                            $score = $data_rec["rvalue"];
-                            break;
-                    }
+                    case "cmi.core.score.raw":
+                        $score = $data_rec["rvalue"];
+                        break;
+                }
             }
 
             $data[] = array("user_id" => $user_rec["user_id"],
@@ -662,7 +662,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                     $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
 
-                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
                     $usersToDelete[] = $user_id;
                 } else {
                     $this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
@@ -711,6 +711,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 //echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
             }
         }
+
         if (count($usersToDelete) > 0) {
             // include_once("./Services/Tracking/classes/class.ilLPMarks.php");
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
@@ -761,7 +762,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 'sco_total_time_sec' => array('integer', $sco_total_time_sec)
             ));
         }
-//        since 8 necessary because attempts can be null
+        //        since 8 necessary because attempts can be null
         if (ilChangeEvent::_lookupReadEvents($this->getID(), $user_id) == []) {
             ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false);
         }
