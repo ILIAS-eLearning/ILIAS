@@ -192,21 +192,23 @@ class ilCmiXapiUser
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $DIC->database()->replace(
-            self::DB_TABLE_NAME,
-            array(
-                'obj_id' => array('integer', (int) $this->getObjId()),
-                'usr_id' => array('integer', (int) $this->getUsrId()),
-                'privacy_ident' => array('integer', (int) $this->getPrivacyIdent())
-            ),
-            array(
-                'proxy_success' => array('integer', (int) $this->hasProxySuccess()),
-                'fetched_until' => array('timestamp', $this->getFetchUntil()->get(IL_CAL_DATETIME)),
-                'usr_ident' => array('text', $this->getUsrIdent()),
-                'registration' => array('text', $this->getRegistration()),
-                'satisfied' => array('integer', (int) $this->getSatisfied())
-            )
-        );
+        if (!ilObjUser::_isAnonymous($this->getUsrId())) {
+            $DIC->database()->replace(
+                self::DB_TABLE_NAME,
+                array(
+                    'obj_id' => array('integer', (int) $this->getObjId()),
+                    'usr_id' => array('integer', (int) $this->getUsrId()),
+                    'privacy_ident' => array('integer', (int) $this->getPrivacyIdent())
+                ),
+                array(
+                    'proxy_success' => array('integer', (int) $this->hasProxySuccess()),
+                    'fetched_until' => array('timestamp', $this->getFetchUntil()->get(IL_CAL_DATETIME)),
+                    'usr_ident' => array('text', $this->getUsrIdent()),
+                    'registration' => array('text', $this->getRegistration()),
+                    'satisfied' => array('integer', (int) $this->getSatisfied())
+                )
+            );
+        }
     }
 
     // ToDo Only for Deletion -> Core
@@ -266,6 +268,9 @@ class ilCmiXapiUser
 
     public static function getIdent(int $userIdentMode, ilObjUser $user): string
     {
+        if (ilObjUser::_isAnonymous($user->getId())) {
+            return self::buildPseudoEmail(hash("sha256", (string) microtime()), self::getIliasUuid());
+        }
         switch ($userIdentMode) {
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_USER_ID:
 

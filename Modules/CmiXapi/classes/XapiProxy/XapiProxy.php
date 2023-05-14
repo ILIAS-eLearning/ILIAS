@@ -182,7 +182,7 @@ class XapiProxy extends XapiProxyPolyFill
             if ($up === []) { // nothing allowed
                 $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                 $this->xapiProxyResponse->fakeResponseBlocked("");
-//                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
+            //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
             } elseif (count($up) !== count($ret)) { // mixed request with allowed and not allowed statements
                 $this->log()->debug($this->msg("mixed with allowed and unallowed statements"));
                 return array($up,$ret);
@@ -241,10 +241,12 @@ class XapiProxy extends XapiProxyPolyFill
                 $statementEvaluation = new \ilXapiStatementEvaluation($this->log(), $object);
                 $statementEvaluation->evaluateStatement($xapiStatement, $this->authToken->getUsrId());
 
-                \ilLPStatusWrapper::_updateStatus(
-                    $this->authToken->getObjId(),
-                    $this->authToken->getUsrId()
-                );
+                if ($this->authToken->getUsrId() != ANONYMOUS_USER_ID) {
+                    \ilLPStatusWrapper::_updateStatus(
+                        $this->authToken->getObjId(),
+                        $this->authToken->getUsrId()
+                    );
+                }
             }
             if ($xapiStatement->verb->id == self::TERMINATED_VERB) {
                 // ToDo : only cmi5 or also xapi? authToken object still used after that?
@@ -269,22 +271,22 @@ class XapiProxy extends XapiProxyPolyFill
 
     private function setStatus(object $obj): void
     {
-//            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
-//                $verb = $obj->verb->id;
-//                $score = 'NOT_SET';
-//                if (array_key_exists($verb, $this->sniffVerbs)) {
-//                    // check context
-//                    if ($this->isSubStatementCheck($obj)) {
-//                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
-//                        return;
-//                    }
-//                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
-//                        $score = $obj->result->score->scaled;
-//                    }
-//                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
-//                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
-//                }
-//            }
+        //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
+        //                $verb = $obj->verb->id;
+        //                $score = 'NOT_SET';
+        //                if (array_key_exists($verb, $this->sniffVerbs)) {
+        //                    // check context
+        //                    if ($this->isSubStatementCheck($obj)) {
+        //                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
+        //                        return;
+        //                    }
+        //                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
+        //                        $score = $obj->result->score->scaled;
+        //                    }
+        //                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
+        //                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
+        //                }
+        //            }
     }
 
 
