@@ -333,7 +333,7 @@ class ilCmiXapiUser
     public static function getIdent($userIdentMode, ilObjUser $user)
     {
         if (ilObjUser::_isAnonymous($user->getId())) {
-            return self::buildPseudoEmail(hash("sha256", (string) time()), self::getIliasUuid());
+            return self::buildPseudoEmail(hash("sha256", (string) microtime()), self::getIliasUuid());
         }
         switch ($userIdentMode) {
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_USER_ID:
