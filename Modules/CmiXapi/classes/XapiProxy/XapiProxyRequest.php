@@ -35,10 +35,14 @@ class XapiProxyRequest
 
     private XapiProxyResponse $xapiProxyResponse;
 
+    private string $cmdPart2plus = "";
+    private bool $checkGetStatements = true;
+
     public function __construct(XapiProxy $xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
+        $this->cmdPart2plus = "";
     }
 
     public function handle(): void
@@ -61,6 +65,8 @@ class XapiProxyRequest
                 $this->handleAgentsRequest($request);
             } elseif ($cmd === "agents/profile") {
                 $this->handleAgentsProfileRequest($request);
+            } elseif ($cmd === "about") {
+                $this->handleAboutRequest($request);
             } else {
                 $this->xapiproxy->log()->debug($this->msg("Wrong xApi Query: " . $request->getUri()));
                 $this->xapiProxyResponse->exitBadRequest();
@@ -96,60 +102,56 @@ class XapiProxyRequest
             $this->xapiProxyResponse->exitBadRequest();
         }
         $this->xapiproxy->log()->debug($this->msg("handleGetStatementsRequest: " . $request->getUri()));
-        // no outcomesAccess
+
         try {
-            $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->xapiproxy->token());
-            $obj = \ilObjCmiXapi::getInstance($authToken->getRefId(), true);
-            $access = \ilCmiXapiAccess::getInstance($obj);
-            $params = $this->dic->http()->wrapper()->query();
-            if ($params->has('statementId')) {
-                $this->xapiproxy->log()->debug($this->msg("single statementId requests can not be secured. It is not allowed to append any additional parameter like registration or activity (tested in LL7)"));
-                // single statementId can not be handled. it is not allowed to append a registration on single statement requests (tested in LL7)
-                $this->handleProxy($request);
-            } else {
-                if (!$access->hasOutcomesAccess($authToken->getUsrId())) {
-                    // ToCheck
-                    /*
-                    if (!$access->hasStatementsAccess()) {
-                        $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
-                        $this->xapiProxyResponse->exitBadRequest();
-                    }
-                    */
-                    if ($obj->getContentType() == \ilObjCmiXapi::CONT_TYPE_CMI5) {
-                        $regUserObject = \ilCmiXapiUser::getCMI5RegistrationFromAuthToken($authToken);
-                    } else {
-                        $regUserObject = \ilCmiXapiUser::getRegistrationFromAuthToken($authToken);
-                    }
-                    if ($params->has('registration')) {
-                        $regParam = $params->retrieve('registration', $this->dic->refinery()->kindlyTo()->string());
-                        if ($regParam != $regUserObject) {
-                            $this->xapiproxy->log()->debug($this->msg("wrong registration: " . $regParam . " != " . $regUserObject));
-                            $this->xapiProxyResponse->exitBadRequest();
-                        } else {
-                            $this->handleProxy($request);
-                        }
-                    } else { // add registration
-                        $this->xapiproxy->log()->debug($this->msg("add registration: " . $regUserObject));
-                        $uri = $request->getUri() . "&registration=" . $regUserObject;
-                        $req = new Request($request->getMethod(), $uri, $request->getHeaders());
-                        $this->handleProxy($req);
-                    }
+            $badRequest = false;
+            if ($this->checkGetStatements) {
+                $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->xapiproxy->token());
+                $obj = \ilObjCmiXapi::getInstance($authToken->getRefId(), true);
+                $access = \ilCmiXapiAccess::getInstance($obj);
+                $params = $this->dic->http()->wrapper()->query();
+                if ($params->has('statementId')) {
+                    $this->xapiproxy->log()->debug($this->msg("single statementId requests can not be secured. It is not allowed to append any additional parameter like registration or activity (tested in LL7)"));
+                    // single statementId can not be handled. it is not allowed to append a registration on single statement requests (tested in LL7)
+                    $this->handleProxy($request);
                 } else {
-                    // ToCheck: Grouped statement requests from content scopes should not override LMS switch.
-                    if (!$access->hasStatementsAccess()) {
-                        $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
-                        $this->xapiProxyResponse->exitBadRequest();
-                    }
                     if ($params->has('activity')) {
                         // ToDo: how this can be verified? the object only knows the top activityId
                         $this->handleProxy($request);
                     } else {
                         $this->xapiproxy->log()->debug($this->msg("add activity: " . $obj->getActivityId()));
-                        $uri = $request->getUri() . "&activity=" . $obj->getActivityId() . "&related_activities=true";
-                        $req = new Request($request->getMethod(), $uri, $request->getHeaders());
-                        $this->handleProxy($req);
+                        $this->cmdPart2plus .= "&activity=" . $obj->getActivityId() . "&related_activities=true";
+                    }
+                    if (!$access->hasOutcomesAccess($authToken->getUsrId())) {
+                        // ToCheck
+                        /*
+                        if (!$access->hasStatementsAccess()) {
+                            $this->xapiproxy->log()->warning($this->msg("statements access is not enabled"));
+                            $this->xapiProxyResponse->exitBadRequest();
+                        }
+                        */
+                        if ($obj->getContentType() == \ilObjCmiXapi::CONT_TYPE_CMI5) {
+                            $regUserObject = \ilCmiXapiUser::getCMI5RegistrationFromAuthToken($authToken);
+                        } else {
+                            $regUserObject = \ilCmiXapiUser::getRegistrationFromAuthToken($authToken);
+                        }
+                        if ($params->has('registration')) {
+                            $regParam = $params->retrieve('registration', $this->dic->refinery()->kindlyTo()->string());
+                            if ($regParam != $regUserObject) {
+                                $this->xapiproxy->log()->debug($this->msg("wrong registration: " . $regParam . " != " . $regUserObject));
+                                $badRequest = true;
+                            }
+                        } else { // add registration
+                            $this->xapiproxy->log()->debug($this->msg("add registration: " . $regUserObject));
+                            $this->cmdPart2plus .= "&registration=" . $regUserObject;
+                        }
                     }
                 }
+            }
+            if ($badRequest) {
+                $this->xapiProxyResponse->exitBadRequest();
+            } else {
+                $this->handleProxy($request);
             }
         } catch (\Exception $e) {
             $this->xapiproxy->log()->error($this->msg($e->getMessage()));
@@ -217,6 +219,12 @@ class XapiProxyRequest
         $this->handleProxy($request);
     }
 
+    private function handleAboutRequest(\Psr\Http\Message\RequestInterface $request): void
+    {
+        $this->xapiproxy->log()->debug($this->msg("handleAboutRequest (" . $this->xapiproxy->method() . "): " . $request->getUri()));
+        $this->handleProxy($request);
+    }
+
     private function handleProxy(\Psr\Http\Message\RequestInterface $request, $fakePostBody = null): void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
@@ -242,7 +250,7 @@ class XapiProxyRequest
             RequestOptions::CONNECT_TIMEOUT => 10,
             RequestOptions::HTTP_ERRORS => false
         );
-        $cmd = $this->xapiproxy->cmdParts()[2];
+        $cmd = $this->xapiproxy->cmdParts()[2] . $this->cmdPart2plus;
         $upstreamDefault = $endpointDefault . $cmd;
         $uriDefault = new Uri($upstreamDefault);
         $body = $request->getBody()->getContents();
@@ -280,7 +288,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } elseif ($fallbackOk) {
@@ -291,7 +299,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -316,7 +324,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
