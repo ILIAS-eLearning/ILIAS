@@ -539,6 +539,45 @@ object of the button.
 
 For more information on events in Javascript in the context of JQuery: http://api.jquery.com/category/events/
 
+
+## Code Style
+We are currently not enforcing code style, **but eventually will**.
+
+### PHP
+
+Use [PHPStan](../../../CI/PHPStan/README.md) to check your files:
+```
+./CI/PHPStan/run_check.sh src/UI/...
+```
+There are different [levels of checks](https://phpstan.org/user-guide/rule-levels),
+you can e.g. run 
+```
+./libs/composer/vendor/bin/phpstan analyse --level 8 src/UI/...
+```
+to override `./CI/PHPStan/phpstan.neon`, however, level 9/max is the desired goal.
+
+### Java Script
+
+In order to validate your JS-files, run 
+
+```
+./node_modules/.bin/eslint --parser-options ecmaVersion:13 --rule 'indent: ["error", 4]' src/UI/templates/js/...
+
+```
+or change/add `.eslintrc.json` in ILIAS' root directory:
+```
+{
+  "parserOptions": {
+    "ecmaVersion": 13
+  },
+  "rules": {
+    "indent": ["error", 4]
+  },
+  "extends": "airbnb-base"
+}
+```
+
+
 ## FAQ
 
 ### There are so many rules, is that really necessary?
