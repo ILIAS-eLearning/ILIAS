@@ -1,33 +1,33 @@
 class Params {
     /**
      * @param {string} target
-     * @param {string} parameter_name
+     * @param {string} parameterName
      * @param {string[]} values
      * @return {object}
      */
-    amendParameterToSignal(target, parameter_name, values) {
-        let sig = JSON.parse(target);
-        sig.options[parameter_name] = values;
+    amendParameterToSignal(target, parameterName, values) {
+        const sig = JSON.parse(target);
+        sig.options[parameterName] = values;
         return sig;
     }
 
     /**
      * @param {string} target
-     * @param {string} parameter_name
+     * @param {string} parameterName
      * @param {string[]} values
      * @return {string}
      */
-    amendParameterToUrl(target, parameter_name, values) {
+    amendParameterToUrl(target, parameterName, values) {
         const base = target.split('?')[0];
-        let params = this.getParametersFromUrl(decodeURI(target));
+        const params = this.getParametersFromUrl(decodeURI(target));
         let search = '';
-        let k;
 
-        params[parameter_name] = encodeURI(JSON.stringify(values));
-
-        for (k in params) {
-            search = `${search}&${k}=${params[k]}`;
-        }
+        params[parameterName] = encodeURI(JSON.stringify(values));
+        Object.keys(params).forEach(
+            (k) => {
+                search = `${search}&${k}=${params[k]}`;
+            },
+        );
         return `${base}?${search.substr(1)}`;
     }
 

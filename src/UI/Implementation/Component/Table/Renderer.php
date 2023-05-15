@@ -174,12 +174,15 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
-        $js_action_consts = json_encode([
-            Action::TYPE_URL, Action::TYPE_SIGNAL, Action::OPT_OPTIONS, Action::OPT_ID
-        ]);
+        list($type_url, $type_sig, $opt_opt, $opt_id) = [Action::TYPE_URL, Action::TYPE_SIGNAL, Action::OPT_OPTIONS, Action::OPT_ID];
         $component = $component->withAdditionalOnLoadCode(
             static fn ($id): string => "
-                il.UI.table.data.initActionConstants($js_action_consts);
+                il.UI.table.data.initActionConstants(
+                    '{$type_url}', 
+                    '{$type_sig}', 
+                    '{$opt_opt}', 
+                    '{$opt_id}' 
+                );
                 il.UI.table.data.initKeyboardNavigation('{$id}');
             "
         );

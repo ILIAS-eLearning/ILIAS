@@ -5,8 +5,8 @@ export default {
     format: 'iife',
     globals: {
       il: 'il',
-      jquery: '$'
-    }
+      jquery: '$',
+    },
   },
-  external: ['il', 'jquery']
+  external: ['il', 'jquery'],
 };
