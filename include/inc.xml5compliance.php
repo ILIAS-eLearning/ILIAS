@@ -32,11 +32,6 @@ function staticxmlerror(int $errno, string $errstr, ?string $errfile = null, ?in
     }
 }
 
-function domxml_open_file($filename)
-{
-    return new php4DOMDocument($filename);
-}
-
 define('DOMXML_LOAD_PARSING', 0);
 
 /*

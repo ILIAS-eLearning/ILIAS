@@ -1316,48 +1316,6 @@ class ilPageObjectGUI
 
             $this->obj->addFileSizes();
             $this->obj->addHierIDs();
-
-            $hids = $this->obj->getHierIds();
-            $row1_ids = $this->obj->getFirstRowIds();
-            $col1_ids = $this->obj->getFirstColumnIds();
-            $litem_ids = $this->obj->getListItemIds();
-            $fitem_ids = $this->obj->getFileItemIds();
-
-            // standard menues
-            $hids = $this->obj->getHierIds();
-            foreach ($hids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // column menues for tables
-            foreach ($col1_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_r" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // row menues for tables
-            foreach ($row1_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_c" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // list item menues
-            foreach ($litem_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_i" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // file item menues
-            foreach ($fitem_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_i" . $hid);
-                $tpl->parseCurrentBlock();
-            }
         } else {
             $this->obj->addFileSizes();
         }

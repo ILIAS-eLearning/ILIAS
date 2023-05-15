@@ -42,6 +42,7 @@ class ilMediaAliasItem
 
         $this->lng = $DIC->language();
         $this->dom = $a_dom;
+        $this->dom_doc = $a_dom->myDOMDocument;
         $this->parent_node_name = $a_parent_node_name;
         $this->hier_id = $a_hier_id;
         $this->purpose = $a_purpose;
@@ -51,6 +52,12 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+    }
+
+    protected function getItemNode(): DOMNode
+    {
+        return $this->item_node->myDOMNode;
     }
 
     public function getMAItemNode(
@@ -164,9 +171,8 @@ class ilMediaAliasItem
 
     public function setWidth(string $a_width): void
     {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->item_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->getItemNode(),
             "Layout",
             array("Caption", "TextRepresentation", "Parameter", "MapArea"),
             "",
@@ -231,9 +237,8 @@ class ilMediaAliasItem
 
     public function setHeight(string $a_height): void
     {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->item_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->getItemNode(),
             "Layout",
             array("Caption", "TextRepresentation", "Parameter", "MapArea"),
             "",
@@ -259,9 +264,8 @@ class ilMediaAliasItem
 
     public function setCaption(string $a_caption): void
     {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->item_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->getItemNode(),
             "Caption",
             array("TextRepresentation", "Parameter", "MapArea"),
             $a_caption,
@@ -320,9 +324,8 @@ class ilMediaAliasItem
     public function setTextRepresentation(
         string $a_text_representation
     ): void {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->item_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->getItemNode(),
             "TextRepresentation",
             array("Parameter", "MapArea"),
             $a_text_representation,
@@ -380,9 +383,8 @@ class ilMediaAliasItem
 
     public function setHorizontalAlign(string $a_halign): void
     {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->item_node,
+        $this->dom_util->setFirstOptionalElement(
+            $this->getItemNode(),
             "Layout",
             array("Caption", "TextRepresentation", "Parameter", "MapArea"),
             "",
@@ -422,9 +424,8 @@ class ilMediaAliasItem
             foreach ($a_par_array as $par => $val) {
                 if (ilMediaItem::checkParameter($par, $val)) {
                     $attributes = array("Name" => $par, "Value" => $val);
-                    ilDOMUtil::addElementToList(
-                        $this->dom,
-                        $this->item_node,
+                    $this->dom_util->addElementToList(
+                        $this->getItemNode(),
                         "Parameter",
                         array("MapArea"),
                         "",
@@ -582,12 +583,11 @@ class ilMediaAliasItem
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
             $title = $this->getTitleOfArea($a_nr);
-            ilDOMUtil::deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
+            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1]->myDOMNode, array("IntLink", "ExtLink"));
             $attributes = array("Type" => $a_type, "Target" => $a_target,
                 "TargetFrame" => $a_target_frame);
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
-                $ma_nodes[$a_nr - 1],
+            $this->dom_util->setFirstOptionalElement(
+                $ma_nodes[$a_nr - 1]->myDOMNode,
                 "IntLink",
                 array(""),
                 $title,
@@ -610,11 +610,10 @@ class ilMediaAliasItem
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
             $title = $this->getTitleOfArea($a_nr);
-            ilDOMUtil::deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
+            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1]->myDOMNode, array("IntLink", "ExtLink"));
             $attributes = array("Href" => $a_href);
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
-                $ma_nodes[$a_nr - 1],
+            $this->dom_util->setFirstOptionalElement(
+                $ma_nodes[$a_nr - 1]->myDOMNode,
                 "ExtLink",
                 array(""),
                 $title,
@@ -689,9 +688,8 @@ class ilMediaAliasItem
         $attributes = array("Shape" => $a_shape_type,
             "Coords" => $a_coords, "Id" => $a_id);
 
-        $ma_node = ilDOMUtil::addElementToList(
-            $this->dom,
-            $this->item_node,
+        $ma_node = $this->dom_util->addElementToList(
+            $this->getItemNode(),
             "MapArea",
             array(),
             "",
@@ -702,8 +700,7 @@ class ilMediaAliasItem
             $attributes = array("Type" => $a_link["Type"],
                 "TargetFrame" => $a_link["TargetFrame"],
                 "Target" => $a_link["Target"]);
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
+            $this->dom_util->setFirstOptionalElement(
                 $ma_node,
                 "IntLink",
                 array(""),
@@ -713,8 +710,7 @@ class ilMediaAliasItem
         }
         if ($a_link["LinkType"] == "ext" || $a_link["LinkType"] == "ExtLink") {
             $attributes = array("Href" => $a_link["Href"]);
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
+            $this->dom_util->setFirstOptionalElement(
                 $ma_node,
                 "ExtLink",
                 array(""),

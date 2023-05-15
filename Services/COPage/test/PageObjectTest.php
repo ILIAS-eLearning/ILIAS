@@ -67,4 +67,41 @@ class PageObjectTest extends COPageTestBase
             $page->getXMLFromDom()
         );
     }
+
+    public function testAddHierIdsWithContent(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $pc = new ilPCGrid($page);
+        $pc->create($page, "pg");
+        $pc->applyTemplate(
+            ilPCGridGUI::TEMPLATE_TWO_COLUMN,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+
+        $page->addHierIDs();
+
+        $pc = new ilPCDataTable($page);
+        $pc->create($page, "1_2");
+        $row1 = $pc->addRow();
+        $pc->addCell($row1, "one", "en");
+        $pc->addCell($row1, "two", "en");
+        $row2 = $pc->addRow();
+        $pc->addCell($row2, "three", "en");
+        $pc->addCell($row2, "four", "en");
+
+        $page->addHierIDs();
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent HierId="1"><Grid><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="6" WIDTH_XL="6" HierId="1_1"/><GridCell WIDTH_XS="" WIDTH_S="12" WIDTH_M="6" WIDTH_L="6" WIDTH_XL="6" HierId="1_2"><PageContent HierId="1_2_1"><Table Language="" DataTable="y"><TableRow HierId="1_2_1_1"><TableData HierId="1_2_1_1_1"><PageContent HierId="1_2_1_1_1_1"><Paragraph Language="en" Characteristic="TableContent">one</Paragraph></PageContent></TableData><TableData HierId="1_2_1_1_2"><PageContent HierId="1_2_1_1_2_1"><Paragraph Language="en" Characteristic="TableContent">two</Paragraph></PageContent></TableData></TableRow><TableRow HierId="1_2_1_2"><TableData HierId="1_2_1_2_1"><PageContent HierId="1_2_1_2_1_1"><Paragraph Language="en" Characteristic="TableContent">three</Paragraph></PageContent></TableData><TableData HierId="1_2_1_2_2"><PageContent HierId="1_2_1_2_2_1"><Paragraph Language="en" Characteristic="TableContent">four</Paragraph></PageContent></TableData></TableRow></Table></PageContent></GridCell></Grid></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }

@@ -92,14 +92,11 @@ abstract class ilPageObject
     public int $last_change_user = 0;
     protected bool $contains_question = false;
     protected array $hier_ids = [];
-    protected array $first_row_ids = [];
-    protected array $first_col_ids = [];
-    protected array $list_item_ids = [];
-    protected array $file_item_ids = [];
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected $concrete_lang = "";
+    protected \ILIAS\COPage\ID\ContentIdManager $content_id_manager;
 
     final public function __construct(
         int $a_id = 0,
@@ -148,6 +145,10 @@ abstract class ilPageObject
 
         $this->initPageConfig();
         $this->afterConstructor();
+        $this->content_id_manager = $DIC->copage()
+            ->internal()
+            ->domain()
+            ->contentIds($this);
     }
 
     public function afterConstructor(): void
@@ -1571,173 +1572,20 @@ s     */
 
     /**
      * Add hierarchical ID (e.g. for editing) attributes "HierId" to current dom tree.
-     * This attribute will be added to the following elements:
-     * PageObject, Paragraph, Table, TableRow, TableData.
-     * Only elements of these types are counted as "childs" here.
-     * Hierarchical IDs have the format "x_y_z_...", e.g. "1_4_2" means: second
-     * child of fourth child of first child of page.
-     * The PageObject element gets the special id "pg". The first child of the
-     * page starts with id 1. The next child gets the 2 and so on.
-     * Another example: The first child of the page is a Paragraph -> id 1.
-     * The second child is a table -> id 2. The first row gets the id 2_1, the
      */
     public function addHierIDs(): void
     {
-        $this->hier_ids = array();
-        $this->first_row_ids = array();
-        $this->first_col_ids = array();
-        $this->list_item_ids = array();
-        $this->file_item_ids = array();
-
-        // set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
-        $xpc = xpath_new_context($this->dom);
-        //$path = "//Paragraph | //Table | //TableRow | //TableData";
-
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el;
-            $sep = " | ";
-        }
-
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $cnode = $res->nodeset[$i];
-            $ctag = $cnode->node_name();
-
-            // get hierarchical id of previous sibling
-            $sib_hier_id = "";
-            while ($cnode = $cnode->previous_sibling()) {
-                if (($cnode->node_type() == XML_ELEMENT_NODE)
-                    && $cnode->has_attribute("HierId")) {
-                    $sib_hier_id = $cnode->get_attribute("HierId");
-                    //$sib_hier_id = $id_attr->value();
-                    break;
-                }
-            }
-
-            if ($sib_hier_id != "") {        // set id to sibling id "+ 1"
-                $node_hier_id = ilPageContent::incEdId($sib_hier_id);
-                $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
-                $this->hier_ids[] = $node_hier_id;
-                if ($ctag == "TableData") {
-                    if (substr($node_hier_id, strlen($node_hier_id) - 2) == "_1") {
-                        $this->first_row_ids[] = $node_hier_id;
-                    }
-                }
-                if ($ctag == "ListItem") {
-                    $this->list_item_ids[] = $node_hier_id;
-                }
-                if ($ctag == "FileItem") {
-                    $this->file_item_ids[] = $node_hier_id;
-                }
-            } else {                        // no sibling -> node is first child
-                // get hierarchical id of next parent
-                $cnode = $res->nodeset[$i];
-                $par_hier_id = "";
-                while ($cnode = $cnode->parent_node()) {
-                    if (($cnode->node_type() == XML_ELEMENT_NODE)
-                        && $cnode->has_attribute("HierId")) {
-                        $par_hier_id = $cnode->get_attribute("HierId");
-                        //$par_hier_id = $id_attr->value();
-                        break;
-                    }
-                }
-                //echo "<br>par:".$par_hier_id." ($ctag)";
-                if (($par_hier_id != "") && ($par_hier_id != "pg")) {        // set id to parent_id."_1"
-                    $node_hier_id = $par_hier_id . "_1";
-                    $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
-                    $this->hier_ids[] = $node_hier_id;
-                    if ($ctag == "TableData") {
-                        $this->first_col_ids[] = $node_hier_id;
-                        if (substr($par_hier_id, strlen($par_hier_id) - 2) == "_1") {
-                            $this->first_row_ids[] = $node_hier_id;
-                        }
-                    }
-                    if ($ctag == "ListItem") {
-                        $this->list_item_ids[] = $node_hier_id;
-                    }
-                    if ($ctag == "FileItem") {
-                        $this->file_item_ids[] = $node_hier_id;
-                    }
-                } else {        // no sibling, no parent -> first node
-                    $node_hier_id = "1";
-                    $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
-                    $this->hier_ids[] = $node_hier_id;
-                }
-            }
-        }
-
-        // set special hierarchical id "pg" for pageobject
-        $xpc = xpath_new_context($this->dom);
-        $path = "//PageObject";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
-            $res->nodeset[$i]->set_attribute("HierId", "pg");
-            $this->hier_ids[] = "pg";
-        }
-        unset($xpc);
+        $this->content_id_manager->addHierIDsToDom();
     }
 
-    /**
-     * get all hierarchical ids
-     */
     public function getHierIds(): array
     {
-        return $this->hier_ids;
+        return $this->content_id_manager->getHierIds();
     }
 
-    /**
-     * get ids of all first table rows
-     */
-    // @todo: move to table classes
-    public function getFirstRowIds(): array
-    {
-        return $this->first_row_ids;
-    }
-
-    /**
-     * get ids of all first table columns
-     */
-    // @todo: move to table classes
-    public function getFirstColumnIds(): array
-    {
-        return $this->first_col_ids;
-    }
-
-    /**
-     * get ids of all list items
-     */
-    // @todo: move to list class
-    public function getListItemIds(): array
-    {
-        return $this->list_item_ids;
-    }
-
-    /**
-     * get ids of all file items
-     */
-    // @todo: move to file item class
-    public function getFileItemIds(): array
-    {
-        return $this->file_item_ids;
-    }
-
-    /**
-     * strip all hierarchical id attributes out of the dom tree
-     */
     public function stripHierIDs(): void
     {
-        if (is_object($this->dom)) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//*[@HierId]";
-            $res = xpath_eval($xpc, $path);
-            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
-                if ($res->nodeset[$i]->has_attribute("HierId")) {
-                    $res->nodeset[$i]->remove_attribute("HierId");
-                }
-            }
-            unset($xpc);
-        }
+        $this->content_id_manager->stripHierIDsFromDom();
     }
 
     public function stripPCIDs(): void

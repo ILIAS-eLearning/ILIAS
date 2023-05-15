@@ -67,4 +67,9 @@ class InternalDomainService
     {
         return new Page\PageManager();
     }
+
+    public function contentIds(\ilPageObject $page): ID\ContentIdManager
+    {
+        return new ID\ContentIdManager($page);
+    }
 }
