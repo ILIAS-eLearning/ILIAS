@@ -19,5 +19,4 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_82,
         DowngradeLevelSetList::DOWN_TO_PHP_80,
     ]);
-    $rectorConfig->services()->remove(ClosureToArrowFunctionRector::class);
 };
