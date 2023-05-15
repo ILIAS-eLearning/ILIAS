@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
@@ -37,7 +37,7 @@ final class ilVirusScannerPreProcessor implements PreProcessor
         $uri = $stream->getMetadata()["uri"];
         // chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file
         if ($this->scanner->scanFile($uri) !== "") {
-            return new ProcessingStatus(ProcessingStatus::REJECTED, 'Virus detected.');
+            return new ProcessingStatus(ProcessingStatus::DENIED, 'Virus detected.');
         }
 
         return new ProcessingStatus(ProcessingStatus::OK, 'No Virus detected.');

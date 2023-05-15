@@ -31,6 +31,7 @@ use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
+use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -348,6 +349,7 @@ class ilInitialisation
                 )
             );
             $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
+            $fileUploadImpl->register(new SVGBlacklistPreProcessor());
 
             return $fileUploadImpl;
         };
