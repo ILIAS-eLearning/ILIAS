@@ -70,7 +70,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /* method for automatic string matching */
     private $matchcondition;
 
-    public $keyword_relation = 'any';
+    public $keyword_relation = 'non';
 
     /**
      * assTextQuestion constructor
@@ -95,7 +95,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->wordCounterEnabled = false;
         $this->maxNumOfChars = 0;
         $this->points = 1;
-        $this->answers = array();
+        $this->answers = [];
         $this->matchcondition = 0;
     }
 
@@ -158,8 +158,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $result = $ilDB->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($ilDB->numRows($result) == 1) {
             $data = $ilDB->fetchAssoc($result);
@@ -175,9 +175,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setShuffle(false);
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
-            $this->setMaxNumOfChars($data["maxnumofchars"]);
+            $this->setMaxNumOfChars($data["maxnumofchars"] ?? 0);
             $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
-            $this->matchcondition = (strlen($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
+            $this->matchcondition = (isset($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
 
@@ -195,8 +195,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $result = $ilDB->queryF(
             "SELECT * FROM qpl_a_essay WHERE question_fi = %s",
-            array("integer"),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
         $this->flushAnswers();
@@ -333,11 +333,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function getMaxNumOfChars(): int
     {
-        if (strcmp($this->maxNumOfChars, "") == 0) {
-            return 0;
-        } else {
-            return $this->maxNumOfChars;
-        }
+        return $this->maxNumOfChars;
     }
 
     /**
@@ -347,7 +343,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $maxNumOfChars
     */
-    public function setMaxNumOfChars($maxchars = 0): void
+    public function setMaxNumOfChars(int $maxchars = 0): void
     {
         $this->maxNumOfChars = $maxchars;
     }
@@ -427,8 +423,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             }
             $affectedRows = $ilDB->manipulateF(
                 "UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                array('float','integer','integer','integer'),
-                array($points, $active_id, $this->getId(), $pass)
+                ['float','integer','integer','integer'],
+                [$points, $active_id, $this->getId(), $pass]
             );
             self::_updateTestPassResults($active_id, $pass);
             return true;
@@ -483,7 +479,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         // "<p>red</p>" would not match "red" even with distance of 5
         $answertext = strip_tags($answertext);
-        $answerwords = array();
+        $answerwords = [];
         if (preg_match_all("/([^\s.]+)/", $answertext, $matches)) {
             foreach ($matches[1] as $answerword) {
                 array_push($answerwords, trim($answerword));
@@ -689,20 +685,19 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $ilDB = $DIC['ilDB'];
         $ilDB->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId()
-                            )
+            ['integer'],
+            [$this->getId()]
         );
 
-        $fields = array(
-            'question_fi' => array('integer', $this->getId()),
-            'maxnumofchars' => array('integer', $this->getMaxNumOfChars()),
-            'word_cnt_enabled' => array('integer', (int) $this->isWordCounterEnabled()),
-            'keywords' => array('text', null),
-            'textgap_rating' => array('text', $this->getTextRating()),
-            'matchcondition' => array('integer', $this->getMatchcondition()),
-            'keyword_relation' => array('text', $this->getKeywordRelation())
-        );
+        $fields = [
+            'question_fi' => ['integer', $this->getId()],
+            'maxnumofchars' => ['integer', $this->getMaxNumOfChars()],
+            'word_cnt_enabled' => ['integer', (int) $this->isWordCounterEnabled()],
+            'keywords' => ['text', null],
+            'textgap_rating' => ['text', $this->getTextRating()],
+            'matchcondition' => ['integer', $this->getMatchcondition()],
+            'keyword_relation' => ['text', $this->getKeywordRelation()]
+        ];
 
         $ilDB->insert($this->getAdditionalTableName(), $fields);
     }
@@ -715,8 +710,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $ilDB->manipulateF(
             "DELETE FROM qpl_a_essay WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            ['integer'],
+            [$this->getId()]
         );
 
         foreach ($this->answers as $answer) {
@@ -724,13 +719,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $nextID = $ilDB->nextId('qpl_a_essay');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
-                array( "integer", "integer", "text", 'float' ),
-                array(
-                                    $nextID,
-                                    $this->getId(),
-                                    $answer->getAnswertext(),
-                                    $answer->getPoints()
-                                )
+                ['integer', 'integer', 'text', 'float'],
+                [
+                    $nextID,
+                    $this->getId(),
+                    $answer->getAnswertext(),
+                    $answer->getPoints()
+                ]
             );
         }
     }
@@ -837,7 +832,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -951,7 +946,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      */
     public function flushAnswers(): void
     {
-        $this->answers = array();
+        $this->answers = [];
     }
 
     public function setAnswers($answers): void
@@ -982,8 +977,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $result = $ilDB->queryF(
             "SELECT * FROM qpl_a_essay WHERE question_fi = %s",
-            array('integer'),
-            array($original_id)
+            ['integer'],
+            [$original_id]
         );
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
@@ -991,8 +986,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 $affectedRows = $ilDB->manipulateF(
                     "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points)
 					 VALUES (%s, %s, %s, %s)",
-                    array('integer','integer','text','float'),
-                    array($next_id, $this->getId(), $row["answertext"], $row["points"])
+                    ['integer','integer','text','float'],
+                    [$next_id, $this->getId(), $row["answertext"], $row["points"]]
                 );
             }
         }
@@ -1007,9 +1002,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * This method implements a default behaviour. During the creation of a text question, the record which holds
      * the keyword relation is not existing, so keyword_relation defaults to 'one'.
      */
-    public function setKeywordRelation($a_relation): void
+    public function setKeywordRelation(?string $relation): void
     {
-        $this->keyword_relation = $a_relation;
+        if ($relation !== null) {
+            $this->keyword_relation = $relation;
+        }
     }
 
     public static function getValidScoringModes(): array
@@ -1019,12 +1016,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public static function getScoringModesWithPointsByQuestion(): array
     {
-        return array('non', 'all', 'one');
+        return ['non', 'all', 'one'];
     }
 
     public static function getScoringModesWithPointsByKeyword(): array
     {
-        return array('any');
+        return ['any'];
     }
 
 

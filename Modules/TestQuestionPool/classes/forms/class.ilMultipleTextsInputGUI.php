@@ -122,7 +122,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
         $i = 0;
         foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
-            if (strlen($value)) {
+            if ($value !== null) {
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();

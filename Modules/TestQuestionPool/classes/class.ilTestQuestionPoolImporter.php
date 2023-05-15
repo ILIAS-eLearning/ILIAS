@@ -41,12 +41,12 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 
         // Container import => pool object already created
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if (($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) !== null) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $newObj->setOnline(true); // sets Question pools to always online
 
             ilSession::set('qpl_import_subdir', $this->getImportPackageName());
-        } elseif ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) {
+        } elseif (($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) !== null) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             // Shouldn't happen
@@ -54,8 +54,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $DIC['ilLog']->write(__METHOD__ . ': non container and no tax mapping, perhaps old qpl export');
             return;
         }
-
-
 
         list($xml_file, $qti_file) = $this->parseXmlFileNames();
 
@@ -151,7 +149,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
                 $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-                if ($new_tax_ids !== false) {
+                if ($new_tax_ids !== null) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
                         ilObjTaxonomy::saveUsage((int) $tid, $new);

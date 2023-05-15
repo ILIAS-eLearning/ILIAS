@@ -249,7 +249,6 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     final protected function prepareMultiValuesInput($values)
     {
         foreach ($this->getFormValuesManipulators() as $manipulator) {
-            /* @var ilFormValuesManipulator $manipulator */
             $values = $manipulator->manipulateFormInputValues($values);
         }
 

@@ -111,7 +111,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     private static function buildAnswerTextOnlyArray($answers): array
     {
-        $answerTexts = array();
+        $answerTexts = [];
 
         foreach ($answers as $answer) {
             $answerTexts[] = $answer->getAnswertext();
@@ -558,7 +558,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $this->object->setWordCounterEnabled(isset($_POST['wordcounter']) && $_POST['wordcounter']);
-        $this->object->setMaxNumOfChars($_POST["maxchars"] ?? 0);
+        $this->object->setMaxNumOfChars((int) ($_POST["maxchars"] ?? 0));
         $this->object->setTextRating($_POST["text_rating"]);
         $this->object->setKeywordRelation($_POST['scoring_mode']);
     }
@@ -568,7 +568,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $points = 0;
         switch ($this->object->getKeywordRelation()) {
             case 'non':
-                $this->object->setAnswers(array());
+                $this->object->setAnswers([]);
                 $points = str_replace(',', '.', $_POST['non_keyword_points'] ?? '');
                 break;
             case 'any':
@@ -607,7 +607,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         // text rating
         $textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
-        $text_options = array(
+        $text_options = [
             "ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
             "cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
             "l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
@@ -615,7 +615,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             "l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
             "l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
             "l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-        );
+        ];
         $textrating->setOptions($text_options);
         $textrating->setValue($this->object->getTextRating());
         $form->addItem($textrating);
@@ -664,10 +664,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $scoringMode->addOption($scoringOptionAllKeyword);
         $scoringMode->addOption($scoringOptionOneKeyword);
         $scoringMode->setRequired(true);
-        $scoringMode->setValue(
-            strlen($this->object->getKeywordRelation()) ? $this->object->getKeywordRelation(
-            ) : 'non'
-        );
+        $scoringMode->setValue($this->object->getKeywordRelation());
 
         if ($this->object->getAnswerCount() == 0) {
             $this->object->addAnswer("", 1, 0, 0);
@@ -738,7 +735,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -752,7 +749,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -773,7 +770,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        return array();
+        return [];
     }
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void

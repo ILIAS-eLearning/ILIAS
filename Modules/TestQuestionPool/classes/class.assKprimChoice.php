@@ -599,7 +599,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         if ($this->isSingleLineAnswerType($this->getAnswerType()) && $this->getThumbSize()) {
             foreach ($this->getAnswers() as $answer) {
-                if (strlen($answer->getImageFile())) {
+                if ($answer->getImageFile() !== null) {
                     $this->generateThumbForFile($answer->getImageFsDir(), $answer->getImageFile());
                 }
             }
@@ -868,7 +868,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
 
-            if (strlen($filename)) {
+            if ($filename !== null) {
                 if (!file_exists($targetPath)) {
                     ilFileUtils::makeDirParents($targetPath);
                 }

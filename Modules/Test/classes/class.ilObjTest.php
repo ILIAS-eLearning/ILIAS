@@ -548,11 +548,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public static function _setImportDirectory($a_import_dir = null): void
     {
-        if (strlen($a_import_dir)) {
+        if ($a_import_dir !== null) {
             ilSession::set('tst_import_dir', $a_import_dir);
-        } else {
-            ilSession::clear('tst_import_dir');
+            return;
         }
+
+        ilSession::clear('tst_import_dir');
     }
 
     /**

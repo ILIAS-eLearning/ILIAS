@@ -90,11 +90,11 @@ class assOrderingQuestionImport extends assQuestionImport
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
                                         $foundmat = $mat->getMaterial($m);
 
-                                        if (strcmp($foundmat["material"]->getLabel(), "answerdepth") == 0) {
+                                        if (strcmp($foundmat["material"]->getLabel() ?? '', "answerdepth") == 0) {
                                             $answerdepth = $foundmat["material"]->getContent();
                                         }
                                         if (strcmp($foundmat["type"], "mattext") == 0
-                                        && strcmp($foundmat["material"]->getLabel(), "answerdepth") != 0) {
+                                        && strcmp($foundmat["material"]->getLabel() ?? '', "answerdepth") != 0) {
                                             $answertext .= $foundmat["material"]->getContent();
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0

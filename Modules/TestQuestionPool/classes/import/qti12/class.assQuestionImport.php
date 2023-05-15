@@ -15,7 +15,8 @@
  *
  *********************************************************************/
 
-use  ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 
 /**
 * Class for question imports
@@ -296,11 +297,11 @@ class assQuestionImport
 
         $repo = $this->getSuggestedSolutionsRepo();
 
-        $nu_value = $this->object->_resolveInternalLink($value);
+        $nu_value = $this->object->resolveInternalLink($value);
         $solution = $repo->create($question_id, $type)
             ->withInternalLink($nu_value)
             ->withImportId($value);
-        $repo->update($solution);
+        $repo->update([$solution]);
     }
 
     protected function findSolutionTypeByValue(string $value): ?string

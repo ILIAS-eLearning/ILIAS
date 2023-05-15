@@ -32,6 +32,7 @@ class ilTestTaxonomyFilterLabelTranslaterTest extends ilTestBaseTestCase
 
         $this->addGlobal_ilDB();
         $this->addGlobal_lng();
+        $this->addGlobal_ilComponentFactory();
 
         $this->testObj = new ilTestTaxonomyFilterLabelTranslater(
             $this->createMock(ilDBInterface::class)

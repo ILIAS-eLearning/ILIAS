@@ -37,7 +37,7 @@ class ilAssQuestionTypeList implements Iterator
     /**
      * @var array[ilAssQuestionType]
      */
-    protected $types = array();
+    protected $types = [];
 
     /**
      * ilAssQuestionTypeList constructor.
@@ -87,30 +87,29 @@ class ilAssQuestionTypeList implements Iterator
         return null;
     }
 
-    /** @return ilAssQuestionType */
     public function current(): ilAssQuestionType
     {
         return current($this->types);
     }
-    /** @return ilAssQuestionType */
-    public function next(): ilAssQuestionType
+
+    public function next(): void
     {
-        return next($this->types);
+        next($this->types);
     }
-    /** @return string */
-    public function key(): string
+
+    public function key(): ?string
     {
         return key($this->types);
     }
-    /** @return bool */
+
     public function valid(): bool
     {
         return key($this->types) !== null;
     }
-    /** @return ilAssQuestionType */
-    public function rewind(): ilAssQuestionType
+
+    public function rewind(): void
     {
-        return reset($this->types);
+        reset($this->types);
     }
 
     /**

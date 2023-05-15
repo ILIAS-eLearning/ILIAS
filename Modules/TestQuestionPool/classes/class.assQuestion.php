@@ -2001,15 +2001,20 @@ abstract class assQuestion
             $complete = "1";
         }
 
-        $this->db->update('qpl_questions', array(
-            'tstamp' => array('integer', time()),
-            'owner' => array('integer', $this->getOwner()),
-            'complete' => array('integer', $complete),
-            'lifecycle' => array('text', $this->getLifecycle()->getIdentifier()),
-        ), array(
-            'question_id' => array('integer', $this->getId())
-        ));
-        ilObjQuestionPool::_updateQuestionCount($this->obj_id);
+        $this->db->update(
+            'qpl_questions',
+            [
+                'tstamp' => ['integer', time()],
+                'owner' => ['integer', $this->getOwner()],
+                'complete' => ['integer', $complete],
+                'lifecycle' => ['text', $this->getLifecycle()->getIdentifier()],
+            ],
+            [
+                'question_id' => array('integer', $this->getId())
+            ]
+        );
+
+        ilObjQuestionPool::_updateQuestionCount($this->getObjId());
     }
 
     /**
@@ -2028,8 +2033,8 @@ abstract class assQuestion
 
         $ilDB->manipulateF(
             $query,
-            array('integer','integer', 'text'),
-            array(time(), $originalId, $questionId)
+            ['integer','integer', 'text'],
+            [time(), $originalId, $questionId]
         );
     }
 
@@ -2042,8 +2047,8 @@ abstract class assQuestion
 
         $ilDB->manipulateF(
             $query,
-            array('integer', 'text'),
-            array(time(), $questionId)
+            ['integer', 'text'],
+            [time(), $questionId]
         );
     }
 
@@ -2172,7 +2177,7 @@ abstract class assQuestion
         }
     }
 
-    public function _resolveInternalLink(string $internal_link): string
+    public function resolveInternalLink(string $internal_link): string
     {
         if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches)) {
             switch ($matches[2]) {
@@ -2192,13 +2197,13 @@ abstract class assQuestion
                     $resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
                     break;
             }
-            if (strcmp($resolved_link, "") == 0) {
+            if ($resolved_link !== null) {
                 $resolved_link = $internal_link;
             }
         } else {
             $resolved_link = $internal_link;
         }
-        return $resolved_link;
+        return $resolved_link ?? '';
     }
 
 
@@ -2215,7 +2220,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
-                $resolved_link = $this->_resolveInternalLink($internal_link);
+                $resolved_link = $this->resolveInternalLink($internal_link);
                 if (strcmp($internal_link, $resolved_link) != 0) {
                     // internal link was resolved successfully
                     $affectedRows = $this->db->manipulateF(

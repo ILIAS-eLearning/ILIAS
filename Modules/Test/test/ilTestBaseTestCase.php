@@ -227,6 +227,11 @@ class ilTestBaseTestCase extends TestCase
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
     }
 
+    protected function addGlobal_ilComponentFactory(): void
+    {
+        $this->setGlobalVariable("component.factory", $this->createMock(ilComponentFactory::class));
+    }
+
     protected function addGlobal_ilTabs(): void
     {
         $this->setGlobalVariable("ilTabs", $this->createMock(ilTabsGUI::class));

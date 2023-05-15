@@ -58,12 +58,12 @@ class ilAssKprimChoiceAnswer
         return $this->answertext;
     }
 
-    public function setImageFile($imageFile): void
+    public function setImageFile(?string $imageFile): void
     {
         $this->imageFile = $imageFile;
     }
 
-    public function getImageFile()
+    public function getImageFile(): ?string
     {
         return $this->imageFile;
     }
