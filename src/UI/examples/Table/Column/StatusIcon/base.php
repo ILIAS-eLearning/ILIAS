@@ -22,7 +22,7 @@ function base()
         'i2' => $f->table()->column()->statusIcon("chart")
     ];
 
-    $data_retrieval = new class ($f, $r, $dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($f, $r, $dummy_records) implements I\DataRetrieval {
         public function __construct(
             \ILIAS\UI\Factory $ui_factory,
             \ILIAS\UI\Renderer $ui_renderer,

@@ -19,7 +19,7 @@ function base()
         't1' => $f->table()->column()->email("mail")
     ];
 
-    $data_retrieval = new class () extends T\DataRetrieval {
+    $data_retrieval = new class () implements I\DataRetrieval {
         protected array $records = [
                 ['t1' => 'somebody@example.com'],
                 ['t1' => 'somebody_else@example.com']

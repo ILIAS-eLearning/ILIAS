@@ -217,7 +217,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $data_factory = new \ILIAS\Data\Factory();
         $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
         $f = $this->getColumnFactory();
-        $data = new class () extends I\Table\DataRetrieval {
+        $data = new class () implements ILIAS\UI\Component\Table\DataRetrieval {
             public function getRows(
                 Component\Table\DataRowFactory $row_factory,
                 array $visible_column_ids,

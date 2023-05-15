@@ -54,7 +54,7 @@ function base()
      * actually shown rows.
      * Those parameters are being provided to DataRetrieval::getRows.
      */
-    $data_retrieval = new class ($f, $r) extends T\DataRetrieval {
+    $data_retrieval = new class ($f, $r) implements I\DataRetrieval {
         public function __construct(
             \ILIAS\UI\Factory $ui_factory,
             \ILIAS\UI\Renderer $ui_renderer

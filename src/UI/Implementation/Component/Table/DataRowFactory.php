@@ -27,8 +27,8 @@ use ILIAS\UI\Component\Table\Action\Action;
 class DataRowFactory implements T\DataRowFactory
 {
     /**
-     * @param array <string, Column> $columns
-     * @param array <string, Action> $row_actions
+     * @param array<string, Column> $columns
+     * @param array<string, Action> $row_actions
      */
     public function __construct(
         protected bool $table_has_singleactions,

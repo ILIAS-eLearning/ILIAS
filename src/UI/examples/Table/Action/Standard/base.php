@@ -56,7 +56,7 @@ function getExampleTable($f)
 {
     $columns = ['f1' => $f->table()->column()->text("Field 1")];
 
-    $data_retrieval = new class () extends T\DataRetrieval {
+    $data_retrieval = new class () implements I\DataRetrieval {
         public function getRows(
             I\DataRowFactory $row_factory,
             array $visible_column_ids,

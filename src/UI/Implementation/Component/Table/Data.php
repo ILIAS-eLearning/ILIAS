@@ -144,6 +144,7 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function withActions(array $actions): self
     {
+        $this->checkArgListElements('actions', $actions, [T\Action\Action::class]);
         $clone = clone $this;
         $clone->actions = $actions;
         return $clone;

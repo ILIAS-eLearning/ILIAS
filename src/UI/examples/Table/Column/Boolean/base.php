@@ -27,7 +27,7 @@ function base()
         )
     ];
 
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
         public function __construct(
             array $dummy_records
         ) {

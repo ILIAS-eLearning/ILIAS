@@ -45,7 +45,7 @@ class DataTest extends ILIAS_UI_TestBase
 
     protected function getDataRetrieval(): I\Table\DataRetrieval
     {
-        return new class () extends C\Table\DataRetrieval {
+        return new class () implements I\Table\DataRetrieval {
             public function getRows(
                 I\Table\DataRowFactory $row_factory,
                 array $visible_column_ids,

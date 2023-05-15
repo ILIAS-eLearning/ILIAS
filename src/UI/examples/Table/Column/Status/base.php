@@ -19,7 +19,7 @@ function base()
         't1' => $f->table()->column()->status("status")
     ];
 
-    $data_retrieval = new class () extends T\DataRetrieval {
+    $data_retrieval = new class () implements I\DataRetrieval {
         protected array $records = [
                 ['t1' => 'unknown'],
                 ['t1' => 'incomplete'],

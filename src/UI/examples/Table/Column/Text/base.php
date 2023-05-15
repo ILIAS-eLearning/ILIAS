@@ -24,7 +24,7 @@ function base()
         ['t1' => 'this is some other text']
     ];
 
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
+    $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
         public function __construct(array $dummy_records)
         {
             $this->records = $dummy_records;

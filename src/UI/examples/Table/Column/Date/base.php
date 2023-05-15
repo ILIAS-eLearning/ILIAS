@@ -21,7 +21,7 @@ function base()
         'd2' => $f->table()->column()->date("German Short", $df->dateFormat()->germanShort())
     ];
 
-    $data_retrieval = new class () extends T\DataRetrieval {
+    $data_retrieval = new class () implements I\DataRetrieval {
         public function getRows(
             I\DataRowFactory $row_factory,
             array $visible_column_ids,

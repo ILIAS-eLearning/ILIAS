@@ -31,7 +31,7 @@ function repo_implementation()
     );
 }
 
-class DataTableDemoRepo extends T\DataRetrieval
+class DataTableDemoRepo implements I\DataRetrieval
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\Data\Factory $df;
