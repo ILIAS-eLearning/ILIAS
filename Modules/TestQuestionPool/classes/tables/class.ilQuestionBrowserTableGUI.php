@@ -36,6 +36,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected $totalPoints = 0;
     protected $totalWorkingTime = '00:00:00';
     protected $confirmdelete;
+    protected array $filter = [];
 
     protected $taxIds = array();
 

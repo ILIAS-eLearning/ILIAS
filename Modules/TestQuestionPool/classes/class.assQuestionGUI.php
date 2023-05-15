@@ -15,9 +15,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Notes\Note;
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionFileRepresentation;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 
 /**
@@ -62,6 +60,7 @@ abstract class assQuestionGUI
     private ilAccessHandler $access;
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
+    private ilRbacSystem $rbacsystem;
 
     private $tree;
     private ilDBInterface $ilDB;
@@ -698,15 +697,11 @@ abstract class assQuestionGUI
                 ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
                 return;
             } elseif ($this->request->raw("test_ref_id")) {
-                global $DIC;
-                $tree = $DIC['tree'];
-                $ilDB = $DIC['ilDB'];
-                $component_repository = $DIC['component.repository'];
                 // TODO: Courier Antipattern!
                 $_GET["ref_id"] = $this->request->raw("test_ref_id");
                 $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
-                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->ilDB, $this->component_repository, $test);
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
 
@@ -753,8 +748,7 @@ abstract class assQuestionGUI
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     $tree = $this->tree;
                     $ilDB = $this->ilDB;
-                    global $DIC;
-                    $component_repository = $DIC['component.repository'];
+                    $component_repository = $this->component_repository;
 
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
@@ -1185,9 +1179,7 @@ abstract class assQuestionGUI
         $count = $this->object->usageNumber();
 
         if ($this->object->_questionExistsInPool($this->object->getId()) && $count) {
-            global $DIC;
-            $rbacsystem = $DIC['rbacsystem'];
-            if ($rbacsystem->checkAccess("write", $this->request->getRefId())) {
+            if ($this->rbacsystem->checkAccess("write", $this->request->getRefId())) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
             }
         }
@@ -1442,9 +1434,6 @@ abstract class assQuestionGUI
 
     public function outSolutionExplorer(): void
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-
         $type = $this->request->raw("link_new_type");
         $search = $this->request->raw("search_link_type");
         $this->ctrl->setParameter($this, "link_new_type", $type);
@@ -1453,7 +1442,7 @@ abstract class assQuestionGUI
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("select_object_to_link"));
 
-        $parent_ref_id = $tree->getParentId($this->request->getRefId());
+        $parent_ref_id = $this->tree->getParentId($this->request->getRefId());
         $exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this, 'suggestedsolution'), get_class($this));
         $exp->setExpand($this->request->raw('expand_sol') ? $this->request->raw('expand_sol') : $parent_ref_id);
         $exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'outSolutionExplorer'));
@@ -1477,9 +1466,6 @@ abstract class assQuestionGUI
 
     public function saveSuggestedSolutionType(): void
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-
         switch ($_POST["solutiontype"]) {
             case "lm":
                 $type = "lm";

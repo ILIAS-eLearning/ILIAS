@@ -36,8 +36,8 @@ class ilObjQuestionPool extends ilObject
     private array $mob_ids;
     private array $file_ids;
     public int $online = 0;
-    private ?bool $showTaxonomies = null;
-    private bool $skillServiceEnabled;
+    private ?bool $show_taxonomies = null;
+    private bool $skill_service_enabled;
 
     /**
     * Constructor
@@ -56,7 +56,7 @@ class ilObjQuestionPool extends ilObject
 
         $this->setOnline(0);
 
-        $this->skillServiceEnabled = false;
+        $this->skill_service_enabled = false;
     }
 
     /**
@@ -700,14 +700,14 @@ class ilObjQuestionPool extends ilObject
         return $this->online;
     }
 
-    public function setShowTaxonomies($showTaxonomies): void
+    public function setShowTaxonomies($show_taxonomies): void
     {
-        $this->showTaxonomies = $showTaxonomies;
+        $this->show_taxonomies = $show_taxonomies;
     }
 
     public function getShowTaxonomies(): ?bool
     {
-        return $this->showTaxonomies;
+        return $this->show_taxonomies;
     }
 
     public function setNavTaxonomyId($navTaxonomyId): void
@@ -1306,12 +1306,12 @@ class ilObjQuestionPool extends ilObject
 
     public function isSkillServiceEnabled(): bool
     {
-        return $this->skillServiceEnabled;
+        return $this->skill_service_enabled;
     }
 
-    public function setSkillServiceEnabled(bool $skillServiceEnabled): void
+    public function setSkillServiceEnabled(bool $skill_service_enabled): void
     {
-        $this->skillServiceEnabled = $skillServiceEnabled;
+        $this->skill_service_enabled = $skill_service_enabled;
     }
 
     private static $isSkillManagementGloballyActivated = null;
