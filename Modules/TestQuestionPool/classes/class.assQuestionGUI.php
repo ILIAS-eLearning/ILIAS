@@ -1221,15 +1221,16 @@ abstract class assQuestionGUI
         $solution = $this->object->getSuggestedSolution(0);
         $options = $this->getTypeOptions();
 
-        if (is_string($solution_type) && strcmp($solution_type, "file") == 0 &&
-            (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
+        $solution_type = $this->request->raw('solutiontype');
+        if (is_string($solution_type) && strcmp($solution_type, "file") == 0
+            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
         ) {
             $solution = $this->getSuggestedSolutionsRepo()->create(
                 $this->object->getId(),
                 assQuestionSuggestedSolution::TYPE_FILE
             );
-        } elseif (is_string($solution_type) && strcmp($solution_type, "text") == 0 &&
-            (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
+        } elseif (is_string($solution_type) && strcmp($solution_type, "text") == 0
+            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
         ) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
