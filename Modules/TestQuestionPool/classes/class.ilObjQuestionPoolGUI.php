@@ -1737,14 +1737,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $lng = $DIC['lng'];
         $ctrl = $DIC['ilCtrl'];
 
-        if ($ilAccess->checkAccess("write", "", (int) $a_target)
-            || $ilAccess->checkAccess('read', '', (int) $a_target)
+        if ($ilAccess->checkAccess("write", "", (int)$a_target)
+            || $ilAccess->checkAccess('read', '', (int)$a_target)
         ) {
             $target_class = ilObjQuestionPoolGUI::class;
             $target_cmd = 'questions';
             $ctrl->setParameterByClass($target_class, 'ref_id', $a_target);
             $ctrl->redirectByClass([ilRepositoryGUI::class, $target_class], $target_cmd);
             exit;
+        } elseif ($ilAccess->checkAccess('visible', "", $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
