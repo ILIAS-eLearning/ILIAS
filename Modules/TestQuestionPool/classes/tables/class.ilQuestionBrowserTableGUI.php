@@ -324,10 +324,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         if ($this->parent_obj->object->getShowTaxonomies()) {
             foreach ($this->taxIds as $taxId) {
-                if ($taxId == $this->parent_obj->object->getNavTaxonomyId()) {
-                    continue;
-                }
-
                 $postvar = "tax_$taxId";
 
                 $inp = new ilTaxSelectInputGUI($taxId, $postvar, true);

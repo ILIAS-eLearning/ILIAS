@@ -195,9 +195,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $showTax = $form->getItemByPostVar('show_taxonomies');
         $this->poolOBJ->setShowTaxonomies($showTax->getChecked());
 
-        $navTax = $form->getItemByPostVar('nav_taxonomy');
-        $this->poolOBJ->setNavTaxonomyId($navTax->getValue());
-
         $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
 
         if ($this->formPropertyExists($form, 'skill_service')) {
@@ -252,16 +249,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
         $form->addItem($showTax);
 
-        $taxSelectOptions = $this->getTaxonomySelectInputOptions();
-
-        // pool navigation taxonomy
-
-        $navTax = new ilSelectInputGUI($this->lng->txt('qpl_settings_general_form_property_nav_taxonomy'), 'nav_taxonomy');
-        $navTax->setInfo($this->lng->txt('qpl_settings_general_form_property_nav_taxonomy_description'));
-        $navTax->setValue($this->poolOBJ->getNavTaxonomyId());
-        $navTax->setOptions($taxSelectOptions);
-        $showTax->addSubItem($navTax);
-
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
         $form->addItem($section);
@@ -281,19 +268,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
 
         return $form;
-    }
-
-    private function getTaxonomySelectInputOptions(): array
-    {
-        $taxSelectOptions = array(
-            '0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
-        );
-
-        foreach ($this->poolOBJ->getTaxonomyIds() as $taxId) {
-            $taxSelectOptions[$taxId] = ilObject::_lookupTitle($taxId);
-        }
-
-        return $taxSelectOptions;
     }
 
     protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool

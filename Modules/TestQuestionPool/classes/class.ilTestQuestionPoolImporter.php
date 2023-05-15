@@ -155,15 +155,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                         ilObjTaxonomy::saveUsage((int) $tid, $new);
                     }
                 }
-
-                $taxMappings = $a_mapping->getMappingsOfEntity('Services/Taxonomy', 'tax');
-                foreach ($taxMappings as $oldTaxId => $newTaxId) {
-                    if ($oldTaxId == $this->poolOBJ->getNavTaxonomyId()) {
-                        $this->poolOBJ->setNavTaxonomyId($newTaxId);
-                        $this->poolOBJ->saveToDb();
-                        break;
-                    }
-                }
             }
         }
     }

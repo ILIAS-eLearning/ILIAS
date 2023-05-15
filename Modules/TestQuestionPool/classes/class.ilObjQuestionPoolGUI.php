@@ -1059,17 +1059,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->object->purgeQuestions();
         // reset test_id SESSION variable
         ilSession::set('test_id', '');
-        $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
-        if ($qsaImportFails->failedImportsRegistered()) {
+        $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+        if ($qsa_import_fails->failedImportsRegistered()) {
             $button = ilLinkButton::getInstance();
             $button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
             $button->setCaption('ass_skl_import_fails_remove_btn');
 
-            $this->tpl->setOnScreenMessage('failure', $qsaImportFails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
+            $this->tpl->setOnScreenMessage('failure', $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
         }
-        $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
-        $table_gui = $this->buildQuestionBrowserTableGUI($taxIds);
+        $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
         $table_gui->setPreventDoubleSubmission(false);
 
         if ($rbacsystem->checkAccess('write', $this->qplrequest->getRefId())) {
@@ -1081,16 +1081,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $toolbar->addButtonInstance($btn);
 
 
-            $btnImport = ilLinkButton::getInstance();
-            $btnImport->setCaption('import');
-            $btnImport->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
-            $toolbar->addButtonInstance($btnImport);
+            $btn_import = ilLinkButton::getInstance();
+            $btn_import->setCaption('import');
+            $btn_import->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
+            $toolbar->addButtonInstance($btn_import);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
-                $btnPaste = ilLinkButton::getInstance();
-                $btnPaste->setCaption('paste');
-                $btnPaste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
-                $toolbar->addButtonInstance($btnPaste);
+                $btn_paste = ilLinkButton::getInstance();
+                $btn_paste->setCaption('paste');
+                $btn_paste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
+                $toolbar->addButtonInstance($btn_paste);
             }
 
             $this->tpl->setContent(
@@ -1098,30 +1098,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             );
         } else {
             $this->tpl->setContent($this->ctrl->getHTML($table_gui));
-        }
-
-        if ($this->object->getShowTaxonomies()) {
-            $this->lng->loadLanguageModule('tax');
-
-            foreach ($taxIds as $taxId) {
-                if ($taxId != $this->object->getNavTaxonomyId()) {
-                    continue;
-                }
-
-                $taxExp = new ilTaxonomyExplorerGUI(
-                    $this,
-                    'showNavTaxonomy',
-                    $taxId,
-                    'ilobjquestionpoolgui',
-                    'questions'
-                );
-
-                if (!$taxExp->handleCommand()) {
-                    $this->tpl->setLeftContent($taxExp->getHTML() . '&nbsp;');
-                }
-
-                break;
-            }
         }
     }
 
@@ -1705,20 +1681,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 );
             } elseif ($item->getValue() != false) {
                 $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
-            }
-        }
-
-        if ($this->object->isNavTaxonomyActive() && (int) $this->qplrequest->raw('tax_node')) {
-            $taxTree = new ilTaxonomyTree($this->object->getNavTaxonomyId());
-            $rootNodeId = $taxTree->readRootId();
-
-            if ((int) $this->qplrequest->raw('tax_node') != $rootNodeId) {
-                $questionList->addTaxonomyFilter(
-                    $this->object->getNavTaxonomyId(),
-                    [(int) $this->qplrequest->raw('tax_node')],
-                    $this->object->getId(),
-                    $this->object->getType()
-                );
             }
         }
 

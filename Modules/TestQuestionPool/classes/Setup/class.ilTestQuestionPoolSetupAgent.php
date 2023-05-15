@@ -18,17 +18,32 @@
 
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
 {
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilTestQuestionPool80DBUpdateSteps());
+        return $this->getObjectiveCollection();
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTestQuestionPool80DBUpdateSteps());
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, $this->getObjectiveCollection());
+    }
+
+    private function getObjectiveCollection(): ObjectiveCollection
+    {
+        return new ObjectiveCollection(
+            'Database is updated for Module/TestQuestionPool',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilTestQuestionPool80DBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilTestQuestionPool9DBUpdateSteps()
+            )
+        );
     }
 }

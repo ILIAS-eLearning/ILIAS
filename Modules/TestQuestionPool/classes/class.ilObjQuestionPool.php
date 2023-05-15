@@ -189,7 +189,6 @@ class ilObjQuestionPool extends ilObject
             $row = $this->db->fetchAssoc($result);
             $this->setOnline($row['isonline']);
             $this->setShowTaxonomies($row['show_taxonomies']);
-            $this->setNavTaxonomyId($row['nav_taxonomy']);
             $this->setSkillServiceEnabled($row['skill_service']);
         }
     }
@@ -337,7 +336,6 @@ class ilObjQuestionPool extends ilObject
         $xmlWriter->xmlStartTag('Settings');
 
         $xmlWriter->xmlElement('ShowTaxonomies', null, (int) $this->getShowTaxonomies());
-        $xmlWriter->xmlElement('NavTaxonomy', null, (int) $this->getNavTaxonomyId());
         $xmlWriter->xmlElement('SkillService', null, (int) $this->isSkillServiceEnabled());
 
         $xmlWriter->xmlEndTag('Settings');
@@ -708,21 +706,6 @@ class ilObjQuestionPool extends ilObject
     public function getShowTaxonomies(): ?bool
     {
         return $this->show_taxonomies;
-    }
-
-    public function setNavTaxonomyId($navTaxonomyId): void
-    {
-        $this->navTaxonomyId = $navTaxonomyId;
-    }
-
-    public function getNavTaxonomyId(): ?int
-    {
-        return $this->navTaxonomyId;
-    }
-
-    public function isNavTaxonomyActive(): bool
-    {
-        return $this->getShowTaxonomies() && (int) $this->getNavTaxonomyId();
     }
 
     public static function _lookupOnline($a_obj_id, $is_reference = false)
@@ -1118,8 +1101,6 @@ class ilObjQuestionPool extends ilObject
         $duplicator->setQuestionIdMapping($questionIdsMap);
         $duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());
 
-        $duplicatedTaxKeyMap = $duplicator->getDuplicatedTaxonomiesKeysMap();
-        $newObj->setNavTaxonomyId($duplicatedTaxKeyMap->getMappedTaxonomyId($this->getNavTaxonomyId()));
         $newObj->saveToDb();
 
         return $newObj;
