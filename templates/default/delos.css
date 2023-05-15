@@ -10491,14 +10491,8 @@ grid-based layout
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
 }
-.il-layout-page .il-layout-page-content > div {
-  max-width: calc(100vw - 80px - 329px);
-}
 .il-layout-page.with-mainbar-slates-engaged {
   grid-template-columns: auto 1fr;
-}
-.il-layout-page.with-mainbar-slates-engaged .il-layout-page-content > div {
-  max-width: calc(100vw - 80px - 329px);
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 409px;
