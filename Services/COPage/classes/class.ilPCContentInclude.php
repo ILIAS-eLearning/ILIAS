@@ -149,7 +149,7 @@ class ilPCContentInclude extends ilPageContent
      */
     public static function beforePageDelete(ilPageObject $a_page): void
     {
-        ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), false, $a_page->getLanguage());
+        ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), 0, $a_page->getLanguage());
     }
 
     /**
