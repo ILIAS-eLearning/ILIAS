@@ -35,6 +35,11 @@ function base1()
             )
         )
         ->withContent([
+
+                $ui_factory->listing()->descriptive([
+                    'Werte' => $environment['totals']($record['answers']),
+                ])
+            /*
             $ui_factory->layout()->alignment()->preferHorizontal(
                 [
                     $ui_factory->listing()->descriptive([
@@ -54,6 +59,7 @@ function base1()
                 'Anzahl Häufigste: ' => (string)$record['stats']['most_common_total'],
                 'Median: ' => $record['answers'][$record['stats']['median']]['title']
             ])
+            */
         ])
         ->withAction($ui_factory->button()->standard('zur Frage', '#'));
     };
@@ -63,7 +69,9 @@ function base1()
         $view_controls,
         $mapping_closure
     )
-    ->withEnvironment(environment());
+    ->withEnvironment(environment())
+    ->withToggleAll()
+    ->withInitiallyExpanded(true);
 
     //example data
     $data = included_data1();

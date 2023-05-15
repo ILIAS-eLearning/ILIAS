@@ -22,11 +22,13 @@ namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
 use Closure;
+use ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Presentation Table
  */
-interface Presentation extends Table, HasViewControls
+interface Presentation extends Table, HasViewControls, JavaScriptBindable
 {
     /**
      * Get a table like this with the closure $row_mapping.
@@ -88,4 +90,14 @@ interface Presentation extends Table, HasViewControls
      * @return array<mixed>
      */
     public function getData(): array;
+
+    /**
+     * adds a toggle-VC to expand/collapse all rows.
+     */
+    public function withToggleAll(bool $flag = true): self;
+
+    /**
+     * renders rows expanded
+     */
+    public function withInitiallyExpanded(bool $flag = true): self;
 }
