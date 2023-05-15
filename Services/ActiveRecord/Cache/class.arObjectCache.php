@@ -23,7 +23,7 @@
  */
 class arObjectCache
 {
-    protected static array $cache = array();
+    protected static array $cache = [];
 
     /**
      * @param $class
@@ -31,22 +31,25 @@ class arObjectCache
      */
     public static function isCached($class, $id): bool
     {
-        $instance = new $class();
+        new $class();
 
         if (!isset(self::$cache[$class])) {
             return false;
         }
-        if (!isset(self::$cache[$class][$id]) || !self::$cache[$class][$id] instanceof ActiveRecord) {
+        if (!isset(self::$cache[$class][$id])) {
+            return false;
+        }
+        if (!self::$cache[$class][$id] instanceof ActiveRecord) {
             return false;
         }
 
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    public static function store(ActiveRecord $object): void
+    public static function store(ActiveRecord $activeRecord): void
     {
-        if (!isset($object->is_new)) {
-            self::$cache[get_class($object)][$object->getPrimaryFieldValue()] = $object;
+        if (!isset($activeRecord->is_new)) {
+            self::$cache[$activeRecord::class][$activeRecord->getPrimaryFieldValue()] = $activeRecord;
         }
     }
 
@@ -55,7 +58,7 @@ class arObjectCache
         foreach (self::$cache as $class => $objects) {
             echo $class;
             echo ": ";
-            echo count($objects);
+            echo is_countable($objects) ? count($objects) : 0;
             echo " Objects<br>";
         }
     }
@@ -67,7 +70,7 @@ class arObjectCache
      */
     public static function get($class, $id): \ActiveRecord
     {
-        $instance = new $class();
+        new $class();
         if (!self::isCached($class, $id)) {
             throw new arException(arException::GET_UNCACHED_OBJECT, $class . ': ' . $id);
         }
@@ -75,9 +78,9 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    public static function purge(ActiveRecord $object): void
+    public static function purge(ActiveRecord $activeRecord): void
     {
-        unset(self::$cache[get_class($object)][$object->getPrimaryFieldValue()]);
+        unset(self::$cache[$activeRecord::class][$activeRecord->getPrimaryFieldValue()]);
     }
 
     /**
@@ -85,10 +88,10 @@ class arObjectCache
      */
     public static function flush($class_name): void
     {
-        $instance = new $class_name();
+        new $class_name();
 
         if ($class_name instanceof ActiveRecord) {
-            $class_name = get_class($class_name);
+            $class_name = $class_name::class;
         }
         unset(self::$cache[$class_name]);
     }

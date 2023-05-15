@@ -1,20 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -46,7 +48,6 @@ class ilServicesActiveRecordFieldTest extends TestCase
     {
         $test_ar = new class () extends ActiveRecord {
             /**
-             * @var int
              *
              * @con_is_primary true
              * @con_is_unique  true
@@ -57,7 +58,6 @@ class ilServicesActiveRecordFieldTest extends TestCase
             protected int $id = 0;
 
             /**
-             * @var string
              *
              * @con_has_field  true
              * @con_fieldtype  text
@@ -72,20 +72,20 @@ class ilServicesActiveRecordFieldTest extends TestCase
             }
         };
 
-        $field_list = arFieldList::getInstance($test_ar);
+        $arFieldList = arFieldList::getInstance($test_ar);
 
-        $primary_field = $field_list->getPrimaryField();
-        $this->assertEquals('id', $primary_field->getName());
-        $this->assertEquals(8, $primary_field->getLength());
-        $this->assertEquals('integer', $primary_field->getFieldType());
-        $this->assertEquals(false, $primary_field->getIndex());
-        $this->assertEquals(true, $primary_field->getPrimary());
+        $primaryField = $arFieldList->getPrimaryField();
+        $this->assertEquals('id', $primaryField->getName());
+        $this->assertEquals(8, $primaryField->getLength());
+        $this->assertEquals('integer', $primaryField->getFieldType());
+        $this->assertEquals(false, $primaryField->getIndex());
+        $this->assertEquals(true, $primaryField->getPrimary());
 
-        $string_field = $field_list->getFieldByName('string_data');
-        $this->assertEquals('string_data', $string_field->getName());
-        $this->assertEquals(256, $string_field->getLength());
-        $this->assertEquals('text', $string_field->getFieldType());
-        $this->assertEquals(true, $string_field->getIndex());
-        $this->assertEquals(false, $string_field->getPrimary());
+        $arField = $arFieldList->getFieldByName('string_data');
+        $this->assertEquals('string_data', $arField->getName());
+        $this->assertEquals(256, $arField->getLength());
+        $this->assertEquals('text', $arField->getFieldType());
+        $this->assertEquals(true, $arField->getIndex());
+        $this->assertEquals(false, $arField->getPrimary());
     }
 }

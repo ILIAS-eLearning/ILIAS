@@ -126,7 +126,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         $this->fetchAllCriterionAssignments();
     }
 
-    public function buildFromArray(array $array): ActiveRecord
+    public function buildFromArray(array $array): static
     {
         $document = parent::buildFromArray($array);
 

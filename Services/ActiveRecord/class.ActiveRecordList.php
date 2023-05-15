@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
@@ -37,11 +40,11 @@ class ActiveRecordList
     /**
      * @var ActiveRecord[]
      */
-    protected array $result = array();
-    protected array $result_array = array();
+    protected array $result = [];
+    protected array $result_array = [];
     protected bool $debug = false;
     protected ?string $date_format = null;
-    protected array $addidtional_parameters = array();
+    protected array $addidtional_parameters = [];
     protected static ?string $last_query = null;
     protected ?\arConnector $connector = null;
     protected ?\ActiveRecord $ar = null;
@@ -50,10 +53,10 @@ class ActiveRecordList
     /**
      * @noinspection PhpFieldAssignmentTypeMismatchInspection
      */
-    public function __construct(ActiveRecord $ar)
+    public function __construct(ActiveRecord $activeRecord)
     {
-        $this->class = get_class($ar);
-        $this->setAR($ar);
+        $this->class = $activeRecord::class;
+        $this->setAR($activeRecord);
         $this->arWhereCollection = arWhereCollection::getInstance($this->getAR());
         $this->arJoinCollection = arJoinCollection::getInstance($this->getAR());
         $this->arLimitCollection = arLimitCollection::getInstance($this->getAR());
@@ -63,7 +66,7 @@ class ActiveRecordList
         $this->arHavingCollection = arHavingCollection::getInstance($this->getAR());
 
         $arSelect = new arSelect();
-        $arSelect->setTableName($ar->getConnectorContainerName());
+        $arSelect->setTableName($activeRecord->getConnectorContainerName());
         $arSelect->setFieldName('*');
         $this->getArSelectCollection()->add($arSelect);
     }
@@ -158,15 +161,15 @@ class ActiveRecordList
      * @param              $on_external
      */
     public function innerjoinAR(
-        ActiveRecord $ar,
+        ActiveRecord $activeRecord,
         $on_this,
         $on_external,
-        array $fields = array('*'),
+        array $fields = ['*'],
         string $operator = '=',
         bool $both_external = false
     ): self {
         return $this->innerjoin(
-            $ar->getConnectorContainerName(),
+            $activeRecord->getConnectorContainerName(),
             $on_this,
             $on_external,
             $fields,
@@ -186,7 +189,7 @@ class ActiveRecordList
         string $tablename,
         $on_this,
         string $on_external,
-        array $fields = array('*'),
+        array $fields = ['*'],
         string $operator = '=',
         bool $both_external = false
     ): self {
@@ -229,10 +232,10 @@ class ActiveRecordList
      * @param        $on_external
      */
     public function leftjoin(
-        $tablename,
+        string $tablename,
         $on_this,
-        $on_external,
-        array $fields = array('*'),
+        string $on_external,
+        array $fields = ['*'],
         string $operator = '=',
         bool $both_external = false
     ): self {
@@ -245,10 +248,10 @@ class ActiveRecordList
      * @param        $on_external
      */
     public function innerjoin(
-        $tablename,
+        string $tablename,
         $on_this,
-        $on_external,
-        array $fields = array('*'),
+        string $on_external,
+        array $fields = ['*'],
         string $operator = '=',
         bool $both_external = false
     ): self {
@@ -260,10 +263,10 @@ class ActiveRecordList
      */
     public function concat(array $fields, string $as): self
     {
-        $con = new arConcat();
-        $con->setAs($as);
-        $con->setFields($fields);
-        $this->getArConcatCollection()->add($con);
+        $arConcat = new arConcat();
+        $arConcat->setAs($as);
+        $arConcat->setFields($fields);
+        $this->getArConcatCollection()->add($arConcat);
 
         return $this;
     }
@@ -324,9 +327,9 @@ class ActiveRecordList
         return $this;
     }
 
-    public function connector(arConnector $connector): self
+    public function connector(arConnector $arConnector): self
     {
-        $this->connector = $connector;
+        $this->connector = $arConnector;
 
         return $this;
     }
@@ -409,10 +412,11 @@ class ActiveRecordList
     }
 
     /**
-     * @param string       $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
+     * @param string|null  $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
      * @param string|array $values which values should be taken? if null all are given. If only a string is given then the result is an 1D array!
+     * @return mixed[]|mixed[][]|int[]|string[]|null[]
      */
-    public function getArray(string $key = null, $values = null): array
+    public function getArray(string $key = null, string|array $values = null): array
     {
         $this->load();
 
@@ -421,6 +425,7 @@ class ActiveRecordList
 
     /**
      * @param int|string|array|null $values
+     * @return mixed[]|mixed[][]|int[]|string[]|null[]
      * @throws Exception
      */
     protected function buildArray(?string $key, $values): array
@@ -479,30 +484,28 @@ class ActiveRecordList
          */
         $primaryFieldName = $this->getAR()->getArFieldList()->getPrimaryFieldName();
         /** @noinspection GetClassUsageInspection */
-        $class_name = get_class($this->getAR());
-        foreach ($records as $res) {
-            $primary_field_value = $res[$primaryFieldName];
+        $class_name = $this->getAR()::class;
+        foreach ($records as $record) {
+            $primary_field_value = $record[$primaryFieldName];
             if (!$this->getRaw()) {
                 $obj = new $class_name(0, $this->getArConnector(), $this->getAddidtionalParameters());
-                $this->result[$primary_field_value] = $obj->buildFromArray($res);
+                $this->result[$primary_field_value] = $obj->buildFromArray($record);
             }
-            $res_awake = array();
+            $res_awake = [];
             if (!$this->getRaw()) {
-                foreach ($res as $key => $value) {
+                foreach ($record as $key => $value) {
                     $arField = $obj->getArFieldList()->getFieldByName($key);
-                    if ($arField !== null) {
-                        if ($arField->isDateField() && $this->getDateFormat()) {
-                            $res_awake[$key . '_unformatted'] = $value;
-                            $res_awake[$key . '_unix'] = strtotime($value);
-                            $value = date($this->getDateFormat(), strtotime($value));
-                        }
+                    if ($arField !== null && ($arField->isDateField() && $this->getDateFormat())) {
+                        $res_awake[$key . '_unformatted'] = $value;
+                        $res_awake[$key . '_unix'] = strtotime($value);
+                        $value = date($this->getDateFormat(), strtotime($value));
                     }
                     $waked = $this->getAR()->wakeUp($key, $value);
                     $res_awake[$key] = $waked ?? $value;
                 }
                 $this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
             } else {
-                $this->result_array[$primary_field_value] = $res;
+                $this->result_array[$primary_field_value] = $record;
             }
         }
         $this->loaded = true;
@@ -516,12 +519,12 @@ class ActiveRecordList
         // $this->readFromDb(self::$last_query);
     }
 
-    public function setAR(\ActiveRecord $ar): void
+    public function setAR(\ActiveRecord $activeRecord): void
     {
-        $this->ar = $ar;
+        $this->ar = $activeRecord;
     }
 
-    public function getAR(): \ActiveRecord
+    public function getAR(): ?\ActiveRecord
     {
         return $this->ar;
     }

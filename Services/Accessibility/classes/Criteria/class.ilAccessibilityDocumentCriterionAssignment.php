@@ -102,7 +102,7 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
         parent::create();
     }
 
-    public function update()
+    public function update(): void
     {
         $this->setModificationTs(time());
 

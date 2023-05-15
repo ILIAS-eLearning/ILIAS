@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arFieldList
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -27,41 +30,30 @@ class arFieldList
     public const LENGTH = 'length';
     public const SEQUENCE = 'sequence';
     public const INDEX = 'index';
-    protected static array $prefixes = array('db', 'con');
-    protected static array $protected_names = array('arConnector', 'arFieldList');
-    protected static array $allowed_description_fields = array(
-        'is_unique', // There are many classes which already use this (without any function)
+    protected static array $prefixes = ['db', 'con'];
+    protected static array $protected_names = ['arConnector', 'arFieldList'];
+    protected static array $allowed_description_fields = [
+        'is_unique',
+        // There are many classes which already use this (without any function)
         self::IS_PRIMARY,
         self::IS_NOTNULL,
         self::FIELDTYPE,
         self::LENGTH,
         self::SEQUENCE,
-        self::INDEX
-    );
-    protected static array $allowed_connector_fields = array(
-        self::IS_NOTNULL,
-        self::FIELDTYPE,
-        self::LENGTH,
-    );
-    /**
-     * @var arField|array
-     */
-    protected $primary_field;
-    protected array $primary_fields = array();
-    protected array $raw_fields = array();
-    protected array $fields = array();
-    protected \ActiveRecord $ar;
-    protected static array $key_maps = array(
-        self::FIELDTYPE => 'type',
-        self::IS_NOTNULL => 'notnull',
-    );
+        self::INDEX,
+    ];
+    protected static array $allowed_connector_fields = [self::IS_NOTNULL, self::FIELDTYPE, self::LENGTH];
+    protected \arField|array $primary_field;
+    protected array $primary_fields = [];
+    protected array $raw_fields = [];
+    protected array $fields = [];
+    protected static array $key_maps = [self::FIELDTYPE => 'type', self::IS_NOTNULL => 'notnull'];
 
     /**
      * arFieldList constructor.
      */
-    public function __construct(ActiveRecord $ar)
+    public function __construct(protected ActiveRecord $activeRecord)
     {
-        $this->ar = $ar;
     }
 
     public static function mapKey(string $key): string
@@ -73,44 +65,51 @@ class arFieldList
         return $key;
     }
 
-
+    /**
+     * @return mixed[]
+     */
     public static function getAllowedConnectorFields(): array
     {
         return self::$allowed_connector_fields;
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getAllowedDescriptionFields(): array
     {
         return self::$allowed_description_fields;
     }
 
-    public static function getInstance(ActiveRecord $ar): \arFieldList
+    public static function getInstance(ActiveRecord $activeRecord): \arFieldList
     {
-        $arFieldList = new self($ar);
-        $arFieldList->initRawFields($ar);
-        $arFieldList->initFields();
+        $self = new self($activeRecord);
+        $self->initRawFields($activeRecord);
+        $self->initFields();
 
-        return $arFieldList;
+        return $self;
     }
 
     /**
      * @deprecated
      */
-    public static function getInstanceFromStorage(\ActiveRecord $ar): \arFieldList
+    public static function getInstanceFromStorage(\ActiveRecord $activeRecord): \arFieldList
     {
-        $arFieldList = new self($ar);
-        $arFieldList->initRawFields($ar);
-        $arFieldList->initFields();
+        $self = new self($activeRecord);
+        $self->initRawFields($activeRecord);
+        $self->initFields();
 
-        return $arFieldList;
+        return $self;
     }
 
-
+    /**
+     * @return array<string, array<int|string, mixed>>
+     */
     public function getArrayForConnector(): array
     {
-        $return = array();
-        foreach ($this->getFields() as $field) {
-            $return[$field->getName()] = $field->getAttributesForConnector();
+        $return = [];
+        foreach ($this->getFields() as $arField) {
+            $return[$arField->getName()] = $arField->getAttributesForConnector();
         }
 
         return $return;
@@ -134,7 +133,7 @@ class arFieldList
     {
         $field = null;
         static $field_map;
-        $field_key = $this->ar->getConnectorContainerName() . '.' . $field_name;
+        $field_key = $this->activeRecord->getConnectorContainerName() . '.' . $field_name;
         if (is_array($field_map) && array_key_exists($field_key, $field_map)) {
             return $field_map[$field_key];
         }
@@ -148,12 +147,11 @@ class arFieldList
         return null;
     }
 
-
     public function isField(string $field_name): bool
     {
         $is_field = false;
-        foreach ($this->getFields() as $field) {
-            if ($field->getName() === $field_name) {
+        foreach ($this->getFields() as $arField) {
+            if ($arField->getName() === $field_name) {
                 $is_field = true;
             }
         }
@@ -171,25 +169,25 @@ class arFieldList
         return $this->getPrimaryField()->getFieldType();
     }
 
-    protected function initRawFields(ActiveRecord $ar): void
+    protected function initRawFields(ActiveRecord $activeRecord): void
     {
         $regex = "/[ ]*\\* @(" . implode('|', self::$prefixes) . ")_([a-zA-Z0-9_]*)[ ]*([a-zA-Z0-9_]*)/u";
-        $reflectionClass = new ReflectionClass($ar);
-        $raw_fields = array();
-        foreach ($reflectionClass->getProperties() as $property) {
-            if (in_array($property->getName(), self::$protected_names)) {
+        $reflectionClass = new ReflectionClass($activeRecord);
+        $raw_fields = [];
+        foreach ($reflectionClass->getProperties() as $reflectionProperty) {
+            if (in_array($reflectionProperty->getName(), self::$protected_names)) {
                 continue;
             }
-            $properties_array = array();
+            $properties_array = [];
             $has_property = false;
-            foreach (explode("\n", $property->getDocComment()) as $line) {
+            foreach (explode("\n", $reflectionProperty->getDocComment()) as $line) {
                 if (preg_match($regex, $line, $matches)) {
                     $has_property = true;
-                    $properties_array[(string) $matches[2]] = $matches[3];
+                    $properties_array[$matches[2]] = $matches[3];
                 }
             }
             if ($has_property) {
-                $raw_fields[$property->getName()] = $properties_array;
+                $raw_fields[$reflectionProperty->getName()] = $properties_array;
             }
         }
 
@@ -198,7 +196,7 @@ class arFieldList
 
     protected static function isAllowedAttribute(string $attribute_name): bool
     {
-        return in_array($attribute_name, array_merge(self::$allowed_description_fields, array(self::HAS_FIELD)), true);
+        return in_array($attribute_name, array_merge(self::$allowed_description_fields, [self::HAS_FIELD]), true);
     }
 
     protected static function checkAttributes(array $attributes): bool
@@ -232,15 +230,15 @@ class arFieldList
         return $this->fields;
     }
 
-    public function setPrimaryField(\arField $primary_field): void
+    public function setPrimaryField(\arField $arField): void
     {
-        $this->primary_field = $primary_field;
+        $this->primary_field = $arField;
     }
 
     /**
      * @return \arField|mixed[]
      */
-    public function getPrimaryField()
+    public function getPrimaryField(): \arField|array
     {
         return $this->primary_field;
     }
@@ -253,16 +251,25 @@ class arFieldList
         $this->raw_fields = $raw_fields;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRawFields(): array
     {
         return $this->raw_fields;
     }
 
+    /**
+     * @param mixed[] $primary_fields
+     */
     public function setPrimaryFields(array $primary_fields): void
     {
         $this->primary_fields = $primary_fields;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPrimaryFields(): array
     {
         return $this->primary_fields;

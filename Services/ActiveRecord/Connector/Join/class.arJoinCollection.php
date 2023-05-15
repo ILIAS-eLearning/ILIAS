@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arJoinCollection
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -20,38 +23,38 @@
  */
 class arJoinCollection extends arStatementCollection
 {
-    protected array $table_names = array();
+    protected array $table_names = [];
 
     /**
-     * @param arJoin $statement
+     * @param arJoin $arStatement
      */
-    public function getSaveTableName(arStatement $statement): string
+    public function getSaveTableName(arStatement $arStatement): string
     {
-        $table_name = $statement->getTableName();
-        if (in_array($table_name, $this->table_names, true)) {
+        $tableName = $arStatement->getTableName();
+        if (in_array($tableName, $this->table_names, true)) {
             $vals = array_count_values($this->table_names);
-            $next = $vals[$table_name] + 1;
-            $statement->setFullNames(true);
-            $statement->setIsMapped(true);
+            $next = $vals[$tableName] + 1;
+            $arStatement->setFullNames(true);
+            $arStatement->setIsMapped(true);
 
-            return $table_name . '_' . $next;
+            return $tableName . '_' . $next;
         }
-        return $table_name;
+        return $tableName;
     }
 
-    public function add(arStatement $statement): void
+    public function add(arStatement $arStatement): void
     {
-        $statement->setTableNameAs($this->getSaveTableName($statement));
-        $this->table_names[] = $statement->getTableName();
-        parent::add($statement);
+        $arStatement->setTableNameAs($this->getSaveTableName($arStatement));
+        $this->table_names[] = $arStatement->getTableName();
+        parent::add($arStatement);
     }
 
     public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
-            foreach ($this->getJoins() as $join) {
-                $return .= $join->asSQLStatement($this->getAr());
+            foreach ($this->getJoins() as $arJoin) {
+                $return .= $arJoin->asSQLStatement($this->getAr());
             }
         }
 

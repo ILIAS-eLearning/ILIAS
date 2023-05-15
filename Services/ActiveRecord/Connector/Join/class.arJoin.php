@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arJoin
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -27,7 +30,7 @@ class arJoin extends arStatement
     public const AS_TEXT = ' AS ';
     protected string $type = self::TYPE_NORMAL;
     protected string $table_name = '';
-    protected array $fields = array('*');
+    protected array $fields = ['*'];
     protected string $operator = '=';
     protected string $on_first_field = '';
     protected string $on_second_field = '';
@@ -35,22 +38,23 @@ class arJoin extends arStatement
     protected bool $both_external = false;
     protected bool $is_mapped = false;
 
-    protected function asStatementText(ActiveRecord $ar, string $as = ' AS '): string
+    protected function asStatementText(ActiveRecord $activeRecord, string $as = ' AS '): string
     {
         $return = ' ' . $this->getType() . ' ';
         $return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
         if ($this->getBothExternal()) {
             $return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
         } else {
-            $return .= ' ON ' . $ar->getConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON ' . $activeRecord->getConnectorContainerName() . '.' . $this->getOnFirstField(
+            ) . ' ' . $this->getOperator() . ' ';
         }
 
         return $return . ($this->getTableNameAs() . '.' . $this->getOnSecondField());
     }
 
-    public function asSQLStatement(ActiveRecord $ar): string
+    public function asSQLStatement(ActiveRecord $activeRecord): string
     {
-        return $this->asStatementText($ar, self::AS_TEXT);
+        return $this->asStatementText($activeRecord, self::AS_TEXT);
     }
 
     public function setLeft(): void
@@ -68,11 +72,17 @@ class arJoin extends arStatement
         $this->setType(self::TYPE_INNER);
     }
 
+    /**
+     * @param mixed[] $fields
+     */
     public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getFields(): array
     {
         return $this->fields;
