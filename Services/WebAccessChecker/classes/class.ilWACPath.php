@@ -90,10 +90,12 @@ class ilWACPath
         $re = '/' . self::REGEX . '/';
         preg_match($re, $path, $result);
 
-        $result['path_without_query'] = '/data/' . strrchr(
-                parse_url($path)['path'],
-                'data/'
-            );
+        $result['path_without_query'] = strstr(
+            parse_url($path)['path'],
+            '/data/',
+            false
+        );
+
 
         foreach ($result as $k => $v) {
             if (is_numeric($k)) {
