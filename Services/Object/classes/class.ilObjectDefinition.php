@@ -40,6 +40,7 @@ class ilObjectDefinition
     protected string $parent_tag_name;
     protected string $current_tag;
     protected string $current_tag_name;
+    protected ?string $root_trans_type = null;
 
     public function __construct()
     {
