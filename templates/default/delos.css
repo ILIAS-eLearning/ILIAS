@@ -9116,7 +9116,7 @@ grid-based layout
   display: none;
 }
 .il-layout-page .il-layout-page-content > div {
-  max-width: calc(100vw - 80px - 329px);
+  max-width: calc(100vw - 80px);
 }
 .il-layout-page.with-mainbar-slates-engaged {
   -ms-grid-columns: auto 1fr;
