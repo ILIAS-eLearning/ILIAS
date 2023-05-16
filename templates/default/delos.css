@@ -10787,56 +10787,21 @@ footer {
   display: inline-block;
   text-align: center;
 }
-.icon .abbreviation {
-  font-weight: 600;
-  position: absolute;
-}
-.icon img {
-  float: left;
-}
 .icon.small {
   height: 20px;
   line-height: 20px;
-}
-.icon.small .abbreviation {
-  font-size: 8px;
-  width: 20px;
-}
-.icon.small img {
-  width: 20px;
-  height: 20px;
 }
 .icon.medium {
   height: 35px;
   line-height: 35px;
 }
-.icon.medium .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.medium img {
-  height: 35px;
-}
 .icon.large {
   height: 45px;
   line-height: 45px;
 }
-.icon.large .abbreviation {
-  font-size: 18px;
-}
-.icon.large img {
-  height: 45px;
-}
 .icon.responsive {
   width: 100%;
   line-height: 35px;
-}
-.icon.responsive .abbreviation {
-  font-size: 14px;
-}
-.icon.responsive img {
-  width: 100%;
-  height: auto;
 }
 .icon.disabled {
   -webkit-filter: grayscale(100%);
