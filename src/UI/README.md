@@ -561,17 +561,13 @@ to override `./CI/PHPStan/phpstan.neon`, however, level 9/max is the desired goa
 In order to validate your JS-files, run 
 
 ```
-./node_modules/.bin/eslint --parser-options ecmaVersion:13 --rule 'indent: ["error", 4]' src/UI/templates/js/...
-
+./node_modules/.bin/eslint --parser-options ecmaVersion:13 src/UI/templates/js/...
 ```
 or change/add `.eslintrc.json` in ILIAS' root directory:
 ```
 {
   "parserOptions": {
     "ecmaVersion": 13
-  },
-  "rules": {
-    "indent": ["error", 4]
   },
   "extends": "airbnb-base"
 }
