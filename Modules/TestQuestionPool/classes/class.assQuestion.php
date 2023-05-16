@@ -273,7 +273,7 @@ abstract class assQuestion
             return $extensions;
         }
 
-        return array();
+        return [];
     }
 
     public static function isAllowedImageFileExtension(string $mimeType, string $fileExtension): bool
@@ -371,7 +371,7 @@ abstract class assQuestion
      */
     public static function getAllowedImageMaterialFileExtensions(): array
     {
-        $extensions = array();
+        $extensions = [];
 
         foreach (self::$allowedImageMaterialFileExtensionsByMimeType as $mimeType => $mimeExtensions) {
             /** @noinspection SlowArrayOperationsInLoopInspection */
@@ -692,7 +692,7 @@ abstract class assQuestion
         if ($ilDB->numRows($result)) {
             return $ilDB->fetchAssoc($result);
         }
-        return array();
+        return [];
     }
 
     public static function _getSuggestedSolutionCount(int $question_id): int
@@ -727,7 +727,7 @@ abstract class assQuestion
      */
     public function getSuggestedSolutionOutput(): string
     {
-        $output = array();
+        $output = [];
         foreach ($this->suggested_solutions as $solution) {
             switch ($solution["type"]) {
                 case "lm":
@@ -784,7 +784,7 @@ abstract class assQuestion
                 "import_id" => $row["import_id"]
             );
         }
-        return array();
+        return [];
     }
 
     /**
@@ -1374,7 +1374,7 @@ abstract class assQuestion
             );
         }
 
-        $values = array();
+        $values = [];
 
         while ($row = $this->db->fetchAssoc($result)) {
             $values[] = $row;
@@ -1663,7 +1663,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) == 0) {
             return 0;
         }
-        $found_id = array();
+        $found_id = [];
         while ($row = $this->db->fetchAssoc($result)) {
             $found_id[] = $row["question_id"];
         }
@@ -1687,13 +1687,13 @@ abstract class assQuestion
             return 0;
         }
 
-        $found_id = array();
+        $found_id = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $found_id[] = $row["question_id"];
         }
 
         $result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer'));
-        $answers = array();
+        $answers = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $reached = $row["points"];
             $max = self::_getMaximumPoints($row["question_fi"]);
@@ -1885,7 +1885,7 @@ abstract class assQuestion
         if (preg_match_all('/src="(.*?)"/m', $html, $matches)) {
             $sources = $matches[1];
 
-            $needleReplacementMap = array();
+            $needleReplacementMap = [];
 
             foreach ($sources as $src) {
                 $file = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . DIRECTORY_SEPARATOR . $src;
@@ -2160,7 +2160,7 @@ abstract class assQuestion
             array($this->getId())
         );
         ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
-        $this->suggested_solutions = array();
+        $this->suggested_solutions = [];
         ilFileUtils::delDir($this->getSuggestedSolutionPath());
     }
 
@@ -2172,7 +2172,7 @@ abstract class assQuestion
         if (array_key_exists($subquestion_index, $this->suggested_solutions)) {
             return $this->suggested_solutions[$subquestion_index];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -3104,8 +3104,8 @@ abstract class assQuestion
             array("integer"),
             array($this->getId())
         );
-        $instances = array();
-        $ids = array();
+        $instances = [];
+        $ids = [];
         while ($row = $this->db->fetchAssoc($result)) {
             $ids[] = $row["question_id"];
         }
@@ -3164,7 +3164,7 @@ abstract class assQuestion
             return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
         }
 
-        return array();
+        return [];
     }
 
     public function hasSpecificFeedback(): bool
@@ -3668,7 +3668,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             return $this->db->fetchAssoc($result);
         }
-        return array();
+        return [];
     }
     // hey.
 
@@ -3814,7 +3814,7 @@ abstract class assQuestion
     {
         $types = array("integer", "integer", "integer", "integer");
         $values = array($activeId, $this->getId(), $passIndex, (int) $authorized);
-        $valuesCondition = array();
+        $valuesCondition = [];
 
         foreach ($matchValues as $valueField => $value) {
             switch ($valueField) {
@@ -3917,7 +3917,7 @@ abstract class assQuestion
 
     public function toJSON(): string
     {
-        return json_encode(array());
+        return json_encode([]);
     }
 
     abstract public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int;
@@ -4112,7 +4112,7 @@ abstract class assQuestion
             array($activeId, $pass)
         );
 
-        $questionsHavingResultRecord = array();
+        $questionsHavingResultRecord = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $questionsHavingResultRecord[] = $row['question_fi'];
@@ -4146,7 +4146,7 @@ abstract class assQuestion
 
     public function fetchValuePairsFromIndexedValues(array $indexedValues): array
     {
-        $valuePairs = array();
+        $valuePairs = [];
 
         foreach ($indexedValues as $value1 => $value2) {
             $valuePairs[] = array('value1' => $value1, 'value2' => $value2);
@@ -4157,7 +4157,7 @@ abstract class assQuestion
 
     public function fetchIndexedValuesFromValuePairs(array $valuePairs): array
     {
-        $indexedValues = array();
+        $indexedValues = [];
 
         foreach ($valuePairs as $valuePair) {
             $indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
