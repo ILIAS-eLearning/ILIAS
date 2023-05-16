@@ -1747,9 +1747,11 @@ class ilQTIParser extends ilSaxParser
             }
         }
         if (!$this->matimage->getEmbedded() && strlen($this->matimage->getUri())) {
-            $this->matimage->setContent(
-                (string) @file_get_contents(dirname($this->xml_file) . '/' . $this->matimage->getUri())
-            );
+            $img_string = @file_get_contents(dirname($this->xml_file) . '/' . $this->matimage->getUri());
+
+            if (is_string($img_string)) {
+                $this->matimage->setContent($img_string);
+            }
         }
     }
 
