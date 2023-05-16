@@ -31,16 +31,37 @@ class ilDclTokenizer
     {
         $expression = ltrim($expression, '=');
         $expression = trim($expression);
-        preg_match_all("/([^\\\\&]|\\\\&)*/ui", $expression, $matches);
 
-        $results = $matches[0];
+        $matches = [];
+        //Match all & inside [] (e.g. [[Metadaten & OER]])
+        preg_match_all("/\[\[[^\]]*&[^\]]*\]\]/ui", $expression, $matches);
+        $matches_inside_brackets = $matches[0];
+        $replace_random = sha1("replacement_string");
 
-        $return = array();
-        foreach ($results as $r) {
-            if (!$r) {
+
+        //Replace those & with a set of unprobable chars, to be ignored by the following selection of tokens
+        foreach ($matches_inside_brackets as $match) {
+            if (!$match) {
                 continue;
             }
-            $return[] = str_ireplace('\&', '&', $r);
+            $match_save = str_replace("&", $replace_random, $match);
+            $expression = str_replace($match, $match_save, $expression);
+        }
+
+        //var_dump($expression);
+        preg_match_all("/([^\\\\&]|\\\\&)*/ui", $expression, $matches);
+        $results = $matches[0];
+
+        $return = [];
+        foreach ($results as $result) {
+            if (!$result) {
+                continue;
+            }
+            $replace = str_ireplace('\&', '&', $result);
+
+            //Replace those & before replaced chars back
+            $return[] = str_replace($replace_random, "&", $replace);
+
         }
 
         return array_map('trim', $return);
