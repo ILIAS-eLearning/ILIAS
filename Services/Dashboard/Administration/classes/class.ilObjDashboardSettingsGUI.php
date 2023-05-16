@@ -181,7 +181,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 static fn (string $id) =>
                     "document.getElementById('$id').setAttribute('data-checkbox', 'activeSorting$view');
                     document.addEventListener('DOMContentLoaded', function () {
-                        handleUserInputForSortationsByView($view);
+                        il.Dashboard.handleUserInputForSortationsByView($view);
                     });"
             );
         $default_sorting = $this->ui_factory

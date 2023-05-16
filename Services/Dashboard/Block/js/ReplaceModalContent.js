@@ -1,9 +1,11 @@
+/* global il */
+il.Dashboard = il.Dashboard || {};
 /**
  * @param {string} id
  * @param {int} view
  * @param {string} url
  */
-const ReplaceModalContent = function (id, view, url) {
+il.Dashboard.replaceModalContent = function (id, view, url) {
     document.getElementById(id).addEventListener('click', function (e) {
         const form = document.querySelector('form[name="pd_remove_multiple_view_' + view + '"]');
         const formData = new FormData(form);

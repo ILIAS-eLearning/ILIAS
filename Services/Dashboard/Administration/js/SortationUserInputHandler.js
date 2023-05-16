@@ -1,7 +1,9 @@
+/* global il */
+il.Dashboard = il.Dashboard || {};
 /**
  * @type {(view: int) => void}
  */
-const handleUserInputForSortationsByView = function() {
+ il.Dashboard.handleUserInputForSortationsByView = function() {
     /**
      * @param {Element} selectio.nInput
      * @param {Element} checkboxInput

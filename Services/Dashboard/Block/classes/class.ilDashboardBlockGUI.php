@@ -555,7 +555,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
             ->withOnLoadCode(function ($id) use ($url): string {
                 return "
-                        ReplaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
+                        il.Dashboard.replaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
                 ";
             });
 
