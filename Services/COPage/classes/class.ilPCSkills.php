@@ -90,7 +90,7 @@ class ilPCSkills extends ilPageContent
             "skmg",
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
-            false,
+            0,
             $a_page->getLanguage()
         );
     }
