@@ -33,6 +33,7 @@ declare(strict_types=1);
 */
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected ilAppEventHandler $event;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected ilHelpGUI $help;
@@ -154,6 +155,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 )
             );
         }
+        $this->ui = $DIC->ui();
     }
 
     public function executeCommand(): void
@@ -542,31 +544,30 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $part = ilParticipants::getInstance($this->getCurrentObject()->getRefId());
 
-        $btn_attend = ilLinkButton::getInstance();
-        $btn_attend->addCSSClass("btn-primary");
         $this->ctrl->setParameter($this, "ref_id", $this->getCurrentObject()->getRefId());
 
         $btn_excused = null;
         if ($this->object->isCannotParticipateOptionEnabled()) {
-            $btn_excused = \ilLinkButton::getInstance();
-            $btn_excused->setCaption($this->lng->txt('sess_bt_refuse'), false);
-            $btn_excused->setUrl($this->ctrl->getLinkTarget($this, 'refuseParticipation'));
+            $btn_excused = $this->ui->factory()->button()->standard(
+                $this->lng->txt('sess_bt_refuse'),
+                $this->ctrl->getLinkTarget($this, 'refuseParticipation')
+            );
         }
 
 
         if (ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         } elseif ($part->isSubscriber($ilUser->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         } elseif (ilSessionWaitingList::_isOnList($ilUser->getId(), $this->getCurrentObject()->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         }
@@ -580,11 +581,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         ) {
             if ($this->getCurrentObject()->isRegistrationWaitingListEnabled()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_reg_max_users_exceeded_wl'));
-                $btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
-                $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
-                $ilToolbar->addButtonInstance($btn_attend);
+                $btn_attend = $this->ui->factory()->button()->primary(
+                    $this->lng->txt("mem_add_to_wl"),
+                    $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register")
+                );
+                $ilToolbar->addComponent($btn_attend);
                 if (!$event_part->isExcused($ilUser->getId()) && !is_null($btn_excused)) {
-                    $ilToolbar->addButtonInstance($btn_excused);
+                    $ilToolbar->addComponent($btn_excused);
                 }
             } else {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_reg_max_users_exceeded'));
@@ -592,11 +595,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             return true;
         } elseif (is_null(ilSession::get("sess_hide_info"))) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_join_info'));
-            $btn_attend->setCaption($this->lng->txt("join_session"), false);
-            $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
-            $ilToolbar->addButtonInstance($btn_attend);
+            $btn_attend = $this->ui->factory()->button()->primary(
+                $this->lng->txt("join_session"),
+                $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register")
+            );
+            $ilToolbar->addComponent($btn_attend);
             if (!$event_part->isExcused($ilUser->getId()) && !is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         }
