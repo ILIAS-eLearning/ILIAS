@@ -2,15 +2,15 @@
 
 This document describes how the UI-Framework integrates various help texts with
 the UI components. It starts with a short general overview of the problem space,
-continues with some high level description of the model implemented in the UI-
-Framework and closes with some hints for implementors using that model.
+continues with some high-level description of the model implemented in the UI-
+Framework, and closes with some hints for implementors using that model.
 
 ## Problem Space
 
-Currently (beginning of the year 2023) ILIAS provides two types of text that the
+Currently, (beginning of the year 2023) ILIAS provides two types of text that the
 community understands to be help-texts:
 
-* The texts provided via the so called online help are attached to various screens
+* The texts provided via the so-called online help are attached to various screens
   of ILIAS. They provide advice about the usage of interfaces and concepts displayed
   on the screen.
 * The online help also provides tooltips for some links and buttons in an installation.
@@ -19,21 +19,21 @@ There also are the by-lines in forms that, from some perspective, also could be
 understood to be "help texts", but these currently are not provided ny the online
 help but directly by developers via the lang file.
 
-There frequently are new requirements for or short comings of the online help and/or
+There frequently are new requirements for or shortcomings of the online help and/or
 the general help system that currently are hard to address. Some examples:
 
-* Currently help-texts are only provided in german. How can other languages be
+* Currently, help-texts are only provided in German. How can other languages be
   included?
 * How can we use the pool of texts from the online help to derive specific help
   texts for a certain installation?
 * How can we provide help texts for plugins?
 * How can we implement new help scenarios, such as guided tours?
 
-Finally, up until now there haven't been a mechanism to attach help texts to certain
+Finally, until now there hasn't been a mechanism to attach help texts to certain
 UI components, neither in an abstract form, nor as concrete components, such as
 tooltips.
 
-The Help Topics in the UI-Framework provide a model how to think about help in
+The Help Topics in the UI-Framework provide a model of how to think about help in
 conjunction with the UI-Framework and facilities to implement existing requirements
 and new scenarios.
 
@@ -59,13 +59,13 @@ there is no text for a tooltip, there might indeed be text for a guided tour tha
 needs to be bound to the component in a certain way. Currently we only implement
 one purpose `PURPOSE_TOOLTIP`, but the model is meant to be extended along this
 direction. To ensure uniformity regarding the ways that help texts are used,
-purposes are hard coded and thus need to be added/requested via PR and decision
+purposes are hard-coded and thus need to be added/requested via PR and decision
 by the Jour Fixe.
 
 The topics on the other hand basically are just simple texts and can be added to
 components as according developers see fit. In fact, the model expects to have
 many combinations of purposes and topics not having any fitting help texts. The
-`HelpTextRetriever` is deliberatly designed to support different implementations,
+`HelpTextRetriever` is deliberately designed to support different implementations,
 so developers adding UI components cannot and should not know if some topics
 actually result in some help texts. The overall system will be in a good position
 to provide help in various situations if many fitting topics are added to as
@@ -101,5 +101,5 @@ for help texts are:
 * `ILIAS\UI\HelpTextRetriever`: Describes the interface that needs to be implemented
   in order to be able to provide help texts to the UI-framework.
 * An instance of that `HelpTextRetriever` is injected into the entry points of the
-  UI-Framework, as one can see in `\InitUIFramework`. These entrypoints can be 
+  UI-Framework, as one can see in `\InitUIFramework`. These entry points can be 
   [exchanged by plugins](docs/development/ui-plugin-manipulations.md).
