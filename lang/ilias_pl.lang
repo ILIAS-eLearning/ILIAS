@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Błędny tekst
 assessment#:#textsize#:#Rozmiar tekstu
 assessment#:#textsize_errortext_info#:#Podaj rozmiar tekstu w procentach odnoszących się do standardowego rozmiaru tekstu. Jeśli nie podasz żadnej wartości, użyty zostanie rozmiar standardowy (100%).
 assessment#:#textsize_info#:#Podaj rozmiar tekstu, który należy umieścić, w procentach odnoszących się do standardowego rozmiaru tekstu. Jeśli nie podasz żadnej wartości, użyty zostanie rozmiar standardowy (100%).
-assessment#:#thumb_geometry#:#Rozmiar miniaturki
-assessment#:#thumb_geometry_info#:#Podaj wartość w pikselach dla maksymalnego rozmiaru miniaturki grafik. W zależności od rastra obrazu podgląd zostanie pokazany z maksymalną wysokością lub szerokością rozmiaru miniaturki.
 assessment#:#thumb_size#:#Rozmiar miniaturki
-assessment#:#thumb_size_info#:#Jeśli podasz rozmiar miniaturki, ładowane obrazy będą automatycznie zmniejszanego do tej wielkości. Jeśli rozmiar miniaturki nie zostanie podany, obrazy będą używane w oryginalnym rozmiarze.
+assessment#:#thumb_size_info#:#Podaj wartość w pikselach dla maksymalnego rozmiaru miniaturki grafik. W zależności od rastra obrazu podgląd zostanie pokazany z maksymalną wysokością lub szerokością rozmiaru miniaturki.
 assessment#:#thumb_size_unit_pixel#:#Piksel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Przedłużenie czasu

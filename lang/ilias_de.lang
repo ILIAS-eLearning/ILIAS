@@ -1269,10 +1269,8 @@ assessment#:#text_wrong#:#Fehlerhafter Text
 assessment#:#textsize#:#Textgröße
 assessment#:#textsize_errortext_info#:#Geben Sie bitte die Größe des Textes in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
 assessment#:#textsize_info#:#Geben Sie bitte die Textgröße des anzuordnenden Texts in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
-assessment#:#thumb_geometry#:#Vorschaugröße
-assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
 assessment#:#thumb_size#:#Vorschaugröße
-assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hochgeladene Bilder automatisch auf diese Größe verkleinert. Ohne Vorschaugröße werden die Bilder in ihrer Originalgröße verwendet.
+assessment#:#thumb_size_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Zeitverlängerung

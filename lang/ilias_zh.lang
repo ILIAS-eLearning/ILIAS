@@ -1253,10 +1253,8 @@ assessment#:#text_wrong#:#错误的文本
 assessment#:#textsize#:#文本的大小
 assessment#:#textsize_errortext_info#:#如果您需要其它文本的大小大于100%，请用百分比方式输入错误文本的大小。
 assessment#:#textsize_info#:#如果您需要其它文本的大小大于100%，请用百分比方式输入排序文本的大小。
-assessment#:#thumb_geometry#:#几何缩略图
-assessment#:#thumb_geometry_info#:#将以给定的宽高的最大值创建图片的缩略图，保留长宽比。
 assessment#:#thumb_size#:#缩略图的尺寸
-assessment#:#thumb_size_info#:#如果您输入一个缩略图尺寸，那么将以这个尺寸生成上传图像的缩略图。如果没有缩略图尺寸，那么将使用原始图像的尺寸。
+assessment#:#thumb_size_info#:#将以给定的宽高的最大值创建图片的缩略图，保留长宽比。
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Extra Time###24 10 2013 new variable

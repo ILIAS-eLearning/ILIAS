@@ -273,13 +273,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         if ($this->object->isImageOrderingType()) {
-            $thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+            $thumb_size = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_geometry');
             $thumb_size->setValue($this->object->getThumbSize());
             $thumb_size->setRequired(true);
             $thumb_size->setMaxLength(6);
             $thumb_size->setMinValue($this->object->getMinimumThumbSize());
             $thumb_size->setSize(6);
-            $thumb_size->setInfo($this->lng->txt("thumb_geometry_info"));
+            $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
             $form->addItem($thumb_size);
         }
 
@@ -563,7 +563,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     // hey: prevPassSolutions - pass will be always available from now on
     public function getTestOutput($activeId, $pass, $isPostponed = false, $userSolutionPost = false, $inlineFeedback = false): string
-        // hey.
+    // hey.
     {
         // hey: prevPassSolutions - fixed variable type, makes phpstorm stop crying
         $userSolutionPost = is_array($userSolutionPost) ? $userSolutionPost : array();

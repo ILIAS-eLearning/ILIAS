@@ -72,8 +72,8 @@ acc#:#acc_tbl_docs_title#:#Dokumentumok
 acc#:#acc_tree_off#:#Tartalomfa kikapcsolása
 acc#:#acc_tree_on#:#Tartalomfa bekapcsolása
 adm#:#adm_acc_ctrl_cpt_desc#:#A Hozzáférhetőségi Dokumentum linkje jelenik meg a láblécben.
-adm#:#adm_acc_ctrl_cpt_enable#:#A Hozzáférhetőségi Dokumentum linkje a láblécben 
-adm#:#adm_accessibility_contacts#:#Elérthetőségek hozzáférési problémák esetén 
+adm#:#adm_acc_ctrl_cpt_enable#:#A Hozzáférhetőségi Dokumentum linkje a láblécben
+adm#:#adm_accessibility_contacts#:#Elérthetőségek hozzáférési problémák esetén
 adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez. Láblécben lévő link, felhasználónevek vesszővel elválasztott felsorolása.
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
 adm#:#adm_support_contacts#:#Technikai segítségnyújtók
@@ -903,7 +903,7 @@ assessment#:#manscoring_questions_not_found#:#Ez a tesztteljesítés nem tartalm
 assessment#:#manscoring_results_pass#:#Manuálisan pontozandó kérdések a(z) %s sorszámhoz
 assessment#:#manual_editing#:#Kézi módosítás
 assessment#:#mark_schema#:#Értékelés
-assessment#:#mark_schema_invalid#:#Az értékelésséma nem teljes, kérem, ellenőrizze a minálisan elérendő értéket. 
+assessment#:#mark_schema_invalid#:#Az értékelésséma nem teljes, kérem, ellenőrizze a minálisan elérendő értéket.
 assessment#:#mark_tst_ects#:#Az Ön ECTS-értékelése (ECTS = Európai Kreditátviteli Rendszer): '[markects]'
 assessment#:#matches#:#összeillők
 assessment#:#matching_pairs#:#Összeillő párok
@@ -1269,10 +1269,8 @@ assessment#:#text_wrong#:#Hibás szöveg
 assessment#:#textsize#:#Szövegméret
 assessment#:#textsize_errortext_info#:#Adja meg a hibás szöveg méretét százalékban, ha 100%-tól eltérőt szeretne.
 assessment#:#textsize_info#:#Adja meg a sorrendbe rakó szöveg szövegméretét százalékban, ha 100%-tól eltérőt szeretne.
-assessment#:#thumb_geometry#:#Bélyegkép geometriája
-assessment#:#thumb_geometry_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát.
 assessment#:#thumb_size#:#Bélyegképméret
-assessment#:#thumb_size_info#:#Ha megad bélyegképméretet, a feltöltött képhez egy olyan méretű bélyegképet generálunk. Bélyegképméret nélkül a kép eredeti méretét használjuk.
+assessment#:#thumb_size_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#ÓÓ PP MM
 assessment#:#timing#:#Extra-idő
@@ -1440,7 +1438,7 @@ assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, elér
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content#:#E-mail tartalma
-assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését. A 'Jogosultság' fül 'Tulajdonos' lapján található a teszt tulajdonosa. 
+assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését. A 'Jogosultság' fül 'Tulajdonos' lapján található a teszt tulajdonosa.
 assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum
 assessment#:#tst_finished#:#Befejezve
@@ -1879,7 +1877,7 @@ assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik n
 assessment#:#tst_show_solution_suggested#:#Ismétlő összefoglaló tartalom megjelenítése
 assessment#:#tst_show_solution_suggested_desc#:#Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez megjelenik a 'Részletes teszteredmények táblázata' tartalmában. A résztvevők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a 'Hozzáférés a teszteredményekhez' fül alatt a 'Részletes teszteredmények táblázata' opciót.
 assessment#:#tst_show_summary#:#Kérdéslista megjelenítése
-assessment#:#tst_show_summary_description#:#A résztvevő számára megjelenik a 'Kérdéslista' gomb, amivel bekapcsolhatják az összes kérdések felsorolását, ahol látszódik, melyikre adtak már választ. További beállítási lehetőséget alább talál. 
+assessment#:#tst_show_summary_description#:#A résztvevő számára megjelenik a 'Kérdéslista' gomb, amivel bekapcsolhatják az összes kérdések felsorolását, ahol látszódik, melyikre adtak már választ. További beállítási lehetőséget alább talál.
 assessment#:#tst_show_toplist#:#Rangsor
 assessment#:#tst_shuffle_questions#:#Kérdések összekeverése
 assessment#:#tst_shuffle_questions_description#:#A kérdések sorrendje elterő lesz minden próbálkozásnál.
@@ -2466,7 +2464,7 @@ blog#:#blog_toggle_draft#:#Közzététel visszavonása
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
 blog#:#blog_toggle_final#:#Bejegyzés közzététele
 blog#:#blog_whole_blog#:#Teljes blog
-book#:#X_reservations_of#:#%s foglalás / 
+book#:#X_reservations_of#:#%s foglalás /
 book#:#book_add#:#Foglalásgyűjtemény létrehozása
 book#:#book_add_object#:#Objektum létrehozása
 book#:#book_add_schedule#:#Időterv létrehozása
@@ -4508,7 +4506,7 @@ common#:#lres#:#Tananyagok
 common#:#lso_add#:#Tanulási sor létrehozása
 common#:#lso_admin_form_byline#:#Tanulási sorok általános beállításai
 common#:#lso_admin_form_title#:#Beállítások
-common#:#lso_admin_interval_byline#:#A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket! 
+common#:#lso_admin_interval_byline#:#A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket!
 common#:#lso_admin_interval_label#:#Tanulási folyamatok lekérdezési időköze (másodpercekben)
 common#:#lso_copy#:#Tanulási sor másolása
 common#:#lso_copy_threads_info#:#Válassza ki, a tanulási sor mely elemeit kívánja másolni, linkelni, illetve kihagyni.
@@ -5794,7 +5792,7 @@ common#:#user_activated#:#A felhasználót sikeresen jóváhagyta
 common#:#user_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#user_assignment#:#Felhasználó-hozzárendelés
 common#:#user_avatar#:#Profilkép
-common#:#user_avatar_of#:#Profilkép - 
+common#:#user_avatar_of#:#Profilkép -
 common#:#user_cant_receive_mail#:#%1$s – a felhasználónak nem engedélyezett a levelezőrendszer használata.
 common#:#user_comment#:#Felhasználói megjegyzés
 common#:#user_deactivated#:#Felhasználót kikapcsolta
@@ -9148,7 +9146,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához. 
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_new_feedback_text_uploaded#:#'%s' beadandó feladathoz új megjegyzés jött létre
 exc#:#exc_msg_new_feedback_text_uploaded2#:#ezúton tájékoztatjuk, hogy egy tutor megjegyzést írt Önnek.
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
@@ -10340,7 +10338,7 @@ link#:#link_wpages#:#Wiki oldalak
 lm#:#lm_btn_lp_toggle_state_completed#:#Nem teljesítettre állítás
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Sikeresen teljesítettre állítás
 lm#:#lm_copy#:#Tananyag másolása
-lm#:#lm_est_reading_time#:#Becsült olvasási idő 
+lm#:#lm_est_reading_time#:#Becsült olvasási idő
 lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
 lm#:#lm_page_type_lm#:#Tananyagoldal
 lm#:#lm_save_titles#:#A címeket sikeresen mentette.
@@ -10744,7 +10742,7 @@ lti#:#tab_grade_synchronization#:#Fejlett értékekési szolgáltatás
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Helyezés
 lti#:#tab_settings#:#Beállítások
-lti#:#tab_statements#:#Tanulási tapasztalatok 
+lti#:#tab_statements#:#Tanulási tapasztalatok
 lti#:#tbl_grade_activityProgress#:#Állapot választása
 lti#:#tbl_grade_activityProgress_select#:#Állapot
 lti#:#tbl_grade_actor#:#Felhasználó
@@ -10870,7 +10868,7 @@ mail#:#mail_folder_name_changed#:#A mappát sikeresen átnevezte.
 mail#:#mail_following_rcp_not_valid#:#Az alábbi címzettek érvénytelenek:
 mail#:#mail_form_placeholders_label#:#Használható helyőrzők
 mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
-mail#:#mail_global_reply_to_addr#:#Válaszcím 
+mail#:#mail_global_reply_to_addr#:#Válaszcím
 mail#:#mail_global_reply_to_addr_info#:#Adja meg a kívánt válaszcímet ('Reply-To') címet.
 mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
 mail#:#mail_hint_add_placeholder_x#:#Adja a(z) '%s' helyőrzőt a levél szövegéhez.
@@ -10975,7 +10973,7 @@ mail#:#mail_smtp_status#:#Küldés SMTP-n keresztül
 mail#:#mail_smtp_status_info#:#Az ILIAS a PHP függvény (sendmail, mail() függvény) helyett SMTP szerveren keresztül küld külső leveleket.
 mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_subject_prefix#:#Levél tárgya
-mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet. 
+mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
@@ -12268,7 +12266,7 @@ obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
 obj#:#obj_tool_setting_tag_cloud_info#:#'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
 obj#:#obj_tool_setting_taxonomies#:#Taxonómiák
 obj#:#obj_tool_setting_use_news#:#Hírek
-obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról. 
+obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról.
 obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
 obj#:#obj_user_decides_notification#:#A tagoknak saját maguknak kell aktiválniuk az értesítéseket
 obj#:#obj_user_not_disable_not#:#A tagok nem kapcsolhatják ki az értesítéseket
@@ -12341,7 +12339,7 @@ orgu#:#orgu_already_deleted#:#Az objektumot már korábban törölték.
 orgu#:#orgu_enable_my_staff#:#A 'Munkatársak' bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#A 'Munkatársak' a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#orgu_global_set_form#:#Globális szervezeti egység beállításai
-orgu#:#orgu_global_set_positions#:#Objektumtípusonkénti pozíciók bekapcsolása 
+orgu#:#orgu_global_set_positions#:#Objektumtípusonkénti pozíciók bekapcsolása
 orgu#:#orgu_global_set_positions_type_active#:#Pozíciók ebben:
 orgu#:#orgu_global_set_type_changeable#:#Módosíthatóság
 orgu#:#orgu_global_set_type_changeable_no#:#Nem módosítható
@@ -12623,7 +12621,7 @@ prg#:#msg_mark_not_relevant_failed#:#A releváns el nem távolítva:
 prg#:#msg_mark_relevant#:#%s felhasználót sikeresen módosította irrelevánsra
 prg#:#msg_mark_relevant_failed#:#Nem releváns:
 prg#:#msg_points_must_be_positive#:#Csak pozitív szám lehetséges.
-prg#:#msg_unmark_accredited#:#%s felhasználó abszolvált állapotát sikeresen eltávolította 
+prg#:#msg_unmark_accredited#:#%s felhasználó abszolvált állapotát sikeresen eltávolította
 prg#:#msg_unmark_accredited_failed#:#Abszolvált állapot eltávolítása sikertelen:
 prg#:#msg_update_from_settings#:#%s felhasználót sikeresen módosított a beállításokból
 prg#:#msg_update_from_settings_failed#:#A módosítás a beállításokból sikertelen:
@@ -13563,9 +13561,9 @@ rbac#:#mep_read#:#A felhasználónak olvasási elérése van a médiagyűjtemén
 rbac#:#mep_visible#:#A médiagyűjtemény látható
 rbac#:#mep_write#:#A felhasználó szerkeszthet médiagyűjtemény-tartalmat és -beállításokat
 rbac#:#mme_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü jogosultsági beállításait
-rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz 
+rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz
 rbac#:#mme_visible#:#A felhasználó láthatja a Rendszerbeállítások » Főmenü menüpontot
-rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait 
+rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait
 rbac#:#mobs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények jogosultsági beállításait
 rbac#:#mobs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények beállításaihoz
 rbac#:#mobs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények menüpontot
@@ -15930,7 +15928,7 @@ survey#:#survey_results_anonymized_info#:#A végeredmények megtekintésekor a v
 survey#:#survey_results_finished#:#Kérdőív befejezve
 survey#:#survey_results_not_started#:#A kérdőív nem indult el
 survey#:#survey_results_personalized#:#Nevekkel
-survey#:#survey_results_personalized_info#:#A végeredmények megtekintésekor a válaszadók neve és válaszai megjelennek, azaz a válaszadók személyei a megfelelő jogosultsággal rendelkezők számára beazonosíthatók. Ez alacsony részvétel esetén a korlátozott hozzáféréssel rendelkezők is megtehetik.  
+survey#:#survey_results_personalized_info#:#A végeredmények megtekintésekor a válaszadók neve és válaszai megjelennek, azaz a válaszadók személyei a megfelelő jogosultsággal rendelkezők számára beazonosíthatók. Ez alacsony részvétel esetén a korlátozott hozzáféréssel rendelkezők is megtehetik.
 survey#:#survey_results_started#:#A kérdőív elindult
 survey#:#survey_results_tutor_body#:#ezúton küldjük csatolmányban az alábbi kérdőív részletes eredményeit
 survey#:#survey_results_tutor_subject#:#'%s' kérdőív eredményei

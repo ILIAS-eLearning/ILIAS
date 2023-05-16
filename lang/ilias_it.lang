@@ -1268,10 +1268,8 @@ assessment#:#text_wrong#:#Testo sbagliato
 assessment#:#textsize#:#Dimensione del testo
 assessment#:#textsize_errortext_info#:#Immettere le dimensioni del testo in percentuale relativamente alla grandezza normale. Se non verrà immesso nessun valore verrà usata una grandezza del 100 per cento.
 assessment#:#textsize_info#:#Inserisci la dimensione del testo da disporre come percentuale della dimensione normale. Se non si specifica un valore, viene utilizzata la dimensione normale (100 percento).
-assessment#:#thumb_geometry#:#Dimensioni della miniatura
-assessment#:#thumb_geometry_info#:#Immettere un valore in pixel per la dimensione massima dell'anteprima della grafica. A seconda delle proporzioni, l'anteprima viene convertita in altezza o in larghezza nella dimensione massima dell'anteprima.
 assessment#:#thumb_size#:#Misure della miniatura (thumbnail)
-assessment#:#thumb_size_info#:#Se inserisci le misure della miniatura (thumbnail), una miniatura di questa dimensione sarà creata per le immagini caricate. In caso di assenza di misure verranno usate quelle dell'immagine originale.
+assessment#:#thumb_size_info#:#Immettere un valore in pixel per la dimensione massima dell'anteprima della grafica. A seconda delle proporzioni, l'anteprima viene convertita in altezza o in larghezza nella dimensione massima dell'anteprima.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Tempo supplementare

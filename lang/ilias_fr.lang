@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Texte incorrect
 assessment#:#textsize#:#Taille du Texte
 assessment#:#textsize_errortext_info#:#Saisir la taille du texte d'erreur en pourcentage si vous désirez une taille autre que 100%.
 assessment#:#textsize_info#:#Saisir la taille du texte à  ordonner en pourcentage si vous désirez une taille autre que 100%.
-assessment#:#thumb_geometry#:#Taille de miniature
-assessment#:#thumb_geometry_info#:#Les miniatures d'image seront créées avec la valeur saisie en hauteur et largeur. Le ratio de l'aspect sera préservé.
 assessment#:#thumb_size#:#Taille de miniature
-assessment#:#thumb_size_info#:#Si la taille de miniature est renseignée, une miniature de cette taille sera générée pour le image téléversée. Sans taille de miniature, la taille originale de l'image sera conservée.
+assessment#:#thumb_size_info#:#Les miniatures d'image seront créées avec la valeur saisie en hauteur et largeur. Le ratio de l'aspect sera préservé.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Temps Supplémentaire

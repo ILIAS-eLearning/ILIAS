@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Chybný text
 assessment#:#textsize#:#Šířka textu
 assessment#:#textsize_errortext_info#:#Vložte šířku chybného textu v procentech pokud chcete jinou šířku, než 100 procent.
 assessment#:#textsize_info#:#Vložte šířku uspořádání textu v procentech, pokud chcete jinou velikost, než 100 procent.
-assessment#:#thumb_geometry#:#Geometrie miniatury
-assessment#:#thumb_geometry_info#:#Miniatura obrázku bude vytvořena s maximálními hodnotami dané výšky a šířky, poměr stran bude zachován.
 assessment#:#thumb_size#:#Velikost miniatury
-assessment#:#thumb_size_info#:#Vložíte-li velikost miniatury, pak velikost miniatury bude denerována z uloženého obrázku. Bez velikosti miniatury bude použita původní velikost obrázku.
+assessment#:#thumb_size_info#:#Miniatura obrázku bude vytvořena s maximálními hodnotami dané výšky a šířky, poměr stran bude zachován.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Další čas

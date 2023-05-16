@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Verkeerde tekst
 assessment#:#textsize#:#Tekst lengte
 assessment#:#textsize_errortext_info#:#Invoeren van de lettergroote van foutmeldingen, in  percenten, als je een andere groot wil dan 100%.
 assessment#:#textsize_info#:#Invoeren van de lettergrootte van de order tekst in procenten als je een andere grootte wil dan 100%.
-assessment#:#thumb_geometry#:#Miniatuur Geometrie
-assessment#:#thumb_geometry_info#:#De miniaturen van de afbeeldingen worden gemaakt met een maximum waarde hoogte en breedte rekening houdend met de aspect ratio.
 assessment#:#thumb_size#:#Grootte van Miniatuur
-assessment#:#thumb_size_info#:#Als je hier een miniatuur grootte opgeeft, krijgen geuploade afbeeldingen ook deze grootte. Zonder een miniatuur-grootte wordt de grootte van de geuploade afbeeldingen gebruikt.
+assessment#:#thumb_size_info#:#De miniaturen van de afbeeldingen worden gemaakt met een maximum waarde hoogte en breedte rekening houdend met de aspect ratio.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#UU MM SS
 assessment#:#timing#:#Extra Tijd

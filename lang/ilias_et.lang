@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Vigane tekst
 assessment#:#textsize#:#Teksti suurus
 assessment#:#textsize_errortext_info#:#Sisesta veateksti suurus protsentides, kui soovid muud suurust kui 100 protsenti.
 assessment#:#textsize_info#:#Sisesta järjestusküsimuse jaoks kirja suurus %-des (vaikimisi 100 %).
-assessment#:#thumb_geometry#:#Pisipildi proportsioonid
-assessment#:#thumb_geometry_info#:#Pildid pisipildid luuakse, säilitades antud maksimaalse kõrguse ja laiuse suhtarvu.
 assessment#:#thumb_size#:#Pisipildi suurus
-assessment#:#thumb_size_info#:#Kui sisestad pisipildi suuruse, luuakse üleslaetud piltide jaoks pisipildid sellises suuruses. Ilma pisipildi suuruseta kasutatakse originaalsuuruses faili.
+assessment#:#thumb_size_info#:#Pildid pisipildid luuakse, säilitades antud maksimaalse kõrguse ja laiuse suhtarvu.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#TT MM SS
 assessment#:#timing#:#Extra Time

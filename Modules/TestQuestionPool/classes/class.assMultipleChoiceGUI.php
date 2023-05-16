@@ -69,7 +69,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            $form = $this->buildEditForm();
+            $is_singleline = $this->getEditAnswersSingleLine();
+            $form = $this->buildEditForm($is_singleline);
             $form->setValuesByPost();
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
@@ -117,10 +118,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        $form = $this->buildEditForm();
+        $is_singleline = $this->getEditAnswersSingleLine($checkonly);
 
-        $isSingleline = $this->getEditAnswersSingleLine($checkonly);
-        if ($isSingleline) {
+        $form = $this->buildEditForm($is_singleline);
+
+        if ($is_singleline) {
             $form->setMultipart(true);
         } else {
             $form->setMultipart(false);
@@ -133,7 +135,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
             $form->setValuesByPost();
             $errors = !$form->checkInput();
-            $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
             if ($errors) {
                 $checkonly = false;
             }
@@ -158,7 +159,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function uploadchoice(): void
     {
         $this->writePostData(true);
-        $position = key($_POST['cmd']['uploadchoice']);
         $this->editQuestion();
     }
 
@@ -169,7 +169,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
-        $filename = $_POST['choice']['imagename'][$position];
         $this->object->removeAnswerImage($position);
         $this->editQuestion();
     }
@@ -741,7 +740,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form, bool $is_singleline = false): ilPropertyFormGUI
     {
         // shuffle
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
@@ -769,13 +768,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->addItem($hidden);
         }
 
-        $isSingleline = $this->getEditAnswersSingleLine();
-
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
             $types->setRequired(false);
-            $types->setValue(($isSingleline) ? 0 : 1);
+            $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions([
                 0 => $this->lng->txt('answers_singleline'),
                 1 => $this->lng->txt('answers_multiline'),
@@ -783,7 +780,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->addItem($types);
         }
 
-        if ($isSingleline) {
+        if ($is_singleline) {
             // thumb size
             $thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
             $thumb_size->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
@@ -793,20 +790,23 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
             $thumb_size->setValue($this->object->getThumbSize());
             $thumb_size->setRequired(true);
-            $form->addItem($thumb_size);
+        } else {
+            $thumb_size = new ilHiddenInputGUI('thumb_size');
+            $thumb_size->setValue($this->object->getThumbSize());
         }
+        $form->addItem($thumb_size);
+
         return $form;
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form, bool $is_singleline = false): ilPropertyFormGUI
     {
         // Choices
         include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
         $choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
-        $isSingleline = $this->getEditAnswersSingleLine();
-        $choices->setSingleline($isSingleline);
+        $choices->setSingleline($is_singleline);
         $choices->setAllowMove(false);
         if ($this->object->getSelfAssessmentEditingMode()) {
             $choices->setSize(40);
@@ -960,7 +960,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm(): ilPropertyFormGUI
+    protected function buildEditForm(bool $is_singleline = true): ilPropertyFormGUI
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -971,8 +971,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
-        $this->populateQuestionSpecificFormPart($form);
-        $this->populateAnswerSpecificFormPart($form);
+        $this->populateQuestionSpecificFormPart($form, $is_singleline);
+        $this->populateAnswerSpecificFormPart($form, $is_singleline);
         $this->populateTaxonomyFormSection($form);
         $this->addQuestionFormCommandButtons($form);
         return $form;

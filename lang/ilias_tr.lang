@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#Yanlış Metni
 assessment#:#textsize#:#Metin Boyutu
 assessment#:#textsize_errortext_info#:#Hata metni boyu için %100 den başka değer girmek istiyorsanız boyutu girin
 assessment#:#textsize_info#:#Sıralama metni boyu için %100 den başka değer girmek istiyorsanız boyutu girin
-assessment#:#thumb_geometry#:#Küçük Resim Geometri
-assessment#:#thumb_geometry_info#:#Küçük resimler verilen maksimum yükseklik ve genişlik değerlerine göre en-boy oranı kurunarak oluşturulacaktır.
 assessment#:#thumb_size#:#Küçük Resim Boyutu
-assessment#:#thumb_size_info#:#Küçük resim boyutu girerseniz, yüklenen resim dosyaları bu boyutlara göre oluşturulacaktır. Küçük boyut tanımlı değilse orijinal görüntü boyutu kullanılacaktır.
+assessment#:#thumb_size_info#:#Küçük resimler verilen maksimum yükseklik ve genişlik değerlerine göre en-boy oranı kurunarak oluşturulacaktır.
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Extra Time###24 10 2013 new variable

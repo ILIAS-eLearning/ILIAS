@@ -420,13 +420,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $shuffle->setRequired(false);
             $form->addItem($shuffle);
 
-            $geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+            $geometry = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_geometry');
             $geometry->setValue($this->object->getThumbGeometry());
             $geometry->setRequired(true);
             $geometry->setMaxLength(6);
             $geometry->setMinValue(20);
             $geometry->setSize(6);
-            $geometry->setInfo($this->lng->txt("thumb_geometry_info"));
+            $geometry->setInfo($this->lng->txt('thumb_size_info'));
             $form->addItem($geometry);
         }
 
@@ -820,7 +820,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     // hey: prevPassSolutions - pass will be always available from now on
     public function getTestOutput($active_id, $pass, $is_postponed = false, $user_post_solution = false, $inlineFeedback = false): string
-        // hey.
+    // hey.
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {

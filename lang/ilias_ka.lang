@@ -1254,10 +1254,8 @@ assessment#:#text_wrong#:#მცდარი ტექსტი
 assessment#:#textsize#:#ტექსტის ზომა
 assessment#:#textsize_errortext_info#:#შეიყვანეთ მცდარი ტექსტის  ზომა პროცენტით თუ 100%s ისგან განსხვავებული ზომა გსურთ
 assessment#:#textsize_info#:#შეიყვანეთ თანმიმდევრობითი ტექსტის ზომა პროცენტებში
-assessment#:#thumb_geometry#:#ჩარჩოს გეომეტრია
-assessment#:#thumb_geometry_info#:#სურათის ჩარჩოები შეიქმნება მაქსიმალური ღირებულებით სიმაღლითა და სიგანით, თვალსაზრისის თანაფარდობა დაცულია.
 assessment#:#thumb_size#:#ჩარჩოს ზომა
-assessment#:#thumb_size_info#:#თუ თქვენ შეიყვანეთ ჩარჩოს ზომა, ამ ჩარჩოს ზომა გამოიყენება ატვირთული სურათებისთვის. სურათის ჩარჩოს გარეშე, სურათის თავდაპირველი ზომა გამოიყენება.
+assessment#:#thumb_size_info#:#სურათის ჩარჩოები შეიქმნება მაქსიმალური ღირებულებით სიმაღლითა და სიგანით, თვალსაზრისის თანაფარდობა დაცულია.
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
 assessment#:#time_format#:#სს წწ წწ
 assessment#:#timing#:#Extra Time###24 10 2013 new variable

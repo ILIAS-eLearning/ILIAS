@@ -1256,10 +1256,8 @@ assessment#:#text_wrong#:#Texto erróneo
 assessment#:#textsize#:#Tamaño del texto
 assessment#:#textsize_errortext_info#:#Introduzca el porcentaje de reducción del tipo de letra del texto con los errores (100% tamaño normal)
 assessment#:#textsize_info#:#Introduzca el tamaño del texto de texto ordenado en porcentaje si desea otro tamaño de 100 por ciento.
-assessment#:#thumb_geometry#:#Tamaño de la miniatura
-assessment#:#thumb_geometry_info#:#Las miniaturas de imagen se crearán con un valor máximo de la altura y anchura determinado, la relación de aspecto se conserva.
 assessment#:#thumb_size#:#Tamaño de la miniatura
-assessment#:#thumb_size_info#:#Si introduce un tamaño de miniatura, una miniatura de este tamaño se generará para las imágenes cargadas. Sin un tamaño de miniatura, el tamaño de la imagen original es el usado.
+assessment#:#thumb_size_info#:#Las miniaturas de imagen se crearán con un valor máximo de la altura y anchura determinado, la relación de aspecto se conserva.
 assessment#:#thumb_size_unit_pixel#:#Píxel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Tiempo extra

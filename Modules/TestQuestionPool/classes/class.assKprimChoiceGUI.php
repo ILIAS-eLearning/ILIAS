@@ -182,17 +182,18 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($this->object->getAnswerType())) {
             // thumb size
-            $thumbSize = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
-            $thumbSize->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
-            $thumbSize->setInfo($this->lng->txt('thumb_size_info'));
-            $thumbSize->setDecimals(false);
-            $thumbSize->setMinValue(20);
-            $thumbSize->setSize(6);
-            if ($this->object->getThumbSize() > 0) {
-                $thumbSize->setValue($this->object->getThumbSize());
-            }
-            $form->addItem($thumbSize);
+            $thumb_size = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
+            $thumb_size->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
+            $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
+            $thumb_size->setDecimals(false);
+            $thumb_size->setMinValue(20);
+            $thumb_size->setSize(6);
+            $thumb_size->setValue($this->object->getThumbSize());
+        } else {
+            $thumb_size = new ilHiddenInputGUI('thumb_size');
+            $thumb_size->setValue($this->object->getThumbSize());
         }
+        $form->addItem($thumb_size);
 
         // option label
         $optionLabel = new ilRadioGroupInputGUI($this->lng->txt('option_label'), 'option_label');
@@ -245,7 +246,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $oldAnswerType = $this->object->getAnswerType();
+        $old_answer_type = $this->object->getAnswerType();
 
         $this->object->setShuffleAnswersEnabled($form->getItemByPostVar('shuffle_answers_enabled')->getChecked());
 
@@ -255,7 +256,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $this->object->setAnswerType(assKprimChoice::ANSWER_TYPE_MULTI_LINE);
         }
 
-        if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($oldAnswerType)) {
+        if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($old_answer_type)) {
             $this->object->setThumbSize((int) ($form->getItemByPostVar('thumb_size')->getValue() ?? $this->object->getThumbSize()));
         }
 
