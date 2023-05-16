@@ -627,6 +627,17 @@ ilias.questions.assClozeTest = function(a_id) {
 
 ilias.questions.initClozeTest = function(a_id) {
 	var closecounter = 0;
+
+    let shuffleItems = (items) => {
+        for (i=items.length-1;i>0;i--) {
+            j = Math.floor(Math.random() * i);
+            k = items[i];
+            items[i] = items[j];
+            items[j] = k;
+        }
+        return items;
+    };
+
 	_initClozeTestCallBack = function (found) {
 		var type = questions[a_id].gaps[closecounter].type;
 		var input;
@@ -646,15 +657,21 @@ ilias.questions.initClozeTest = function(a_id) {
 		}
 		if (type==1) {
 			input = jQuery.create('select', {'id': a_id+"_"+closecounter, 'class': 'ilc_qinput_ClozeGapSelect'});
-			for (var i=0;i<questions[a_id].gaps[closecounter].item.length;i++) {
-				var option = jQuery.create('option', {'id': i, 'value':i},questions[a_id].gaps[closecounter].item[i].value);
+
+            let items = questions[a_id].gaps[closecounter].item;
+            if (questions[a_id].shuffle === true) {
+                items = shuffleItems(items);
+            }
+			for (var i=0;i<items.length;i++) {
+				var option = jQuery.create('option', {'id': i, 'value':i},items[i].value);
 				input.append(option);
 			}
 		}
 		closecounter++;
 		return input.outerHTML();
 	 };
-	var parsed=jQuery("div#"+a_id).get(0).innerHTML.replace(/\[gap\][^\[]+\[\/gap\]/g,function(){return _initClozeTestCallBack();});
+	var parsed=jQuery("div#"+a_id).get(0).innerHTML.replace(/\[gap\][^\[]+\[\/gap\]/g,
+        () => {return _initClozeTestCallBack();});
 	jQuery("div#"+a_id).html(parsed);
 };
 
@@ -827,40 +844,29 @@ ilias.questions.showFeedback =function(a_id) {
 
 	var fbtext = "";
 
-	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0))
-	{
+	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
 		jQuery('#button'+a_id).prop("disabled",true);
 
-		if (answers[a_id].passed===true)
-		{
+		if (answers[a_id].passed===true) {
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
 
-			if( answers[a_id].isBestSolution )
-			{
-				if (ilias.questions.default_feedback)
-				{
+			if( answers[a_id].isBestSolution ) {
+				if (ilias.questions.default_feedback) {
 					fbtext = '<b>' + ilias.questions.txt.all_answers_correct + '</b><br />';
 				}
 
-				if (questions[a_id].feedback['allcorrect'])
-				{
+				if (questions[a_id].feedback['allcorrect']) {
 					fbtext += questions[a_id].feedback['allcorrect'];
 				}
 
-				if( jQuery.inArray(questions[a_id].type, ilias.questions.enhancedQuestionTypes) == -1 )
-				{
+				if( jQuery.inArray(questions[a_id].type, ilias.questions.enhancedQuestionTypes) == -1 ) {
 					ilias.questions.showCorrectAnswers(a_id);
 				}
-			}
-			else
-			{
-				if (ilias.questions.default_feedback)
-				{
+			} else {
+				if (ilias.questions.default_feedback) {
 					fbtext = '<b>' + ilias.questions.txt.enough_answers_correct + '</b><br />'
 						+ txt_wrong_answers + '<br />' + ilias.questions.txt.correct_answers_shown;
-				}
-				else if (questions[a_id].feedback['allcorrect'])
-				{
+				} else if (questions[a_id].feedback['allcorrect']) {
 					fbtext += questions[a_id].feedback['allcorrect'];
 				}
 
@@ -868,19 +874,15 @@ ilias.questions.showFeedback =function(a_id) {
 			}
 
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
-		}
-		else
-		{
+		} else {
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
 
-			if (ilias.questions.default_feedback)
-			{
+			if (ilias.questions.default_feedback) {
 				fbtext = '<b>' + ilias.questions.txt.nr_of_tries_exceeded + '</b><br />'
 							+ ilias.questions.txt.correct_answers_shown + '<br />';
 			}
 
-			if (questions[a_id].feedback['onenotcorrect'])
-			{
+			if (questions[a_id].feedback['onenotcorrect']) {
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
 
@@ -888,11 +890,8 @@ ilias.questions.showFeedback =function(a_id) {
 
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
-	}
-	else
-	{
-		if (questions[a_id].nr_of_tries!=0)
-		{
+	} else {
+		if (questions[a_id].nr_of_tries!=0) {
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
 
 			var rem = questions[a_id].nr_of_tries - answers[a_id].tries;
@@ -908,18 +907,14 @@ ilias.questions.showFeedback =function(a_id) {
 			}
 
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
-		}
-		else
-		{
+		} else {
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
 
-			if (ilias.questions.default_feedback)
-			{
+			if (ilias.questions.default_feedback) {
 				fbtext = txt_wrong_answers + '<br /> ' + ilias.questions.txt.please_try_again + '<br />';
 			}
 
-			if (questions[a_id].feedback['onenotcorrect'])
-			{
+			if (questions[a_id].feedback['onenotcorrect']) {
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
 
@@ -927,9 +922,10 @@ ilias.questions.showFeedback =function(a_id) {
 		}
 	}
 
-	jQuery('#feedback'+a_id).html(fbtext);
+    fb = fbtext.replace(/&#123;/g, '{').replace(/&#125;/g, '}');
+    jQuery('#feedback'+a_id).html(fb);
 
-	const el = document.getElementById("feedback" + a_id);
+	const el = document.getElementById('feedback' + a_id);
 	if (el) {
 		el.style.display = '';
 		if (typeof MathJax != "undefined") {
@@ -938,8 +934,7 @@ ilias.questions.showFeedback =function(a_id) {
 	}
 
 	// update question overviews
-	if (typeof il.COPagePres != "undefined")
-	{
+	if (typeof il.COPagePres != "undefined") {
 		il.COPagePres.updateQuestionOverviews();
 	}
 
