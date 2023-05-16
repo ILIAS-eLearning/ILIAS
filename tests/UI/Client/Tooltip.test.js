@@ -21,6 +21,9 @@ describe("tooltip initializes", function() {
             getElementById.push(which);
             return tooltip;
         },
+        getElementsByTagName: function (tag) {
+            return [];
+        },
         parentWindow: window
     };
 
@@ -83,6 +86,9 @@ describe("tooltip show works", function() {
         },
         getElementById: function(which) {
             return tooltip;
+        },
+        getElementsByTagName: function (tag) {
+            return [];
         },
         parentWindow: window
     };
@@ -155,6 +161,9 @@ describe("tooltip hide works", function() {
         },
         getElementById: function(which) {
             return tooltip;
+        },
+        getElementsByTagName: function (tag) {
+            return [];
         },
         parentWindow: window
     };
@@ -255,7 +264,7 @@ describe("tooltip hide works", function() {
         object.hideTooltip = function () {
             hideTooltipCalled = true;
         };
-        object.element.blur = function () {
+        element.blur = function () {
             blurCalled = true;
         };
 
@@ -295,7 +304,7 @@ describe("tooltip hide works", function() {
             preventDefaultCalled= true;
         };
 
-        object.onPointerDown({target: object.element, preventDefault: preventDefault});
+        object.onPointerDown({target: element, preventDefault: preventDefault});
 
         expect(hideTooltipCalled).to.equal(false);
         expect(preventDefaultCalled).to.equal(true);
@@ -316,6 +325,9 @@ describe("tooltip is on top if there is not enough space below", function() {
         },
         getElementById: function(which) {
             return tooltip;
+        },
+        getElementsByTagName: function (tag) {
+            return [];
         },
         parentWindow: window
     };
@@ -410,6 +422,9 @@ describe("tooltip moves to left or right if there is not enough space", function
         getElementById: function(which) {
             return tooltip;
         },
+        getElementsByTagName: function (tag) {
+            return [];
+        },
         parentWindow: window
     };
 
@@ -490,6 +505,9 @@ describe("get display rect", function() {
         getElementById: function(which) {
             return tooltip;
         },
+        getElementsByTagName: function (tag) {
+            return [];
+        },
         parentWindow: window
     };
 
@@ -526,25 +544,20 @@ describe("get display rect", function() {
 
     it("returns window coordinates if tooltip is not in main", function () {
         var object = new Tooltip(element);
-        var which = null;
-        document.getElementsByTagName = function (w) {
-            which = w;
-            return [];
-        }
 
         window.innerWidth = 100;
         window.innerHeight= 150;
 
         var rect = object.getDisplayRect();
 
-        expect(which).to.equal("main");
         expect(rect).to.deep.equal({left: 0, top: 0, width: 100, height: 150});
     });
 
     it("returns main coordinates if tooltip is in main", function () {
-        var object = new Tooltip(element);
-        var which = null;
         var main = {
+            contains: function (e) {
+                return true;
+            },
             getBoundingClientRect: function () {
                 return {
                     left: 10,
@@ -554,14 +567,13 @@ describe("get display rect", function() {
                 };
             }
         }
-        document.getElementsByTagName = function (w) {
-            which = w;
+        element.ownerDocument.getElementsByTagName = function (w) {
             return [main];
         }
 
+        var object = new Tooltip(element);
         var rect = object.getDisplayRect();
 
-        expect(which).to.equal("main");
         expect(rect).to.deep.equal({left: 10, top: 20, width: 110, height: 120});
     });
 });

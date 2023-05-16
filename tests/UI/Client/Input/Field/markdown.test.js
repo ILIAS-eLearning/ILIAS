@@ -28,13 +28,13 @@ const test_input_id = 'test_input_id';
 function initMockedDom() {
     let dom = new JSDOM(
         `
-            <div class="ui-input-markdown">
-                <div class="ui-input-markdown-controls">
+            <div class="c-input-markdown">
+                <div class="c-input-markdown__controls">
                     <div class="btn-group il-viewcontrol-mode" aria-label="" role="group">
                         <button class="btn btn-default engaged" aria-label="edit" aria-pressed="true" data-action="#" id="view_control_edit">edit</button>
                         <button class="btn btn-default" aria-label="view" aria-pressed="false" data-action="#" id="view_control_view">view</button>
                     </div>
-                    <div class="ui-input-markdown-actions">
+                    <div class="c-input-markdown__actions">
                         <span data-action="insert-heading"><button class="btn btn-default" data-action="#" id="action_heading">H</button></span>
                         <span data-action="insert-link"><button class="btn btn-default" data-action="#" id="action_link">L</button></span>
                         <span data-action="insert-bold"><button class="btn btn-default" data-action="#" id="action_bold">B</button></span>
@@ -46,7 +46,7 @@ function initMockedDom() {
                 <div class="ui-input-textarea">
                     <textarea id="${test_input_id}" class="form-control form-control-sm" name="test_input_1"></textarea>
                 </div>
-                <div class="ui-input-markdown-preview hidden"></div>
+                <div class="c-input-markdown__preview hidden"></div>
             </div>
         `,
         {
