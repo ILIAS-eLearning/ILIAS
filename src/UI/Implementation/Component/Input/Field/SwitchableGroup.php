@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -58,6 +57,10 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return null;
     }
 
@@ -72,9 +75,9 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return array_key_exists($value, $this->inputs);
     }
 
-    public function withRequired($is_required): Field\Input
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): Field\Input
     {
-        return Input::withRequired($is_required);
+        return Input::withRequired($is_required, $requirement_constraint);
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -51,6 +50,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     protected string $label;
     protected ?string $byline;
     protected bool $is_required = false;
+    protected ?Constraint $requirement_constraint = null;
     protected bool $is_disabled = false;
 
     /**
@@ -147,10 +147,11 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withRequired(bool $is_required)
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
     {
         $clone = clone $this;
         $clone->is_required = $is_required;
+        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
         return $clone;
     }
 
