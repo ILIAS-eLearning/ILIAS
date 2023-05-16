@@ -68,7 +68,7 @@ class assClozeGap
     public function __construct($a_type)
     {
         $this->type = (int) $a_type;
-        $this->items = array();
+        $this->items = [];
         $this->shuffle = true;
     }
 
@@ -172,7 +172,7 @@ class assClozeGap
     {
         $order = $a_item->getOrder();
         if (array_key_exists($order, $this->items)) {
-            $newitems = array();
+            $newitems = [];
             for ($i = 0; $i < $order; $i++) {
                 array_push($newitems, $this->items[$i]);
             }
@@ -298,7 +298,7 @@ class assClozeGap
     */
     public function clearItems(): void
     {
-        $this->items = array();
+        $this->items = [];
     }
 
     /**
@@ -358,7 +358,7 @@ class assClozeGap
                 $maxpoints = $item->getPoints();
             }
         }
-        $keys = array();
+        $keys = [];
         foreach ($this->items as $key => $item) {
             if ($item->getPoints() == $maxpoints) {
                 array_push($keys, $key);
@@ -379,16 +379,16 @@ class assClozeGap
         switch ($this->getType()) {
             case CLOZE_TEXT:
             case CLOZE_SELECT:
-                $best_solutions = array();
+                $best_solutions = [];
                 if ($combinations !== null && $combinations['best_solution'] == 1) {
-                    $best_solutions[$combinations['points']] = array();
+                    $best_solutions[$combinations['points']] = [];
                     array_push($best_solutions[$combinations['points']], $combinations['answer']);
                 } else {
                     foreach ($this->getItems($shuffler) as $answer) {
                         if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()])) {
                             array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
                         } else {
-                            $best_solutions[$answer->getPoints()] = array();
+                            $best_solutions[$answer->getPoints()] = [];
                             array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
                         }
                     }
