@@ -1256,10 +1256,8 @@ assessment#:#text_wrong#:#Hibás szöveg
 assessment#:#textsize#:#Szövegméret
 assessment#:#textsize_errortext_info#:#Adja meg a hibás szöveg méretét százalékban, ha 100%-tól eltérőt szeretne.
 assessment#:#textsize_info#:#Adja meg a sorrendbe rakó szöveg szövegméretét százalékban, ha 100%-tól eltérőt szeretne.
-assessment#:#thumb_geometry#:#Bélyegkép geometriája
-assessment#:#thumb_geometry_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát.
 assessment#:#thumb_size#:#Bélyegképméret
-assessment#:#thumb_size_info#:#Ha megad bélyegképméretet, a feltöltött képhez egy olyan méretű bélyegképet generálunk. Bélyegképméret nélkül a kép eredeti méretét használjuk.
+assessment#:#thumb_size_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel jön létre, megtartva a kép méretarányát.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#ÓÓ PP MM
 assessment#:#timing#:#Extra-idő

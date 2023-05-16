@@ -1256,10 +1256,8 @@ assessment#:#text_wrong#:#Wrong Text###24 07 2009 new variable
 assessment#:#textsize#:#Text Size###24 02 2009 new variable
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
-assessment#:#thumb_geometry#:#Thumbnail Geometry###24 02 2009 new variable
-assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
 assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
-assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
+assessment#:#thumb_size_info#:#Малките изображения ще бъдат създадени с максимални стойности на височината и ширината, като съотношението на страните се запазва.
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
 assessment#:#time_format#:#ЧЧ ММ СС
 assessment#:#timing#:#Extra Time###24 10 2013 new variable

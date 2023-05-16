@@ -1261,10 +1261,8 @@ assessment#:#text_wrong#:#Besedilo z napakami
 assessment#:#textsize#:#Velikost besedila
 assessment#:#textsize_errortext_info#:#Vnesite velikost besedila kot odstotek običajne velikosti. Če ne vnesete vrednosti, bo uporabljena običajna velikost (100 odstotkov).
 assessment#:#textsize_info#:#Vnesite velikost besedila, ki ga želite razporediti, kot odstotek običajne velikosti Če ne vnesete vrednosti, bo uporabljena običajna velikost (100 odstotkov).
-assessment#:#thumb_geometry#:#Velikost predogleda
-assessment#:#thumb_geometry_info#:#Vnesite vrednost v slikovnih točkah za maksimalno velikost predogleda slikovnih prikazov. Glede na razmerje strani se predogled prilagodi maksimalni velikosti predogleda bodisi po višini ali širini.
 assessment#:#thumb_size#:#Velikost predogleda
-assessment#:#thumb_size_info#:#Če vnesete velikost predogleda, se prenesene slike samodejno zmanjšajo na to velikost. Brez velikosti predogleda se uporabi izvirna velikost slike.
+assessment#:#thumb_size_info#:#Vnesite vrednost v slikovnih točkah za maksimalno velikost predogleda slikovnih prikazov. Glede na razmerje strani se predogled prilagodi maksimalni velikosti predogleda bodisi po višini ali širini.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Podaljšanje časa
@@ -1399,7 +1397,7 @@ assessment#:#tst_ending_time_desc#:#Trenutek, ko se test konča. Od tega trenutk
 assessment#:#tst_enter_questionpool#:#Vnesite ime skupine vprašanj, v kateri bo odloženo novo vprašanje
 assessment#:#tst_eval_question_points#:#Rezultati vprašanj za opravljanje testa %s
 assessment#:#tst_eval_results_by_pass#:#Podrobni rezultati testa za opravljanje testa %s
-assessment#:#tst_eval_results_by_pass_lo#:#Podrobni rezultati testa za %s. poskus 
+assessment#:#tst_eval_results_by_pass_lo#:#Podrobni rezultati testa za %s. poskus
 assessment#:#tst_eval_results_lo#:#Podrobni rezultati testa
 assessment#:#tst_eval_show_answer#:#Prikaži odgovor
 assessment#:#tst_eval_total_finished#:#Skupno število vseh zaključenih testov (udeleženci, ki imajo za seboj največ opravljanj testa.)
@@ -2146,7 +2144,7 @@ badge#:#badge_award_badge#:#Podeli značko
 badge#:#badge_backpack_connect_failed#:#Za %s ni bilo mogoče zahtevati Mozilla Backpack.
 badge#:#badge_backpack_email#:#Račun Backpack Mozilla (e-pošta)
 badge#:#badge_backpack_gallery_info#:#To so objavljene zbirke značk vašega Backpack Mozilla.
-badge#:#badge_backpack_list#:#Moj Backpack 
+badge#:#badge_backpack_list#:#Moj Backpack
 badge#:#badge_backpack_no_groups#:#Backpack Mozilla je prazen oz. ni javen.
 badge#:#badge_badge#:#Značka
 badge#:#badge_course_lp#:#Tečaj LP
@@ -2523,7 +2521,7 @@ book#:#book_public_log_info#:#Uporabniki s pravico za branje lahko v zavihku “
 book#:#book_rem_intro#:#To je pregled rezervacij na čakanju.
 book#:#book_rem_reason#:#To e-pošto ste prejeli, ker ste aktivirali obveščanje o ustreznih objektih rezervacije.
 book#:#book_reminder_day#:#Pred rezervacijo
-book#:#book_reminder_day_info#:#Uporabnikom s pravicami za pisanje pošlje seznam lastnih rezervacij na čakanju in dodatno skupen seznam. 
+book#:#book_reminder_day_info#:#Uporabnikom s pravicami za pisanje pošlje seznam lastnih rezervacij na čakanju in dodatno skupen seznam.
 book#:#book_reminder_days#:#Dan/dnevi
 book#:#book_reminder_setting#:#Opomnik
 book#:#book_reservation_available#:#%s je na voljo
@@ -3312,7 +3310,7 @@ cmps#:#database_is_uptodate#:#Baza podatkov je posodobljena.
 cmps#:#no_changes#:#Brez sprememb
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
-cntr#:#cntr_add_new_item#:#Dodaj nov objekt 
+cntr#:#cntr_add_new_item#:#Dodaj nov objekt
 cntr#:#cntr_adopt_content#:#Prevzemi vsebino
 cntr#:#cntr_container_only_on_their_own#:#Kategorije, tečaji, skupine, mape in študijski programi se lahko kopirajo samo posamezno. Izberite samo en tak objekt.
 cntr#:#cntr_copy_crs_grp#:#Izbira članstev
@@ -5026,7 +5024,7 @@ common#:#object_copy_in_progress#:#Kopiranje se je začelo.
 common#:#object_duplicated#:#Objekt je kopiran
 common#:#object_id#:#ID objekta
 common#:#object_imported#:#Objekt je uvožen
-common#:#objects#:#Objekti 
+common#:#objects#:#Objekti
 common#:#objf#:#Definicije objektov
 common#:#objs_bibl#:#Seznami literature
 common#:#objs_blog#:#Blogi
@@ -6294,7 +6292,7 @@ content#:#cont_ed_insert_mcrs#:#Insert My Courses###19 08 2022 new variable
 content#:#cont_ed_insert_media#:#Vstavi sliko/zvok/video
 content#:#cont_ed_insert_par#:#Vstavi besedilo
 content#:#cont_ed_insert_pcqst#:#Vstavi vprašanje
-content#:#cont_ed_insert_plach#:#Vstavi rezervirano mesto 
+content#:#cont_ed_insert_plach#:#Vstavi rezervirano mesto
 content#:#cont_ed_insert_prof#:#Insert Personal Data###19 08 2022 new variable
 content#:#cont_ed_insert_qover#:#Vstavi pregled vprašanj
 content#:#cont_ed_insert_repobj#:#Vstavi seznam gradiv
@@ -9425,7 +9423,7 @@ file#:#replace_file_info#:#Vse različice datoteke bodo izbrisane.
 file#:#resource_id#:#Resource ID###19 08 2022 new variable
 file#:#storage_id#:#Storage ID###19 08 2022 new variable
 file#:#upload_info#:#Datoteka
-file#:#upload_info_desc#:#Datoteke in različice datotek lahko upravljate v zavihku "Različice". 
+file#:#upload_info_desc#:#Datoteke in različice datotek lahko upravljate v zavihku "Različice".
 file#:#version_uploaded#:#Version uploaded###19 08 2022 new variable
 file#:#versionname#:#Title###19 08 2022 new variable
 fils#:#file_services#:#File Services###19 08 2022 new variable
@@ -10047,7 +10045,7 @@ itgr#:#itgr_list#:#List###19 08 2022 new variable
 itgr#:#itgr_list_default#:#Default###19 08 2022 new variable
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.###19 08 2022 new variable
 itgr#:#itgr_list_presentation#:#Item Presentation###19 08 2022 new variable
-itgr#:#itgr_materials#:#Objekti 
+itgr#:#itgr_materials#:#Objekti
 itgr#:#itgr_show_title#:#Prikaži naslov
 itgr#:#itgr_show_title_info#:#Naslov bloka objektov se prikaže v predstavitvi za učence.
 itgr#:#itgr_tile#:#Tiles###19 08 2022 new variable
@@ -12217,8 +12215,8 @@ orgu#:#org_unit_not_found#:#Organizacijske enote ni bilo mogoče najti.
 orgu#:#orgu_add#:#Dodaj organizacijsko enoto
 orgu#:#orgu_adv_settings#:#Napredne nastavitve
 orgu#:#orgu_already_deleted#:#Objekt je že bil izbrisan.
-orgu#:#orgu_enable_my_staff#:#Omogoči  ‘Pogled sodelavci’  
-orgu#:#orgu_enable_my_staff_info#:#Pogled ‘Moji sodelavci’ prikazuje učni napredek lastnih sodelavcev. 
+orgu#:#orgu_enable_my_staff#:#Omogoči  ‘Pogled sodelavci’
+orgu#:#orgu_enable_my_staff_info#:#Pogled ‘Moji sodelavci’ prikazuje učni napredek lastnih sodelavcev.
 orgu#:#orgu_global_set_form#:#Globalne nastavitve
 orgu#:#orgu_global_set_positions#:#Prikaz uporabniških podatkov glede na položaje v organizacijskih enotah
 orgu#:#orgu_global_set_positions_type_active#:#Položaji v:
@@ -12226,7 +12224,7 @@ orgu#:#orgu_global_set_type_changeable#:#Obnašanje novih objektov
 orgu#:#orgu_global_set_type_changeable_no#:#Položajev se v objektu ne da onemogočiti
 orgu#:#orgu_global_set_type_changeable_object#:#Spremenljiva nastavitev v objektu
 orgu#:#orgu_global_set_type_default#:#Privzeta vrednost
-orgu#:#orgu_global_set_type_default_info#:#Položaji so privzeto aktivirani v zavihku 'Nastavitve' objekta. 
+orgu#:#orgu_global_set_type_default_info#:#Položaji so privzeto aktivirani v zavihku 'Nastavitve' objekta.
 orgu#:#orgu_import#:#Uvozi organizacijsko enoto
 orgu#:#orgu_new#:#Nova organizacijska enota
 orgu#:#orgu_orgu_type#:#Tipi organizacijske enote
@@ -15461,7 +15459,7 @@ survey#:#mailaddresses_info#:#Tukaj vnesite z vejicami ločen seznam prejemnikov
 survey#:#mailnotification#:#Posamezna e-pošta za vsako zaključeno anketo
 survey#:#mailparticipantdata#:#Dodatni podatki o udeležencu
 survey#:#mailparticipantdata_info#:#Dodajte uvodno besedilo, ki bo vstavljeno v e-pošto pred podatki o rezultatih udeleženca.
-survey#:#mailparticipantdata_placeholder#:# Ta rezervirana mesta se bodo nadomestila z ustreznimi uporabniškimi podatki, ko bo 'Varstvo podatkov' nastavljeno na 'Z imenom'. 
+survey#:#mailparticipantdata_placeholder#:# Ta rezervirana mesta se bodo nadomestila z ustreznimi uporabniškimi podatki, ko bo 'Varstvo podatkov' nastavljeno na 'Z imenom'.
 survey#:#maintenance#:#Udeleženec
 survey#:#manage_phrases#:#Moje besedne zveze
 survey#:#material#:#Gradivo
@@ -15471,7 +15469,7 @@ survey#:#materials#:#Gradivo
 survey#:#materials_deleted#:#Gradivo je bilo odstranjeno iz vprašanja.
 survey#:#matrix_appearance#:#Prikaz
 survey#:#matrix_bipolar_adjectives#:#Pol in nasprotni pol
-survey#:#matrix_bipolar_adjectives_description#:#Za natančnejši opis skale stolpca lahko uporabite vrednostni par s polom in nasprotnim polom 
+survey#:#matrix_bipolar_adjectives_description#:#Za natančnejši opis skale stolpca lahko uporabite vrednostni par s polom in nasprotnim polom
 survey#:#matrix_column_separators#:#Ločilo stolpcev
 survey#:#matrix_column_separators_description#:#Izberite kontrolni okvirček, če želite pri izdaji matričnega vprašanja imeti ločila (tanke črte) med stolpci.
 survey#:#matrix_column_settings#:#Lastnosti stolpcev
@@ -15619,7 +15617,7 @@ survey#:#spl_move_select_none#:#Izberite vsaj eno vprašanje za premikanje
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Če skupine vprašanj ni na spletu, je ni mogoče uporabiti v anketah.
 survey#:#spl_paste_no_objects#:#V odložišču ni nobenih vprašanj. Uporabite gumb za kopiranje ali premikanje.
-survey#:#spl_paste_success#:#Vprašanje/-a je/so vstavljeno/-a 
+survey#:#spl_paste_success#:#Vprašanje/-a je/so vstavljeno/-a
 survey#:#spl_save_obligatory_state#:#obvezno shrani status
 survey#:#start_date#:#Začetni datum
 survey#:#start_date_not_reached#:#Z anketo lahko začnete šele na začetni datum!

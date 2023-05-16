@@ -1264,10 +1264,8 @@ assessment#:#text_wrong#:#Wrong Text
 assessment#:#textsize#:#Text Size
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
-assessment#:#thumb_geometry#:#Thumbnail Geometry
-assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_size#:#Thumbnail Size
-assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. If you do not enter a thumbnail size, the original image size will be used.
+assessment#:#thumb_size_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Extra Time

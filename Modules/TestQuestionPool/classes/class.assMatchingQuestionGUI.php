@@ -409,13 +409,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $shuffle->setRequired(false);
             $form->addItem($shuffle);
 
-            $geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+            $geometry = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_geometry');
             $geometry->setValue($this->object->getThumbGeometry());
             $geometry->setRequired(true);
             $geometry->setMaxLength(6);
             $geometry->setMinValue(20);
             $geometry->setSize(6);
-            $geometry->setInfo($this->lng->txt("thumb_geometry_info"));
+            $geometry->setInfo($this->lng->txt('thumb_size_info'));
             $form->addItem($geometry);
         }
 
