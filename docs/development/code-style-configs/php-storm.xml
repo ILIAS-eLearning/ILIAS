@@ -1,4 +1,4 @@
-<code_scheme name="ILIAS 9 Coding Style 8/2022" version="175">
+<code_scheme name="ILIAS 9 Coding Style 5/2023" version="176">
   <option name="LINE_SEPARATOR" value="&#10;" />
   <PHPCodeStyleSettings>
     <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
@@ -13,7 +13,6 @@
     <option name="BLANK_LINES_AFTER_OPENING_TAG" value="1" />
     <option name="KEEP_BLANK_LINES_AFTER_LBRACE" value="0" />
     <option name="NEW_LINE_AFTER_PHP_OPENING_TAG" value="true" />
-    <option name="SPACES_AROUND_PIPE_IN_UNION_TYPE" value="true"/>
     <option name="ATTRIBUTES_WRAP" value="2" />
     <option name="PARAMETERS_ATTRIBUTES_WRAP" value="2" />
   </PHPCodeStyleSettings>
@@ -26,6 +25,7 @@
     <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
     <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
     <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+    <option name="SPACE_AROUND_BITWISE_OPERATORS" value="true" />
     <option name="SPACE_AFTER_TYPE_CAST" value="true" />
     <option name="CALL_PARAMETERS_WRAP" value="1" />
     <option name="CALL_PARAMETERS_LPAREN_ON_NEXT_LINE" value="true" />
