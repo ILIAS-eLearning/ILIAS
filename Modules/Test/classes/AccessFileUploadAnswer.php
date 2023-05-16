@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Modules\Test;
 
 use ILIAS\Data\Result;
@@ -25,40 +25,44 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use ILIAS\DI\Container;
 use ilObjTest;
-use ilObject2;
+use ilObject;
 use ilSession;
 use ilTestSession;
 use ilTestAccess;
 use Closure;
 
-class CanAccessFileUploadAnswer
+class AccessFileUploadAnswer implements SimpleAccess
 {
-    /** @var Container */
     private Container $container;
-    /** @var callable(int) : int */
+    private Readable $readable;
+    /** @var callable(int): int */
     private Closure $object_id_of_test_id;
-    /** @var callable(int) : string[] */
+    /** @var callable(int): string[] */
     private Closure $references_of;
-    /** @var callable(string) : mixed */
+    /** @var callable(string): mixed */
     private Closure $session;
-    /** @var callable(int, int, int) : bool */
+    /** @var callable(int, int, int): bool */
     private Closure $checkResultsAccess;
+    private Incident $incident;
 
     /**
-     * @param Container $container
-     * @param callable(int) : int $object_id_of_test_id
-     * @param callable(int) : int[] $references_of
-     * @param callable(string) : mixed $session
-     * @param callable(int, int, int) : bool $checkResultsAccess
+     * @param callable(int): int $object_id_of_test_id
+     * @param callable(int): int[] $references_of
+     * @param callable(string): mixed $session
+     * @param callable(int, int, int): bool $checkResultsAccess
      */
     public function __construct(
         Container $container,
+        Readable $readable,
         $object_id_of_test_id = [ilObjTest::class, '_getObjectIDFromTestID'],
-        $references_of = [ilObject2::class, '_getAllReferences'],
+        $references_of = [ilObject::class, '_getAllReferences'],
         $session = [ilSession::class, 'get'],
-        callable $checkResultsAccess = null
+        callable $checkResultsAccess = null,
+        Incident $incident = null
     ) {
         $this->container = $container;
+        $this->readable = $readable;
+        $this->incident = $incident ?? new Incident();
         $this->object_id_of_test_id = Closure::fromCallable($object_id_of_test_id);
         $this->references_of = Closure::fromCallable($references_of);
         $this->session = Closure::fromCallable($session);
@@ -69,12 +73,7 @@ class CanAccessFileUploadAnswer
         $this->checkResultsAccess = Closure::fromCallable($checkResultsAccess);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return Result<bool>
-     */
-    public function isTrue(string $path): Result
+    public function isPermitted(string $path): Result
     {
         $path_and_test = $this->pathAndTestId($path);
 
@@ -92,7 +91,7 @@ class CanAccessFileUploadAnswer
 
         $references = ($this->references_of)($object_id);
 
-        return new Ok($this->canRead($references) && $this->roleBasedCheck($path_and_test['test'], $references, $path_and_test['path']));
+        return new Ok($this->readable->references($references) && $this->roleBasedCheck($path_and_test['test'], $references, $path_and_test['path']));
     }
 
     private function isAnonymous(): bool
@@ -159,18 +158,6 @@ class CanAccessFileUploadAnswer
     }
 
     /**
-     * @param int[] $references
-     *
-     * @return bool
-     */
-    private function canRead(array $references): bool
-    {
-        return $this->checkReferences(function (int $ref_id): bool {
-            return $this->container->access()->checkAccess('read', '', $ref_id);
-        }, $references);
-    }
-
-    /**
      * @param int $test_id
      * @param int[] $references
      * @param string $file
@@ -184,26 +171,9 @@ class CanAccessFileUploadAnswer
             return false;
         }
 
-        return $this->checkReferences(function (int $reference) use ($test_id, $active_id): bool {
-            return ($this->checkResultsAccess)($reference, $test_id, $active_id);
-        }, $references);
-    }
-
-    /**
-     * @param callable(int) : bool $access
-     * @param int[] $references
-     *
-     * @return bool
-     */
-    private function checkReferences(callable $check, array $references): bool
-    {
-        foreach ($references as $ref_id) {
-            if ($check($ref_id)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->incident->any(fn (int $reference): bool => (
+            ($this->checkResultsAccess)($reference, $test_id, $active_id)
+        ), $references);
     }
 
     /**

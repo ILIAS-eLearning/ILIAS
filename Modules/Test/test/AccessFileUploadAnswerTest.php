@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,51 +16,57 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Modules\Test\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessFileUploadAnswer;
+use ILIAS\Modules\Test\Readable;
 use ILIAS\DI\Container;
-use ilAccessHandler;
 use ilObjUser;
 use ilTestSession;
 use ilDBInterface;
 use ilDBStatement;
 
-class CanAccessFileUploadAnswerTest extends TestCase
+class AccessFileUploadAnswerTest extends TestCase
 {
     public function testConstruct(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $this->assertInstanceOf(CanAccessFileUploadAnswer::class, new CanAccessFileUploadAnswer($container));
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $this->assertInstanceOf(AccessFileUploadAnswer::class, new AccessFileUploadAnswer($container, $readable));
     }
 
     public function testNoUploadPath(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
 
-        $instance = new CanAccessFileUploadAnswer($container);
+        $instance = new AccessFileUploadAnswer($container, $readable);
 
-        $this->assertTrue($instance->isTrue('/data/some/path/file.pdf')->isError());
+        $this->assertTrue($instance->isPermitted('/data/some/path/file.pdf')->isError());
     }
 
     public function testFalseWithZeroAsTestId(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
 
-        $instance = new CanAccessFileUploadAnswer($container);
+        $instance = new AccessFileUploadAnswer($container, $readable);
 
         $object_id_of_test_id = function (): void {
             $this->assertFalse('Should not be called.');
         };
 
-        $this->assertFalse($instance->isTrue('/data/assessment/tst_0/ignored/file.mp3')->value());
+        $this->assertFalse($instance->isPermitted('/data/assessment/tst_0/ignored/file.mp3')->value());
     }
 
     public function testFalseWithInvalidTestId(): void
     {
         $called = false;
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
 
         $object_id_of_test_id = function (int $test) use (&$called): int {
             $this->assertEquals(8, $test);
@@ -70,9 +74,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return 0;
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id);
 
-        $this->assertFalse($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertFalse($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
     }
 
@@ -80,11 +84,12 @@ class CanAccessFileUploadAnswerTest extends TestCase
     {
         $called = false;
 
-        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->expects(self::once())->method('checkAccess')->with('read', '', '678')->willReturn(false);
-
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('access')->willReturn($access);
+
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $readable->expects(self::once())->method('references')->with([678])->willReturn(false);
+
+
 
         $object_id_of_test_id = function (int $test) use (&$called): int {
             $this->assertEquals(8, $test);
@@ -97,9 +102,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return [678];
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id, $references_of);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id, $references_of);
 
-        $this->assertFalse($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertFalse($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
     }
 
@@ -111,12 +116,12 @@ class CanAccessFileUploadAnswerTest extends TestCase
         $user->expects(self::never())->method('getId');
         $user->expects(self::once())->method('isAnonymous')->willReturn(true);
 
-        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->expects(self::once())->method('checkAccess')->with('read', '', '678')->willReturn(true);
-
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('access')->willReturn($access);
         $container->expects(self::once())->method('user')->willReturn($user);
+
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $readable->expects(self::once())->method('references')->with([678])->willReturn(true);
+
 
         $object_id_of_test_id = function (int $test) use (&$called): int {
             $this->assertEquals(8, $test);
@@ -135,9 +140,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return null;
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id, $references_of, $session);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id, $references_of, $session);
 
-        $this->assertFalse($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertFalse($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
     }
 
@@ -159,11 +164,10 @@ class CanAccessFileUploadAnswerTest extends TestCase
         $user->expects(self::once())->method('getId')->willReturn(8389);
         $user->expects(self::once())->method('isAnonymous')->willReturn(true);
 
-        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->expects(self::once())->method('checkAccess')->with('read', '', '678')->willReturn(true);
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $readable->expects(self::once())->method('references')->with([678])->willReturn(true);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('access')->willReturn($access);
         $container->method('user')->willReturn($user);
         $container->method('database')->willReturn($database);
 
@@ -184,9 +188,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return [8 => 'Random access code.'];
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id, $references_of, $session);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id, $references_of, $session);
 
-        $this->assertFalse($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertFalse($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
     }
 
@@ -208,11 +212,10 @@ class CanAccessFileUploadAnswerTest extends TestCase
         $user->expects(self::once())->method('getId')->willReturn(8389);
         $user->expects(self::once())->method('isAnonymous')->willReturn(true);
 
-        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->expects(self::once())->method('checkAccess')->with('read', '', '678')->willReturn(true);
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $readable->expects(self::once())->method('references')->with([678])->willReturn(true);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('access')->willReturn($access);
         $container->method('user')->willReturn($user);
         $container->method('database')->willReturn($database);
 
@@ -233,9 +236,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return [8 => 'Random access code.'];
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id, $references_of, $session);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id, $references_of, $session);
 
-        $this->assertTrue($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertTrue($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
     }
 
@@ -261,11 +264,10 @@ class CanAccessFileUploadAnswerTest extends TestCase
         $user->method('getId')->willReturn(8389);
         $user->expects(self::once())->method('isAnonymous')->willReturn(false);
 
-        $access = $this->getMockBuilder(ilAccessHandler::class)->disableOriginalConstructor()->getMock();
-        $access->expects(self::once())->method('checkAccess')->with('read', '', '678')->willReturn(true);
+        $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
+        $readable->expects(self::once())->method('references')->with([678])->willReturn(true);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('access')->willReturn($access);
         $container->method('user')->willReturn($user);
         $container->method('database')->willReturn($database);
 
@@ -295,9 +297,9 @@ class CanAccessFileUploadAnswerTest extends TestCase
             return true;
         };
 
-        $instance = new CanAccessFileUploadAnswer($container, $object_id_of_test_id, $references_of, $session, $checkResultsAccess);
+        $instance = new AccessFileUploadAnswer($container, $readable, $object_id_of_test_id, $references_of, $session, $checkResultsAccess);
 
-        $this->assertTrue($instance->isTrue('/data/assessment/tst_8/ignored/file.mp3')->value());
+        $this->assertTrue($instance->isPermitted('/data/assessment/tst_8/ignored/file.mp3')->value());
         $this->assertTrue($called);
         $this->assertTrue($checkResultsAccessCalled);
     }
