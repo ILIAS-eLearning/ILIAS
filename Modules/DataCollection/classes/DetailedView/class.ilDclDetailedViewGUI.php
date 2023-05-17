@@ -148,27 +148,9 @@ class ilDclDetailedViewGUI
 
         $cmd = $this->ctrl->getCmd();
         $cmdClass = $this->ctrl->getCmdClass();
-        switch ($cmdClass) {
+        switch (strtolower($cmdClass)) {
             case 'ilnotegui':
-                switch ($cmd) {
-                    case 'editNoteForm':
-                        $this->renderRecord(true);
-                        break;
-                    case 'getNotesHTML':
-                        $this->renderRecord();
-                        break;
-                    case 'deleteNote':
-                        $this->notesGUI->confirmDelete();
-                        //$this->renderRecord();
-                        break;
-                    case 'cancelDelete':
-                        $this->notesGUI->cancelDelete();
-                        $this->renderRecord();
-                        break;
-                    default:
-                        $this->notesGUI->$cmd();
-                        break;
-                }
+                $this->notesGUI->executeCommand();
                 break;
             default:
                 $this->$cmd();
