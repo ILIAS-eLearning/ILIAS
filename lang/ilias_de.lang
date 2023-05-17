@@ -3661,8 +3661,6 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#change_sort_direction_to_asc#:#Change sort direction to ascending
-common#:#change_sort_direction_to_desc#:#Change sort direction to descending
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.

@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Indien ingeschakeld, kan ILIAS worden b
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Sorteren op deze kolom
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#standaard
 common#:#sorting_asc#:#Oplopend
 common#:#sorting_creation_header#:#Per aanmaakdatum

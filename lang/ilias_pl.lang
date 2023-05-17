@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Jeśli wybrane, to wszystkie konta mog�
 common#:#soap_wsdl_path#:#Ścieżka WSDL
 common#:#soap_wsdl_path_info#:#Tutaj możesz podać ścieżkę do pliku WSDL, którą ILIAS ma użyć dla usług sieciowych. Jeśli to pole pozostanie puste, jako domyślna zostanie wykorzystana poniższa ścieżka:%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Domyślnie
 common#:#sorting_asc#:#Rosnąco
 common#:#sorting_creation_header#:#Wg daty utworzenia

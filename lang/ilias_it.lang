@@ -5610,8 +5610,10 @@ common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potran
 common#:#soap_wsdl_path#:#Percorso WSDL
 common#:#soap_wsdl_path_info#:#Si prega di inserire il percorso del file ilias wsdl che deve essere utilizzato per il servizio Web. Se si lascia vuoto questo campo, verrà utilizzato il seguente percorso per impostazione predefinita:%s
 common#:#sort_ascending#:#Ordinare in ordine crescente
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#sort_descending#:#Ordinare in ordine decrescente
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Impostazione predefinita
 common#:#sorting_asc#:#Ascendente
 common#:#sorting_creation_header#:#Da data di creazione

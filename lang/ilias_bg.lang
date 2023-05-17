@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Ако е включено, всичк�
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Въведете пътя до ilias wsdl файла, който трябва да се използва за уеб услугата. Ако оставите това поле празно, по подразбиране ще се използва следният път:%s
 common#:#sort_ascending#:#Сортиране по възходящ ред
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Сортиране по тази колона
 common#:#sort_descending#:#Сортиране по низходящ ред
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#По подразбиране
 common#:#sorting_asc#:#Ascending
 common#:#sorting_creation_header#:#By Creation Date

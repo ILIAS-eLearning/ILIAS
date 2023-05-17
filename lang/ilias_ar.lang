@@ -1254,8 +1254,6 @@ assessment#:#text_wrong#:#Wrong Text
 assessment#:#textsize#:#Text Size
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
-assessment#:#thumb_geometry#:#Thumbnail Geometry
-assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
@@ -5598,8 +5596,10 @@ common#:#soap_user_administration_desc#:#If enabled, ILIAS can be administrated 
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#فرز بواسطة هذا العمود
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_asc#:#Ascending###26 09 2014 new variable
 common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable

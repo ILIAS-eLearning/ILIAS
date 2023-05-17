@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Si active, tous les comptes utilisateur
 common#:#soap_wsdl_path#:#Chemin WSDL
 common#:#soap_wsdl_path_info#:#Entrer le chemin du fichier wsdl qui sera utilisé par le Webservice. Si ce champs est vide, le chemin par defaut est :%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Trier selon cette colonne
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Défaut
 common#:#sorting_asc#:#Croissant
 common#:#sorting_creation_header#:#Trier par Date de Création

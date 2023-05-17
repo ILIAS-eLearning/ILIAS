@@ -5598,8 +5598,10 @@ common#:#soap_user_administration_desc#:#Si está habilitado, todas las cuentas 
 common#:#soap_wsdl_path#:#Ruta WSDL
 common#:#soap_wsdl_path_info#:#Por favor, escriba la ruta al archivo ilias WSDL que debe utilizarse para el WebService. Si deja este campo en blanco, la siguiente ruta de acceso se utilizará por defecto: %s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Ordenar por esta columna
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Por defecto
 common#:#sorting_asc#:#Ascendente
 common#:#sorting_creation_header#:#Por fecha de creación

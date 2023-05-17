@@ -5610,8 +5610,10 @@ common#:#soap_user_administration_desc#:#Če je vklopljeno, lahko ILIAS upravlja
 common#:#soap_wsdl_path#:#Pot WSDL
 common#:#soap_wsdl_path_info#:#Tukaj lahko vnesete pot do datoteke WDSL, ki naj jo ILIAS uporablja za spletno storitev. Če pustite to polje prazno, bo privzeto uporabljena naslednja pot:%s
 common#:#sort_ascending#:#Sort Ascending
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Razvrsti po tem stolpcu
 common#:#sort_descending#:#Sort Descending
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Določeno s tečajem/skupino
 common#:#sorting_asc#:#Naraščajoče
 common#:#sorting_creation_header#:#Po datumu nastanka

@@ -5595,8 +5595,10 @@ common#:#soap_user_administration_desc#:#如果启用，所有用户账号都能
 common#:#soap_wsdl_path#:#WSDL路径
 common#:#soap_wsdl_path_info#:#请输入ilias的wsdl文件路径，它将使用在webservice中。如果您将这个字段留空，将使用以下路径做为默认值：%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#根据此列分类
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#默认
 common#:#sorting_asc#:#Ascending###26 09 2014 new variable
 common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable

@@ -1254,8 +1254,6 @@ assessment#:#text_wrong#:#Forkert tekst
 assessment#:#textsize#:#Tekststørrelse
 assessment#:#textsize_errortext_info#:#Indtast tekst-størrelsen på fejlbeskeder i procenter, hvis du ønsker en anden størrelse end 100%
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
-assessment#:#thumb_geometry#:#Miniature
-assessment#:#thumb_geometry_info#:#De små versioner af billedet vil bevare størrelsesforhold, men maksimalt have ovenstående højde/bredde.
 assessment#:#thumb_size#:#Minature størrelse
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
 assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
@@ -5598,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Hvis sat til, kan alle brugerkonti bliv
 common#:#soap_wsdl_path#:#WSDL sti
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###26 06 2009 new variable
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Sorter efter denne kolonne
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Standard
 common#:#sorting_asc#:#Ascending###26 09 2014 new variable
 common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable

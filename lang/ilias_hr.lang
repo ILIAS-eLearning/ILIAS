@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Ako je omogućeno, ILIAS se može admin
 common#:#soap_wsdl_path#:#WSDL put
 common#:#soap_wsdl_path_info#:#Unesi put do datoteke ilias wsdl koja bi se trebala koristiti za web uslugu. Ako ovo polje ostavite prazno, prema zadanim postavkama koristit će se sljedeća staza: %s
 common#:#sort_ascending#:#Sort Ascending###04 06 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Poredaj po ovom stupcu
 common#:#sort_descending#:#Sort Descending###04 06 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Zadano
 common#:#sorting_asc#:#Uzlazni
 common#:#sorting_creation_header#:#Prema datumu stvaranja

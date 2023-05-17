@@ -5596,8 +5596,10 @@ common#:#soap_user_administration_desc#:#Clique no canto superior esquerdo da á
 common#:#soap_wsdl_path#:#Caminho WSDL
 common#:#soap_wsdl_path_info#:#Insira o caminho para o ficheiro wsdl de ilias que deve ser usado para o webservice. Se deixar este campo vazio, será usado o seguinte caminho por defeito:%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#Note que as mesmas formatações não são suportadas em módulos de conteúdo.
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#Predefinição
 common#:#sorting_asc#:#Ascendente
 common#:#sorting_creation_header#:#Por data de criação

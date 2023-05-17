@@ -1254,8 +1254,6 @@ assessment#:#text_wrong#:#テキスト間違い
 assessment#:#textsize#:#テキストサイズ
 assessment#:#textsize_errortext_info#:#100パーセント以外のサイズにしたい場合は、エラーテキストのテキストサイズをパーセントで入力してください。
 assessment#:#textsize_info#:#100パーセント以外のサイズにしたい場合は、指示するテキストのテキストサイズをパーセントで入力してください。
-assessment#:#thumb_geometry#:#サムネイル形状
-assessment#:#thumb_geometry_info#:#イメージサムネールは、保存されている縦横比の高さと幅の最大値で作成されます。
 assessment#:#thumb_size#:#サムネイルサイズ
 assessment#:#thumb_size_info#:#サムネイルのサイズを入力すると、そのサイズのサムネイルがアップロードイメージ用として作成されます。サムネイルサイズなしの場合は、オリジナルのイメージサイズが使用されます。
 assessment#:#thumb_size_unit_pixel#:#Pixel
@@ -5598,8 +5596,10 @@ common#:#soap_user_administration_desc#:#オンにするとILIASはSOAP経由で
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#サービスで使用されるilias wsdlファイルのpathを入力してください。この欄を空欄にすると次のpathは初期設定:%sが使用されます。
 common#:#sort_ascending#:#昇順に並び替え
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#この列を並び替え
 common#:#sort_descending#:#降順に並び替え
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#初期設定
 common#:#sorting_asc#:#昇順
 common#:#sorting_creation_header#:#作成日順
