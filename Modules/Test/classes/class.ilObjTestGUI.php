@@ -551,9 +551,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             case 'ilpageeditorgui':
             case 'iltestexpresspageobjectgui':
-            if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-            }
+                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                }
                 $this->getTabsManager()->getQuestionsSubTabs();
                 $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
                 $incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
@@ -792,9 +792,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             case '':
             case 'ilobjtestgui':
-            if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()) && !$ilAccess->checkAccess("visible", "", $this->testrequest->getRefId()))) {
-                $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-            }
+                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()) && !$ilAccess->checkAccess("visible", "", $this->testrequest->getRefId()))) {
+                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                }
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 if ((strcmp($cmd, "properties") == 0) && ($this->testrequest->raw("browse"))) {
@@ -2193,7 +2193,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
 
         $table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());
-        $table_gui->setTotalWorkingTime($this->object->getFixedQuestionSetTotalWorkingTime());
 
         $table_gui->init();
 
@@ -2889,7 +2888,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "importVerifiedFile":
             case "cancelImport":
                 break;
-        default:
+            default:
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->testrequest->getRefId());
                 break;
         }
@@ -3015,29 +3014,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (!$options) {
             $options[] = $lng->txt('none');
         }
-        //else if (count($options) > 1) {
-//                    $addSeparator = false;
-//                    if ($optionKeys[0] != $qid) {
-//                        //$ilToolbar->addFormButton($lng->txt("test_prev_question"), "prevQuestion");
-//                        $ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
-//                        $addSeparator = true;
-//                    }
-        //		    else {
-        //			$ilToolbar->addSpacer(45);
-        //		    }
-//
-//                    if ($optionKeys[count($optionKeys)-1] != $qid) {
-//                        //$ilToolbar->addFormButton($lng->txt("test_next_question"), "nextQuestion");
-//                        $ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
-        //			$addSeparator = true;
-//                    }
-        //		    else {
-        //			$ilToolbar->addSpacer(45);
-        //		    }
-//
-//                    //if ($addSeparator) {
-//                        $ilToolbar->addSeparator();
-//                    //}
 
         if (count($questions)) {
             if (isset($show_separator) && $show_separator) {
@@ -3077,19 +3053,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $total = $this->object->evalTotalPersons();
-
-        /*if (count($options)) {
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-            $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
-            $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-            $si->setOptions($options);
-
-            if ($qid) {
-                $si->setValue($qid);
-            }
-
-            $ilToolbar->addInputItem($si, true);
-        }*/
 
         if (count($questions) && !$total) {
             $ilCtrl->setParameter($this, 'q_id', $this->testrequest->raw('q_id'));

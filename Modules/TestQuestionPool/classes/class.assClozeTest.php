@@ -237,7 +237,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
             $this->cloze_text = ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 1);
             $this->setTextgapRating($data["textgap_rating"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);

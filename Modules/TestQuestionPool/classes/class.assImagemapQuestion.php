@@ -172,9 +172,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
                 array( $next_id, $this->id, $answer_obj->getAnswertext(
-                                    ), $answer_obj->getPoints(), $answer_obj->getOrder(
-                                    ), $answer_obj->getCoords(), $answer_obj->getArea(
-                                    ), $answer_obj->getPointsUnchecked() )
+                ), $answer_obj->getPoints(), $answer_obj->getOrder(
+                ), $answer_obj->getCoords(), $answer_obj->getArea(
+                ), $answer_obj->getPointsUnchecked() )
             );
         }
     }
@@ -192,7 +192,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                        ) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
+            ) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
             array( "integer", "text", 'integer' ),
             array(
                                 $this->getId(),
@@ -400,7 +400,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setImageFilename($data["image_file"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));

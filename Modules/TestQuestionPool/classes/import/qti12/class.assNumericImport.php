@@ -49,7 +49,6 @@ class assNumericImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $now = getdate();
         $maxchars = 0;
         $points = 0;
@@ -139,7 +138,6 @@ class assNumericImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setMaxChars($maxchars);
         $this->object->setPoints($points);
         $this->object->setLowerLimit($lowerlimit);

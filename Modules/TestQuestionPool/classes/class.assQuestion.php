@@ -84,11 +84,6 @@ abstract class assQuestion
     protected float $points;
 
     /**
-     * @var array estimated working time on a question (HH MM SS)
-     */
-    protected array $est_working_time;
-
-    /**
      * Indicates whether the answers will be shuffled or not
      */
     protected bool $shuffle;
@@ -227,7 +222,6 @@ abstract class assQuestion
         $this->suggested_solutions = [];
         $this->shuffle = 1;
         $this->nr_of_tries = 0;
-        $this->setEstimatedWorkingTime(0, 1, 0);
         $this->setExternalId(null);
 
         $this->questionActionCmd = 'handleQuestionAction';
@@ -500,23 +494,6 @@ abstract class assQuestion
         $this->shuffle = $shuffle ?? false;
     }
 
-    public function setEstimatedWorkingTime(int $hour = 0, int $min = 0, int $sec = 0): void
-    {
-        $this->est_working_time = array("h" => $hour, "m" => $min, "s" => $sec);
-    }
-
-    /**
-     * @param string $datetime "hh:mm:ss"
-     */
-    public function setEstimatedWorkingTimeFromDurationString(string $durationString): void
-    {
-        $this->est_working_time = array(
-            'h' => (int) substr($durationString, 0, 2),
-            'm' => (int) substr($durationString, 3, 2),
-            's' => (int) substr($durationString, 6, 2)
-        );
-    }
-
     public function setAuthor(string $author = ""): void
     {
         if (!$author) {
@@ -597,17 +574,6 @@ abstract class assQuestion
     public function requiresJsSwitch(): bool
     {
         return $this->supportsJavascriptOutput() && $this->supportsNonJsOutput();
-    }
-
-    /**
-    * @return array Estimated Working Time of a question as array("h" => 0, "m" => 0, "s" => 0)
-    */
-    public function getEstimatedWorkingTime(): array
-    {
-        if (!$this->est_working_time) {
-            $this->est_working_time = array("h" => 0, "m" => 0, "s" => 0);
-        }
-        return $this->est_working_time;
     }
 
     public function getAuthor(): string
@@ -1973,8 +1939,6 @@ abstract class assQuestion
         $ilUser = $this->current_user;
 
         $complete = "0";
-        $estw_time = $this->getEstimatedWorkingTime();
-        $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
         $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($this->dic->testQuestionPool()->internal()->request()->getRefId())) ? $this->dic->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
@@ -1996,7 +1960,6 @@ abstract class assQuestion
                 "question_text" => array("clob", null),
                 "points" => array("float", "0.0"),
                 "nr_of_tries" => array("integer", $this->getDefaultNrOfTries()), // #10771
-                "working_time" => array("text", $estw_time),
                 "complete" => array("text", $complete),
                 "created" => array("integer", time()),
                 "original_id" => array("integer", null),
@@ -2017,8 +1980,6 @@ abstract class assQuestion
 
     public function saveQuestionDataToDb(int $original_id = -1): void
     {
-        $estw_time = $this->getEstimatedWorkingTime();
-        $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
         if ($this->getId() == -1) {
             $next_id = $this->db->nextId('qpl_questions');
             $this->db->insert("qpl_questions", array(
@@ -2031,7 +1992,6 @@ abstract class assQuestion
                 "owner" => array("integer", $this->getOwner()),
                 "question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
                 "points" => array("float", $this->getMaximumPoints()),
-                "working_time" => array("text", $estw_time),
                 "nr_of_tries" => array("integer", $this->getNrOfTries()),
                 "created" => array("integer", time()),
                 "original_id" => array("integer", ($original_id != -1) ? $original_id : null),
@@ -2052,7 +2012,6 @@ abstract class assQuestion
                 "question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
                 "points" => array("float", $this->getMaximumPoints()),
                 "nr_of_tries" => array("integer", $this->getNrOfTries()),
-                "working_time" => array("text", $estw_time),
                 "tstamp" => array("integer", time()),
                 'complete' => array('integer', $this->isComplete()),
                 "external_id" => array("text", $this->getExternalId())
@@ -3894,13 +3853,6 @@ abstract class assQuestion
     public function getStep(): ?int
     {
         return $this->step;
-    }
-
-    public static function sumTimesInISO8601FormatH_i_s_Extended(string $time1, string $time2): string
-    {
-        $time = assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time1) +
-                assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time2);
-        return gmdate('H:i:s', $time);
     }
 
     public static function convertISO8601FormatH_i_s_ExtendedToSeconds(string $time): int

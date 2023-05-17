@@ -984,12 +984,7 @@ abstract class assQuestionGUI
         $form->addCommandButton("save", $this->lng->txt("save"));
     }
 
-    /**
-    * Add basic question form properties:
-    * assessment: title, author, description, question, working time
-    * @return	int	Default Nr of Tries
-    */
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): int
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
     {
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -1048,38 +1043,27 @@ abstract class assQuestionGUI
             $question->setUseTagsForRteOnly(false);
         }
         $form->addItem($question);
-        $nr_tries = 0;
-        if (!$this->object->getSelfAssessmentEditingMode()) {
-            // duration
-            $duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-            $duration->setShowHours(true);
-            $duration->setShowMinutes(true);
-            $duration->setShowSeconds(true);
-            $ewt = $this->object->getEstimatedWorkingTime();
-            $duration->setHours($ewt["h"]);
-            $duration->setMinutes($ewt["m"]);
-            $duration->setSeconds($ewt["s"]);
-            $duration->setRequired(false);
-            $form->addItem($duration);
-        } else {
-            // number of tries
-            if (strlen($this->object->getNrOfTries())) {
-                $nr_tries = $this->object->getNrOfTries();
-            } else {
-                $nr_tries = $this->object->getDefaultNrOfTries();
-            }
-            if ($nr_tries < 1) {
-                $nr_tries = "";
-            }
+        $this->addNumberOfTriesToFormIfNecessary($form);
+    }
 
-            $ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
-            $ni->setValue($nr_tries);
-            $ni->setMinValue(0);
-            $ni->setSize(5);
-            $ni->setMaxLength(5);
-            $form->addItem($ni);
+    protected function addNumberOfTriesToFormIfNecessary(ilPropertyFormGUI $form)
+    {
+        if (!$this->object->getSelfAssessmentEditingMode()) {
+            return;
         }
-        return  (int) $nr_tries;
+
+        $nr_tries = $this->object->getNrOfTries() ?? $this->object->getDefaultNrOfTries();
+
+        if ($nr_tries < 1) {
+            $nr_tries = "";
+        }
+
+        $ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
+        $ni->setValue($nr_tries);
+        $ni->setMinValue(0);
+        $ni->setSize(5);
+        $ni->setMaxLength(5);
+        $form->addItem($ni);
     }
 
     protected function saveTaxonomyAssignments(): void
@@ -1847,12 +1831,7 @@ abstract class assQuestionGUI
         } catch (ilTestQuestionPoolInvalidArgumentException $e) {
         }
 
-        $this->object->setQuestion(ilUtil::stripOnlySlashes($_POST['question'])); // ?
-        $this->object->setEstimatedWorkingTime(
-            $_POST["Estimated"]["hh"] ?? 0,
-            $_POST["Estimated"]["mm"] ?? 0,
-            $_POST["Estimated"]["ss"] ?? 0
-        );
+        $this->object->setQuestion(ilUtil::stripOnlySlashes($_POST['question']));
     }
 
     // TODO: OWN "PASS" IN THE REFACTORING getPreview

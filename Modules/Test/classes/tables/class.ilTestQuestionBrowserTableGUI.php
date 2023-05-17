@@ -101,7 +101,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             ''
         );  // name of col is proper "updated" but in data array the key is "tstamp"
         $this->addColumn($this->getParentObjectLabel(), 'qpl', '');
-        $this->addColumn($this->lng->txt("working_time"), 'working_time', '');
         $this->setSelectAllCheckbox('q_id');
         $this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
 
@@ -441,7 +440,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
         $this->tpl->setVariable("QUESTION_POOL", $a_set['parent_title']);
-        $this->tpl->setVariable("WORKING_TIME", $a_set['working_time']);
     }
 
     private function buildTestQuestionSetConfig(): ilTestQuestionSetConfig

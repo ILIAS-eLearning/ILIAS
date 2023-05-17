@@ -95,8 +95,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             'qid' => array('txt' => $this->lng->txt('question_id'), 'default' => true),
             'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
             'author' => array('txt' => $this->lng->txt('author'), 'default' => false),
-            'lifecycle' => array('txt' => $this->lng->txt('qst_lifecycle'), 'default' => true),
-            'working_time' => array('txt' => $this->lng->txt('working_time'), 'default' => false)
+            'lifecycle' => array('txt' => $this->lng->txt('qst_lifecycle'), 'default' => true)
         );
 
         return $cols;
@@ -144,9 +143,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
         if ($this->isColumnSelected('lifecycle')) {
             $this->addColumn($this->lng->txt('qst_lifecycle'), 'lifecycle', '');
-        }
-        if ($this->isColumnSelected('working_time')) {
-            $this->addColumn($this->buildWorkingTimeHeader(), 'working_time', '');
         }
 
         $this->addColumn($this->lng->txt('qpl'), 'qpl', '');
@@ -226,10 +222,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->tpl->setVariable("QUESTION_LIFECYCLE", '');
             }
-        }
-
-        if ($this->isColumnSelected('working_time')) {
-            $this->tpl->setVariable("QUESTION_WORKING_TIME", $a_set["working_time"]);
         }
 
         if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
@@ -426,15 +418,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         return $this->lng->txt('points');
     }
 
-    protected function buildWorkingTimeHeader(): string
-    {
-        if (strlen($this->getTotalWorkingTime())) {
-            return $this->lng->txt('working_time') . ' (' . $this->getTotalWorkingTime() . ')';
-        }
-
-        return $this->lng->txt('working_time');
-    }
-
     protected function isTableSaveCommandRequired(): bool
     {
         if (!$this->isQuestionManagingEnabled()) {
@@ -502,11 +485,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function getTotalWorkingTime(): string
     {
         return $this->totalWorkingTime;
-    }
-
-    public function setTotalWorkingTime(string $totalWorkingTime): void
-    {
-        $this->totalWorkingTime = $totalWorkingTime;
     }
 
     public function isQuestionRemoveRowButtonEnabled(): bool

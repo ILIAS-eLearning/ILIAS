@@ -1723,25 +1723,25 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function setAnswerFeedback($answer_feedback = 0): void
     {
         switch ($answer_feedback) {
-        case 1:
-            $this->answer_feedback = 1;
-            break;
-        default:
-            $this->answer_feedback = 0;
-            break;
-    }
+            case 1:
+                $this->answer_feedback = 1;
+                break;
+            default:
+                $this->answer_feedback = 0;
+                break;
+        }
     }
 
     public function setGenericAnswerFeedback(int $generic_answer_feedback = 0): void
     {
         switch ($generic_answer_feedback) {
-        case 1:
-            $this->answer_feedback = 1;
-            break;
-        default:
-            $this->answer_feedback = 0;
-            break;
-    }
+            case 1:
+                $this->answer_feedback = 1;
+                break;
+            default:
+                $this->answer_feedback = 0;
+                break;
+        }
     }
 
     /**
@@ -7688,23 +7688,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-     * @return string
-     */
-    public function getFixedQuestionSetTotalWorkingTime(): string
-    {
-        $totalWorkingTime = '00:00:00';
-
-        foreach ($this->getTestQuestions() as $questionData) {
-            $totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended(
-                $totalWorkingTime,
-                $questionData['working_time']
-            );
-        }
-
-        return $totalWorkingTime;
-    }
-
-    /**
      * @return array
      */
     public function getPotentialRandomTestQuestions(): array
@@ -9196,13 +9179,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getJavaScriptOutput(): bool
     {
         return true;
-
-        //		global $DIC;
-//		$ilUser = $DIC['ilUser'];
-//		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
-//		if ($this->getForceJS()) return TRUE;
-//		$assessmentSetting = new ilSetting("assessment");
-//		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
     }
 
     public function &createTestSequence($active_id, $pass, $shuffle)
@@ -9632,9 +9608,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function isAnyInstantFeedbackOptionEnabled(): bool
     {
         return (
-                $this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
-                $this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
-            );
+            $this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
+            $this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
+        );
     }
 
     public function getInstantFeedbackOptionsAsArray(): array

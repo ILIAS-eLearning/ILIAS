@@ -27,7 +27,6 @@ class assLongMenuImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $questiontext = array();
         $seperate_question_field = $item->getMetadataEntry("question");
         $clozetext = array();
@@ -192,7 +191,6 @@ class assLongMenuImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
         $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information

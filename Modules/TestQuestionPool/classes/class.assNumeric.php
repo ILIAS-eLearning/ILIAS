@@ -129,7 +129,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             require_once './Services/RTE/classes/class.ilRTE.php';
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setMaxChars($data["maxnumofchars"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
@@ -539,7 +538,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                   ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
+            ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
             array( "integer", "integer" ),
             array(
                                 $this->getId(),
@@ -567,7 +566,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
             array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
-                            ), $this->getPoints(), 0, time() )
+            ), $this->getPoints(), 0, time() )
         );
     }
 

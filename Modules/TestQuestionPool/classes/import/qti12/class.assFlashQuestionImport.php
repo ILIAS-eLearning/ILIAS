@@ -47,7 +47,6 @@ class assFlashQuestionImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 
@@ -61,7 +60,6 @@ class assFlashQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setWidth($item->getMetadataEntry("width"));
         $this->object->setHeight($item->getMetadataEntry("height"));
         $this->object->setApplet($item->getMetadataEntry("applet"));
@@ -81,9 +79,9 @@ class assFlashQuestionImport extends assQuestionImport
         $fh = fopen($filename, "wb");
         if ($fh == false) {
             //									global $DIC;
-//									$ilErr = $DIC['ilErr'];
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
+            //									$ilErr = $DIC['ilErr'];
+            //									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+            //									return;
         } else {
             fwrite($fh, $flashapplet);
             fclose($fh);

@@ -108,7 +108,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         );
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                               ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
+            ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
             array( "integer", "integer", "integer", "text", "text" ),
             array(
                                 $this->getId(),
@@ -174,7 +174,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));

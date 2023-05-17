@@ -655,7 +655,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             // load variables
             $result = $ilDB->queryF(

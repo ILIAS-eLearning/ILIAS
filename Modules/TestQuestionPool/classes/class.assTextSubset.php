@@ -151,7 +151,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setCorrectAnswers((int) $data["correctanswers"]);
             $this->setTextRating($data["textgap_rating"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
@@ -654,7 +653,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                        ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+            ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
             array( "integer", "text", "integer" ),
             array(
                                 $this->getId(),

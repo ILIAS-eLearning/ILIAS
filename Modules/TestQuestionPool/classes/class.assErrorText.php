@@ -172,7 +172,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setErrorText((string) $data["errortext"]);
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
