@@ -1641,7 +1641,9 @@ CREATE TABLE `cal_entries` (
   `context_info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cal_id`),
   KEY `i1_idx` (`last_update`),
-  KEY `i2_idx` (`context_id`)
+  KEY `i2_idx` (`context_id`),
+  KEY `i3_idx` (`starta`),
+  KEY `i4_idx` (`enda`)
 ) ;
 
 --
@@ -4909,7 +4911,8 @@ CREATE TABLE `event_appointment` (
   `starting_time` int(11) NOT NULL DEFAULT 0,
   `ending_time` int(11) NOT NULL DEFAULT 0,
   `fulltime` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`appointment_id`)
+  PRIMARY KEY (`appointment_id`),
+  KEY `i1_idx` (`event_id`)
 ) ;
 
 --
@@ -7038,7 +7041,9 @@ CREATE TABLE `il_db_steps` (
 -- Dumping data for table `il_db_steps`
 --
 
+INSERT INTO `il_db_steps` VALUES ('ilAccessControl8DBUpdateSteps',1,'2023-05-17 16:34:13.559863','2023-05-17 16:34:13.572716');
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-03-31 13:10:08.334649','2023-03-31 13:10:08.339628');
+INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps8',1,'2023-05-17 16:34:13.573649','2023-05-17 16:34:13.585092');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',1,'2023-03-31 13:10:08.340522','2023-03-31 13:10:08.351832');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',2,'2023-03-31 13:10:08.352314','2023-03-31 13:10:08.360574');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',3,'2023-03-31 13:10:08.361030','2023-03-31 13:10:08.369035');
@@ -7054,6 +7059,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',8,'2023-03-31 1
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',9,'2023-03-31 13:10:08.415628','2023-03-31 13:10:08.419799');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',10,'2023-03-31 13:10:08.420235','2023-03-31 13:10:08.424429');
 INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',11,'2023-03-31 13:10:08.424889','2023-03-31 13:10:08.429291');
+INSERT INTO `il_db_steps` VALUES ('ilCmiXapiDatabaseUpdateSteps',12,'2023-05-17 16:34:13.586023','2023-05-17 16:34:13.586564');
 INSERT INTO `il_db_steps` VALUES ('ilContentPageUpdateSteps',1,'2023-03-31 13:10:08.478093','2023-03-31 13:10:08.478487');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',1,'2023-03-31 13:10:08.895434','2023-03-31 13:10:08.901218');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',2,'2023-03-31 13:10:08.902626','2023-03-31 13:10:08.908797');
@@ -7194,6 +7200,9 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',7,'2023-03-31 13:10:07
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',8,'2023-03-31 13:10:07.960124','2023-03-31 13:10:07.983554');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',9,'2023-03-31 13:10:07.984195','2023-03-31 13:10:07.991489');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',10,'2023-03-31 13:10:07.991955','2023-03-31 13:10:08.003472');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',11,'2023-05-17 16:34:13.517597','2023-05-17 16:34:13.532396');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',12,'2023-05-17 16:34:13.532947','2023-05-17 16:34:13.537961');
+INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps8',1,'2023-05-17 16:34:13.592751','2023-05-17 16:34:13.598572');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',1,'2023-03-31 13:10:08.762867','2023-03-31 13:10:08.777841');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',2,'2023-03-31 13:10:08.778520','2023-03-31 13:10:08.783301');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',3,'2023-03-31 13:10:08.783773','2023-03-31 13:10:08.787978');
@@ -7218,9 +7227,11 @@ INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',2,'2023-03
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',3,'2023-03-31 13:10:08.864934','2023-03-31 13:10:08.870661');
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',4,'2023-03-31 13:10:08.871116','2023-03-31 13:10:08.876725');
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',5,'2023-03-31 13:10:08.877252','2023-03-31 13:10:08.888499');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',1,'2023-05-17 16:34:13.602077','2023-05-17 16:34:13.608141');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',1,'2023-03-31 13:10:08.936274','2023-03-31 13:10:08.941518');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-03-31 13:10:08.942181','2023-03-31 13:10:08.947666');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',3,'2023-03-31 13:10:08.948273','2023-03-31 13:10:08.953301');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',4,'2023-05-17 16:34:13.608940','2023-05-17 16:34:13.610088');
 
 --
 -- Table structure for table `il_dcl_data`
@@ -10464,7 +10475,7 @@ CREATE TABLE `il_resource_info` (
 CREATE TABLE `il_resource_rc` (
   `rcid` varchar(64) NOT NULL DEFAULT '',
   `title` varchar(4000) DEFAULT NULL,
-  `owner` bigint(20) NOT NULL DEFAULT 0,
+  `owner_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rcid`)
 ) ;
 
@@ -10497,7 +10508,7 @@ CREATE TABLE `il_resource_revision` (
   `rid` varchar(64) NOT NULL DEFAULT '',
   `available` tinyint(4) DEFAULT 1,
   `version_number` bigint(20) NOT NULL,
-  `owner_id` bigint(20) NOT NULL DEFAULT 0,
+  `owner_id` int(11) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`rid`,`version_number`),
   KEY `i1_idx` (`rid`)
@@ -13031,7 +13042,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-04-26 17:22:12','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-05-17 16:34:13','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -15579,7 +15590,9 @@ CREATE TABLE `rbac_fa` (
   `protected` char(1) DEFAULT 'n',
   `blocked` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rol_id`,`parent`),
-  KEY `i1_idx` (`parent`)
+  KEY `i1_idx` (`parent`),
+  KEY `i2_idx` (`assign`,`rol_id`),
+  KEY `i3_idx` (`assign`,`parent`)
 ) ;
 
 --
@@ -20028,7 +20041,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.1.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.2.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -22363,119 +22376,6 @@ CREATE TABLE `table_properties` (
 -- Dumping data for table `table_properties`
 --
 
-INSERT INTO `table_properties` VALUES ('admsettemptst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('bibl_libraries_tbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('crnmng',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('crnmng',6,'order','status');
-INSERT INTO `table_properties` VALUES ('objroleperm_32',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('repmodtbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('repnwitgrptbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__134',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__14',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__4',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_options__5',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_accs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_adm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_adve',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_assf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_auth',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_awra',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_bibl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_bibs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_blga',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_blog',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_book',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cadm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cals',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cat',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_catr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cert',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_chta',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_chtr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_cmps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crsr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_crss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_dcl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_ecss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_exc',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_excs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_extt',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_facs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_feed',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_file',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_fold',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_frm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_frma',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_glo',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grp',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grpr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_grps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_hlps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_htlm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_iass',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_itgr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lngf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_logs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_lrss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mail',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mcst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mcts',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mds',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mep',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_mobs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_nwss',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_orgu',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_otpl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_pays',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_pdts',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_poll',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prfa',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prg',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prgs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_prtt',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_ps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_qpl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rcat',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rcrs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_recf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_reps',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rfil',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rglo',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rgrp',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rlm',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rolf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_root',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rtst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_rwik',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sahs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_seas',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sess',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_skmg',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_spl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_stys',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_svy',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_svyf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_sysc',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tags',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_taxs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tos',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_trac',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_tst',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_usrf',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wbrs',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_webr',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wiki',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('role_template_8_wiks',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'order','title');
-INSERT INTO `table_properties` VALUES ('rolf_role_tbl',6,'rows','50');
-INSERT INTO `table_properties` VALUES ('tbl_didactic_tpl_settings',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('tbl_didactic_tpl_settings',6,'order','title');
-INSERT INTO `table_properties` VALUES ('user7',6,'direction','asc');
-INSERT INTO `table_properties` VALUES ('user7',6,'order','login');
-INSERT INTO `table_properties` VALUES ('user7',6,'selfields','a:24:{s:9:\"firstname\";b:1;s:8:\"lastname\";b:1;s:12:\"access_until\";b:1;s:10:\"last_login\";b:1;s:11:\"create_date\";b:0;s:12:\"approve_date\";b:0;s:10:\"agree_date\";b:0;s:5:\"email\";b:1;s:5:\"title\";b:0;s:8:\"birthday\";b:0;s:6:\"gender\";b:0;s:9:\"org_units\";b:0;s:11:\"institution\";b:0;s:10:\"department\";b:0;s:6:\"street\";b:0;s:7:\"zipcode\";b:0;s:4:\"city\";b:0;s:7:\"country\";b:0;s:11:\"sel_country\";b:0;s:12:\"phone_office\";b:0;s:10:\"phone_home\";b:0;s:12:\"phone_mobile\";b:0;s:3:\"fax\";b:0;s:13:\"matriculation\";b:0;}');
 
 --
 -- Table structure for table `table_templates`
@@ -24514,7 +24414,8 @@ CREATE TABLE `webr_items` (
   `last_update` int(11) NOT NULL DEFAULT 0,
   `internal` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`link_id`),
-  KEY `i1_idx` (`link_id`,`webr_id`)
+  KEY `i1_idx` (`link_id`,`webr_id`),
+  KEY `i3_idx` (`webr_id`)
 ) ;
 
 --
@@ -25111,4 +25012,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-04-26 17:22:13
+-- Dump completed on 2023-05-17 16:34:14
