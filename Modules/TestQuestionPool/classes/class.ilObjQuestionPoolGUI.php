@@ -1112,11 +1112,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
+        $ilAccess = $DIC['ilAccess'];
         $ilUser = $DIC['ilUser'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+        if (!$ilAccess->checkAccess("read", "", $_GET['ref_id'])) {
+            $this->infoScreenForward();
+            return;
+        }
 
         if (get_class($this->object) == "ilObjTest") {
             if ($_GET["calling_test"] > 0) {
@@ -1603,7 +1609,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                     preg_match("/^deleteImage_.*/", $key, $matches) ||
                     preg_match("/^upload_.*/", $key, $matches) ||
                     preg_match("/^addSuggestedSolution_.*/", $key, $matches)
-                    ) {
+                ) {
                     $force_active = true;
                 }
             }
@@ -1763,12 +1769,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     */
     public function infoScreenForward()
     {
-        global $DIC;
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess("visible", "", $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+        if (!$this->access->checkAccess("visible", "", $this->ref_id)) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -1809,7 +1811,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             return;
         }
         if ($ilAccess->checkAccess('visible', "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+            ilObjectGUI::_gotoRepositoryNode($a_target, 'infoScreen');
             return;
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
