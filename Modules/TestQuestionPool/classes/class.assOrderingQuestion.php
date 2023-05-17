@@ -384,11 +384,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("Ordering Question image could not be copied: ${imagepath_original}${filename}");
+                    $ilLog->write('Ordering Question image could not be copied: ' . $imagepath_original . ${filename});
                 }
                 if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
                     if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("Ordering Question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
+                        $ilLog->write('Ordering Question image thumbnail could not be copied: ' . $imagepath_original . $this->getThumbPrefix() . $filename);
                     }
                 }
             }

@@ -50,30 +50,22 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        /**
-         * @var $rbacsystem ilRbacSystem
-         * @var $ilTabs     ilTabsGUI
-         */
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
         switch ($next_class) {
             case 'ilpermissiongui':
-                $ilTabs->activateTab('perm_settings');
+                $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
             case 'ilglobalunitconfigurationgui':
-                if (!$rbacsystem->checkAccess('visible,read', $this->getAssessmentFolder()->getRefId())) {
+                if (!$this->rbac_system->checkAccess('visible,read', $this->getAssessmentFolder()->getRefId())) {
                     $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
                 }
 
-                $ilTabs->setTabActive('units');
+                $this->tabs_gui->setTabActive('units');
 
                 $gui = new ilGlobalUnitConfigurationGUI(
                     new ilUnitConfigurationRepository(0)
@@ -94,10 +86,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
     public function settingsObject(ilPropertyFormGUI $form = null): void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->setTabActive('settings');
+        $this->tabs_gui->setTabActive('settings');
 
         if ($form === null) {
             $form = $this->buildSettingsForm();
@@ -108,12 +97,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
     private function buildSettingsForm(): ilPropertyFormGUI
     {
-        /**
-         * @var $ilAccess ilAccessHandler
-         */
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth("100%");
@@ -214,7 +197,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
         $allowed->setValue($allowedtypes);
         foreach ($questiontypes as $type_name => $qtype) {
-            $allowed->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
+            $allowed->addOption(new ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
         }
         $allowed->setInfo($this->lng->txt('assf_allowed_questiontypes_desc'));
         $form->addItem($allowed);
@@ -257,7 +240,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
         $form->addItem($scoring);
 
-        if ($ilAccess->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
         }
 
@@ -269,9 +252,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     public function saveSettingsObject(): void
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        if (!$ilAccess->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
+        if (!$this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) {
             $this->ctrl->redirect($this, 'settings');
         }
 
@@ -454,13 +435,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     public function logsObject(ilPropertyFormGUI $form = null): void
     {
-        /**
-         * @var $ilTabs ilTabsGUI
-         */
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->activateTab('logs');
+        $this->tabs_gui->activateTab('logs');
 
         $template = new ilTemplate("tpl.assessment_logs.html", true, true, "Modules/Test");
 
@@ -548,13 +523,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     public function logAdminObject(): void
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $ilTabs = $DIC['ilTabs'];
+        $this->tabs_gui->activateTab('logs');
 
-        $ilTabs->activateTab('logs');
-
-        $a_write_access = ($ilAccess->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) ? true : false;
+        $a_write_access = ($this->access->checkAccess("write", "", $this->getAssessmentFolder()->getRefId())) ? true : false;
 
         $table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 
@@ -581,11 +552,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
     public function getLogdataSubtabs(): void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        // log settings
-        $ilTabs->addSubTabTarget(
+        $this->tabs_gui->addSubTabTarget(
             "settings",
             $this->ctrl->getLinkTarget($this, "showLogSettings"),
             ["saveLogSettings", "showLogSettings"],
@@ -593,7 +560,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
 
         // log output
-        $ilTabs->addSubTabTarget(
+        $this->tabs_gui->addSubTabTarget(
             "ass_log_output",
             $this->ctrl->getLinkTarget($this, "logs"),
             ["logs", "showLog", "exportLog"],
@@ -601,7 +568,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
 
         // log administration
-        $ilTabs->addSubTabTarget(
+        $this->tabs_gui->addSubTabTarget(
             "ass_log_admin",
             $this->ctrl->getLinkTarget($this, "logAdmin"),
             ["logAdmin", "deleteLog"],
@@ -612,10 +579,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $lng = $DIC['lng'];
-
         switch ($this->ctrl->getCmd()) {
             case "saveLogSettings":
             case "showLogSettings":
@@ -628,7 +591,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 break;
         }
 
-        if ($rbacsystem->checkAccess("visible,read", $this->getAssessmentFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->getAssessmentFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -653,7 +616,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->getAssessmentFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->getAssessmentFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], "perm"),
@@ -686,13 +649,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     protected function saveLogSettingsObject(): void
     {
-        /**
-         * @var $ilAccess ilAccessHandler
-         */
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
+        if (!$this->access->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->WARNING);
         }
 
@@ -713,12 +670,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     protected function getLogSettingsForm(): ilPropertyFormGUI
     {
-        /**
-         * @var $ilAccess ilAccessHandler
-         */
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveLogSettings'));
         $form->setTitle($this->lng->txt('assessment_log_logging'));
@@ -741,7 +692,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $reporting->setOptions($options);
         $form->addItem($reporting);
 
-        if ($ilAccess->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->getAssessmentFolder()->getRefId())) {
             $form->addCommandButton('saveLogSettings', $this->lng->txt('save'));
         }
 

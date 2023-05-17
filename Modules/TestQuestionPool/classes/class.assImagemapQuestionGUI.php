@@ -51,8 +51,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
-        $assessmentSetting = new ilSetting("assessment");
-        $this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "#" . $assessmentSetting->get("imap_line_color") : "#FF0000";
+        $this->linecolor = '#' . (new ilSetting('assessment'))->get('imap_line_color') ?? 'FF0000';
     }
 
     public function getCommand($cmd)
