@@ -233,7 +233,7 @@ class ilTestSession
             if ($this->user->getId() == ANONYMOUS_USER_ID) {
                 return;
             }
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
                 ['integer','integer'],
                 [$user_id, $test_id]
