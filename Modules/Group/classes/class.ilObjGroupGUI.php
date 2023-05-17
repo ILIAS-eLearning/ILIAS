@@ -434,8 +434,9 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        if ($this->getAdminMode() === self::ADMIN_MODE_SETTINGS) {
-            parent::viewObject();
+        if ($this->view_manager->isAdminView()) {
+            parent::renderObject();
+            $this->addAdoptContentLinkToToolbar();
             return;
         }
 
