@@ -1030,7 +1030,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     public function questionsObject(): void
     {
-        $rbacsystem = $this->rbac_system;
+        if (!$this->access->checkAccess("read", "", $this->qplrequest->getRefId())) {
+            $this->infoScreenForward();
+            return;
+        }
 
         if (get_class($this->object) == 'ilObjTest') {
             if ($this->qplrequest->raw('calling_test') > 0) {
@@ -1072,7 +1075,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
         $table_gui->setPreventDoubleSubmission(false);
 
-        if ($rbacsystem->checkAccess('write', $this->qplrequest->getRefId())) {
+        if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
             $btn = ilLinkButton::getInstance();
             $btn->setCaption('ass_create_question');
@@ -1630,7 +1633,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
         if ($ilAccess->checkAccess('visible', "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+            ilObjectGUI::_gotoRepositoryNode($a_target, 'infoScreen');
             return;
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
