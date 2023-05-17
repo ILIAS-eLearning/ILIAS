@@ -1744,13 +1744,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $target_cmd = 'questions';
             $ctrl->setParameterByClass($target_class, 'ref_id', $a_target);
             $ctrl->redirectByClass([ilRepositoryGUI::class, $target_class], $target_cmd);
-            exit;
-        } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            $main_tpl->setOnScreenMessage('info', sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-            ), true);
+            return;
+        }
+        if ($ilAccess->checkAccess('visible', "", $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+            return;
+        }
+        if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $main_tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ),
+                true
+            );
             ilObjectGUI::_gotoRepositoryRoot();
+            return;
         }
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
