@@ -144,11 +144,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $errors;
     }
 
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): int
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
     {
         parent::addBasicQuestionFormProperties($form);
         $form->getItemByPostVar('question')->setInitialRteWidth('100');
-        return 1;
     }
 
     /**
@@ -960,7 +959,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $form->setTableWidth("100%");
         $form->setId("assmultiplechoice");
 
-        // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
         $this->populateQuestionSpecificFormPart($form, $is_singleline);
         $this->populateAnswerSpecificFormPart($form, $is_singleline);

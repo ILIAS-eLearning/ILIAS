@@ -53,7 +53,6 @@ class assOrderingQuestionImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $shuffle = 0;
         $now = getdate();
         $foundimage = false;
@@ -210,7 +209,6 @@ class assOrderingQuestionImport extends assQuestionImport
             $this->object->setThumbSize($thumb_size);
         }
         $this->object->setElementHeight($item->getMetadataEntry("element_height") ? (int) $item->getMetadataEntry("element_height") : null);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
         $this->object->setPoints(0);
         $this->object->saveQuestionDataToDb();

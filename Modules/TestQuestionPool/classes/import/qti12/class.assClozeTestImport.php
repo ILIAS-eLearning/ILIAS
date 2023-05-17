@@ -47,7 +47,6 @@ class assClozeTestImport extends assQuestionImport
         // empty session variable for imported xhtml mobs
         ilSession::clear('import_mob_xhtml');
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
 
         $packageIliasVersion = $item->getIliasSourceVersion('ILIAS_VERSION');
         $seperate_question_field = $item->getMetadataEntry("question");
@@ -256,7 +255,6 @@ class assClozeTestImport extends assQuestionImport
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $textgap_rating = $item->getMetadataEntry("textgaprating");
         $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
         $this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));

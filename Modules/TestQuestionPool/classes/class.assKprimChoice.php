@@ -225,7 +225,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $this->setAuthor($data['author']);
             $this->setPoints($data['points']);
             $this->setOwner($data['owner']);
-            $this->setEstimatedWorkingTimeFromDurationString($data['working_time']);
             $this->setLastChange($data['tstamp']);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
 

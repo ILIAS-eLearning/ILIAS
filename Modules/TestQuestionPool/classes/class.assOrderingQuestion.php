@@ -187,7 +187,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $this->setThumbSize($data['thumb_geometry']);
             }
             $this->element_height = $data["element_height"] ? (int) $data['element_height'] : null;
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));

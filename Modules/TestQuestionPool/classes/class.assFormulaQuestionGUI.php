@@ -79,11 +79,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->object->setComment($_POST["comment"]);
             $questiontext = ilUtil::stripOnlySlashes($_POST["question"]);
             $this->object->setQuestion($questiontext);
-            $this->object->setEstimatedWorkingTime(
-                $_POST["Estimated"]["hh"],
-                $_POST["Estimated"]["mm"],
-                $_POST["Estimated"]["ss"]
-            );
 
             $this->object->parseQuestionText();
             $found_vars = array();
@@ -228,7 +223,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $form->setTableWidth('100%');
         $form->setId('assformulaquestion');
 
-        // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
 
         // Add info text

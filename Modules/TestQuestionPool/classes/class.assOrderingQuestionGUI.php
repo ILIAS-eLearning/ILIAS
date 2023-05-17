@@ -373,7 +373,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setMultipart($this->object->isImageOrderingType());
         $form->setTableWidth("100%");
         $form->setId("ordering");
-        // title, author, description, question, working time (assessment mode)
+
         $this->addBasicQuestionFormProperties($form);
         $this->populateQuestionSpecificFormPart($form);
         $this->populateAnswerSpecificFormPart($form);

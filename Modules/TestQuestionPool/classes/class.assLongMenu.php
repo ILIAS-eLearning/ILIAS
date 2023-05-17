@@ -394,7 +394,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setIdenticalScoring($data["identical_scoring"]);
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc((string) $data['long_menu_text'], 1));
             $this->loadCorrectAnswerData($question_id);
             $this->setMinAutoComplete($data["min_auto_complete"]);

@@ -49,7 +49,6 @@ class assSingleChoiceImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $shuffle = 0;
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -210,7 +209,6 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
         $thumb_size = (int) $item->getMetadataEntry("thumb_size");
         if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {

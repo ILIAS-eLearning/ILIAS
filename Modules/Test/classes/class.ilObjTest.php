@@ -7670,23 +7670,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-     * @return string
-     */
-    public function getFixedQuestionSetTotalWorkingTime(): string
-    {
-        $totalWorkingTime = '00:00:00';
-
-        foreach ($this->getTestQuestions() as $questionData) {
-            $totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended(
-                $totalWorkingTime,
-                $questionData['working_time']
-            );
-        }
-
-        return $totalWorkingTime;
-    }
-
-    /**
      * @return array
      */
     public function getPotentialRandomTestQuestions(): array
@@ -9176,13 +9159,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getJavaScriptOutput(): bool
     {
         return true;
-
-        //		global $DIC;
-        //		$ilUser = $DIC['ilUser'];
-        //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
-        //		if ($this->getForceJS()) return TRUE;
-        //		$assessmentSetting = new ilSetting("assessment");
-        //		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
     }
 
     public function &createTestSequence($active_id, $pass, $shuffle)

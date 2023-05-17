@@ -178,7 +178,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setMaxNumOfChars($data["maxnumofchars"] ?? 0);
             $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
             $this->matchcondition = (isset($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
 
             try {

@@ -299,11 +299,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setShuffle($data["shuffle"] != '0');
             $this->setShuffleMode((int)$data['shuffle']);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
-            $this->setEstimatedWorkingTime(
-                (int)substr($data["working_time"], 0, 2),
-                (int)substr($data["working_time"], 3, 2),
-                (int)substr($data["working_time"], 6, 2)
-            );
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));

@@ -320,7 +320,6 @@ JS;
         $form->setTableWidth("100%");
         $form->setId("assclozetest");
 
-        // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
         $this->populateQuestionSpecificFormPart($form);
         $this->populateAnswerSpecificFormPart($form);
@@ -346,7 +345,7 @@ JS;
         return $errors;
     }
 
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): int
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
     {
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -404,46 +403,7 @@ JS;
             $question->setUseTagsForRteOnly(false);
         }
         $form->addItem($question);
-
-        $nr_tries = 0;
-        if (!$this->object->getSelfAssessmentEditingMode()) {
-            // duration
-            $duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-            $duration->setShowHours(true);
-            $duration->setShowMinutes(true);
-            $duration->setShowSeconds(true);
-            $ewt = $this->object->getEstimatedWorkingTime();
-            $duration->setHours($ewt["h"]);
-            $duration->setMinutes($ewt["m"]);
-            $duration->setSeconds($ewt["s"]);
-            $duration->setRequired(false);
-            $form->addItem($duration);
-        } else {
-            // number of tries
-            if (strlen($this->object->getNrOfTries())) {
-                $nr_tries = $this->object->getNrOfTries();
-            } else {
-                $nr_tries = $this->object->getDefaultNrOfTries();
-            }
-            /*if ($nr_tries <= 0)
-            {
-                $nr_tries = 1;
-            }*/
-
-            if ($nr_tries < 0) {
-                $nr_tries = 0;
-            }
-
-            $ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
-            $ni->setValue($nr_tries);
-            //$ni->setMinValue(1);
-            $ni->setMinValue(0);
-            $ni->setSize(5);
-            $ni->setMaxLength(5);
-            $ni->setRequired(true);
-            $form->addItem($ni);
-        }
-        return $nr_tries;
+        $this->addNumberOfTriesToFormIfNecessary($form);
     }
 
     public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -1207,10 +1167,10 @@ JS;
 
     public function getTestOutput(
         $active_id,
-                // hey: prevPassSolutions - will be always available from now on
-                $pass,
-                // hey.
-                $is_postponed = false,
+        // hey: prevPassSolutions - will be always available from now on
+        $pass,
+        // hey.
+        $is_postponed = false,
         $use_post_solutions = false,
         $show_feedback = false
     ): string {

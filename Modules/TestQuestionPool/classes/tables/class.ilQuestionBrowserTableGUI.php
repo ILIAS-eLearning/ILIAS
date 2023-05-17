@@ -34,7 +34,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
-    protected $totalWorkingTime = '00:00:00';
     protected $confirmdelete;
     protected array $filter = [];
 
@@ -107,9 +106,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 }
                 if (strcmp($c, 'tstamp') == 0) {
                     $this->addColumn($this->lng->txt("last_update"), 'tstamp', '');
-                }
-                if (strcmp($c, 'working_time') == 0) {
-                    $this->addColumn($this->lng->txt("working_time"), 'working_time', '');
                 }
             }
             $this->addColumn($this->lng->txt('actions'), '');
@@ -254,10 +250,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 "txt" => $lng->txt("last_update"),
                 "default" => true
             );
-            $cols["working_time"] = array(
-                "txt" => $lng->txt("working_time"),
-                "default" => true
-            );
         }
         return $cols;
     }
@@ -347,8 +339,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         foreach ($this->column as $key => $column) {
             if (strcmp($column['text'], $this->lng->txt("points")) == 0) {
                 $this->column[$key]['text'] = $this->lng->txt("points") . "&nbsp;(" . $this->totalPoints . ")";
-            } elseif (strcmp($column['text'], $this->lng->txt("working_time")) == 0) {
-                $this->column[$key]['text'] = $this->lng->txt("working_time") . "&nbsp;(" . $this->totalWorkingTime . ")";
             }
         }
         parent::fillHeader();
@@ -384,7 +374,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             } else {
                 $points = $a_set["points"];
-                $this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime, $a_set['working_time']);
             }
             $this->totalPoints += $points;
 
@@ -426,11 +415,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 if (strcmp($c, 'tstamp') == 0) {
                     $this->tpl->setCurrentBlock('updated');
                     $this->tpl->setVariable('QUESTION_UPDATED', ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
-                    $this->tpl->parseCurrentBlock();
-                }
-                if (strcmp($c, 'working_time') == 0) {
-                    $this->tpl->setCurrentBlock('working_time');
-                    $this->tpl->setVariable('WORKING_TIME', $a_set["working_time"]);
                     $this->tpl->parseCurrentBlock();
                 }
             }
