@@ -29,6 +29,7 @@ class ilTestSessionDynamicQuestionSetTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestSessionDynamicQuestionSet();
     }

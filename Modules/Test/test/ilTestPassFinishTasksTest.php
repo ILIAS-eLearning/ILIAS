@@ -29,6 +29,7 @@ class ilTestPassFinishTasksTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilUser();
 
         $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 

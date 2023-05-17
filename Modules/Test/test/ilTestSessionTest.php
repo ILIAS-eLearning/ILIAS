@@ -29,6 +29,7 @@ class ilTestSessionTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestSession();
     }
