@@ -47,51 +47,26 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     public const CMD_CANCEL_RECALC = 'cancelSaveForm';
     private const F_CONFIRM_SETTINGS = 'f_settings';
 
-    protected ilCtrlInterface $ctrl;
-    protected ilAccessHandler $access;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilTree $tree;
-    protected ilDBInterface $db;
-    protected ilComponentRepository $component_repository;
-    protected ilObjTestGUI $testGUI;
     private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
-    protected ScoreSettingsRepository $score_settings_repo;
-    protected int $test_id;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected Refinery $refinery;
-    protected ilTabsGUI $tabs;
-
-
     public function __construct(
-        ilCtrlInterface $ctrl,
-        ilAccessHandler $access,
-        ilLanguage $lng,
-        ilTree $tree,
-        ilDBInterface $db,
-        ilComponentRepository $component_repository,
-        ilObjTestGUI $testGUI,
-        \ilGlobalTemplateInterface $main_template,
-        ilTabsGUI $tabs,
-        ScoreSettingsRepository $score_settings_repo,
-        int $test_id,
-        UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
-        Refinery $refinery,
-        Request $request
+        protected ilCtrlInterface $ctrl,
+        protected ilAccessHandler $access,
+        protected ilLanguage $lng,
+        protected ilTree $tree,
+        protected ilDBInterface $db,
+        protected ilComponentRepository $component_repository,
+        protected ilObjTestGUI $testGUI,
+        protected \ilGlobalTemplateInterface $tpl,
+        protected ilTabsGUI $tabs,
+        protected ScoreSettingsRepository $score_settings_repo,
+        protected int $test_id,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer,
+        protected Refinery $refinery,
+        protected Request $request
     ) {
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->lng = $lng;
-        $this->tree = $tree;
-        $this->db = $db;
-        $this->component_repository = $component_repository;
-        $this->testGUI = $testGUI;
-        $this->testOBJ = $testGUI->getObject();
-        $this->tpl = $main_template;
-        $this->tabs = $tabs;
+        parent::__construct($testGUI->getObject());
 
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
@@ -108,13 +83,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
                 ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
             );
         }
-
-        $this->score_settings_repo = $score_settings_repo;
-        $this->test_id = $test_id;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
-        $this->refinery = $refinery;
-        $this->request = $request;
     }
 
     protected function loadScoreSettings(): ilObjTestScoreSettings
