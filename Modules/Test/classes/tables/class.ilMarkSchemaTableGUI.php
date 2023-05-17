@@ -119,7 +119,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
         $official_name->setMaxLength(50);
-        $official_name->setValue($a_set['mark_official']);
+        $official_name->setValue($row['mark_official']);
 
         $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $row['mark_id']);
         $percentage->allowDecimals(true);
