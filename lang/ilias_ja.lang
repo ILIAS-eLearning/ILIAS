@@ -666,7 +666,7 @@ assessment#:#detailed_evaluation_show#:#評価詳細を表示する
 assessment#:#detailed_output_printview#:#問題印刷表示の詳細出力
 assessment#:#detailed_output_solutions#:#問題解答の詳細出力
 assessment#:#direct_feedback#:#解答の確認
-assessment#:#discard_answer#:#回答破棄:testナビ
+assessment#:#discard_answer#:#回答破棄
 assessment#:#discard_answer_confirmation#:#回答は最終的に完全に破棄されます。別の回答を提出するまで問題は未回答となります。<br /><br />本当に回答を破棄しますか?
 assessment#:#dont_use_questionpool#:#問題集へ問題を挿入しない(このテストでの利用のみ）
 assessment#:#duplicate#:#重複
@@ -1295,9 +1295,9 @@ assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示さ�
 assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints###05 04 2023 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#問題、回答、フィードバックとヒント用のILIASページエディタはPlain textを使用。
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints###05 04 2023 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#もお題、回答、フィードバック、ヒントにはRich-Text-Editor (TinyMCE)を使用。
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
@@ -1372,7 +1372,7 @@ assessment#:#tst_count_correct_solutions#:#正解と完全解答得点のみ
 assessment#:#tst_count_correct_solutions_desc#:#受験者点数、完全解答で全正解の最高点または他のどこかが0点のどちらかの受験者点数。
 assessment#:#tst_count_partial_solutions#:#不完全もしくは部分不正解の点数
 assessment#:#tst_count_partial_solutions_desc#:#部分解答の正解点数が追加されます: 受験者は不正解または部分不正解を得点できます。
-assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.###05 04 2023 new variable
+assessment#:#tst_current_run_no_longer_valid#:#現状テスト中のものは無効です。<br>指導教員により既に完了された可能性があります。
 assessment#:#tst_default_settings#:#パーソナル初期設定
 assessment#:#tst_defaults_applied#:#選択したテストの初期設定が適用されました。
 assessment#:#tst_defaults_apply_not_possible#:#ILIASはこのテストへ選択された初期設定を適用できませんでした!　問題もしくは一部データセットがすでに混在している可能性があります。
@@ -1426,8 +1426,8 @@ assessment#:#tst_failed#:#Failed
 assessment#:#tst_failed_imp_qst_skl_assign#:#次のコンピーテンスへの問題の割当ては作成することができませんでした。習得のコンピーテンスはローカルシステム内で識別することができませんでした。
 assessment#:#tst_failed_imp_skl_thresholds#:#ローカルシステムに沿ったコンピーテンスはレベルの別リストと一緒に構成されるので、次のコンピーテンスのスレッショールドのインポートはスキップされました。
 assessment#:#tst_feedback#:#フィードバック
-assessment#:#tst_feedback_is_given_inline#:#The feedback will be displayed along with your answer.###05 04 2023 new variable
-assessment#:#tst_feedback_not_available_for_answer#:#There is no feedback available for your answer.###05 04 2023 new variable
+assessment#:#tst_feedback_is_given_inline#:#回答に沿ってフィードバックは表示されます。
+assessment#:#tst_feedback_not_available_for_answer#:#回答にはフィードバックはありません。
 assessment#:#tst_filter_lifecycle_enabled#:#フィルターをライフサイクルへ利用
 assessment#:#tst_filter_question_type#:#質問タイプ
 assessment#:#tst_filter_question_type_enabled#:#フィルターとして質問タイプを使用
@@ -2030,7 +2030,7 @@ auth#:#auth_info_migrate#:#既にILIASのアカウントがあれば、パーソ
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#ログインスクリーンエディタ
 auth#:#auth_oidc#:#OpenIdコンテンツ
-auth#:#auth_oidc_failed#:#Login via OpenID Connect failed###05 04 2023 new variable
+auth#:#auth_oidc_failed#:#OpenID Connect経由のLoginは失敗しました。
 auth#:#auth_oidc_login_element_info#:#OpenID Connect経由でILIASへログイン
 auth#:#auth_oidc_mapping_table#:#ILIASユーザーデータのOpenIdコンテンツ属性への割り当て
 auth#:#auth_oidc_profile#:#プロファイルデータの割当
@@ -2046,8 +2046,8 @@ auth#:#auth_oidc_settings_custom_session_duration_option#:#自身のセッショ
 auth#:#auth_oidc_settings_custom_session_duration_type#:#セッション期間の設定
 auth#:#auth_oidc_settings_default_role#:#役割の割り当て
 auth#:#auth_oidc_settings_default_role_info#:#新しいILIASユーザーのためのグローバル役割を選択してください
-auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed with: %s###05 04 2023 new variable
-auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider###05 04 2023 new variable
+auth#:#auth_oidc_settings_discovery_error#:#ディスカバリーURL読込み失敗: %s
+auth#:#auth_oidc_settings_discovery_url#:#プロバイダーのディスカバリーURL
 auth#:#auth_oidc_settings_img#:#Bild
 auth#:#auth_oidc_settings_img_file_info#:#ログインページに表示する写真をアップロードします。画像は自動的にOpenId コンテンツログインスクリプトにリンクします。
 auth#:#auth_oidc_settings_invalid_scopes#:#次の値には有効な範囲がありません: %s 
@@ -2072,10 +2072,10 @@ auth#:#auth_oidc_settings_txt_val_info#:#ログインページに表示される
 auth#:#auth_oidc_settings_user_attr#:#ユーザーアクセスの属性名
 auth#:#auth_oidc_settings_user_sync#:#自動同期
 auth#:#auth_oidc_settings_user_sync_info#:#有効にした場合、Open IDコンテンツに対して正常に認証されたがILIASユーザーアカウントを持っていないユーザーは自動的に新しいユーザーアカウントを作成します。
-auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url###05 04 2023 new variable
-auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration###05 04 2023 new variable
-auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving###05 04 2023 new variable
-auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving###05 04 2023 new variable
+auth#:#auth_oidc_settings_validate_scope_custom#:#カスタムOpenID ConnectディスカバリURLを使用
+auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration
+auth#:#auth_oidc_settings_validate_scope_none#:#保存の際Scopeを有効化しない。
+auth#:#auth_oidc_settings_validate_scopes#:#保存に際してScopesを有効化する
 auth#:#auth_oidc_update_field_info#:#自動的に更新します。
 auth#:#auth_oidc_update_role_info#:#初回ログイン時にのみ使用します（自動同期）
 auth#:#auth_oidconnect#:#OpenIdコンテンツ
@@ -2100,7 +2100,7 @@ auth#:#auth_saml_enable#:#Enable SAML Support
 auth#:#auth_saml_err_sqlite_driver#:#SAML認証はPHP用のSQLite ドライバーが必須です。SQLite packageをインストールして再試行してください。
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_idp_selection_table_desc#:#ログオンする id プロバイダーを選択してください。
-auth#:#auth_saml_idp_selection_table_title#:#ＩＤプロバイダー選択
+auth#:#auth_saml_idp_selection_table_title#:#IDプロバイダー選択
 auth#:#auth_saml_idp_settings#:#IDP設定
 auth#:#auth_saml_idps#:#SAML IDPリスト
 auth#:#auth_saml_idps_info#:# '<strong>%s</strong>' と'<strong>%s</strong>' (外部データディレクトリ)中のSimpleSAMLphp構成を確認してください。詳細説明については%sのマニュアルを読んでください。
@@ -2515,7 +2515,7 @@ book#:#book_no_preferences_for_you#:#preferenceが何も保存されていませ
 book#:#book_not#:#不明
 book#:#book_not_enough_preferences#:#十分なpreferenceが選択されました。preferenceはまだ保存されていません。
 book#:#book_notification#:#予約通知を送信
-book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Send Reservation Notifications" is currently not activated.###05 04 2023 new variable
+book#:#book_notification_cron_not_active#:#注意: 対応するcron job "予約通知を送信" は現在アクティブ化されていません。
 book#:#book_notification_info#:#翌日の予約リストをユーザ(自己予約)と管理者(有効の場合)へ送る。
 book#:#book_nr_of_preferences#:#Preference数
 book#:#book_nr_of_preferences_info#:#各受験者のPreferences数を表示できます。
@@ -2552,8 +2552,8 @@ book#:#book_reminder_day#:#予約前
 book#:#book_reminder_day_info#:#自己予約リストをユーザと予約のフルリスト管理者へ送る
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#注意喚起
-book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
-book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
+book#:#book_rerun_assignments#:#Run Assignment Process###17 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###17 05 2023 new variable
 book#:#book_reservation_available#:#%s利用可能
 book#:#book_reservation_confirmed#:#予約が確認されました。
 book#:#book_reservation_failed#:#予約できませんでした。
@@ -4228,10 +4228,10 @@ common#:#grp_registration_completed#:#グループへ参加しました
 common#:#grp_removed_from_waiting_list#:#グループ "%s"の待ちリストから外されました。
 common#:#grp_select_one_file#:#一つファイルを選択してください。
 common#:#grp_wizard_page#:#コピーグループ(Step 2/2)
-common#:#grpr#:#Group Reference
-common#:#grpr_edit#:#Group Referenceを編集
+common#:#grpr#:#Group Link
+common#:#grpr_edit#:#Group Linkを編集
 common#:#grpr_edit_info#:#新しいグループリンク用にグループを一つ選択してください。
-common#:#grpr_new#:#Group Referenceを編集生成
+common#:#grpr_new#:#Group Linkを作成
 common#:#header_searchable#:#検索可能
 common#:#header_title#:#ヘッダータイトル
 common#:#header_visible_registration#:#登録の表示
@@ -4883,7 +4883,7 @@ common#:#obj_glo#:#用語集
 common#:#obj_glo_duplicate#:#索引をコピー
 common#:#obj_grp#:#グループ
 common#:#obj_grp_duplicate#:#グループをコピー
-common#:#obj_grpr#:#Group Reference
+common#:#obj_grpr#:#Group Link
 common#:#obj_grps#:#グループ
 common#:#obj_grps_desc#:#グループの全般設定
 common#:#obj_hlps#:#ヘルプシステム
@@ -5090,7 +5090,7 @@ common#:#objs_fold#:#フォルダ
 common#:#objs_frm#:#フォーラム
 common#:#objs_glo#:#用語集
 common#:#objs_grp#:#グループ
-common#:#objs_grpr#:#Group References
+common#:#objs_grpr#:#Group Link
 common#:#objs_htlm#:#HTMLラーニングモジュール
 common#:#objs_iass#:#個別アセスメント
 common#:#objs_itgr#:#アイテムグループ
@@ -5251,7 +5251,7 @@ common#:#predefined_template#:#事前定義の役割テンプレート
 common#:#preferences#:#プレファレンス
 common#:#presentation_table_more#:#詳しく見る
 common#:#preview#:#プレビュー
-common#:#preview_caption#:#Preview %sof %s###05 04 2023 new variable
+common#:#preview_caption#:#プレビュー %sof %s
 common#:#preview_create#:#プレビューを作成
 common#:#preview_delete#:#プレビューを削除
 common#:#preview_learner_info#:#有効にすると、コースやグループ管理者が学習者の透視コンテンツフォームを表示する可能性があります。
@@ -5571,7 +5571,7 @@ common#:#short_inst_name#:#ショートタイトル
 common#:#short_inst_name_info#:#このタイトルはブラウザヘッダータイトルバーに表示されます。 値がない場合は 'ILIAS'を使用します。
 common#:#show#:#表示
 common#:#show_all_details#:#全詳細を表示
-common#:#show_content#:#Show Content###05 05 2023 new variable
+common#:#show_content#:#Show Content###17 05 2023 new variable
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_sections#:#詳細を表示  &raquo;
@@ -5595,8 +5595,10 @@ common#:#soap_user_administration_desc#:#オンにするとILIASはSOAP経由で
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#サービスで使用されるilias wsdlファイルのpathを入力してください。この欄を空欄にすると次のpathは初期設定:%sが使用されます。
 common#:#sort_ascending#:#昇順に並び替え
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
 common#:#sort_by_this_column#:#この列を並び替え
 common#:#sort_descending#:#降順に並び替え
+common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
 common#:#sort_inherit_prefix#:#初期設定
 common#:#sorting_asc#:#昇順
 common#:#sorting_creation_header#:#作成日順
@@ -5944,7 +5946,7 @@ common#:#withdrawal_mail_text#:#担当の方へ,[BR][BR]ILIASシステムの利�
 common#:#withdrawal_sure_account#:#承諾を本当に取り下げますか? 
 common#:#withdrawal_sure_account_deletion#:#承諾を本当に取り下げますか? アカウントは取り消し不可能で削除されます。
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#本当に使用許諾を承認しませんか? ユーザアカウントは取消不可で削除されます。
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###05 04 2023 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#本当に使用許諾を承認しませんか?
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
 common#:#write#:#書込み
@@ -5974,7 +5976,7 @@ cont#:#cont_filter_fields#:#フィルタ－フィールド
 cont#:#cont_filter_record#:#記録
 cont#:#cont_found_objects#:#見つかったオブジェクト
 cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#Display content objects in a list.###05 04 2023 new variable
+cont#:#cont_item_list_info#:#リスト内のコンテンツオブジェクトを表示
 cont#:#cont_list_presentation#:#アイテム表示形式
 cont#:#cont_mem_skills#:#能力
 cont#:#cont_news_edited#:#未加工
@@ -6028,7 +6030,7 @@ cont#:#cont_std_filter_title_8#:#オブジェクトタイプ
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#標準
 cont#:#cont_tile_view#:#タイル
-cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###05 04 2023 new variable
+cont#:#cont_tile_view_info#:#サムネイルスタイルタイルとしてコンテンツオブジェクトを表示。このタイル用のイメージは各個別のオブジェクトの設定内にアップロードできます。
 contact#:#contact_awrn_ap_contacts#:#コンタクトを承認しました
 contact#:#contact_awrn_ap_contacts_info#:#ユーザの承認した全てのコンタクトが表示されます。
 contact#:#contact_awrn_req_contacts#:#コンタクト要求
@@ -6466,8 +6468,8 @@ content#:#cont_grid_width_s#:#Small
 content#:#cont_grid_width_s_info#:#例 スマートフォン
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#例 ワイドデスクトップ
-content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
-content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###17 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###17 05 2023 new variable
 content#:#cont_header#:#ヘッダー
 content#:#cont_height#:#高さ
 content#:#cont_help_no_valid_tooltip_id#:#入力されたtooltip IDは無効です。
@@ -7069,7 +7071,7 @@ content#:#cont_update_verification#:#検証を編集
 content#:#cont_upload_dir#:#アップロードディレクトリ
 content#:#cont_upload_dir_info#:#大きなSCORMとHTMLパッケージのサーバーディレクトリはアップロードに代えてコピーができます。ILIAS管理者だけはこのディレクトリからファイルの選択が表示されます。末尾にスラッシュのないフルサーバーpathを入力してください。
 content#:#cont_upload_file#:#ファイルをUpload
-content#:#cont_upload_multi_srt_howto#:#この機能により学習モジュールの全メディアオブジェクト用のzipファイル内の複数サブタイトル(srt)ファイルをアップロードできます。.zipファイルはトップレベル(サブディレクトリなし)上に全て.srtファイルが存在するようにしなければなりません。ファイル名は"en","it","de"の例のようにファイル名が"_&lt;lang code&gt;.srt"で終了するようにする必要があります。残りのファイル名はビデオファイル"my_video.mp4" -> "my_video_en.srt"の例のように対応する必要があります。
+content#:#cont_upload_multi_srt_howto#:#この機能により学習モジュールの全メディアオブジェクト用のzipファイル内の複数サブタイトル(srt)ファイルをアップロードできます。.zipファイルはトップレベル(サブディレクトリなし)上に全て.srtファイルが存在するようにしなければなりません。ファイル名は"en","it","de"の例のようにファイル名が"_&lt;lang code&gt;.srt"で終了するようにする必要があります。残りのファイル名はビデオファイル"my_video.mp4"➜ "my_video_en.srt"の例のように対応する必要があります。
 content#:#cont_uploaded_file#:#既存のファイル
 content#:#cont_url_info#:#メディアのURLまたはYoutube URL
 content#:#cont_usage#:#使用
@@ -7729,8 +7731,8 @@ crs#:#crs_syllabus#:#シラバス
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#開始オブジェクト
 crs#:#crs_target_group#:#ターゲットグループ
-crs#:#crs_tile_and_objective_view_not_supported#:#"タイル形式 表示”と"学習オブジェクト形式表示"を同時に両方アクティブにはできません。
-crs#:#crs_tile_and_session_limit_not_supported#:#"タイル形式 表示”と"セッション制限"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_objective_view_not_supported#:#タイル形式 表示”と学習オブジェクト形式表示"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_session_limit_not_supported#:#タイル形式 表示”とセッション制限"を同時に両方アクティブにはできません。
 crs#:#crs_timing_err_start_end#:#終了日は開始日と等しいかそれ以上大きくする必要があります。
 crs#:#crs_timings_activate_optional#:#コース期間設定のオプションモード
 crs#:#crs_timings_activate_optional_own#:#マイコース期間設定のオプションモード
@@ -9883,7 +9885,7 @@ grp#:#grp_use_existing#:#既存のグループを使用する
 grp#:#grp_user_agreement#:#データタイプをリリース
 grp#:#grp_user_agreement_info#:#グループ管理者用のパーソナルデータを表示します
 grp#:#grp_user_already_in_group#:#選択のユーザはすでにグループのメンバーです。
-grp#:#grp_user_been_added#:#グループへﾕｻﾞが追加されました。
+grp#:#grp_user_been_added#:#グループへユーザが追加されました。
 grp#:#grp_users_already_assigned#:#ユーザは既にグループ.へ割当てられています。
 grp#:#grp_usr_agreement#:#ユーザ許諾書
 grp#:#grp_view_info_by_type#:#このコンテンツプレゼンテーションはリソースタイプで全てのアイテムをグループ化します。
@@ -10108,7 +10110,7 @@ ldap#:#ldap_deleted_role_mapping#:#割当てを削除しました。
 ldap#:#ldap_deleted_rule#:#選択した役割割当を削除しました。
 ldap#:#ldap_dn_info#:#LDAP グループの識別名を入力してください。
 ldap#:#ldap_edit_role_ass_rule#:#役割割当てのルールを編集
-ldap#:#ldap_edit_role_assignment#:#役割編集 -> グルーク割当て
+ldap#:#ldap_edit_role_assignment#:#役割編集 ➜ グルーク割当て
 ldap#:#ldap_err_missing_plugin_id#:#有効なプラグインIDを入力してください。
 ldap#:#ldap_escapedn#:#DN回避
 ldap#:#ldap_escapedn_info#:#有効にするとユーザアカウントの"識別名"の特定文字はグループメンバーシップ用の問合せが回避されます。
@@ -10148,7 +10150,7 @@ ldap#:#ldap_memberisdn#:#属性値はDN
 ldap#:#ldap_missing_bind_user#:# "ユーザで認証"を選択しました:LDAPユーザ名とパスワードを入力してください。
 ldap#:#ldap_missing_role_assignment#:#新規ユーザが割当てられようにグローバル役割を選んでください。
 ldap#:#ldap_moment_sync#:#同期のタイプ
-ldap#:#ldap_new_role_assignment#:#新規役割を追加 -> グループ割当て
+ldap#:#ldap_new_role_assignment#:#新規役割を追加 ➜ グループ割当て
 ldap#:#ldap_plugin#:#プラグインによる割当て
 ldap#:#ldap_plugin_id#:#プラグインID
 ldap#:#ldap_plugin_info#:#プラグイン有りの役割割当てを検証します。有効なプラグインIDを入力してください。
@@ -10167,13 +10169,13 @@ ldap#:#ldap_role_bind_user_info#:#LDAP ユーザアカウントの識別名を�
 ldap#:#ldap_role_by_attribute#:#LDAP属性
 ldap#:#ldap_role_by_group#:#グループメンバーシップ
 ldap#:#ldap_role_by_plugin#:#プラグインによる
-ldap#:#ldap_role_group_assignments#:#既存の役割 -> グループ割当て
+ldap#:#ldap_role_group_assignments#:#既存の役割 ➜ グループ割当て
 ldap#:#ldap_role_grp_at#:#属性
 ldap#:#ldap_role_grp_dn_info#:#LDAPグループの "識別名" を入力してください。
 ldap#:#ldap_role_grp_info#:#特定のLDAPグループメンバーは与えられたILIAS役割に割当てられます。
 ldap#:#ldap_role_grp_isdn#:#属性値はDN
 ldap#:#ldap_role_info#:#LDAPグループのメンバーシップをコントロールするILIAS役割名を入力してください。
-ldap#:#ldap_role_mapping#:#ILIAS役割 -> LDAP グループMapping
+ldap#:#ldap_role_mapping#:#ILIAS役割 ➜ LDAP グループMapping
 ldap#:#ldap_role_name_info#:#グローバル役割を選ぶか、ローカル役割の名前を入力してください。
 ldap#:#ldap_role_not_exists#:#その名前の役割は存在しません。
 ldap#:#ldap_role_selection#:#役割選択
@@ -10542,7 +10544,7 @@ lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#LTI Shareを編集
 lti#:#lti_provider#:#LTI-Share
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
-lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###17 05 2023 new variable
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
 lti#:#lti_released_objects#:#Object-Share
 lti#:#lti_select_provider#:#プロバイダーを選択
@@ -10629,11 +10631,11 @@ mail#:#mail_assign_entry_to_mailing_list#:#メーリングリストに連絡先�
 mail#:#mail_attachment_file_not_exist#:#次の添付のいずれかがありません: %1$s
 mail#:#mail_attachments#:#添付
 mail#:#mail_auto_generated_info#:#これは自動送信メールです。ILIASシステム %s, %s
-mail#:#mail_bcc#:#BCC###05 04 2023 new variable
+mail#:#mail_bcc#:#BCC
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail 配信
 mail#:#mail_both_email#:#両方のemailアドレス
-mail#:#mail_cc#:#CC###05 04 2023 new variable
+mail#:#mail_cc#:#CC
 mail#:#mail_change_to_folder#:#フォルダ切替: %s
 mail#:#mail_create_tpl#:#Textテンプレートを作成
 mail#:#mail_cronjob_notification_info#:#ここで新しいメールに関する定期的な通知を有効にできます。
@@ -10694,7 +10696,7 @@ mail#:#mail_generic_rcp_error#:#受信者: %1$sを有効期間中にエラーが
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#希望する'Reply-To'アドレスを入力してください。
 mail#:#mail_grp_roles#:#グループ役割へメールを送信
-mail#:#mail_hint_add_placeholder_x#:#Add the placeholder '%s' to the message body.###05 04 2023 new variable
+mail#:#mail_hint_add_placeholder_x#:#メッセージボディへプレースフォルダ '%s' を追加します。
 mail#:#mail_incoming#:#受信メール
 mail#:#mail_incoming_both#:#ローカル受信と転送
 mail#:#mail_incoming_local#:#ローカル受信のみ
@@ -10848,7 +10850,7 @@ mail#:#placeholders_advise#:#孤立メールに関する通知
 mail#:#search_content#:#結果を検索
 mail#:#search_recipients#:#宛先を検索
 mail#:#second_email_missing_info#:#第2emailアドレスが入力されていないので選択はできません。
-mail#:#select_mail_with_subject_x#:#Select mail with subject „%s“###05 04 2023 new variable
+mail#:#select_mail_with_subject_x#:#subject „%s“　でメールを選択
 mail#:#send_mail_admins#:#全ての管理者
 mail#:#send_mail_members#:#全てのメンバー
 mail#:#send_mail_to#:#Mail to
@@ -10880,7 +10882,7 @@ mathjax#:#mathjax_enable_mathjax#:#MathJaxを有効にする
 mathjax#:#mathjax_enable_mathjax_info#:#LaTex表現の数式出力ベースのMathJaxサポートを有効にします。
 mathjax#:#mathjax_enable_server#:#サーバでMathJaxを有効にする
 mathjax#:#mathjax_enable_server_info#:#グラフィックへTeXのサーバサイドレンダリングを有効にする。
-mathjax#:#mathjax_home_link#:# >> MathJax
+mathjax#:#mathjax_home_link#:# ➜︎ MathJax web site
 mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
@@ -10891,14 +10893,14 @@ mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#レンダーグラフィックのキャッシュ用に使用されるディスクス容量
-mathjax#:#mathjax_server_clear_cache#:# >>  Cacheをクリヤ
+mathjax#:#mathjax_server_clear_cache#:# ➜ Clear Cache Now
 mathjax#:#mathjax_server_for_browser#:#ブラウザ用に使用
 mathjax#:#mathjax_server_for_browser_info#:#TeXはSVGグラフィックとして表示されます。ブラウザ内のMathJaxの有効化は不要です。
 mathjax#:#mathjax_server_for_export#:#HTMLエクスポート用に使用
 mathjax#:#mathjax_server_for_export_info#:#TeXはHTMLへの学習モジュールエクスポート用のSVGグラフィックとしてエクスポートされます。
 mathjax#:#mathjax_server_for_pdf#:#PDF生成用に使用
 mathjax#:#mathjax_server_for_pdf_info#:#サーバはPDFファイル生成時に使用されます。
-mathjax#:#mathjax_server_installation#:# >> Iインストレーション
+mathjax#:#mathjax_server_installation#:# ➜ Installation Manual
 mathjax#:#mathjax_server_timeout#:#タイムアウト
 mathjax#:#mathjax_server_timeout_info#:#mathjaxサーバコール用のタイムアウト秒数
 mathjax#:#mathjax_settings#:#MathJax設定
@@ -12010,7 +12012,7 @@ obj#:#obj_show_header_actions#:#Header Actionsを表示
 obj#:#obj_show_title_and_icon#:#タイトルとアイコンを表示
 obj#:#obj_target_location#:#目標場所
 obj#:#obj_tile_image#:#タイルイメージ
-obj#:#obj_tile_image_info#:#コンテナ(コース、フォルダー、グループ….)がタイル形式表示を有効にした場合、タイルイメージが使用されます。
+obj#:#obj_tile_image_info#:#このイメージは、配置されたコンテナ内(例:カテゴリー、フォルダ、グループ等)のこのオブジェクト表示のためにサムネイルスタイルタイルイメージ(通称タイル)として使用されます。このタイルは、親コンテナセットが'アイテム表示'(または'コンテンツ表示オプション - 以下参照')を'タイル'('リスト'に代えて）に設定する場合にのみ利用されます。パフォーマンス事項を避けるには、解像度72 dpiで幅1000 px以下のファイルuploadとします。
 obj#:#obj_tool_booking#:#リソース
 obj#:#obj_tool_booking_info#:#リソースを予約するには予約集を使用
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
@@ -12406,7 +12408,7 @@ prg#:#prg_auto_member_select_role#:#役割
 prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
-prg#:#prg_cancel#:#Cancel###18 05 2020 new variable
+prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
 prg#:#prg_changed_by#:#更新者
 prg#:#prg_completion_by#:#完了者
@@ -12743,14 +12745,14 @@ ps#:#ps_cdf_value#:#値
 ps#:#ps_cdf_warning_modify#:#注意：ユーザの少なくとも一人は利用条件を承諾する必要があります。コース特定の欄を修正すると、全ての利用条件の承諾はリセットされます。
 ps#:#ps_crs_user_fields#:#コース-別ユーザフィールド
 ps#:#ps_error_message_https_header_missing#:#https の自動検出を有効にする場合は、ヘッダー名とヘッダーの値を提供しなければなりません。
-ps#:#ps_error_message_invalid_login_max_attempts#:#最大ログイン回数は0未満のことがあります。
-ps#:#ps_error_message_invalid_password_max_age#:#最大パスワード年数は0未満のことがあります。
-ps#:#ps_error_message_invalid_password_max_length#:#最大パスワードサイズは0未満のことがあります。
+ps#:#ps_error_message_invalid_login_max_attempts#:#最大ログイン回数は0未満ではないことがあります。
+ps#:#ps_error_message_invalid_password_max_age#:#最大パスワード年数は0未満ではないことがあります。
+ps#:#ps_error_message_invalid_password_max_length#:#最大パスワードサイズは0未満ではないことがあります。
 ps#:#ps_error_message_invalid_password_min_length#:#最小パスワードサイズは0未満のことがあります。
 ps#:#ps_error_message_password_max_less_min#:#最大パスワードサイズは最少パスワードサイズ未満のことがあります。
-ps#:#ps_error_message_password_min1_because_chars#:#最小パスワードサイズが%s以下でない可能性があります。
-ps#:#ps_error_message_password_min2_because_chars_numbers#:#文字と数字が混在の場合に最少パスワードサイズは2未満のことがあります。
-ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#数字と特殊文字が混在の場合に最少パスワードサイズは３未満のことがあります。
+ps#:#ps_error_message_password_min1_because_chars#:#最小パスワードサイズが%s以下でないではないことがあります。
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#パスワードが文字と数字の場合に最少パスワードサイズが %s 未満のことがあります。
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#パスワードが文字と数字と特殊文字の場合に最少パスワードサイズが %s 未満のことがあります。
 ps#:#ps_export_admin#:#管理者
 ps#:#ps_export_confirm#:#コース参加時のユーザ確認
 ps#:#ps_export_confirm_group#:#グループ参加時のユーザ確認
@@ -14805,7 +14807,7 @@ style#:#sty_add_color#:#カラーを追加
 style#:#sty_add_content_style#:#コンテンツスタイルを追加
 style#:#sty_add_image#:#イメージを追加
 style#:#sty_add_media_query#:#メディアクエリーを追加
-style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)" 
+style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで、”スクリーンと(max-width: 600px)"限定”
 style#:#sty_add_pgl#:#ページレイアウトを追加
 style#:#sty_add_template#:#テンプレートを追加
 style#:#sty_added_characteristic#:#スタイルクラスを追加しました。
@@ -15245,9 +15247,9 @@ survey#:#dp_standard_behaviour_yes_undecided_no#:#基準品行(はい-未定-い
 survey#:#dp_standard_beliefs_always5#:#基準信念(常に-何度も-変化-まれ-決して)
 survey#:#dp_standard_beliefs_always_never#:#基準信念(常に-決して)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#基準信念 (常に-時々-決して)
-survey#:#dp_standard_beliefs_true5#:#基準信念(真-未定-偽-)
-survey#:#dp_standard_beliefs_true_false#:#基準信念(真-偽)
-survey#:#dp_standard_beliefs_true_undecided_false#:#基準信念(真-未定-偽)
+survey#:#dp_standard_beliefs_true5#:#基準信念(true-未定-false)
+survey#:#dp_standard_beliefs_true_false#:#基準信念(true-false)
+survey#:#dp_standard_beliefs_true_undecided_false#:#基準信念(true-未定-false)
 survey#:#dp_standard_numbers#:#基準値
 survey#:#duplicate#:#複製
 survey#:#edit_heading#:#テキストブロックを編集
@@ -15261,9 +15263,9 @@ survey#:#err_external_rcp_no_email#:#インポート データには、少なく
 survey#:#err_external_rcp_no_email_column#:#インポートデータには少なくとも最初の行に'email!タイトルのついた'email'列と次の行にあるemailアドレスを含める必要があります。
 survey#:#err_maxvaluegeminvalue#:#最大値は最小値以上でかつ最大回答数以下になる必要があります。
 survey#:#err_minvalueganswers#:#最小値は最大回答数以下になる必要があります。
-survey#:#err_no_exact_answers#:#回答チェック数は%sです。
-survey#:#err_no_max_answers#:#回答チェック数は最大%sです。
-survey#:#err_no_min_answers#:#回答チェック数は最低%sです。
+survey#:#err_no_exact_answers#:# %s に一致する回答を確認して下さい。
+survey#:#err_no_max_answers#:#最大 %s の回答を確認して下さい。
+survey#:#err_no_min_answers#:#最小 %s の回答を確認して下さい。
 survey#:#err_no_pool_name#:#サーベイ質問集名を入力してください
 survey#:#error_retrieving_anonymous_survey#:#システムはサーベイ code &quot;%s&quot;のサーベイデータを発見できません。入力したサーベイコードをチェックしてください!
 survey#:#error_save_code#:#値は正しく保存されませんでした。<b>E- mail: '%s' は無効です</b>。 名: '%s', 姓: '%s'.<br>
