@@ -69,7 +69,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
             $this->object->getTitle()
         );
-        $instance_name =  $DIC['ilSetting']->get('short_inst_name');
+        $instance_name = $DIC['ilSetting']->get('short_inst_name') ?? '';
         if (trim($instance_name) === '') {
             $instance_name = 'ILIAS';
         }
