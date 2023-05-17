@@ -778,6 +778,21 @@ class ilObjectGUI
     {
     }
 
+    protected function addAdoptContentLinkToToolbar(): void
+    {
+        if ($this->object->getType() === 'crs' || $this->object->getType() === 'grp') {
+            $this->toolbar->addComponent(
+                $this->ui->factory()->link()->standard(
+                    $this->lng->txt('cntr_adopt_content'),
+                    $this->ctrl->getLinkTargetByClass(
+                        'ilObjectCopyGUI',
+                        'adoptContent'
+                    )
+                )
+            );
+        }
+    }
+
     /**
      * cancel create action and go back to repository parent
      */

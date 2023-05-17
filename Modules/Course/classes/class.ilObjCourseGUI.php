@@ -112,6 +112,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
             parent::renderObject();
+            $this->addAdoptContentLinkToToolbar();
             return;
         }
 

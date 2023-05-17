@@ -330,7 +330,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function showPossibleSubObjects(): void
     {
-        if ($this->isActiveAdministrationPanel() || $this->isActiveOrdering()) {
+        if ($this->isActiveOrdering()) {
             return;
         }
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
@@ -517,19 +517,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         'download'
                     );
                 }
-            }
-            if ($this->object->getType() === 'crs' || $this->object->getType() === 'grp') {
-                if ($this->object->gotItems()) {
-                    $toolbar->addSeparator();
-                }
-
-                $toolbar->addButton(
-                    $this->lng->txt('cntr_adopt_content'),
-                    $this->ctrl->getLinkTargetByClass(
-                        'ilObjectCopyGUI',
-                        'adoptContent'
-                    )
-                );
             }
 
             $main_tpl->addAdminPanelToolbar(
