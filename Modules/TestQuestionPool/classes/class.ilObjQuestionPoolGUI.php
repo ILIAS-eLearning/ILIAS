@@ -761,8 +761,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $newObj->setPermissions($this->qplrequest->getRefId());
         }
 
-        if (is_file(ilSession::get('qpl_import_dir') . '/' . ilSession::get('qpl_import_subdir') . '/manifest.xml')) {
-            ilSession::set('qpl_import_idents', $this->qplrequest->raw('ident'));
+        if (is_string(ilSession::get("qpl_import_dir")) && is_string(ilSession::get("qpl_import_subdir")) && is_file(
+            ilSession::get("qpl_import_dir") . '/' . ilSession::get("qpl_import_subdir") . "/manifest.xml"
+        )) {
+            ilSession::set("qpl_import_idents", $this->qplrequest->raw("ident"));
 
             $fileName = ilSession::get('qpl_import_subdir') . '.zip';
             $fullPath = ilSession::get('qpl_import_dir') . '/' . $fileName;
