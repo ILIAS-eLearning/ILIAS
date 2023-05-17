@@ -32,4 +32,10 @@ class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('qpl_questionpool', 'nav_taxonomy');
         }
     }
+     public function step_2(): void
+     {
+         if ($this->db->tableColumnExists('qpl_questions', 'working_time')) {
+             $this->db->dropTableColumn('qpl_questions', 'working_time');
+         }
+     }
 }
