@@ -1075,13 +1075,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     public function questionsObject(): void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-        $component_repository = $DIC['component.repository'];
+        if (!$this->access->checkAccess("read", "", $this->qplrequest->getRefId())) {
+            $this->infoScreenForward();
+            return;
+        }
 
         if (get_class($this->object) == "ilObjTest") {
             if ($this->qplrequest->raw("calling_test") > 0) {
@@ -1123,7 +1120,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui = $this->buildQuestionBrowserTableGUI($taxIds);
         $table_gui->setPreventDoubleSubmission(false);
 
-        if ($rbacsystem->checkAccess('write', $this->qplrequest->getRefId())) {
+        if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
             $btn = ilLinkButton::getInstance();
             $btn->setCaption('ass_create_question');
@@ -1549,7 +1546,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     preg_match("/^deleteImage_.*/", $key, $matches) ||
                     preg_match("/^upload_.*/", $key, $matches) ||
                     preg_match("/^addSuggestedSolution_.*/", $key, $matches)
-                    ) {
+                ) {
                     $force_active = true;
                 }
             }
@@ -1704,12 +1701,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     public function infoScreenForward(): void
     {
-        global $DIC;
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess("visible", "", $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+        if (!$this->access->checkAccess("visible", "", $this->ref_id)) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_read"));
         }
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
@@ -1747,7 +1740,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
         if ($ilAccess->checkAccess('visible', "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+            ilObjectGUI::_gotoRepositoryNode($a_target, 'infoScreen');
             return;
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
