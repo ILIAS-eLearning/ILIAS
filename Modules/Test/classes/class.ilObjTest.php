@@ -7983,6 +7983,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListComparison();
     }
 
+    private int $results_presentation;
     /**
     * Sets the combined results presentation value
     *
@@ -7995,7 +7996,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->results_presentation = $a_results_presentation;
     }
 
-    public function getShowSolutionListOwnAnswers($user_id = null): bool
+    public function getShowSolutionListOwnAnswers(): bool
     {
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListOwnAnswers();
     }
