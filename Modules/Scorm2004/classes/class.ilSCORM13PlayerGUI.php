@@ -450,7 +450,7 @@ class ilSCORM13PlayerGUI
         // $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
         $this->tpl->setVariable($langstrings);
-        $this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+        $this->tpl->setVariable('DOC_TITLE', 'ILIAS: ' . $this->slm->getTitle());
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
         $this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
@@ -925,7 +925,7 @@ class ilSCORM13PlayerGUI
                     $query,
                     array('text', 'integer', 'text', 'integer'),
                     array($dataStores[$key], $this->userId, $key, $this->packageId)
-                    );
+                );
             } else {
                 //Check for writability
                 $res = $ilDB->queryF(
@@ -1293,7 +1293,7 @@ class ilSCORM13PlayerGUI
 			          WHERE obj_id = %s',
             array('integer'),
             array($this->packageId)
-                );
+        );
 
         $shared_global_to_sys = $ilDB->fetchObject($res)->shared_data_global_to_system;
         
@@ -1305,7 +1305,7 @@ class ilSCORM13PlayerGUI
 					  AND user_id = %s',
             array('integer', 'integer'),
             array($this->packageId, $this->userId)
-               );
+        );
         
         $suspended = false;
         
@@ -1349,7 +1349,7 @@ class ilSCORM13PlayerGUI
 					  AND cmi_node.user_id = %s',
             array('integer','text','integer'),
             array($this->packageId, $sco_id, $this->userId)
-                );
+        );
         $row = $ilDB->fetchAssoc($res);
         $ilLog->write("DEBUG SQL" . $row);
         return $row;
