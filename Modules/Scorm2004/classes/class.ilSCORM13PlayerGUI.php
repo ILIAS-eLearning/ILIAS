@@ -150,7 +150,7 @@ class ilSCORM13PlayerGUI
         $this->userId = $DIC->user()->getId();
         $this->lng = $DIC->language();
 
-//        $this->packageId = (int) $_REQUEST['packageId'];
+        //        $this->packageId = (int) $_REQUEST['packageId'];
         $this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;
 
         if ($DIC->http()->wrapper()->query()->has('page')) {
@@ -211,7 +211,7 @@ class ilSCORM13PlayerGUI
                 break;
 
             case 'gobjective':
-//				$this->writeGObjective();
+                //				$this->writeGObjective();
                 break;
 
             case 'getGobjective':
@@ -273,7 +273,7 @@ class ilSCORM13PlayerGUI
                 ilSCORM2004StoreData::scormPlayerUnload($this->packageId, $this->ref_id, $this->slm->getTime_from_lms(), $this->userId);
                 break;
 
-            // case 'getConfigForPlayer':
+                // case 'getConfigForPlayer':
                 // $this->getConfigForPlayer();
                 // break;
             default:
@@ -414,7 +414,7 @@ class ilSCORM13PlayerGUI
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
-//        $config['envEditor'] = $this->envEditor;
+        //        $config['envEditor'] = $this->envEditor;
 
         //debug
         $config['debug'] = $this->slm->getDebug();
@@ -460,7 +460,7 @@ class ilSCORM13PlayerGUI
         foreach ($langstrings as $key => $value) {
             $this->tpl->setVariable($key, $value);
         }
-        $this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+        $this->tpl->setVariable('DOC_TITLE', 'ILIAS: ' . $this->slm->getTitle());
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
         $this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
@@ -498,13 +498,13 @@ class ilSCORM13PlayerGUI
 
 
         //check for max_attempts and raise error if max_attempts is exceeded
-//        if ($this->get_max_attempts() != 0) {
-//            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
-//                header('Content-Type: text/html; charset=utf-8');
-//                echo($lng->txt("cont_sc_max_attempt_exceed"));
-//                exit;
-//            }
-//        }
+        //        if ($this->get_max_attempts() != 0) {
+        //            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+        //                header('Content-Type: text/html; charset=utf-8');
+        //                echo($lng->txt("cont_sc_max_attempt_exceed"));
+        //                exit;
+        //            }
+        //        }
 
         //count attempt
         $this->increase_attemptAndsave_module_version();

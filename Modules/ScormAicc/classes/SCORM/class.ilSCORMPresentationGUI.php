@@ -40,7 +40,7 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
-//        $this->tpl = $DIC['tpl'];
+        //        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $ilCtrl;
 
@@ -72,10 +72,10 @@ class ilSCORMPresentationGUI
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
         }
 
-//        switch ($next_class) {
-//            default:
+        //        switch ($next_class) {
+        //            default:
         $this->$cmd();
-//        }
+        //        }
     }
 
     /**
@@ -108,13 +108,13 @@ class ilSCORMPresentationGUI
         $items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
 
         //check for max_attempts and raise error if max_attempts is exceeded
-//        if ($this->get_max_attempts() != 0) {
-//            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
-//                header('Content-Type: text/html; charset=utf-8');
-//                echo($lng->txt("cont_sc_max_attempt_exceed"));
-//                exit;
-//            }
-//        }
+        //        if ($this->get_max_attempts() != 0) {
+        //            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+        //                header('Content-Type: text/html; charset=utf-8');
+        //                echo($lng->txt("cont_sc_max_attempt_exceed"));
+        //                exit;
+        //            }
+        //        }
 
         $this->increase_attemptAndsave_module_version();
         ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
@@ -145,6 +145,7 @@ class ilSCORMPresentationGUI
             $this->ctrl->setParameter($this, "autolaunch", $items[0] ?? "");
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
+        $this->tpl->setVariable("TITLE", $this->slm->getTitle());
         $this->tpl->setVariable("API_LINK", $api_link);
         $this->tpl->printToStdout("DEFAULT", false, true);
 
@@ -364,7 +365,7 @@ class ilSCORMPresentationGUI
         $ilBench->start("SCORMExplorer", "initExplorer");
 
         $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-//        $this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+        //        $this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
         $exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
         $exp->setTargetGet("obj_id");
         $exp->setFrameTarget($a_target);
@@ -412,7 +413,7 @@ class ilSCORMPresentationGUI
             "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $expanded);
         $this->tpl->parseCurrentBlock();
         //BUG 16794? $this->tpl->show();
-//        $this->tpl->show();
+        //        $this->tpl->show();
         $this->tpl->printToStdout("DEFAULT", false);
     }
 
