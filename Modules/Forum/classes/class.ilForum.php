@@ -1711,6 +1711,7 @@ class ilForum
 
         $data = array(
                     "pos_pk" => $a_row->pos_pk,
+                    'pos_thr_fk' => (int) $a_row->pos_thr_fk,
                     "child" => $a_row->pos_pk,
                     "author" => $a_row->pos_display_user_id,
                     "alias" => $a_row->pos_usr_alias,

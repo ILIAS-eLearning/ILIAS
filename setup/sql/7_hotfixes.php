@@ -555,7 +555,7 @@ if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_users",
             [
@@ -606,7 +606,7 @@ if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "lti_ext_provider",
             [
@@ -668,7 +668,7 @@ if ($ilDB->tableColumnExists('cmix_lrs_types', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_lrs_types",
             [
@@ -1702,5 +1702,14 @@ if (!$ilDB->indexExistsByFields('cal_entries', array('enda'))) {
 <?php
 if (!$ilDB->indexExistsByFields('event_appointment', array('event_id'))) {
     $ilDB->addIndex('event_appointment', array('event_id'), 'i1');
+}
+?>
+<#101>
+<?php
+if (!$ilDB->indexExistsByFields('rbac_fa', ['assign', 'rol_id'])) {
+    $ilDB->addIndex('rbac_fa', ['assign', 'rol_id'], 'i2');
+}
+if (!$ilDB->indexExistsByFields('rbac_fa', ['assign', 'parent'])) {
+    $ilDB->addIndex('rbac_fa', ['assign', 'parent'], 'i3');
 }
 ?>

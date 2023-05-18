@@ -3679,6 +3679,8 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Besitzer ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
+common#:#change_sort_direction_to_asc#:#Change sort direction to ascending
+common#:#change_sort_direction_to_desc#:#Change sort direction to descending
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
@@ -5608,8 +5610,10 @@ common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über di
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#sort_ascending#:#Aufsteigend sortieren
+common#:#sort_ascending_long#:#Sortierung ändern zu aufsteigend
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_descending#:#Absteigend sortieren
+common#:#sort_descending_long#:#Sortierung ändern zu absteigend
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_asc#:#Aufsteigend
 common#:#sorting_creation_header#:#Nach Erstellungsdatum
@@ -16365,7 +16369,7 @@ user#:#user_limited_access#:#Zeitlich begrenzt
 user#:#user_lv_do_not_store#:#Keine Einträge speichern
 user#:#user_lv_keep_entries#:#Einträge speichern
 user#:#user_lv_keep_only_for_session#:#Einträge nach Sitzung löschen
-user#:#user_make_profile_public#:#Profil veröffentlichen
+user#:#user_make_profile_public#:#Veröffentlichung
 user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
 user#:#user_no_courses#:#Keinem Kurs zugeordnet
 user#:#user_no_groups#:#Keiner Gruppe zugeordnet

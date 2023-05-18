@@ -205,7 +205,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
         
         if ($this->isAccessResultsCommandsEnabled()) {
-            $resultsHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outParticipantsResultsOverview');
+            $resultsHref = $this->ctrl->getLinkTargetByClass([ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class], 'outParticipantsResultsOverview');
             $asl->addItem($this->lng->txt('tst_show_results'), $resultsHref, $resultsHref);
         }
         

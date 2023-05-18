@@ -105,6 +105,8 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
+        $errors = !$form->checkInput();
+        $form->setValuesByPost();
 
         if ($upload) {
             $answersInput = $form->getItemByPostVar('kprim_answers');
@@ -117,16 +119,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             }
 
             $answersInput->collectValidFiles();
-        } elseif (!$form->checkInput()) {
+        } elseif ($errors) {
             $this->editQuestion($form);
             return 1;
         }
 
         $this->writeQuestionGenericPostData();
-
         $this->writeQuestionSpecificPostData($form);
         $this->writeAnswerSpecificPostData($form);
-
         $this->saveTaxonomyAssignments();
 
         return 0;

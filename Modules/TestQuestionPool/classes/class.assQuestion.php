@@ -1725,9 +1725,8 @@ abstract class assQuestion
     */
     public function getJavaPathWeb()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $relative_path = "assessment/$this->obj_id/$this->id/java/";
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     /**
@@ -1737,9 +1736,8 @@ abstract class assQuestion
     */
     public function getSuggestedSolutionPathWeb()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $relative_path = "assessment/$this->obj_id/$this->id/solution/";
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     /**
@@ -1753,9 +1751,8 @@ abstract class assQuestion
     public function getImagePathWeb()
     {
         if (!$this->export_image_path) {
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
-            $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
-            return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            $relative_path = "assessment/$this->obj_id/$this->id/images/";
+            return ilObjTest::getDataWebPath($relative_path);
         } else {
             return $this->export_image_path;
         }
@@ -1769,9 +1766,8 @@ abstract class assQuestion
     */
     public function getFlashPathWeb()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/flash/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $relative_path = "assessment/$this->obj_id/$this->id/flash/";
+        return ilObjTest::getDataWebPath($relative_path);
     }
 
     // hey: prevPassSolutions - accept and prefer intermediate only from current pass

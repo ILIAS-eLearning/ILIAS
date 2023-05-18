@@ -44,7 +44,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
         
-        $this->files = array();
+        $this->files = [];
 
         $this->ignoreMissingUploadsEnabled = false;
     }
@@ -102,14 +102,15 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $lng = $DIC['lng'];
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
+
+        if (is_array($_POST[$this->getPostVar()]) && $_POST["answer_type"] == "multiLine") {
+            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+        } elseif (is_array($_POST[$this->getPostVar()]) && $_POST["answer_type"] == "singleLine") {
+            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                true, ilSingleChoiceWizardInputGUI::ALLOWED_PAGE_HTML_TAGS);
         }
-        
+
         $foundvalues = $_POST[$this->getPostVar()];
         
         #vd($foundvalues);
@@ -426,13 +427,13 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 continue;
             }
 
-            $this->files[$index] = array(
+            $this->files[$index] = [
                 'position' => $index,
                 'tmp_name' => $_FILES[$this->getPostVar()]['tmp_name']['image'][$index],
                 'name' => $_FILES[$this->getPostVar()]['name']['image'][$index],
                 'type' => $_FILES[$this->getPostVar()]['type']['image'][$index],
                 'size' => $_FILES[$this->getPostVar()]['size']['image'][$index]
-            );
+            ];
         }
     }
 }
