@@ -474,6 +474,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());
         } else {
             foreach ($items as $item) {
+                $item["value"] = htmlspecialchars($item["value"], ENT_QUOTES);
                 $this->css_row = ($this->css_row !== "tblrow1_mo")
                     ? "tblrow1_mo"
                     : "tblrow2_mo";
