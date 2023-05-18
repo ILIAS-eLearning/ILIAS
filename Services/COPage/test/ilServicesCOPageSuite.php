@@ -119,6 +119,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCVerificationTest.php");
         $suite->addTestSuite("PCVerificationTest");
 
+        require_once("./Services/COPage/test/ID/ContentIdManagerTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\ID\ContentIdManagerTest::class);
+
         return $suite;
     }
 }

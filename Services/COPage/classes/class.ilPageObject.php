@@ -197,12 +197,6 @@ abstract class ilPageObject
         return $this->page_config;
     }
 
-    public static function randomhash(): string
-    {
-        $random = new \ilRandom();
-        return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
-    }
-
     public function setRenderMd5(string $a_rendermd5): void
     {
         $this->rendermd5 = $a_rendermd5;
@@ -3721,27 +3715,10 @@ s     */
         return $duplicates;
     }
 
-    public function existsPCId(string $a_pc_id): bool
+
+    public function generatePCId(): string
     {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el . "[@PCID='" . $a_pc_id . "']";
-            $sep = " | ";
-        }
-
-        // get existing ids
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-        return (count($res->nodeset) > 0);
-    }
-
-    public function generatePcId(): string
-    {
-        $id = self::randomhash();
-        return $id;
+        return $this->content_id_manager->generatePCId();
     }
 
     /**
@@ -3749,24 +3726,7 @@ s     */
      */
     public function insertPCIds(): void
     {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        // add missing ones
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el . "[not(@PCID)]";
-            $sep = " | ";
-            $path .= $sep . "//" . $el . "[@PCID='']";
-            $sep = " | ";
-        }
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $id = self::randomhash();
-            $res->nodeset[$i]->set_attribute("PCID", $id);
-        }
+        $this->content_id_manager->insertPCIds();
     }
 
     /**

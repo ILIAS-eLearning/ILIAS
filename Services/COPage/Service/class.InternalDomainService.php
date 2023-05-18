@@ -72,4 +72,9 @@ class InternalDomainService
     {
         return new ID\ContentIdManager($page);
     }
+
+    public function contentIdGenerator(): ID\ContentIdGenerator
+    {
+        return new ID\ContentIdGenerator();
+    }
 }

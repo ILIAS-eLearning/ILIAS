@@ -41,9 +41,11 @@ class ContentIdManager
     protected array $hier_ids = [];
     protected \ilPageObject $page;
     protected DomUtil $dom_util;
+    protected ContentIdGenerator $generator;
 
     public function __construct(
-        \ilPageObject $page
+        \ilPageObject $page,
+        ContentIdGeneratorInterface $generator = null
     ) {
         global $DIC;
 
@@ -52,6 +54,10 @@ class ContentIdManager
             ->domain()
             ->domUtil();
         $this->page = $page;
+        $this->generator = $generator ?? $DIC->copage()
+            ->internal()
+            ->domain()
+            ->contentIdGenerator();
     }
 
     /**
@@ -176,5 +182,30 @@ class ContentIdManager
         $id = explode("_", $ed_id);
         $id[count($id) - 1]--;
         return implode("_", $id);
+    }
+
+    public function generatePCId(): string
+    {
+        return $this->generator->generate();
+    }
+
+    public function insertPCIds(): void
+    {
+        $this->page->buildDom();
+        $dom = $this->page->getDomDoc();
+
+        // add missing ones
+        $sep = $path = "";
+        foreach (self::ID_ELEMENTS as $el) {
+            $path .= $sep . "//" . $el . "[not(@PCID)]";
+            $sep = " | ";
+            $path .= $sep . "//" . $el . "[@PCID='']";
+            $sep = " | ";
+        }
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $id = $this->generatePCId();
+            $node->setAttribute("PCID", $id);
+        }
     }
 }
