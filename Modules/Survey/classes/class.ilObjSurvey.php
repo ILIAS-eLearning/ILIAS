@@ -139,6 +139,16 @@ class ilObjSurvey extends ilObject
     public $pool_usage;
 
     /**
+     * @var int
+     */
+    private $redirection_mode = 0;
+    
+    /**
+     * @var string null
+     */
+    private $redirection_url = null;
+
+    /**
      * @var ilLogger
      */
     protected $log;
@@ -812,7 +822,9 @@ class ilObjSurvey extends ilObject
                 "tutor_res_reci" => array("text", implode(";", (array) $this->getTutorResultsRecipients())),
                 "confirmation_mail" => array("integer", $this->hasMailConfirmation()),
                 "anon_user_list" => array("integer", $this->hasAnonymousUserList()),
-                "calculate_sum_score" => array("integer", $this->getCalculateSumScore())
+                "calculate_sum_score" => array("integer", $this->getCalculateSumScore()),
+                "redirection_mode" => array("integer", (int) $this->getRedirectionMode()),
+                "redirection_url" => array("text", (string) $this->getRedirectionUrl()),
             ));
             $this->setSurveyId($next_id);
         } else {
@@ -860,7 +872,9 @@ class ilObjSurvey extends ilObject
                 "tutor_res_reci" => array("text", implode(";", (array) $this->getTutorResultsRecipients())),
                 "confirmation_mail" => array("integer", $this->hasMailConfirmation()),
                 "anon_user_list" => array("integer", $this->hasAnonymousUserList()),
-                "calculate_sum_score" => array("integer", $this->getCalculateSumScore())
+                "calculate_sum_score" => array("integer", $this->getCalculateSumScore()),
+                "redirection_mode" => array("integer", (int) $this->getRedirectionMode()),
+                "redirection_url" => array("text", (string) $this->getRedirectionUrl()),
             ), array(
             "survey_id" => array("integer", $this->getSurveyId())
             ));
@@ -1133,6 +1147,8 @@ class ilObjSurvey extends ilObject
             $this->setMailNotification($data['mailnotification']);
             $this->setMailAddresses($data['mailaddresses']);
             $this->setMailParticipantData($data['mailparticipantdata']);
+            $this->setRedirectionMode($data['redirection_mode']);
+            $this->setRedirectionUrl($data['redirection_url']);
             $this->setTemplate($data['template_id']);
             $this->setPoolUsage($data['pool_usage']);
             // Mode
@@ -3354,6 +3370,8 @@ class ilObjSurvey extends ilObject
         $custom_properties["own_results_view"] = (int) $this->hasViewOwnResults();
         $custom_properties["own_results_mail"] = (int) $this->hasMailOwnResults();
         $custom_properties["confirmation_mail"] = (int) $this->hasMailConfirmation();
+        $custom_properties["redirection_mode"] = (int) $this->getRedirectionMode();
+        $custom_properties["redirection_url"] = $this->getRedirectionMUrl();
         
         $custom_properties["anon_user_list"] = (int) $this->hasAnonymousUserList();
         $custom_properties["mode"] = (int) $this->getMode();
@@ -3676,6 +3694,8 @@ class ilObjSurvey extends ilObject
         $newObj->setViewOwnResults($this->hasViewOwnResults());
         $newObj->setMailOwnResults($this->hasMailOwnResults());
         $newObj->setMailConfirmation($this->hasMailConfirmation());
+        $newObj->setRedirectionMode($this->getRedirectionMode());
+        $newObj->setRedirectionUrl($this->getRedirectionUrl());
         $newObj->setAnonymousUserList($this->hasAnonymousUserList());
         
         // #12661
@@ -4671,6 +4691,26 @@ class ilObjSurvey extends ilObject
     public function setMailNotification($a_notification)
     {
         $this->mailnotification = ($a_notification) ? true : false;
+    }
+
+    public function getRedirectionUrl()
+    {
+        return $this->redirection_url;
+    }
+
+    public function setRedirectionUrl($a_notification)
+    {
+        $this->redirection_url = $a_notification;
+    }
+
+    public function getRedirectionMode()
+    {
+        return $this->redirection_mode;
+    }
+
+    public function setRedirectionMode($a_notification)
+    {
+        $this->redirection_mode = ($a_notification) ? true : false;
     }
     
     public function getMailAddresses()

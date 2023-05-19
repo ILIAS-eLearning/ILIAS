@@ -32,6 +32,9 @@
 * @version	$Id$
 * @ingroup ModulesSurvey
 */
+
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+
 class ilSurveyExecutionGUI
 {
     /**
@@ -800,6 +803,13 @@ class ilSurveyExecutionGUI
                 $panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
                 $this->tpl->setContent($panel->getHTML());
             }
+        }
+
+        // redirect after test
+        $redirection_mode = $this->object->getRedirectionMode();
+        $redirection_url = $this->object->getRedirectionUrl();
+        if ($redirection_url && $redirection_mode) {
+            ilUtil::redirect($redirection_url);
         }
     }
     

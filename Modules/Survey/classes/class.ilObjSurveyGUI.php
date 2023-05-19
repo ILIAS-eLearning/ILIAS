@@ -1,5 +1,7 @@
 <?php
 
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use \ILIAS\Survey\Participants;
@@ -733,6 +735,16 @@ class ilObjSurveyGUI extends ilObjectGUI
                 $this->object->setMailNotification($_POST['mailnotification']);
                 $this->object->setMailAddresses($_POST['mailaddresses']);
                 $this->object->setMailParticipantData($_POST['mailparticipantdata']);
+                if ($_POST['redirection_mode']) {
+                    $this->object->setRedirectionMode($_POST['redirection_mode']);
+                } else {
+                    $this->object->setRedirectionMode(REDIRECT_NONE);
+                }
+                if (strlen($_POST['redirection_url'])) {
+                    $this->object->setRedirectionUrl($_POST['redirection_url']);
+                } else {
+                    $this->object->setRedirectionUrl(null);
+                }
 
                 switch ($this->object->getMode()) {
                     case ilObjSurvey::MODE_360:
@@ -1097,7 +1109,18 @@ class ilObjSurveyGUI extends ilObjectGUI
         $mailnotification->addSubItem($participantdata);
         $mailnotification->addSubItem($participantdatainfo);
         $form->addItem($mailnotification);
-    
+
+        //redirection
+        $redirection_mode = $this->object->getRedirectionMode();
+        $rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_mode');
+        $rm_enabled->setInfo($this->lng->txt('redirect_after_finishing_tst_desc'));
+        $rm_enabled->setChecked($redirection_mode == '0' ? false : true);
+        $redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
+        $redirection_url->setValue((string) $this->object->getRedirectionUrl());
+        $redirection_url->setRequired(true);
+        $rm_enabled->addSubItem($redirection_url);
+        $form->addItem($rm_enabled);
+
         // tutor notification - currently not available for 360°
         if (!$this->object->get360Mode()) {
             // parent course?

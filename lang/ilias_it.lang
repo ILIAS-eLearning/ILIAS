@@ -15464,6 +15464,12 @@ survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e
 survey#:#reset_filter#:#Azzera il filtro
 survey#:#results#:#Risultati
 survey#:#resume_survey#:#Azzera il filtro
+survey#:#redirect_after_finishing_rule#:#Reindirizza
+survey#:#redirect_after_finishing_tst#:#Reindirizzare dopo aver terminato il sondaggio
+survey#:#redirect_after_finishing_tst_desc#:#Dopo il completamento del sondaggio, ogni partecipante viene reindirizzato automaticamente a una pagina Web definita. Questo è possibile solo se i partecipanti non hanno accesso ai propri risultati del sondaggio.
+survey#:#redirect_always#:#sempre alla pagine web definita
+survey#:#redirection_url#:#URL of webpage
+survey#:#redirect_in_kiosk_mode#:#Reindirizzamento solo in modalità esame
 survey#:#row_text#:#Testo della riga
 survey#:#save_obligatory_state#:#Salva gli stati obbligatori
 survey#:#save_phrase#:#Salva come frase
