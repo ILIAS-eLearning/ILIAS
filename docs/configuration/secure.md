@@ -265,6 +265,26 @@ add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; sc
 
 see also: [Browser compatibility of HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility)
 
+The proposed CSP is to be understood as a starting point. ILIAS is a generic software to support many different LMS scenarios and thus can't
+provide a suggestion which fits all circumstances and guarantees the best security.
+Depending on the content your users can provide (embedded media, SCORM packages, etc.) you should try to
+initially define a CSP which is as strict as possible.
+
+You could use the [Reporting Feature](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#enabling_reporting) to
+log and analyse CSP violations to loosen the CSP gradually and carefully, if necessary.
+
+A minimum endpoint to log the CSP violations could be:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+file_put_contents('csp.log', file_get_contents('php://input') . "\n", FILE_APPEND);
+```
+
+This is not a production ready solution, but a starting point to get an idea how to log the CSP violations.
+
 ##### Apache
 
 Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
