@@ -322,7 +322,9 @@ If the constraint is met, show the question.
 * **User**: (`svy_invitation.user_id`)
 * **Survey**: (`svy_invitation.survey_id`)
 
-## Competences
+## Results
 
 ### Business Rules
-Results screen lists all profiles of the user. If other competences are used an additional dropdown "All competences of survey".
+
+- **Competences**: Results screen lists all profiles of the user. If other competences are used an additional dropdown "All competences of survey".
+- **Print View**: The print process uses a modal to select available options, see https://docu.ilias.de/goto_docu_wiki_wpage_6994_1357.html
