@@ -5868,3 +5868,8 @@ if (!$ilDB->tableColumnExists('media_item', 'duration')) {
     ));
 }
 ?>
+<#5752>
+<?php
+$ilDB->manipulate('ALTER TABLE svy_svy ADD COLUMN redirection_url varchar(128) DEFAULT NULL;');
+$ilDB->manipulate('ALTER TABLE svy_svy ADD COLUMN redirection_mode int(11) NOT NULL DEFAULT 0;');
+?>
