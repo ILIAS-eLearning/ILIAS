@@ -208,4 +208,149 @@ class ContentIdManager
             $node->setAttribute("PCID", $id);
         }
     }
+
+    public function getDuplicatePCIds(): array
+    {
+        $this->page->buildDom();
+        $dom = $this->page->getDomDoc();
+
+        $pcids = [];
+        $duplicates = [];
+
+        $sep = $path = "";
+        foreach (self::ID_ELEMENTS as $el) {
+            $path .= $sep . "//" . $el . "[@PCID]";
+            $sep = " | ";
+        }
+
+        // get existing ids
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $pc_id = $node->getAttribute("PCID");
+            if ($pc_id != "") {
+                if (isset($pcids[$pc_id])) {
+                    $duplicates[] = $pc_id;
+                }
+                $pcids[$pc_id] = $pc_id;
+            }
+        }
+        return $duplicates;
+    }
+
+    public function hasDuplicatePCIds(): bool
+    {
+        $duplicates = $this->getDuplicatePCIds();
+        return count($duplicates) > 0;
+    }
+
+    public function stripPCIDs(): void
+    {
+        $dom = $this->page->getDomDoc();
+        if (is_object($dom)) {
+            $path = "//*[@PCID]";
+            $nodes = $this->dom_util->path($dom, $path);
+            foreach ($nodes as $node) {
+                if ($node->hasAttribute("PCID")) {
+                    $node->removeAttribute("PCID");
+                }
+            }
+        }
+    }
+
+    public function checkPCIds(): bool
+    {
+        $page = $this->page;
+        $page->buildDom();
+        $dom = $page->getDomDoc();
+
+        $sep = $path = "";
+        foreach (self::ID_ELEMENTS as $el) {
+            $path .= $sep . "//" . $el . "[not(@PCID)]";
+            $sep = " | ";
+            $path .= $sep . "//" . $el . "[@PCID='']";
+        }
+        $nodes = $this->dom_util->path($dom, $path);
+        if (count($nodes) > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getAllPCIds(): array
+    {
+        $page = $this->page;
+        $page->buildDom();
+        $dom = $page->getDomDoc();
+
+        $pcids = array();
+
+        $sep = $path = "";
+        foreach (self::ID_ELEMENTS as $el) {
+            $path .= $sep . "//" . $el . "[@PCID]";
+            $sep = " | ";
+        }
+
+        // get existing ids
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $pcids[] = $node->getAttribute("PCID");
+        }
+        return $pcids;
+    }
+
+
+    public function getHierIdsForPCIds(array $a_pc_ids): array
+    {
+        if (!is_array($a_pc_ids) || count($a_pc_ids) == 0) {
+            return array();
+        }
+        $ret = array();
+
+        $dom = $this->page->getDomDoc();
+        if (is_object($dom)) {
+            $path = "//*[@PCID]";
+            $nodes = $this->dom_util->path($dom, $path);
+            foreach ($nodes as $node) {
+                $pc_id = $node->getAttribute("PCID");
+                if (in_array($pc_id, $a_pc_ids)) {
+                    $ret[$pc_id] = $node->getAttribute("HierId");
+                }
+            }
+        }
+        return $ret;
+    }
+
+    public function getHierIdForPcId(string $pcid): string
+    {
+        $hier_ids = $this->getHierIdsForPCIds([$pcid]);
+        return $hier_ids[$pcid] ?? "";
+    }
+
+    public function getPCIdsForHierIds(array $hier_ids): array
+    {
+        $page = $this->page;
+        $dom = $page->getDomDoc();
+        if (!is_array($hier_ids) || count($hier_ids) == 0) {
+            return [];
+        }
+        $ret = [];
+        if (is_object($dom)) {
+            $page->addHierIDs();
+            $path = "//*[@HierId]";
+            $nodes = $this->dom_util->path($dom, $path);
+            foreach ($nodes as $node) {
+                $hier_id = $node->getAttribute("HierId");
+                if (in_array($hier_id, $hier_ids)) {
+                    $ret[$hier_id] = $node->getAttribute("PCID");
+                }
+            }
+        }
+        return $ret;
+    }
+
+    public function getPCIdForHierId(string $hier_id): string
+    {
+        $hier_ids = $this->getPCIdsForHierIds([$hier_id]);
+        return ($hier_ids[$hier_id] ?? "");
+    }
 }

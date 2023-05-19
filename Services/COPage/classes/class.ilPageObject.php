@@ -1584,17 +1584,7 @@ s     */
 
     public function stripPCIDs(): void
     {
-        if (is_object($this->dom)) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//*[@PCID]";
-            $res = xpath_eval($xpc, $path);
-            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
-                if ($res->nodeset[$i]->has_attribute("PCID")) {
-                    $res->nodeset[$i]->remove_attribute("PCID");
-                }
-            }
-            unset($xpc);
-        }
+        $this->content_id_manager->stripPCIDs();
     }
 
     /**
@@ -1602,31 +1592,12 @@ s     */
      */
     public function getHierIdsForPCIds(array $a_pc_ids): array
     {
-        if (!is_array($a_pc_ids) || count($a_pc_ids) == 0) {
-            return array();
-        }
-        $ret = array();
-
-        if (is_object($this->dom)) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//*[@PCID]";
-            $res = xpath_eval($xpc, $path);
-            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
-                $pc_id = $res->nodeset[$i]->get_attribute("PCID");
-                if (in_array($pc_id, $a_pc_ids)) {
-                    $ret[$pc_id] = $res->nodeset[$i]->get_attribute("HierId");
-                }
-            }
-            unset($xpc);
-        }
-        //var_dump($ret);
-        return $ret;
+        return $this->content_id_manager->getHierIdsForPCIds($a_pc_ids);
     }
 
     public function getHierIdForPcId(string $pcid): string
     {
-        $hier_ids = $this->getHierIdsForPCIds([$pcid]);
-        return $hier_ids[$pcid] ?? "";
+        return $this->content_id_manager->getHierIdForPcId($pcid);
     }
 
     /**
@@ -1634,30 +1605,12 @@ s     */
      */
     public function getPCIdsForHierIds(array $hier_ids): array
     {
-        if (!is_array($hier_ids) || count($hier_ids) == 0) {
-            return [];
-        }
-        $ret = [];
-        $this->addHierIDs();
-        if (is_object($this->dom)) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//*[@HierId]";
-            $res = xpath_eval($xpc, $path);
-            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
-                $hier_id = $res->nodeset[$i]->get_attribute("HierId");
-                if (in_array($hier_id, $hier_ids)) {
-                    $ret[$hier_id] = $res->nodeset[$i]->get_attribute("PCID");
-                }
-            }
-            unset($xpc);
-        }
-        return $ret;
+        return $this->content_id_manager->getPCIdsForHierIds($hier_ids);
     }
 
     public function getPCIdForHierId(string $hier_id): string
     {
-        $hier_ids = $this->getPCIdsForHierIds([$hier_id]);
-        return ($hier_ids[$hier_id] ?? "");
+        return $this->content_id_manager->getPCIdForHierId($hier_id);
     }
 
     /**
@@ -3628,23 +3581,7 @@ s     */
      */
     public function checkPCIds(): bool
     {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el . "[not(@PCID)]";
-            $sep = " | ";
-            $path .= $sep . "//" . $el . "[@PCID='']";
-        }
-
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        if (count($res->nodeset) > 0) {
-            return false;
-        }
-        return true;
+        return $this->content_id_manager->checkPCIds();
     }
 
     /**
@@ -3652,32 +3589,12 @@ s     */
      */
     public function getAllPCIds(): array
     {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        $pcids = array();
-
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el . "[@PCID]";
-            $sep = " | ";
-        }
-
-        // get existing ids
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $node = $res->nodeset[$i];
-            $pcids[] = $node->get_attribute("PCID");
-        }
-        return $pcids;
+        return $this->content_id_manager->getAllPCIds();
     }
 
     public function hasDuplicatePCIds(): bool
     {
-        $duplicates = $this->getDuplicatePCIds();
-        return count($duplicates) > 0;
+        return $this->content_id_manager->hasDuplicatePCIds();
     }
 
     /**
@@ -3686,35 +3603,8 @@ s     */
      */
     public function getDuplicatePCIds(): array
     {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        $pcids = [];
-        $duplicates = [];
-
-        $sep = $path = "";
-        foreach ($this->id_elements as $el) {
-            $path .= $sep . "//" . $el . "[@PCID]";
-            $sep = " | ";
-        }
-
-        // get existing ids
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $node = $res->nodeset[$i];
-            $pc_id = $node->get_attribute("PCID");
-            if ($pc_id != "") {
-                if (isset($pcids[$pc_id])) {
-                    $duplicates[] = $pc_id;
-                }
-                $pcids[$pc_id] = $pc_id;
-            }
-        }
-        return $duplicates;
+        return $this->content_id_manager->getDuplicatePCIds();
     }
-
 
     public function generatePCId(): string
     {

@@ -54,6 +54,14 @@ class ContentIdManagerTest extends \COPageTestBase
         return $gen;
     }
 
+    protected function getIDManager(\ilPageObject $page): ContentIdManager
+    {
+        return new ContentIdManager(
+            $page,
+            $this->getIdGeneratorMock()
+        );
+    }
+
     public function testInsertPCIds(): void
     {
         $page = $this->getEmptyPageWithDom();
@@ -68,11 +76,7 @@ class ContentIdManagerTest extends \COPageTestBase
             0
         );
 
-        $id_manager = new ContentIdManager(
-            $page,
-            $this->getIdGeneratorMock()
-        );
-
+        $id_manager = $this->getIDManager($page);
         $id_manager->insertPCIds();
 
         $expected = <<<EOT
@@ -82,6 +86,189 @@ EOT;
         $this->assertXmlEquals(
             $expected,
             $page->getXMLFromDom()
+        );
+    }
+
+    protected function insertParagraphAt(
+        \ilPageObject $page,
+        string $hier_id
+    ) {
+        $pc = new \ilPCParagraph($page);
+        $pc->create($page, $hier_id);
+        $pc->setLanguage("en");
+        $page->addHierIDs();
+    }
+
+    public function testDuplicatePCIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $id_manager->insertPCIds();
+
+        $this->insertParagraphAt($page, "1");
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            false,
+            $id_manager->hasDuplicatePCIds()
+        );
+
+        $this->insertParagraphAt($page, "2");
+        // force a duplicate
+        $this->pc_cnt--;
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            [0 => "00000000000000000000000000000002"],
+            $id_manager->getDuplicatePCIds()
+        );
+
+        $this->assertEquals(
+            true,
+            $id_manager->hasDuplicatePCIds()
+        );
+    }
+
+    public function testStripPCIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $id_manager->insertPCIds();
+
+        $id_manager->stripPCIDs();
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent HierId="1"><Paragraph Language="en"/></PageContent><PageContent HierId="2"><Paragraph Language="en"/></PageContent></PageObject>
+EOT;
+
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testGetHierIdsForPCIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+        $id_manager->insertPCIds();
+
+        $hier_ids = $id_manager->getHierIdsForPCIds([
+            "00000000000000000000000000000001", "00000000000000000000000000000002"
+        ]);
+
+        $this->assertEquals(
+            [
+                "00000000000000000000000000000001" => "1",
+                "00000000000000000000000000000002" => "2"
+            ],
+            $hier_ids
+        );
+    }
+
+    public function testGetHierIdForPCId(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            "2",
+            $id_manager->getHierIdForPCId("00000000000000000000000000000002")
+        );
+    }
+
+    public function testGetPCIdsForHierIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+        $id_manager->insertPCIds();
+
+        $hier_ids = $id_manager->getPCIdsForHierIds([
+            "1", "2"
+        ]);
+
+        $this->assertEquals(
+            [
+                "1" => "00000000000000000000000000000001",
+                "2" => "00000000000000000000000000000002"
+            ],
+            $hier_ids
+        );
+    }
+
+    public function testGetPCIdForHierId(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            "00000000000000000000000000000002",
+            $id_manager->getPCIdForHierId("2")
+        );
+    }
+
+    public function testCheckPCIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+
+        $this->assertEquals(
+            false,
+            $id_manager->checkPCIds()
+        );
+
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            true,
+            $id_manager->checkPCIds()
+        );
+    }
+
+    public function testGetAllPCIds(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id_manager = $this->getIDManager($page);
+
+        $this->insertParagraphAt($page, "pg");
+        $this->insertParagraphAt($page, "1");
+        $this->insertParagraphAt($page, "2");
+        $id_manager->insertPCIds();
+
+        $this->assertEquals(
+            [
+                "00000000000000000000000000000001",
+                "00000000000000000000000000000002",
+                "00000000000000000000000000000003"
+            ],
+            $id_manager->getAllPCIds()
         );
     }
 }
