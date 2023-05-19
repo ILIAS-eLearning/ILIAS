@@ -475,12 +475,6 @@ class ilPageEditorGUI
             $this->request->getString("html_mode")
         );
         $js_mode = $this->request->getString("js_mode");
-        if ($ilUser->getPref("ilPageEditor_JavaScript") != $js_mode) {
-            // not nice, should be solved differently in the future
-            if ($this->page->getParentType() == "lm") {
-                $this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
-            }
-        }
         $ilUser->writePref("ilPageEditor_JavaScript", $js_mode);
 
         // again not so nice...

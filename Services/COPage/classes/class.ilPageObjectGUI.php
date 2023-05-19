@@ -1293,15 +1293,6 @@ class ilPageObjectGUI
             }
         }
 
-        $reload_tree = $this->request->getString("reloadTree");
-        if ($reload_tree == "y") {
-            $tpl->setCurrentBlock("reload_tree");
-            $tpl->setVariable(
-                "LINK_TREE",
-                $this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false)
-            );
-            $tpl->parseCurrentBlock();
-        }
         //		}
         // get content
         $builded = $this->obj->buildDom();
@@ -2711,11 +2702,6 @@ class ilPageObjectGUI
         $this->initActivationForm();
         $this->getActivationFormValues();
         $atpl->setVariable("FORM", $this->form->getHTML());
-        $atpl->setCurrentBlock("updater");
-        $atpl->setVariable("UPDATER_FRAME", $this->exp_frame);
-        $atpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
-        $atpl->setVariable("HREF_UPDATER", $this->exp_target_script);
-        $atpl->parseCurrentBlock();
         $this->tpl->setContent($atpl->get());
     }
 
