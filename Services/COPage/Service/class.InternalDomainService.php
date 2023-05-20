@@ -23,6 +23,7 @@ namespace ILIAS\COPage;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\COPage\Page\PageManagerInterface;
+use ILIAS\COPage\Compare\PageCompare;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -76,5 +77,10 @@ class InternalDomainService
     public function contentIdGenerator(): ID\ContentIdGenerator
     {
         return new ID\ContentIdGenerator();
+    }
+
+    public function compare(): PageCompare
+    {
+        return new PageCompare();
     }
 }

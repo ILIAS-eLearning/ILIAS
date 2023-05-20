@@ -33,33 +33,6 @@ class ContentIdManagerTest extends \COPageTestBase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->pc_cnt = 1;
-    }
-
-    /**
-     * @return ContentIdGenerator|(ContentIdGenerator&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getIdGeneratorMock()
-    {
-        $gen = $this->createMock(ContentIdGenerator::class);
-        $gen->method("generate")
-            ->willReturnCallback(function () {
-                return str_pad(
-                    (string) $this->pc_cnt++,
-                    32,
-                    "0",
-                    STR_PAD_LEFT
-                );
-            });
-        return $gen;
-    }
-
-    protected function getIDManager(\ilPageObject $page): ContentIdManager
-    {
-        return new ContentIdManager(
-            $page,
-            $this->getIdGeneratorMock()
-        );
     }
 
     public function testInsertPCIds(): void
@@ -89,15 +62,6 @@ EOT;
         );
     }
 
-    protected function insertParagraphAt(
-        \ilPageObject $page,
-        string $hier_id
-    ) {
-        $pc = new \ilPCParagraph($page);
-        $pc->create($page, $hier_id);
-        $pc->setLanguage("en");
-        $page->addHierIDs();
-    }
 
     public function testDuplicatePCIds(): void
     {

@@ -122,6 +122,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/ID/ContentIdManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\ID\ContentIdManagerTest::class);
 
+        require_once("./Services/COPage/test/Compare/PageCompareTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Compare\PageCompareTest::class);
+
         return $suite;
     }
 }

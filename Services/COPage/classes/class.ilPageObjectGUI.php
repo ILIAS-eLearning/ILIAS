@@ -133,6 +133,7 @@ class ilPageObjectGUI
     protected string $profile_back_url = "";
 
     protected ilComponentFactory $component_factory;
+    protected \ILIAS\COPage\Compare\PageCompare $compare;
 
     /**
      * @param string $a_parent_type type of parent object
@@ -220,14 +221,17 @@ class ilPageObjectGUI
         $this->requested_q_id = $this->request->getInt("q_id");
         $this->requested_history_mode = $this->request->getInt("history_mode");
 
-        $this->edit_repo = $DIC
+        $int_service = $DIC
             ->copage()
-            ->internal()
+            ->internal();
+
+        $this->edit_repo = $int_service
             ->repo()
             ->edit();
 
         $this->afterConstructor();
-        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->xsl = $int_service->domain()->xsl();
+        $this->compare = $int_service->domain()->compare();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -2642,10 +2646,12 @@ class ilPageObjectGUI
         }
 
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
-        $compare = $this->obj->compareVersion(
-            $this->request->getInt("left"),
-            $this->request->getInt("right")
-        );
+
+        $pg = $this->obj;
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
+
+        $compare = $this->compare->compare($l_page, $r_page);
 
         // left page
         $lpage = $compare["l_page"];

@@ -151,6 +151,12 @@ abstract class ilPageObject
             ->contentIds($this);
     }
 
+    public function setContentIdManager(
+        \ILIAS\COPage\ID\ContentIdManager $content_id_manager
+    ): void {
+        $this->content_id_manager = $content_id_manager;
+    }
+
     public function afterConstructor(): void
     {
     }
@@ -821,6 +827,11 @@ abstract class ilPageObject
         return null;
     }
 
+    public function getContentDomNode(string $a_hier_id, string $a_pc_id = ""): ?DOMNode
+    {
+        return $this->getContentNode($a_hier_id, $a_pc_id)?->myDOMNode;
+    }
+
 
     /**
      * Get content node from dom
@@ -1324,16 +1335,6 @@ s     */
         return null;
     }
 
-    /**
-     * Set content of paragraph
-     */
-    public function setParagraphContent(string $a_hier_id, string $a_content): void
-    {
-        $node = $this->getContentNode($a_hier_id);
-        if (is_object($node)) {
-            $node->set_content($a_content);
-        }
-    }
 
     // @todo end
 
@@ -3620,48 +3621,6 @@ s     */
     }
 
     /**
-     * Get page contents hashes
-     */
-    public function getPageContentsHashes(): array
-    {
-        $this->buildDom();
-        $this->addHierIDs();
-        $mydom = $this->dom;
-
-        // get existing ids
-        $path = "//PageContent";
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        $hashes = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $hier_id = $res->nodeset[$i]->get_attribute("HierId");
-            $pc_id = $res->nodeset[$i]->get_attribute("PCID");
-            $dump = $mydom->dump_node($res->nodeset[$i]);
-            if (($hpos = strpos($dump, ' HierId="' . $hier_id . '"')) > 0) {
-                $dump = substr($dump, 0, $hpos) .
-                    substr($dump, $hpos + strlen(' HierId="' . $hier_id . '"'));
-            }
-
-            $childs = $res->nodeset[$i]->child_nodes();
-            $content = "";
-            if ($childs[0] && $childs[0]->node_name() == "Paragraph") {
-                $content = $mydom->dump_node($childs[0]);
-                $content = substr(
-                    $content,
-                    strpos($content, ">") + 1,
-                    strrpos($content, "<") - (strpos($content, ">") + 1)
-                );
-                $content = ilPCParagraph::xml2output($content);
-            }
-            $hashes[$pc_id] =
-                array("hier_id" => $hier_id, "hash" => md5($dump), "content" => $content);
-        }
-
-        return $hashes;
-    }
-
-    /**
      * Get question ids
      * @todo: move to questions
      */
@@ -3890,81 +3849,6 @@ s     */
         $ret["current"] = $row;
 
         return $ret;
-    }
-
-    public function addChangeDivClasses(array $a_hashes): void
-    {
-        $xpc = xpath_new_context($this->dom);
-        $path = "/*[1]";
-        $res = xpath_eval($xpc, $path);
-        $rnode = $res->nodeset[0];
-
-        foreach ($a_hashes as $h) {
-            if (($h["change"] ?? "") != "") {
-                $dc_node = $this->dom->create_element("DivClass");
-                $dc_node->set_attribute("HierId", $h["hier_id"]);
-                $dc_node->set_attribute("Class", "ilEdit" . $h["change"]);
-                $dc_node = $rnode->append_child($dc_node);
-            }
-        }
-    }
-
-    /**
-     * Compares to revisions of the page
-     * @param int $a_left  Nr of first revision
-     * @param int $a_right Nr of second revision
-     */
-    public function compareVersion(
-        int $a_left,
-        int $a_right
-    ): array {
-        // get page objects
-        $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
-        $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
-
-        $l_hashes = $l_page->getPageContentsHashes();
-        $r_hashes = $r_page->getPageContentsHashes();
-        // determine all deleted and changed page elements
-        foreach ($l_hashes as $pc_id => $h) {
-            if (!isset($r_hashes[$pc_id])) {
-                $l_hashes[$pc_id]["change"] = "Deleted";
-            } else {
-                if ($h["hash"] != $r_hashes[$pc_id]["hash"]) {
-                    $l_hashes[$pc_id]["change"] = "Modified";
-                    $r_hashes[$pc_id]["change"] = "Modified";
-
-                    // if modified element is a paragraph, highlight changes
-                    if ($l_hashes[$pc_id]["content"] != "" &&
-                        $r_hashes[$pc_id]["content"] != "") {
-                        $new_left = str_replace("\n", "<br />", $l_hashes[$pc_id]["content"]);
-                        $new_right = str_replace("\n", "<br />", $r_hashes[$pc_id]["content"]);
-                        $wldiff = new WordLevelDiff(
-                            array($new_left),
-                            array($new_right)
-                        );
-                        $new_left = $wldiff->orig();
-                        $new_right = $wldiff->closing();
-                        $l_page->setParagraphContent($l_hashes[$pc_id]["hier_id"], $new_left[0]);
-                        $r_page->setParagraphContent($l_hashes[$pc_id]["hier_id"], $new_right[0]);
-                    }
-                }
-            }
-        }
-
-        // determine all new paragraphs
-        foreach ($r_hashes as $pc_id => $h) {
-            if (!isset($l_hashes[$pc_id])) {
-                $r_hashes[$pc_id]["change"] = "New";
-            }
-        }
-        $l_page->addChangeDivClasses($l_hashes);
-        $r_page->addChangeDivClasses($r_hashes);
-
-        return array("l_page" => $l_page,
-                     "r_page" => $r_page,
-                     "l_changes" => $l_hashes,
-                     "r_changes" => $r_hashes
-        );
     }
 
     /**
