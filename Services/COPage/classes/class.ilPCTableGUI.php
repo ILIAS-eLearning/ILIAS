@@ -25,6 +25,7 @@
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
@@ -48,6 +49,12 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
     }
 
     public function setBasicTableCellStyles(): void
@@ -453,6 +460,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         $ilUser = $DIC->user();
         $xsl = $DIC->copage()->internal()->domain()->xsl();
+        $pc_definition = $DIC->copage()->internal()->domain()->pc()->definition();
 
         $content = "<dummy>" . $content . "</dummy>";
 
@@ -491,7 +499,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         // for all page components...
         if (isset($page_object)) {
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($page_object);
@@ -1254,9 +1262,8 @@ class ilPCTableGUI extends ilPageContentGUI
 
         // for all page components...
         if (isset($page_object)) {
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($page_object);
 

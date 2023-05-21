@@ -37,6 +37,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilPageEditorGUI
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected ServerRequestInterface $http_request;
     protected EditGUIRequest $request;
     protected EditSessionRepository $edit_repo;
@@ -117,6 +118,12 @@ class ilPageEditorGUI
             ->internal()
             ->repo()
             ->edit();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
     }
 
     /**
@@ -272,7 +279,7 @@ class ilPageEditorGUI
         if ($this->requested_ctype != "" || $this->requested_cname != "") {
             $ctype = $this->requested_ctype;
             if ($this->requested_cname != "") {
-                $pc_def = ilCOPagePCDef::getPCDefinitionByName($this->requested_cname);
+                $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
                 $ctype = $pc_def["pc_type"];
             }
             $pc_id = $this->requested_pc_id;
@@ -298,7 +305,7 @@ class ilPageEditorGUI
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
         $this->ctrl->setCmd($cmd);
         if ($next_class == "") {
-            $pc_def = ilCOPagePCDef::getPCDefinitionByType($ctype);
+            $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {
                 $this->ctrl->setCmdClass($pc_def["pc_gui_class"]);
             }
@@ -410,16 +417,15 @@ class ilPageEditorGUI
             default:
 
                 // generic calls to gui classes
-                if (ilCOPagePCDef::isPCGUIClassName($next_class, true)) {
+                if ($this->pc_definition->isPCGUIClassName($next_class, true)) {
                     $this->log->debug("Generic Call");
-                    $pc_def = ilCOPagePCDef::getPCDefinitionByGUIClassName($next_class);
+                    $pc_def = $this->pc_definition->getPCDefinitionByGUIClassName($next_class);
                     $this->tabs_gui->clearTargets();
                     $this->tabs_gui->setBackTarget(
                         $this->page_gui->page_back_title,
                         $ilCtrl->getLinkTarget($this->page_gui, "edit")
                     );
                     $ilHelp->setScreenIdComponent("copg_" . $pc_def["pc_type"]);
-                    //ilCOPagePCDef::requirePCGUIClassByName($pc_def["name"]);
                     $gui_class_name = $pc_def["pc_gui_class"];
                     $pc_gui = new $gui_class_name($this->page, $cont_obj, $hier_id, $pc_id);
                     if ($pc_def["style_classes"]) {

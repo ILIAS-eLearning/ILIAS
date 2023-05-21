@@ -49,6 +49,7 @@ define("IL_INSERT_CHILD", 2);
  */
 abstract class ilPageObject
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected int $create_user = 0;
     /**
      * @var string[]
@@ -97,6 +98,8 @@ abstract class ilPageObject
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected $concrete_lang = "";
     protected \ILIAS\COPage\ID\ContentIdManager $content_id_manager;
+    protected \ILIAS\COPage\Page\PageManager $page_manager;
+    protected \ILIAS\COPage\PC\DomainService $pc_service;
 
     final public function __construct(
         int $a_id = 0,
@@ -145,10 +148,19 @@ abstract class ilPageObject
 
         $this->initPageConfig();
         $this->afterConstructor();
-        $this->content_id_manager = $DIC->copage()
+        $domain = $DIC->copage()
+                      ->internal()
+                      ->domain();
+        $this->content_id_manager = $domain
+            ->contentIds($this);
+        $this->page_manager = $domain->page();
+        $this->pc_service = $domain->pc();
+        $this->pc_definition = $DIC
+            ->copage()
             ->internal()
             ->domain()
-            ->contentIds($this);
+            ->pc()
+            ->definition();
     }
 
     public function setContentIdManager(
@@ -695,80 +707,11 @@ abstract class ilPageObject
         string $a_hier_id,
         string $a_pc_id = ""
     ): ?ilPageContent {
-        $child_node = null;
-        $cont_node = $this->getContentNode($a_hier_id, $a_pc_id);
-        if (!is_object($cont_node)) {
-            return null;
-        }
-        $node_name = $cont_node->node_name();
-        if (in_array($node_name, ["PageObject", "TableRow"])) {
-            return null;
-        }
-        if ($node_name == "PageContent") {
-            $child_node = $cont_node->first_child();
-            $node_name = $child_node->node_name();
-        }
-
-        // table extra handling (@todo: get rid of it)
-        if ($node_name == "Table") {
-            if ($child_node->get_attribute("DataTable") == "y") {
-                $tab = new ilPCDataTable($this);
-            } else {
-                $tab = new ilPCTable($this);
-            }
-            $tab->setNode($cont_node);
-            $tab->setHierId($a_hier_id);
-            $tab->setPcId($a_pc_id);
-            return $tab;
-        }
-
-        // media extra handling (@todo: get rid of it)
-        if ($node_name == "MediaObject") {
-            $mal_node = $child_node->first_child();
-            //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
-            $id_arr = explode("_", $mal_node->get_attribute("OriginId"));
-            $mob_id = $id_arr[count($id_arr) - 1];
-
-            // see also #32331
-            if (ilObject::_lookupType($mob_id) !== "mob") {
-                $mob_id = 0;
-            }
-
-            //$mob = new ilObjMediaObject($mob_id);
-            $mob = new ilPCMediaObject($this);
-            $mob->readMediaObject($mob_id);
-
-            //$mob->setDom($this->dom);
-            $mob->setNode($cont_node);
-            $mob->setHierId($a_hier_id);
-            $mob->setPcId($a_pc_id);
-            return $mob;
-        }
-
-        //
-        // generic procedure
-        //
-
-        $pc_def = ilCOPagePCDef::getPCDefinitionByName($node_name);
-
-        // check if pc definition has been found
-        if (!is_array($pc_def)) {
-            throw new ilCOPageUnknownPCTypeException('Unknown PC Name "' . $node_name . '".');
-        }
-        $pc_class = "ilPC" . $pc_def["name"];
-        $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        require_once($pc_path);
-        $pc = new $pc_class($this);
-        if (!in_array(
-            $cont_node->myDOMNode->nodeName,
-            ["PageContent", "TableData"]
-        )) {
-            return null;
-        }
-        $pc->setNode($cont_node);
-        $pc->setHierId($a_hier_id);
-        $pc->setPcId($a_pc_id);
-        return $pc;
+        $node = $this->page_manager->content($this->getDomDoc())->getContentDomNode(
+            $a_hier_id,
+            $a_pc_id
+        );
+        return $this->pc_service->getByNode($node, $this);
     }
 
     /**
@@ -800,6 +743,9 @@ abstract class ilPageObject
         return null;
     }
 
+    /**
+     * @deprecated use getContentDomNode instead
+     */
     public function getContentNode(string $a_hier_id, string $a_pc_id = ""): ?php4DOMElement
     {
         $xpc = xpath_new_context($this->dom);
@@ -830,35 +776,6 @@ abstract class ilPageObject
     public function getContentDomNode(string $a_hier_id, string $a_pc_id = ""): ?DOMNode
     {
         return $this->getContentNode($a_hier_id, $a_pc_id)?->myDOMNode;
-    }
-
-
-    /**
-     * Get content node from dom
-     * @param string $a_content_tag e.g. "Question"
-     */
-    public function checkForTag(
-        string $a_content_tag,
-        string $a_hier_id,
-        string $a_pc_id = ""
-    ): bool {
-        $xpc = xpath_new_context($this->dom);
-        // get per pc id
-        if ($a_pc_id != "") {
-            $path = "//*[@PCID = '$a_pc_id']//" . $a_content_tag;
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                return true;
-            }
-        }
-
-        // fall back to hier id
-        $path = "//*[@HierId = '$a_hier_id']//" . $a_content_tag;
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            return true;
-        }
-        return false;
     }
 
     public function getNode(): php4DOMElement
@@ -956,7 +873,7 @@ s     */
         int $new_parent_id = 0,
         int $obj_copy_id = 0
     ): void {
-        $defs = ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_definition->getPCDefinitions();
 
         // handle question elements
         if ($a_self_ass) {
@@ -979,7 +896,6 @@ s     */
             $dom = $a_dom->myDOMDocument;
         }
         foreach ($defs as $def) {
-            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
             if ($cl == 'ilPCPlugged') {
                 // the page object is provided for ilPageComponentPlugin
@@ -998,25 +914,8 @@ s     */
      */
     public function handleDeleteContent($a_node = null, $move_operation = false): void
     {
-        if (!isset($a_node)) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//PageContent";
-            $res = xpath_eval($xpc, $path);
-            $nodes = $res->nodeset;
-        } else {
-            $nodes = array($a_node);
-        }
-
-        foreach ($nodes as $node) {
-            if ($node instanceof php4DOMNode) {
-                $node = $node->myDOMNode;
-            }
-
-            /** @var DOMElement $node */
-            if ($node->firstChild->nodeName == 'Plugged') {
-                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild, $move_operation);
-            }
-        }
+        $pm = $this->page_manager->content($this->getDomDoc());
+        $pm->handleDeleteContent($a_node, $move_operation);
     }
 
     /**
@@ -1248,12 +1147,11 @@ s     */
         );
 
         // collect lang vars from pc elements
-        $defs = ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
             $lang_vars[] = "pc_" . $def["pc_type"];
             $lang_vars[] = "ed_insert_" . $def["pc_type"];
 
-            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
             $lvs = call_user_func($def["pc_class"] . '::getLangVars');
             foreach ($lvs as $lv) {
@@ -2066,9 +1964,8 @@ s     */
         $this->log->debug("Handle repository links...");
 
         // pc classes hook, @todo: move rest of function to this hook, too
-        $defs = ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
-            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
                 call_user_func($def["pc_class"] . '::afterRepositoryCopy', $this, $a_mapping, $a_source_ref_id);
             }
@@ -2318,9 +2215,8 @@ s     */
             $this->reading_time_manager->saveTime($this);
 
             // pc classes hook
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $cl = $def["pc_class"];
                 call_user_func($def["pc_class"] . '::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
             }
@@ -2584,9 +2480,8 @@ s     */
     final protected function __beforeDelete(): void
     {
         // pc classes hook
-        $defs = ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
-            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
             call_user_func($def["pc_class"] . '::beforePageDelete', $this);
         }
@@ -2610,9 +2505,8 @@ s     */
         $this->saveStyleUsage($a_old_domdoc, $a_old_nr);
 
         // pc classes hook
-        $defs = ilCOPagePCDef::getPCDefinitions();
+        $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
-            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
             call_user_func(
                 $def["pc_class"] . '::afterPageHistoryEntry',
@@ -2881,9 +2775,8 @@ s     */
         string $a_pcid = "",
         bool $move_operation = false
     ) {
-        $curr_node = $this->getContentNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node, $move_operation);
-        $curr_node->unlink_node($curr_node);
+        $pm = $this->page_manager->content($this->getDomDoc());
+        $pm->deleteContent($a_hid, $a_pcid, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -2903,26 +2796,8 @@ s     */
         bool $a_self_ass = false,
         bool $move_operation = false
     ) {
-        if (!is_array($a_hids)) {
-            return true;
-        }
-        foreach ($a_hids as $a_hid) {
-            $a_hid = explode(":", $a_hid);
-            //echo "-".$a_hid[0]."-".$a_hid[1]."-";
-
-            // @todo 1: hook
-            // do not delete question nodes in assessment pages
-            if (!$this->checkForTag("Question", $a_hid[0], (string) ($a_hid[1] ?? "")) || $a_self_ass) {
-                $curr_node = $this->getContentNode((string) $a_hid[0], (string) ($a_hid[1] ?? ""));
-                if (is_object($curr_node)) {
-                    $parent_node = $curr_node->parent_node();
-                    if ($parent_node->node_name() != "TableRow") {
-                        $this->handleDeleteContent($curr_node);
-                        $curr_node->unlink_node($curr_node);
-                    }
-                }
-            }
-        }
+        $pm = $this->page_manager->content($this->getDomDoc());
+        $pm->deleteContents($a_hids, $a_self_ass, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -3063,28 +2938,8 @@ s     */
         bool $a_update = true,
         bool $a_self_ass = false
     ) {
-        if (!is_array($a_hids)) {
-            return true;
-        }
-
-        foreach ($a_hids as $a_hid) {
-            $a_hid = explode(":", $a_hid);
-            $curr_node = $this->getContentNode($a_hid[0], $a_hid[1]);
-            if (is_object($curr_node)) {
-                if ($curr_node->node_name() == "PageContent") {
-                    $cont_obj = $this->getContentObject($a_hid[0], $a_hid[1]);
-                    if ($cont_obj->isEnabled()) {
-                        // do not deactivate question nodes in assessment pages
-                        if (!$this->checkForTag("Question", $a_hid[0], (string) $a_hid[1]) || $a_self_ass) {
-                            $cont_obj->disable();
-                        }
-                    } else {
-                        $cont_obj->enable();
-                    }
-                }
-            }
-        }
-
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->switchEnableMultiple($this, $a_hids, $a_self_ass);
         if ($a_update) {
             return $this->update();
         }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,29 +16,26 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\COPage;
-
-use ILIAS\DI\Container;
-
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class Service
+class ilUnitTestPCDefinition extends \ILIAS\COPage\PC\PCDefinition
 {
-    protected InternalService $internal;
-    protected Container $DIC;
-
-    public function __construct(Container $DIC)
+    public function getRecords(): array
     {
-        $this->DIC = $DIC;
-        $this->internal = new InternalService($this->DIC);
-    }
-
-    /**
-     * Internal service, do not use in other components
-     */
-    public function internal(): InternalService
-    {
-        return $this->internal;
+        return [
+            [
+                "pc_type" => "par",
+                "name" => "Paragraph",
+                "directory" => "classes",
+                "int_links" => 1,
+                "style_classes" => 1,
+                "xsl" => 0,
+                "component" => "Services/COPage",
+                "def_enabled" => 1,
+                "top_item" => 1,
+                "order_nr" => 10
+            ]
+        ];
     }
 }

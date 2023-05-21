@@ -29,6 +29,7 @@ use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
  */
 class PageQueryActionHandler implements Server\QueryActionHandler
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
     protected \ilPageObjectGUI $page_gui;
@@ -49,6 +50,12 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->component_factory = $DIC["component.factory"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
     }
 
     /**
@@ -511,7 +518,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     protected function componentEditFormResponse(array $query): Server\Response
     {
-        $pc_edit = \ilCOPagePCDef::getPCEditorInstanceByName($query["cname"]);
+        $pc_edit = $this->pc_definition->getPCEditorInstanceByName($query["cname"]);
         $form = "";
         if (!is_null($pc_edit)) {
             $form = $pc_edit->getEditComponentForm(
@@ -533,8 +540,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function getComponentsEditorUI(): array
     {
         $ui = [];
-        foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
-            $pc_edit = \ilCOPagePCDef::getPCEditorInstanceByName($def["name"]);
+        foreach ($this->pc_definition->getPCDefinitions() as $def) {
+            $pc_edit = $this->pc_definition->getPCEditorInstanceByName($def["name"]);
             if (!is_null($pc_edit)) {
                 $ui[$def["name"]] = $pc_edit->getEditorElements(
                     $this->ui_wrapper,
@@ -550,7 +557,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function getComponentsDefinitions(): array
     {
         $pcdef = [];
-        foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
+        foreach ($this->pc_definition->getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
             $pcdef["names"][$def["pc_type"]] = $def["name"];
             $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);

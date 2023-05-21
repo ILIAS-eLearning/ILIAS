@@ -42,4 +42,9 @@ class PageManager implements PageManagerInterface
             $lang
         );
     }
+
+    public function content(\DOMDocument $dom): PageContentManager
+    {
+        return new PageContentManager($dom);
+    }
 }

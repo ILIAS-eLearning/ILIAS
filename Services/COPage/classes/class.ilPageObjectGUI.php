@@ -37,6 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
@@ -232,6 +233,12 @@ class ilPageObjectGUI
         $this->afterConstructor();
         $this->xsl = $int_service->domain()->xsl();
         $this->compare = $int_service->domain()->compare();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -1594,9 +1601,8 @@ class ilPageObjectGUI
             }
 
             // for all page components...
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($this->getPageObject());
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());

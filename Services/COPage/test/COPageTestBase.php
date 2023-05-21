@@ -144,6 +144,11 @@ class COPageTestBase extends TestCase
         return $gen;
     }
 
+    protected function getPCDefinition(): ilUnitTestPCDefinition
+    {
+        return new ilUnitTestPCDefinition();
+    }
+
     protected function setPCIdCnt(int $cnt): void
     {
         $this->pc_cnt = $cnt;

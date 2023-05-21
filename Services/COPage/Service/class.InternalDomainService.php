@@ -24,6 +24,8 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\COPage\Compare\PageCompare;
+use ILIAS\COPage\Page\PageContentManager;
+use ILIAS\COPage\PC\PCDefinition;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,6 +45,16 @@ class InternalDomainService
         $this->repo_service = $repo_service;
         $this->data_service = $data_service;
         $this->initDomainServices($DIC);
+    }
+
+    public function pc(?PCDefinition $def = null): PC\DomainService
+    {
+        return new PC\DomainService(
+            $this->data_service,
+            $this->repo_service,
+            $this,
+            $def
+        );
     }
 
     public function history(): History\HistoryManager
