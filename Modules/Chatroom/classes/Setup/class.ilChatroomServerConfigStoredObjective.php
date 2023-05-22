@@ -21,9 +21,6 @@ declare(strict_types=1);
 use ILIAS\DI;
 use ILIAS\Setup;
 
-/**
- * Store information about https is enabled
- */
 class ilChatroomServerConfigStoredObjective implements Setup\Objective
 {
     public function __construct(protected ilChatroomSetupConfig $config)
@@ -111,11 +108,8 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        return $this->config->getAddress() !== '' && $this->config->getPort() !== 0;
+        return $this->config->getAddress() !== '' && $this->config->getPort() > 0;
     }
 }

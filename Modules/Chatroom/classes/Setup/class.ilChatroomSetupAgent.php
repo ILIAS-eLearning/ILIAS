@@ -56,25 +56,16 @@ class ilChatroomSetupAgent implements Setup\Agent
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getConfigInput(Setup\Config $config = null): never
     {
         throw new LogicException("Not yet implemented.");
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         $levels = self::$LOG_LEVELS;
@@ -216,23 +207,17 @@ class ilChatroomSetupAgent implements Setup\Agent
         });
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         // null would not be valid here, because this agents strictly wants to have
         // a config.
-        if ($config instanceof Setup\NullConfig) {
+        if ($config === null || $config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();
         }
 
         return new ilChatroomServerConfigStoredObjective($config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
@@ -248,25 +233,16 @@ class ilChatroomSetupAgent implements Setup\Agent
         return new ObjectiveCollection('Update chatroom database and server config', false, ...$objectives);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilChatroomMetricsCollectedObjective($storage);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations(): array
     {
         return [];
