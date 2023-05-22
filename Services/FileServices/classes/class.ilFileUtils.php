@@ -527,10 +527,8 @@ class ilFileUtils
             }
             $upload_result = $upload->getResults()[$a_file] ?? null;
             if ($upload_result instanceof UploadResult) {
-                $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode(
-                    ) === ProcessingStatus::REJECTED) {
-                    throw new ilException($processing_status->getMessage());
+                if (!$upload_result->isOK()) {
+                    throw new ilException($upload_result->getStatus()->getMessage());
                 }
             } else {
                 return false;

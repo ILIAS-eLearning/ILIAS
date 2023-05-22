@@ -37,7 +37,7 @@ final class ilVirusScannerPreProcessor implements PreProcessor
         $uri = $stream->getMetadata()["uri"];
         // chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file
         if ($this->scanner->scanFile($uri) !== "") {
-            return new ProcessingStatus(ProcessingStatus::REJECTED, 'Virus detected.');
+            return new ProcessingStatus(ProcessingStatus::DENIED, 'Virus detected.');
         }
 
         return new ProcessingStatus(ProcessingStatus::OK, 'No Virus detected.');
