@@ -19,6 +19,7 @@ rules:
     - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule # ILIAS 10
     - ILIAS\CI\PHPStan\Rules\NoLegacyTextHighlighterUsagesRule # ILIAS 10
     - ILIAS\CI\PHPStan\Rules\NoLegacyToolbarUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyTabsUsagesRule # ILIAS 10
     - ILIAS\CI\PHPStan\Rules\NoLegacyTooltipsUsagesRule # ILIAS 10
 parameters:
     parallel:
