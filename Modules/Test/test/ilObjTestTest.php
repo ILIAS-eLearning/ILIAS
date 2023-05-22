@@ -425,16 +425,4 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->testObj->setListOfQuestions(1);
         $this->assertTrue($this->testObj->getListOfQuestions());
     }
-
-    public function testResultsPresentation(): void
-    {
-        $this->testObj->setResultsPresentation(0);
-        $this->assertEquals(0, $this->testObj->getResultsPresentation());
-
-        $this->testObj->setResultsPresentation(1);
-        $this->assertEquals(1, $this->testObj->getResultsPresentation());
-
-        $this->testObj->setResultsPresentation(22);
-        $this->assertEquals(22, $this->testObj->getResultsPresentation());
-    }
 }

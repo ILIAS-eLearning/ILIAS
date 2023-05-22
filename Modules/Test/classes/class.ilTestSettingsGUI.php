@@ -24,11 +24,8 @@
  */
 abstract class ilTestSettingsGUI
 {
-    protected ilObjTest $testOBJ;
-
-    public function __construct(ilObjTest $testOBJ)
+    public function __construct(protected ilObjTest $testOBJ)
     {
-        $this->testOBJ = $testOBJ;
     }
 
     protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool

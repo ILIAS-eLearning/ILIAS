@@ -83,39 +83,83 @@ abstract class LegacyClassUsageRule implements Rule
         return CallLike::class;
     }
 
+    protected function findInstanceCreation(): bool
+    {
+        return false;
+    }
+
+    protected function findMethodUsages(): bool
+    {
+        return false;
+    }
+
     abstract protected function getForbiddenClasses(): array;
 
     abstract protected function getHumanReadableRuleName(): string;
 
     abstract protected function getRelevantILIASVersion(): int;
 
-    final public function processNode(Node $node, Scope $scope): array
+    private function instantiatesForbiddenClasses(Node $node): bool
     {
-        switch (true) {
-            case $node instanceof Node\Expr\StaticCall:
-            case $node instanceof Node\Expr\New_:
-                if ($node->class instanceof Node\Name) {
-                    $class_name = $node->class->toString();
-                } else {
-                    return [];
-                }
-                break;
-            default:
-                return [];
+        if ($node->class instanceof Node\Name) {
+            $class_name = $node->class->toString();
+        } else {
+            return false;
         }
-
         $class_names_to_test = $this->getClassAncestors($class_name);
 
         $array_intersect = array_intersect($class_names_to_test, $this->forbidden_classes);
         if ($array_intersect !== []) {
             $this->cacheAncestors($class_name, $class_names_to_test);
+            return true;
+        }
+        return false;
+    }
+
+    private function usesMethodsOfForbiddenClass(Node $node, Scope $scope): bool
+    {
+        if (!$node->name instanceof Node\Identifier) {
+            return false;
+        }
+        $method_name = $node->name->name;
+        $called_classes = $scope->getType($node->var)->getObjectClassNames();
+        $forbidden_classes = $this->getForbiddenClasses();
+
+        return array_intersect($called_classes, $forbidden_classes) !== [];
+    }
+
+    final public function processNode(Node $node, Scope $scope): array
+    {
+        // Find new Instance Creation or Static Method Calls
+        if ($this->findInstanceCreation()
+            && ($node instanceof Node\Expr\StaticCall || $node instanceof Node\Expr\New_)
+            && $this->instantiatesForbiddenClasses($node)
+        ) {
+            $class_name = $node->class->toString();
             return [
                 RuleErrorBuilder::message("Usage of $class_name is forbidden.")
-                    ->metadata([
-                        'rule' => $this->getHumanReadableRuleName(),
-                        'version' => $this->getRelevantILIASVersion(),
-                    ])
-                    ->build()
+                                ->metadata([
+                                    'rule' => $this->getHumanReadableRuleName(),
+                                    'version' => $this->getRelevantILIASVersion(),
+                                ])
+                                ->build()
+            ];
+        }
+
+        // Find Method Calls to forbidden classes
+        if ($node instanceof Node\Expr\MethodCall
+            && $this->findMethodUsages()
+            && $this->usesMethodsOfForbiddenClass($node, $scope)
+        ) {
+            $method_name = $node->name->name;
+            $class_name = $scope->getType($node->var)->getObjectClassNames()[0];
+            return [
+                RuleErrorBuilder::message("Usage of $class_name::$method_name is forbidden.")
+                                ->metadata([
+                                    'rule' => $this->getHumanReadableRuleName(),
+                                    'version' => $this->getRelevantILIASVersion(),
+                                ])
+                                ->build()
             ];
         }
 
