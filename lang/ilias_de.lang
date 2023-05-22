@@ -9768,10 +9768,6 @@ forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normal
 forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_enabled_desc#:#Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat.
 forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
-forum#:#frm_sticky_threads_latest_at_top#:#Top-Thema mit neuestem Beitrag oben
-forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Das Top-Thema mit dem neuesten Beitrag steht an erster Stelle.
-forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
-forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Moderation kann die Top-Themen nach ihren Wünschen sortieren.
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
@@ -9831,9 +9827,7 @@ forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die 
 forum#:#sort_by_posts#:#Nach Beiträge sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
-forum#:#sorting_manual_sticky#:#Sortierung der Top-Themen
 forum#:#sticky#:#'Top-Thema'
-forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
 forum#:#target_select#:#Beitrag für begrenzte Ansicht auswählen

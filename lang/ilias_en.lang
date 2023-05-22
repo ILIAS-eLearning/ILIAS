@@ -9766,10 +9766,6 @@ forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for f
 forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable posting statistics for all participants
 forum#:#frm_statistics_ranking#:#Number of Postings
-forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
-forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
-forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
-forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.
 forum#:#frm_subject_setting#:#Subject setting
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -9829,9 +9825,7 @@ forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The postings
 forum#:#sort_by_posts#:#By Reply
 forum#:#sort_by_posts_desc#:#The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other.
 forum#:#sorting#:#Sorting
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky#:#Sticky
-forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#target_select#:#Select posting for limited view

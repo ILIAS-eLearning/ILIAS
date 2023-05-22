@@ -61,7 +61,6 @@ class ilObjForum extends ilObject
         $properties->setAnonymisation(false);
         $properties->setStatisticsStatus(false);
         $properties->setPostActivation(false);
-        $properties->setThreadSorting(0);
         $properties->insert();
 
         $this->createSettings();
@@ -639,15 +638,6 @@ class ilObjForum extends ilObject
                 $top_data['top_date'],
                 $top_data['top_usr_id']
             ]
-        );
-    }
-
-    public function setThreadSorting(int $a_thr_pk, int $a_sorting_value): void
-    {
-        $this->db->update(
-            'frm_threads',
-            ['thread_sorting' => ['integer', $a_sorting_value]],
-            ['thr_pk' => ['integer', $a_thr_pk]]
         );
     }
 

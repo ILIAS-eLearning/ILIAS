@@ -762,11 +762,9 @@ class ilForum
         $cnt = (int) $cntData['cnt'];
 
         $active_query = '';
-        $active_inner_query = '';
         $having = '';
         if ($is_post_activation_enabled && !$params['is_moderator']) {
             $active_query = ' AND (pos_status = %s OR pos_author_id = %s) ';
-            $active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_author_id = %s) ';
             $having = ' HAVING num_posts > 0';
         }
 
@@ -776,16 +774,10 @@ class ilForum
 
         $optional_fields = '';
         if ($frm_props->isIsThreadRatingEnabled()) {
-            $optional_fields = ',avg_rating';
-        }
-        if ($frm_props->getThreadSorting() === 1) {
-            $optional_fields = ',thread_sorting';
+            $optional_fields = ', avg_rating';
         }
 
         $additional_sort = '';
-        if ($frm_props->getThreadSorting() !== 0) {
-            $additional_sort .= ' , thread_sorting ASC ';
-        }
 
         if ($params['order_column'] === 'thr_subject') {
             $dynamic_columns = [', thr_subject ' . $params['order_direction']];
