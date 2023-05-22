@@ -1,14 +1,30 @@
 @use "../../010-settings/" as *;
 @use "../../050-layout/basics/" as l;
 
+$alert-padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal;
+$alert-border-radius: $il-border-radius-large;
+
+$alert-success-bg: lighten($il-success-color, 50%);
+$alert-success-border: $il-success-color;
+$alert-success-text: $il-text-color;
+
+$alert-info-bg: lighten($il-info-color, 50%);
+$alert-info-border: $il-info-color;
+$alert-info-text: $il-text-color;
+
+$alert-warning-bg: lighten($il-warning-color, 55%);
+$alert-warning-border: $il-warning-color;
+$alert-warning-text: $il-text-color;
+
+$alert-danger-bg: lighten($il-danger-color, 50%);
+$alert-danger-border: $il-danger-color;
+$alert-danger-text: $il-text-color;
+
 // Bootstrap 3 start
 
 //
 // Alerts
 // --------------------------------------------------
-
-$alert-padding: l.$il-padding-large-vertical l.$il-padding-large-horizontal;
-$alert-border-radius: $il-border-radius-large;
 
 // Base styles
 // -------------------------
@@ -62,6 +78,20 @@ $alert-border-radius: $il-border-radius-large;
   // Alternate styles
   //
   // Generate contextual modifier classes for colorizing the alert.
+
+  @mixin alert-variant($background, $border, $text-color) {
+	color: $text-color;
+	background-color: $background;
+	border-color: $border;
+  
+	hr {
+	  border-top-color: darken($border, 5%);
+	}
+  
+	.alert-link {
+	  color: darken($text-color, 10%);
+	}
+  }
   
   .alert-success {
 	@include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
