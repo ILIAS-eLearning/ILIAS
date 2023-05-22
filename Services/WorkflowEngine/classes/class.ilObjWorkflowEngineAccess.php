@@ -61,11 +61,4 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
 
         return true; // ORLY?
     }
-
-    public static function _checkGoto(string $target): bool
-    {
-        //$workflow = substr($params, 2, strpos($params,'EVT')-2);
-        //$event = substr($params, strpos($params, 'EVT')+3);
-        return true; // TODO Validate Event Syntax
-    }
 }

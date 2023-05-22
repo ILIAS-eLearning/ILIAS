@@ -48,28 +48,7 @@ class ilWorkflowEngineSettingsGUI
         $form = new ilWorkflowEngineSettingsForm();
         $form_instance = $form->getForm($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'settings.save'));
         $cb_input = $form_instance->getItemByPostVar('activate');
-
-        if ($command === 'view') {
-            $cb_input->setChecked((bool) $ilSetting->get('wfe_activation', '0'));
-            return $form_instance->getHTML();
-        }
-
-        if ($command === 'save') {
-            if (isset($_POST['cmd']['cancel'])) {
-                ilUtil::redirect(
-                    html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view'))
-                );
-            }
-            if ($form_instance->checkInput()) {
-                $form_instance->setValuesByPost();
-                $ilSetting->set('wfe_activation', (string) ((int) $cb_input->getChecked()));
-
-                $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('settings_saved'), true);
-                ilUtil::redirect(
-                    html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'settings.view'))
-                );
-            }
-        }
-        return '';
+        $cb_input->setChecked(false);
+        return $form_instance->getHTML();
     }
 }

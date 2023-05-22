@@ -56,48 +56,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->assignObject();
     }
 
-    /**
-     * Goto-Method for the workflow engine
-     * Handles calls via GOTO, e.g. request
-     * http://.../goto.php?target=wfe_WF61235EVT12308154711&client_id=default
-     * would end up here with $params = WF61235EVT12308154711
-     * It will be unfolded to
-     *   Workflow 61235
-     *   Event 12308154711
-     * Used to trigger an event for the engine.
-     * @param string $params Params from $_GET after wfe_
-     */
-    public static function _goto(string $params): void
-    {
-        global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        /** @var ilLanguage $lng */
-        $lng = $DIC['lng'];
-
-        $workflow = substr($params, 2, strpos($params, 'EVT') - 2);
-        $event = substr($params, strpos($params, 'EVT') + 3);
-
-        $type = 'endpoint_event';
-        $content = 'was_requested';
-        $subject_type = 'workflow';
-        $subject_id = $workflow;
-        $context_type = 'event';
-        $context_id = $event;
-
-        $engine = new ilWorkflowEngine();
-        $engine->processEvent(
-            $type,
-            $content,
-            $subject_type,
-            $subject_id,
-            $context_type,
-            $context_id
-        );
-
-        $main_tpl->setOnScreenMessage('success', $lng->txt('ok'), true);
-        ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-    }
-
     public function executeCommand(): void
     {
         $next_class = $this->ilCtrl->getNextClass();
@@ -121,24 +79,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
 
     public function dispatchCommand(string $cmd): string
     {
-        $cmd_parts = explode('.', $cmd);
-
-        switch ($cmd_parts[0]) {
-            case 'definitions':
-                return $this->dispatchToDefinitions($cmd_parts[1]);
-
-            case 'instances':
-                return $this->dispatchToInstances($cmd_parts[1]);
-
-            case 'settings':
-                return $this->dispatchToSettings($cmd_parts[1]);
-
-            case 'dashboard':
-                return $this->dispatchToDashboard($cmd_parts[1]);
-
-            default:
-                return $this->dispatchToDefinitions($cmd_parts[0]);
-        }
+        return $this->dispatchToSettings('view');
     }
 
     public function prepareAdminOutput(): void
@@ -158,11 +99,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $rbacsystem = $DIC->rbac()->system();
 
         if ($rbacsystem->checkAccess('visible,read', $this->getObject()->getRefId())) {
-            $this->ilTabs->addTab(
-                'definitions',
-                $this->lng->txt('definitions'),
-                $this->ilCtrl->getLinkTarget($this, 'definitions.view')
-            );
             $this->ilTabs->addTab(
                 'settings',
                 $this->lng->txt('settings'),
@@ -201,27 +137,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         }
 
         $this->tpl->setLocator();
-    }
-
-    public function dispatchToDashboard(string $command): string
-    {
-        $this->initTabs('dashboard');
-        $target_handler = new ilWorkflowEngineDashboardGUI($this);
-        return $target_handler->handle($command);
-    }
-
-    public function dispatchToDefinitions(string $command): string
-    {
-        $this->initTabs('definitions');
-        $target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
-        return $target_handler->handle($command);
-    }
-
-    public function dispatchToInstances(string $command): string
-    {
-        $this->initTabs('instances');
-        $target_handler = new ilWorkflowEngineInstancesGUI($this);
-        return $target_handler->handle($command);
     }
 
     public function dispatchToSettings(string $command): string
