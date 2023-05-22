@@ -101,22 +101,43 @@ abstract class LegacyClassUsageRule implements Rule
                 }
                 break;
             default:
-                return [];
+                break;
+        }
+        if (isset($class_name)) {
+            $class_names_to_test = $this->getClassAncestors($class_name);
+
+            $array_intersect = array_intersect($class_names_to_test, $this->forbidden_classes);
+            if ($array_intersect !== []) {
+                $this->cacheAncestors($class_name, $class_names_to_test);
+                return [
+                    RuleErrorBuilder::message("Usage of $class_name is forbidden.")
+                                    ->metadata([
+                                        'rule' => $this->getHumanReadableRuleName(),
+                                        'version' => $this->getRelevantILIASVersion(),
+                                    ])
+                                    ->build()
+                ];
+            }
+            return [];
         }
 
-        $class_names_to_test = $this->getClassAncestors($class_name);
-
-        $array_intersect = array_intersect($class_names_to_test, $this->forbidden_classes);
-        if ($array_intersect !== []) {
-            $this->cacheAncestors($class_name, $class_names_to_test);
-            return [
-                RuleErrorBuilder::message("Usage of $class_name is forbidden.")
-                    ->metadata([
-                        'rule' => $this->getHumanReadableRuleName(),
-                        'version' => $this->getRelevantILIASVersion(),
-                    ])
-                    ->build()
-            ];
+        if ($node instanceof Node\Expr\MethodCall) {
+            if (!$node->name instanceof Node\Identifier) {
+                return [];
+            }
+            $method_name = $node->name->name;
+            $called_classes = $scope->getType($node->var)->getObjectClassNames();
+            $forbidden_classes = $this->getForbiddenClasses();
+            if (array_intersect($called_classes, $forbidden_classes) !== []) {
+                return [
+                    RuleErrorBuilder::message("Usage of $class_name::$method_name is forbidden.")
+                                    ->metadata([
+                                        'rule' => $this->getHumanReadableRuleName(),
+                                        'version' => $this->getRelevantILIASVersion(),
+                                    ])
+                                    ->build()
+                ];
+            }
         }
 
         return [];
