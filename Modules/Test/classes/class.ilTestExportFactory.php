@@ -36,15 +36,13 @@ class ilTestExportFactory
 
     /**
      * @param string $mode
-     * @return ilTestExportDynamicQuestionSet|ilTestExportFixedQuestionSet|ilTestExportRandomQuestionSet
+     * @return ilTestExportFixedQuestionSet|ilTestExportRandomQuestionSet
      */
     public function getExporter($mode = "xml")
     {
         if ($this->testOBJ->isFixedTest()) {
             return new ilTestExportFixedQuestionSet($this->testOBJ, $mode);
-        } elseif ($this->testOBJ->isRandomTest()) {
-            return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
         }
-        return new ilTestExportDynamicQuestionSet($this->testOBJ, $mode);
+        return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
     }
 }

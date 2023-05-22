@@ -592,8 +592,6 @@ assessment#:#counter#:#Compteur
 assessment#:#create_date#:#Créé
 assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Style personnalisé
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Définition
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Obtenir un nouveau pool de questions
 assessment#:#tst_derive_new_pools#:#Obtenir de nouveaux pools de questions
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Vos réponses antérieures ne seront pas affichées par défaut lorsque vous repasserez le test
-assessment#:#tst_dyn_keep_answ_freeze#:#Gardez mes réponses actuelles de côté
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Supprimé Définitivement)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Supprimé) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Actuellement, vous avez répondu correctement à toutes les questions de la banque de question source. Vous pourrez reprendre le test après ajout ou modification de questions.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Vous avez répondu correctement à toute les questions sélectionnées. Modifiez la sélection de questions pour reprendre le test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Supprimer les réponses précédentes
-assessment#:#tst_dyn_test_pass_deletion_button#:#Réinitialiser toutes les réponses du test
-assessment#:#tst_dyn_unfreeze_answers#:#Répondre de nouveau
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Il y a des questions auxquelles vos réponses initiales ont été figées et vous ne pouvez faire de modification. Voulez-vous y répondre une nouvelle fois maintenant et donc dégeler vos réponses?
-assessment#:#tst_dynamic_question_set_complete#:#Statistique totale
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Éditer les propriétés de la tâche
 assessment#:#tst_edit_scoring#:#Notation Manuelle
 assessment#:#tst_ending_time#:#Heure de Fin
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Vider le
 assessment#:#tst_questions_inserted#:#Question(s) ajoutée(s)
 assessment#:#tst_questions_removed#:#Question(s) retirée(s)
 assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Sélectionner le jeu de questions dans lequel vous choisirez la question
 assessment#:#tst_reached_points#:#Points Obtenus
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

@@ -593,8 +593,6 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1339,19 +1337,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Answers
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#Finishing Time
@@ -1709,6 +1694,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s

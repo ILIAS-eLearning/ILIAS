@@ -146,4 +146,20 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_tests', 'limit_users_enabled');
         }
     }
+
+    public function step_7(): void
+    {
+        if ($this->db->tableExists('tst_dyn_quest_set_cfg')) {
+            $this->db->dropTable('tst_dyn_quest_set_cfg');
+        }
+        if ($this->db->tableExists('tst_seq_qst_tracking')) {
+            $this->db->dropTable('tst_seq_qst_tracking');
+        }
+        if ($this->db->tableExists('tst_seq_qst_answstatus')) {
+            $this->db->dropTable('tst_seq_qst_answstatus');
+        }
+        if ($this->db->tableExists('tst_seq_qst_postponed')) {
+            $this->db->dropTable('tst_seq_qst_postponed');
+        }
+    }
 }

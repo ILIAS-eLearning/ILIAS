@@ -593,8 +593,6 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
-assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
-assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1339,19 +1337,6 @@ assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
-assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
-assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
-assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten, zu denen ihre initialen Antworten festgeschrieben wurden, so dass Sie keine Änderungen an den Antworten vornehmen können. Möchten Sie die Fragen jetzt erneut beantworten und die festgeschriebenen Antworten lösen?
-assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
-assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_ending_time#:#Ende
@@ -1709,6 +1694,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischen
 assessment#:#tst_questions_inserted#:#Fragen angefügt!
 assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_reached_points_of_max#:#%s von %s

@@ -592,8 +592,6 @@ assessment#:#counter#:#Brojač
 assessment#:#create_date#:#Kreirano
 assessment#:#create_gaps#:#Generiraj i ažuriraj praznine
 assessment#:#create_new#:#Kreiraj novo
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Prilagodi stil
 assessment#:#dashboard_tab#:#Nadzorna ploča
 assessment#:#definition#:#Definicija
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Izvedi novi bazen pitanja
 assessment#:#tst_derive_new_pools#:#Izvedi nove bazene pitanja
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ne prikazuj više ovu poruku tijekom moje aktualne sesije.
 assessment#:#tst_dont_use_previous_answers#:#Vaši prethodni odgovori neće se koristiti kao zadane vrijednosti u budućim prolazima testa
-assessment#:#tst_dyn_keep_answ_freeze#:#Zadrži moje trenutne odgovore
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Trenutačno konfiguriran bazen pitanja „%s” je izbrisan.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (trajno uklonjeno)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (uklonjeno) [%s pitanja]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Trenutačno ste uspješno odgovorili na sva pitanja iz odabranog bazena pitanja. S testom možete nastaviti čim u bazenu pitanja postoje nova ili izmijenjena pitanja.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Uspješno ste odgovorili na sva pitanja iz trenutačnog odabira pitanja. Promijenite odabir pitanja kako biste nastavili s testom.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Uklonite prethodne odgovore
-assessment#:#tst_dyn_test_pass_deletion_button#:#Resetiraj sve odgovore
-assessment#:#tst_dyn_unfreeze_answers#:#Odgovori ponovno
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Postoje pitanja za koja su spremljeni vaši fiksni početni odgovore i ne može napraviti nikakve promjene. Želite li još jednom odgovoriti na njih i tako odmrznuti svoje odgovore?
-assessment#:#tst_dynamic_question_set_complete#:#Sveukupna statistika
-assessment#:#tst_dynamic_question_set_selection#:#Odabir pitanja za test i statistika selekcije
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Staza: %s) [%s pitanja]
 assessment#:#tst_edit_competence_assign#:#Obradi karakteristike dodjele
 assessment#:#tst_edit_scoring#:#Uredi ocjenjivanje
 assessment#:#tst_ending_time#:#Vrijeme dovršetka
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Resetira
 assessment#:#tst_questions_inserted#:#Pitanje(a) je(su) umetnuto(a)!
 assessment#:#tst_questions_removed#:#Pitanje(a) je(su) uklonjeno(a)!
 assessment#:#tst_random_nr_of_questions#:#Koliko pitanja?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Staza: %s) [%s pitanja]
 assessment#:#tst_random_select_questionpool#:#Odaberite bazen pitanje iz kojeg želite izabrati pitanja
 assessment#:#tst_reached_points#:#Bodovi
 assessment#:#tst_reached_points_of_max#:#%s od %s

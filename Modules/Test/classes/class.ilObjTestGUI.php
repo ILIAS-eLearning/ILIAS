@@ -32,7 +32,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version		$Id$
  *
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
@@ -49,7 +49,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsMainGUI, ilObjTestSettingsScoringResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI, ilObjTestDynamicQuestionSetConfigGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
@@ -129,6 +129,21 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         parent::__construct("", (int) $refId, true, false);
 
         if ($this->object instanceof ilObjTest) {
+            /**
+            * 2023-08-08, sk: We check this here to avoid a crash of
+            * Dynamic-Tests when the migration was not run. The check can go with ILIAS 10.
+            * @todo: Remove check with ILIAS 10
+            */
+            if (!$this->object->isFixedTest() && !$this->object->isRandomTest()) {
+                $this->tpl->setOnScreenMessage('failure', sprintf(
+                    'You tried to access a Dynamic Test. This is not possible anymore with ILIAS 9. '
+                     . 'Please tell your administrator to run the corresponding migration to remove this Test completely.',
+                    $this->object->getTitle()
+                ), true);
+                $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+                $this->ctrl->redirectByClass('ilrepositorygui');
+            }
+
             $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this->object);
             $this->testSessionFactory = new ilTestSessionFactory($this->object);
             $this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
@@ -468,16 +483,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjtestfixedquestionsetconfiggui':
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $component_repository, $this->getTestObject());
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'iltestrandomquestionsetconfiggui':
                 if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
@@ -499,16 +504,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         $ilDB
                     ))->withContextId($this->object->getId())
                 );
-                $this->ctrl->forwardCommand($gui);
-                break;
-
-            case 'ilobjtestdynamicquestionsetconfiggui':
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $gui = new ilObjTestDynamicQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $component_repository, $this->getTestObject());
                 $this->ctrl->forwardCommand($gui);
                 break;
 

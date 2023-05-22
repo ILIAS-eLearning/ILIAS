@@ -25,6 +25,7 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
+use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
 
 class ilTestSetupAgent extends NullAgent
 {
@@ -63,7 +64,8 @@ class ilTestSetupAgent extends NullAgent
     public function getMigrations(): array
     {
         return [
-            new ilManScoringSettingsToOwnDbTableMigration()
+            new ilManScoringSettingsToOwnDbTableMigration(),
+            new ilRemoveDynamicTestsAndCorrespondingDataMigration()
         ];
     }
 }

@@ -595,8 +595,6 @@ assessment#:#counter#:#Števec
 assessment#:#create_date#:#Ustvarjeno
 assessment#:#create_gaps#:#Ustvarite in posodobite praznine
 assessment#:#create_new#:#Ustvari novo
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###19 08 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###19 08 2022 new variable
 assessment#:#customstyle#:#Lastni slog
 assessment#:#dashboard_tab#:#Nadzorna plošča
 assessment#:#definition#:#Opredelitev
@@ -1329,19 +1327,6 @@ assessment#:#tst_derive_new_pool#:#Izpelji novo skupino vprašanj
 assessment#:#tst_derive_new_pools#:#Ustvarite nove skupine vprašanj
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ne prikaži več tega sporočila med mojo trenutno sejo.
 assessment#:#tst_dont_use_previous_answers#:#Vaši prejšnji odgovori ne bodo uporabljeni kot privzete vrednosti pri prihodnjih opravljanjih testa
-assessment#:#tst_dyn_keep_answ_freeze#:#Obdrži zaklenjene odgovore
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Trenutno konfigurirano področje vprašanj "%s" je izbrisano.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (trajno izbrisano)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (trenutno v košu) [%s vprašanja]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Trenutno ste uspešno odgovorili na vsa vprašanja iz izbrane skupine vprašanj. Test lahko nadaljujete takoj, ko bodo v skupini vprašanj nova ali spremenjena vprašanja.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Uspešno ste odgovorili na vsa vprašanja iz aktualnega nabora vprašanj. Za nadaljevanje testa spremenite nabor vprašanj.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Odstrani dosedanje odgovore
-assessment#:#tst_dyn_test_pass_deletion_button#:#Ponastavi vse odgovore
-assessment#:#tst_dyn_unfreeze_answers#:#Ponovno odgovori
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Obstajajo vprašanja, za katera so bili vaši začetni odgovori zaklenjeni in jih ni mogoče spremeniti. Ali zdaj želite ponovno odgovoriti na vprašanja in odkleniti zaklenjene odgovore?
-assessment#:#tst_dynamic_question_set_complete#:#Stanje obdelave obstoječih vprašanj
-assessment#:#tst_dynamic_question_set_selection#:#Nabor testnih vprašanj in izbirna statistika
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (sled: %s) [%s vprašanja]
 assessment#:#tst_edit_competence_assign#:#Obdelaj značilnosti dodelitve
 assessment#:#tst_edit_scoring#:#Drugo ocenjevanje
 assessment#:#tst_ending_time#:#Zaključek
@@ -1691,6 +1676,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Ponastav
 assessment#:#tst_questions_inserted#:#Vstavljeno/a vprašanje/a!
 assessment#:#tst_questions_removed#:#Odstranjeno/a vprašanje/a!
 assessment#:#tst_random_nr_of_questions#:#Koliko vprašanj?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (sled: %s) [%s vprašanja]
 assessment#:#tst_random_select_questionpool#:#Izberite skupino vprašanj, iz katere želite uporabiti vprašanja.
 assessment#:#tst_reached_points#:#Dosežene točke
 assessment#:#tst_reached_points_of_max#:#%s od %s

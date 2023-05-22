@@ -1578,7 +1578,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1604,11 +1604,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
 
                 $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
-
-                // no break
-            case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
-
-                $this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', 'startTest');
         }
     }
 
@@ -1620,7 +1615,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1641,7 +1636,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
-        if (!$this->object->isDynamicTest() && $pass == $this->object->_getResultPass($active_fi)) {
+        if ($pass == $this->object->_getResultPass($active_fi)) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1678,7 +1673,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             throw new ilTestException('This should not happen, please contact Bjoern Heyser to clean up this pass salad!');
         }
 
-        if (!$this->object->isDynamicTest() && $isActivePass) {
+        if ($isActivePass) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1759,29 +1754,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        if ($this->object->isDynamicTest()) {
-            $tables = array(
-                'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
-            );
-
-            foreach ($tables as $table) {
-                $ilDB->manipulate("
-						DELETE FROM $table
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass = {$ilDB->quote($pass, 'integer')}
-				");
-
-                if ($must_renumber) {
-                    $ilDB->manipulate("
-						UPDATE $table
-						SET pass = pass - 1
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass > {$ilDB->quote($pass, 'integer')}
-					");
-                }
-            }
-        }
-
         // tst_solutions
         $ilDB->manipulate(
             'DELETE
@@ -1857,10 +1829,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         assQuestion::_updateTestResultCache($active_fi);
-
-        if ($this->object->isDynamicTest()) {
-            ilSession::clear('form_' . ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID);
-        }
 
         $this->redirectToPassDeletionContext($context);
     }

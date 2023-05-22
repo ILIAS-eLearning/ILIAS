@@ -592,8 +592,6 @@ assessment#:#counter#:#Contador
 assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar e atualizar espaços
 assessment#:#create_new#:#Criar novo
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Estilo personalizado
 assessment#:#dashboard_tab#:#Painel
 assessment#:#definition#:#Definição
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Derivar novo banco de perguntas
 assessment#:#tst_derive_new_pools#:#Derivar novo banco de perguntas
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Não mostrar esta mensagem novamente durante a minha sessão atual.
 assessment#:#tst_dont_use_previous_answers#:#As suas respostas anteriores não serão usadas como valores predefinidos em futuras tentativas de teste
-assessment#:#tst_dyn_keep_answ_freeze#:#Congelar as minhas respostas atuais
-assessment#:#tst_dyn_quest_set_pool_deleted#:#O banco de perguntas atualmente configurado "%s" foi apagado.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removido permanentemente)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removido) [%s Perguntas]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Atualmente já respondeu com sucesso a todas as perguntas do banco de perguntas selecionado. Pode continuar com o teste quando houver perguntas novas ou editadas no banco de perguntas.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Com a seleção atual de perguntas, respondeu com sucesso a todas as perguntas. Mude a seleção de perguntas para continuar o teste.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remover respostas anteriores
-assessment#:#tst_dyn_test_pass_deletion_button#:#Repor todas as respostas
-assessment#:#tst_dyn_unfreeze_answers#:#Responda mais uma vez
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Há perguntas em relação às quais as suas respostas iniciais eram fixas e não podia alterá-las. Quer responder a essas mais uma vez agora, desbloqueando assim as suas respostas?
-assessment#:#tst_dynamic_question_set_complete#:#Total das estatísticas
-assessment#:#tst_dynamic_question_set_selection#:#Seleção da pergunta do teste e estatística de seleção
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Caminho: %s) [%s Perguntas]
 assessment#:#tst_edit_competence_assign#:#Editar propriedades de atribuição
 assessment#:#tst_edit_scoring#:#Editar pontuação
 assessment#:#tst_ending_time#:#Tempo para acabar
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Repor su
 assessment#:#tst_questions_inserted#:#Tipo de pergunta
 assessment#:#tst_questions_removed#:#Pontos
 assessment#:#tst_random_nr_of_questions#:#Quantas perguntas?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Caminho: %s) [%s Perguntas]
 assessment#:#tst_random_select_questionpool#:#Selecione o banco de perguntas para escolher as perguntas de
 assessment#:#tst_reached_points#:#Mostrar estado ‘Aprovado’/‘Falhado’
 assessment#:#tst_reached_points_of_max#:#A informação sobre o estado ‘Aprovado’/‘Falhado’ será anexada ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’. <br />

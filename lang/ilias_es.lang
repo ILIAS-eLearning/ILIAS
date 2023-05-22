@@ -594,8 +594,6 @@ assessment#:#counter#:#Contador
 assessment#:#create_date#:#Creado
 assessment#:#create_gaps#:#Crear huecos
 assessment#:#create_new#:#Crear nueva
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Estilo personalizado
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definición
@@ -1326,19 +1324,6 @@ assessment#:#tst_derive_new_pool#:#Obtener nuevo banco de preguntas
 assessment#:#tst_derive_new_pools#:#Obtener nuevos bancos de preguntas
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Sus respuestas previas no serán usadas como valores por defecto en futuras ejecuciones del test
-assessment#:#tst_dyn_keep_answ_freeze#:#Mantener bloqueadas mis respuestas actuales
-assessment#:#tst_dyn_quest_set_pool_deleted#:#El banco de preguntas actual "%s" ha sido borrado.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Borrado permanentemente)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Borrado) [%s Preguntas]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Actualmente has respondido a todas las preguntas del banco de preguntas correctamente. Cuando haya nuevas o preguntas modificadas podrás realizar el test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Con la selección actual de preguntas has respondido a todas las preguntas correctamente. Cambia la selección de preguntas para continuar con el test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Borrar respuestas previas
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reiniciar todas las respuestas del test
-assessment#:#tst_dyn_unfreeze_answers#:#Responder una vez más
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Hay preguntas en las que tus respuestas originales fueron bloqueadas y no puedes hacer cambios. ¿Quieres volver a responderlas una vez más ahora y así desbloquear tus respuestas?
-assessment#:#tst_dynamic_question_set_complete#:#Estadisticas Totales
-assessment#:#tst_dynamic_question_set_selection#:#Selección de preguntas de test
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Ruta: %s) [%s Preguntas]
 assessment#:#tst_edit_competence_assign#:#Editar propiedades de asignación
 assessment#:#tst_edit_scoring#:#Editar puntuación
 assessment#:#tst_ending_time#:#Fecha de finalización
@@ -1689,6 +1674,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Rehacer 
 assessment#:#tst_questions_inserted#:#Pregunta(s) insertada!
 assessment#:#tst_questions_removed#:#Pregunta(s) eliminada!
 assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Ruta: %s) [%s Preguntas]
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
 assessment#:#tst_reached_points#:#Puntos conseguidos
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

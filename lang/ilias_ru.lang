@@ -592,8 +592,6 @@ assessment#:#counter#:#Счетчик
 assessment#:#create_date#:#Создано
 assessment#:#create_gaps#:#Создать и обновить пропуски
 assessment#:#create_new#:#Создать новый
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Пользовательский стиль
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#Определение
@@ -1326,19 +1324,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#Ваши предыдущие ответы не будут использоваться, как значения по умолчанию при следующих прохождениях теста
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Удалено постоянно)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Удалено) [%s Вопросов]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Удалить предыдущие вопросы
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_selection#:#Проверить выбор вопросов
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Путь: %s) [%s Вопросов]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Оценить
 assessment#:#tst_ending_time#:#Завершение времени

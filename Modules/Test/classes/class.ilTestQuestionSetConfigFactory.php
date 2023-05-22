@@ -68,15 +68,6 @@ class ilTestQuestionSetConfigFactory
                 );
             }
 
-            if ($this->testOBJ->isDynamicTest()) {
-                $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                    $this->tree,
-                    $this->db,
-                    $this->component_repository,
-                    $this->testOBJ
-                );
-            }
-
             $this->testQuestionSetConfig->loadFromDb();
         }
 

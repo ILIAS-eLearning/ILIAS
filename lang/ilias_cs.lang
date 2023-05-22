@@ -592,8 +592,6 @@ assessment#:#counter#:#Počitadlo
 assessment#:#create_date#:#Vytvořeno
 assessment#:#create_gaps#:#Vytvořit mezery
 assessment#:#create_new#:#Vytvořit nový
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Volitelný styl
 assessment#:#dashboard_tab#:#Ovládací panel
 assessment#:#definition#:#Definice
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Odvodit nový zásobník otázek
 assessment#:#tst_derive_new_pools#:#Odvodit nové zásobníky otázek
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Znovu nezobrazovat tuto zprávu v mé aktuální relaci.
 assessment#:#tst_dont_use_previous_answers#:#Vaše předchozí odpovědi nebudou použity jako výchozí hodnoty v budoucích průchodech testem
-assessment#:#tst_dyn_keep_answ_freeze#:#Zachovat moje aktuální odpovědi zmrazené
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Byl smazán aktuálně konfigurovaný zásobník otázek „%s“.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (smazáno pernametně)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (smazáno) [%s Otázek]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Právě máte úspěšně zopovězeny všechny otázky ze zdojového zásobníku otázek. Když zde budou nové, nebo upravené otázky v zásobníku otázek, pak můžete pokračovat v testu.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#S aktuálním výběrem otázek máte úspěšně zodpovězeny všechny otázky. Pro pokračování v testu změňte výběr otázek.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Smazat předchozí odpovědi
-assessment#:#tst_dyn_test_pass_deletion_button#:#Vymazat všechny odpovědi testu
-assessment#:#tst_dyn_unfreeze_answers#:#Odpovědět ještě jednou
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Jsou otázky, ke kterým byly pevně stanoveny vaše počáteční odpovědi, a nemohli jste provést žádné změny. Chcete na ně teď ještě jednou odpovědět a uvolnit tak svoje odpovědi?
-assessment#:#tst_dynamic_question_set_complete#:#Celková statistika
-assessment#:#tst_dynamic_question_set_selection#:#Výběr testovací otázky
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Cesta: %s) [%s Otázek]
 assessment#:#tst_edit_competence_assign#:#Upravit vlastnosti přiřazení
 assessment#:#tst_edit_scoring#:#Upravit hodnocení
 assessment#:#tst_ending_time#:#Čas ukončení
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Resetova
 assessment#:#tst_questions_inserted#:#Otázky vloženy!
 assessment#:#tst_questions_removed#:#Otázky odstraněny!
 assessment#:#tst_random_nr_of_questions#:#Kolik otázek?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Cesta: %s) [%s Otázek]
 assessment#:#tst_random_select_questionpool#:#Vyberte zásobník otázek k volbě otázek z
 assessment#:#tst_reached_points#:#Dosažené body
 assessment#:#tst_reached_points_of_max#:#%s z %s

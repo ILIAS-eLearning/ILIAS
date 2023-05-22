@@ -592,8 +592,6 @@ assessment#:#counter#:#Számláló
 assessment#:#create_date#:#Létrehozva
 assessment#:#create_gaps#:#Kitöltendő helyek létrehozása és frissítése
 assessment#:#create_new#:#új létrehozása
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Egyéni stílus
 assessment#:#dashboard_tab#:#Műszerfal
 assessment#:#definition#:#Definíció
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Új kérdésgyűjtemény származtatása
 assessment#:#tst_derive_new_pools#:#Új kérdésgyűjtemények származtatása
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ez az üzenet többször ne jelenjen meg a munkamenet alatt.
 assessment#:#tst_dont_use_previous_answers#:#Korábbi válaszai nem lesznek alapértelmezett értékekként használva a jövőbeni tesztteljesítésekhez.
-assessment#:#tst_dyn_keep_answ_freeze#:#Jelenlegi válaszaim befagyasztva tartása
-assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (véglegesen eltávolítva)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (eltávolítva) [%s kérdés]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#A kiválasztott kérdésgyűjtemény összes kérdését sikeresen megválaszolta. Akkor folyathatja a tesztet, ha új kérdés jelenik meg a kérdésgyűjteményben, vagy módosítanak egy már benne lévőt.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#A jelenlegi kérdéskiválasztások alapján az összes kérdést sikeresen megválaszolta. Módosítsa a kérdéskiválasztást a teszt folytatásához.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Korábbi válaszok eltávolítása
-assessment#:#tst_dyn_test_pass_deletion_button#:#Összes válasz alapértelmezettre állítása
-assessment#:#tst_dyn_unfreeze_answers#:#Válaszadás még egyszer
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Néhány kérdéshez tartoznak korábban befagyasztott válaszok, így nem módosíthatja azokat. Újra megválaszolja a kérdéseket most, amivel fel is oldja a rögzített válaszokat?
-assessment#:#tst_dynamic_question_set_complete#:#Teljes statisztika
-assessment#:#tst_dynamic_question_set_selection#:#Tesztkérdések kiválasztása és kiválasztás-statisztika
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Útvonal: %s) [%s kérdés]
 assessment#:#tst_edit_competence_assign#:#Összerendelési tulajdonságok módosítása
 assessment#:#tst_edit_scoring#:#Pontozás módosítása
 assessment#:#tst_ending_time#:#Záró időpont
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Segíts�
 assessment#:#tst_questions_inserted#:#A kérdés(eke)t sikeresen beillesztette.
 assessment#:#tst_questions_removed#:#A kérdés(eke)t sikeresen eltávolította.
 assessment#:#tst_random_nr_of_questions#:#Hány darab kérdés?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Útvonal: %s) [%s kérdés]
 assessment#:#tst_random_select_questionpool#:#Válassza ki a kérdésgyűjteményt, hogy választhasson a kérdések közül
 assessment#:#tst_reached_points#:#Elért pontszám
 assessment#:#tst_reached_points_of_max#:#%s / %s
