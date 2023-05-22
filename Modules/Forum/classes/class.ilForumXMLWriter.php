@@ -74,7 +74,6 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("Pseudonyms", null, (int) $row->anonymized);
         $this->xmlElement("Statistics", null, (int) $row->statistics_enabled);
         $this->xmlElement("ThreadRatings", null, (int) $row->thread_rating);
-        $this->xmlElement("Sorting", null, (int) $row->thread_sorting);
         $this->xmlElement("MarkModeratorPosts", null, (int) $row->mark_mod_posts);
         $this->xmlElement("PostingActivation", null, (int) $row->post_activation);
         $this->xmlElement("PresetSubject", null, (int) $row->preset_subject);
@@ -111,7 +110,6 @@ class ilForumXMLWriter extends ilXmlWriter
             $this->xmlElement("UpdateDate", null, $row->thr_date);
             $this->xmlElement("ImportName", null, $row->import_name);
             $this->xmlElement("Sticky", null, (int) $row->is_sticky);
-            $this->xmlElement("OrderSequenceIndex", null, (int) $row->thread_sorting);
             $this->xmlElement("Closed", null, (int) $row->is_closed);
 
             $query = 'SELECT frm_posts.*, frm_posts_tree.*
