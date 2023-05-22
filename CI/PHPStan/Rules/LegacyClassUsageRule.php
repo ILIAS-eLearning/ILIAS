@@ -85,7 +85,7 @@ abstract class LegacyClassUsageRule implements Rule
 
     protected function findInstanceCreation(): bool
     {
-        return false;
+        return true;
     }
 
     protected function findMethodUsages(): bool
