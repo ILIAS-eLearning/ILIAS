@@ -165,12 +165,5 @@ class ilAppEventHandler
         foreach ($this->component_factory->getActivePluginsInSlot("evhk") as $plugin) {
             $plugin->handleEvent($a_component, $a_event, $a_parameter);
         }
-
-        $this->logger->debug("Finished event hook plugin handling, started event propagation for workflow engine ...");
-
-        $workflow_engine = new ilWorkflowEngine();
-        $workflow_engine->handleEvent($a_component, $a_event, $a_parameter);
-
-        $this->logger->debug("Finished workflow engine handling.");
     }
 }
