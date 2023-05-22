@@ -1,17 +1,22 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 abstract class ilPDSelectedItemsBlockViewGUI
 {
@@ -92,7 +97,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
     protected function isRootNode(int $refId): bool
     {
-        return $this->tree->getRootId() == $refId;
+        return $this->tree->getRootId() === $refId;
     }
 
     protected function getRepositoryTitle(): string
@@ -100,7 +105,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
-        if ($title == 'ILIAS') {
+        if ($title === 'ILIAS') {
             $title = $this->lng->txt('repository');
         }
 
@@ -110,7 +115,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @param ilPDSelectedItemsBlockGroup[] $item_groups
      */
-    protected function preloadItemGroups(array $item_groups)
+    protected function preloadItemGroups(array $item_groups): void
     {
         $listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
@@ -141,7 +146,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
         foreach ($object_types_by_container as $container_object_type => $container_data) {
             $group = new ilPDSelectedItemsBlockGroup();
-            // Icons are currently not determined for section header objects
             if (!$objDefinition->isPlugin($container_object_type)) {
                 $title = $this->lng->txt('objs_' . $container_object_type);
             } else {
@@ -165,7 +169,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     {
         $items = $this->provider->getItems();
 
-        if (0 == count($items)) {
+        if ($items === []) {
             return array();
         }
 
@@ -176,7 +180,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
             'not_dated' => array()
         );
         foreach ($items as $key => $item) {
-            if ($item['start'] && $item['start']->get(IL_CAL_UNIX) > 0 && $item['start'] instanceof ilDateTime) {
+            if ($item['start'] instanceof ilDateTime && $item['start']->get(IL_CAL_UNIX) > 0) {
                 if ($item['start']->get(IL_CAL_UNIX) > time()) {
                     $groups['upcoming'][] = $item;
                 } elseif ($item['end']->get(IL_CAL_UNIX) > time()) {
@@ -189,37 +193,40 @@ abstract class ilPDSelectedItemsBlockViewGUI
             }
         }
 
-        uasort($groups['upcoming'], function ($left, $right) {
+        uasort($groups['upcoming'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['ongoing'], function ($left, $right) {
+        uasort($groups['ongoing'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['ended'], function ($left, $right) {
+        uasort($groups['ended'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['not_dated'], function ($left, $right) {
+        uasort($groups['not_dated'], static function ($left, $right) {
             return strcmp($left['title'], $right['title']);
         });
 
@@ -244,7 +251,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
             $ongoing,
             $ended,
             $not_dated
-        ], function (ilPDSelectedItemsBlockGroup $group) {
+        ], static function (ilPDSelectedItemsBlockGroup $group) {
             return count($group->getItems()) > 0;
         });
     }
@@ -258,7 +265,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
         $items = $this->provider->getItems();
 
-        $parent_ref_ids = array_values(array_unique(array_map(function ($item) {
+        $parent_ref_ids = array_values(array_unique(array_map(static function ($item) {
             return $item['parent_ref'];
         }, $items)));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);

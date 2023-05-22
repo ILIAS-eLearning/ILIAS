@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @ilCtrl_Calls ilAchievementsGUI: ilLearningProgressGUI, ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI
@@ -54,7 +59,7 @@ class ilAchievementsGUI
             case "illearningprogressgui":
                 $main_tpl->setTitle($lng->txt("learning_progress"));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_trac.svg"));
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
+                $new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
 
@@ -91,7 +96,7 @@ class ilAchievementsGUI
                 break;
 
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
                 $this->main_tpl->printToStdout();
@@ -99,9 +104,6 @@ class ilAchievementsGUI
         }
     }
 
-    /**
-     * Show (redirects to first active service)
-     */
     protected function show(): void
     {
         $ctrl = $this->ctrl;
@@ -125,7 +127,7 @@ class ilAchievementsGUI
     }
 
     /**
-     * @return array[]
+     * @return array<int, array<string, string>>
      */
     protected function getLinks(): array
     {
@@ -161,7 +163,6 @@ class ilAchievementsGUI
     }
 
     /**
-     * Get GUI class
      * @return string[]
      */
     protected function getGUIClasses(): array

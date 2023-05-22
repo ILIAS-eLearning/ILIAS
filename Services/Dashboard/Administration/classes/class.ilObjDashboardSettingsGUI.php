@@ -3,32 +3,41 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
- * Dashboard settings
- *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjDashboardSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
+    protected ilRbacSystem $rbacsystem;
 
     public function __construct(
         $a_data,
@@ -36,7 +45,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
-        /** @var ILIAS\DI\Container $DIC */
+        /** @var Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -79,7 +88,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -118,7 +127,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
-    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initForm(): Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -141,7 +150,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"), $info_text)
             ->withValue($this->viewSettings->enabledMemberships());
 
-        // main panel
         $section1 = $f->input()->field()->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
 
         $sp_fields = [];
@@ -150,7 +158,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 ->withValue($side_panel->isEnabled($mod));
         }
 
-        // side panel
         $section2 = $f->input()->field()->section($this->maybeDisable($sp_fields), $lng->txt("dash_side_panel"));
 
         $form_action = $ctrl->getLinkTarget($this, "saveSettings");
@@ -167,7 +174,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $side_panel = $this->side_panel_settings;
 
         if (!$this->canWrite()) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $ilCtrl->redirect($this, "editSettings");
         }
 
@@ -176,8 +183,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form = $this->initForm();
         $form = $form->withRequest($request);
         $form_data = $form->getData();
-        $this->viewSettings->enableSelectedItems((int) ($form_data['main_panel']['enable_favourites'] != ""));
-        $this->viewSettings->enableMemberships((int) ($form_data['main_panel']['enable_memberships'] != ""));
+        $this->viewSettings->enableSelectedItems(($form_data['main_panel']['enable_favourites'] ?? "") !== "");
+        $this->viewSettings->enableMemberships(($form_data['main_panel']['enable_memberships'] ?? "") !== "");
 
         foreach ($side_panel->getValidModules() as $mod) {
             $side_panel->enable($mod, (bool) $form_data['side_panel']['enable_' . $mod]);
@@ -238,21 +245,20 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    protected function getViewSettingsForm(int $view): \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function getViewSettingsForm(int $view): Standard
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $ui_factory = $this->ui_factory;
 
-        if ($view == $this->viewSettings->getSelectedItemsView()) {
+        if ($view === $this->viewSettings->getSelectedItemsView()) {
             $save_cmd = "saveViewFavourites";
         } else {
             $save_cmd = "saveViewCoursesGroups";
         }
 
-        // presentation
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(function ($k, $v) use ($lng) {
+        $pres_options = array_column(array_map(static function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_pres = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
@@ -266,9 +272,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $lng->txt("dash_presentation")
         );
 
-        // sortation
         $ops = $this->viewSettings->getAvailableSortOptionsByView($view);
-        $sortation_options = array_column(array_map(function ($k, $v) use ($lng) {
+        $sortation_options = array_column(array_map(static function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_sort_by_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
         $avail_sort = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
@@ -331,7 +336,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
 
         if (!$this->canWrite()) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $ctrl->redirect($this, $redirect_cmd);
         }
 

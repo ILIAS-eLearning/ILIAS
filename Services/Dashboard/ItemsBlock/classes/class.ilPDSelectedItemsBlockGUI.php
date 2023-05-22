@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Services;
@@ -182,8 +182,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 if (method_exists($this, $cmd)) {
                     return $this->$cmd();
                 }
-                    return $this->{$cmd . 'Object'}();
-                }
+                return $this->{$cmd . 'Object'}();
+        }
         return "";
     }
 
@@ -543,7 +543,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                     continue;
                 }
             }
-            if (count($cards) > 0) {
+            if ($cards === []) {
                 $subs[] = $this->ui->factory()->panel()->sub(
                     $group->getLabel(),
                     $this->ui->factory()->deck($cards)->withNormalCardsSize()
@@ -551,12 +551,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-        if (count($subs) > 0) {
+        if ($subs === []) {
             return $this->ui->renderer()->render($subs);
         }
 
-            return $this->getNoItemFoundContent();
-        }
+        return $this->getNoItemFoundContent();
+    }
 
     protected function renderManageList(array $grouped_items): string
     {

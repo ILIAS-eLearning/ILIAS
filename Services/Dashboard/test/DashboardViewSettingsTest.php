@@ -1,10 +1,28 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Administration\MemorySetting;
+use ILIAS\Dashboard\Access\DashboardAccess;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Test dashboard settings repository
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class DashboardViewSettingsTest extends TestCase
@@ -22,16 +40,16 @@ class DashboardViewSettingsTest extends TestCase
         );
 
         $access = $this->createConfiguredMock(
-            \ILIAS\Dashboard\Access\DashboardAccess::class,
+            DashboardAccess::class,
             [
             ]
         );
 
-        $memory_settings = new \ILIAS\Administration\MemorySetting();
+        $memory_settings = new MemorySetting();
         $memory_settings->clear();
         $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $user,
-            ilPDSelectedItemsBlockViewSettings::VIEW_SELECTED_ITEMS,
+            ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS,
             $memory_settings,
             $access
         );
@@ -41,40 +59,36 @@ class DashboardViewSettingsTest extends TestCase
     {
     }
 
-    public function testMembershipsEnabledPerDefault()
+    public function testMembershipsEnabledPerDefault(): void
     {
         $settings = $this->view_settings;
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $settings->enabledMemberships()
         );
     }
 
-    public function testDisableMemberships()
+    public function testDisableMemberships(): void
     {
         $settings = $this->view_settings;
         $settings->enableMemberships(false);
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $settings->enabledMemberships()
         );
     }
 
-    public function testSelectedItemsEnabledPerDefault()
+    public function testSelectedItemsEnabledPerDefault(): void
     {
         $settings = $this->view_settings;
-        $this->assertEquals(
-            true,
+        $this->assertTrue(
             $settings->enabledSelectedItems()
         );
     }
 
-    public function testDisableSelectedItems()
+    public function testDisableSelectedItems(): void
     {
         $settings = $this->view_settings;
         $settings->enableSelectedItems(false);
-        $this->assertEquals(
-            false,
+        $this->assertFalse(
             $settings->enabledSelectedItems()
         );
     }
