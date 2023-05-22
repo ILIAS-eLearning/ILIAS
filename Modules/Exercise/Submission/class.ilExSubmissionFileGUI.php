@@ -91,7 +91,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     ? $lng->txt("exc_hand_in")
                     : $lng->txt("exc_edit_submission"));
 
-                $button = $gui->button(
+                $button = $gui->link(
                     $title,
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen")
                 )->primary();
@@ -101,7 +101,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     $link = $gui->link(
                         $lng->txt("already_delivered_files"),
                         $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen")
-                    );
+                    )->emphasised();
                     $files_str .= "<br><br>" . $link->render();
                 }
             }

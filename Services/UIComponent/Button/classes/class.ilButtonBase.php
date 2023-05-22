@@ -178,7 +178,7 @@ abstract class ilButtonBase implements ilToolbarItem
         $res = array();
 
         foreach ($a_attr as $id => $value) {
-            if (trim($value)) {
+            if (trim((string) $value)) {
                 $res[] = strtolower(trim($id)) . '="' . $value . '"';
             }
         }

@@ -102,7 +102,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $action_items = [];
-
         switch ($a_set["type"]) {
             case ilPortfolioPage::TYPE_PAGE:
                 $this->tpl->setCurrentBlock("title_field");

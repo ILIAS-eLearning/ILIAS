@@ -24,6 +24,7 @@
  */
 class ilSurveyPageEditGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
@@ -83,6 +84,7 @@ class ilSurveyPageEditGUI
             ->internal()
             ->gui()
             ->print();
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -1211,10 +1213,10 @@ class ilSurveyPageEditGUI
         $pages_drop = null;
 
         if (!$this->has_datasets) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_add_new_question");
-            $button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
-            $ilToolbar->addStickyItem($button);
+            $this->gui->link(
+                $lng->txt("survey_add_new_question"),
+                $ilCtrl->getLinkTarget($this, "addQuestionToolbarForm")
+            )->emphasised()->toToolbar(true);
 
             if ($this->object->getPoolUsage()) {
                 //$ilToolbar->addSeparator();
@@ -1235,10 +1237,10 @@ class ilSurveyPageEditGUI
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("browse_for_questions");
-                $button->setUrl($ilCtrl->getLinkTarget($this->editor_gui, $cmd));
-                $ilToolbar->addStickyItem($button);
+                $this->gui->link(
+                    $lng->txt("browse_for_questions"),
+                    $ilCtrl->getLinkTarget($this->editor_gui, $cmd)
+                )->emphasised()->toToolbar(true);
 
                 $ilCtrl->setParameter($this->editor_gui, "pgov", "");
                 $ilCtrl->setParameter($this->editor_gui, "pgov_pos", "");
@@ -1254,22 +1256,16 @@ class ilSurveyPageEditGUI
             // previous/next
 
             $ilCtrl->setParameter($this, "pg", $this->current_page - 1);
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_prev_question");
-            if ($this->has_previous_page) {
-                $button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
-            }
-            $button->setDisabled(!$this->has_previous_page);
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $lng->txt("survey_prev_question"),
+                $ilCtrl->getLinkTarget($this, "renderPage")
+            )->disabled(!$this->has_previous_page)->toToolbar(true);
 
             $ilCtrl->setParameter($this, "pg", (string) ((int) $this->current_page + 1));
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_next_question");
-            if ($this->has_next_page) {
-                $button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
-            }
-            $button->setDisabled(!$this->has_next_page);
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $lng->txt("survey_next_question"),
+                $ilCtrl->getLinkTarget($this, "renderPage")
+            )->disabled(!$this->has_next_page)->toToolbar(true);
 
             $ilCtrl->setParameter($this, "pg", $this->current_page); // #14615
 
@@ -1314,17 +1310,17 @@ class ilSurveyPageEditGUI
                 $url = $ilCtrl->getLinkTarget($this, "deleteBlock");
                 $ilCtrl->setParameter($this, "csum", "");
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("survey_delete_page");
-                $button->setUrl($url);
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $lng->txt("survey_delete_page"),
+                    $url
+                )->toToolbar();
 
                 $ilToolbar->addSeparator();
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("survey_move_page");
-                $button->setUrl($ilCtrl->getLinkTarget($this, "movePageForm"));
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $lng->txt("survey_move_page"),
+                    $ilCtrl->getLinkTarget($this, "movePageForm")
+                )->toToolbar();
             }
         }
 

@@ -29,6 +29,7 @@ class ilSurveyEvaluationGUI
     public const TYPE_XLS = "excel";
     public const TYPE_SPSS = "csv";
     public const EXCEL_SUBTITLE = "DDDDDD";
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Access\AccessManager $access_manager;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     /**
@@ -112,6 +113,7 @@ class ilSurveyEvaluationGUI
                 $DIC->user()->getId()
             );
         $this->skill_profile_service = $DIC->skills()->profile();
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function executeCommand(): string
@@ -1086,10 +1088,10 @@ class ilSurveyEvaluationGUI
             $modal_id = "svy_ev_exp";
             $modal = $this->buildExportModal($modal_id, "exportevaluationuser");
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("export");
-            $button->setOnClick('$(\'#' . $modal_id . '\').modal(\'show\')');
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("export"),
+                "#"
+            )->onClick('$(\'#' . $modal_id . '\').modal(\'show\')')->toToolbar();
 
             $ilToolbar->addSeparator();
 
@@ -1272,11 +1274,10 @@ class ilSurveyEvaluationGUI
         $modal_id = "svy_ev_exp";
         $modal = $this->buildExportModal($modal_id, "exportevaluationuser");
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("print");
-        $button->setOnClick("window.print(); return false;");
-        $button->setOmitPreventDoubleSubmission(true);
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("print"),
+            "#"
+        )->onClick("window.print(); return false;")->toToolbar();
 
         $finished_ids = null;
 

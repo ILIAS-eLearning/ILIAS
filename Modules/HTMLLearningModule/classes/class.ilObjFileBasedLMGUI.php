@@ -27,6 +27,7 @@ use ILIAS\HTMLLearningModule\StandardGUIRequest;
  */
 class ilObjFileBasedLMGUI extends ilObjectGUI
 {
+    protected \ILIAS\HTMLLearningModule\InternalGUIService $gui;
     protected StandardGUIRequest $lm_request;
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
@@ -67,6 +68,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->output_prepared = $a_prepare_output;
+        $this->gui = $DIC->htmlLearningModule()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -501,12 +503,11 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             // #15127
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("view");
-            $button->setPrimary(true);
-            $button->setUrl("ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefId());
-            $button->setTarget("ilContObj" . $this->object->getId());
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->link(
+                $this->lng->txt("view"),
+                "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefId(),
+                true
+            )->primary()->toToolbar();
         }
 
         // show standard meta data section

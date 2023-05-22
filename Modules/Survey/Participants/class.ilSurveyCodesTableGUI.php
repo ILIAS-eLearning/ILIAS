@@ -55,11 +55,10 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("export_all_survey_codes");
-        $button->setCommand("exportAllCodes");
-        $button->setOmitPreventDoubleSubmission(true);
-        $this->addCommandButtonInstance($button);
+        $this->addCommandButton(
+            "exportAllCodes",
+            $this->lng->txt("export_all_survey_codes")
+        );
 
         $this->setDefaultOrderField("code");
         $this->setDefaultOrderDirection("asc");

@@ -169,11 +169,13 @@ trait GlobalDICGUIServices
 
     public function link(
         string $caption,
-        string $href
+        string $href,
+        bool $new_viewport = false
     ): LinkAdapterGUI {
         return new LinkAdapterGUI(
             $caption,
-            $href
+            $href,
+            $new_viewport
         );
     }
 }

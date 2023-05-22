@@ -220,11 +220,10 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if ($this->checkPermissionBool("read")) {
             $this->lng->loadLanguageModule("cntr");
 
-            $button = ilLinkButton::getInstance();
-            $button->setPrimary(true);
-            $button->setCaption("prtf_create_portfolio_from_template");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("prtf_create_portfolio_from_template"),
+                $this->ctrl->getLinkTarget($this, "createfromtemplate")
+            )->primary()->toToolbar();
         }
 
         $info = new ilInfoScreenGUI($this);
@@ -516,11 +515,10 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if (!$this->checkPermissionBool("write") &&
             $this->checkPermissionBool("read")) {
             $this->lng->loadLanguageModule("cntr");
-
-            $button = ilLinkButton::getInstance();
-            $button->setPrimary(true);
-            $button->setCaption("prtf_create_portfolio_from_template");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));
+            $button = $this->gui->button(
+                $this->lng->txt("prtf_create_portfolio_from_template"),
+                $this->ctrl->getLinkTarget($this, "createfromtemplate")
+            )->primary();
             $this->tpl->setHeaderActionMenu($button->render());
         }
 

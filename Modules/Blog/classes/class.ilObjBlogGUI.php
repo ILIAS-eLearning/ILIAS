@@ -1001,7 +1001,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->gui->link(
                     $lng->txt("blog_show_latest"),
                     $url
-                )->toToolbar($ilToolbar);
+                )->emphasised()->toToolbar(true, $ilToolbar);
             }
 
             // print/pdf
