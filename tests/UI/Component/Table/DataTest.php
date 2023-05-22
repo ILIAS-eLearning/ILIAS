@@ -113,17 +113,17 @@ class DataTest extends ILIAS_UI_TestBase
         $f = $this->getFactory()->action();
         $target = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
-            $f->standard('act0', 'p', $target),
             $f->single('act1', 'p', $target),
-            $f->multi('act2', 'p', $target)
+            $f->multi('act2', 'p', $target),
+            $f->standard('act0', 'p', $target)
         ];
         $cols = ['f0' => $this->getFactory()->column()->text("col1")];
         $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval())
             ->withActions($actions);
 
-        $this->assertEquals($actions, $table->getActions());
-        $this->assertEqualsCanonicalizing([$actions[0], $actions[2]], $table->getMultiActions());
-        $this->assertEqualsCanonicalizing([$actions[0], $actions[1]], $table->getSingleActions());
+        $this->assertEquals($actions, $table->getAllActions());
+        $this->assertEqualsCanonicalizing([$actions[0], $actions[2]], $table->getSingleActions());
+        $this->assertEqualsCanonicalizing([$actions[1], $actions[2]], $table->getMultiActions());
     }
 
     protected function getTable(): I\Table\Data

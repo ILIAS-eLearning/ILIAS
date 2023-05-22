@@ -31,7 +31,7 @@ class Boolean extends Column implements C\Boolean
 
     public function format($value): string
     {
-        assert(is_bool($value));
+        $this->checkBoolArg('value', $value);
         return $value ? $this->true_option : $this->false_option;
     }
 }

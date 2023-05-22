@@ -37,7 +37,7 @@ class Date extends Column implements C\Date
 
     public function format($value): string
     {
-        assert(is_a($value, \DateTimeImmutable::class));
+        $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
         return $value->format($this->getFormat()->toString());
     }
 }

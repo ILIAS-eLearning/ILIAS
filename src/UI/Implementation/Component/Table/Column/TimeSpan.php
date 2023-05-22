@@ -37,9 +37,7 @@ class TimeSpan extends Column implements C\TimeSpan
 
     public function format($value): string
     {
-        assert(is_array($value));
-        assert(is_a($value[0], \DateTimeImmutable::class) && is_a($value[1], \DateTimeImmutable::class));
-
+        $this->checkArgListElements('value', $value, [\DateTimeImmutable::class]);
         return
             $value[0]->format($this->getFormat()->toString())
             . ' - ' .

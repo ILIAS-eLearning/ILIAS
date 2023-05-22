@@ -228,17 +228,12 @@ class Renderer extends AbstractComponentRenderer
 
     protected function registerActionsJS(Component\Table\Data $component): Component\Table\Data
     {
-        $js_onload = [
-            $this->getMultiActionHandler($component->getActionSignal()),
-            $this->getSelectionHandler($component->getSelectionSignal())
-        ];
+        $component = $component
+            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getActionSignal()))
+            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
 
-        foreach ($component->getActions() as $action_id => $action) {
-            $js_onload[] = $this->getActionRegistration($action_id, $action);
-        }
-
-        foreach ($js_onload as $js) {
-            $component = $component->withAdditionalOnLoadCode($js);
+        foreach ($component->getAllActions() as $action_id => $action) {
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration($action_id, $action));
         }
         return $component;
     }
@@ -404,8 +399,8 @@ class Renderer extends AbstractComponentRenderer
             $buttons[] = $f->button()->shy($act->getLabel(), $signal);
         }
 
-        $buttons[] =  $f->divider()->horizontal();
-        $buttons[] =  $f->button()->shy('all objects', '#')->withOnClick($modal_signal);
+        $buttons[] = $f->divider()->horizontal();
+        $buttons[] = $f->button()->shy('all objects', '#')->withOnClick($modal_signal);
 
         return $f->dropdown()->standard($buttons);
     }
@@ -501,7 +496,7 @@ class Renderer extends AbstractComponentRenderer
             }
             $buttons[] = $f->button()->shy($act->getLabel(), $target);
         }
-        return $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
+        return $f->dropdown()->standard($buttons);
     }
 
     /**

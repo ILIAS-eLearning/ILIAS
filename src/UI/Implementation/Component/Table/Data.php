@@ -45,7 +45,17 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @var array<string, Action>
      */
-    protected $actions = [];
+    protected $actions_single = [];
+
+    /**
+     * @var array<string, Action>
+     */
+    protected $actions_multi = [];
+
+    /**
+     * @var array<string, Action>
+     */
+    protected $actions_std = [];
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
@@ -146,16 +156,21 @@ class Data extends Table implements T\Data, JSBindable
     {
         $this->checkArgListElements('actions', $actions, [T\Action\Action::class]);
         $clone = clone $this;
-        $clone->actions = $actions;
-        return $clone;
-    }
 
-    /**
-     * @return array<string, T\Action\Action>
-     */
-    public function getActions(): array
-    {
-        return $this->actions;
+        foreach ($actions as $id => $action) {
+            switch (true) {
+                case ($action instanceof T\Action\Single):
+                    $clone->actions_single[$id] = $action;
+                    break;
+                case ($action instanceof T\Action\Multi):
+                    $clone->actions_multi[$id] = $action;
+                    break;
+                case ($action instanceof T\Action\Standard):
+                    $clone->actions_std[$id] = $action;
+                    break;
+            }
+        }
+        return $clone;
     }
 
     public function withRequest(ServerRequestInterface $request): self
@@ -254,26 +269,11 @@ class Data extends Table implements T\Data, JSBindable
     }
 
     /**
-     * Get all Actions on this table BUT the given one.
-     * @param string $exclude the actions' class-name to _not_ return
-     * @return array<string, T\Action\Action>
-     */
-    protected function getFilteredActions(string $exclude): array
-    {
-        return array_filter(
-            $this->getActions(),
-            static function ($action) use ($exclude): bool {
-                return !is_a($action, $exclude);
-            }
-        );
-    }
-
-    /**
      * @return array<string, T\Action\Action>
      */
     public function getMultiActions(): array
     {
-        return $this->getFilteredActions(T\Action\Single::class);
+        return array_merge($this->actions_multi, $this->actions_std);
     }
 
     /**
@@ -281,7 +281,15 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function getSingleActions(): array
     {
-        return $this->getFilteredActions(T\Action\Multi::class);
+        return array_merge($this->actions_single, $this->actions_std);
+    }
+
+    /**
+     * @return array<string, T\Action\Action>
+     */
+    public function getAllActions(): array
+    {
+        return array_merge($this->actions_single, $this->actions_multi, $this->actions_std);
     }
 
     public function getColumnCount(): int
