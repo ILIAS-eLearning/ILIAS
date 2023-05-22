@@ -1688,7 +1688,7 @@ abstract class assQuestion
                 "nr_of_tries" => array("integer", $this->getDefaultNrOfTries()), // #10771
                 "complete" => array("text", $complete),
                 "created" => array("integer", time()),
-                "original_id" => array("integer", null),
+                "original_id" => array("integer", $next_id),
                 "tstamp" => array("integer", $tstamp),
                 "external_id" => array("text", $this->getExternalId()),
                 'add_cont_edit_mode' => array('text', $this->getAdditionalContentEditingMode())
@@ -1739,6 +1739,7 @@ abstract class assQuestion
                 "points" => array("float", $this->getMaximumPoints()),
                 "nr_of_tries" => array("integer", $this->getNrOfTries()),
                 "tstamp" => array("integer", time()),
+                "original_id" => array("integer", ($original_id != -1) ? $original_id : $this->getOriginalId()),
                 'complete' => array('integer', $this->isComplete()),
                 "external_id" => array("text", $this->getExternalId())
             ), array(

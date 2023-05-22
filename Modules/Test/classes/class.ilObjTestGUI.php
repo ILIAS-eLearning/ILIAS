@@ -3365,7 +3365,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                 $clone = assQuestion::instantiateQuestionGUI($new_id);
                 $clone->object->setObjId($this->object->getId());
-                $clone->object->saveToDb();
+                $clone->object->saveToDb($new_id);
 
                 $this->object->insertQuestion($this->test_question_set_config_factory->getQuestionSetConfig(), $new_id, true);
 

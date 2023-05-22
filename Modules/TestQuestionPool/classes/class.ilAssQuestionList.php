@@ -126,6 +126,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     public const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
     public const QUESTION_INSTANCE_TYPE_DUPLICATES = 'QST_INSTANCE_TYPE_DUPLICATES';
+    public const QUESTION_INSTANCE_TYPE_ALL = 'QST_INSTANCE_TYPE_ALL';
     private $questionInstanceTypeFilter = self::QUESTION_INSTANCE_TYPE_ORIGINALS;
 
     private $includeQuestionIdsFilter = null;
@@ -428,6 +429,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             case self::QUESTION_INSTANCE_TYPE_DUPLICATES:
 
                 return 'qpl_questions.original_id IS NOT NULL';
+            case self::QUESTION_INSTANCE_TYPE_ALL:
+            default:
+
+                return null;
         }
 
         return null;
