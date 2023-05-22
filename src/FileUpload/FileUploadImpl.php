@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload;
 
 use ILIAS\Filesystem\Exception\IOException;
@@ -81,6 +97,22 @@ final class FileUploadImpl implements FileUpload
         $this->moved = false;
         $this->uploadResult = [];
         $this->rejectedUploadResult = [];
+    }
+
+    /**
+     * @description This is the very last thing we can do if a preprocessor DENIEs an upload. This is a hard removal,
+     * not beautiful, but it works.
+     */
+    private function hardRemoveUpload(string $identifier) : void
+    {
+        // we delete the file from the temporary directory and remove it from the global $_FILES array
+        $file_stream = $this->uploadStreams[$identifier];
+        $uri = $file_stream->getMetadata('uri');
+        $file_stream->close();
+        unlink($uri);
+        unset($this->uploadStreams[$identifier]);
+        unset($_FILES[$identifier]);
+        throw new IllegalStateException("File upload removed due to security reasons.");
     }
 
     /**
@@ -271,6 +303,13 @@ final class FileUploadImpl implements FileUpload
 
             if ($file->getError() === UPLOAD_ERR_OK) {
                 $processingResult = $this->processorManager->process($stream, $metadata);
+
+                // we do discard if the result is a DENIED that there is no further pissibility to process the file.
+                if ($processingResult->getCode() === ProcessingStatus::DENIED) {
+                    $this->hardRemoveUpload($identifier);
+                    continue;
+                }
+
                 $result = new UploadResult(
                     $metadata->getFilename(),
                     $metadata->getUploadSize(),
