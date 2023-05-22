@@ -67,7 +67,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected $assSettings;
 
     /**
-     * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @var ilTestSequence
      */
     protected $testSequence = null;
 

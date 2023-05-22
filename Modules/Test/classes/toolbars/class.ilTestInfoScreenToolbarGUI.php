@@ -41,7 +41,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected ?ilTestSession $testSession = null;
 
     /**
-     * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @var ilTestSequence
      */
     protected $testSequence;
 
@@ -117,7 +117,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @return ilTestSequence
      */
     public function getTestSequence()
     {
@@ -125,7 +125,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @param ilTestSequence|ilTestSequenceDynamicQuestionSet $testSequence
+     * @param ilTestSequence $testSequence
      */
     public function setTestSequence($testSequence): void
     {
@@ -343,15 +343,13 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     public function build(): void
     {
-        if (!$this->testOBJ->isDynamicTest()) {
-            $this->ensureInitialisedSessionLockString();
+        $this->ensureInitialisedSessionLockString();
 
-            $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
-            $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
-            $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
+        $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
+        $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
+        $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
 
-            $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
-        }
+        $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
 
         $online_access = false;
         if ($this->getTestOBJ()->getFixedParticipants()) {

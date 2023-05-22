@@ -592,8 +592,6 @@ assessment#:#counter#:#Licznik
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz i odświeżaj odstępy
 assessment#:#create_new#:#Twórz nowe
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Własny arkusz stylu
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definicja
@@ -1324,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Utwórz nową pulę pytań
 assessment#:#tst_derive_new_pools#:#Utwórz nowe pule pytań
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Twoje poprzednie odpowiedzi nie będą użyte jako domyślne wartości w następnych wykonaniach testu
-assessment#:#tst_dyn_keep_answ_freeze#:#Zachowaj udzielone odpowiedzi
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Usunięto aktualnie skonfigurowaną pulę pytań "%s".
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (ostatecznie usunięte)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (aktualnie w koszu) [%s pytania]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktualnie udzieliłeś odpowiedzi na wszystkie pytania z puli pytań źródłowych. Jeśli w puli pytań źródłowych będą znajdować się nowe lub edytowane pytania, będziesz mógł kontynuować test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Udzieliłeś prawidłowych odpowiedzi na wszystkie aktualnie wybrane pytania. Aby kontynuować test, zmień wybór pytań.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Usuń dotychczasowe odpowiedzi
-assessment#:#tst_dyn_test_pass_deletion_button#:#Cofnij wszelkie odpowiedzi testowe
-assessment#:#tst_dyn_unfreeze_answers#:#Ponownie odpowiedz na pytania
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Zawiera pytania, dla których zapisano Twoje początkowe odpowiedzi, dlatego nie ma możliwości ich edytowania. Czy chcesz na te pytania udzielić ponownych odpowiedzi i anulować te już zapisane?
-assessment#:#tst_dynamic_question_set_complete#:#Status przetwarzania wszystkich dostępnych pytań
-assessment#:#tst_dynamic_question_set_selection#:#Wybór pytań testowych i statystyka wyboru
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (ścieżka: %s) [%s pytania]
 assessment#:#tst_edit_competence_assign#:#Przetwarzaj właściwości przydziału
 assessment#:#tst_edit_scoring#:#Edytuj punktację
 assessment#:#tst_ending_time#:#Czas ukończenia
@@ -1687,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Wyzeruj 
 assessment#:#tst_questions_inserted#:#Pytania wstawione!
 assessment#:#tst_questions_removed#:#Pytania usunięte!
 assessment#:#tst_random_nr_of_questions#:#Ile pytań?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (ścieżka: %s) [%s pytania]
 assessment#:#tst_random_select_questionpool#:#Wybierz pulę pytań dla wyboru pytań.
 assessment#:#tst_reached_points#:#Osiągnięte punkty
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

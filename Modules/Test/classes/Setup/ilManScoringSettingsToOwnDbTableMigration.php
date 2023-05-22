@@ -69,8 +69,7 @@ class ilManScoringSettingsToOwnDbTableMigration implements Setup\Migration
     public function getPreconditions(Environment $environment): array
     {
         return [
-            new ilDatabaseInitializedObjective(),
-            new ilDatabaseUpdatedObjective(),
+            new ilDatabaseInitializedObjective()
         ];
     }
 

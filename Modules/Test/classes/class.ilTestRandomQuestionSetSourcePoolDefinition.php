@@ -526,7 +526,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         }
 
         $poolInfoLabel = sprintf(
-            $lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+            $lng->txt('tst_random_question_set_source_questionpool_summary_string'),
             $this->getPoolTitle(),
             $pool_path,
             $this->getPoolQuestionCount()

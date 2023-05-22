@@ -271,25 +271,12 @@ class ilTestParticipantList implements Iterator
             'integer'
         );
 
-        if (false && !$this->getTestObj()->isDynamicTest()) { // BH: keep for the moment
-            $closedScoringsOnly = "
-				INNER JOIN tst_active tact
-				ON tact.active_id = tres.active_fi
-				AND tact.last_finished_pass = tact.last_started_pass
-			";
-        } else {
-            $closedScoringsOnly = '';
-        }
-
         $query = "
 			SELECT * FROM tst_result_cache tres
 
 			INNER JOIN tst_pass_result pres
 			ON pres.active_fi = tres.active_fi
 			AND pres.pass = tres.pass
-
-			$closedScoringsOnly
-
 			WHERE $IN_activeIds
 		";
 

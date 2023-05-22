@@ -820,6 +820,13 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return in_array($questionId, $this->questions);
     }
 
+    //-----------------------------------------------------------------------//
+    /**
+     *
+     * @todo sk - 2023-05-22: These Optional Questions seem to be something
+     * related to the Object Oriented Course, but even asking around, we are
+     * actually unsure: Thus marked as to be checked.
+     */
     public function setQuestionOptional($questionId)
     {
         $this->optionalQuestions[$questionId] = $questionId;
@@ -876,6 +883,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $this->answeringOptionalQuestionsConfirmed = $answeringOptionalQuestionsConfirmed;
     }
+
+    //-----------------------------------------------------------------------//
 
     /**
      * @return boolean

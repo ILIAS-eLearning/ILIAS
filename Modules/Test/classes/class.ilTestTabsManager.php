@@ -94,9 +94,6 @@ class ilTestTabsManager
      */
     protected $parent_back_label;
 
-    /**
-     * ilTestTabsManager constructor.
-     */
     public function __construct(
         private ilTabsGUI $tabs,
         private ilLanguage $lng,
@@ -467,10 +464,6 @@ class ilTestTabsManager
                 $target = $this->ctrl->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
             }
 
-            if ($this->getTestOBJ()->isDynamicTest()) {
-                $target = $this->ctrl->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
-            }
-
             $this->tabs->addTarget(
                 'assQuestions',
                 $target,
@@ -722,10 +715,6 @@ class ilTestTabsManager
 
     public function getQuestionsSubTabs()
     {
-        if ($this->test_object->isDynamicTest()) {
-            return;
-        }
-
         $this->tabs->activateTab(self::TAB_ID_QUESTIONS);
 
         $this->tabs->addSubTab(

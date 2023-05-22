@@ -39,7 +39,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-    private const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
 
 
     public const REDIRECT_NONE = 0;
@@ -231,13 +230,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             array($this->getTestId())
         );
 
-        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-            $this->tree,
-            $this->db,
-            $this->component_repository,
-            $this
-        );
-        $testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
+        /**
+         * 2023-08-08, sk: We check this here to allow an easy deletion of
+         * Dynamic-Tests in migration. The check can go with ILIAS10
+         * @todo: Remove check with ILIAS10
+         */
+        if ($this->isFixedTest() || $this->isRandomTest()) {
+            $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                $this->tree,
+                $this->db,
+                $this->component_repository,
+                $this
+            );
+            $testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
+        }
 
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         $directory = $tst_data_dir . "/tst_" . $this->getId();
@@ -1220,11 +1226,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         if ($this->isRandomTest()) {
             $ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
-        } elseif ($this->isDynamicTest()) {
-            $ilDB->manipulate("DELETE FROM tst_seq_qst_tracking WHERE $IN_activeIds");
-            $ilDB->manipulate("DELETE FROM tst_seq_qst_answstatus WHERE $IN_activeIds");
-            $ilDB->manipulate("DELETE FROM tst_seq_qst_postponed WHERE $IN_activeIds");
-            $ilDB->manipulate("DELETE FROM tst_seq_qst_checked WHERE $IN_activeIds");
         }
 
         foreach ($activeIds as $active_id) {
@@ -1821,26 +1822,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
 
-        if ($this->isDynamicTest()) {
-            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $component_repository, $this);
-            $dynamicQuestionSetConfig->loadFromDb();
 
-            $testSequence->loadFromDb($dynamicQuestionSetConfig);
-            $testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+        $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
+        $testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
 
-            $sequence = $testSequence->getUserSequenceQuestions();
+        $testSequence->loadFromDb();
+        $testSequence->loadQuestions();
+
+        if ($ordered_sequence) {
+            $sequence = $testSequence->getOrderedSequenceQuestions();
         } else {
-            $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
-            $testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
-
-            $testSequence->loadFromDb();
-            $testSequence->loadQuestions();
-
-            if ($ordered_sequence) {
-                $sequence = $testSequence->getOrderedSequenceQuestions();
-            } else {
-                $sequence = $testSequence->getUserSequenceQuestions();
-            }
+            $sequence = $testSequence->getUserSequenceQuestions();
         }
 
         $arrResults = [];
@@ -2656,61 +2648,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         }
                     }
                 }
-            } elseif ($this->isDynamicTest()) {
-                $lastPass = $data->getParticipant($active_id)->getLastPass();
-                for ($testpass = 0; $testpass <= $lastPass; $testpass++) {
-                    $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                        $DIC->repositoryTree(),
-                        $DIC->database(),
-                        $DIC['component.repository'],
-                        $this
-                    );
-                    $dynamicQuestionSetConfig->loadFromDb();
-
-                    $testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['component.repository'], $this);
-                    $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
-
-                    $testSequence->loadFromDb($dynamicQuestionSetConfig);
-                    $testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-
-                    $sequence = $testSequence->getUserSequenceQuestions();
-
-                    $questionsIdsToRequest = array_diff(array_values($sequence), array_values($questionData));
-                    if (count($questionsIdsToRequest) > 0) {
-                        $questionIdsCondition = ' ' . $DIC->database()->in('question_id', array_values($questionsIdsToRequest), false, 'integer') . ' ';
-
-                        $res = $DIC->database()->queryF(
-                            "
-							SELECT *
-							FROM qpl_questions
-							WHERE {$questionIdsCondition}",
-                            array('integer'),
-                            array($active_id)
-                        );
-                        while ($row = $DIC->database()->fetchAssoc($res)) {
-                            $questionData[$row['question_id']] = $row;
-                            $data->addQuestionTitle($row['question_id'], $row['title']);
-                        }
-                    }
-
-                    foreach ($sequence as $questionId) {
-                        if (!isset($questionData[$questionId])) {
-                            continue;
-                        }
-
-                        $row = $questionData[$questionId];
-
-                        $data->getParticipant(
-                            $active_id
-                        )->addQuestion(
-                            $row['original_id'],
-                            $row['question_id'],
-                            $row['points'],
-                            null,
-                            $testpass
-                        );
-                    }
-                }
             } else {
                 $query = "
 					SELECT tst_test_question.sequence, tst_test_question.question_fi,
@@ -2798,29 +2735,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $questionSetType = ilObjTest::lookupQuestionSetTypeByActiveId($active_id);
 
         switch ($questionSetType) {
-            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-
-                $res = $ilDB->queryF(
-                    "
-						SELECT		COUNT(qpl_questions.question_id) qcount,
-									SUM(qpl_questions.points) qsum
-						FROM		tst_active
-						INNER JOIN	tst_tests
-						ON			tst_tests.test_id = tst_active.test_fi
-						INNER JOIN	tst_dyn_quest_set_cfg
-						ON          tst_dyn_quest_set_cfg.test_fi = tst_tests.test_id
-						INNER JOIN  qpl_questions
-						ON          qpl_questions.obj_fi = tst_dyn_quest_set_cfg.source_qpl_fi
-						AND         qpl_questions.original_id IS NULL
-						AND         qpl_questions.complete = %s
-						WHERE		tst_active.active_id = %s
-					",
-                    array('integer', 'integer'),
-                    array(1, $active_id)
-                );
-
-                break;
-
             case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
                 $res = $ilDB->queryF(
@@ -3861,7 +3775,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getGeneralSettings()->getAnonymity()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // question set type (fixed, random, dynamic, ...)
+        // question set type (fixed, random, ...)
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "question_set_type");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getGeneralSettings()->getQuestionSetType());
@@ -5644,28 +5558,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getAnsweredQuestionCount($active_id, $pass = null): int
     {
-        if ($this->isDynamicTest()) {
-            global $DIC;
-            $tree = $DIC['tree'];
-            $ilDB = $DIC['ilDB'];
-            $lng = $DIC['lng'];
-            $component_repository = $DIC['component.repository'];
-
-            $testSessionFactory = new ilTestSessionFactory($this);
-            $testSession = $testSessionFactory->getSession($active_id);
-
-            $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this);
-            $testSequence = $testSequenceFactory->getSequenceByTestSession($testSession);
-
-            $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $component_repository, $this);
-            $dynamicQuestionSetConfig->loadFromDb();
-
-            $testSequence->loadFromDb($dynamicQuestionSetConfig);
-            $testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-
-            return $testSequence->getTrackedQuestionCount();
-        }
-
         if ($this->isRandomTest()) {
             $this->loadQuestions($active_id, $pass);
         }
@@ -5740,11 +5632,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "executable" => true,
             "errormessage" => ""
         );
-        if ($this->isDynamicTest()) {
-            $result["executable"] = false;
-            $result["errormessage"] = ($this->lng->txt("ctm_cannot_be_started"));
-            return $result;
-        }
+
         if (!$this->startingTimeReached()) {
             $result["executable"] = false;
             $result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getStartingTime(), IL_CAL_UNIX)));
@@ -8108,16 +7996,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function isRandomTest(): bool
     {
         return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
-    }
-
-    /**
-     * Returns the fact wether this test is a dynamic question set test or not
-     *
-     * @deprecated 9 This is only kept in, to avoid crashing dynamic question tests with an ugly error.
-     */
-    public function isDynamicTest(): bool
-    {
-        return $this->getMainSettings()->getGeneralSettings()->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC;
     }
 
     /**

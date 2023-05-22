@@ -29,6 +29,7 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilBench();
 
         $this->testObj = new ilTestExportFactory($this->createMock(ilObjTest::class));
     }
