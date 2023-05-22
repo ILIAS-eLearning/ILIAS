@@ -3,8 +3,6 @@
 
 /** @noinspection PhpIncludeInspection */
 require_once './Services/Object/classes/class.ilObject2GUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 
 /**
  * Class ilObjWorkflowEngineGUI
@@ -75,49 +73,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         return null;
     }
 
-    /**
-     * Goto-Method for the workflow engine
-     *
-     * Handles calls via GOTO, e.g. request
-     * http://.../goto.php?target=wfe_WF61235EVT12308154711&client_id=default
-     * would end up here with $params = WF61235EVT12308154711
-     * It will be unfolded to
-     *   Workflow 61235
-     *   Event 12308154711
-     * Used to trigger an event for the engine.
-     *
-     * @param string $params Params from $_GET after wfe_
-     */
-    public static function _goto($params)
-    {
-        global $DIC;
-        /** @var ilLanguage $lng */
-        $lng = $DIC['lng'];
-
-        $workflow = substr($params, 2, strpos($params, 'EVT') - 2);
-        $event = substr($params, strpos($params, 'EVT') + 3);
-
-        $type = 'endpoint_event';
-        $content = 'was_requested';
-        $subject_type = 'workflow';
-        $subject_id = $workflow;
-        $context_type = 'event';
-        $context_id = $event;
-
-        $engine = new ilWorkflowEngine();
-        $engine->processEvent(
-            $type,
-            $content,
-            $subject_type,
-            $subject_id,
-            $context_type,
-            $context_id
-        );
-
-        ilUtil::sendSuccess($lng->txt('ok'), true);
-        ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-    }
-
     public function executeCommand()
     {
         $next_class = $this->ilCtrl->getNextClass();
@@ -137,11 +92,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            default:
-                $this->prepareAdminOutput();
-                $ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
-                $this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
-                break;
         }
     }
 
@@ -153,23 +103,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
     public function dispatchCommand($cmd)
     {
         $cmd_parts = explode('.', $cmd);
-
-        switch ($cmd_parts[0]) {
-            case 'definitions':
-                return $this->dispatchToDefinitions($cmd_parts[1]);
-
-            case 'instances':
-                return $this->dispatchToInstances($cmd_parts[1]);
-
-            case 'settings':
-                return $this->dispatchToSettings($cmd_parts[1]);
-
-            case 'dashboard':
-                return $this->dispatchToDashboard($cmd_parts[1]);
-
-            default:
-                return $this->dispatchToDefinitions($cmd_parts[0]);
-        }
+        return $this->dispatchToSettings($cmd_parts[1]);
     }
 
     /**
@@ -195,19 +129,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         /** @var $rbacsystem ilRbacSystem */
         $rbacsystem = $DIC['rbacsystem'];
 
-        /*
-        $this->ilTabs->addTab(
-                'dashboard',
-                $this->lng->txt('dashboard'),
-                $this->ilCtrl->getLinkTarget($this, 'dashboard.view')
-        );
-        */
         if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->ilTabs->addTab(
-                'definitions',
-                $this->lng->txt('definitions'),
-                $this->ilCtrl->getLinkTarget($this, 'definitions.view')
-            );
             $this->ilTabs->addTab(
                 'settings',
                 $this->lng->txt('settings'),
@@ -221,14 +143,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
                 $this->ilCtrl->getLinkTargetByClass(array('ilobjworkflowenginegui','ilpermissiongui'), 'perm')
             );
         }
-        /*
-        $this->ilTabs->addTab(
-                'instances',
-                $this->lng->txt('instances'),
-                $this->ilCtrl->getLinkTarget($this, 'instances.view')
-        );
-        */
-
         $this->ilTabs->setTabActive($section);
     }
 
@@ -256,48 +170,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         }
 
         $this->tpl->setLocator();
-    }
-
-    /**
-     * @param string $command
-     *
-     * @return string
-     */
-    public function dispatchToDashboard($command)
-    {
-        $this->initTabs('dashboard');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php';
-        $target_handler = new ilWorkflowEngineDashboardGUI($this);
-        return $target_handler->handle($command);
-    }
-
-    /**
-     * @param string $command
-     *
-     * @return string
-     */
-    public function dispatchToDefinitions($command)
-    {
-        $this->initTabs('definitions');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php';
-        $target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
-        return $target_handler->handle($command);
-    }
-
-    /**
-     * @param string $command
-     *
-     * @return string
-     */
-    public function dispatchToInstances($command)
-    {
-        $this->initTabs('instances');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php';
-        $target_handler = new ilWorkflowEngineInstancesGUI($this);
-        return $target_handler->handle($command);
     }
 
     /**
