@@ -36,7 +36,8 @@ class PresentationTest extends ILIAS_UI_TestBase
             new I\Component\SignalGenerator(),
             new \ILIAS\Data\Factory(),
             new I\Component\Table\Column\Factory(),
-            new I\Component\Table\Action\Factory()
+            new I\Component\Table\Action\Factory(),
+            new I\Component\Table\DataRowBuilder()
         );
     }
 

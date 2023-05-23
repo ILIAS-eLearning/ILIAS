@@ -34,7 +34,8 @@ class Factory implements T\Factory
         protected SignalGeneratorInterface $signal_generator,
         protected DataFactory $data_factory,
         protected T\Column\Factory $column_factory,
-        protected T\Action\Factory $action_factory
+        protected T\Action\Factory $action_factory,
+        protected DataRowBuilder $data_row_builder
     ) {
     }
 
@@ -57,6 +58,7 @@ class Factory implements T\Factory
         return new Data(
             $this->signal_generator,
             $this->data_factory,
+            $this->data_row_builder,
             $title,
             $columns,
             $data_retrieval

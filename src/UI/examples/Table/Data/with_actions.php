@@ -51,7 +51,7 @@ function with_actions()
     // retrieve data and map records to table rows
     $data_retrieval = new class () implements I\DataRetrieval {
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -70,7 +70,7 @@ function with_actions()
                 $not_to_be_deleted = $record['f3'] > 4 && $record['f3'] < 5;
 
                 //and yield the row
-                yield $row_factory->standard($row_id, $record)
+                yield $row_builder->buildStandardRow($row_id, $record)
                     ->withDisabledAction('edit', $not_to_be_edited)
                     ->withDisabledAction('delete', $not_to_be_deleted);
             }

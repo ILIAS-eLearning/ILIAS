@@ -120,7 +120,8 @@ class DataRendererTest extends ILIAS_UI_TestBase
                     new I\SignalGenerator(),
                     new \ILIAS\Data\Factory(),
                     new I\Table\Column\Factory(),
-                    new I\Table\Action\Factory()
+                    new I\Table\Action\Factory(),
+                    new I\Table\DataRowBuilder()
                 );
             }
             public function divider(): ILIAS\UI\Component\Divider\Factory
@@ -219,14 +220,14 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $f = $this->getColumnFactory();
         $data = new class () implements ILIAS\UI\Component\Table\DataRetrieval {
             public function getRows(
-                Component\Table\DataRowFactory $row_factory,
+                Component\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
                 Data\Range $range,
                 Data\Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                yield $row_factory->standard('', []);
+                yield $row_builder->buldStandardRow('', []);
             }
         };
         $columns = [
@@ -281,7 +282,7 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
-    public function testDataTableRowFactory()
+    public function testDataTableRowBuilder()
     {
         $f = $this->getColumnFactory();
         $columns = [
@@ -296,26 +297,30 @@ EOT;
             'a1' => $f->standard('label1', 'param', $signal),
             'a2' => $f->standard('label2', 'param', $url)
         ];
-        $rf = new I\Table\DataRowFactory(true, true, $columns, $actions);
 
-        $this->assertInstanceOf(Component\Table\DataRowFactory::class, $rf);
-        $row = $rf->standard('row_id-1', []);
+        $rb = (new I\Table\DataRowBuilder())
+            ->withMultiActionsPresent(true)
+            ->withSingleActions($actions)
+            ->withVisibleColumns($columns);
+
+        $row = $rb->buildStandardRow('row_id-1', []);
         $this->assertInstanceOf(Component\Table\DataRow::class, $row);
-        return [$rf, $columns, $actions];
+
+        return [$rb, $columns, $actions];
     }
 
     /**
-     * @depends testDataTableRowFactory
+     * @depends testDataTableRowBuilder
      */
-    public function testDataTableStandardRowFromFactory(array $params): I\Table\StandardRow
+    public function testDataTableStandardRowFromBuilder(array $params): I\Table\StandardRow
     {
-        list($rf, $columns, $actions) = $params;
+        list($rb, $columns, $actions) = $params;
         $record = [
             'f1' => 'v1',
             'f2' => 'v2',
             'f3' => 3
         ];
-        $row = $rf->standard('row_id-1', $record);
+        $row = $rb->buildStandardRow('row_id-1', $record);
 
         $this->assertEquals(
             $columns,
@@ -334,7 +339,7 @@ EOT;
     }
 
     /**
-     * @depends testDataTableStandardRowFromFactory
+     * @depends testDataTableStandardRowFromBuilder
      */
     public function testDataTableRenderStandardRow(I\Table\StandardRow $row)
     {

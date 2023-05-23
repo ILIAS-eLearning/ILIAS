@@ -35,7 +35,7 @@ function base()
         }
 
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -47,7 +47,7 @@ function base()
                 $record['b1'] = $number > 10;
                 $record['b2'] = $record['b1'];
                 $record['b3'] = $record['b1'];
-                yield $row_factory->standard($row_id, $record);
+                yield $row_builder->buildStandardRow($row_id, $record);
             }
         }
     };

@@ -24,27 +24,53 @@ use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\Action\Action;
 
-class DataRowFactory implements T\DataRowFactory
+class DataRowBuilder implements T\DataRowBuilder
 {
+    protected bool $table_has_multiactions = false;
+
     /**
-     * @param array<string, Column> $columns
+     * @var array<string, Action>
+     */
+    protected array $row_actions = [];
+
+    /**
+     * @var array<string, Column>
+     */
+    protected array $columns = [];
+
+    public function withMultiActionsPresent(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->table_has_multiactions = $flag;
+        return $clone;
+    }
+
+    /**
      * @param array<string, Action> $row_actions
      */
-    public function __construct(
-        protected bool $table_has_singleactions,
-        protected bool $table_has_multiactions,
-        protected array $columns,
-        protected array $row_actions
-    ) {
+    public function withSingleActions(array $row_actions): self
+    {
+        $clone = clone $this;
+        $clone->row_actions = $row_actions;
+        return $clone;
+    }
+    /**
+     * @param array<string, Column> $columns
+     */
+    public function withVisibleColumns(array $columns): self
+    {
+        $clone = clone $this;
+        $clone->columns = $columns;
+        return $clone;
     }
 
     /**
      * @param array<string, mixed> $record
      */
-    public function standard(string $id, array $record): T\DataRow
+    public function buildStandardRow(string $id, array $record): T\DataRow
     {
         return new StandardRow(
-            $this->table_has_singleactions,
+            $this->row_actions !== [],
             $this->table_has_multiactions,
             $this->columns,
             $this->row_actions,

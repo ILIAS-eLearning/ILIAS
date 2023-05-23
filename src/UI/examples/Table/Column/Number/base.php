@@ -35,7 +35,7 @@ function base()
         }
 
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -44,10 +44,10 @@ function base()
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';
-                for ($i=1; $i<5; $i++) {
+                for ($i = 1; $i < 5; $i++) {
                     $record['n' . $i] = $number;
                 }
-                yield $row_factory->standard($row_id, $record);
+                yield $row_builder->buildStandardRow($row_id, $record);
             }
         }
     };

@@ -55,7 +55,7 @@ class DataTableDemoRepo implements I\DataRetrieval
 
     //implementation of DataRetrieval - accept params and yield rows
     public function getRows(
-        I\DataRowFactory $row_factory,
+        I\DataRowBuilder $row_builder,
         array $visible_column_ids,
         Range $range,
         Order $order,
@@ -64,7 +64,7 @@ class DataTableDemoRepo implements I\DataRetrieval
     ): \Generator {
         foreach ($this->doSelect($order, $range) as $idx => $record) {
             $row_id = (string)$record['usr_id'];
-            yield $row_factory->standard($row_id, $record);
+            yield $row_builder->buildStandardRow($row_id, $record);
         }
     }
 

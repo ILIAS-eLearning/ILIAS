@@ -28,13 +28,13 @@ interface DataRetrieval
 {
     /**
      * This is called by the table to retrieve rows;
-     * map data-records to rows using the $row_factory
-     * e.g. $row_factory->standard($row_id, $record).
+     * map data-records to rows using the $row_builder
+     * e.g. yield $row_builder->buildStandardRow($row_id, $record).
      *
      * @param string[] $visible_column_ids
      */
     public function getRows(
-        DataRowFactory $row_factory,
+        DataRowBuilder $row_builder,
         array $visible_column_ids,
         Range $range,
         Order $order,

@@ -34,7 +34,7 @@ function base()
         }
 
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -49,7 +49,7 @@ function base()
                 $record['i2'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $number)
                 );
-                yield $row_factory->standard($row_id, $record);
+                yield $row_builder->buildStandardRow($row_id, $record);
             }
         }
     };

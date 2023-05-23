@@ -58,7 +58,7 @@ function getExampleTable($f)
 
     $data_retrieval = new class () implements I\DataRetrieval {
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -66,7 +66,7 @@ function getExampleTable($f)
             ?array $additional_parameters
         ): \Generator {
             foreach (range(0, 5) as $cnt) {
-                yield $row_factory->standard('row_id' . $cnt, ['f1' => $cnt]);
+                yield $row_builder->buildStandardRow('row_id' . $cnt, ['f1' => $cnt]);
             }
         }
     };

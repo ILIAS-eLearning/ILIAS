@@ -39,7 +39,8 @@ class DataTest extends ILIAS_UI_TestBase
             new C\SignalGenerator(),
             new \ILIAS\Data\Factory(),
             new C\Table\Column\Factory(),
-            new C\Table\Action\Factory()
+            new C\Table\Action\Factory(),
+            new C\Table\DataRowBuilder()
         );
     }
 
@@ -47,14 +48,14 @@ class DataTest extends ILIAS_UI_TestBase
     {
         return new class () implements I\Table\DataRetrieval {
             public function getRows(
-                I\Table\DataRowFactory $row_factory,
+                I\Table\DataRowBuilder $row_builder,
                 array $visible_column_ids,
                 Range $range,
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                yield $row_factory->standard('', []);
+                yield $row_builder->buildStandardRow('', []);
             }
         };
     }

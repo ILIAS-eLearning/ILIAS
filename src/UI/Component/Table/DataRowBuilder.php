@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-interface DataRowFactory
+interface DataRowBuilder
 {
     /**
      * @param array<string, mixed> $record
      */
-    public function standard(string $id, array $record): DataRow;
+    public function buildStandardRow(string $id, array $record): DataRow;
 }

@@ -76,6 +76,7 @@ class Data extends Table implements T\Data, JSBindable
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         protected DataFactory $data_factory,
+        protected DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
         protected T\DataRetrieval $data_retrieval
@@ -327,20 +328,11 @@ class Data extends Table implements T\Data, JSBindable
         );
     }
 
-    /**
-     * This is an anti-pattern and should not be copied!
-     * The RowFactory should be injected (or constructed as anon class).
-     * However, it merely transports columns- and action-information,
-     * and I don't see a reason (yet) for having another/different RowFactory
-     * in the table.
-     */
-    public function getRowFactory(): DataRowFactory
+    public function getRowBuilder(): DataRowBuilder
     {
-        return new DataRowFactory(
-            $this->hasSingleActions(),
-            $this->hasMultiActions(),
-            $this->getVisibleColumns(),
-            $this->getSingleActions()
-        );
+        return $this->data_row_builder
+            ->withMultiActionsPresent($this->hasMultiActions())
+            ->withSingleActions($this->getSingleActions())
+            ->withVisibleColumns($this->getVisibleColumns());
     }
 }

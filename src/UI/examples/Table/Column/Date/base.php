@@ -23,7 +23,7 @@ function base()
 
     $data_retrieval = new class () implements I\DataRetrieval {
         public function getRows(
-            I\DataRowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
             array $visible_column_ids,
             Range $range,
             Order $order,
@@ -36,7 +36,7 @@ function base()
                 'd1' => $dat,
                 'd2' => $dat
             ];
-            yield $row_factory->standard($row_id, $record);
+            yield $row_builder->buildStandardRow($row_id, $record);
         }
     };
 

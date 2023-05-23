@@ -193,7 +193,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $rows = $component->getDataRetrieval()->getRows(
-            $component->getRowFactory(),
+            $component->getRowBuilder(),
             array_keys($component->getVisibleColumns()),
             $component->getRange(),
             $component->getOrder(),

@@ -133,11 +133,13 @@ class InitUIFramework
             );
         };
         $c["ui.factory.table"] = function ($c) {
+            $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
             return new ILIAS\UI\Implementation\Component\Table\Factory(
                 $c["ui.signal_generator"],
                 $c["ui.data_factory"],
                 $c["ui.factory.table.column"],
-                $c["ui.factory.table.action"]
+                $c["ui.factory.table.action"],
+                $row_builder
             );
         };
         $c["ui.factory.table.column"] = function ($c) {
