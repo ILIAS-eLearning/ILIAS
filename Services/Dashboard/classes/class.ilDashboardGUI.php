@@ -323,7 +323,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             return "";
         }
 
-        if ($ilCtrl::getNextClass() === "ilcolumngui" &&
+        if ($ilCtrl->getNextClass() === "ilcolumngui" &&
             $column_gui::getCmdSide() === IL_COL_RIGHT &&
             $column_gui::getScreenMode() === IL_SCREEN_SIDE) {
             $html = $ilCtrl->forwardCommand($column_gui);
