@@ -69,6 +69,13 @@ function getExampleTable($f)
                 yield $row_builder->buildStandardRow('row_id' . $cnt, ['f1' => $cnt]);
             }
         }
+
+        public function getTotalRowCount(
+            ?array $filter_data,
+            ?array $additional_parameters
+        ): ?int {
+            return null;
+        }
     };
     return $f->table()->data('a data table with actions', $columns, $data_retrieval);
 }

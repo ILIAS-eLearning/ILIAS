@@ -39,6 +39,13 @@ function base()
             ];
             yield $row_builder->buildStandardRow($row_id, $record);
         }
+
+        public function getTotalRowCount(
+            ?array $filter_data,
+            ?array $additional_parameters
+        ): ?int {
+            return null;
+        }
     };
 
     $table = $f->table()->data('TimeSpan Columns', $columns, $data_retrieval);

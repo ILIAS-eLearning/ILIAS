@@ -68,6 +68,13 @@ class DataTableDemoRepo implements I\DataRetrieval
         }
     }
 
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        return count($this->dummyrecords());
+    }
+
     //do the actual reading - note, that e.g. order and range are easily converted to SQL
     protected function doSelect(Order $order, Range $range): array
     {

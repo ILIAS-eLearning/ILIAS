@@ -83,6 +83,13 @@ function base()
             }
         }
 
+        public function getTotalRowCount(
+            ?array $filter_data,
+            ?array $additional_parameters
+        ): ?int {
+            return null;
+        }
+
         protected function getRecords(Order $order): array
         {
             $records = [

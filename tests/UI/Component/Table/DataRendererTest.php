@@ -229,6 +229,12 @@ class DataRendererTest extends ILIAS_UI_TestBase
             ): \Generator {
                 yield $row_builder->buldStandardRow('', []);
             }
+           public function getTotalRowCount(
+               ?array $filter_data,
+               ?array $additional_parameters
+           ): ?int {
+               return null;
+           }
         };
         $columns = [
             'f1' => $f->text("Field 1")->withIndex(1),

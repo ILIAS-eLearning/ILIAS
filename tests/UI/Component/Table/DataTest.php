@@ -57,6 +57,12 @@ class DataTest extends ILIAS_UI_TestBase
             ): \Generator {
                 yield $row_builder->buildStandardRow('', []);
             }
+             public function getTotalRowCount(
+                 ?array $filter_data,
+                 ?array $additional_parameters
+             ): ?int {
+                 return null;
+             }
         };
     }
 

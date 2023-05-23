@@ -76,6 +76,13 @@ function with_actions()
             }
         }
 
+        public function getTotalRowCount(
+            ?array $filter_data,
+            ?array $additional_parameters
+        ): ?int {
+            return count($this->getRecords());
+        }
+
         //this is some dummy-data:
         protected function getRecords(): array
         {
