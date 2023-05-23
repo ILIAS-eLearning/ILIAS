@@ -31,6 +31,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
 use ILIAS\Repository\Button\ButtonAdapterGUI;
 use ILIAS\Repository\Link\LinkAdapterGUI;
+use ILIAS\Repository\Symbol\SymbolAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -176,6 +177,12 @@ trait GlobalDICGUIServices
             $caption,
             $href,
             $new_viewport
+        );
+    }
+
+    public function symbol(
+    ): SymbolAdapterGUI {
+        return new SymbolAdapterGUI(
         );
     }
 }

@@ -65,6 +65,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
             $this->user->getId(),
             $this->ref_id
         );
+        $this->gui = $DIC->awareness()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -174,7 +175,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         }
 
         $tpl->setCurrentBlock("filter");
-        $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->setVariable("GL_FILTER", $this->gui->symbol()->glyph("filter")->render());
         $tpl->setVariable("FILTER_INPUT_LABEL", $this->lng->txt("awrn_filter"));
         $tpl->parseCurrentBlock();
 

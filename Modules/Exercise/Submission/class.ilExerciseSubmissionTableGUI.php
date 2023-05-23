@@ -270,10 +270,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                         $this->tpl->setCurrentBlock("team_member_removal_bl");
                         $this->tpl->setVariable("URL_TEAM_MEMBER_REMOVAL", $url);
+
+                        $rem_gl = $this->ui_factory->symbol()->glyph()->remove($url);
                         $this->tpl->setVariable(
                             "TXT_TEAM_MEMBER_REMOVAL",
-                            ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt("remove"))
+                            $this->ui_renderer->render($rem_gl)
                         );
+
                         $this->tpl->parseCurrentBlock();
                     }
 
