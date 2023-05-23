@@ -32,6 +32,7 @@ use ILIAS\Setup\CLI\StatusCommand;
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
+    protected \ILIAS\Repository\InternalGUIService $gui;
     protected ilPropertyFormGUI $form;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected ilTabsGUI $tabs;
@@ -81,6 +82,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->content_style_domain = $DIC->contentStyle()
                   ->domain()
                   ->styleForRefId($this->object->getRefId());
+        $this->gui = $DIC->repository()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -991,10 +993,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('vc_information');
-        $button->setUrl($this->ctrl->getLinkTarget($this, 'showVcsInformation'));
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->link(
+            $this->lng->txt("vc_information"),
+            $this->ctrl->getLinkTarget($this, 'showVcsInformation')
+        )->toToolbar();
 
         $this->initServerInfoForm();
         // TODO: remove sub tabs
