@@ -31,6 +31,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      * object type names with settings->news settings subtab
      */
     public const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
+    protected \ILIAS\News\InternalGUIService $gui;
     protected bool $cache_hit = false;
     protected bool $dynamic = false;
     protected ilNewsCache $acache;
@@ -109,6 +110,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->handleView();
 
         $this->setPresentation(self::PRES_SEC_LIST);
+        $this->gui = $DIC->news()->internal()->gui();
     }
 
     public function getNewsData(): array
@@ -412,7 +414,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             ilDatePresentation::formatDate(new ilDateTime($news["creation_date"], IL_CAL_DATETIME));
 
         // title image type
-        if (($news["ref_id"]  ?? 0) > 0) {
+        if (($news["ref_id"] ?? 0) > 0) {
             if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
                 $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
                 $type = ilObject::_lookupType($obj_id);
@@ -709,9 +711,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
 
-                    $button = ilLinkButton::getInstance();
-                    $button->setUrl($url);
-                    $button->setCaption("download");
+                    $button = $this->gui->button(
+                        $this->lng->txt("download"),
+                        $url
+                    );
 
                     $tpl->setCurrentBlock("download");
                     $tpl->setVariable("BUTTON_DOWNLOAD", $button->render());

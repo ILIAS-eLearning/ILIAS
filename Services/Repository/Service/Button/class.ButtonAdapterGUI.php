@@ -133,7 +133,7 @@ EOT;
             $button = $button->withOnLoadCode(function ($id) use ($click) {
                 $code = <<<EOT
 (function() {
-    const el = document.getElementById('$id').addEventListener('click', () => {$click});
+    const el = document.getElementById('$id').addEventListener('click', () => { $click });
 }());
 EOT;
                 return $code;

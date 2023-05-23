@@ -1821,11 +1821,10 @@ class ilSurveyParticipantsGUI
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("anon_participants");
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("print");
-        $button->setOnClick("window.print(); return false;");
-        $button->setOmitPreventDoubleSubmission(true);
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("print"),
+            "#"
+        )->onClick("window.print(); return false;")->toToolbar();
 
         $tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
         $this->tpl->setContent($tbl->getHTML());

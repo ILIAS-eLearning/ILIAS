@@ -397,6 +397,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\Awareness\Service($this);
     }
 
+    public function export(): \ILIAS\Export\Service
+    {
+        return new \ILIAS\Export\Service();
+    }
+
+    public function personalWorkspace(): \ILIAS\PersonalWorkspace\Service
+    {
+        return new \ILIAS\PersonalWorkspace\Service();
+    }
+
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {

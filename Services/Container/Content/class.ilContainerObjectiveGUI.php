@@ -63,6 +63,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             ->contentStyle()
             ->domain()
             ->styleForObjId(0);
+        $this->gui = $DIC->container()->internal()->gui();
     }
 
     public function getTestAssignments(): ilLOTestAssignments
@@ -382,7 +383,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                             $this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));
                             break;
 
-                        // manage
+                            // manage
                         default:
                             $block_id = "all";
                             $this->renderer->addCustomBlock($block_id, $lng->txt('content'));
@@ -890,6 +891,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     ): string {
         global $DIC;
 
+        $gui = $DIC->container()->internal()->gui();
+
         $tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
 
         if ($a_perc_result !== null) {
@@ -911,9 +914,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         if ($a_caption) {
             if ($a_url) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption($a_caption, false);
-                $button->setUrl($a_url);
+                $button = $gui->link(
+                    $a_caption,
+                    $a_url
+                );
 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());
@@ -979,7 +983,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
-
+        $gui = $DIC->container()->internal()->gui();
 
 
         if (is_numeric($a_perc_result)) {
@@ -997,9 +1001,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         if ($a_caption) {
             if ($a_url) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption($a_caption, false);
-                $button->setUrl($a_url);
+                $button = $gui->link(
+                    $a_caption,
+                    $a_url
+                );
 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());

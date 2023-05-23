@@ -28,6 +28,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  */
 class ilNewsTimelineGUI
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected int $period = 0;
     protected \ILIAS\News\Timeline\TimelineManager $manager;
     protected \ILIAS\DI\UIServices $ui;
@@ -74,6 +75,7 @@ class ilNewsTimelineGUI
         $this->lng->loadLanguageModule("cont");
         $this->ui = $DIC->ui();
         $this->manager = $DIC->news()->internal()->domain()->timeline();
+        $this->gui = $DIC->news()->internal()->gui();
     }
 
     public function setEnableAddNews(bool $a_val): void
@@ -193,11 +195,10 @@ class ilNewsTimelineGUI
         // toolbar
         if ($this->getEnableAddNews() &&
             $this->access->checkAccess("news_add_news", "", $this->ref_id)) {
-            $b = ilLinkButton::getInstance();
-            $b->setCaption('news_add_news');
-            $b->setOnClick("return il.News.create();");
-            $b->setPrimary(true);
-            $this->toolbar->addButtonInstance($b);
+            $this->gui->button(
+                $this->lng->txt("news_add_news"),
+                "#"
+            )->onClick("return il.News.create();")->primary()->toToolbar(true, $this->toolbar);
         }
 
         $this->readNewsData();

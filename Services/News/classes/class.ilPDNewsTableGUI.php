@@ -24,6 +24,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilPDNewsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected string $selected_context;
     /**
      * @var array<string,string>
@@ -65,6 +66,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->setEnableHeader(false);
         $this->setIsDataTable(false);
         $this->initFilter();
+        $this->gui = $DIC->news()->internal()->gui();
     }
 
     public function initFilter(): void
@@ -232,9 +234,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
 
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($url);
-            $button->setCaption("download");
+            $button = $this->gui->button(
+                $this->lng->txt("download"),
+                $url
+            );
 
             $this->tpl->setCurrentBlock("download");
             $this->tpl->setVariable("BUTTON_DOWNLOAD", $button->render());
