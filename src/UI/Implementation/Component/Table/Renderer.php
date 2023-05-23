@@ -172,23 +172,23 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
-        $component = $this->registerActionsJS($component);
         $component = $this->applyViewControls($component);
+
         list($type_url, $type_sig, $opt_opt, $opt_id) = [Action::TYPE_URL, Action::TYPE_SIGNAL, Action::OPT_OPTIONS, Action::OPT_ID];
-        $component = $component->withAdditionalOnLoadCode(
-            static fn ($id): string => "
-                il.UI.table.data.initActionConstants(
-                    '{$type_url}', 
-                    '{$type_sig}', 
-                    '{$opt_opt}', 
-                    '{$opt_id}' 
-                );
-                il.UI.table.data.initKeyboardNavigation('{$id}');
-            "
-        );
+        $component = $component
+            ->withAdditionalOnLoadCode(
+                static fn ($id): string =>
+                    "il.UI.table.data.init('{$id}','{$type_url}', '{$type_sig}', '{$opt_opt}', '{$opt_id}' );"
+            )
+            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getActionSignal()))
+            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
+
+        foreach ($component->getAllActions() as $action_id => $action) {
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration($action_id, $action));
+        }
         if ($component->hasMultiActions()) {
             $component = $component->withAdditionalOnLoadCode(
-                static fn ($id): string => "il.UI.table.data.selectAll('{$id}', false);"
+                static fn ($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
             );
         }
 
@@ -226,17 +226,6 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function registerActionsJS(Component\Table\Data $component): Component\Table\Data
-    {
-        $component = $component
-            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getActionSignal()))
-            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
-
-        foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration($action_id, $action));
-        }
-        return $component;
-    }
 
     protected function applyViewControls(Component\Table\Data $component): Component\Table\Data
     {
@@ -370,7 +359,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $submit = $f->button()->primary('Do for all objects!', '#')
             ->withOnLoadCode(
-                static fn ($id): string => "$('#{$id}').click(function() { il.UI.table.data.doActionForAll('{$table_id}', this); return false; });"
+                static fn ($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
             );
         $modal = $f->modal()
             ->roundtrip('MultiAction', [$msg, $select])
@@ -410,7 +399,7 @@ class Renderer extends AbstractComponentRenderer
         return static function ($id) use ($action_signal): string {
             return "
                 $(document).on('{$action_signal}', function(event, signal_data) {
-                    il.UI.table.data.doAction('{$id}', signal_data, il.UI.table.data.collectSelectedRowIds('{$id}'));
+                    il.UI.table.data.get('{$id}').doMultiAction(signal_data);
                     return false;
                 });";
         };
@@ -421,7 +410,7 @@ class Renderer extends AbstractComponentRenderer
         return static function ($id) use ($selection_signal): string {
             return "
                 $(document).on('{$selection_signal}', function(event, signal_data) {
-                    il.UI.table.data.selectAll('{$id}', signal_data.options.select);
+                    il.UI.table.data.get('{$id}').selectAll(signal_data.options.select);
                     return false;
                 });
             ";
@@ -446,7 +435,7 @@ class Renderer extends AbstractComponentRenderer
 
         return static function ($id) use ($action_id, $type, $target, $parameter_name): string {
             return "
-                il.UI.table.data.registerAction('{$id}', '{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
+                il.UI.table.data.get('{$id}').registerAction('{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
             ";
         };
     }
@@ -506,7 +495,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Table/presentation.js');
-        $registry->register('./src/UI/templates/js/Table/dist/table.js');
+        $registry->register('./src/UI/templates/js/Table/dist/datatable.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

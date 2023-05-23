@@ -1,7 +1,7 @@
 export default {
-  input: './src/table.js',
+  input: './src/datatable.js',
   output: {
-    file: './dist/table.js',
+    file: './dist/datatable.js',
     format: 'iife',
     globals: {
       il: 'il',

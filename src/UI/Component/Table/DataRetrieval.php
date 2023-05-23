@@ -41,4 +41,21 @@ interface DataRetrieval
         ?array $filter_data, // $DIC->uiService()->filter()->getData();
         ?array $additional_parameters
     ): Generator;
+
+    /**
+     * Mainly for the purpose of pagination-support, it is important to
+     * know about the total number of records available.
+     * Given the nature of a DataTable, which is, opposite to a PresentationTable,
+     * rather administrative than explorative, this information will increase
+     * user experience quite a bit.
+     * However, you may return null, if the call is to costly, but expect
+     * the View Control to look a little different in this case.
+     *
+     * Make sure that potential filters or user restrictions are being applied
+     * to the count.
+     */
+    public function getTotalRowCount(
+        ?array $filter_data, // $DIC->uiService()->filter()->getData();
+        ?array $additional_parameters
+    ): ?int;
 }

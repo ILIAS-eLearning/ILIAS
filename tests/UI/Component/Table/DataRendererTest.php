@@ -139,10 +139,10 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $closure = $renderer->p_getMultiActionHandler($signal);
         $actual = $this->brutallyTrimHTML($closure('component_id'));
         $expected = $this->brutallyTrimHTML(
-            "$(document).on('signal_id', function(event, signal_data) {"
-        . "  il.UI.table.data.doAction('component_id', signal_data, il.UI.table.data.collectSelectedRowIds('component_id'));"
-        . "  return false; "
-        . "});"
+            "$(document).on('signal_id', function(event, signal_data) { 
+                il.UI.table.data.get('component_id').doMultiAction(signal_data); 
+                return false; 
+            });"
         );
         $this->assertEquals($expected, $actual);
     }
@@ -157,7 +157,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
 
         $actual = $this->brutallyTrimHTML($closure('component_id'));
         $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.registerAction('component_id', 'action_id', 'SIGNAL', '{\"id\":\"signal_id\",\"options\":[]}', 'param');"
+            "il.UI.table.data.get('component_id').registerAction('action_id', 'SIGNAL', '{\"id\":\"signal_id\",\"options\":[]}', 'param');"
         );
         $this->assertEquals($expected, $actual);
     }
@@ -172,7 +172,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
 
         $actual = $this->brutallyTrimHTML($closure('component_id'));
         $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.registerAction('component_id', 'action_id', 'URL', '$url', 'param');"
+            "il.UI.table.data.get('component_id').registerAction('action_id', 'URL', '$url', 'param');"
         );
         $this->assertEquals($expected, $actual);
     }
