@@ -24,7 +24,8 @@
 		timeleft = "{STRING_TIMELEFT}",
 		redirectUrl = "{REDIRECT_URL}",
 		and = "{AND}",
-		time_left_span;
+		time_left_span,
+		check_url = "{CHECK_URL}";
 
 		<!-- BEGIN enddate -->
 			test_end = (new Date({ENDYEAR}, {ENDMONTH}, {ENDDAY}, {ENDHOUR}, {ENDMINUTE}, {ENDSECOND})).getTime() / 1000;
@@ -147,10 +148,35 @@
 		setWorkingTime();
 	}
 
+	/**
+	 * This is invoked every 30 secs to check if the
+	 * allocated time for time-restricted tests has been
+	 * changed during the test and update the timer
+	 * accordingly.
+	 */
+	function checkWorkingTime() {
+		$.ajax({
+		    type: 'GET',
+		    url: check_url,
+		    dataType: 'text',
+		    timeout: 1000
+		})
+		.done((response) => {
+			if (response > 0) {
+				test_time_sec = response % 60;
+				test_time_min = (response - test_time_sec) / 60;
+				setWorkingTime();
+			};
+		})
+		.fail();
+
+	}
+
 	$(function() {
 		time_left_span = $('#timeleft');
 		tick();
 		interval = w.setInterval(tick, 1000);
+		w.setInterval(checkWorkingTime, 30000);
 	});
 
 }(window, jQuery));
