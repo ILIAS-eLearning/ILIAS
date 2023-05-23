@@ -3143,11 +3143,12 @@ class ilObjUser extends ilObject
         $user_defined_data = $this->getUserDefinedData();
 
         foreach ($user_defined_fields->getDefinitions() as $field_id => $definition) {
-            $data = $user_defined_data["f_" . $field_id];
-            if (strlen($data)) {
+            $data = $user_defined_data["f_" . $field_id] ?? '';
+            if ($data !== '') {
                 if ($definition['field_type'] == UDF_TYPE_WYSIWYG) {
-                    $data = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $data);
-                    $data = strip_tags($data);
+                    $data = strip_tags(
+                        preg_replace('/\<br(\s*)?\/?\>/i', "\n", $data)
+                    );
                 }
 
                 $body .= $definition['field_name'] . ': ' . $data . "\n";
