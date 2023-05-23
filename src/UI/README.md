@@ -572,6 +572,13 @@ or change/add `.eslintrc.json` in ILIAS' root directory:
   "extends": "airbnb-base"
 }
 ```
+To install the linter (and its config), run
+
+```
+npm i -D "eslint" "eslint-config-airbnb-base" "eslint-plugin-import"
+
+```
+
 
 
 ## FAQ
