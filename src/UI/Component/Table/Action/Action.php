@@ -27,7 +27,7 @@ interface Action extends \ILIAS\UI\Component\Component
 {
     public function getLabel(): string;
     /**
-     * Each Row (see RowFactory) has an id; when triggering an action,
+     * Each Row (see RowBuilder) has an id; when triggering an action,
      * those ids will be relayed by this parameter.
      */
     public function getParameterName(): string;

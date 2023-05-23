@@ -50,6 +50,26 @@
     }
   }
 
+  /**
+   * @type {number}
+   */
+  const KEY_LEFT = 37;
+
+  /**
+   * @type {number}
+   */
+  const KEY_UP = 38;
+
+  /**
+   * @type {number}
+   */
+  const KEY_RIGHT = 39;
+
+  /**
+   * @type {number}
+   */
+  const KEY_DOWN = 40;
+
   class Data {
     /**
      * @type {jQuery}
@@ -62,11 +82,6 @@
     #params;
 
     /**
-     * @type {Keyboardnav}
-     */
-    #kbnav;
-
-    /**
      * @type {{type: {url: string, signal: string}, opt: {mainkey: string, id: string}}
      */
     #actionsConstants;
@@ -76,10 +91,9 @@
      */
     #actionsRegistry;
 
-    constructor(jquery, params, kbnav) {
+    constructor(jquery, params) {
       this.#jquery = jquery;
       this.#params = params;
-      this.#kbnav = kbnav;
       this.#actionsConstants = {};
       this.#actionsRegistry = {};
     }
@@ -107,7 +121,7 @@
      * @param {string} targetId
      */
     initKeyboardNavigation(targetId) {
-      this.#kbnav.init(targetId);
+      document.getElementById(targetId)?.addEventListener('keydown', (event) => this.navigateCellsWithArrowKeys(event, this));
     }
 
     /**
@@ -213,29 +227,7 @@
         selectorNone.style.display = 'none';
       }
     }
-  }
 
-  /**
-   * @type {number}
-   */
-  const KEY_LEFT = 37;
-
-  /**
-   * @type {number}
-   */
-  const KEY_UP = 38;
-
-  /**
-   * @type {number}
-   */
-  const KEY_RIGHT = 39;
-
-  /**
-   * @type {number}
-   */
-  const KEY_DOWN = 40;
-
-  class Keyboardnav {
     /**
      * @param {KeyboardEvent} event
      */
@@ -290,13 +282,6 @@
       cell.setAttribute('tabindex', -1);
       nextCell.setAttribute('tabindex', 0);
     }
-
-    /**
-     * @param {string} targetId
-     */
-    init(targetId) {
-      document.getElementById(targetId)?.addEventListener('keydown', (event) => this.navigateCellsWithArrowKeys(event, this));
-    }
   }
 
   il.UI = il.UI || {};
@@ -305,7 +290,6 @@
   il.UI.table.data = new Data(
     $,
     new Params(),
-    new Keyboardnav(),
   );
 
 }(il, $));
