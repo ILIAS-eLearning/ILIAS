@@ -23,6 +23,7 @@
  */
 class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\DI\UIServices $ui;
     /**
      * @var ilTemplate
      */
@@ -49,6 +50,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
+        $this->ui = $DIC->ui();
     }
 
 
@@ -71,8 +73,6 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->lng->loadLanguageModule("adm");
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->lng->txt("adm_support_contacts"));
-        $panel = ilPanelGUI::getInstance();
-        $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
 
         $html = "";
         foreach (ilSystemSupportContacts::getValidSupportContactIds() as $c) {
@@ -82,9 +82,14 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
             $html .= $pgui->getHTML();
         }
 
-        $panel->setBody($html);
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
+        $p = $f->panel()->standard(
+            $this->lng->txt("adm_support_contacts"),
+            $f->legacy($html)
+        );
 
-        $this->tpl->setContent($panel->getHTML());
+        $this->tpl->setContent($r->render($p));
         $this->tpl->printToStdout();
     }
 

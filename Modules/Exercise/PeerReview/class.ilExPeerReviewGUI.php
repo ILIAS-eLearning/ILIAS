@@ -25,6 +25,7 @@
  */
 class ilExPeerReviewGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
@@ -66,6 +67,7 @@ class ilExPeerReviewGUI
         $this->requested_review_crit_id = $request->getReviewCritId();
         $this->requested_peer_id = $request->getPeerId();
         $this->requested_crit_id = $request->getCritId();
+        $this->gui = $DIC->exercise()->internal()->gui();
     }
 
     /**
@@ -816,10 +818,14 @@ class ilExPeerReviewGUI
                 $ptpl->parseCurrentBlock();
             }
 
-            $panel = ilPanelGUI::getInstance();
-            $panel->setHeading($this->lng->txt("exc_peer_review_overview_invalid_users"));
-            $panel->setBody($ptpl->get());
-            $panel = $panel->getHTML();
+            $f = $this->gui->ui()->factory();
+            $r = $this->gui->ui()->renderer();
+            $p = $f->panel()->standard(
+                $this->lng->txt("exc_peer_review_overview_invalid_users"),
+                $f->legacy($ptpl->get())
+            );
+
+            $panel = $r->render($p);
         }
 
         $tpl->setContent($tbl->getHTML() . $panel);
