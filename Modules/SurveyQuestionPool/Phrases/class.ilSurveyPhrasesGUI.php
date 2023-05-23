@@ -27,6 +27,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  */
 class ilSurveyPhrasesGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected ilPropertyFormGUI $form;
     protected EditingGUIRequest $request;
     protected ilRbacSystem $rbacsystem;
@@ -65,6 +66,7 @@ class ilSurveyPhrasesGUI
                                   ->gui()
                                   ->editing()
                                   ->request();
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function executeCommand(): string
@@ -106,10 +108,10 @@ class ilSurveyPhrasesGUI
         $this->ctrl->setParameter($this, "p_id", "");
 
         if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("phrase_new");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "newPhrase"));
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->link(
+                $this->lng->txt("phrase_new"),
+                $this->ctrl->getLinkTarget($this, "newPhrase")
+            )->emphasised()->toToolbar();
 
             $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
             $phrases = ilSurveyPhrases::_getAvailablePhrases(1);

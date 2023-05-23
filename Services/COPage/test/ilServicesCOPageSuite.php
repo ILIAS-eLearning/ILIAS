@@ -51,6 +51,7 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PageObjectTest.php");
         require_once("./Services/COPage/test/class.ilUnitTestPageObject.php");
         require_once("./Services/COPage/test/class.ilUnitTestPageManager.php");
+        require_once("./Services/COPage/test/class.ilUnitTestPCDefinition.php");
         $suite->addTestSuite("PageObjectTest");
 
         require_once("./Services/COPage/test/PCBlogTest.php");
@@ -118,6 +119,21 @@ class ilServicesCOPageSuite extends TestSuite
 
         require_once("./Services/COPage/test/PCVerificationTest.php");
         $suite->addTestSuite("PCVerificationTest");
+
+        require_once("./Services/COPage/test/ID/ContentIdManagerTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\ID\ContentIdManagerTest::class);
+
+        require_once("./Services/COPage/test/Compare/PageCompareTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Compare\PageCompareTest::class);
+
+        require_once("./Services/COPage/test/Page/PageContentManagerTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Page\PageContentManagerTest::class);
+
+        require_once("./Services/COPage/test/PC/PCFactoryTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCFactoryTest::class);
+
+        require_once("./Services/COPage/test/PC/PCDefinitionTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCDefinitionTest::class);
 
         return $suite;
     }

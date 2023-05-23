@@ -32,6 +32,7 @@ class ilTestExportFixedQuestionSetTest extends ilTestBaseTestCase
 
         $this->addGlobal_ilErr();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilBench();
         $this->addGlobal_ilias();
         $this->addGlobal_lng();
 

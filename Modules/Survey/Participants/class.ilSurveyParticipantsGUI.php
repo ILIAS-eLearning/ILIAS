@@ -25,6 +25,7 @@ use ILIAS\Survey\Participants;
  */
 class ilSurveyParticipantsGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
@@ -96,6 +97,7 @@ class ilSurveyParticipantsGUI
             ->gui()
             ->editing()
             ->request();
+        $this->gui = $this->survey_service->gui();
     }
 
     public function getObject(): ilObjSurvey
@@ -510,29 +512,29 @@ class ilSurveyParticipantsGUI
         $si->setSize(3);
         $ilToolbar->addInputItem($si, true);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("create");
-        $button->setCommand("createSurveyCodes");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("create"),
+            "createSurveyCodes"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("import_from_file");
-        $button->setCommand("importExternalMailRecipientsFromFileForm");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("import_from_file"),
+            "importExternalMailRecipientsFromFileForm"
+        )->submit()->toToolbar();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("import_from_text");
-        $button->setCommand("importExternalMailRecipientsFromTextForm");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("import_from_text"),
+            "importExternalMailRecipientsFromTextForm"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("svy_import_codes");
-        $button->setCommand("importAccessCodes");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("svy_import_codes"),
+            "importAccessCodes"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
@@ -547,10 +549,11 @@ class ilSurveyParticipantsGUI
         $si->setValue($default_lang);
         $ilToolbar->addInputItem($si, true);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("set");
-        $button->setCommand("setCodeLanguage");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("set"),
+            "setCodeLanguage"
+        )->submit()->toToolbar();
+
 
         $table_gui = new ilSurveyCodesTableGUI($this, 'codes');
         $survey_codes = $this->object->getSurveyCodesTableData(null, $default_lang);
@@ -1818,11 +1821,10 @@ class ilSurveyParticipantsGUI
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("anon_participants");
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("print");
-        $button->setOnClick("window.print(); return false;");
-        $button->setOmitPreventDoubleSubmission(true);
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("print"),
+            "#"
+        )->onClick("window.print(); return false;")->toToolbar();
 
         $tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
         $this->tpl->setContent($tbl->getHTML());

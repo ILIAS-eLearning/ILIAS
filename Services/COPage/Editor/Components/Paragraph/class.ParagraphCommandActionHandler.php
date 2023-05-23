@@ -277,7 +277,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $hier_ids = $page->getHierIdsForPCIds([$pcid]);
                 $sec->create($page, $hier_ids[$pcid], $pcid);
                 $sec->setCharacteristic($new_section_characteristic);
-                $sec_pcid = $page->generatePcId();
+                $sec_pcid = $page->generatePCId();
                 $sec->writePCId($sec_pcid);
                 $updated = $page->update();
                 $page->addHierIDs();

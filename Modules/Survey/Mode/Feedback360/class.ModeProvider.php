@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Survey\Mode\Feedback360;
 
 use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -31,10 +32,10 @@ class ModeProvider implements Mode\ModeProvider
     use Mode\ModeProviderBase;
     public const ID = 1;
 
-    public function __construct()
+    public function __construct(InternalGUIService $gui)
     {
         $this->feature_config = new FeatureConfig();
-        $this->ui_modifier = new UIModifier();
+        $this->ui_modifier = new UIModifier($gui);
         $this->id = self::ID;
     }
 }

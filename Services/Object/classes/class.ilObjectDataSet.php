@@ -196,7 +196,7 @@ class ilObjectDataSet extends ilDataSet
                 $ti = new ilObjectTileImage(
                     $DIC->filesystem()->web(),
                     $DIC->upload(),
-                    $id
+                    (int) $id
                 );
 
                 if ($ti->exists()) {

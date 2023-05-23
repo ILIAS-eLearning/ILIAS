@@ -14,3 +14,8 @@
 ### Auto-Linked Glossaries
 
 - If glossaries are linked to a learning module, internal links to found terms in the glossary will be created during text editing automatically when text is saved. This can be triggered for the whole content, when linking the glossary to the learning module. Once the links are created they are part of the content like manual created links. Removing a glossary from the auto-link list will not delete the links to the glossary terms in the content.
+
+### Print View
+
+- Print view selection uses a modal, see https://docu.ilias.de/goto_docu_wiki_wpage_5907_1357.html
+- The print view opens in a separate tab, see https://mantis.ilias.de/view.php?id=20653

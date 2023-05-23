@@ -1364,7 +1364,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setResetProcessingTime($data->reset_processing_time);
             $this->setReportingDate($data->reporting_date);
             $this->setShuffleQuestions($data->shuffle_questions);
-            $this->setResultsPresentation($data->results_presentation);
             $this->setStartingTimeEnabled($data->starting_time_enabled);
             $this->setStartingTime($data->starting_time);
             $this->setEndingTimeEnabled($data->ending_time_enabled);
@@ -4939,7 +4938,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             // online exam
                             $this->setFixedParticipants(1);
                             $this->setListOfQuestionsSettings(7);
-                            $this->setShowSolutionPrintview(1);
                             break;
                         case 5:
                             // varying random test
@@ -5433,7 +5431,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         // results presentation
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "results_presentation");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getResultsPresentation()));
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultDetailsSettings()->getResultsPresentation()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // examid in test pass
@@ -7901,17 +7899,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Returns the combined results presentation value
-    *
-    * @return integer The combined results presentation value
-    * @access public
-    */
-    public function getResultsPresentation(): int
-    {
-        return ($this->results_presentation) ? $this->results_presentation : 0;
-    }
-
-    /**
     * Returns if the pass details should be shown when a test is not finished
     */
     public function getShowPassDetails(): bool
@@ -7983,73 +7970,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListComparison();
     }
 
-    /**
-    * Sets the combined results presentation value
-    *
-    * @param integer $a_results_presentation The combined results presentation value
-    * @access public
-    * @deprecated
-    */
-    public function setResultsPresentation($a_results_presentation = 3)
-    {
-        $this->results_presentation = $a_results_presentation;
-    }
-
-    public function getShowSolutionListOwnAnswers($user_id = null): bool
+    public function getShowSolutionListOwnAnswers(): bool
     {
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionListOwnAnswers();
     }
-
-    /**
-     * -------------------------------------------------------------------------
-     * Those setters are @deprecated!
-     * They modify $results_presentation based on some parameter and fall back to
-     * repo-settings when called without.
-     * Calls are a.o. in class.ilObjTestGUI.php and here during import;
-     * I left it in place to not to break too many things now, but they should go.
-     * Soon.
-     **/
-
-    /**
-    * Sets if the the solution details should be presented to the user or not
-    *
-    * @param integer $a_details 1 if the solution details should be presented, 0 otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionDetails($a_details = 1)
-    {
-        if ($a_details) {
-            $this->results_presentation = $this->results_presentation | 2;
-        } else {
-            if ($this->getShowSolutionDetails()) {
-                $this->results_presentation = $this->results_presentation ^ 2;
-            }
-        }
-    }
-
-    /**
-    * Sets if the the solution printview should be presented to the user or not
-    *
-    * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
-    * @access public
-    * @deprecated
-    */
-    public function setShowSolutionPrintview($a_printview = 1)
-    {
-        if ($a_printview) {
-            $this->results_presentation = $this->results_presentation | 4;
-        } else {
-            if ($this->getShowSolutionPrintview()) {
-                $this->results_presentation = $this->results_presentation ^ 4;
-            }
-        }
-    }
-
-    /**
-     * -------------------------------------------------------------------------
-     */
-
 
     /**
      * @deprecated: use ilTestParticipantData instead
@@ -8628,7 +8552,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
             "AnswerFeedback" => $this->getAnswerFeedback(),
             "AnswerFeedbackPoints" => $this->getAnswerFeedbackPoints(),
-            "ResultsPresentation" => $this->getResultsPresentation(),
+            "ResultsPresentation" => $this->getScoreSettings()->getResultDetailsSettings()->getResultsPresentation(),
             "Anonymity" => $this->getAnonymity(),
             "ShowCancel" => $this->getShowCancel(),
             "ShowMarker" => $this->getShowMarker(),
@@ -8742,7 +8666,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
         $this->setAnswerFeedback($testsettings["AnswerFeedback"]);
         $this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
-        $this->setResultsPresentation($testsettings["ResultsPresentation"]);
         $this->setAnonymity($testsettings["Anonymity"]);
         $this->setShowCancel($testsettings["ShowCancel"]);
         $this->setShuffleQuestions($testsettings["Shuffle"]);
@@ -8837,6 +8760,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             )
             ->withResultDetailsSettings(
                 $settings->getResultDetailsSettings()
+                ->withResultsPresentation($testsettings["ResultsPresentation"])
                 ->withPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes'])
                 ->withShowExamIdInTestResults($exam_id_in_results)
                 ->withTaxonomyFilterIds((array) $testsettings['result_tax_filters'])

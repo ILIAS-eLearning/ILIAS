@@ -275,7 +275,7 @@ class ilExAssignmentGUI
             $b = $this->gui->link(
                 $lng->txt("exc_list_submission"),
                 $this->getSubmissionLink("listPublicSubmissions")
-            )
+            )->emphasised()
                 ->render();
             $a_info->addProperty($lng->txt("exc_public_submission"), $b);
         } else {

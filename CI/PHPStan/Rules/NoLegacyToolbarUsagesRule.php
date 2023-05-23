@@ -36,9 +36,13 @@ class NoLegacyToolbarUsagesRule extends LegacyClassUsageRule implements Rule
         return 10;
     }
 
-
     protected function getForbiddenClasses(): array
     {
         return ['ilToolbarGUI'];
+    }
+
+    protected function findMethodUsages(): bool
+    {
+        return true;
     }
 }

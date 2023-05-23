@@ -128,7 +128,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $link = $gui->link(
                     $lng->txt("exc_select_blog" . ($valid_blog ? "_change" : "")),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
-                );
+                )->emphasised();
                 $buttons_str .= " " . $link->render();
             }
         }
@@ -223,7 +223,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $link = $gui->link(
                     $lng->txt("exc_select_portfolio" . ($valid_prtf ? "_change" : "")),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio")
-                );
+                )->emphasised();
 
                 $buttons_str .= " " . $link->render();
             }
@@ -231,7 +231,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $link = $gui->link(
                     $lng->txt("exc_select_portfolio_unlink"),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio")
-                );
+                )->emphasised();
                 $buttons_str .= " " . $link->render();
             }
         }

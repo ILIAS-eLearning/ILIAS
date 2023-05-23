@@ -104,4 +104,14 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testGeneratePCId(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $id = $page->generatePCId();
+        $this->assertEquals(
+            32,
+            strlen($id)
+        );
+    }
 }

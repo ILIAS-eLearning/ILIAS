@@ -31,6 +31,7 @@ class ButtonAdapterGUI
     protected const TYPE_STD = 0;
     protected const TYPE_SUBMIT = 1;
     protected const TYPE_STD_PRIMARY = 2;
+    protected string $on_click = "";
     protected int $type;
 
     protected Button $button;
@@ -38,6 +39,7 @@ class ButtonAdapterGUI
     protected \ILIAS\DI\UIServices $ui;
     protected string $caption = "";
     protected string $cmd = "";
+    protected bool $disabled = false;
 
     public function __construct(
         string $caption,
@@ -50,6 +52,7 @@ class ButtonAdapterGUI
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
         $this->type = self::TYPE_STD;
+        $this->on_click = "";
     }
 
     public function submit(): self
@@ -61,6 +64,18 @@ class ButtonAdapterGUI
     public function primary(): self
     {
         $this->type = self::TYPE_STD_PRIMARY;
+        return $this;
+    }
+
+    public function onClick(string $on_click): self
+    {
+        $this->on_click = $on_click;
+        return $this;
+    }
+
+    public function disabled(bool $disabled): self
+    {
+        $this->disabled = $disabled;
         return $this;
     }
 
@@ -102,17 +117,34 @@ EOT;
     {
         switch ($this->type) {
             case self::TYPE_SUBMIT:
-                return $this->getSubmitButton();
+                $button = $this->getSubmitButton();
                 break;
 
             case self::TYPE_STD_PRIMARY:
-                return $this->getStdPrimaryButton();
+                $button = $this->getStdPrimaryButton();
                 break;
 
             default:
-                return $this->getStandardButton();
+                $button = $this->getStandardButton();
                 break;
         }
+        if ($this->on_click !== "") {
+            $click = $this->on_click;
+            $button = $button->withOnLoadCode(function ($id) use ($click) {
+                $code = <<<EOT
+(function() {
+    const el = document.getElementById('$id').addEventListener('click', () => { $click });
+}());
+EOT;
+                return $code;
+            });
+        }
+
+        if ($this->disabled) {
+            $button = $button->withUnavailableAction();
+        }
+
+        return $button;
     }
 
     public function toToolbar(bool $sticky = false, \ilToolbarGUI $toolbar = null): void

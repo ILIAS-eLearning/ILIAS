@@ -23,6 +23,8 @@ use PHPUnit\Framework\TestCase;
  */
 class COPageTestBase extends TestCase
 {
+    protected int $pc_cnt;
+
     /**
      * @param mixed $value
      */
@@ -120,6 +122,58 @@ class COPageTestBase extends TestCase
             "refinery",
             $refinery_mock
         );
+
+        $this->pc_cnt = 1;
+    }
+
+    /**
+     * @return ContentIdGenerator|(ContentIdGenerator&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getIdGeneratorMock()
+    {
+        $gen = $this->createMock(\ILIAS\COPage\ID\ContentIdGenerator::class);
+        $gen->method("generate")
+            ->willReturnCallback(function () {
+                return str_pad(
+                    (string) $this->pc_cnt++,
+                    32,
+                    "0",
+                    STR_PAD_LEFT
+                );
+            });
+        return $gen;
+    }
+
+    protected function getPCDefinition(): ilUnitTestPCDefinition
+    {
+        return new ilUnitTestPCDefinition();
+    }
+
+    protected function setPCIdCnt(int $cnt): void
+    {
+        $this->pc_cnt = $cnt;
+    }
+
+    protected function getIDManager(\ilPageObject $page): \ILIAS\COPage\ID\ContentIdManager
+    {
+        return new \ILIAS\COPage\ID\ContentIdManager(
+            $page,
+            $this->getIdGeneratorMock()
+        );
+    }
+
+    protected function insertParagraphAt(
+        \ilPageObject $page,
+        string $hier_id,
+        string $text = ""
+    ) {
+        $pc = new \ilPCParagraph($page);
+        $pc->create($page, $hier_id);
+        $pc->setLanguage("en");
+        if ($text !== "") {
+            $pc->setText($text);
+        }
+        $page->addHierIDs();
     }
 
     protected function tearDown(): void
@@ -148,6 +202,7 @@ class COPageTestBase extends TestCase
     protected function getEmptyPageWithDom(): ilUnitTestPageObject
     {
         $page = new ilUnitTestPageObject(0);
+        $page->setContentIdManager($this->getIDManager($page));
         $page->setXMLContent("<PageObject></PageObject>");
         $page->buildDom();
         $page->addHierIDs();

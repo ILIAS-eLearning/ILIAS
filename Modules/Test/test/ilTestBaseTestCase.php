@@ -192,6 +192,11 @@ class ilTestBaseTestCase extends TestCase
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
     }
 
+    protected function addGlobal_ilBench(): void
+    {
+        $this->setGlobalVariable("ilBench", $this->createMock(ilBenchmark::class));
+    }
+
     protected function addGlobal_ilLog(): void
     {
         $this->setGlobalVariable("ilLog", $this->createMock(ilLogger::class));

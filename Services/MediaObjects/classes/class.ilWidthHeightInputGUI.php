@@ -99,8 +99,8 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 
         $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
 
-        $tpl->setVariable("VAL_WIDTH", strtolower(trim($this->getWidth())));
-        $tpl->setVariable("VAL_HEIGHT", strtolower(trim($this->getHeight())));
+        $tpl->setVariable("VAL_WIDTH", strtolower(trim((string) $this->getWidth())));
+        $tpl->setVariable("VAL_HEIGHT", strtolower(trim((string) $this->getHeight())));
         if ($this->getConstrainProportions()) {
             $tpl->setVariable("CHECKED", 'checked="checked"');
         }

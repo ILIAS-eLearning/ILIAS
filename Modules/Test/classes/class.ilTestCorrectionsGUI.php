@@ -386,7 +386,7 @@ class ilTestCorrectionsGUI
         $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         $scoring = new ilTestScoring($this->testOBJ);
 
-        $participantData = new ilTestParticipantData($this->database, $language);
+        $participantData = new ilTestParticipantData($this->database, $this->language);
         $participantData->load($this->testOBJ->getTestId());
 
         // remove question solutions

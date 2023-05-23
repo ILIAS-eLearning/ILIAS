@@ -37,6 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
@@ -133,6 +134,7 @@ class ilPageObjectGUI
     protected string $profile_back_url = "";
 
     protected ilComponentFactory $component_factory;
+    protected \ILIAS\COPage\Compare\PageCompare $compare;
 
     /**
      * @param string $a_parent_type type of parent object
@@ -220,14 +222,23 @@ class ilPageObjectGUI
         $this->requested_q_id = $this->request->getInt("q_id");
         $this->requested_history_mode = $this->request->getInt("history_mode");
 
-        $this->edit_repo = $DIC
+        $int_service = $DIC
             ->copage()
-            ->internal()
+            ->internal();
+
+        $this->edit_repo = $int_service
             ->repo()
             ->edit();
 
         $this->afterConstructor();
-        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->xsl = $int_service->domain()->xsl();
+        $this->compare = $int_service->domain()->compare();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -1293,15 +1304,6 @@ class ilPageObjectGUI
             }
         }
 
-        $reload_tree = $this->request->getString("reloadTree");
-        if ($reload_tree == "y") {
-            $tpl->setCurrentBlock("reload_tree");
-            $tpl->setVariable(
-                "LINK_TREE",
-                $this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false)
-            );
-            $tpl->parseCurrentBlock();
-        }
         //		}
         // get content
         $builded = $this->obj->buildDom();
@@ -1599,9 +1601,8 @@ class ilPageObjectGUI
             }
 
             // for all page components...
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($this->getPageObject());
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
@@ -2651,10 +2652,12 @@ class ilPageObjectGUI
         }
 
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
-        $compare = $this->obj->compareVersion(
-            $this->request->getInt("left"),
-            $this->request->getInt("right")
-        );
+
+        $pg = $this->obj;
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
+
+        $compare = $this->compare->compare($l_page, $r_page);
 
         // left page
         $lpage = $compare["l_page"];
@@ -2711,11 +2714,6 @@ class ilPageObjectGUI
         $this->initActivationForm();
         $this->getActivationFormValues();
         $atpl->setVariable("FORM", $this->form->getHTML());
-        $atpl->setCurrentBlock("updater");
-        $atpl->setVariable("UPDATER_FRAME", $this->exp_frame);
-        $atpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
-        $atpl->setVariable("HREF_UPDATER", $this->exp_target_script);
-        $atpl->parseCurrentBlock();
         $this->tpl->setContent($atpl->get());
     }
 

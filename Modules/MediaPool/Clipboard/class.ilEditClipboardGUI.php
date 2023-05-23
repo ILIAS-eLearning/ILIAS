@@ -24,6 +24,7 @@
  */
 class ilEditClipboardGUI
 {
+    protected \ILIAS\MediaPool\InternalGUIService $gui;
     public string $mode = "";
     protected string $page_back_title = "";
     protected bool $multiple = false;
@@ -85,6 +86,7 @@ class ilEditClipboardGUI
         );
 
         $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
+        $this->gui = $DIC->mediaPool()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -157,10 +159,10 @@ class ilEditClipboardGUI
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
 
-        $but = ilLinkButton::getInstance();
-        $but->setUrl($ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
-        $but->setCaption("cont_create_mob");
-        $ilToolbar->addButtonInstance($but);
+        $this->gui->link(
+            $this->lng->txt("cont_create_mob"),
+            $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create")
+        )->emphasised()->toToolbar();
 
         $table_gui = new ilClipboardTableGUI($this, "view");
         $tpl->setContent($table_gui->getHTML());

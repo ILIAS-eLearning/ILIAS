@@ -32,6 +32,7 @@ use ILIAS\Container\Content\ViewManager;
  */
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Container\InternalGUIService $gui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
@@ -123,6 +124,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         $this->content_style_domain = $cs->domain();
+        $this->gui = $DIC->container()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -351,13 +353,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $container_view = new ilContainerObjectiveGUI($this);
                 break;
 
-            // all items in one block
+                // all items in one block
             case ilContainer::VIEW_SESSIONS:
             case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
                 $container_view = new ilContainerSessionsContentGUI($this);
                 break;
 
-            // all items in one block
+                // all items in one block
             case ilContainer::VIEW_BY_TYPE:
             default:
                 $container_view = new ilContainerByTypeContentGUI($this, $this->container_user_filter);
@@ -1536,12 +1538,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $t = new ilToolbarGUI();
         $t->setFormAction($this->ctrl->getFormAction($this, "performPasteIntoMultipleObjects"));
 
-        $b = ilSubmitButton::getInstance();
-        $b->setCaption($txt_var);
-        $b->setCommand("performPasteIntoMultipleObjects");
-
-        //$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
-        $t->addStickyItem($b);
+        $this->gui->button(
+            $this->lng->txt($txt_var),
+            "performPasteIntoMultipleObjects"
+        )->submit()->toToolbar(true, $t);
 
         $t->addSeparator();
         $this->lng->loadLanguageModule('obj');
@@ -2132,10 +2132,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
         $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
 
-        $btn = ilButton::getInstance();
-        $btn->setCaption('mount_webfolder');
-        $btn->setOnClick("triggerWebDAVModal('$href')");
-        $ilToolbar->addButtonInstance($btn);
+        $this->gui->button(
+            $this->lng->txt("mount_webfolder"),
+            "#"
+        )->onClick("triggerWebDAVModal('$href'); return false;")->toToolbar();
 
         $tpl->setContent($this->form->getHTML());
     }

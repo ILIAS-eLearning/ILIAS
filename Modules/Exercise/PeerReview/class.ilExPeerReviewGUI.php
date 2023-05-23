@@ -215,10 +215,10 @@ class ilExPeerReviewGUI
                     ) . ")";
                 }
 
-                $b = $gui->button(
+                $b = $gui->link(
                     $lng->txt("exc_peer_review_give"),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "editPeerReview")
-                );
+                )->emphasised();
                 if ($nr_missing_fb) {
                     $b = $b->primary();
                 }
@@ -236,7 +236,7 @@ class ilExPeerReviewGUI
                     $b = $gui->link(
                         $lng->txt("exc_peer_review_given"),
                         $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showGivenPeerReview")
-                    );
+                    )->emphasised();
                     $view_pc = $b->render() . " ";
                 }
 
@@ -248,7 +248,7 @@ class ilExPeerReviewGUI
                         $b = $gui->link(
                             $lng->txt("exc_peer_review_show"),
                             $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showReceivedPeerReview")
-                        );
+                        )->emphasised();
                         $view_pc .= $b->render();
                     }
                     // received none

@@ -143,18 +143,18 @@ class ilExSubmissionTeamGUI
                     $link = $gui->link(
                         $lng->txt("exc_delete_team"),
                         $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam")
-                    );
+                    )->emphasised();
                     $team .= " " . $link->render();
                 }
                 $link = $gui->link(
                     $lng->txt("exc_manage_team"),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam")
-                );
+                )->emphasised();
             } else {
                 $link = $gui->link(
                     $lng->txt("exc_team_log"),
                     $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog")
-                );
+                )->emphasised();
             }
             $team .= "<br><br>" . $link->render();
 

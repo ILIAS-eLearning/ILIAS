@@ -26,6 +26,7 @@ use ILIAS\Portfolio\PortfolioPrintViewProviderGUI;
  */
 abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 {
+    protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected StandardGUIRequest $port_request;
     protected ilHelpGUI $help;
     protected int $user_id = 0;
@@ -91,6 +92,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         if ($this->object) {
             $this->content_style_domain = $cs->domain()->styleForObjId($this->object->getId());
         }
+        $this->gui = $DIC->portfolio()->internal()->gui();
     }
 
     protected function addLocatorItems(): void
@@ -327,16 +329,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->activateTab("pages");
 
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("prtf_add_page");
-        $button->setUrl($this->ctrl->getLinkTarget($this, "addPage"));
-        $ilToolbar->addStickyItem($button);
+        $this->gui->link(
+            $this->lng->txt("prtf_add_page"),
+            $this->ctrl->getLinkTarget($this, "addPage")
+        )->emphasised()->toToolbar(true);
 
         if (!$ilSetting->get('disable_wsp_blogs')) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("prtf_add_blog");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "addBlog"));
-            $ilToolbar->addStickyItem($button);
+            $this->gui->link(
+                $this->lng->txt("prtf_add_blog"),
+                $this->ctrl->getLinkTarget($this, "addBlog")
+            )->emphasised()->toToolbar(true);
         }
 
 
@@ -361,10 +363,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilToolbar->addComponent($button);
                 $modal_html = $ui->renderer()->render($comment_modal);
             } else {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("export_html");
-                $button->setUrl($this->ctrl->getLinkTarget($this, "export"));
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->link(
+                    $this->lng->txt("export_html"),
+                    $this->ctrl->getLinkTarget($this, "export")
+                )->emphasised()->toToolbar();
             }
 
             $print_view = $this->getPrintView();

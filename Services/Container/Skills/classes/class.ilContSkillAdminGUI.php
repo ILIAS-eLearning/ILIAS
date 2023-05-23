@@ -29,6 +29,7 @@ use ILIAS\Skill\Service\SkillProfileService;
  */
 class ilContSkillAdminGUI
 {
+    protected \ILIAS\Container\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilLanguage $lng;
@@ -93,6 +94,7 @@ class ilContSkillAdminGUI
 
         $this->lng->loadLanguageModule("skmg");
         $this->lng->loadLanguageModule("error");
+        $this->gui = $DIC->container()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -466,10 +468,10 @@ class ilContSkillAdminGUI
             $select->setValue(0);
             $toolbar->addInputItem($select, true);
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("cont_add_global_profile");
-            $button->setCommand("saveSelectedProfile");
-            $toolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("cont_add_global_profile"),
+                "saveSelectedProfile"
+            )->submit()->toToolbar();
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()
@@ -478,10 +480,10 @@ class ilContSkillAdminGUI
         }
 
         if ($this->skmg_settings->getAllowLocalProfiles()) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("cont_add_local_profile");
-            $button->setUrl($ctrl->getLinkTargetByClass("ilskillprofilegui", "createLocal"));
-            $toolbar->addButtonInstance($button);
+            $this->gui->link(
+                $this->lng->txt("cont_add_local_profile"),
+                $ctrl->getLinkTargetByClass("ilskillprofilegui", "createLocal")
+            )->emphasised()->toToolbar();
         }
 
         $toolbar->setFormAction($ctrl->getFormAction($this));

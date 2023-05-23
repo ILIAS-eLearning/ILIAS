@@ -110,7 +110,7 @@ class assKprimChoiceExport extends assQuestionExport
             "rcardinality" => "Multiple"
         );
         $xml->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
+        $solution = $this->object->getSuggestedSolution(0) ?? [];
         if (count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $xml->xmlStartTag("material");
@@ -146,16 +146,17 @@ class assKprimChoiceExport extends assQuestionExport
 
             $xml->xmlStartTag('response_label', array('ident' => $answer->getPosition()));
 
-            if (strlen($answer->getImageFile())) {
+            $image_file = $answer->getImageFile() ?? '';
+            if ($image_file !== '') {
                 $this->object->addQTIMaterial($xml, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
-                if (preg_match("/.*\.(png|gif)$/", $answer->getImageFile(), $matches)) {
+                if (preg_match("/.*\.(png|gif)$/", $image_file, $matches)) {
                     $imagetype = "image/" . $matches[1];
                 }
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => $imagetype,
-                        "label" => $answer->getImageFile(),
+                        "label" => $image_file,
                         "uri" => $answer->getImageWebPath()
                     );
                     $xml->xmlElement("matimage", $attrs);
@@ -168,7 +169,7 @@ class assKprimChoiceExport extends assQuestionExport
                         $base64 = base64_encode($imagefile);
                         $attrs = array(
                             "imagtype" => $imagetype,
-                            "label" => $answer->getImageFile(),
+                            "label" => $image_file,
                             "embedded" => "base64"
                         );
                         $xml->xmlElement("matimage", $attrs, $base64, false, false);

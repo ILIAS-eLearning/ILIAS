@@ -26,6 +26,7 @@ use ILIAS\Portfolio\StandardGUIRequest;
  */
 class ilPortfolioRepositoryGUI
 {
+    protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected StandardGUIRequest $port_request;
     protected ilLanguage $lng;
     protected ilObjUser $user;
@@ -68,6 +69,7 @@ class ilPortfolioRepositoryGUI
             ->standardRequest();
 
         $this->user_id = $ilUser->getId();
+        $this->gui = $DIC->portfolio()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -178,10 +180,11 @@ class ilPortfolioRepositoryGUI
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("prtf_add_portfolio");
-        $button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->link(
+            $this->lng->txt("prtf_add_portfolio"),
+            $ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create")
+        )->emphasised()->toToolbar(true);
+
         $portfolio_list = $this->getPortfolioList();
 
         $tpl->setContent($portfolio_list);

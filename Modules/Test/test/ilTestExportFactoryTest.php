@@ -44,6 +44,7 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_lng();
         $this->addGlobal_ilias();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilBench();
         $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();

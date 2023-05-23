@@ -258,30 +258,6 @@ abstract class ilPageContent
     }
 
     /**
-     * Increases an hierarchical editing id at lowest level (last number)
-     * @param string $ed_id hierarchical ID
-     * @return string hierarchical ID (increased)
-     */
-    final public static function incEdId(string $ed_id): string
-    {
-        $id = explode("_", $ed_id);
-        $id[count($id) - 1]++;
-        return implode("_", $id);
-    }
-
-    /**
-     * Decreases an hierarchical editing id at lowest level (last number)
-     * @param string $ed_id hierarchical ID
-     * @return string hierarchical ID (decreased)
-     */
-    final public static function decEdId(string $ed_id): string
-    {
-        $id = explode("_", $ed_id);
-        $id[count($id) - 1]--;
-        return implode("_", $id);
-    }
-
-    /**
      * Sort an array of Hier IDS in ascending order
      */
     public static function sortHierIds(array $a_array): array
