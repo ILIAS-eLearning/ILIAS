@@ -1,7 +1,14 @@
 @mixin clearfix() {
-    &::after {
-        display: block;
-        clear: both;
-        content: "";
+    &:before,
+    &:after {
+      display: table; // 2
+      content: " "; // 1
     }
+    &:after {
+      clear: both;
+    }
+}
+
+.clearfix {
+    @include clearfix;
 }

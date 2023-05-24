@@ -25,7 +25,7 @@ $il-standard-form-header-byline-font-size: $il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
 $il-standard-form-dependant-group-bg: $il-main-darker-bg;
 //** Padding above headings of individual groups in forms
-$il-standard-form-header-padding:      ($il-padding-xlarge-vertical * 3 + $il-padding-base-vertical) $il-padding-xlarge-horizontal $il-padding-xxlarge-vertical $il-padding-xlarge-horizontal;
+$il-standard-form-header-padding:      ($il-padding-xlarge-vertical * 3 + $il-padding-base-vertical) 0 $il-padding-xxlarge-vertical $il-padding-xlarge-horizontal;
 //** Margin above headings of individual groups in forms
 $il-standard-form-header-margin: $il-margin-xlarge-horizontal 0 0 0;
 //** Border seperating individual groups in forms
@@ -36,3 +36,12 @@ $il-form-label-text-align: left;
 
 //** Minimal size of non-empty buttons inside forms
 $il-button-min-width-forms: 60px;
+
+$il-input-height-base: ceil($il-line-height-computed + $il-padding-base-vertical * 2 + 2);
+$il-input-color: $il-text-color;
+$il-input-bg: $il-main-bg;
+$il-input-border-color: $il-main-border-dark-color;
+$il-input-border-radius: $il-border-radius-base;
+$il-input-border-focus: lighten($il-main-color, 20%);
+$il-input-color-placeholder: $il-text-light-color;
+$il-input-bg-disabled: $il-main-dark-bg;

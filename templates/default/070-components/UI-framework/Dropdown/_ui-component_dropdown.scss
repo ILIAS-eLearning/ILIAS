@@ -9,11 +9,6 @@
 // Dropdown menus
 // --------------------------------------------------
 
-//** Width of the `border` for generating carets that indicate dropdowns.
-$caret-width-base:          4px !default;
-//** Carets increase slightly in size for larger components.
-$caret-width-large:         5px !default;
-
 $zindex-dropdown:          1000 !default;
 
 $dropdown-bg: s.$il-main-bg !default;
@@ -52,10 +47,10 @@ $cursor-disabled: not-allowed !default;
 	height: 0;
 	margin-left: 2px;
 	vertical-align: middle;
-	border-top: $caret-width-base dashed;
-	border-top: $caret-width-base solid \9; // IE8
-	border-right: $caret-width-base solid transparent;
-	border-left: $caret-width-base solid transparent;
+	border-top: s.$il-caret-width-base dashed;
+	border-top: s.$il-caret-width-base solid \9; // IE8
+	border-right: s.$il-caret-width-base solid transparent;
+	border-left: s.$il-caret-width-base solid transparent;
   }
   
   // The dropdown wrapper (div)
@@ -224,8 +219,8 @@ $cursor-disabled: not-allowed !default;
 	.caret {
 	  content: "";
 	  border-top: 0;
-	  border-bottom: $caret-width-base dashed;
-	  border-bottom: $caret-width-base solid \9; // IE8
+	  border-bottom: s.$il-caret-width-base dashed;
+	  border-bottom: s.$il-caret-width-base solid \9; // IE8
 	}
 	// Different positioning for bottom up menu
 	.dropdown-menu {

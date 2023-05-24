@@ -18,8 +18,7 @@ $il-engaged-btn-bg: white;
 .btn {
   display: inline-block;
   margin-bottom: 0; // For input.btn
-  font-size: $il-button-font-size;
-  font-weight: btstrp3.$btn-font-weight;
+  font-weight: $il-button-font-weight;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -27,7 +26,7 @@ $il-engaged-btn-bg: white;
   cursor: pointer;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  @include btstrp3.button-size($il-padding-base-vertical, $il-padding-base-horizontal, $il-font-size-base, $il-line-height-base, btstrp3.$btn-border-radius-base);
+  @include btstrp3.button-size($il-padding-base-vertical, $il-padding-base-horizontal, $il-font-size-small, $il-line-height-base, btstrp3.$btn-border-radius-base);
   @include btstrp3.user-select(none);
   @include il-focus();
 
