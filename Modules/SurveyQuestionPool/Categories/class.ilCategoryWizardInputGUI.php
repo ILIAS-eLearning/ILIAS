@@ -23,6 +23,7 @@
  */
 class ilCategoryWizardInputGUI extends ilTextInputGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected ilGlobalTemplateInterface $tpl;
     protected ?SurveyCategories $values = null;
     protected bool $allowMove = false;
@@ -52,6 +53,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $this->use_other_answer = false;
 
         $this->setMaxLength(1000); // #6218
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function getUseOtherAnswer(): bool
@@ -313,8 +315,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                         $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                         $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                         $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                        $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                        $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                        $tpl->setVariable("UP_BUTTON", $this->gui->symbol()->glyph("up")->render());
+                        $tpl->setVariable("DOWN_BUTTON", $this->gui->symbol()->glyph("down")->render());
                         $tpl->parseCurrentBlock();
                     }
 
@@ -335,8 +337,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
                     $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
                     $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-                    $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                    $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                    $tpl->setVariable("ADD_BUTTON", $this->gui->symbol()->glyph("add")->render());
+                    $tpl->setVariable("REMOVE_BUTTON", $this->gui->symbol()->glyph("remove")->render());
                     $tpl->parseCurrentBlock();
                 } else {
                     $neutral_category = $cat;

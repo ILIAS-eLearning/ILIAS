@@ -29,6 +29,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public const ID_PART_SCREEN = "screen";
     public const ID_PART_SUB_SCREEN = "sub_screen";
     public const ID_PART_COMPONENT = "component";
+    protected \ILIAS\Repository\InternalGUIService $gui;
     protected StandardGUIRequest $help_request;
 
     protected ilCtrl $ctrl;
@@ -57,6 +58,12 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             $DIC->http(),
             $DIC->refinery()
         );
+    }
+
+    protected function symbol(): \ILIAS\Repository\Symbol\SymbolAdapterGUI
+    {
+        global $DIC;
+        return $DIC->repository()->internal()->gui()->symbol();
     }
 
     public function setDefaultScreenId(
@@ -190,7 +197,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             $h_tpl->setVariable("HEAD", $lng->txt("help"));
 
             $h_tpl->setCurrentBlock("search");
-            $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+            $h_tpl->setVariable("GL_SEARCH", $this->symbol()->glyph("search")->render());
             $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
             $h_tpl->parseCurrentBlock();
 
@@ -201,7 +208,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 $h_tpl->setVariable("CONTENT", $ui->renderer()->render([$mess]));
             }
 
-            $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+            $h_tpl->setVariable("CLOSE_IMG", $this->symbol()->glyph("close")->render());
             echo $h_tpl->get();
         }
         exit;
@@ -261,7 +268,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $ret = $this->replaceMenuItemTags($page_gui->showPage());
 
         $h_tpl->setVariable("CONTENT", $ret);
-        $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+        $h_tpl->setVariable("CLOSE_IMG", $this->symbol()->glyph("close")->render());
 
         ilSession::set("help_pg", $page_id);
 
@@ -421,12 +428,12 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             $lng->txt("search_result"));
 
         $h_tpl->setCurrentBlock("search");
-        $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+        $h_tpl->setVariable("GL_SEARCH", $this->symbol()->glyph("search")->render());
         $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
         $h_tpl->setVariable("VAL_SEARCH", ilLegacyFormElementsUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 
-        $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+        $h_tpl->setVariable("CLOSE_IMG", $this->symbol()->glyph("close")->render());
 
         $lm_id = ilHelp::getHelpLMId();
         $s = new ilRepositoryObjectDetailSearch($lm_id);

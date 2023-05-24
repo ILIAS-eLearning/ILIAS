@@ -279,7 +279,7 @@ class php4DOMElement extends php4DOMNode
 
     public function set_attribute($name, $value)
     {
-        return $this->myDOMNode->setAttribute($name, $value);
+        return $this->myDOMNode->setAttribute($name, (string) $value);
     }
 
     public function tagname()
