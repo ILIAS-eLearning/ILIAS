@@ -347,22 +347,23 @@ class Renderer extends AbstractComponentRenderer
         string $table_id
     ): \ILIAS\UI\Component\Modal\RoundTrip {
         $f = $this->getUIFactory();
-        $msg = $f->legacy('<b>careful</b> - operation on ALL objects<hr>');
+
+        $msg = $f->messageBox()->confirmation($this->txt('datatable_multiactionmodal_msg'));
 
         $select = $f->input()->field()->select(
-            "action",
+            $this->txt('datatable_multiactionmodal_actionlabel'),
             array_map(
                 static fn ($action): string => $action->getLabel(),
                 $actions
             ),
             ""
         );
-        $submit = $f->button()->primary('Do for all objects!', '#')
+        $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_buttonlabel'), '')
             ->withOnLoadCode(
                 static fn ($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
             );
         $modal = $f->modal()
-            ->roundtrip('MultiAction', [$msg, $select])
+            ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
             ->withActionButtons([$submit]);
         return $modal;
     }
@@ -389,7 +390,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $buttons[] = $f->divider()->horizontal();
-        $buttons[] = $f->button()->shy('all objects', '#')->withOnClick($modal_signal);
+        $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick($modal_signal);
 
         return $f->dropdown()->standard($buttons);
     }

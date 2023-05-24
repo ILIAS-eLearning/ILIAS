@@ -16658,6 +16658,11 @@ trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus
 tstv#:#tstv_create#:#Testzertifikat erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen.
+ui#:#datatable_multiactionmodal_actionlabel#:#Aktion
+ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
+ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
+ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
+ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
 ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn

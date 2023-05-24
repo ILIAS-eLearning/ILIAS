@@ -16661,6 +16661,11 @@ trac#:#user_total#:#User Total
 trac#:#view_mode#:#View Mode
 tstv#:#tstv_create#:#Create Test Certificate
 tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it.
+ui#:#datatable_multiactionmodal_actionlabel#:#operation
+ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
+ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
+ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.
+ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
 ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
