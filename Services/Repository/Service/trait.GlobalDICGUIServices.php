@@ -32,6 +32,7 @@ use ILIAS\Repository\Filter\FilterAdapterGUI;
 use ILIAS\Repository\Button\ButtonAdapterGUI;
 use ILIAS\Repository\Link\LinkAdapterGUI;
 use ILIAS\Repository\Symbol\SymbolAdapterGUI;
+use ILIAS\Repository\Listing\ListingAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -183,6 +184,12 @@ trait GlobalDICGUIServices
     public function symbol(
     ): SymbolAdapterGUI {
         return new SymbolAdapterGUI(
+        );
+    }
+
+    public function listing(
+    ): ListingAdapterGUI {
+        return new ListingAdapterGUI(
         );
     }
 }

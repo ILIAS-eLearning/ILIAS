@@ -37,6 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
@@ -239,6 +240,7 @@ class ilPageObjectGUI
             ->domain()
             ->pc()
             ->definition();
+        $this->gui = $DIC->copage()->internal()->gui();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -2134,10 +2136,10 @@ class ilPageObjectGUI
             }
         }
         if (count($page_heads) > 1) {
-            $list = new ilNestedList();
-            $list->setAutoNumbering(true);
-            $list->setListClass("ilc_page_toc_PageTOCList");
-            $list->setItemClass("ilc_page_toc_PageTOCItem");
+            $listing = $this->gui->listing();
+            // todo: inject?
+            /*$list->setListClass("ilc_page_toc_PageTOCList");
+            $list->setItemClass("ilc_page_toc_PageTOCItem");*/
             $i = 0;
             $c_depth = 1;
             $c_par[1] = 0;
@@ -2158,11 +2160,10 @@ class ilPageObjectGUI
 
                 $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
-                // add the list node
-                $list->addListNode(
-                    "<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>",
-                    $i,
-                    $par
+                $listing->node(
+                    $this->ui->factory()->legacy("<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>"),
+                    (string) $i,
+                    (string) ($par)
                 );
 
                 // set the node as current parent of the level
@@ -2181,7 +2182,7 @@ class ilPageObjectGUI
                 true,
                 "Services/COPage"
             );
-            $tpl->setVariable("PAGE_TOC", $list->getHTML());
+            $tpl->setVariable("PAGE_TOC", $listing->autoNumbers(true)->render());
             $tpl->setVariable("TXT_PAGE_TOC", $this->lng->txt("cont_page_toc"));
             $tpl->setVariable("TXT_HIDE", $this->lng->txt("hide"));
             $tpl->setVariable("TXT_SHOW", $this->lng->txt("show"));
@@ -2191,7 +2192,7 @@ class ilPageObjectGUI
                 $tpl->get(),
                 $a_output
             );
-            $numbers = $list->getNumbers();
+            $numbers = $listing->getNumbers();
 
             if (count($numbers) > 0) {
                 foreach ($numbers as $n) {

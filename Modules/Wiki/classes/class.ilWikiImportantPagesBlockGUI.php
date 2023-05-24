@@ -24,6 +24,7 @@
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "wikiimppages";
+    protected \ILIAS\Wiki\InternalGUIService $gui;
     protected bool $export = false;
 
     public function __construct()
@@ -42,6 +43,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 
         $this->setTitle($lng->txt("wiki_navigation"));
         $this->allow_moving = false;
+        $this->gui = $DIC->wiki()->internal()->gui();
     }
 
     public function getBlockType(): string
@@ -104,21 +106,20 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $ilCtrl = $this->ctrl;
         $cpar[1] = 0;
 
-        $list = new ilNestedList();
-        $list->setItemClass("ilWikiBlockItem");
-        $list->setListClass("ilWikiBlockList");
-        $list->setListClass("ilWikiBlockListNoIndent", 1);
+        $listing = $this->gui->listing();
 
         $cnt = 1;
         $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
-            $list->addListNode("<a href='" .
+            $listing->node($this->ui->factory()->link()->standard(
+                $title,
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
-                . "'>" . $title . "</a>", 1, 0);
+            ), "1", "0");
         } else {
-            $list->addListNode("<a href='" .
-                "index.html" .
-                "'>" . $title . "</a>", 1, 0);
+            $listing->node($this->ui->factory()->link()->standard(
+                $title,
+                "index.html"
+            ), "1", "0");
         }
         $cpar[0] = 1;
 
@@ -127,17 +128,19 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
             $cnt++;
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
-                $list->addListNode("<a href='" .
+                $listing->node($this->ui->factory()->link()->standard(
+                    $title,
                     ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
-                    . "'>" . $title . "</a>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
+                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
-                $list->addListNode("<a href='" .
-                    "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
+                $listing->node($this->ui->factory()->link()->standard(
+                    $title,
+                    "wpg_" . $p["page_id"] . ".html"
+                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }
 
-        return $list->getHTML();
+        return $listing->render();
     }
 }
