@@ -30,7 +30,7 @@ $il-line-height-base:		1.428571429 !default;
 $il-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base) !default;
 $il-small-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-small) * $il-line-height-base) !default;
 $il-line-height-large:  1.33 !default;
-$il-headings-line-height: 1.1 !default;
+$il-headings-line-height: 1.33 !default;
 $il-line-height-small: 1.5 !default;
 
 

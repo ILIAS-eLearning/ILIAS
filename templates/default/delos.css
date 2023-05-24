@@ -748,6 +748,16 @@ textarea {
   line-height: inherit;
 }
 
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
 /*
 * Normalize
 */
@@ -2158,7 +2168,7 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.33;
   color: inherit;
 }
 h1 small,
@@ -9477,6 +9487,43 @@ div.il_info {
   text-align: left;
 }
 
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+.fade.in {
+  opacity: 1;
+}
+
+.collapse {
+  display: none;
+}
+.collapse.in {
+  display: block;
+}
+
+tr.collapse.in {
+  display: table-row;
+}
+
+tbody.collapse.in {
+  display: table-row-group;
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-property: height, visibility;
+  transition-property: height, visibility;
+  -webkit-transition-duration: 0.35s;
+  transition-duration: 0.35s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
 .btn-group,
 .btn-group-vertical {
   position: relative;
@@ -14667,12 +14714,11 @@ div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
-div.ilStartupSection form.form-horizontal .ilFormHeader,
-div.ilStartupSection form.form-horizontal .form-group,
 div.ilStartupSection form.form-horizontal .ilFormFooter {
-  padding: 9px 15px;
+  margin: 0;
 }
 div.ilStartupSection form.form-horizontal .ilFormHeader {
+  padding: 9px 15px;
   background-color: #f9f9f9;
 }
 div.ilStartupSection form.form-horizontal .form-group {
@@ -15914,6 +15960,105 @@ div.ilc_HeadlineThumb {
   margin: 2px 0 4px;
 }
 
+table {
+  background-color: white;
+}
+table col[class*=col-] {
+  position: static;
+  display: table-column;
+  float: none;
+}
+table td[class*=col-],
+table th[class*=col-] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+
+caption {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  color: #2c2c2c;
+  text-align: left;
+}
+
+th {
+  text-align: left;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0;
+}
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td {
+  padding: 9px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+.table > caption + thead > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > th,
+.table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+.table .table {
+  background-color: white;
+}
+
+.table-condensed > thead > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > th,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > th,
+.table-condensed > tfoot > tr > td {
+  padding: 6px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: white;
+}
+
+.table-responsive {
+  min-height: 0.01%;
+  overflow-x: auto;
+}
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #dddddd;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+}
+
 /* Services/Table */
 div.tblfooter {
   font-weight: 400;
@@ -17151,8 +17296,8 @@ a.ilMediaLightboxClose:hover {
   padding: 10px 9px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -17205,7 +17350,7 @@ a.ilMediaLightboxClose:hover {
 }
 .navbar-default {
   background-color: #f9f9f9;
-  border-color: #757575;
+  border-color: #dddddd;
 }
 .navbar-default .navbar-brand {
   color: #777;
@@ -17243,7 +17388,7 @@ a.ilMediaLightboxClose:hover {
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: #757575;
+  border-color: #dddddd;
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
   background-color: #e8e8e8;

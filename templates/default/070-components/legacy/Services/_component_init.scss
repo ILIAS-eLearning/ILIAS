@@ -49,13 +49,13 @@ div.ilStartupSection form.form-horizontal {
 	border: $il-panel-border;
 	border-radius: $il-panel-border-radius;
 
-	.ilFormHeader,
-	.form-group,
+
 	.ilFormFooter {
-		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+		margin: 0
 	}
 
 	.ilFormHeader {
+		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 		background-color: $il-main-dark-bg;
 	}
 

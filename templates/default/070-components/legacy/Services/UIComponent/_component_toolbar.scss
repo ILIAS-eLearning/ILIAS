@@ -375,7 +375,7 @@ $zindex-navbar: 1000 !default;
 
 $navbar-default-color: $il-text-color !default;
 $navbar-default-bg: $il-main-dark-bg !default;
-$navbar-default-border: $il-main-border-dark-color !default;
+$navbar-default-border: $il-main-border-color !default;
 // Navbar links
 $navbar-default-link-color:                #777 !default;
 $navbar-default-link-hover-color:          #333 !default;
@@ -639,8 +639,8 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	padding: 10px $navbar-padding-horizontal;
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
-	margin-top: $il-margin-xxlarge-vertical;
-	margin-bottom: $il-margin-xxlarge-vertical;
+	margin-top: $il-margin-large-vertical;
+	margin-bottom: $il-margin-large-vertical;
 	$shadow: inset 0 1px 0 rgba(255, 255, 255, .1),
 	0 1px 0 rgba(255, 255, 255, .1);
 	@include box-shadow($shadow);

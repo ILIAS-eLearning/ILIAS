@@ -58,6 +58,7 @@
 
 /* Adapted from Bootstrap 3 */
 
+@use "./legacy/component_animated-collapse-fade";
 @use "./legacy/component_btn-group";
 @use "./legacy/component_input-group";
 @use "./legacy/component_screen-reader-only";
