@@ -1,5 +1,3 @@
-import $ from 'jquery';
-import il from 'il';
 import DataTableFactory from './datatable.factory';
 import Params from './Params';
 

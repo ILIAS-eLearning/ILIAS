@@ -2,7 +2,7 @@ export default {
   input: './src/datatable.js',
   output: {
     file: './dist/datatable.js',
-    format: 'iife',
+    format: 'es',
     globals: {
       il: 'il',
       jquery: '$',
