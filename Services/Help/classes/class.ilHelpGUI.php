@@ -180,17 +180,17 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 }
 
                 $pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
-                $grp_list = new ilGroupedListGUI();
+                $items = [];
                 foreach ($pages as $pg) {
-                    $grp_list->addEntry(
+                    $items[] = $this->ui->factory()->button()->shy(
                         $this->replaceMenuItemTags(ilLMObject::_lookupTitle($pg["child"])),
-                        "#",
-                        "",
-                        "return il.Help.showPage(" . $pg["child"] . ");"
-                    );
+                        "#"
+                    )->withOnLoadCode(function ($id) use ($pg) {
+                        return "document.getElementById('$id').addEventListener('click', () => {return il.Help.showPage(" . $pg["child"] . ");})";
+                    });
                 }
-
-                $acc->addItem(ilLMObject::_lookupTitle($st_id), $grp_list->getHTML());
+                $list = $this->ui->factory()->listing()->unordered($items);
+                $acc->addItem(ilLMObject::_lookupTitle($st_id), $this->ui->renderer()->renderAsync($list));
             }
 
             $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
@@ -440,16 +440,17 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $s->setQueryString($term);
         $result = $s->performSearch();
 
-        $grp_list = new ilGroupedListGUI();
+        $items = [];
         foreach ($result->getResults() as $r) {
-            $grp_list->addEntry(
+            $items[] = $this->ui->factory()->button()->shy(
                 ilLMObject::_lookupTitle($r["item_id"]),
-                "#",
-                "",
-                "return il.Help.showPage(" . $r["item_id"] . ");"
-            );
+                "#"
+            )->withOnLoadCode(function ($id) use ($r) {
+                return "document.getElementById('$id').addEventListener('click', () => {return il.Help.showPage(" . $r["item_id"] . ");})";
+            });
         }
-        $h_tpl->setVariable("CONTENT", $grp_list->getHTML());
+        $list = $this->ui->factory()->listing()->unordered($items);
+        $h_tpl->setVariable("CONTENT", $this->ui->renderer()->renderAsync($list));
 
         ilSession::set("help_search_term", $term);
 
