@@ -1978,7 +1978,7 @@ auth#:#auth_auth_settings#:#Settings
 auth#:#auth_cas_ldap#:#Synchronization using LDAP
 auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
-auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions. 
+auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
@@ -4616,7 +4616,7 @@ common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
 common#:#msg_copy_clipboard#:#Please select the location to which the selected objects should be pasted and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_export_files#:#Export file(s) deleted
@@ -12255,6 +12255,9 @@ notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the scre
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
+obj#:#copy_container_page_no_label#:#Don't Copy Content Page
+obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
+obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_questions#:#Edit Questions
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
