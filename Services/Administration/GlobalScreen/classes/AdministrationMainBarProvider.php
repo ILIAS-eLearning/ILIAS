@@ -217,7 +217,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "personal_workspace" =>
                 array("tags", "cals", "prfa", "prss", "nots"),
             "achievements" =>
-                array("lhts", "skmg", "trac", "bdga", "cert"),
+                array("lhist", "skmg", "trac", "bdga", "cert"),
             "communication" =>
                 array("mail", "cadm", "nwss", "coms", "adn", "awra", "nota"),
             "user_administration" =>

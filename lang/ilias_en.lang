@@ -4902,8 +4902,6 @@ common#:#obj_iass_duplicate#:#Copy Individual Assessment
 common#:#obj_iass_select#:#-- Please select one individual assessment --
 common#:#obj_itgr#:#Item Group
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_lhts#:#Learning History
-common#:#obj_lhts_desc#:#Learning history settings
 common#:#obj_lm#:#Learning Module ILIAS
 common#:#obj_lm_duplicate#:#Copy Learning Module
 common#:#obj_lng#:#Language
@@ -13555,10 +13553,6 @@ rbac#:#itgr_read#:#User can see items in item group
 rbac#:#itgr_visible#:#Item group is visible
 rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#leave#:#Unsubscribe
-rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.
-rbac#:#lhts_read#:#User has read access to Learning History administration.
-rbac#:#lhts_visible#:#Administration of Learning History is visible.
-rbac#:#lhts_write#:#User can edit settings of Learning History administration.
 rbac#:#lm_copy#:#User can copy ILIAS learning module
 rbac#:#lm_delete#:#User can move or delete ILIAS learning module
 rbac#:#lm_edit_learning_progress#:#User can edit learning progress settings

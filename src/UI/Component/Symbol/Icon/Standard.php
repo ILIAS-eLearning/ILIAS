@@ -139,7 +139,7 @@ interface Standard extends Icon
     public const DSHS = 'dshs';	//Dashboard
     public const PRSS = 'prss';	//Personal Ressources
     public const NOTS = 'nots';	//Notes
-    public const LHTS = 'lhts';	//Learning History
+    public const LHTS = 'lhist';//Learning History
     public const COMS = 'coms';	//Comments
     public const LTIS = 'ltis';	//LTI
     public const CMIS = 'cmis';	//xAPI/cmi5

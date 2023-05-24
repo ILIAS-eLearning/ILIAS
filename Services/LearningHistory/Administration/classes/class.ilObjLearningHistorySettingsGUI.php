@@ -47,7 +47,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $this->setting = $DIC->settings();
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
-        $this->type = 'lhts';
+        $this->type = 'lhist';
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 

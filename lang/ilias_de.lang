@@ -4904,8 +4904,6 @@ common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
 common#:#obj_itgr#:#Objekteblock
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
-common#:#obj_lhts#:#Lernverlauf
-common#:#obj_lhts_desc#:#Lernverlauf administrieren
 common#:#obj_lm#:#Lernmodul ILIAS
 common#:#obj_lm_duplicate#:#Lernmodul kopieren
 common#:#obj_lng#:#Sprache
@@ -13555,10 +13553,6 @@ rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
 rbac#:#itgr_visible#:#Objekteblock ist sichtbar
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#leave#:#Mitgliedschaft beenden
-rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
-rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
-rbac#:#lhts_visible#:#Administration für Lernverlauf ist sichtbar.
-rbac#:#lhts_write#:#Einstellungen in Administration für Lernverlauf ändern
 rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
 rbac#:#lm_delete#:#ILIAS-Lernmodul löschen
 rbac#:#lm_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
