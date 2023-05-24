@@ -45,6 +45,14 @@ class ilTestPassFinishTasks
     {
         $testSession = $this->testSession;
 
+        assQuestion::_updateTestPassResults(
+            $testSession->getActiveId(),
+            $testSession->getPass(),
+            false,
+            null,
+            $testSession->getTestId()
+        );
+
         $processLocker->executeTestFinishOperation(function () use ($testSession) {
             if (!$testSession->isSubmitted()) {
                 $testSession->setSubmitted();
