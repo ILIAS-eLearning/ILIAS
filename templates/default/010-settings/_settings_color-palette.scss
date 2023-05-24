@@ -53,6 +53,23 @@ $il-link-hover-color: darken($il-link-color, 10%) !default;
 $il-focus-color: #0078D7 !default;
 $il-focus-protection-color: #FFFFFF !default;
 
+//== Alert
+$il-alert-success-bg: lighten($il-success-color, 50%);
+$il-alert-success-border: $il-success-color;
+$il-alert-success-text: $il-text-color;
+
+$il-alert-info-bg: lighten($il-info-color, 50%);
+$il-alert-info-border: $il-info-color;
+$il-alert-info-text: $il-text-color;
+
+$il-alert-warning-bg: lighten($il-warning-color, 55%);
+$il-alert-warning-border: $il-warning-color;
+$il-alert-warning-text: $il-text-color;
+
+$il-alert-danger-bg: lighten($il-danger-color, 50%);
+$il-alert-danger-border: $il-danger-color;
+$il-alert-danger-text: $il-text-color;
+
 //== Extended Colors
 //
 //## Extended Colors of ILIAS to be used to generate coloring for components like charts.

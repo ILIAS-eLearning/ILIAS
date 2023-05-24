@@ -1,3 +1,5 @@
+@use "../../010-settings/legacy-settings/legacy-settings_form" as *;
+
 // Vendor Prefixes
 //
 // All vendor mixins are deprecated as of v3.2.0 due to the introduction of
@@ -98,7 +100,7 @@
 }
 
 // Placeholder text
-@mixin placeholder($color: $input-color-placeholder) {
+@mixin placeholder($color: $il-input-color-placeholder) {
   // Firefox
   &::-moz-placeholder {
     color: $color;

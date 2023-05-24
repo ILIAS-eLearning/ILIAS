@@ -65,6 +65,28 @@ p {
   margin: 0 0 math.div($il-line-height-computed, 2);
 }
 
+// Links
+
+a {
+  color: $il-link-color;
+  text-decoration: none;
+  cursor: pointer;
+  /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
+	behavior: url(#default#AnchorClick);
+	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+  &:hover,
+  &:focus {
+    color: $il-link-hover-color;
+    text-decoration: $il-link-hover-decoration;
+  }
+
+  &:focus {
+    @include t-focus.tab-focus;
+  }
+}
 
 // Emphasis & misc
 // -------------------------
@@ -99,8 +121,6 @@ small,
 // Unordered and Ordered lists
 ul,
 ol {
-  margin-top: 0;
-  margin-bottom: math.div($il-line-height-computed, 2);
   ul,
   ol {
     margin-bottom: 0;
@@ -184,23 +204,6 @@ sub, sup {
 
 strong, b {
 	font-weight: $il-font-weight-bold;
-}
-
-a {
-	text-decoration: none;
-	cursor: pointer;
-	/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
-	 * All skins which want to support mounting of Webfolders using Internet Explorer
-	 * must explicitly enable AnchorClick behavior.
-	 */
-	behavior: url(#default#AnchorClick);
-	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
-	&:hover {
-		color: $il-link-hover-color;
-		text-decoration: underline;
-	}
-	
-	@include t-focus.il-focus();
 }
 
 code {

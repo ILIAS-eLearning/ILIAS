@@ -15,7 +15,7 @@
 //
 //##
 $nav-link-padding: $il-padding-large-vertical $il-padding-large-horizontal !default;
-$nav-link-hover-bg: $il-main-dark-bg !default;
+$nav-link-hover-bg: $il-main-darker-bg !default;
 $nav-disabled-link-color: $il-main-dark-bg !default;
 $nav-disabled-link-hover-color: $il-main-dark-bg !default;
 $cursor-disabled: not-allowed !default;
@@ -109,16 +109,19 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 .nav-tabs {
 	border-bottom: 1px solid $il-main-border-color;
 
-	>li {
+	> li {
 		float: left;
 		// Make the list-items overlay the bottom border
-		margin-bottom: -1px;
+		margin: 0 $il-padding-xs-horizontal 0 0;
 
 		// Actual tabs (as links)
-		>a {
+		> a {
+			margin: 0;
 			margin-right: 2px;
+			font-size: $il-font-size-base;
 			line-height: $il-line-height-base;
-			border: 1px solid transparent;
+			padding: $il-padding-large-vertical $il-padding-xlarge-horizontal $il-padding-base-vertical;
+			border: 0 none;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
 			&:hover {
@@ -135,7 +138,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 				color: $nav-tabs-active-link-hover-color;
 				cursor: default;
 				background-color: $nav-tabs-active-link-hover-bg;
-				border: 1px solid $nav-tabs-active-link-hover-border-color;
+				border: 0 none;
 				border-bottom-color: transparent;
 			}
 		}
@@ -636,6 +639,8 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	padding: 10px $navbar-padding-horizontal;
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
+	margin-top: $il-margin-xxlarge-vertical;
+	margin-bottom: $il-margin-xxlarge-vertical;
 	$shadow: inset 0 1px 0 rgba(255, 255, 255, .1),
 	0 1px 0 rgba(255, 255, 255, .1);
 	@include box-shadow($shadow);
