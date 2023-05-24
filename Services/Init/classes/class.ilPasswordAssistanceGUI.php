@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -35,6 +36,7 @@ class ilPasswordAssistanceGUI
     protected ilErrorHandling $ilErr;
     protected RefineryFactory $refinery;
     protected HTTPServices $http;
+    protected ilHelpGUI $help;
 
     public function __construct()
     {
@@ -46,9 +48,11 @@ class ilPasswordAssistanceGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->settings = $DIC->settings();
         $this->ilErr = $DIC['ilErr'];
-
+        $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+
+        $this->help->setScreenIdComponent('init');
     }
 
     /**
@@ -154,6 +158,8 @@ class ilPasswordAssistanceGUI
 
     public function showAssistanceForm(ilPropertyFormGUI $form = null): void
     {
+        $this->help->setSubScreenId('password_assistance');
+
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
         $this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
@@ -383,6 +389,8 @@ class ilPasswordAssistanceGUI
      */
     public function showAssignPasswordForm(ilPropertyFormGUI $form = null, string $pwassist_id = ''): void
     {
+        $this->help->setSubScreenId('password_input');
+
         // Retrieve form data
         if (!$pwassist_id) {
             if ($this->http->wrapper()->query()->has('key')) {
@@ -549,6 +557,8 @@ class ilPasswordAssistanceGUI
      */
     public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null): void
     {
+        $this->help->setSubScreenId('username_assistance');
+
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
         $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));

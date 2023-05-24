@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -48,6 +49,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     protected RefineryFactory $refinery;
     protected HTTPServices $http;
+    protected ilHelpGUI $help;
 
     /**
      * ilStartUpGUI constructor.
@@ -90,12 +92,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->eventHandler = $DIC->event();
         $this->setting = $DIC->settings();
         $this->access = $DIC->access();
+        $this->help = $DIC->help();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
         $this->user->setLanguage($this->lng->getLangKey());
+        $this->help->setScreenIdComponent('init');
     }
 
     protected function initTargetFromQuery(): string
@@ -258,6 +262,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         global $tpl;
 
+        $this->help->setSubScreenId('login');
+
         $this->getLogger()->debug('Showing login page');
 
         $extUid = '';
@@ -357,6 +363,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showCodeForm($a_username = null, $a_form = null): void
     {
         global $tpl;
+
+        $this->help->setSubScreenId('code_input');
 
         self::initStartUpTemplate("tpl.login_reactivate_code.html");
         $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt("time_limit_reached"));
@@ -1119,6 +1127,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function showAccountMigration(string $message = ''): void
     {
+        $this->help->setSubScreenId('account_migration');
+
         $tpl = self::initStartUpTemplate('tpl.login_account_migration.html');
 
         $form = new ilPropertyFormGUI();
@@ -1302,7 +1312,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     [$provider]
                 );
                 if (
-                $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
+                    $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
                 ) {
                     ilInitialisation::redirectToStartingPage();
                 } else {
@@ -1326,6 +1336,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         global $DIC;
 
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
+
+        $this->help->setSubScreenId('logout');
 
         $tpl = self::initStartUpTemplate("tpl.logout.html");
         $client_id = '';
@@ -1514,6 +1526,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function showTermsOfService(bool $accepted = false): void
     {
+        $this->help->setSubScreenId('terms_of_service');
+
         $back_to_login = ('getAcceptance' !== $this->ctrl->getCmd());
         $target = $this->initTargetFromQuery();
 
@@ -2182,6 +2196,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showSamlIdpSelection(ilSamlAuth $auth, array $idps): void
     {
         global $DIC;
+
+        $this->help->setSubScreenId('saml_idp_selection');
+
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
         $factory = $DIC->ui()->factory();
