@@ -47,7 +47,7 @@ function base()
                 for ($i = 1; $i < 5; $i++) {
                     $record['n' . $i] = $number;
                 }
-                yield $row_builder->buildStandardRow($row_id, $record);
+                yield $row_builder->buildDataRow($row_id, $record);
             }
         }
 

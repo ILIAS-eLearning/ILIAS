@@ -40,7 +40,7 @@ function base()
         ): \Generator {
             foreach ($this->records as $idx => $record) {
                 $row_id = '';
-                yield $row_builder->buildStandardRow($row_id, $record);
+                yield $row_builder->buildDataRow($row_id, $record);
             }
         }
 

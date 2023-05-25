@@ -227,7 +227,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
                 ?array $filter_data,
                 ?array $additional_parameters
             ): \Generator {
-                yield $row_builder->buldStandardRow('', []);
+                yield $row_builder->buldDataRow('', []);
             }
            public function getTotalRowCount(
                ?array $filter_data,
@@ -309,7 +309,7 @@ EOT;
             ->withSingleActions($actions)
             ->withVisibleColumns($columns);
 
-        $row = $rb->buildStandardRow('row_id-1', []);
+        $row = $rb->buildDataRow('row_id-1', []);
         $this->assertInstanceOf(Component\Table\DataRow::class, $row);
 
         return [$rb, $columns, $actions];
@@ -318,7 +318,7 @@ EOT;
     /**
      * @depends testDataTableRowBuilder
      */
-    public function testDataTableStandardRowFromBuilder(array $params): I\Table\StandardRow
+    public function testDataTableDataRowFromBuilder(array $params): I\Table\DataRow
     {
         list($rb, $columns, $actions) = $params;
         $record = [
@@ -326,7 +326,7 @@ EOT;
             'f2' => 'v2',
             'f3' => 3
         ];
-        $row = $rb->buildStandardRow('row_id-1', $record);
+        $row = $rb->buildDataRow('row_id-1', $record);
 
         $this->assertEquals(
             $columns,
@@ -345,9 +345,9 @@ EOT;
     }
 
     /**
-     * @depends testDataTableStandardRowFromBuilder
+     * @depends testDataTableDataRowFromBuilder
      */
-    public function testDataTableRenderStandardRow(I\Table\StandardRow $row)
+    public function testDataTableRenderStandardRow(I\Table\DataRow $row)
     {
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
         $expected = <<<EOT

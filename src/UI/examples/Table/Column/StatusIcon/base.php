@@ -49,7 +49,7 @@ function base()
                 $record['i2'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $number)
                 );
-                yield $row_builder->buildStandardRow($row_id, $record);
+                yield $row_builder->buildDataRow($row_id, $record);
             }
         }
 

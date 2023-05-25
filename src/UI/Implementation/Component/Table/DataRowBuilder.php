@@ -67,9 +67,9 @@ class DataRowBuilder implements T\DataRowBuilder
     /**
      * @param array<string, mixed> $record
      */
-    public function buildStandardRow(string $id, array $record): T\DataRow
+    public function buildDataRow(string $id, array $record): T\DataRow
     {
-        return new StandardRow(
+        return new DataRow(
             $this->row_actions !== [],
             $this->table_has_multiactions,
             $this->columns,

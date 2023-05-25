@@ -79,7 +79,7 @@ function base()
                 $record['achieve'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
                 );
-                yield $row_builder->buildStandardRow($row_id, $record);
+                yield $row_builder->buildDataRow($row_id, $record);
             }
         }
 

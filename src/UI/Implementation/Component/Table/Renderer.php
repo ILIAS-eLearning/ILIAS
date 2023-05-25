@@ -54,7 +54,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderDataTable($component, $default_renderer);
         }
         if ($component instanceof Component\Table\DataRow) {
-            return $this->renderStandardDataRow($component, $default_renderer);
+            return $this->renderDataRow($component, $default_renderer);
         }
         throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
     }
@@ -441,7 +441,7 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    public function renderStandardDataRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
+    public function renderDataRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();

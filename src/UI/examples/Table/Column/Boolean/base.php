@@ -47,7 +47,7 @@ function base()
                 $record['b1'] = $number > 10;
                 $record['b2'] = $record['b1'];
                 $record['b3'] = $record['b1'];
-                yield $row_builder->buildStandardRow($row_id, $record);
+                yield $row_builder->buildDataRow($row_id, $record);
             }
         }
 

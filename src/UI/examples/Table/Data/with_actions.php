@@ -70,7 +70,7 @@ function with_actions()
                 $not_to_be_deleted = $record['f3'] > 4 && $record['f3'] < 5;
 
                 //and yield the row
-                yield $row_builder->buildStandardRow($row_id, $record)
+                yield $row_builder->buildDataRow($row_id, $record)
                     ->withDisabledAction('edit', $not_to_be_edited)
                     ->withDisabledAction('delete', $not_to_be_deleted);
             }

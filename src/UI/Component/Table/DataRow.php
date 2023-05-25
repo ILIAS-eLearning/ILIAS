@@ -33,12 +33,12 @@ interface DataRow extends \ILIAS\UI\Component\Component
     public function withDisabledAction(string $action_id, bool $disable = true): self;
 
     /**
-     * @return array <string, Column>
+     * @return array<string, Column>
      */
     public function getColumns(): array;
 
     /**
-     * @return array <string, Action>
+     * @return array<string, Action>
      */
     public function getActions(): array;
 

@@ -36,7 +36,7 @@ function base()
                 'd1' => $dat,
                 'd2' => $dat
             ];
-            yield $row_builder->buildStandardRow($row_id, $record);
+            yield $row_builder->buildDataRow($row_id, $record);
         }
 
         public function getTotalRowCount(

@@ -28,19 +28,14 @@ class DataRow implements T\DataRow
     use ComponentHelper;
 
     /**
-     * The records's key is the column-id of the table.
-     * Its value will be formatted by the respective colum type's format-method.
-     * @var array<string, mixed>
-     */
-    public $record;
-
-    /**
      * @var array<string, bool>
      */
     protected array $disabled_actions = [];
 
-
     /**
+     * The records's key is the column-id of the table.
+     * Its value will be formatted by the respective colum type's format-method.
+     *
      * @param array<string, T\Column\Column> $columns
      * @param array<string, T\Action\Action> $actions
      * @param array<string, mixed> $record
@@ -51,9 +46,8 @@ class DataRow implements T\DataRow
         protected array $columns,
         protected array $actions,
         protected string $id,
-        array $record
+        protected array $record
     ) {
-        $this->record = $record;
     }
 
     public function getId(): string

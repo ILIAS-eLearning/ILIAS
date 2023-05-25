@@ -25,5 +25,5 @@ interface DataRowBuilder
     /**
      * @param array<string, mixed> $record
      */
-    public function buildStandardRow(string $id, array $record): DataRow;
+    public function buildDataRow(string $id, array $record): DataRow;
 }

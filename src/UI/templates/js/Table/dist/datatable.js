@@ -35,6 +35,11 @@ class DataTable {
   #actionsConstants;
 
   /**
+   * @type {HTMLDivElement}
+   */
+  #component;
+
+  /**
    * @type {HTMLTableElement}
    */
   #table;
@@ -54,10 +59,14 @@ class DataTable {
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, params, typeURL, typeSignal, optOptions, optId, tableId) {
-    this.#table = document.getElementById(tableId);
+  constructor(jquery, params, typeURL, typeSignal, optOptions, optId, componentId) {
+    this.#component = document.getElementById(componentId);
+    if (this.#component === null) {
+      throw new Error(`Could not find a DataTable for id '${componentId}'.`);
+    }
+    this.#table = this.#component.getElementsByTagName('table').item(0);
     if (this.#table === null) {
-      throw new Error(`Could not find table for input-id '${tableId}'.`);
+      throw new Error(`There is no <table> in the component's HTML.`);
     }
     this.#jquery = jquery;
     this.#params = params;
@@ -73,7 +82,7 @@ class DataTable {
     };
     this.#actionsRegistry = {};
 
-    this.#table.addEventListener('keydown', (event) => this.navigateCellsWithArrowKeys(event));
+    this.#component.addEventListener('keydown', (event) => this.navigateCellsWithArrowKeys(event));
   }
 
   /**
@@ -101,8 +110,8 @@ class DataTable {
    */
   selectAll(state) {
     const cols = this.#table.getElementsByClassName('c-table-data__row-selector');
-    const selectorAll = this.#table.getElementsByClassName('c-table-data__selection_all')[0];
-    const selectorNone = this.#table.getElementsByClassName('c-table-data__selection_none')[0];
+    const selectorAll = this.#table.getElementsByClassName('c-table-data__selection_all').item(0);
+    const selectorNone = this.#table.getElementsByClassName('c-table-data__selection_none').item(0);
 
     cols.forEach(
       (col) => { col.checked = state; },
@@ -149,7 +158,7 @@ class DataTable {
    */
   doActionForAll(originator) {
     const modalContent = originator.parentNode.parentNode;
-    const modalClose = modalContent.getElementsByClassName('close')[0];
+    const modalClose = modalContent.getElementsByClassName('close').item(0);
     const selectedAction = modalContent
       .getElementsByClassName('modal-body')[0]
       .getElementsByTagName('select')[0].value;
@@ -180,7 +189,7 @@ class DataTable {
       const opts = {};
       opts[this.#actionsConstants.opt.id] = target.id;
       opts[this.#actionsConstants.opt.mainkey] = target.options;
-      this.#jquery(`#${this.#table.getAttr('id')}`).trigger(target.id, opts);
+      this.#jquery(`#${this.#component.getAttr('id')}`).trigger(target.id, opts);
     }
   }
 
@@ -199,7 +208,6 @@ class DataTable {
 
     const cell = event.target.closest('td, th');
     const row = cell.closest('tr');
-    const table = this.#table.getElementsByTagName('table')[0];
 
     let { cellIndex } = cell;
     let { rowIndex } = row;
@@ -220,7 +228,7 @@ class DataTable {
     }
 
     if (rowIndex < 0 || cellIndex < 0
-            || rowIndex >= table.rows.length
+            || rowIndex >= this.#table.rows.length
             || cellIndex >= row.cells.length
     ) {
       return;
@@ -235,8 +243,7 @@ class DataTable {
    * @return {void}
    */
   focusCell(cell, rowIndex, cellIndex) {
-    const table = this.#table.getElementsByTagName('table')[0];
-    const nextCell = table.rows[rowIndex].cells[cellIndex];
+    const nextCell = this.#table.rows[rowIndex].cells[cellIndex];
     nextCell.focus();
     cell.setAttribute('tabindex', -1);
     nextCell.setAttribute('tabindex', 0);
