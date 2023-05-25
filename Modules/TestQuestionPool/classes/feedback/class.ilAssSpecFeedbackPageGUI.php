@@ -35,10 +35,13 @@ class ilAssSpecFeedbackPageGUI extends ilPageObjectGUI
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
         global $DIC;
-        $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
-            'cmdClass',
-            $DIC->refinery()->kindlyTo()->string()
-        ) ?? '';
+        $cmd_class = '';
+        if ($DIC->http()->wrapper()->query()->has('cmdClass')) {
+            $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
+                'cmdClass',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
 
         parent::__construct("qfbs", $a_id, $a_old_nr);
         $this->setTemplateTargetVar('ADM_CONTENT');
