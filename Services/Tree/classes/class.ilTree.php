@@ -1167,9 +1167,9 @@ class ilTree
                 $row = $this->db->fetchObject($res);
 
                 if ($row) {
-                    $data["title"] = $row->title;
+                    $data["title"] = (string) $row->title;
                     $data["description"] = ilStr::shortenTextExtended((string) $row->description, ilObject::DESC_LENGTH, true);
-                    $data["desc"] = $row->description;
+                    $data["desc"] = (string) $row->description;
                 }
 
                 // Store up to 1000 object translations in cache
