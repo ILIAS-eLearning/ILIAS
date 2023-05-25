@@ -77,7 +77,10 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
         }
 
         $test_id = (int) $row['test_id'];
-        $results_presentation = $row['results_presentation'];
+        $tax_filter_ids = unserialize((string) ($row['result_tax_filters']));
+        if ($tax_filter_ids === false) {
+            $tax_filter_ids = [];
+        }
 
         $settings = new ilObjTestScoreSettings(
             $test_id,
@@ -91,13 +94,13 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
-                //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
+            //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
             (new ilObjTestSettingsResultDetails($test_id))
                 ->withResultsPresentation((int)$row['results_presentation'])
                 ->withPrintBestSolutionWithResult((bool) $row['print_bs_with_res'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings'])
-                ->withTaxonomyFilterIds(unserialize((string)$row['result_tax_filters'])),
+                ->withTaxonomyFilterIds($tax_filter_ids),
             (new ilObjTestSettingsGamification($test_id))
                 ->withHighscoreEnabled((bool) $row['highscore_enabled'])
                 ->withHighscoreAnon((bool) $row['highscore_anon'])
