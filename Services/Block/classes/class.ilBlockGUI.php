@@ -344,6 +344,7 @@ abstract class ilBlockGUI
 
     public function getHTML(): string
     {
+        $this->loadData();
         $this->initCommands();
 
         // old rendering is obsolete
