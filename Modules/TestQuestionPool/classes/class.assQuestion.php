@@ -1708,7 +1708,7 @@ abstract class assQuestion
 
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
-            return $row["question_text"];
+            return $row["question_text"] ?? '';
         }
 
         return "";
