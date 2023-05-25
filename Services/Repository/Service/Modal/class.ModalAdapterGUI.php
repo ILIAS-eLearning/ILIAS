@@ -19,12 +19,14 @@ namespace ILIAS\Repository\Modal;
 
 use ILIAS\UI\Component\Modal;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Repository\HTTP\HTTPUtil;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ModalAdapterGUI
 {
+    protected HTTPUtil $http_util;
     protected string $cancel_label;
     protected ?\ILIAS\Repository\Form\FormAdapterGUI $form = null;
     protected \ILIAS\Refinery\Factory $refinery;
@@ -40,7 +42,8 @@ class ModalAdapterGUI
      */
     public function __construct(
         $title = "",
-        $cancel_label = ""
+        $cancel_label = "",
+        HTTPUtil $http_util
     ) {
         global $DIC;
         $this->ui = $DIC->ui();
@@ -49,6 +52,7 @@ class ModalAdapterGUI
         $this->refinery = $DIC->refinery();
         $this->title = $title;
         $this->cancel_label = $cancel_label;
+        $this->http_util = $http_util;
     }
 
     /**
@@ -56,11 +60,7 @@ class ModalAdapterGUI
      */
     protected function _send(string $output): void
     {
-        $this->http->saveResponse($this->http->response()->withBody(
-            Streams::ofString($output)
-        ));
-        $this->http->sendResponse();
-        $this->http->close();
+        $this->http_util->sendString($output);
     }
 
     public function getTitle(): string
@@ -188,5 +188,4 @@ class ModalAdapterGUI
         }
         return ["button" => $button, "modal" => $modal];
     }
-
 }

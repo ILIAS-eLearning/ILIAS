@@ -3475,71 +3475,15 @@ s     */
         $this->content_id_manager->insertPCIds();
     }
 
-    /**
-     * Get question ids
-     * @todo: move to questions
-     */
-    public function getQuestionIds(): array
-    {
-        $this->buildDom();
-        $mydom = $this->dom;
-
-        // Get question IDs
-        $path = "//Question";
-        $xpc = xpath_new_context($mydom);
-        $res = xpath_eval($xpc, $path);
-
-        $q_ids = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $qref = $res->nodeset[$i]->get_attribute("QRef");
-            $inst_id = ilInternalLink::_extractInstOfTarget($qref);
-            $obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
-
-            if (!($inst_id > 0)) {
-                if ($obj_id > 0) {
-                    $q_ids[] = $obj_id;
-                }
-            }
-        }
-        return $q_ids;
-    }
-
-    // @todo: move to paragraph
-    public function send_paragraph(
+    public function sendParagraph(
         string $par_id,
         string $filename
     ): void {
-        $this->buildDom();
-        $content = "";
-
-        $mydom = $this->dom;
-
-        $xpc = xpath_new_context($mydom);
-        $path = "/descendant::Paragraph[position() = $par_id]";
-
-        $res = xpath_eval($xpc, $path);
-
-        if (count($res->nodeset) != 1) {
-            die("Should not happen");
-        }
-
-        $context_node = $res->nodeset[0];
-
-        // get plain text
-
-        $childs = $context_node->child_nodes();
-
-        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
-            $content .= $mydom->dump_node($childs[$j]);
-        }
-
-        $content = str_replace("<br />", "\n", $content);
-        $content = str_replace("<br/>", "\n", $content);
-
-        $plain_content = html_entity_decode($content);
-
-        ilUtil::deliverData($plain_content, $filename);
-        exit();
+        $this->pc_service->paragraph()->send(
+            $this->getDomDoc(),
+            $par_id,
+            $filename
+        );
     }
 
     public function registerOfflineHandler(object $handler): void

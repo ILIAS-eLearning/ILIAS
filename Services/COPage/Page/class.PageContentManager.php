@@ -156,4 +156,8 @@ class PageContentManager
             }
         }
     }
+
+    //
+    // Specific methods, should go to other components
+    //
 }

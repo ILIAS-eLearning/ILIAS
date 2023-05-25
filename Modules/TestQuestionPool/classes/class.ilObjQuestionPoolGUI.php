@@ -521,7 +521,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function download_paragraphObject(): void
     {
         $pg_obj = new ilAssQuestionPage($this->qplrequest->raw('pg_id'));
-        $pg_obj->send_paragraph($this->qplrequest->raw('par_id'), $this->qplrequest->raw('downloadtitle'));
+        $pg_obj->sendParagraph($this->qplrequest->raw('par_id'), $this->qplrequest->raw('downloadtitle'));
         exit;
     }
 

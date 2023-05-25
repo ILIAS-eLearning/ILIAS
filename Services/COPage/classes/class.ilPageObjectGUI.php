@@ -2096,7 +2096,7 @@ class ilPageObjectGUI
     public function download_paragraph(): void
     {
         $pg_obj = $this->getPageObject();
-        $pg_obj->send_paragraph(
+        $pg_obj->sendParagraph(
             $this->request->getString("par_id"),
             $this->request->getString("downloadtitle")
         );

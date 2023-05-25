@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\COPage\InternalDataService;
 use ILIAS\COPage\InternalRepoService;
 use ILIAS\COPage\InternalDomainService;
+use ILIAS\COPage\PC\Paragraph\ParagraphManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,5 +61,10 @@ class DomainService
     public function definition(): PCDefinition
     {
         return $this->def ?? new PCDefinition();
+    }
+
+    public function paragraph(): ParagraphManager
+    {
+        return new ParagraphManager();
     }
 }
