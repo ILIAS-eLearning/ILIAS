@@ -102,19 +102,19 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             if ($this->getSize() === 0) {
                 return "";
             }
-            
+
             if (($r_id = $this->obj->getResourceId()) &&
                 ($identification = $this->resource_manager->find($r_id))) {
-                return $this->resource_consumer->stream($identification)->getStream();
+                return $this->resource_consumer->stream($identification)->getStream()->getContents();
             }
-            
+
             /*
              * @todo: This is legacy and should be removed with ILIAS 8
              */
             if (file_exists($file = $this->getPathToFile())) {
                 return fopen($file, 'r');
             }
-            
+
             throw new Exception\NotFound("File not found");
         }
 
@@ -166,7 +166,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 filemtime($path)
             ) . '"';
         }
-        
+
         if ($this->getSize() > 0) {
             return '"' . sha1(
                 $this->getSize() .
@@ -227,17 +227,17 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             );
             $migration->migrate(new ilFileObjectToStorageDirectory($this->obj->getId(), $this->obj->getDirectory()));
         }
-        
+
         $size = (int) $this->request->getHeader('Content-Length')[0];
-        
+
         if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
             $size = $this->request->getHeader('X-Expected-Entity-Length')[0];
         }
-        
+
         if ($size > ilUtil::getUploadSizeLimitBytes()) {
             throw new Exception\Forbidden('File is too big');
         }
-        
+
         /**
          * Sadly we need this to avoid creating multiple versions on a single
          * upload, because of the behaviour of some clients.
@@ -245,15 +245,15 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         if ($size === 0) {
             return null;
         }
-        
+
         $stream = Streams::ofResource($a_data);
-        
+
         if ($a_file_action === 'replace') {
             $this->obj->replaceWithStream($stream, $this->obj->getTitle());
         } else {
             $this->obj->appendStream($stream, $this->obj->getTitle());
         }
-        
+
         $stream->close();
 
         // TODO filename is "input" and metadata etc.
@@ -262,7 +262,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);
             ilPreview::createPreview($this->obj, true);
         }
-        
+
         return $this->getETag();
     }
 
