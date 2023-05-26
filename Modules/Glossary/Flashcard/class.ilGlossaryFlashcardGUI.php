@@ -110,7 +110,7 @@ class ilGlossaryFlashcardGUI
     protected function getItemBox(int $nr): \ILIAS\UI\Component\Item\Item
     {
         $item_cnt = $this->manager->getItemsForBoxCount($nr);
-        $last_access = $this->manager->getLastAccessForBoxInDaysText($nr);
+        $last_access = $this->manager->getLastAccessForBoxAsDaysText($nr);
 
         if (($this->manager->getUserTermIdsForBox($nr) && $nr !== Flashcard\FlashcardBox::LAST_BOX)
             || ($this->manager->getAllTermsWithoutEntry() && $nr === Flashcard\FlashcardBox::FIRST_BOX)) {

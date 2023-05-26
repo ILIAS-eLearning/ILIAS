@@ -41,6 +41,10 @@ class FlashcardManager
     protected int $user_id;
     protected \ilObjGlossary $glossary;
     protected ClockInterface $clock;
+    /**
+     * @var int[]
+     */
+    protected array $all_glossary_term_ids = [];
 
     public function __construct(
         InternalDomainService $domain_service,
@@ -60,6 +64,22 @@ class FlashcardManager
         $this->user_id = $user_id;
         $this->glossary = new \ilObjGlossary($glo_ref_id);
         $this->clock = $data_factory->clock()->system();
+
+        $all_glossary_terms = $this->glossary->getTermList(
+            "",
+            "",
+            "",
+            0,
+            false,
+            false,
+            null,
+            false,
+            true
+        );
+        foreach ($all_glossary_terms as $term) {
+            $term_id = (int) $term["id"];
+            $this->all_glossary_term_ids[] = $term_id;
+        }
     }
 
     public function setSessionInitialTerms(
@@ -99,22 +119,10 @@ class FlashcardManager
      */
     public function getAllTermsWithoutEntry(): array
     {
-        $all_glossary_terms = $this->glossary->getTermList(
-            "",
-            "",
-            "",
-            0,
-            false,
-            false,
-            null,
-            false,
-            true
-        );
         $terms_with_entry = $this->getAllUserTermIds();
 
         $terms_without_entry = [];
-        foreach ($all_glossary_terms as $term) {
-            $term_id = (int) $term["id"];
+        foreach ($this->all_glossary_term_ids as $term_id) {
             if (!in_array($term_id, $terms_with_entry)) {
                 $terms_without_entry[] = $term_id;
             }
@@ -139,6 +147,26 @@ class FlashcardManager
     }
 
     /**
+     * Filter out the terms, for which already exist entries, but are not part of the glossary currently/anymore.
+     * Only relevant for virtual glossaries.
+     *
+     * @param int[] $term_ids
+     * @return int[]
+     */
+    protected function filterTermsNotInGlossary(
+        array $term_ids
+    ): array {
+        $term_ids_filtered = [];
+        foreach ($term_ids as $id) {
+            if (in_array($id, $this->all_glossary_term_ids)) {
+                $term_ids_filtered[] = $id;
+            }
+        }
+
+        return $term_ids_filtered;
+    }
+
+    /**
      * @return int[]
      */
     public function getUserTermIdsForBox(
@@ -150,6 +178,7 @@ class FlashcardManager
         foreach ($entries as $entry) {
             $term_ids[] = (int) $entry["term_id"];
         }
+        $term_ids = $this->filterTermsNotInGlossary($term_ids);
 
         return $term_ids;
     }
@@ -170,6 +199,7 @@ class FlashcardManager
                 $non_recent_term_ids[] = (int) $entry["term_id"];
             }
         }
+        $non_recent_term_ids = $this->filterTermsNotInGlossary($non_recent_term_ids);
 
         return $non_recent_term_ids;
     }
@@ -190,6 +220,7 @@ class FlashcardManager
             }
         }
         $recent_term_ids = $this->shuffle_manager->shuffleEntries($recent_term_ids);
+        $recent_term_ids = $this->filterTermsNotInGlossary($recent_term_ids);
 
         return $recent_term_ids;
     }
@@ -208,7 +239,7 @@ class FlashcardManager
         return $item_cnt;
     }
 
-    public function getLastAccessForBoxInDate(
+    public function getLastAccessForBox(
         int $box_nr
     ): ?string {
         $entry = $this->box_db_repo->getEntry($box_nr, $this->user_id, $this->glo_id);
@@ -217,11 +248,11 @@ class FlashcardManager
         return $date;
     }
 
-    public function getLastAccessForBoxInDaysText(
+    public function getLastAccessForBoxAsDaysText(
         int $box_nr
     ): string {
         $lng = $this->domain->lng();
-        $date_str = $this->getLastAccessForBoxInDate($box_nr);
+        $date_str = $this->getLastAccessForBox($box_nr);
         if (!$date_str) {
             return $lng->txt("never");
         }
