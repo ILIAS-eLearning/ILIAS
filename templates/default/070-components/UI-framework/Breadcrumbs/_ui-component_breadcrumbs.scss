@@ -20,25 +20,29 @@
 		padding: ($il-padding-small-vertical * 2);
 		padding-left: $il-standard-page-content-padding;
 
-		span.crumb a {
-			color: $il-standard-page-breadcrumbs-color;
-			&:hover {
-				color: $il-standard-page-breadcrumbs-active-color;
-			}
-			&:focus {
-				border: $il-focus-outline-inner;
+		span {
+			direction: ltr;
+
+			span.crumb a {
+				color: $il-standard-page-breadcrumbs-color;
+				&:hover {
+					color: $il-standard-page-breadcrumbs-active-color;
+				}
+				&:focus {
+					border: $il-focus-outline-inner;
 				
-				&::after {
-					content: none;
+					&::after {
+						content: none;
+					}
 				}
 			}
-		}
 
-		&>span+span:before {
-			content: $il-standard-page-breadcrumbs-seperator;
-			color: $il-standard-page-breadcrumbs-divider-color;
-			padding: 8px 10px;
-			font-family: "il-icons";
+			&>span+span:before {
+				content: $il-standard-page-breadcrumbs-seperator;
+				color: $il-standard-page-breadcrumbs-divider-color;
+				padding: 8px 10px;
+				font-family: "il-icons";
+			}
 		}
 	}
 

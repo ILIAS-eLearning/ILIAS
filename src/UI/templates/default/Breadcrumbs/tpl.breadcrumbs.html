@@ -1,9 +1,11 @@
 <nav aria-label="{ARIA_LABEL}" class="breadcrumb_wrapper">
-	<div class="breadcrumb">
-		<!-- BEGIN crumbs -->
-		<span class="crumb">
-			{CRUMB}
+	<div class="breadcrumb"> <!-- this here exists to put ellipsis on the right side via rtl-rendering --!>
+		<span> <!-- this here exists to force rendering of words in ltr order... --!>
+			<!-- BEGIN crumbs -->
+			<span class="crumb">
+				{CRUMB}
+			</span>
+			<!-- END crumbs -->
 		</span>
-		<!-- END crumbs -->
 	</div>
 </nav>
