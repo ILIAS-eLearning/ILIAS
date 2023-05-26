@@ -107,7 +107,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
                 }
                 break;
 
-            // for permission query feature
+                // for permission query feature
             case "infoScreen":
                 if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -139,13 +139,13 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     public static function _lookupOnline(int $a_id): bool
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $q = "SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($a_id, "integer");
         $dcl_set = $ilDB->query($q);
         $dcl_rec = $ilDB->fetchAssoc($dcl_set);
 
-        return $dcl_rec["is_online"];
+        return !is_null($dcl_rec) && $dcl_rec["is_online"];
     }
 
     //
