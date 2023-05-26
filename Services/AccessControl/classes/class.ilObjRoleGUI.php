@@ -1410,7 +1410,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->object->changeExistingObjects(
             $start,
             $mode,
-            jsond_decode(
+            json_decode(
                 ilUtil::stripSlashes($_POST['type_filter']),
                 true
             )
