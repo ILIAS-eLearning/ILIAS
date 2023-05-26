@@ -1358,11 +1358,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $form->addCommandButton('perm', $this->lng->txt('cancel'));
 
         $hidden = new ilHiddenInputGUI('type_filter');
-        $hidden->setValue(
-            $_POST['recursive'] ?
-                serialize(array('all')) :
-                serialize($_POST['recursive_list'])
-        );
+        $hidden->setValue($_POST['recursive'] ? json_encode(['all']) : json_encode($_POST['recursive_list']));
         $form->addItem($hidden);
 
         $rad = new ilRadioGroupInputGUI($this->lng->txt('rbac_local_policies'), 'mode');
@@ -1409,22 +1405,14 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function changeExistingObjectsObject()
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         $mode = (int) $_POST['mode'];
         $start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
         $this->object->changeExistingObjects(
             $start,
             $mode,
-            unserialize(
+            jsond_decode(
                 ilUtil::stripSlashes($_POST['type_filter']),
-                [
-                    'allowed_classes' => false
-                ]
+                true
             )
         );
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
