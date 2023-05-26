@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Table;
+declare(strict_types=1);
 
-use Exception;
+namespace ILIAS\UI\Component\Table\Column;
 
-interface RowFactory
+interface StatusIcon extends Column
 {
-    /**
-     * @throws Exception if record cannot be processed to row
-     */
-    public function map(array $record): array;
 }

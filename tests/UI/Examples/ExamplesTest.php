@@ -37,6 +37,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
     public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
+        $_SERVER["REQUEST_SCHEME"] = "http";
+        $_SERVER["SERVER_NAME"] = "localhost";
+        $_SERVER["SERVER_PORT"] = "80";
         $_SERVER["REQUEST_URI"] = "";
         $_SERVER['SCRIPT_NAME'] = "";
         $_SERVER['QUERY_STRING'] = "param=1";

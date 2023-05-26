@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
@@ -40,14 +40,13 @@ class Presentation extends Table implements T\Presentation
     protected SignalGeneratorInterface $signal_generator;
     private Closure $row_mapping;
 
-
     public function __construct(
         string $title,
         array $view_controls,
         Closure $row_mapping,
         SignalGeneratorInterface $signal_generator
     ) {
-        $this->title = $title;
+        parent::__construct($title);
         $this->view_controls = $view_controls;
         $this->row_mapping = $row_mapping;
         $this->signal_generator = $signal_generator;
