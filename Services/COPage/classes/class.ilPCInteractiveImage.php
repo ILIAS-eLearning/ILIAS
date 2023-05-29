@@ -508,4 +508,30 @@ class ilPCInteractiveImage extends ilPageContent
             $this->dom_util->setContent($res->item(0), $a_title);
         }
     }
+
+    public static function handleCopiedContent(
+        DOMDocument $a_domdoc,
+        bool $a_self_ass = true,
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
+    ): void {
+        global $DIC;
+
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        $path = "//InteractiveImage/MediaAlias";
+        $nodes = $dom_util->path($a_domdoc, $path);
+        foreach ($nodes as $node) {
+            $or_id = $node->getAttribute("OriginId");
+            $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
+            $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
+            if (!($inst_id > 0)) {
+                if ($mob_id > 0) {
+                    $media_object = new ilObjMediaObject($mob_id);
+                    $new_mob = $media_object->duplicate();
+                    $node->setAttribute("OriginId", "il__mob_" . $new_mob->getId());
+                }
+            }
+        }
+    }
 }

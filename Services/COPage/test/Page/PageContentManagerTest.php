@@ -160,4 +160,122 @@ EOT;
             $page->getXMLFromDom()
         );
     }
+
+    public function testInitialOpenedContent(): void
+    {
+        $dom_util = new \ILIAS\COPage\Dom\DomUtil();
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $this->insertParagraphAt($page, "pg", "Hello");
+        $page->insertPCIds();
+
+        $page_content->setInitialOpenedContent(
+            "media",
+            5,
+            ""
+        );
+
+        $expected = [
+            "id" => 5,
+            "type" => "media",
+            "target" => ""
+        ];
+
+        $this->assertEquals(
+            $expected,
+            $page_content->getInitialOpenedContent()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent HierId="1" PCID="00000000000000000000000000000001"><Paragraph Language="en">Hello</Paragraph></PageContent><InitOpenedContent><IntLink Target="il__mob_5" Type="MediaObject" TargetFrame=""/></InitOpenedContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInitialOpenedContent2(): void
+    {
+        $dom_util = new \ILIAS\COPage\Dom\DomUtil();
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $this->insertParagraphAt($page, "pg", "Hello");
+        $page->insertPCIds();
+
+        $page_content->setInitialOpenedContent(
+            "media",
+            5,
+            ""
+        );
+
+        $page_content->setInitialOpenedContent(
+            "term",
+            10,
+            "Glossary"
+        );
+
+        $expected = [
+            "id" => 10,
+            "type" => "term",
+            "target" => "Glossary"
+        ];
+
+        $this->assertEquals(
+            $expected,
+            $page_content->getInitialOpenedContent()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent HierId="1" PCID="00000000000000000000000000000001"><Paragraph Language="en">Hello</Paragraph></PageContent><InitOpenedContent><IntLink Target="il__git_10" Type="GlossaryItem" TargetFrame="Glossary"/></InitOpenedContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInitialOpenedContent3(): void
+    {
+        $dom_util = new \ILIAS\COPage\Dom\DomUtil();
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $this->insertParagraphAt($page, "pg", "Hello");
+        $page->insertPCIds();
+
+        $page_content->setInitialOpenedContent(
+            "media",
+            5,
+            ""
+        );
+
+        $page_content->setInitialOpenedContent();
+
+        $expected = [];
+
+        $this->assertEquals(
+            $expected,
+            $page_content->getInitialOpenedContent()
+        );
+
+        $expected = <<<EOT
+<PageObject HierId="pg"><PageContent HierId="1" PCID="00000000000000000000000000000001"><Paragraph Language="en">Hello</Paragraph></PageContent></PageObject>
+EOT;
+        $this->assertXmlEquals(
+            $expected,
+            $page->getXMLFromDom()
+        );
+    }
 }

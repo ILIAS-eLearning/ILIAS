@@ -49,6 +49,7 @@ define("IL_INSERT_CHILD", 2);
  */
 abstract class ilPageObject
 {
+    protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected int $create_user = 0;
     /**
@@ -161,6 +162,10 @@ abstract class ilPageObject
             ->domain()
             ->pc()
             ->definition();
+        $this->link = $DIC->copage()
+            ->internal()
+            ->domain()
+            ->link();
     }
 
     public function setContentIdManager(
@@ -875,21 +880,6 @@ s     */
     ): void {
         $defs = $this->pc_definition->getPCDefinitions();
 
-        // handle question elements
-        if ($a_self_ass) {
-            $this->newQuestionCopies($a_dom);
-        } else {
-            $this->removeQuestions($a_dom);
-        }
-
-        // handle interactive images
-        $this->newIIMCopies($a_dom);
-
-        // handle media objects
-        if ($a_clone_mobs) {
-            $this->newMobCopies($a_dom);
-        }
-
         // @todo 1: move all functions from above to the new domdoc
         $dom = $a_dom;
         if ($a_dom instanceof php4DOMDocument) {
@@ -916,139 +906,6 @@ s     */
     {
         $pm = $this->page_manager->content($this->getDomDoc());
         $pm->handleDeleteContent($a_node, $move_operation);
-    }
-
-    /**
-     * Replaces media objects in interactive images
-     * with copies of the interactive images
-     */
-    public function newIIMCopies(php4DOMDocument $temp_dom): void
-    {
-        // Get question IDs
-        $path = "//InteractiveImage/MediaAlias";
-        $xpc = xpath_new_context($temp_dom);
-        $res = xpath_eval($xpc, $path);
-
-        $q_ids = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $or_id = $res->nodeset[$i]->get_attribute("OriginId");
-
-            $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
-            $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
-
-            if (!($inst_id > 0)) {
-                if ($mob_id > 0) {
-                    $media_object = new ilObjMediaObject($mob_id);
-
-                    // now copy this question and change reference to
-                    // new question id
-                    $new_mob = $media_object->duplicate();
-
-                    $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $new_mob->getId());
-                }
-            }
-        }
-    }
-
-    /**
-     * Replaces media objects with copies
-     */
-    public function newMobCopies(php4DOMDocument $temp_dom): void
-    {
-        // Get question IDs
-        $path = "//MediaObject/MediaAlias";
-        $xpc = xpath_new_context($temp_dom);
-        $res = xpath_eval($xpc, $path);
-
-        $q_ids = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $or_id = $res->nodeset[$i]->get_attribute("OriginId");
-
-            $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
-            $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
-
-            if (!($inst_id > 0)) {
-                if ($mob_id > 0) {
-                    $media_object = new ilObjMediaObject($mob_id);
-
-                    // now copy this question and change reference to
-                    // new question id
-                    $new_mob = $media_object->duplicate();
-
-                    $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $new_mob->getId());
-                }
-            }
-        }
-    }
-
-    /**
-     * Replaces existing question content elements with
-     * new copies
-     */
-    public function newQuestionCopies(php4DOMDocument $temp_dom): void
-    {
-        // Get question IDs
-        $path = "//Question";
-        $xpc = xpath_new_context($temp_dom);
-        $res = xpath_eval($xpc, $path);
-
-        $q_ids = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $qref = $res->nodeset[$i]->get_attribute("QRef");
-
-            $inst_id = ilInternalLink::_extractInstOfTarget($qref);
-            $q_id = ilInternalLink::_extractObjIdOfTarget($qref);
-
-            if (!($inst_id > 0)) {
-                if ($q_id > 0) {
-                    $question = null;
-                    try {
-                        $question = assQuestion::_instantiateQuestion($q_id);
-                    } catch (Exception $e) {
-                    }
-                    // check due to #16557
-                    if (is_object($question) && $question->isComplete()) {
-                        // check if page for question exists
-                        // due to a bug in early 4.2.x version this is possible
-                        if (!ilPageObject::_exists("qpl", $q_id)) {
-                            $question->createPageObject();
-                        }
-
-                        // now copy this question and change reference to
-                        // new question id
-                        $duplicate_id = $question->duplicate(false);
-                        $res->nodeset[$i]->set_attribute("QRef", "il__qst_" . $duplicate_id);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Remove questions from document
-     */
-    public function removeQuestions(php4DOMDocument $temp_dom): void
-    {
-        // Get question IDs
-        $path = "//Question";
-        $xpc = xpath_new_context($temp_dom);
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $parent_node = $res->nodeset[$i]->parent_node();
-            $parent_node->unlink_node($parent_node);
-        }
-    }
-
-    // @todo: end
-
-    public function countPageContents(): int
-    {
-        // Get question IDs
-        $this->buildDom();
-        $path = "//PageContent";
-        $xpc = xpath_new_context($this->dom);
-        $res = xpath_eval($xpc, $path);
-        return count($res->nodeset);
     }
 
     /**
@@ -1198,43 +1055,16 @@ s     */
         return "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
 
-    // @todo begin: move this to paragraph class
-
     public function getFirstParagraphText(): string
     {
-        if ($this->dom) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//Paragraph[1]";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                $cont_node = $res->nodeset[0]->parent_node();
-                $par = new ilPCParagraph($this);
-                $par->setNode($cont_node);
-                $text = $par->getText();
-                return $text;
-            }
-        }
-        return "";
+        return $this->pc_service->paragraph()->getFirstParagraphText($this);
     }
 
     public function getParagraphForPCID(string $pcid): ?ilPCParagraph
     {
-        if ($this->dom) {
-            $xpc = xpath_new_context($this->dom);
-            $path = "//PageContent[@PCID='" . $pcid . "']/Paragraph[1]";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                $cont_node = $res->nodeset[0]->parent_node();
-                $par = new ilPCParagraph($this);
-                $par->setNode($cont_node);
-                return $par;
-            }
-        }
-        return null;
+        return $this->pc_service->paragraph()->getParagraphForPCID($this, $pcid);
     }
 
-
-    // @todo end
 
     /**
      * lm parser set this flag to true, if the page contains intern links
@@ -1295,157 +1125,41 @@ s     */
      * get all media objects, that are referenced and used within
      * the page
      */
-    // @todo: move to media class
     public function collectMediaObjects(bool $a_inline_only = true): array
     {
-        //echo htmlentities($this->getXMLFromDom());
-        // determine all media aliases of the page
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaObject/MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        $mob_ids = array();
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
-            $mob_id = $id_arr[count($id_arr) - 1];
-            $mob_ids[$mob_id] = $mob_id;
-        }
-
-        // determine all media aliases of interactive images
-        $xpc = xpath_new_context($this->dom);
-        $path = "//InteractiveImage/MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
-            $mob_id = $id_arr[count($id_arr) - 1];
-            $mob_ids[$mob_id] = $mob_id;
-        }
-
-        // determine all inline internal media links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink[@Type = 'MediaObject']";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            if (($res->nodeset[$i]->get_attribute("TargetFrame") == "") ||
-                (!$a_inline_only)) {
-                $target = $res->nodeset[$i]->get_attribute("Target");
-                $id_arr = explode("_", $target);
-                if (($id_arr[1] == IL_INST_ID) ||
-                    (substr($target, 0, 4) == "il__")) {
-                    $mob_id = $id_arr[count($id_arr) - 1];
-                    if (ilObject::_exists($mob_id)) {
-                        $mob_ids[$mob_id] = $mob_id;
-                    }
-                }
-            }
-        }
-
-        return $mob_ids;
+        $mob_manager = $this->pc_service->mediaObject();
+        return $mob_manager->collectMediaObjects($this->getDomDoc(), $a_inline_only);
     }
-
 
     /**
      * get all internal links that are used within the page
      */
-    // @todo: can we do this better?
-    public function getInternalLinks(bool $a_cnt_multiple = false): array
+    public function getInternalLinks(): array
     {
-        // get all internal links of the page
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-
-        $links = array();
-        $cnt_multiple = 1;
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $add = "";
-            if ($a_cnt_multiple) {
-                $add = ":" . $cnt_multiple;
-            }
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-            $targetframe = $res->nodeset[$i]->get_attribute("TargetFrame");
-            $anchor = $res->nodeset[$i]->get_attribute("Anchor");
-            $links[$target . ":" . $type . ":" . $targetframe . ":" . $anchor . $add] =
-                array("Target" => $target,
-                      "Type" => $type,
-                      "TargetFrame" => $targetframe,
-                      "Anchor" => $anchor
-                );
-
-            // get links (image map areas) for inline media objects
-            if ($type == "MediaObject" && $targetframe == "") {
-                if (substr($target, 0, 4) == "il__") {
-                    $id_arr = explode("_", $target);
-                    $id = $id_arr[count($id_arr) - 1];
-
-                    $med_links = ilMediaItem::_getMapAreasIntLinks($id);
-                    foreach ($med_links as $key => $med_link) {
-                        $links[$key] = $med_link;
-                    }
-                }
-            }
-            //echo "<br>-:".$target.":".$type.":".$targetframe.":-";
-            $cnt_multiple++;
-        }
-        unset($xpc);
-
-        // get all media aliases
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaAlias";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $oid = $res->nodeset[$i]->get_attribute("OriginId");
-            if (substr($oid, 0, 4) == "il__") {
-                $id_arr = explode("_", $oid);
-                $id = $id_arr[count($id_arr) - 1];
-
-                $med_links = ilMediaItem::_getMapAreasIntLinks($id);
-                foreach ($med_links as $key => $med_link) {
-                    $links[$key] = $med_link;
-                }
-            }
-        }
-        unset($xpc);
-
-        return $links;
+        return $this->link->getInternalLinks($this->getDomDoc());
     }
 
     /**
      * get a xml string that contains all media object elements, that
      * are referenced by any media alias in the page
      */
-    // @todo: move to media class
     public function getMultimediaXML(): string
     {
-        $mob_ids = $this->collectMediaObjects();
-
-        // get xml of corresponding media objects
-        $mobs_xml = "";
-        foreach ($mob_ids as $mob_id => $dummy) {
-            if (ilObject::_lookupType($mob_id) == "mob") {
-                $mob_obj = new ilObjMediaObject($mob_id);
-                $mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true);
-            }
-        }
-        //var_dump($mobs_xml);
-        return $mobs_xml;
+        $mob_manager = $this->pc_service->mediaObject();
+        return $mob_manager->getMultimediaXML($this->getDomDoc());
     }
 
     /**
      * get complete media object (alias) element
      */
-    // @todo: move to media class
     public function getMediaAliasElement(int $a_mob_id, int $a_nr = 1): string
     {
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaObject/MediaAlias[@OriginId='il__mob_$a_mob_id']";
-        $res = xpath_eval($xpc, $path);
-        $mal_node = $res->nodeset[$a_nr - 1];
-        $mob_node = $mal_node->parent_node();
-
-        return $this->dom->dump_node($mob_node);
+        $mob_manager = $this->pc_service->mediaObject();
+        return $mob_manager->getMediaAliasElement(
+            $this->getDomDoc(),
+            $a_mob_id,
+            $a_nr
+        );
     }
 
     /**
@@ -1514,34 +1228,10 @@ s     */
 
     /**
      * add file sizes
-     * @todo: move to file item class
      */
     public function addFileSizes(): void
     {
-        $xpc = xpath_new_context($this->dom);
-        $path = "//FileItem";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $cnode = $res->nodeset[$i];
-            $size_node = $this->dom->create_element("Size");
-            $size_node = $cnode->append_child($size_node);
-
-            $childs = $cnode->child_nodes();
-            $size = "";
-            for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
-                if ($childs[$j]->node_name() == "Identifier") {
-                    if ($childs[$j]->has_attribute("Entry")) {
-                        $entry = $childs[$j]->get_attribute("Entry");
-                        $entry_arr = explode("_", $entry);
-                        $id = $entry_arr[count($entry_arr) - 1];
-                        $size = ilObjFileAccess::_lookupFileSize($id, false);
-                    }
-                }
-            }
-            $size_node->set_content($size);
-        }
-
-        unset($xpc);
+        $this->pc_service->fileList()->addFileSizes($this->getDomDoc());
     }
 
     /**
@@ -1550,165 +1240,46 @@ s     */
      */
     public function resolveIntLinks(array $a_link_map = null): bool
     {
-        $changed = false;
-
-        $this->log->debug("start");
-
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-
-            if ($a_link_map == null) {
-                $new_target = ilInternalLink::_getIdForImportId($type, $target);
-                $this->log->debug("no map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
-            } else {
-                $nt = explode("_", $a_link_map[$target]);
-                $new_target = false;
-                if ($nt[1] == IL_INST_ID) {
-                    $new_target = "il__" . $nt[2] . "_" . $nt[3];
-                }
-                $this->log->debug("map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
-            }
-            if ($new_target !== false) {
-                $res->nodeset[$i]->set_attribute("Target", $new_target);
-                $changed = true;
-            } else {        // check wether link target is same installation
-                if (ilInternalLink::_extractInstOfTarget($target) == IL_INST_ID &&
-                    IL_INST_ID > 0 && $type != "RepositoryItem") {
-                    $new_target = ilInternalLink::_removeInstFromTarget($target);
-                    if (ilInternalLink::_exists($type, $new_target)) {
-                        $res->nodeset[$i]->set_attribute("Target", $new_target);
-                        $changed = true;
-                    }
-                }
-            }
-        }
-        unset($xpc);
-
-        // resolve internal links in map areas
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        //echo "<br><b>page::resolve</b><br>";
-        //echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $orig_id = $res->nodeset[$i]->get_attribute("OriginId");
-            $id_arr = explode("_", $orig_id);
-            $mob_id = $id_arr[count($id_arr) - 1];
-            ilMediaItem::_resolveMapAreaLinks($mob_id);
-        }
-        return $changed;
+        $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
     }
 
     /**
      * Resolve media aliases
      * (after import)
-     * @todo: move to media classes?
      */
     public function resolveMediaAliases(
         array $a_mapping,
         bool $a_reuse_existing_by_import = false
     ): bool {
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        $changed = false;
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            // get the ID of the import file from the xml
-            $old_id = $res->nodeset[$i]->get_attribute("OriginId");
-            $old_id = explode("_", $old_id);
-            $old_id = $old_id[count($old_id) - 1];
-            $new_id = "";
-            $import_id = "";
-            // get the new id from the current mapping
-            if (($a_mapping[$old_id] ?? 0) > 0) {
-                $new_id = $a_mapping[$old_id];
-                if ($a_reuse_existing_by_import) {
-                    // this should work, if the lm has been imported in a translation installation and re-exported
-                    $import_id = ilObject::_lookupImportId($new_id);
-                    $imp = explode("_", $import_id);
-                    if ($imp[1] == IL_INST_ID && $imp[2] == "mob" && ilObject::_lookupType($imp[3]) == "mob") {
-                        $new_id = $imp[3];
-                    }
-                }
-            }
-            // now check, if the translation has been done just by changing text in the exported
-            // translation file
-            if ($import_id == "" && $a_reuse_existing_by_import) {
-                // if the old_id is also referred by the page content of the default language
-                // we assume that this media object is unchanged
-                $med_of_def_lang = ilObjMediaObject::_getMobsOfObject(
-                    $this->getParentType() . ":pg",
-                    $this->getId(),
-                    0,
-                    "-"
-                );
-                if (in_array($old_id, $med_of_def_lang)) {
-                    $new_id = $old_id;
-                }
-            }
-            if ($new_id != "") {
-                $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $new_id);
-                $changed = true;
-            }
-        }
-        unset($xpc);
-        return $changed;
+        return $this->pc_service->mediaObject()->resolveMediaAliases(
+            $this->getDomDoc(),
+            $a_mapping,
+            $a_reuse_existing_by_import
+        );
     }
 
     /**
      * Resolve iim media aliases
      * (in ilContObjParse)
-     * @todo: move to iim classes?
      */
     public function resolveIIMMediaAliases(array $a_mapping): bool
     {
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//InteractiveImage/MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        $changed = false;
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $old_id = $res->nodeset[$i]->get_attribute("OriginId");
-            if ($a_mapping[$old_id] > 0) {
-                $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $a_mapping[$old_id]);
-                $changed = true;
-            }
-        }
-        unset($xpc);
-
-        return $changed;
+        return $this->pc_service->interactiveImage()->resolveIIMMediaAliases(
+            $this->getDomDoc(),
+            $a_mapping
+        );
     }
 
     /**
      * Resolve file items
      * (after import)
-     * @todo: move to file classes?
      */
     public function resolveFileItems(array $a_mapping): bool
     {
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//FileItem/Identifier";
-        $res = xpath_eval($xpc, $path);
-        $changed = false;
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $old_id = $res->nodeset[$i]->get_attribute("Entry");
-            $old_id = explode("_", $old_id);
-            $old_id = $old_id[count($old_id) - 1];
-            if ($a_mapping[$old_id] > 0) {
-                $res->nodeset[$i]->set_attribute("Entry", "il__file_" . $a_mapping[$old_id]);
-                $changed = true;
-            }
-        }
-        unset($xpc);
-
-        return $changed;
+        return $this->pc_service->fileList()->resolveFileItems(
+            $this->getDomDoc(),
+            $a_mapping
+        );
     }
 
     /**
@@ -4015,69 +3586,22 @@ s     */
     {
     }
 
+    protected function getContentManager(): \ILIAS\COPage\Page\PageContentManager
+    {
+        $this->buildDom();
+        return $this->page_manager->content($this->getDomDoc());
+    }
+
     /**
      * Save initial opened content
-     * @todo begin: generalize
      */
     public function saveInitialOpenedContent(
         string $a_type,
         int $a_id,
         string $a_target
     ): void {
-        $this->buildDom();
-        $il_node = null;
-
-        $link_type = "";
-
-        switch ($a_type) {
-            case "media":
-                $link_type = "MediaObject";
-                $a_id = "il__mob_" . $a_id;
-                break;
-
-            case "page":
-                $link_type = "PageObject";
-                $a_id = "il__pg_" . $a_id;
-                break;
-
-            case "term":
-                $link_type = "GlossaryItem";
-                $a_id = "il__git_" . $a_id;
-                $a_target = "Glossary";
-                break;
-        }
-
-        // if type or id missing -> delete InitOpenedContent, if existing
-        $xpc = xpath_new_context($this->dom);
-        $path = "//PageObject/InitOpenedContent";
-        $res = xpath_eval($xpc, $path);
-        if ($link_type == "" || $a_id == "") {
-            if (count($res->nodeset) > 0) {
-                $res->nodeset[0]->unlink_node($res->nodeset[0]);
-            }
-        } else {
-            if (count($res->nodeset) > 0) {
-                $init_node = $res->nodeset[0];
-                $childs = $init_node->child_nodes();
-                for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-                    if ($childs[$i]->node_name() == "IntLink") {
-                        $il_node = $childs[$i];
-                    }
-                }
-            } else {
-                $path = "//PageObject";
-                $res = xpath_eval($xpc, $path);
-                $page_node = $res->nodeset[0];
-                $init_node = $this->dom->create_element("InitOpenedContent");
-                $init_node = $page_node->append_child($init_node);
-                $il_node = $this->dom->create_element("IntLink");
-                $il_node = $init_node->append_child($il_node);
-            }
-            $il_node->set_attribute("Target", $a_id);
-            $il_node->set_attribute("Type", $link_type);
-            $il_node->set_attribute("TargetFrame", $a_target);
-        }
-
+        $cm = $this->getContentManager();
+        $cm->setInitialOpenedContent($a_type, $a_id, $a_target);
         $this->update();
     }
 
@@ -4086,47 +3610,9 @@ s     */
      */
     public function getInitialOpenedContent(): array
     {
-        $this->buildDom();
-        $type = "";
-
-        $xpc = xpath_new_context($this->dom);
-        $path = "//PageObject/InitOpenedContent";
-        $res = xpath_eval($xpc, $path);
-        $il_node = null;
-        if (count($res->nodeset) > 0) {
-            $init_node = $res->nodeset[0];
-            $childs = $init_node->child_nodes();
-            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-                if ($childs[$i]->node_name() == "IntLink") {
-                    $il_node = $childs[$i];
-                }
-            }
-        }
-        if (!is_null($il_node)) {
-            $id = $il_node->get_attribute("Target");
-            $link_type = $il_node->get_attribute("Type");
-            $target = $il_node->get_attribute("TargetFrame");
-
-            switch ($link_type) {
-                case "MediaObject":
-                    $type = "media";
-                    break;
-
-                case "PageObject":
-                    $type = "page";
-                    break;
-
-                case "GlossaryItem":
-                    $type = "term";
-                    break;
-            }
-            $id = ilInternalLink::_extractObjIdOfTarget($id);
-            return array("id" => $id, "type" => $type, "target" => $target);
-        }
-
-        return array();
+        $cm = $this->getContentManager();
+        return $cm->getInitialOpenedContent();
     }
-    // @todo end
 
     /**
      * Before page content update
@@ -4501,24 +3987,6 @@ s     */
         $min = (int) $aset->get("block_mode_minutes");
 
         return $min;
-    }
-
-    /**
-     * Get all file object ids
-     */
-    public function getAllFileObjIds(): array
-    {
-        $file_obj_ids = array();
-
-        // insert inst id file item identifier entries
-        $xpc = xpath_new_context($this->dom);
-        $path = "//FileItem/Identifier";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $file_obj_ids[] = $res->nodeset[$i]->get_attribute("Entry");
-        }
-        unset($xpc);
-        return $file_obj_ids;
     }
 
     /**

@@ -59,4 +59,37 @@ class ParagraphManager
 
         $this->http_util->deliverString($plain_content, $filename);
     }
+
+    public function getFirstParagraphText(\ilPageObject $page): string
+    {
+        $dom = $page->getDomDoc();
+        if ($dom) {
+            $path = "//Paragraph[1]";
+            $nodes = $this->dom_util->path($dom, $path);
+            if (count($nodes) > 0) {
+                $cont_node = $nodes->item(0)->parentNode;
+                $par = new ilPCParagraph($page);
+                $par->setDomNode($cont_node);
+                $text = $par->getText();
+                return $text;
+            }
+        }
+        return "";
+    }
+
+    public function getParagraphForPCID(\ilPageObject $page, string $pcid): ?\ilPCParagraph
+    {
+        $dom = $page->getDomDoc();
+        if ($dom) {
+            $path = "//PageContent[@PCID='" . $pcid . "']/Paragraph[1]";
+            $nodes = $this->dom_util->path($dom, $path);
+            if (count($nodes) > 0) {
+                $cont_node = $nodes->item(0)->parentNode;
+                $par = new \ilPCParagraph($page);
+                $par->setDomNode($cont_node);
+                return $par;
+            }
+        }
+        return null;
+    }
 }

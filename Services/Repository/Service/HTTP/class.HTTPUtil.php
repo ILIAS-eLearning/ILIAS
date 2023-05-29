@@ -31,7 +31,7 @@ class HTTPUtil
 {
     protected HTTP\Services $http;
 
-    protected function __construct(HTTP\Services $http)
+    public function __construct(HTTP\Services $http)
     {
         $this->http = $http;
     }

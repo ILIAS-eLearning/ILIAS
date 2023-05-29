@@ -27,6 +27,7 @@ use ILIAS\COPage\PC\PCDefinition;
  */
 class PageContentManager
 {
+    protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
 
     public function __construct(
@@ -38,6 +39,7 @@ class PageContentManager
         $this->dom = $dom;
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
         $this->pc_service = $DIC->copage()->internal()->domain()->pc($def);
+        $this->link = $DIC->copage()->internal()->domain()->link();
     }
 
     public function getContentDomNode(string $a_hier_id, string $a_pc_id = ""): ?\DOMNode
@@ -154,6 +156,136 @@ class PageContentManager
                     }
                 }
             }
+        }
+    }
+
+    public function setInitialOpenedContent(
+        string $a_type = "",
+        int $a_id = 0,
+        string $a_target = ""
+    ): void {
+        $il_node = null;
+        $link_type = "";
+        switch ($a_type) {
+            case "media":
+                $link_type = "MediaObject";
+                $a_id = "il__mob_" . $a_id;
+                break;
+
+            case "page":
+                $link_type = "PageObject";
+                $a_id = "il__pg_" . $a_id;
+                break;
+
+            case "term":
+                $link_type = "GlossaryItem";
+                $a_id = "il__git_" . $a_id;
+                $a_target = "Glossary";
+                break;
+        }
+
+        $path = "//PageObject/InitOpenedContent";
+        $nodes = $this->dom_util->path($this->dom, $path);
+        if ($link_type == "" || $a_id == "") {
+            if (count($nodes) > 0) {
+                $c = $nodes->item(0);
+                $c->parentNode->removeChild($c);
+            }
+        } else {
+            if (count($nodes) > 0) {
+                $init_node = $nodes->item(0);
+                foreach ($init_node->childNodes as $child) {
+                    if ($child->nodeName === "IntLink") {
+                        $il_node = $child;
+                    }
+                }
+            } else {
+                $path = "//PageObject";
+                $nodes = $this->dom_util->path($this->dom, $path);
+                $page_node = $nodes->item(0);
+                $init_node = $this->dom->createElement("InitOpenedContent");
+                $init_node = $page_node->appendChild($init_node);
+                $il_node = $this->dom->createElement("IntLink");
+                $il_node = $init_node->appendChild($il_node);
+            }
+            $il_node->setAttribute("Target", $a_id);
+            $il_node->setAttribute("Type", $link_type);
+            $il_node->setAttribute("TargetFrame", $a_target);
+        }
+    }
+
+    /**
+     * Get initial opened content
+     */
+    public function getInitialOpenedContent(): array
+    {
+        $type = "";
+        $path = "//PageObject/InitOpenedContent";
+        $il_node = null;
+        $nodes = $this->dom_util->path($this->dom, $path);
+        if (count($nodes) > 0) {
+            $init_node = $nodes->item(0);
+            foreach ($init_node->childNodes as $child) {
+                if ($child->nodeName == "IntLink") {
+                    $il_node = $child;
+                }
+            }
+        }
+        if (!is_null($il_node)) {
+            $id = $il_node->getAttribute("Target");
+            $link_type = $il_node->getAttribute("Type");
+            $target = $il_node->getAttribute("TargetFrame");
+
+            switch ($link_type) {
+                case "MediaObject":
+                    $type = "media";
+                    break;
+
+                case "PageObject":
+                    $type = "page";
+                    break;
+
+                case "GlossaryItem":
+                    $type = "term";
+                    break;
+            }
+            $id = \ilInternalLink::_extractObjIdOfTarget($id);
+            return array("id" => $id, "type" => $type, "target" => $target);
+        }
+
+        return array();
+    }
+
+
+    public function downloadFile(
+        \ilPageObject $page,
+        string $file_link_id
+    ): void {
+        $file_id = 0;
+
+        $page->buildDom();
+        $dom = $page->getDomDoc();
+
+        if ($this->link->containsFileLinkId($dom, $file_link_id)) {
+            $file_id = $this->link->extractFileFromLinkId($file_link_id);
+        }
+        if (in_array($file_link_id, $this->pc_service->fileList()->getAllFileObjIds($dom))) {
+            $file_id = $this->link->extractFileFromLinkId($file_link_id);
+        }
+
+        $pcs = \ilPageContentUsage::getUsagesOfPage($page->getId(), $page->getParentType() . ":pg", 0, false);
+        foreach ($pcs as $pc) {
+            $files = \ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
+            $c_file = $this->link->extractFileFromLinkId($file_link_id);
+            if (in_array($c_file, $files)) {
+                $file_id = $c_file;
+            }
+        }
+
+        if ($file_id > 0) {
+            $fileObj = new \ilObjFile($file_id, false);
+            $fileObj->sendFile();
+            exit;
         }
     }
 
