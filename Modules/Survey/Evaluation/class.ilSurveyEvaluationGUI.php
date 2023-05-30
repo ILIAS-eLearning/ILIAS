@@ -779,7 +779,7 @@ class ilSurveyEvaluationGUI
             $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
 
             // parse answer data in evaluation results
-            $list = new ilNestedList();
+            $listing = $this->gui->listing();
 
             $panels = [];
             foreach ($this->object->getSurveyQuestions() as $qdata) {
@@ -802,21 +802,29 @@ class ilSurveyEvaluationGUI
                         $qdata["questionblock_id"] != $this->last_questionblock_id) {
                         $qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
                         if ($qblock["show_blocktitle"]) {
-                            $list->addListNode($qdata["questionblock_title"], "q" . $qdata["questionblock_id"]);
+                            $listing->node(
+                                $this->ui->factory()->legacy($qdata["questionblock_title"]),
+                                "q" . $qdata["questionblock_id"]
+                            );
                         } else {
-                            $list->addListNode("", "q" . $qdata["questionblock_id"]);
+                            $listing->node(
+                                $this->ui->factory()->legacy(""),
+                                "q" . $qdata["questionblock_id"]
+                            );
                         }
                         $this->last_questionblock_id = $qdata["questionblock_id"];
                     }
                     $anchor_id = "svyrdq" . $qdata["question_id"];
-                    $list->addListNode("<a href='#" . $anchor_id . "'>" . $qdata["title"] . "</a>", $qdata["question_id"], $qdata["questionblock_id"] ?
-                        "q" . $qdata["questionblock_id"] : 0);
+                    $listing->node(
+                        $this->ui->factory()->link()->standard($qdata["title"], "#" . $anchor_id),
+                        (string) $qdata["question_id"],
+                        $qdata["questionblock_id"] ? "q" . $qdata["questionblock_id"] : "0"
+                    );
                 }
             }
 
             if ($details) {
-                $list->setListClass("il_Explorer");
-                $toc_tpl->setVariable("LIST", $list->getHTML());
+                $toc_tpl->setVariable("LIST", $listing->render());
 
                 //TABLE OF CONTENTS
                 $panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy($toc_tpl->get()));

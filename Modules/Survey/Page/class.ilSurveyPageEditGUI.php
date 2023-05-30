@@ -1392,8 +1392,8 @@ class ilSurveyPageEditGUI
                 $lng->loadLanguageModule("content");
                 $ttpl->setCurrentBlock("help_section");
                 $ttpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
-                $ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $ttpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
+                $ttpl->setVariable("PLUS", $this->gui->symbol()->glyph("add")->render());
+                $ttpl->setVariable("DRAG_ARROW", $this->gui->symbol()->glyph("next")->render());
                 $ttpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
                 $ttpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
                 $ttpl->parseCurrentBlock();
@@ -1659,7 +1659,7 @@ class ilSurveyPageEditGUI
             }
 
             $a_tpl->setCurrentBlock("drop_area");
-            $a_tpl->setVariable("ICON_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
+            $a_tpl->setVariable("ICON_ADD", $this->gui->symbol()->glyph("add")->render());
             $a_tpl->setVariable("DROP_ID", $a_id);
             $a_tpl->parseCurrentBlock();
         } elseif ($a_menu) {

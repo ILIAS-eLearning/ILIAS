@@ -135,6 +135,12 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PC/PCDefinitionTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCDefinitionTest::class);
 
+        require_once("./Services/COPage/test/Link/LinkManagerTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Link\LinkManagerTest::class);
+
+        require_once("./Services/COPage/test/PC/FileList/FileListManagerTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\PC\FileList\FileListManagerTest::class);
+
         return $suite;
     }
 }

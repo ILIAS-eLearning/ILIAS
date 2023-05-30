@@ -29,6 +29,7 @@ use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
  */
 class PageQueryActionHandler implements Server\QueryActionHandler
 {
+    protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
@@ -48,6 +49,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->component_factory = $DIC["component.factory"];
+        $this->gui = $DIC->copage()->internal()->gui();
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
         $this->pc_definition = $DIC
@@ -166,8 +168,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "Services/COPage/Editor");
         $tpl->setCurrentBlock("help");
         $tpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
-        $tpl->setVariable("PLUS", \ilGlyphGUI::get(\ilGlyphGUI::ADD));
-        $tpl->setVariable("DRAG_ARROW", \ilGlyphGUI::get(\ilGlyphGUI::DRAG));
+        $tpl->setVariable("PLUS", $this->gui->symbol()->glyph("add")->render());
+        $tpl->setVariable("DRAG_ARROW", $this->gui->symbol()->glyph("next")->render());
         $tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
         $tpl->setVariable("TXT_EDIT", $lng->txt("cont_click_edit"));
         $tpl->setVariable("TXT_SEL", $lng->txt("cont_shift_click_to_select"));

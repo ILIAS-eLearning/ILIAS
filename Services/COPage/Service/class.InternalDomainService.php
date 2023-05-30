@@ -26,6 +26,7 @@ use ILIAS\COPage\Page\PageManagerInterface;
 use ILIAS\COPage\Compare\PageCompare;
 use ILIAS\COPage\Page\PageContentManager;
 use ILIAS\COPage\PC\PCDefinition;
+use ILIAS\COPage\Link\LinkManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -94,5 +95,10 @@ class InternalDomainService
     public function compare(): PageCompare
     {
         return new PageCompare();
+    }
+
+    public function link(): LinkManager
+    {
+        return new LinkManager();
     }
 }

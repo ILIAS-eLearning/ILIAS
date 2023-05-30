@@ -647,9 +647,14 @@ class ilSurveyExecutionGUI
             )->toToolbar();
 
             if ($this->object->getOutro() !== '') {
-                $panel = ilPanelGUI::getInstance();
-                $panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
-                $this->tpl->setContent($panel->getHTML());
+                $f = $this->gui->ui()->factory();
+                $r = $this->gui->ui()->renderer();
+                $p = $f->panel()->standard(
+                    "",
+                    $this->object->prepareTextareaOutput($this->object->getOutro())
+                );
+
+                $this->tpl->setContent($r->render($p));
             }
         }
     }

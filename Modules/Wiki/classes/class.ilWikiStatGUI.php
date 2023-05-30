@@ -25,6 +25,7 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
  */
 class ilWikiStatGUI
 {
+    protected \ILIAS\Wiki\InternalGUIService $gui;
     protected EditingGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
@@ -51,6 +52,7 @@ class ilWikiStatGUI
             ->gui()
             ->editing()
             ->request();
+        $this->gui = $DIC->wiki()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -215,8 +217,6 @@ class ilWikiStatGUI
 
             $vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "Modules/Wiki");
 
-            $chart_panel = ilPanelGUI::getInstance();
-
             $vtpl->setVariable("CHART", $this->renderGraph($params["figure"], $chart_data));
 
             $vtpl->setCurrentBlock("row_bl");
@@ -231,11 +231,13 @@ class ilWikiStatGUI
             $vtpl->setVariable("YESTERDAY_HEAD", $lng->txt("yesterday"));
             $vtpl->setVariable("TODAY_HEAD", $lng->txt("today"));
 
-            $chart_panel->setHeading($lng->txt("statistics"));
-            $chart_panel->setBody($vtpl->get());
-            $chart_panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_SUBHEADING);
-
-            $tpl->setContent($chart_panel->getHTML());
+            $f = $this->gui->ui()->factory();
+            $r = $this->gui->ui()->renderer();
+            $p = $f->panel()->standard(
+                $lng->txt("statistics"),
+                $f->legacy($vtpl->get())
+            );
+            $tpl->setContent($r->render($p));
         }
     }
 

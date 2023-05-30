@@ -293,11 +293,14 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         $title = $this->lng->txt($a_title) . ": " . $this->assignment->getTitle();
 
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($html);
-        $panel->setHeading($title);
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
+        $p = $f->panel()->standard(
+            $title,
+            $f->legacy($html)
+        );
 
-        $this->tpl->setContent($panel->getHTML());
+        $this->tpl->setContent($r->render($p));
     }
 
 

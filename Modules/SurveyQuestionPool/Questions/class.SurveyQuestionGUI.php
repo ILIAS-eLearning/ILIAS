@@ -27,6 +27,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditManager;
  */
 abstract class SurveyQuestionGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected EditingGUIRequest $request;
     protected EditManager $edit_manager;
     protected ilRbacSystem $rbacsystem;
@@ -86,6 +87,7 @@ abstract class SurveyQuestionGUI
             ->internal()
             ->domain()
             ->editing();
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     abstract protected function initObject(): void;
@@ -608,10 +610,14 @@ abstract class SurveyQuestionGUI
 
         $tpl->setVariable("QUESTION_OUTPUT", $this->getWorkingForm());
 
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($tpl->get());
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
+        $p = $f->panel()->standard(
+            "",
+            $f->legacy($tpl->get())
+        );
 
-        $this->tpl->setContent($panel->getHTML());
+        $this->tpl->setContent($r->render($p));
     }
 
 
@@ -789,11 +795,14 @@ abstract class SurveyQuestionGUI
             );
             $exp->setPathOpen($this->request->getRefId());
             if (!$exp->handleCommand()) {
-                $panel = ilPanelGUI::getInstance();
-                $panel->setHeading($this->lng->txt("select_object_to_link"));
-                $panel->setBody($exp->getHTML());
+                $f = $this->gui->ui()->factory();
+                $r = $this->gui->ui()->renderer();
+                $p = $f->panel()->standard(
+                    $this->lng->txt("select_object_to_link"),
+                    $f->legacy($exp->getHTML())
+                );
 
-                $this->tpl->setContent($panel->getHTML());
+                $this->tpl->setContent($r->render($p));
             }
         }
     }

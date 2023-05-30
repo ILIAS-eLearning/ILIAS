@@ -6,7 +6,6 @@ il.LearningModule = {
 	last_frame_url: {},
 	all_targets: ["center_bottom", "right", "right_top", "right_bottom"],
 	rating_url: '',
-	close_html: '',
 	core: il.repository.core,
 
 	setSaveUrl: function (url) {
@@ -15,11 +14,6 @@ il.LearningModule = {
 
 	setTocRefreshUrl: function (url) {
 		il.LearningModule.toc_refresh_url = url;
-	},
-
-
-	setCloseHTML: function (html) {
-		il.LearningModule.close_html = html;
 	},
 
 	hideNextNavigation: function () {

@@ -32,7 +32,6 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
     private $originalPresentationTitle = '';
-
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
 
@@ -47,6 +46,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     {
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
+        if (strtolower($this->ctrl->getCmdClass()) === 'ilassquestionpreviewgui') {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
+        } else {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
+        }
     }
 
     public function getOriginalPresentationTitle(): string

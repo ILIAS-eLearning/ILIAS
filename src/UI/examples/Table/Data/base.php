@@ -14,65 +14,113 @@ function base()
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
+    $df = new \ILIAS\Data\Factory();
 
-    //this is some dummy-data:
-    $dummy_records = [
-        ['f1' => 'value1.1','f2' => 'value1.2','f3' => 1.11],
-        ['f1' => 'value2.1','f2' => 'value2.2','f3' => 2.22],
-        ['f1' => 'value3.1','f2' => 'value3.2','f3' => 4.44],
-        ['f1' => 'value4.1','f2' => 'value4.2','f3' => 8.88]
-    ];
-
-    // This is what the table will look like
+    /**
+     * This is what the table will look like:
+     * Columns define the nature (and thus: shape) of one field/aspect of the data record.
+     *
+     * Also, some functions of the table are set per column, e.g. sortability
+    */
     $columns = [
-        'f1' => $f->table()->column()->text("Field 1")
+        'usr_id' => $f->table()->column()->number("User ID")
             ->withIsSortable(false),
-
-        'f0' => $f->table()->column()->text("empty"),
-
-        'f2' => $f->table()->column()->text("Field 2")
+        'login' => $f->table()->column()->text("Login")
+            ->withHighlight(true),
+        'email' => $f->table()->column()->eMail("eMail"),
+        'last' => $f->table()->column()->date("last login", $df->dateFormat()->germanLong()),
+        'achieve' => $f->table()->column()->statusIcon("progress")
+            ->withIsOptional(true),
+        'achieve_txt' => $f->table()->column()->status("success")
+            ->withIsSortable(false)
+            ->withIsOptional(true),
+        'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no')
+            ->withIsSortable(false),
+        'fee' => $f->table()->column()->number("Fee")
+            ->withDecimals(2)
+            ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
+        'hidden' => $f->table()->column()->status("success")
+            ->withIsSortable(false)
             ->withIsOptional(true)
             ->withIsInitiallyVisible(false),
-
-        'f3' => $f->table()->column()->number("Field 3")
-            ->withIsOptional(true)
-            ->withDecimals(2),
-
-        'f4' => $f->table()->column()->number("Field 4")
-            ->withIsOptional(false)
     ];
 
-    // retrieve data and map records to table rows
-    $data_retrieval = new class ($dummy_records) extends T\DataRetrieval {
-        protected $records;
-
-        public function __construct(array $dummy_records)
-        {
-            $this->records = $dummy_records;
+    /**
+     * Configure the Table to retrieve data with an instance of DataRetrieval;
+     * the table itself is agnostic of the source or the way of retrieving records.
+     * However, it provides View Controls and therefore parameters that will
+     * influence the way data is being retrieved. E.g., it is usually a good idea
+     * to delegate sorting to the database, or limit records to the amount of
+     * actually shown rows.
+     * Those parameters are being provided to DataRetrieval::getRows.
+     */
+    $data_retrieval = new class ($f, $r) implements I\DataRetrieval {
+        public function __construct(
+            \ILIAS\UI\Factory $ui_factory,
+            \ILIAS\UI\Renderer $ui_renderer
+        ) {
+            $this->ui_factory = $ui_factory;
+            $this->ui_renderer = $ui_renderer;
         }
 
         public function getRows(
-            I\RowFactory $row_factory,
+            I\DataRowBuilder $row_builder,
+            array $visible_column_ids,
             Range $range,
             Order $order,
-            array $visible_column_ids,
-            array $additional_parameters
+            ?array $filter_data,
+            ?array $additional_parameters
         ): \Generator {
-            foreach ($this->records as $record) {
-                //maybe do something with the record
-                $record['f4'] = $record['f3'] * 2;
-                //and yield the row
-                yield $row_factory->map($record);
+            $records = $this->getRecords($order);
+            foreach ($records as $idx => $record) {
+                $row_id = '';
+                $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
+                $record['repeat'] = $record['achieve'] < 80;
+                $record['achieve'] = $this->ui_renderer->render(
+                    $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
+                );
+                yield $row_builder->buildDataRow($row_id, $record);
             }
+        }
+
+        public function getTotalRowCount(
+            ?array $filter_data,
+            ?array $additional_parameters
+        ): ?int {
+            return null;
+        }
+
+        protected function getRecords(Order $order): array
+        {
+            $records = [
+                ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 20,'fee' => 0
+                ],
+                ['usr_id' => 867,'login' => 'student1','email' => 'student1@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 90,'fee' => 40
+                ],
+                ['usr_id' => 8923,'login' => 'student2','email' => 'student2@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                ],
+                ['usr_id' => 8748,'login' => 'student3_longname','email' => 'student3_long_email@example.com',
+                 'last' => new \DateTimeImmutable(),'achieve' => 66,'fee' => 36.789
+                ]
+            ];
+
+            list($order_field, $order_direction) = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
+            usort($records, fn ($a, $b) => $a[$order_field] <=> $b[$order_field]);
+            if ($order_direction === 'DESC') {
+                $records = array_reverse($records);
+            }
+
+            return $records;
         }
     };
 
     //setup the table
-    $table = $f->table()->data('a data table', 50)
-        ->withColumns($columns)
-        ->withData($data_retrieval);
+    $table = $f->table()->data('a data table', $columns, $data_retrieval);
 
-    //apply request and render
-    $request = $DIC->http()->request();
-    return $r->render($table->withRequest($request));
+    return $r->render(
+        $table->withRequest($DIC->http()->request())
+    );
 }

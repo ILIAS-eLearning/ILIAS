@@ -37,6 +37,9 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\Page\PageManager $pm;
+    protected \ILIAS\COPage\Link\LinkManager $link;
+    protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
@@ -239,6 +242,9 @@ class ilPageObjectGUI
             ->domain()
             ->pc()
             ->definition();
+        $this->gui = $DIC->copage()->internal()->gui();
+        $this->link = $DIC->copage()->internal()->domain()->link();
+        $this->pm = $DIC->copage()->internal()->domain()->page();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -1993,41 +1999,12 @@ class ilPageObjectGUI
 
     public function downloadFile(): void
     {
-        $file_id = 0;
-        $download_ok = false;
-
-        $pg_obj = $this->getPageObject();
-        $pg_obj->buildDom();
-        $int_links = $pg_obj->getInternalLinks();
-        $req_file_id = $this->requested_file_id;
-        foreach ($int_links as $il) {
-            if ($il["Target"] == str_replace("_file_", "_dfile_", $req_file_id)) {
-                $file = explode("_", $req_file_id);
-                $file_id = (int) $file[count($file) - 1];
-                $download_ok = true;
-            }
-        }
-        if (in_array($req_file_id, $pg_obj->getAllFileObjIds())) {
-            $file = explode("_", $req_file_id);
-            $file_id = (int) $file[count($file) - 1];
-            $download_ok = true;
-        }
-
-        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType() . ":pg", 0, false);
-        foreach ($pcs as $pc) {
-            $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
-            $file = explode("_", $req_file_id);
-            $file_id = (int) $file[count($file) - 1];
-            if (in_array($file_id, $files)) {
-                $download_ok = true;
-            }
-        }
-
-        if ($download_ok) {
-            $fileObj = new ilObjFile($file_id, false);
-            $fileObj->sendFile();
-            exit;
-        }
+        $this->getPageObject()->buildDom();
+        $cm = $this->pm->content($this->getPageObject()->getDomDoc());
+        $cm->downloadFile(
+            $this->getPageObject(),
+            $this->requested_file_id
+        );
     }
 
     public function displayMediaFullscreen(): void
@@ -2094,7 +2071,7 @@ class ilPageObjectGUI
     public function download_paragraph(): void
     {
         $pg_obj = $this->getPageObject();
-        $pg_obj->send_paragraph(
+        $pg_obj->sendParagraph(
             $this->request->getString("par_id"),
             $this->request->getString("downloadtitle")
         );
@@ -2134,10 +2111,10 @@ class ilPageObjectGUI
             }
         }
         if (count($page_heads) > 1) {
-            $list = new ilNestedList();
-            $list->setAutoNumbering(true);
-            $list->setListClass("ilc_page_toc_PageTOCList");
-            $list->setItemClass("ilc_page_toc_PageTOCItem");
+            $listing = $this->gui->listing();
+            // todo: inject?
+            /*$list->setListClass("ilc_page_toc_PageTOCList");
+            $list->setItemClass("ilc_page_toc_PageTOCItem");*/
             $i = 0;
             $c_depth = 1;
             $c_par[1] = 0;
@@ -2158,11 +2135,10 @@ class ilPageObjectGUI
 
                 $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
-                // add the list node
-                $list->addListNode(
-                    "<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>",
-                    $i,
-                    $par
+                $listing->node(
+                    $this->ui->factory()->legacy("<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>"),
+                    (string) $i,
+                    (string) ($par)
                 );
 
                 // set the node as current parent of the level
@@ -2181,7 +2157,7 @@ class ilPageObjectGUI
                 true,
                 "Services/COPage"
             );
-            $tpl->setVariable("PAGE_TOC", $list->getHTML());
+            $tpl->setVariable("PAGE_TOC", $listing->autoNumbers(true)->render());
             $tpl->setVariable("TXT_PAGE_TOC", $this->lng->txt("cont_page_toc"));
             $tpl->setVariable("TXT_HIDE", $this->lng->txt("hide"));
             $tpl->setVariable("TXT_SHOW", $this->lng->txt("show"));
@@ -2191,7 +2167,7 @@ class ilPageObjectGUI
                 $tpl->get(),
                 $a_output
             );
-            $numbers = $list->getNumbers();
+            $numbers = $listing->getNumbers();
 
             if (count($numbers) > 0) {
                 foreach ($numbers as $n) {

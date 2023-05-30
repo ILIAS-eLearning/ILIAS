@@ -1145,7 +1145,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $form->addCommandButton('perm', $this->lng->txt('cancel'));
 
         $hidden = new ilHiddenInputGUI('type_filter');
-        $hidden->setValue($recursive ? serialize(['all']) : serialize($recursive_list));
+        $hidden->setValue($recursive ? json_encode(['all']) : json_encode($recursive_list));
         $form->addItem($hidden);
 
         $rad = new ilRadioGroupInputGUI($this->lng->txt('rbac_local_policies'), 'mode');
@@ -1203,11 +1203,9 @@ class ilObjRoleGUI extends ilObjectGUI
                 'type_filter',
                 $this->refinery->kindlyTo()->string()
             );
-            $type_filter = unserialize(
+            $type_filter = json_decode(
                 $serialized_type_filter,
-                [
-                    'allowed_classes' => false
-                ]
+                true
             );
         }
 

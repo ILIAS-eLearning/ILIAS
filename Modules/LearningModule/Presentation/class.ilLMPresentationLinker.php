@@ -185,7 +185,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     if ($a_frame != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", $a_frame);
                     }
-                    if ($a_obj_id != "") {
+                    if ($a_obj_id > 0) {
                         switch ($a_type) {
                             case "MediaObject":
                                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", $a_obj_id);
@@ -268,7 +268,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             }
         }
         $this->ctrl->clearParametersByClass(self::TARGET_GUI);
-
         return $link;
     }
 

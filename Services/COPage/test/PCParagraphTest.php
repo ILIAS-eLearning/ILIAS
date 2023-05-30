@@ -379,15 +379,6 @@ class PCParagraphTest extends COPageTestBase
     // test setTest using legacy (saveJS) way
     //
 
-    // see saveJs in ilPCParagraph
-    protected function legacyHtmlToXml(string $content): string
-    {
-        $content = str_replace("<br>", "<br />", $content);
-        $content = ilPCParagraph::handleAjaxContent($content);
-        $content = ilPCParagraph::_input2xml($content["text"], true, false);
-        $content = ilPCParagraph::handleAjaxContentPost($content);
-        return $content;
-    }
 
     public function testLegacyHtml2Text(): void
     {

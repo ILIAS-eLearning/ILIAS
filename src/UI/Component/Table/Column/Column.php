@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,27 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Table\Column;
 
 /**
  * A Column describes the form of presentation for a certain aspect of data,
  * i.e. a field of a record within a table.
  */
-interface Column
+interface Column extends \ILIAS\UI\Component\Component
 {
     public function getTitle(): string;
-
     public function getType(): string;
-
-    public function withIsSortable(bool $flag): Column;
-
+    public function withIsSortable(bool $flag): self;
     public function isSortable(): bool;
-
-    public function withIsOptional(bool $flag): Column;
-
+    public function withIsOptional(bool $flag): self;
     public function isOptional(): bool;
-
-    public function withIsInitiallyVisible(bool $flag): Column;
-
+    public function withIsInitiallyVisible(bool $flag): self;
     public function isInitiallyVisible(): bool;
 }

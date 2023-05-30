@@ -24,6 +24,11 @@ use ILIAS\DI\Container;
 use ILIAS\COPage\InternalDataService;
 use ILIAS\COPage\InternalRepoService;
 use ILIAS\COPage\InternalDomainService;
+use ILIAS\COPage\PC\Paragraph\ParagraphManager;
+use ILIAS\COPage\Link\LinkManager;
+use ILIAS\COPage\PC\FileList\FileListManager;
+use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
+use ILIAS\COPage\PC\MediaObject\InteractiveImageManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,5 +65,25 @@ class DomainService
     public function definition(): PCDefinition
     {
         return $this->def ?? new PCDefinition();
+    }
+
+    public function paragraph(): ParagraphManager
+    {
+        return new ParagraphManager();
+    }
+
+    public function fileList(): FileListManager
+    {
+        return new FileListManager();
+    }
+
+    public function mediaObject(): MediaObjectManager
+    {
+        return new MediaObjectManager();
+    }
+
+    public function interactiveImage(): InteractiveImageManager
+    {
+        return new InteractiveImageManager();
     }
 }

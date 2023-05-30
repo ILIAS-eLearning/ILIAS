@@ -627,10 +627,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             ilAccordionGUI::addCss();
 
             $this->tpl->addJavaScript("./Modules/LearningModule/js/LearningModule.js");
-            $close_call = "il.LearningModule.setCloseHTML('" . ilGlyphGUI::get(ilGlyphGUI::CLOSE) . "');";
-            $this->tpl->addOnLoadCode($close_call);
-
-            //$store->set("cf_".$this->lm->getId());
 
             // handle initial content
             if ($this->requested_frame == "") {
