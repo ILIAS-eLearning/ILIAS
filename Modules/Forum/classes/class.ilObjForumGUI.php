@@ -2453,7 +2453,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ilObjMediaObject::_saveUsage($mob, 'frm:html', $newPost);
             }
             ilForumUtil::saveMediaObjects($post_message, 'frm:html', $newPost, $mob_direction);
-            $post_obj= new ilForumPost($newPost);
+            $post_obj = new ilForumPost($newPost);
 
             if ($draft_obj->getRCID() > 0) {
                 $post_obj->setRCID($draft_obj->getRCID());
@@ -3983,6 +3983,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 );
             }
 
+            $post_obj = new ilForumPost($newPost);
+            if ($draft->getRCID() > 0) {
+                $post_obj->setRCID($draft->getRCID());
+                $post_obj->update();
+            }
+
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
@@ -4019,7 +4025,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 [
                     'object' => $this->object,
                     'ref_id' => $this->object->getRefId(),
-                    'post' => new ilForumPost($newPost),
+                    'post' => $post_obj,
                     'notify_moderators' => !$status
                 ]
             );

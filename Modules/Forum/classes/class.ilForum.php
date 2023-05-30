@@ -575,7 +575,7 @@ class ilForum
         $dead_thr = 0;
 
         if ((int) $post->getParentId() === 0) {
-            $dead_thr = (int) $post->getTreeId();
+            $dead_thr = $post->getThreadId();
 
             $this->db->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s', ['integer'], [$dead_thr]);
             $this->db->manipulateF(
