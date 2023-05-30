@@ -12,9 +12,9 @@
 class ilLocalUser
 {
     public $db;
-    
+
     public $parent_id;
-        
+
     /**
     * Constructor
     * @access	public
@@ -67,8 +67,8 @@ class ilLocalUser
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // Workaround for users with time limit owner "0".
-            if (!$row->parent_id) {
-                if ($rbacsystem->checkAccess('read_users', USER_FOLDER_ID) ||
+            if (!$row->parent_id || (int) $row->parent_id === USER_FOLDER_ID) {
+                if ($rbacsystem->checkAccess('read', USER_FOLDER_ID) ||
                     ($access_with_orgunit && $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))) {
                     $parent[] = $row->parent_id;
                 }
@@ -93,14 +93,10 @@ class ilLocalUser
         $ilDB = $DIC['ilDB'];
         switch ($a_filter) {
             case 0:
-                if (ilLocalUser::_getFolderIds()) {
-                    $where = "WHERE " . $ilDB->in("time_limit_owner", ilLocalUser::_getFolderIds(), false, "integer") . " ";
-                //$where .= '(';
-                    //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
-                    //$where .= ')';
+                if (self::_getFolderIds()) {
+                    $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
                 } else {
-                    //$where = "WHERE time_limit_owner IN ('')";
-                    return array();
+                    return [];
                 }
 
                 break;
@@ -110,7 +106,7 @@ class ilLocalUser
 
                 break;
         }
-        
+
         $query = "SELECT usr_id FROM usr_data " . $where;
         $res = $ilDB->query($query);
 
