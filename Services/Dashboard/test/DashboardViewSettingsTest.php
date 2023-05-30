@@ -49,7 +49,7 @@ class DashboardViewSettingsTest extends TestCase
         $memory_settings->clear();
         $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $user,
-            ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS,
+            ilDashboardSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS,
             $memory_settings,
             $access
         );

@@ -23,7 +23,7 @@ use ILIAS\Administration\Setting;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPersonalDesktopSettingsRepository
+class ilDashboardSettingsRepository
 {
     public function __construct(
         protected readonly Setting $settings

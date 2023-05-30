@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBlockProvider
+class ilDashboardSelectedItemsBlockMembershipsProvider implements ilDashboardSelectedItemsBlockProvider
 {
     protected readonly ilTree $tree;
     protected readonly ilAccessHandler $access;
     protected readonly ilSetting  $settings;
-    private ilPDSelectedItemsBlockMembershipsObjectRepository $repository;
+    private ilDashboardSelectedItemsBlockMembershipsObjectRepository $repository;
 
     public function __construct(
         protected ilObjUser $actor
@@ -33,7 +33,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
-        $this->repository = new ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository(
+        $this->repository = new ilDashboardSelectedItemsBlockMembershipsObjectDatabaseRepository(
             $DIC->database(),
             RECOVERY_FOLDER_ID
         );

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-interface ilPDSelectedItemsBlockMembershipsObjectRepository
+interface ilDashboardSelectedItemsBlockMembershipsObjectRepository
 {
     /**
      * @param string[] $objTypes

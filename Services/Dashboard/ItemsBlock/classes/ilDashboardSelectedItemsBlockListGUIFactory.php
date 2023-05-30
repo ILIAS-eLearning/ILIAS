@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilPDSelectedItemsBlockListGUIFactory
+class ilDashboardSelectedItemsBlockListGUIFactory
 {
     /** @var ilObjectListGUI[] */
     protected static array $list_by_type = [];

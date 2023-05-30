@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements ilPDSelectedItemsBlockMembershipsObjectRepository
+final class ilDashboardSelectedItemsBlockMembershipsObjectDatabaseRepository implements ilDashboardSelectedItemsBlockMembershipsObjectRepository
 {
     private const VALID_OBJECT_TYPES = [
         'crs',
@@ -121,7 +121,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
                 $periodEnd = new DateTimeImmutable($row['period_end'], new DateTimeZone('UTC'));
             }
 
-            yield new ilPDSelectedItemBlockMembershipsDTO(
+            yield new ilDashboardSelectedItemBlockMembershipsDTO(
                 (int) $row['ref_id'],
                 (int) $row['obj_id'],
                 $row['type'],

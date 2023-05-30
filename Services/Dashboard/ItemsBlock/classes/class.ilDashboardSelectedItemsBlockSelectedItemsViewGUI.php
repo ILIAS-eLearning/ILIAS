@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockViewGUI
+class ilDashboardSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockViewGUI
 {
     public function getGroups(): array
     {

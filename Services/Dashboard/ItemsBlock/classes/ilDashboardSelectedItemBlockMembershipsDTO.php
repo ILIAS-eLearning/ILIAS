@@ -17,7 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
-final class ilPDSelectedItemBlockMembershipsDTO
+final class ilDashboardSelectedItemBlockMembershipsDTO
 {
     public function __construct(
         private readonly int $refId,

@@ -38,7 +38,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
-            ilPDSelectedItemsBlockConstants::VIEW_MY_MEMBERSHIPS
+            ilDashboardSelectedItemsBlockConstants::VIEW_MY_MEMBERSHIPS
         );
         $this->viewSettings->parse();
 

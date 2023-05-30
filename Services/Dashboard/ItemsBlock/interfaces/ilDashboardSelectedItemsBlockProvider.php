@@ -18,10 +18,7 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilPDSelectedItemsBlockProvider
- */
-interface ilPDSelectedItemsBlockProvider
+interface ilDashboardSelectedItemsBlockProvider
 {
     /**
      * @param array $object_type_white_list An optional array of object_types used for filter purposes

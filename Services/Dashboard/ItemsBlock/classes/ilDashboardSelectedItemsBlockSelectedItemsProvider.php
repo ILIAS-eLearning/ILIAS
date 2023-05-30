@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
+class ilDashboardSelectedItemsBlockSelectedItemsProvider implements ilDashboardSelectedItemsBlockProvider
 {
     protected readonly ilFavouritesManager $fav_manager;
     protected readonly ilAccessHandler $access;

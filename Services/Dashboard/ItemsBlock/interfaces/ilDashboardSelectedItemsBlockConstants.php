@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-interface ilPDSelectedItemsBlockConstants
+interface ilDashboardSelectedItemsBlockConstants
 {
     public const VIEW_SELECTED_ITEMS = 0;
     public const VIEW_MY_MEMBERSHIPS = 1;

@@ -47,7 +47,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     protected ilPDSelectedItemsBlockViewGUI $blockView;
     protected ilObjUser $user;
     protected string $content = '';
-    protected ilPDSelectedItemsBlockListGUIFactory $list_factory;
+    protected ilDashboardSelectedItemsBlockListGUIFactory $list_factory;
 
     public function __construct()
     {
@@ -80,7 +80,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->allow_moving = false;
 
         $this->initView();
-        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+        $this->list_factory = new ilDashboardSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
@@ -96,7 +96,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
-            ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS
+            ilDashboardSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS
         );
 
         $this->viewSettings->parse();

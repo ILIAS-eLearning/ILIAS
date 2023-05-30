@@ -28,7 +28,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
     private function __construct(
         protected readonly ilPDSelectedItemsBlockViewSettings $viewSettings,
-        protected readonly ilPDSelectedItemsBlockProvider $provider
+        protected readonly ilDashboardSelectedItemsBlockProvider $provider
     ) {
         global $DIC;
 
@@ -80,15 +80,15 @@ abstract class ilPDSelectedItemsBlockViewGUI
     public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings): ilPDSelectedItemsBlockViewGUI
     {
         if ($viewSettings->isMembershipsViewActive()) {
-            return new ilPDSelectedItemsBlockMembershipsViewGUI(
+            return new ilDashboardSelectedItemsBlockMembershipsViewGUI(
                 $viewSettings,
-                new ilPDSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
+                new ilDashboardSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
             );
         }
 
-        return new ilPDSelectedItemsBlockSelectedItemsViewGUI(
+        return new ilDashboardSelectedItemsBlockSelectedItemsViewGUI(
             $viewSettings,
-            new ilPDSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())
+            new ilDashboardSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())
         );
     }
 

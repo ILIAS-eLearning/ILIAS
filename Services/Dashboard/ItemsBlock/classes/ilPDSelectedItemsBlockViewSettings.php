@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Administration\Setting;
 use ILIAS\Dashboard\Access\DashboardAccess;
 
-class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
+class ilPDSelectedItemsBlockViewSettings implements ilDashboardSelectedItemsBlockConstants
 {
     /**
      * @var int[]
