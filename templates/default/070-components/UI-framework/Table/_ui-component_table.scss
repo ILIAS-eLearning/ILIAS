@@ -1,11 +1,13 @@
 @use "../../../010-settings/" as *;
+@use "../../../030-tools/legacy-bootstrap-mixins/buttons" as *;
+@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/layout_grid" as l-grid;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
+$table-border-color: $il-main-border-color;
 
 //** Presentation Table borders
-$il-table-presentation-rowborder-top: 1px solid btstrp3.$table-border-color;
+$il-table-presentation-rowborder-top: 1px solid $table-border-color;
 
 //** Presentation Table colum widths
 $il-table-presentation-rowcontrol-colwidth: 5%;
@@ -27,12 +29,12 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
     .btn-default:not(.disabled):not(.engaged)  {
         //Using Mixin for buttons
-        @include btstrp3.button-variant($il-table-presentation-details-viewcontrols-btn-color, $il-table-presentation-details-viewcontrols-btn-bg, $il-btn-standard-border);
+        @include button-variant($il-table-presentation-details-viewcontrols-btn-color, $il-table-presentation-details-viewcontrols-btn-bg, $il-btn-standard-border);
     }
 
     .btn-default.engaged  {
         //Using Mixin for buttons
-        @include btstrp3.button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
+        @include button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
     }
 
     .il-viewcontrol-pagination {
@@ -141,10 +143,10 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
                 min-height: 20px;
                 padding: 19px;
                 margin-bottom: 20px;
-                background-color: btstrp3.$well-bg;
-                border: 1px solid btstrp3.$well-border;
+                background-color: $il-main-darker-bg;
+                border: 1px solid $il-main-border-dark-color;
                 border-radius: $il-border-radius-base;
-                @include btstrp3.box-shadow(inset 0 1px 1px rgba(0, 0, 0, .05));
+                @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .05));
                 blockquote {
                   border-color: #ddd;
                   border-color: rgba(0, 0, 0, .15);

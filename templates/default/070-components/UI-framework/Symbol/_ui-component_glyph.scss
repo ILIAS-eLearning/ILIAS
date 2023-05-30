@@ -1,7 +1,7 @@
 @use "../../../010-settings/" as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 @use "../../../050-layout/basics" as *;
 
+$il-icon-font-path: "./fonts/bootstrap/";
 $il-glyph-color: $il-link-color;
 $il-glyph-hover-color: $il-link-hover-color;
 $il-glyph-highlighted-color: $il-warning-color;

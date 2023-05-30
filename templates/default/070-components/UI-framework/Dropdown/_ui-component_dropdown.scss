@@ -1,8 +1,8 @@
 @use "../../../010-settings/" as s;
 @use "../../../010-settings/legacy-settings/legacy-settings_menu" as t-menu;
 @use "../../../030-tools/legacy-bootstrap-mixins/nav-divider" as t-ndiv;
+@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as t-ven;
 @use "../../../050-layout/basics" as l;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 //
@@ -82,7 +82,7 @@ $cursor-disabled: not-allowed !default;
 	background-clip: padding-box;
 	border: 1px solid $dropdown-border;
 	border-radius: s.$il-border-radius-base;
-	// @include box-shadow(0 6px 12px rgba(0, 0, 0, .175));
+	@include t-ven.box-shadow(0 6px 12px rgba(0, 0, 0, .175));
   
 	// Aligns the dropdown menu to right
 	//
@@ -242,10 +242,10 @@ $cursor-disabled: not-allowed !default;
 	}
 }
 .dropdown-menu {
-	background-color: btstrp3.$dropdown-bg;
+	background-color: $dropdown-bg;
 	font-weight: s.$il-font-weight-base;
 	border: 0 none;
-    @include btstrp3.box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
+    @include t-ven.box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
 	// Links within the dropdown menu
 	li > a {
 		display: block;
@@ -255,13 +255,13 @@ $cursor-disabled: not-allowed !default;
 		font-size: t-menu.$il-font-size-dropdown;
 		line-height: s.$il-line-height-base;
 		background-color: t-menu.$dropdown-link-bg;
-		color: btstrp3.$dropdown-link-color;
+		color: $dropdown-link-color;
 		white-space: nowrap; // prevent links from randomly breaking onto new lines
 		&:hover,
 		&:focus {
 			text-decoration: none;
-			color: btstrp3.$dropdown-link-hover-color;
-			background-color: btstrp3.$dropdown-link-hover-bg;
+			color: $dropdown-link-hover-color;
+			background-color: $dropdown-link-hover-bg;
 		}
 	}
 	img {
@@ -285,7 +285,7 @@ $cursor-disabled: not-allowed !default;
 }
 
 .btn-group.open .dropdown-toggle {
-    @include btstrp3.box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
+    @include t-ven.box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
 }
 
 // end of section based on bootstrap 3
@@ -310,7 +310,7 @@ ul.dropdown-menu {
 	background-color: s.$il-main-bg;
 	font-weight: s.$il-font-weight-base;
 	border: 0 none;
-	@include btstrp3.box-shadow(t-menu.$il-dropdown-shadow);
+	@include t-ven.box-shadow(t-menu.$il-dropdown-shadow);
 	// Links within the dropdown menu
 	> li {
 		padding-top: l.$il-padding-xs-vertical;
@@ -325,13 +325,13 @@ ul.dropdown-menu {
 			font-size: t-menu.$il-font-size-dropdown;
 			line-height: s.$il-line-height-base;
 			background-color: t-menu.$dropdown-link-bg;
-			color: btstrp3.$dropdown-link-color;
+			color: $dropdown-link-color;
 			white-space: nowrap; // prevent links from randomly breaking onto new lines
 			&:hover,
 			&:focus {
 				text-decoration: none;
-				color: btstrp3.$dropdown-link-hover-color;
-				background-color: btstrp3.$dropdown-link-hover-bg;
+				color: $dropdown-link-hover-color;
+				background-color: $dropdown-link-hover-bg;
 			}
 		}
 	}

@@ -406,7 +406,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	// Prevent floats from breaking the navbar
 	@include clearfix();
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		border-radius: $navbar-border-radius;
 	}
 }
@@ -420,7 +420,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 .navbar-header {
 	@include clearfix();
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		float: left;
 	}
 }
@@ -449,7 +449,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 		overflow-y: auto;
 	}
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		width: auto;
 		border-top: 0;
 		box-shadow: none;
@@ -480,7 +480,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 		margin-right: -$navbar-padding-horizontal;
 		margin-left: -$navbar-padding-horizontal;
 
-		@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+		@media (min-width: $il-grid-float-breakpoint) {
 			margin-right: 0;
 			margin-left: 0;
 		}
@@ -499,7 +499,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	z-index: $zindex-navbar;
 	border-width: 0 0 1px;
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		border-radius: 0;
 	}
 }
@@ -523,7 +523,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 		display: block;
 	}
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 
 		.navbar>.container &,
 		.navbar>.container-fluid & {
@@ -567,7 +567,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 		margin-top: 4px;
 	}
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		display: none;
 	}
 }
@@ -614,7 +614,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	}
 
 	// Uncollapse the nav
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		float: left;
 		margin: 0;
 
@@ -664,7 +664,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	// @include navbar-vertical-align($il-line-height-base);
 
 	// Undo 100% width for pull classes
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		width: auto;
 		border: 0;
 		margin-left: 0;
@@ -691,7 +691,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 .navbar-text {
 	// @include navbar-vertical-align($il-line-height-computed);
 
-	@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		float: left;
 		margin-left: $navbar-padding-horizontal;
 		margin-right: $navbar-padding-horizontal;
@@ -707,7 +707,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 //
 // Declared after the navbar components to ensure more specificity on the margins.
 
-@media (min-width: $il-grid-float-breakpoint-max - 1px) {
+@media (min-width: $il-grid-float-breakpoint) {
 	.navbar-left {
 		float: left !important;
 	}

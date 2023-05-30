@@ -1,80 +1,8 @@
 @charset "UTF-8";
 /*!
- * Bootstrap v3.4.1 (https://getbootstrap.com/)
- * Copyright 2011-2019 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-/* @import "./bootstrap/variables";
-@import "./bootstrap/mixins";  
-
-// Reset and dependencies
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/normalize";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/print";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/glyphicons";
-
-// Core CSS
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/scaffolding";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/type";
-@import "./bootstrap/code";
-// @import "./bootstrap/grid";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/tables";
-@import "./bootstrap/forms";
-// @import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/buttons";
-
-// Components
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/component-animations";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/dropdowns";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/button-groups";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/input-groups"; 
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/navs"; */
-/* @import "./bootstrap/navbar";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/breadcrumbs";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/pagination";
-// @import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/pager";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/labels";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/badges";
-// @import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/jumbotron";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/thumbnails";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/alerts";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/progress-bars";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/media";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/list-group";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/wells";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/close";
-
-// Components w/ JavaScript
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/modals";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/tooltip";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/popovers";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/carousel";
-
-// Utility classes
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/utilities";
-@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/responsive-utilities"; */
-/**
-Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
-Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
-file of ILIAS with the il- prefix and use this variable to overwrite the boostrap variable here. If possible, do use
-the il- variable in your less code and not the boostrap variable in your less code.
- */
-/* $nav-tabs-link-hover-border-color: $brand-primary; */
-/*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
  * https://github.com/Eonasdan/bootstrap-datetimepicker/
- */
-/* see variables.scss
-$bs-datetimepicker-timepicker-font-size: 1.2em;
-$bs-datetimepicker-active-bg: $btn-primary-bg;
-$bs-datetimepicker-active-color: $btn-primary-color;
-$bs-datetimepicker-border-radius: $border-radius-base;
-$bs-datetimepicker-btn-hover-bg: $gray-lighter;
-$bs-datetimepicker-disabled-color: $gray-light;
-$bs-datetimepicker-alternate-color: $gray-light;
-$bs-datetimepicker-secondary-border-color: #ccc;
-$bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
-$bs-datetimepicker-primary-border-color: white;
-$bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 */
 .bootstrap-datetimepicker-widget {
   list-style: none;
@@ -433,6 +361,245 @@ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 /* Small Drop Menus */
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid \9 ;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.dropup,
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle:focus {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 0.875rem;
+  text-align: left;
+  list-style: none;
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid #dddddd;
+  border-radius: 0px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.428571429;
+  color: #161616;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+  color: black;
+  text-decoration: none;
+  background-color: #e2e8ef;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+  color: white;
+  text-decoration: none;
+  background-color: #4c6586;
+  outline: 0;
+}
+
+.dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
+  color: #737373;
+}
+.dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+}
+
+.open > .dropdown-menu {
+  display: block;
+}
+.open > a {
+  outline: 0;
+}
+
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu-left {
+  right: auto;
+  left: 0;
+}
+
+.dropdown-header {
+  display: block;
+  padding: 3px 20px;
+  font-size: 0.75rem;
+  line-height: 1.428571429;
+  color: #737373;
+  white-space: nowrap;
+}
+
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 990;
+}
+
+.pull-right > .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret {
+  content: "";
+  border-top: 0;
+  border-bottom: 4px dashed;
+  border-bottom: 4px solid \9 ;
+}
+.dropup .dropdown-menu,
+.navbar-fixed-bottom .dropdown .dropdown-menu {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 2px;
+}
+
+.dropdown-header {
+  padding: 3px 10px;
+  color: #161616;
+  background-color: white;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #dddddd;
+}
+.dropdown-header > h2 {
+  margin-bottom: 2px;
+}
+
+.dropdown-menu {
+  background-color: white;
+  font-weight: 400;
+  border: 0 none;
+  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+}
+.dropdown-menu li > a {
+  display: block;
+  clear: both;
+  padding: 3px 10px;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.428571429;
+  background-color: transparent;
+  color: #161616;
+  white-space: nowrap;
+}
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus {
+  text-decoration: none;
+  color: black;
+  background-color: #e2e8ef;
+}
+.dropdown-menu img {
+  border: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0 3px 0 0;
+  display: inline;
+}
+
+.ilAdvNoImg {
+  display: inline-block;
+  width: 22px;
+}
+
+.yamm .dropdown-menu li > a {
+  white-space: normal;
+}
+
+.btn-group.open .dropdown-toggle {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown .btn {
+  text-align: left;
+}
+
+.dropdown hr {
+  margin: 6px 0;
+}
+
+.dropdown h4 {
+  margin: 3px 0;
+}
+
+ul.dropdown-menu {
+  background-color: white;
+  font-weight: 400;
+  border: 0 none;
+  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+}
+ul.dropdown-menu > li {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+ul.dropdown-menu > li > .btn {
+  display: block;
+  width: 100%;
+  clear: both;
+  padding: 3px 15px;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.428571429;
+  background-color: transparent;
+  color: #161616;
+  white-space: nowrap;
+}
+ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
+  text-decoration: none;
+  color: black;
+  background-color: #e2e8ef;
+}
+
+.il-maincontrols-slate-content .dropdown-menu {
+  right: 0;
+  left: inherit;
+}
+
 /* jquery ui autocomplete */
 .ui-menu {
   list-style: none;
@@ -2728,7 +2895,7 @@ input.btn {
   background-color: transparent;
 }
 .btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
-  color: #777777;
+  color: black;
   text-decoration: none;
 }
 
@@ -3302,243 +3469,6 @@ hr.il-divider-with-label {
   content: "•";
   padding-left: 6px;
   padding-right: 6px;
-}
-
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 2px;
-  vertical-align: middle;
-  border-top: 4px dashed;
-  border-top: 4px solid \9 ;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-}
-
-.dropup,
-.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle:focus {
-  outline: 0;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  float: left;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
-  font-size: 0.875rem;
-  text-align: left;
-  list-style: none;
-  background-color: white;
-  background-clip: padding-box;
-  border: 1px solid #dddddd;
-  border-radius: 0px;
-}
-.dropdown-menu.pull-right {
-  right: 0;
-  left: auto;
-}
-.dropdown-menu .divider {
-  height: 1px;
-  margin: 9px 0;
-  overflow: hidden;
-  background-color: #e5e5e5;
-}
-.dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 400;
-  line-height: 1.428571429;
-  color: #161616;
-  white-space: nowrap;
-}
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-  color: black;
-  text-decoration: none;
-  background-color: #e2e8ef;
-}
-
-.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-  color: white;
-  text-decoration: none;
-  background-color: #4c6586;
-  outline: 0;
-}
-
-.dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
-  color: #737373;
-}
-.dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-}
-
-.open > .dropdown-menu {
-  display: block;
-}
-.open > a {
-  outline: 0;
-}
-
-.dropdown-menu-right {
-  right: 0;
-  left: auto;
-}
-
-.dropdown-menu-left {
-  right: auto;
-  left: 0;
-}
-
-.dropdown-header {
-  display: block;
-  padding: 3px 20px;
-  font-size: 0.75rem;
-  line-height: 1.428571429;
-  color: #737373;
-  white-space: nowrap;
-}
-
-.dropdown-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 990;
-}
-
-.pull-right > .dropdown-menu {
-  right: 0;
-  left: auto;
-}
-
-.dropup .caret,
-.navbar-fixed-bottom .dropdown .caret {
-  content: "";
-  border-top: 0;
-  border-bottom: 4px dashed;
-  border-bottom: 4px solid \9 ;
-}
-.dropup .dropdown-menu,
-.navbar-fixed-bottom .dropdown .dropdown-menu {
-  top: auto;
-  bottom: 100%;
-  margin-bottom: 2px;
-}
-
-.dropdown-header {
-  padding: 3px 10px;
-  color: #161616;
-  background-color: white;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #dddddd;
-}
-.dropdown-header > h2 {
-  margin-bottom: 2px;
-}
-
-.dropdown-menu {
-  background-color: white;
-  font-weight: 400;
-  border: 0 none;
-  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
-}
-.dropdown-menu li > a {
-  display: block;
-  clear: both;
-  padding: 3px 10px;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.428571429;
-  background-color: transparent;
-  color: #161616;
-  white-space: nowrap;
-}
-.dropdown-menu li > a:hover, .dropdown-menu li > a:focus {
-  text-decoration: none;
-  color: black;
-  background-color: #e2e8ef;
-}
-.dropdown-menu img {
-  border: 0;
-  width: 22px;
-  height: 22px;
-  margin: 0 3px 0 0;
-  display: inline;
-}
-
-.ilAdvNoImg {
-  display: inline-block;
-  width: 22px;
-}
-
-.yamm .dropdown-menu li > a {
-  white-space: normal;
-}
-
-.btn-group.open .dropdown-toggle {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.dropdown .btn {
-  text-align: left;
-}
-
-.dropdown hr {
-  margin: 6px 0;
-}
-
-.dropdown h4 {
-  margin: 3px 0;
-}
-
-ul.dropdown-menu {
-  background-color: white;
-  font-weight: 400;
-  border: 0 none;
-  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
-}
-ul.dropdown-menu > li {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-ul.dropdown-menu > li > .btn {
-  display: block;
-  width: 100%;
-  clear: both;
-  padding: 3px 15px;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.428571429;
-  background-color: transparent;
-  color: #161616;
-  white-space: nowrap;
-}
-ul.dropdown-menu > li > .btn:hover, ul.dropdown-menu > li > .btn:focus {
-  text-decoration: none;
-  color: black;
-  background-color: #e2e8ef;
-}
-
-.il-maincontrols-slate-content .dropdown-menu {
-  right: 0;
-  left: inherit;
 }
 
 .ui-dropzone {
@@ -4763,6 +4693,14 @@ footer {
   color: #161616;
 }
 
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
 /* common css for characteristic value listing */
 .il-listing-characteristic-value-row {
   /* i tried .ilClearFloat, did not work as expected */
@@ -5165,13 +5103,6 @@ footer {
     margin-right: 25px;
   }
 }
-/**
-Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
-Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
-file of ILIAS with the il- prefix and use this variable to overwrite the boostrap variable here. If possible, do use
-the il- variable in your less code and not the boostrap variable in your less code.
- */
-/* $nav-tabs-link-hover-border-color: $brand-primary; */
 .il-maincontrols-metabar {
   display: flex;
   justify-content: space-between;
@@ -5330,13 +5261,26 @@ the il- variable in your less code and not the boostrap variable in your less co
   }
 }
 
-/**
-Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
-Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
-file of ILIAS with the il- prefix and use this variable to overwrite the boostrap variable here. If possible, do use
-the il- variable in your less code and not the boostrap variable in your less code.
- */
-/* $nav-tabs-link-hover-border-color: $brand-primary; */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
 .il-maincontrols-mainbar .btn-bulky,
 .il-maincontrols-mainbar .il-link.link-bulky,
 .il-maincontrols-metabar .btn-bulky,
@@ -6087,14 +6031,6 @@ div.alert ul > li:before {
   /* margin-left: -10px; */
 }
 
-.clearfix:before, .clearfix:after {
-  display: table;
-  content: " ";
-}
-.clearfix:after {
-  clear: both;
-}
-
 .modal-open {
   overflow: hidden;
 }
@@ -6377,7 +6313,7 @@ div.alert ul > li:before {
 }
 
 .panel-footer {
-  padding: 9px 12px;
+  padding: 9px 15px;
   background-color: #f9f9f9;
   border-top: 1px solid #dddddd;
   border-bottom-right-radius: 2px;
@@ -6885,17 +6821,10 @@ div.alert ul > li:before {
   filter: grayscale(100%);
 }
 
-/**
-Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
-Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
-file of ILIAS with the il- prefix and use this variable to overwrite the boostrap variable here. If possible, do use
-the il- variable in your less code and not the boostrap variable in your less code.
- */
-/* $nav-tabs-link-hover-border-color: $brand-primary; */
 @font-face {
   font-family: "Glyphicons Halflings";
-  src: url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url("./fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("./fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("./fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("./fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("./fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 .glyphicon {
   position: relative;
@@ -8415,7 +8344,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 
 .il-table-presentation-row {
   background-color: white;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   margin: 0;
   padding-top: 6px;
   padding-bottom: 6px;
@@ -8502,8 +8431,8 @@ the il- variable in your less code and not the boostrap variable in your less co
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
+  background-color: #f0f0f0;
+  border: 1px solid #757575;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -16378,7 +16307,9 @@ a.ilTag:hover, a.ilTag:active {
 
 #tos_documents td.std .dropdown {
   display: inline-block;
-} /* Services/UIComponent/AdvancedSelectionList */
+}
+
+/* Services/UIComponent/AdvancedSelectionList */
 div.il_adv_sel {
   border: 1px solid #dddddd;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
@@ -16814,15 +16745,6 @@ a.ilMediaLightboxClose:hover {
   width: 66.67%;
 }
 
-/* currently don't seem to look any different from normal panels
-.panel-default {
-	@include panel-variant(btstrp3.$panel-default-border, btstrp3.$panel-default-text, btstrp3.$panel-default-heading-bg, btstrp3.$panel-default-border);
-}
-
-.panel-primary {
-	@include panel-variant(btstrp3.$panel-primary-border, btstrp3.$panel-primary-text, btstrp3.$panel-primary-heading-bg, btstrp3.$panel-primary-border);
-}
-*/
 .progress {
   height: 15px;
   min-width: 100px;
@@ -17121,7 +17043,7 @@ a.ilMediaLightboxClose:hover {
 .navbar:after {
   clear: both;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar {
     border-radius: 0px;
   }
@@ -17134,7 +17056,7 @@ a.ilMediaLightboxClose:hover {
 .navbar-header:after {
   clear: both;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-header {
     float: left;
   }
@@ -17158,7 +17080,7 @@ a.ilMediaLightboxClose:hover {
 .navbar-collapse.in {
   overflow-y: auto;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-collapse {
     width: auto;
     border-top: 0;
@@ -17182,7 +17104,7 @@ a.ilMediaLightboxClose:hover {
   margin-right: -9px;
   margin-left: -9px;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .container > .navbar-header,
   .container > .navbar-collapse,
   .container-fluid > .navbar-header,
@@ -17196,7 +17118,7 @@ a.ilMediaLightboxClose:hover {
   z-index: 1000;
   border-width: 0 0 1px;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-static-top {
     border-radius: 0;
   }
@@ -17215,7 +17137,7 @@ a.ilMediaLightboxClose:hover {
 .navbar-brand > img {
   display: block;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
     margin-left: -9px;
   }
@@ -17243,7 +17165,7 @@ a.ilMediaLightboxClose:hover {
 .navbar-toggle .icon-bar + .icon-bar {
   margin-top: 4px;
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-toggle {
     display: none;
   }
@@ -17276,7 +17198,7 @@ a.ilMediaLightboxClose:hover {
     background-image: none;
   }
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-nav {
     float: left;
     margin: 0;
@@ -17309,7 +17231,7 @@ a.ilMediaLightboxClose:hover {
     margin-bottom: 0;
   }
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-form {
     width: auto;
     border: 0;
@@ -17328,7 +17250,7 @@ a.ilMediaLightboxClose:hover {
   border-top-right-radius: 0;
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-text {
     float: left;
     margin-left: 9px;
@@ -17336,7 +17258,7 @@ a.ilMediaLightboxClose:hover {
   }
 }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .navbar-left {
     float: left !important;
   }

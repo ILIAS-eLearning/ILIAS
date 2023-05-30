@@ -1,4 +1,4 @@
-@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../050-layout/layout_breakpoints" as *;
 
 //
 // Responsive: Utility classes
@@ -107,6 +107,13 @@
 .visible-lg-inline-block {
   @media (min-width: $screen-lg-min) {
     display: inline-block !important;
+  }
+}
+
+// [converter] $parent hack
+@mixin responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
   }
 }
 

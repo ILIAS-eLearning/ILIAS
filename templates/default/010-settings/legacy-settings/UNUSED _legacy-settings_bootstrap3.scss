@@ -87,7 +87,7 @@ $grid-gutter-width:         2*$il-padding-xlarge-horizontal;
 //## Icons are used to represent (and quickly identify) objects.
 
 //** Path to the font of the glyphicons. Note that the path must be put in "".
-$il-icon-font-path: "./020-dependencies/unmodified/bootstrap-3-scss/fonts/bootstrap/";
+$il-icon-font-path: "../../fonts/bootstrap/";
 $icon-font-path: $il-icon-font-path;
 
 //== Navs
@@ -142,17 +142,6 @@ $table-bg-accent:               white;
 //== bootstrap date time picker (/Services/Calendar/)
 //
 //##
-$bs-datetimepicker-timepicker-font-size: $il-font-size-large;
-$bs-datetimepicker-active-bg: $il-btn-primary-bg;
-$bs-datetimepicker-active-color: $il-btn-primary-color;
-$bs-datetimepicker-border-radius: $il-border-radius-base;
-$bs-datetimepicker-btn-hover-bg: $il-highlight-bg;
-$bs-datetimepicker-disabled-color: $il-neutral-light-color;
-$bs-datetimepicker-alternate-color: $il-neutral-light-color;
-$bs-datetimepicker-secondary-border-color: $il-main-border-color;
-$bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
-$bs-datetimepicker-primary-border-color: white;
-$bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 
 //== Panels
 //

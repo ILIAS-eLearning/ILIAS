@@ -1,9 +1,10 @@
 @use "../../../010-settings/"as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-@use "../../../030-tools/tool_focus-outline" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
+@use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../030-tools/tool_screen-reader-only" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
+@use "../../../070-components/legacy/component_screen-reader-only" as *;
 
 //== mainbar
 
@@ -285,7 +286,7 @@
 		justify-content: center;
 		align-items: center;
 		.bulky-label {
-			@include btstrp3.sr-only;
+			@include sr-only;
 		}
 		.glyph {
 			&:before {
