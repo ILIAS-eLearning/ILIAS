@@ -1318,6 +1318,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         'enlarge_path' => $enlarge_path,
                         'link_params' => "ref_id=" . $this->lm->getRefId(),
                         'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                         'ref_id' => $this->lm->getRefId(),
                         'pg_frame' => $pg_frame,
                         'webspace_path' => $wb_path

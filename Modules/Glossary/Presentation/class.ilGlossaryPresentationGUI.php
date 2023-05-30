@@ -673,6 +673,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->requested_ref_id, 'pg_frame' => "", 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         xslt_free($xh);
