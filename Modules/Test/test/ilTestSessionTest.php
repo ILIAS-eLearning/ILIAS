@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 /**
  * Class ilTestSessionTest
@@ -155,5 +154,11 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
         $this->testObj->setUserId(ANONYMOUS_USER_ID);
         $this->assertTrue($this->testObj->isAnonymousUser());
+    }
+
+    public function testPasswordChecked(): void
+    {
+        $this->testObj->setPasswordChecked(true);
+        $this->assertTrue($this->testObj->isPasswordChecked());
     }
 }
