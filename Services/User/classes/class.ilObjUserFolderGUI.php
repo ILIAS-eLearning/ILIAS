@@ -311,7 +311,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $user_filter = null;
 
         if ($rbacsystem->checkAccess(
-            'create_usr',
+            'view',
             $this->object->getRefId()
         ) ||
             $rbacsystem->checkAccess(
@@ -1227,7 +1227,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // get global roles
         $all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-        $gl_roles = array();
+        $gl_roles = [];
         $roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
         foreach ($all_gl_roles as $obj_data) {
             // check assignment permission if called from local admin
@@ -1253,7 +1253,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // global roles
         $got_globals = false;
-        $global_selects = array();
+        $global_selects = [];
         foreach ($roles as $role_id => $role) {
             if ($role["type"] == "Global") {
                 if (!$got_globals) {
@@ -1267,7 +1267,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 }
 
                 //select options for new form input to still have both ids
-                $select_options = array();
+                $select_options = [];
                 foreach ($gl_roles as $key => $value) {
                     $select_options[$role_id . "-" . $key] = $value;
                 }
@@ -1347,7 +1347,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // because the user folder object is considered the parent of all
                 // local roles and may contains thousands of roles on large ILIAS
                 // installations.
-                $loc_roles = array();
+                $loc_roles = [];
 
                 $roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory());
                 foreach ($roles as $role_id => $role) {
@@ -1370,7 +1370,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // contained in the subtree of the category.
                 $loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
             }
-            $l_roles = array();
+            $l_roles = [];
 
             // create a search array with  .
             foreach ($loc_roles as $key => $loc_role) {
@@ -1402,7 +1402,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     // locally administrated category in the tree path to the local role.
                     $isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
 
-                    $path_array = array();
+                    $path_array = [];
                     if ($this->tree->isInTree($rolf[0])) {
                         // Create path. Paths which have more than 4 segments
                         // are truncated in the middle.
@@ -1754,7 +1754,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $global_role_selection
         );
 
-        $role_assignment = array();
+        $role_assignment = [];
         foreach ($roles as $value) {
             $keys = explode(
                 "-",
@@ -3450,7 +3450,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     'ilRepositorySearchGUI',
                     ''
                 ),
-                array(),
+                [],
                 "ilrepositorysearchgui",
                 ""
             );
@@ -3810,16 +3810,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
 
-        $cmds = array();
+        $cmds = [];
         // see searchResultHandler()
         if ($a_search_form) {
             if ($this->checkAccessBool('write')) {
-                $cmds = array(
+                $cmds = [
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
                     'accessRestrict' => $this->lng->txt('accessRestrict'),
                     'accessFree' => $this->lng->txt('accessFree')
-                );
+                ];
             }
 
             if ($this->checkAccessBool('delete')) {
@@ -3828,12 +3828,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         } // show confirmation
         else {
             if ($this->checkAccessBool('write')) {
-                $cmds = array(
+                $cmds = [
                     'activateUsers' => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
                     'restrictAccess' => $this->lng->txt('accessRestrict'),
                     'freeAccess' => $this->lng->txt('accessFree')
-                );
+                ];
             }
 
             if ($this->checkAccessBool('delete')) {
@@ -4045,7 +4045,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilMailFormCall::getRedirectTarget(
                 $this,
                 '',
-                array(),
+                [],
                 array(
                     'type' => 'search_res'
                 )
@@ -4061,7 +4061,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             case ilAdministrationSettingsFormHandler::FORM_SECURITY:
                 $security = ilSecuritySettings::_getInstance();
 
-                $fields = array();
+                $fields = [];
 
                 $subitems = array(
                     'ps_password_change_on_first_login_enabled' => array($security->isPasswordChangeOnFirstLoginEnabled(),
