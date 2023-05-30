@@ -355,7 +355,7 @@ class ilContObjParser extends ilMDSaxParser
             
             $file_obj = new ilObjFile($file_id, false);
             //$target_dir = ilUtil::getDataDir()."/files/file_".$file_id;
-            $target_dir = $file_obj->getDirectory();
+            $target_dir = $file_obj->getDirectory($file_obj->getVersion());
             if (@is_dir($source_dir)) {
                 // make target directory
                 ilUtil::makeDir($target_dir);
