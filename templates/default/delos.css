@@ -15961,7 +15961,7 @@ div.ilc_HeadlineThumb {
 }
 
 table {
-  background-color: white;
+  background-color: transparent;
 }
 table col[class*=col-] {
   position: static;
