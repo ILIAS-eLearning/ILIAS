@@ -1713,3 +1713,30 @@ if (!$ilDB->indexExistsByFields('rbac_fa', ['assign', 'parent'])) {
     $ilDB->addIndex('rbac_fa', ['assign', 'parent'], 'i3');
 }
 ?>
+<#102>
+<?php
+$ilDB->modifyTableColumn(
+    'usr_session',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
+$ilDB->modifyTableColumn(
+    'usr_session_stats_raw',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
+$ilDB->modifyTableColumn(
+    'usr_sess_istorage',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
+?>
