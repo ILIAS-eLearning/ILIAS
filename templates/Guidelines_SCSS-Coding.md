@@ -124,21 +124,36 @@ Adding dependencies requires careful consideration whether the benefits outweigh
 * Lower layers MAY call the variables, functions and mixins of a dependency for their purposes and SHOULD include them with a namespace.
 * A dependency SHOULD NOT be called on with @forward inside the _index.scss to expose its public variables to a skin.
 
-#### Bootstrap 3
+#### Bootstrap
+
+**In 2023, most of Bootstrap 3 code has been reduced and merged into our codebase.**
 
 Bootstrap 3 has been used since ILIAS 5.0 to solve many common web design challenges like normalizing, column layouts and input elements.
 
-In the future, many systems in Bootstrap 3 will be replaced by our native solutions specifically customized to the needs of ILIAS. In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
+In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
 
-* If Bootstrap offers applicable classes and mixins, they SHOULD be used where possible.
-* If a variable, mixin or function is defined inside the Bootstrap dependency layer, but also has an equivalent on one of the ILIAS ITCSS layers, you MUST use or extend to the ILIAS version instead.
-* To avoid repeating CSS code, you MUST import only the variables and mixins of Bootstrap 3 on lower layers like so `@use "../some-relative-path/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-` and SHOULD use the namespace `btstrp3`.
-* You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the now redundant Bootstrap 3 partial.
-* You SHOULD NOT pull in Bootstrap 3 code into our components without reducing, optimizing and modernizing it.
+Guidelines
+
+* Only copy Bootstrap code into our stylecode after careful consideration.
+* You SHOULD customize, refactor and modernize the parts you copy from Bootstrap and turn them into ILIAS specific code on the appropriate layer.
+* If you copy several lines of code from Bootstrap 3 or 5 into our stylecode you MUST give one line credit at the beginning and end of the section like this
+
+``` SCSS
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+.bootstrap-class {}
+
+// end of section based on bootstrap 3
+```
+
+* You SHOULD NOT pull in Bootstrap 3 or 5 code into our components without reducing, optimizing and modernizing it.
+
+Bootstrap licenses
+* Bootstrap 3 https://github.com/twbs/bootstrap/blob/v3.4.1/LICENSE
+* Bootstrap 5 https://github.com/twbs/bootstrap/blob/v5.2.3/LICENSE
 
 #### Legacy
-* Legagcy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
+* Legacy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
 
 ### Examples
 * Bootstrap

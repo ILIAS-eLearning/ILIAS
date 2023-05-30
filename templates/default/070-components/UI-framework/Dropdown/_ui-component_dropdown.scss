@@ -4,7 +4,7 @@
 @use "../../../050-layout/basics" as l;
 @use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
-// Bootstrap 3 Dropdown
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 //
 // Dropdown menus
 // --------------------------------------------------
@@ -287,6 +287,8 @@ $cursor-disabled: not-allowed !default;
 .btn-group.open .dropdown-toggle {
     @include btstrp3.box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
 }
+
+// end of section based on bootstrap 3
 
 //== DropDowns
 //

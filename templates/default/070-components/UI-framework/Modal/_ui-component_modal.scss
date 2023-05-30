@@ -4,7 +4,8 @@
 @use "../../../030-tools/tool_clearfix" as *;
 @use "../../../050-layout/basics" as *;
 
-//== Modal Bootstrap 3
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+//== Modal
 
 $zindex-modal-background:  1040 !default;
 $zindex-modal:             1050 !default;
@@ -184,6 +185,8 @@ $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
   @media (min-width: $screen-md-min) {
 	.modal-lg { width: $modal-lg; }
   } */
+
+// end of section based on bootstrap 3
 
 //== Modal ILIAS
 //

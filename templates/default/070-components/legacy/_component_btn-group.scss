@@ -5,6 +5,8 @@
 @use "../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
 @use "../../070-components/UI-framework/Button/ui-component_button" as c-btns;
 
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
 //
 // Button groups
 // --------------------------------------------------
@@ -249,3 +251,5 @@
     }
   }
 }
+
+// end of section based on bootstrap 3

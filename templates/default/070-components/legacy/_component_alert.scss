@@ -4,7 +4,7 @@
 $alert-padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal;
 $alert-border-radius: $il-border-radius-large;
 
-// Bootstrap 3 start
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 
 //
 // Alerts
@@ -94,7 +94,7 @@ $alert-border-radius: $il-border-radius-large;
   }
   
 
-// Bootstrap 3 end
+// end of section based on bootstrap 3
 
 // warning inline text
 span.ilAlert {

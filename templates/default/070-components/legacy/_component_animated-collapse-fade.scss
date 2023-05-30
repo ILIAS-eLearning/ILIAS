@@ -1,5 +1,6 @@
 @use "../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
 
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 //
 // Component animations
 // --------------------------------------------------
@@ -38,3 +39,5 @@ tbody.collapse.in { display: table-row-group; }
   @include transition-duration(.35s);
   @include transition-timing-function(ease);
 }
+
+// end of section based on bootstrap 3

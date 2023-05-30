@@ -9,6 +9,8 @@
 $cursor-disabled: not-allowed;
 $form-group-margin-bottom: $il-margin-xlarge-vertical;
 
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
 //
 // Forms
 // --------------------------------------------------
@@ -518,7 +520,7 @@ input[type="checkbox"] {
 	} */
 }
 
-// end of Bootstrap 3 code
+// end of section based on bootstrap 3
 
 
 .ilFormHeader {

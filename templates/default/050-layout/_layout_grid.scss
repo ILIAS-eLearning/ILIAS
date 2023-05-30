@@ -2,8 +2,10 @@
 @use "../050-layout/basics/" as *;
 @use "../050-layout/layout_breakpoints" as *;
 
+// section based on bootstrap 5 - see /templates/default/Guidelines_SCSS-Coding.md
+
 //
-// Boottsrap 5: _variables.scss
+// Bootstrap 5: _variables.scss
 //
 
 $grid-columns: 12 !default;
@@ -312,3 +314,5 @@ $gutters: $spacers !default;
 @if $enable-grid-classes {
     @include make-grid-columns();
 }
+
+// end of section based on bootstrap 5

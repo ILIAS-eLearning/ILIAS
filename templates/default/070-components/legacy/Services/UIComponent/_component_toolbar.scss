@@ -31,7 +31,8 @@ $il-toolbar-bg: $il-main-dark-bg !default;
 $il-toolbar-border: 1px solid $il-main-border-color !default;
 
 //
-// legacy bootstrap 3: Navs
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+// Navs
 //
 
 // Base class
@@ -357,7 +358,8 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 }
 
 //
-// Former Bootstrap 3 Navbar
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+// Navbar
 //
 
 // Wrapper and base class
@@ -875,6 +877,8 @@ $navbar-default-toggle-border-color:       #ddd !default;
 		}
 	}
 }
+
+// end of section based on bootstrap 3
 
 // ILIAS Additions
 

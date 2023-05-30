@@ -8,7 +8,7 @@ $il-glyph-highlighted-color: $il-warning-color;
 $il-glyph-highlighted-hover-color: $il-warning-color;
 $il-glyph-disabled-color: $il-neutral-light-color;
 
-// Bootstrap 3
+// end of section based on bootstrap 3
 
 //** File name for all font files.
 $icon-font-name:          "glyphicons-halflings-regular" !default;
@@ -313,6 +313,8 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
   .glyphicon-menu-right             { &:before { content: "\e258"; } }
   .glyphicon-menu-down              { &:before { content: "\e259"; } }
   .glyphicon-menu-up                { &:before { content: "\e260"; } }
+
+// end of section based on bootstrap 3
 
 // ILIAS
 
