@@ -1143,7 +1143,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $ilUser = $DIC->user();
 
-        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . session_id();
+        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . mb_substr(session_id(), 0, 8);
 
         return $importDir;
     }
