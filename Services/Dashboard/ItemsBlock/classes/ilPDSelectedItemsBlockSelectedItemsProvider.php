@@ -20,25 +20,28 @@ declare(strict_types=1);
 
 class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
 {
-    protected ilObjUser $actor;
-    protected ilFavouritesManager $fav_manager;
-    protected ilAccessHandler $access;
-    protected ilSetting $settings;
+    protected readonly ilFavouritesManager $fav_manager;
+    protected readonly ilAccessHandler $access;
+    protected readonly ilSetting $settings;
 
-    public function __construct(ilObjUser $actor)
-    {
+    public function __construct(
+        protected ilObjUser $actor
+    ) {
         global $DIC;
 
-        $this->actor = $actor;
         $this->fav_manager = new ilFavouritesManager();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
     }
 
-    public function getItems(array $object_type_white_list = array()): array
+    /**
+     * @param string[] $object_type_white_list
+     * @return <string, <string, mixed>>
+     */
+    public function getItems(array $object_type_white_list = []): array
     {
-        $short_desc = $this->settings->get("rep_shorten_description");
-        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+        $short_desc = $this->settings->get('rep_shorten_description');
+        $short_desc_max_length = (int) $this->settings->get('rep_shorten_description_length');
 
         $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),

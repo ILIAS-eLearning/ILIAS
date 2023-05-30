@@ -4,7 +4,7 @@
 
 ### Short Term
 
-- Final naming cleanup (remove all "PD" names).
+- Final naming cleanup (remove all 'PD' names).
 
 ## Mid Term
 

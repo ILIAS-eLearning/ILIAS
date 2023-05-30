@@ -18,22 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Interface for gui classes (e.g ilLuceneSearchGUI) that offer add/remove to/from desktop
- *
- * @author Stefan Meyer <meyer@leifos.com>
- */
-interface ilDesktopItemHandling
+interface ilPDSelectedItemsBlockConstants
 {
-    /**
-     * Add desktop item
-     * @access public
-     */
-    public function addToDeskObject(): void;
+    public const VIEW_SELECTED_ITEMS = 0;
+    public const VIEW_MY_MEMBERSHIPS = 1;
+    public const VIEW_MY_STUDYPROGRAMME = 2;
 
-    /**
-     * Remove from desktop
-     * @access public
-     */
-    public function removeFromDeskObject(): void;
+    public const SORT_BY_TYPE = 'type';
+    public const SORT_BY_LOCATION = 'location';
+    public const SORT_BY_START_DATE = 'start_date';
+    public const SORT_BY_ALPHABET = 'alphabet';
+
+    public const PRESENTATION_LIST = 'list';
+    public const PRESENTATION_TILE = 'tile';
 }

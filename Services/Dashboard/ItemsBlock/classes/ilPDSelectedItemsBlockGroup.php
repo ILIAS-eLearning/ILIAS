@@ -23,7 +23,7 @@ class ilPDSelectedItemsBlockGroup
     protected bool $has_icon = false;
     protected string $icon_path = '';
     protected string $label = '';
-    protected array $items = array();
+    protected array $items = [];
 
     public function getLabel(): string
     {
@@ -32,7 +32,7 @@ class ilPDSelectedItemsBlockGroup
 
     public function hasIcon(): bool
     {
-        return $this->icon_path !== "";
+        return $this->icon_path !== '';
     }
 
     public function getIconPath(): string
@@ -48,9 +48,6 @@ class ilPDSelectedItemsBlockGroup
         $this->items = $items;
     }
 
-    /**
-     * @param array $item
-     */
     public function pushItem(array $item): void
     {
         $this->items[] = $item;

@@ -29,7 +29,7 @@ use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 /**
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class DashboardLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+class DashboardLayoutProvider extends AbstractModificationProvider
 {
     protected ?Collection $data_collection;
 
@@ -47,7 +47,7 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar): ?MainBar {
+                static function (MainBar $mainbar): ?MainBar {
                     return $mainbar->withActive($mainbar::NONE_ACTIVE);
                 }
             )

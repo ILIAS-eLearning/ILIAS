@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-
-interface ilPDSelectedItemsBlockMembershipsObjectRepository
+/**
+ * Interface ilPDSelectedItemsBlockProvider
+ */
+interface ilPDSelectedItemsBlockProvider
 {
     /**
-     * @param ilObjUser $user
-     * @param string[] $objTypes
-     * @param string $actorLanguageCode
-     * @return Generator|ilPDSelectedItemBlockMembershipsDTO[]|Generator<ilPDSelectedItemBlockMembershipsDTO>
+     * @param array $object_type_white_list An optional array of object_types used for filter purposes
+     * @return array An array of repository items, each given as a structured array
      */
-    public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode): Generator;
+    public function getItems(array $object_type_white_list = []): array;
 }

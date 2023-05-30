@@ -19,39 +19,18 @@
 declare(strict_types=1);
 final class ilPDSelectedItemBlockMembershipsDTO
 {
-    private int $refId;
-    private int $objId;
-    private string $type;
-    private string $title;
-    private string $description;
-    private int $parentRefId;
-    private int $parentLftTree;
-    private bool $objectPeriodHasTime;
-    private ?DateTimeImmutable $periodStart;
-    private ?DateTimeImmutable $periodEnd;
-
     public function __construct(
-        int $refId,
-        int $objId,
-        string $type,
-        string $title,
-        string $description,
-        int $parentRefId,
-        int $parentLftTree,
-        bool $objectPeriodHasTime,
-        ?DateTimeImmutable $periodStart,
-        ?DateTimeImmutable $periodEnd
+        private readonly int $refId,
+        private readonly int $objId,
+        private readonly string $type,
+        private readonly string $title,
+        private readonly string $description,
+        private readonly int $parentRefId,
+        private readonly int $parentLftTree,
+        private readonly bool $objectPeriodHasTime,
+        private readonly ?DateTimeImmutable $periodStart,
+        private readonly ?DateTimeImmutable $periodEnd
     ) {
-        $this->refId = $refId;
-        $this->objId = $objId;
-        $this->type = $type;
-        $this->title = $title;
-        $this->description = $description;
-        $this->parentRefId = $parentRefId;
-        $this->parentLftTree = $parentLftTree;
-        $this->objectPeriodHasTime = $objectPeriodHasTime;
-        $this->periodStart = $periodStart;
-        $this->periodEnd = $periodEnd;
     }
 
     public function getRefId(): int

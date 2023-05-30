@@ -18,16 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilObjDashboardSettings extends ilObject
+interface ilPDSelectedItemsBlockMembershipsObjectRepository
 {
-    public function __construct(
-        int $a_id = 0,
-        bool $a_call_by_reference = true
-    ) {
-        $this->type = "dshs";
-        parent::__construct($a_id, $a_call_by_reference);
-    }
+    /**
+     * @param string[] $objTypes
+     */
+    public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode): Generator;
 }

@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Dashboard\Access;
 
 use ilDBInterface;
+use ILIAS\DI\Container;
+use ilObjDashboardSettings;
 use ilRbacSystem;
 
 /**
@@ -28,9 +30,9 @@ use ilRbacSystem;
  */
 class DashboardAccess
 {
-    protected ilRbacSystem $rbac_system;
-    protected ilDBInterface $db;
-    protected static int $setting_ref_id = 0;
+    protected readonly ?ilRbacSystem $rbac_system;
+    protected readonly ?ilDBInterface $db;
+    private int $setting_ref_id = 0;
 
     public function __construct()
     {
@@ -42,24 +44,24 @@ class DashboardAccess
 
     protected function getSettingsRefId(): int
     {
-        if (self::$setting_ref_id === 0) {
+        if ($this->setting_ref_id === 0) {
             $set = $this->db->queryF(
                 'SELECT object_reference.ref_id FROM object_reference, tree, object_data
                 WHERE tree.parent = %s
                 AND object_data.type = %s
                 AND object_reference.ref_id = tree.child
                 AND object_reference.obj_id = object_data.obj_id',
-                array('integer', 'text'),
-                array(SYSTEM_FOLDER_ID, 'dshs')
+                ['integer', 'text'],
+                [SYSTEM_FOLDER_ID, ilObjDashboardSettings::TYPE]
             );
             $rec = $this->db->fetchAssoc($set);
-            self::$setting_ref_id = (int) $rec["ref_id"];
+            $this->setting_ref_id = (int) $rec['ref_id'];
         }
-        return self::$setting_ref_id;
+        return $this->setting_ref_id;
     }
 
     public function canChangePresentation(int $user_id): bool
     {
-        return $this->rbac_system->checkAccessOfUser($user_id, "change_presentation", $this->getSettingsRefId());
+        return $this->rbac_system->checkAccessOfUser($user_id, 'change_presentation', $this->getSettingsRefId());
     }
 }

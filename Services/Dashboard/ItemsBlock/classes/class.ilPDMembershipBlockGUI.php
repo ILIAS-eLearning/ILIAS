@@ -24,19 +24,17 @@ declare(strict_types=1);
  */
 class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 {
-    public static string $block_type = 'pdmem';
-    protected bool $on_mem_overview;
+    public const BLOCK_TYPE = 'pdmem';
 
     public function __construct(
-        bool $on_mem_overview = false
+        protected readonly bool $on_mem_overview = false
     ) {
         parent::__construct();
-        $this->lng->loadLanguageModule("dash");
-        $this->lng->loadLanguageModule("mmbr");
-        $this->on_mem_overview = $on_mem_overview;
+        $this->lng->loadLanguageModule('dash');
+        $this->lng->loadLanguageModule('mmbr');
     }
 
-    protected function initViewSettings(): void
+    protected function initView(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
@@ -52,7 +50,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     protected function returnToContext(): void
     {
         if ($this->on_mem_overview) {
-            $this->ctrl->redirectByClass('ilmembershipoverviewgui', '');
+            $this->ctrl->redirectByClass(ilMembershipOverviewGUI::class, '');
         }
         parent::returnToContext();
     }
@@ -60,13 +58,13 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     protected function getViewTitle(): string
     {
         if ($this->on_mem_overview) {
-            return $this->lng->txt("mmbr_memberships");
+            return $this->lng->txt('mmbr_memberships');
         }
         return parent::getViewTitle();
     }
 
     public function getNoItemFoundContent(): string
     {
-        return $this->lng->txt("rep_mo_mem_dash");
+        return $this->lng->txt('rep_mo_mem_dash');
     }
 }

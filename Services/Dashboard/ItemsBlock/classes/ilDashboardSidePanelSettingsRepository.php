@@ -23,18 +23,16 @@ declare(strict_types=1);
  */
 class ilDashboardSidePanelSettingsRepository
 {
-    public const CALENDAR = "cal";
-    public const NEWS = "news";
-    public const MAIL = "mail";
-    public const TASKS = "task";
+    public const CALENDAR = 'cal';
+    public const NEWS = 'news';
+    public const MAIL = 'mail';
+    public const TASKS = 'task';
 
-    protected ilSetting $setting;
+    protected readonly ilSetting $setting;
 
     public function __construct(ilSetting $dashboard_settings = null)
     {
-        $this->setting = is_null($dashboard_settings)
-            ? new ilSetting("dash")
-            : $dashboard_settings;
+        $this->setting = $dashboard_settings ?? new ilSetting('dash');
     }
 
     public function getValidModules(): array
@@ -55,14 +53,14 @@ class ilDashboardSidePanelSettingsRepository
     public function enable(string $mod, bool $active): void
     {
         if ($this->isValidModule($mod)) {
-            $this->setting->set("enable_" . $mod, ($active) ? '1' : '0');
+            $this->setting->set('enable_' . $mod, $active ? '1' : '0');
         }
     }
 
     public function isEnabled(string $mod): bool
     {
         if ($this->isValidModule($mod)) {
-            return (bool) $this->setting->get("enable_" . $mod, '1');
+            return (bool) $this->setting->get('enable_' . $mod, '1');
         }
         return false;
     }

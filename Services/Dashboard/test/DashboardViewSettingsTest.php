@@ -61,35 +61,31 @@ class DashboardViewSettingsTest extends TestCase
 
     public function testMembershipsEnabledPerDefault(): void
     {
-        $settings = $this->view_settings;
         $this->assertTrue(
-            $settings->enabledMemberships()
+            $this->view_settings->enabledMemberships()
         );
     }
 
     public function testDisableMemberships(): void
     {
-        $settings = $this->view_settings;
-        $settings->enableMemberships(false);
+        $this->view_settings->enableMemberships(false);
         $this->assertFalse(
-            $settings->enabledMemberships()
+            $this->view_settings->enabledMemberships()
         );
     }
 
     public function testSelectedItemsEnabledPerDefault(): void
     {
-        $settings = $this->view_settings;
         $this->assertTrue(
-            $settings->enabledSelectedItems()
+            $this->view_settings->enabledSelectedItems()
         );
     }
 
     public function testDisableSelectedItems(): void
     {
-        $settings = $this->view_settings;
-        $settings->enableSelectedItems(false);
+        $this->view_settings->enableSelectedItems(false);
         $this->assertFalse(
-            $settings->enabledSelectedItems()
+            $this->view_settings->enabledSelectedItems()
         );
     }
 }

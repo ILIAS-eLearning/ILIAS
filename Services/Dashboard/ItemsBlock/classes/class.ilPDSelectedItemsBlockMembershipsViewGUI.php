@@ -45,7 +45,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
         return $this->lng->txt('my_courses_groups');
     }
 
-    public function supportsSelectAll(): bool
+    final public function supportsSelectAll(): bool
     {
         return false;
     }

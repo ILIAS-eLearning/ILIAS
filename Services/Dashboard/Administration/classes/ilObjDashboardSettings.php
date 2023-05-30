@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
-
 /**
- * Interface ilPDSelectedItemsBlockProvider
+ * @author Alexander Killing <killing@leifos.de>
  */
-interface ilPDSelectedItemsBlockProvider
+class ilObjDashboardSettings extends ilObject
 {
-    /**
-     * @param array $object_type_white_list An optional array of object_types used for filter purposes
-     * @return array An array of repository items, each given as a structured array
-     */
-    public function getItems(array $object_type_white_list = array()): array;
+    public const TYPE = 'dshs';
+
+    public function __construct(int $id = 0, bool $call_by_reference = true)
+    {
+        $this->type = self::TYPE;
+        parent::__construct($id, $call_by_reference);
+    }
 }

@@ -25,19 +25,16 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         'grp',
     ];
 
-    private ilDBInterface $db;
-    private int $recoveryFolderId;
-
-    public function __construct(ilDBInterface $db, int $recoveryFolderId)
-    {
-        $this->db = $db;
-        $this->recoveryFolderId = $recoveryFolderId;
+    public function __construct(
+        private readonly ilDBInterface $db,
+        private int $recoveryFolderId
+    ) {
     }
 
     /**
      * @return string[]
      */
-    public function getValidObjectTypes(): array
+    final public function getValidObjectTypes(): array
     {
         return self::VALID_OBJECT_TYPES;
     }
@@ -98,7 +95,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
                             WHEN od.type = 'crs' THEN crs_settings.period_time_indication
                             ELSE grp_settings.period_time_indication
                         END
-                    ) period_has_time            
+                    ) period_has_time
                 FROM rbac_ua ua
                 INNER JOIN rbac_fa fa ON fa.rol_id = ua.rol_id AND fa.assign = %s
                 INNER JOIN object_reference objr ON objr.ref_id = fa.parent
@@ -116,20 +113,20 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
 
         while ($row = $this->db->fetchAssoc($res)) {
             $periodStart = null;
-            if (!is_null($row['period_start'])) {
+            if ($row['period_start'] !== null) {
                 $periodStart = new DateTimeImmutable($row['period_start'], new DateTimeZone('UTC'));
             }
             $periodEnd = null;
-            if (!is_null($row['period_end'])) {
+            if ($row['period_end'] !== null) {
                 $periodEnd = new DateTimeImmutable($row['period_end'], new DateTimeZone('UTC'));
             }
 
             yield new ilPDSelectedItemBlockMembershipsDTO(
                 (int) $row['ref_id'],
                 (int) $row['obj_id'],
-                (string) $row['type'],
-                (string) $row['title'],
-                (string) $row['description'],
+                $row['type'],
+                $row['title'],
+                $row['description'],
                 (int) $row['parent'],
                 (int) $row['parent_lft'],
                 (bool) $row['period_has_time'],

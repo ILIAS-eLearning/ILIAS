@@ -24,35 +24,34 @@ declare(strict_types=1);
 class ilDashObjectsTableGUI extends ilTable2GUI
 {
     public function __construct(
-        object $a_parent_obj,
-        string $a_parent_cmd,
+        object $parent_obj,
+        string $parent_cmd,
         int $sub_id
     ) {
         global $DIC;
 
-        $this->id = "dash_obj_" . $sub_id;
+        $this->id = 'dash_obj_' . $sub_id;
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setTitle($this->lng->txt(""));
+        $this->setTitle($this->lng->txt(''));
 
-        $this->addColumn("", "", "", true);
+        $this->addColumn('', '', '', true);
 
         $this->setEnableNumInfo(false);
         $this->setEnableHeader(false);
 
-        $this->setRowTemplate("tpl.dash_obj_row.html", "Services/Dashboard");
+        $this->setRowTemplate('tpl.dash_obj_row.html', 'Services/Dashboard');
 
         $this->setLimit(9999);
     }
 
-    protected function fillRow(array $a_set): void
+    protected function fillRow(array $set): void
     {
-        $tpl = $this->tpl;
-        $tpl->setVariable("ID", $a_set["ref_id"]);
-        $tpl->setVariable("ICON", ilObject::_getIcon((int) $a_set["obj_id"]));
-        $tpl->setVariable("TITLE", $a_set["title"]);
+        $this->tpl->setVariable('ID', $set['ref_id']);
+        $this->tpl->setVariable('ICON', ilObject::_getIcon((int) $set['obj_id']));
+        $this->tpl->setVariable('TITLE', $set['title']);
     }
 }
