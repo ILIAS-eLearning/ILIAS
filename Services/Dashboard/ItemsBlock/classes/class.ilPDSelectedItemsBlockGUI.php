@@ -542,7 +542,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                     continue;
                 }
             }
-            if ($cards === []) {
+            if ($cards !== []) {
                 $subs[] = $this->ui->factory()->panel()->sub(
                     $group->getLabel(),
                     $this->ui->factory()->deck($cards)->withNormalCardsSize()
@@ -550,7 +550,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-        if ($subs === []) {
+        if ($subs !== []) {
             return $this->ui->renderer()->render($subs);
         }
 
