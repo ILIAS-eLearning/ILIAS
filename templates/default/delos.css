@@ -10902,6 +10902,32 @@ footer {
     display: block;
   }
 }
+.c-layout-alignment {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+}
+.c-layout-alignment--horizontal {
+  flex-wrap: wrap;
+}
+.c-layout-alignment--nowrap.c-layout-alignment--horizontal {
+  flex-wrap: nowrap;
+}
+.c-layout-alignment .c-layout-alignment__group {
+  display: flex;
+  flex: 1 1 0px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+@media screen and (max-width: 768px) {
+  .c-layout-alignment .c-layout-alignment__group {
+    flex-basis: 100%;
+  }
+}
+.c-layout-alignment .c-layout-alignment__group .c-layout-alignment__block {
+  flex-grow: 1;
+}
+
 .il-link:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;

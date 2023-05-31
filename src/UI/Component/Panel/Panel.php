@@ -22,11 +22,12 @@ namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Dropdown;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 /**
  * This describes how a panel could be modified during construction of UI.
  */
-interface Panel extends Component
+interface Panel extends Component, Block
 {
     /**
      * Gets the title of the panel
