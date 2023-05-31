@@ -8804,6 +8804,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-table-data .header.cell {
   font-weight: bold;
 }
+.il-workflow {
+  word-break: break-word;
+}
 .il-workflow-header .il-workflow-title {
   background-color: #f0f0f0;
   color: #4c6586;
