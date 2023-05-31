@@ -5609,8 +5609,10 @@ common#:#soap_user_administration_desc#:#Ha be van kapcsolva, az ILIAS kezelhet�
 common#:#soap_wsdl_path#:#WSDL útvonal
 common#:#soap_wsdl_path_info#:#Adja meg a webszolgáltatásokhoz használandó ILIAS WSDL fájl útját. Ha üresen hagyja ezt a mezőt, az alábbi útvonal lesz alapértelmezett: %s
 common#:#sort_ascending#:#Rendezés növekvő sorrendben
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###31 05 2023 new variable
 common#:#sort_by_this_column#:#Rendezés erre az oszlopra
 common#:#sort_descending#:#Rendezés csökkenő sorrendben
+common#:#sort_descending_long#:#Change Sort Direction to Descending###31 05 2023 new variable
 common#:#sort_inherit_prefix#:#Alapértelmezett
 common#:#sorting_asc#:#Növekvő
 common#:#sorting_creation_header#:#Létrehozás ideje szerinti
