@@ -119,7 +119,7 @@ class ilItemGroupDataSet extends ilDataSet
         switch ($a_entity) {
             case "itgr":
                 return array(
-                    "itgr_item" => array("ids" => $a_rec["Id"])
+                    "itgr_item" => array("ids" => $a_rec["Id"] ?? [])
                 );
         }
 
