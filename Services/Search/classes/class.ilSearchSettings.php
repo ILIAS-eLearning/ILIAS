@@ -329,7 +329,7 @@ class ilSearchSettings
     }
 
 
-    public function setLastIndexTime(ilDateTime $time): void
+    public function setLastIndexTime(?ilDateTime $time): void
     {
         $this->last_index_date = $time;
     }
