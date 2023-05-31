@@ -47,9 +47,7 @@ class DashboardLayoutProvider extends AbstractModificationProvider
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                static function (MainBar $mainbar): ?MainBar {
-                    return $mainbar->withActive($mainbar::NONE_ACTIVE);
-                }
+                static fn (MainBar $mainbar): ?MainBar => $mainbar->withActive($mainbar::NONE_ACTIVE)
             )
             ->withLowPriority();
     }

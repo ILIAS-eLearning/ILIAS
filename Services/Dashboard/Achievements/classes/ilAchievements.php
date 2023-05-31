@@ -88,8 +88,6 @@ class ilAchievements
      */
     final public function getActiveServices(): array
     {
-        return array_filter($this->services, function ($s) {
-            return $this->isActive($s);
-        });
+        return array_filter($this->services, $this->isActive(...));
     }
 }

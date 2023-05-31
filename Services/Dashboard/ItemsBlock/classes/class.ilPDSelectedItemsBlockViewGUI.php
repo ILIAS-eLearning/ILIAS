@@ -223,9 +223,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['not_dated'], static function ($left, $right) {
-            return strcmp($left['title'], $right['title']);
-        });
+        uasort($groups['not_dated'], static fn ($left, $right) => strcmp($left['title'], $right['title']));
 
         $upcoming = new ilPDSelectedItemsBlockGroup();
         $upcoming->setLabel($this->lng->txt('pd_upcoming'));
@@ -243,14 +241,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $not_dated->setLabel($this->lng->txt('pd_not_date'));
         $not_dated->setItems($groups['not_dated']);
 
-        return array_filter([
-            $upcoming,
-            $ongoing,
-            $ended,
-            $not_dated
-        ], static function (ilPDSelectedItemsBlockGroup $group) {
-            return count($group->getItems()) > 0;
-        });
+        return array_filter(
+            [$upcoming, $ongoing, $ended, $not_dated],
+            static fn (ilPDSelectedItemsBlockGroup $group) => count($group->getItems()) > 0
+        );
     }
 
     /**
@@ -262,9 +256,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
         $items = $this->provider->getItems();
 
-        $parent_ref_ids = array_values(array_unique(array_map(static function ($item) {
-            return $item['parent_ref'];
-        }, $items)));
+        $parent_ref_ids = array_values(array_unique(array_map(static fn ($item) => $item['parent_ref'], $items)));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
         foreach ($items as $key => $item) {
@@ -291,9 +283,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
     {
         $items = array_values($this->provider->getItems());
 
-        usort($items, static function (array $first, array $second): int {
-            return strnatcmp(strtolower($first['title']), strtolower($second['title']));
-        });
+        usort(
+            $items,
+            static fn (array $first, array $second): int => strnatcasecmp($first['title'], $second['title'])
+        );
 
         $group = new ilPDSelectedItemsBlockGroup();
         array_map([$group, 'pushItem'], $items);

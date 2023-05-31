@@ -248,9 +248,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
         $lng = $this->lng;
         $pres_options = array_column(array_map(
-            static function ($k, $v) use ($lng) {
-                return [$v, $lng->txt('dash_' . $v)];
-            },
+            static fn ($k, $v) => [$v, $lng->txt('dash_' . $v)],
             array_keys($ops),
             $ops
         ), 1, 0);
@@ -267,9 +265,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $ops = $this->viewSettings->getAvailableSortOptionsByView($view);
         $sortation_options = array_column(array_map(
-            static function ($k, $v) use ($lng) {
-                return [$v, $lng->txt('dash_sort_by_' . $v)];
-            },
+            static fn ($k, $v) => [$v, $lng->txt('dash_sort_by_' . $v)],
             array_keys($ops),
             $ops
         ), 1, 0);
@@ -353,9 +349,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
         return array_map(
-            static function (FormInput $field): FormInput {
-                return $field->withDisabled(true);
-            },
+            static fn (FormInput $field): FormInput => $field->withDisabled(true),
             $fields
         );
     }

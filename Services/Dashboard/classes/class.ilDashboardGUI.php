@@ -119,7 +119,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             case strtolower(ilPDNotesGUI::class):
                 if ($this->settings->get('disable_notes') && $this->settings->get('disable_comments')) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-                    ilUtil::redirect('ilias.php?baseClass=' . __CLASS__);
+                    ilUtil::redirect('ilias.php?baseClass=' . self::class);
                     return;
                 }
                 $this->getStandardTemplates();

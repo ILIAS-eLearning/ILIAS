@@ -30,8 +30,8 @@ use ilRbacSystem;
  */
 class DashboardAccess
 {
-    protected readonly ?ilRbacSystem $rbac_system;
-    protected readonly ?ilDBInterface $db;
+    protected readonly ilRbacSystem $rbac_system;
+    protected readonly ilDBInterface $db;
     private int $setting_ref_id = 0;
 
     public function __construct()

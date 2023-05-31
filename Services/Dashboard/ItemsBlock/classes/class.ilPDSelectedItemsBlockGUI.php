@@ -574,9 +574,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
 
         if (is_array($groupedCommands[0])) {
-            $actions = array_map(static function ($item) use ($ui) {
-                return $ui->factory()->link()->standard($item['txt'], $item['url']);
-            }, $groupedCommands[0]);
+            $actions = array_map(
+                static fn ($item) => $ui->factory()->link()->standard($item['txt'], $item['url']),
+                $groupedCommands[0]
+            );
             if (count($actions) > 0) {
                 $dd = $this->ui->factory()->dropdown()->standard($actions);
                 $this->main_tpl->setHeaderActionMenu($ui->renderer()->render($dd));
