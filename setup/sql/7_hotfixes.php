@@ -1731,12 +1731,22 @@ $ilDB->modifyTableColumn(
         'length' => '256'
     ]
 );
-$ilDB->modifyTableColumn(
-    'usr_sess_istorage',
-    'session_id',
-    [
-        'type' => ilDBConstants::T_TEXT,
-        'length' => '256'
-    ]
-);
+try {
+    $ilDB->modifyTableColumn(
+        'usr_sess_istorage',
+        'session_id',
+        [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => '256'
+        ]
+    );
+} catch (\Exception $e) {
+    $message = "DB Hotfix 102: \n\n"
+        . "We could not Update the length of the column `session_id` in the table\n"
+        . "`usr_session_istorage` as the table engine is MyIsam.\n"
+        . "This step will be finished after updating to ILIAS 8. You could also change\n"
+        . "the ENGINE manually to InnoDB, if you require longer session_ids.";
+    global $ilLog;
+    $ilLog->warning($message);
+}
 ?>
