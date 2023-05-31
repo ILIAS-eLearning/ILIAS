@@ -165,15 +165,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
         $a_form->addItem($cb_prop);
 
-        $stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
-        $latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), '0');
-        $latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
-        $stickyThreadSorting->addOption($latestAtTop);
-        $manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), '1');
-        $manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));
-        $stickyThreadSorting->addOption($manualSorting);
-        $a_form->addItem($stickyThreadSorting);
-
         if ($this->settings->get('enable_anonymous_fora') || $this->settings->get('enable_fora_statistics')) {
             $privacyHeader = new ilFormSectionHeaderGUI();
             $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
@@ -264,7 +255,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['post_activation'] = $this->parent_obj->objProperties->isPostActivationEnabled();
         $a_values['subject_setting'] = $this->parent_obj->objProperties->getSubjectSetting();
         $a_values['mark_mod_posts'] = $this->parent_obj->objProperties->getMarkModeratorPosts();
-        $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
         $default_view_value = $this->parent_obj->objProperties->getDefaultView();
@@ -337,7 +327,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->parent_obj->objProperties->setPostActivation((bool) $a_form->getInput('post_activation'));
         $this->parent_obj->objProperties->setSubjectSetting($a_form->getInput('subject_setting'));
         $this->parent_obj->objProperties->setMarkModeratorPosts((bool) $a_form->getInput('mark_mod_posts'));
-        $this->parent_obj->objProperties->setThreadSorting((int) $a_form->getInput('thread_sorting'));
         $this->parent_obj->objProperties->setIsThreadRatingEnabled((bool) $a_form->getInput('thread_rating'));
         if (!ilForumProperties::isFileUploadGloballyAllowed()) {
             $this->parent_obj->objProperties->setFileUploadAllowed((bool) $a_form->getInput('file_upload_allowed'));

@@ -145,6 +145,13 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
                 "uses_dataset" => false,
                 "min" => "8.0",
                 "max" => ""
+            ],
+            "9.0" => [
+                "namespace" => "http://www.ilias.de/Modules/Forum/frm/9",
+                "xsd_file" => "ilias_frm_9.xsd",
+                "uses_dataset" => false,
+                "min" => "9.0",
+                "max" => ""
             ]
         ];
     }

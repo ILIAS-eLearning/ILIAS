@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -51,7 +52,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         $tmp_file_name = implode(
             "~~",
             array(
-                session_id(),
+                mb_substr(session_id(), 0, 8),
                 $a_hash,
                 $a_field,
                 $a_index,

@@ -45,8 +45,15 @@ class ilForumSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilForumDatabaseUpdateSteps()
+        return new Setup\ObjectiveCollection(
+            'Forum',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilForumDatabaseUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilForumDatabaseUpdateSteps9()
+            )
         );
     }
 
