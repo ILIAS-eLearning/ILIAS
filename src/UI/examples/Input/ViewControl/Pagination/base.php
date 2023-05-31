@@ -11,7 +11,10 @@ function base()
     $r = $DIC['ui.renderer'];
 
     //construct without options; default value is 'unlimited'.
-    $pagination = $f->input()->viewControl()->pagination();
+    $pagination = $f->input()->viewControl()->pagination()
+        ->withTotalCount(932)
+        ->withValue("31:10")
+    ;
 
     //view this in a ViewControlContainer with active request
     $vc_container = $f->input()->container()->viewControl()->standard([$pagination])

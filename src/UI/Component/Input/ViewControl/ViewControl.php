@@ -42,8 +42,7 @@ interface ViewControl extends Input, Triggerer
      */
     public function getOnChangeSignal(): ?Signal;
 
-    public function getLabel(): string;
-    public function withLabel(string $label): self;
-    public function isDisabled(): bool;
-    public function withDisabled(bool $is_disabled): self;
+    //public function withLabel(string $label): self;
+    //public function isDisabled(): bool;
+    //public function withDisabled(bool $is_disabled): self;
 }

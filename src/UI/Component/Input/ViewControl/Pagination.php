@@ -28,5 +28,7 @@ use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
 interface Pagination extends IViewControl
 {
     public function withLimitOptions(array $options): self;
-    public function withLabelLimit(string $label): self;
+    public function withTotalCount(int $total_count = null): self;
+
+    //public function withLabelLimit(string $label): self;
 }

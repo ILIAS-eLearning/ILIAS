@@ -33,9 +33,12 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'pagination offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'pagination limit';
     protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
+    protected const VISIBLE_ENTRIES = 7;
 
     protected Signal $internal_selection_signal;
     protected array $options;
+    protected ?int $total_count = null;
+    protected int $visible_entries;
 
     public function __construct(
         DataFactory $data_factory,
@@ -46,13 +49,14 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     ) {
         parent::__construct($data_factory, $refinery, $label_offset);
         $this->internal_selection_signal = $signal_generator->create();
+        $this->visible_entries = self::VISIBLE_ENTRIES;
         $this->operations[] = $this->getRangeTransform();
     }
 
     protected function getDefaultValue(): string
     {
         $options = $this->getLimitOptions();
-        return $this->value ?? '0:' . end($options);
+        return $this->value ?? '0:' . reset($options);
     }
 
     protected function isClientSideValueOk($value): bool
@@ -131,10 +135,29 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $this->label_limit;
     }
 
+    /*
     public function withLabelLimit(string $label_limit): self
     {
         $clone = clone $this;
         $clone->label_limit = $label_limit;
+        return $clone;
+    }
+    */
+
+    public function getNumberOfVisibleEntries(): int
+    {
+        return $this->visible_entries;
+    }
+
+    public function getTotalCount(): ?int
+    {
+        return $this->total_count;
+    }
+
+    public function withTotalCount(int $total_count = null): self
+    {
+        $clone = clone $this;
+        $clone->total_count = $total_count;
         return $clone;
     }
 }

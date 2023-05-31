@@ -76,20 +76,26 @@ interface Factory
      *      The pagination view control is used to display a section of a larger
      *      set of data.
      *      It allows the user to navigate through the pages by selecting the
-     *      respective range and to change the amount of displayed entries.
+     *      respective page and to change the amount of displayed entries.
      *   composition: >
      *      Section/Offset are controlled by a "previous" and "next" glyph to
-     *      navigate through the sections; a dropdown offers to jump do a specific section immediately.
-     *      A second dropdown is used to select the amount of shown entries, e.g.
-     *      rows of a table.
+     *      navigate through the pages; shy-buttons are used for the distinct
+     *      selection of a page.
+     *      A second dropdown is used to select the amount of shown entries.
+     *      When the total amount of records is unknown, two Numeric Inputs
+     *      are used to directly enter offset and amount of concurrently shown
+     *      records along with a button to apply the inputs.
      *   effect: >
-     *      Available ranges are calculated by the given number of entries; when the
-     *      number of entries is set to "unlimited" (PHP_MAX_INT), the section-control
-     *      is not being displayed.
-     *      When changing the amount of entries, sections are re-calculated and
+     *      Available ranges/pages are calculated by the given number of entries;
+     *      when the number of entries is set to "unlimited" (PHP_MAX_INT),
+     *      the section-control is not being displayed.
+     *      When changing the amount of entries, pages are re-calculated and
      *      current offset is being set to the closest starting-point.
+     *      If a previous/next chunk of data is not available, the according glyph
+     *      is rendered unavailable.
+     *      When there are more than a given amount of pages in total, first and last
+     *      page will be available along with the pages surrounding the current one.
      * ---
-     * @param array<string,string> $options
      * @param string $label_offset
      * @param string $label_limit
      * @return \ILIAS\UI\Component\Input\ViewControl\Pagination

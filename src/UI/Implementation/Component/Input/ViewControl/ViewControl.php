@@ -75,13 +75,14 @@ abstract class ViewControl implements VCInterface\ViewControl, InputInternal
     {
         return $this->label;
     }
-
+/*
     public function withLabel(string $label): self
     {
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
     }
+*/
 
     public function isDisabled(): bool
     {
@@ -94,7 +95,6 @@ abstract class ViewControl implements VCInterface\ViewControl, InputInternal
         $clone->is_disabled = $is_disabled;
         return $clone;
     }
-
     /**
      * @param mixed $value
      */
