@@ -79,13 +79,12 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::NUMBEREDLIST,
         self::LISTINDENT,
         self::LISTOUTDENT,
+        self::FILTER,
         self::HEADER,
         self::ITALIC,
         self::BOLD,
         self::LINK,
-        self::LAUNCH,
-        self::SORTATION,
-        self::FILTER
+        self::LAUNCH
     ];
 
     private string $type;
