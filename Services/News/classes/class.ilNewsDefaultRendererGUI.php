@@ -153,4 +153,9 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         include_once("./Services/Link/classes/class.ilLink.php");
         return ilLink::_getLink($this->getNewsRefId());
     }
+
+    public function preventEditing() : bool
+    {
+        return false;
+    }
 }

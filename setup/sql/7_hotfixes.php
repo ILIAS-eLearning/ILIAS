@@ -555,7 +555,7 @@ if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_users",
             [
@@ -606,7 +606,7 @@ if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "lti_ext_provider",
             [
@@ -668,7 +668,7 @@ if ($ilDB->tableColumnExists('cmix_lrs_types', 'user_ident')) {
         if ($row['user_name'] == 'fullname') {
             $name = 3;
         }
-        
+
         $ilDB->update(
             "cmix_lrs_types",
             [
@@ -1678,4 +1678,65 @@ if (!$ilDB->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
 if (!$ilDB->indexExistsByFields('style_usage', array('style_id'))) {
     $ilDB->addIndex('style_usage', array('style_id'), 'i1');
 }
+?>
+<#97>
+<?php
+$ilDB->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]);
+?>
+<#98>
+<?php
+if (!$ilDB->indexExistsByFields('webr_items', array('webr_id'))) {
+    $ilDB->addIndex('webr_items', array('webr_id'), 'i3');
+}
+?>
+<#99>
+<?php
+if (!$ilDB->indexExistsByFields('cal_entries', array('starta'))) {
+    $ilDB->addIndex('cal_entries', array('starta'), 'i3');
+}
+if (!$ilDB->indexExistsByFields('cal_entries', array('enda'))) {
+    $ilDB->addIndex('cal_entries', array('enda'), 'i4');
+}
+?>
+<#100>
+<?php
+if (!$ilDB->indexExistsByFields('event_appointment', array('event_id'))) {
+    $ilDB->addIndex('event_appointment', array('event_id'), 'i1');
+}
+?>
+<#101>
+<?php
+if (!$ilDB->indexExistsByFields('rbac_fa', ['assign', 'rol_id'])) {
+    $ilDB->addIndex('rbac_fa', ['assign', 'rol_id'], 'i2');
+}
+if (!$ilDB->indexExistsByFields('rbac_fa', ['assign', 'parent'])) {
+    $ilDB->addIndex('rbac_fa', ['assign', 'parent'], 'i3');
+}
+?>
+<#102>
+<?php
+$ilDB->modifyTableColumn(
+    'usr_session',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
+$ilDB->modifyTableColumn(
+    'usr_session_stats_raw',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
+$ilDB->modifyTableColumn(
+    'usr_sess_istorage',
+    'session_id',
+    [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => '256'
+    ]
+);
 ?>

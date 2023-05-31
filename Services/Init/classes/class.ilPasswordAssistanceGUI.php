@@ -49,6 +49,10 @@ class ilPasswordAssistanceGUI
      */
     private $ilErr;
 
+    /**
+     * @var ilHelpGUI
+     */
+    private $help;
 
     public function __construct()
     {
@@ -61,6 +65,9 @@ class ilPasswordAssistanceGUI
         $this->settings = $DIC->settings();
         $this->ilias = $DIC['ilias'];
         $this->ilErr = $DIC['ilErr'];
+        $this->help = $DIC->help();
+
+        $this->help->setScreenIdComponent('init');
     }
 
     /**
@@ -163,6 +170,8 @@ class ilPasswordAssistanceGUI
      */
     public function showAssistanceForm(ilPropertyFormGUI $form = null)
     {
+        $this->help->setSubScreenId('password_assistance');
+
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
         $this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
@@ -402,6 +411,8 @@ class ilPasswordAssistanceGUI
         require_once 'include/inc.pwassist_session_handler.php';
         require_once 'Services/Language/classes/class.ilLanguage.php';
 
+        $this->help->setSubScreenId('password_input');
+
         // Retrieve form data
         if (!$pwassist_id) {
             $pwassist_id = $_GET['key'];
@@ -565,6 +576,8 @@ class ilPasswordAssistanceGUI
      */
     public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null)
     {
+        $this->help->setSubScreenId('username_assistance');
+
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
         $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));

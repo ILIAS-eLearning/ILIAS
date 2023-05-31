@@ -2566,6 +2566,8 @@ book#:#book_reminder_day#:#A foglalás előtt
 book#:#book_reminder_day_info#:#A felhasználóknak saját foglalásuk, a vezetőknek az összes foglalás megküldése.
 book#:#book_reminder_days#:#nappal
 book#:#book_reminder_setting#:#Emlékeztető
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s elérhető
 book#:#book_reservation_confirmed#:#Foglalását megerősítette.
 book#:#book_reservation_failed#:#Foglalása sikertelen.
@@ -5583,6 +5585,7 @@ common#:#short_inst_name#:#Rövid cím
 common#:#short_inst_name_info#:#Ez a cím fog megjelenni a böngésző fejléccím csíkjában. Ha nincs megadott érték, az 'ILIAS' kerül felhasználásra.
 common#:#show#:#Megjelenítés
 common#:#show_all_details#:#Összes részlet megjelenítése
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Részletek megjelenítése
 common#:#show_filter#:#Szűrő megjelenítése
 common#:#show_hidden_sections#:#További információk megjelenítése &raquo;
@@ -5606,8 +5609,10 @@ common#:#soap_user_administration_desc#:#Ha be van kapcsolva, az ILIAS kezelhet�
 common#:#soap_wsdl_path#:#WSDL útvonal
 common#:#soap_wsdl_path_info#:#Adja meg a webszolgáltatásokhoz használandó ILIAS WSDL fájl útját. Ha üresen hagyja ezt a mezőt, az alábbi útvonal lesz alapértelmezett: %s
 common#:#sort_ascending#:#Rendezés növekvő sorrendben
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###31 05 2023 new variable
 common#:#sort_by_this_column#:#Rendezés erre az oszlopra
 common#:#sort_descending#:#Rendezés csökkenő sorrendben
+common#:#sort_descending_long#:#Change Sort Direction to Descending###31 05 2023 new variable
 common#:#sort_inherit_prefix#:#Alapértelmezett
 common#:#sorting_asc#:#Növekvő
 common#:#sorting_creation_header#:#Létrehozás ideje szerinti
@@ -6477,6 +6482,8 @@ content#:#cont_grid_width_s#:#Kicsi
 content#:#cont_grid_width_s_info#:#Például mobil
 content#:#cont_grid_width_xl#:#Extra nagy
 content#:#cont_grid_width_xl_info#:#Például széles asztali monitor
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Fejléc
 content#:#cont_height#:#Magasság pixelben
 content#:#cont_help_no_valid_tooltip_id#:#A megadott tooltip_id nem érvényes.
@@ -10551,6 +10558,7 @@ lti#:#lti_object_consumer#:#LTI-fogyasztók
 lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
 lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló értéke 'Nem érhető el'
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_released_objects#:#Megosztott objektumok
 lti#:#lti_select_provider#:#Válasszon Kiszolgálót

@@ -18,6 +18,7 @@ class ilCmiXapiAccess
      * @var ilObjCmiXapi
      */
     protected $object;
+    protected $access;
     
     /**
      * ilCmiXapiAccess constructor.
@@ -25,7 +26,9 @@ class ilCmiXapiAccess
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
         $this->object = $object;
+        $this->access = $DIC->access();
     }
     
     /**
@@ -39,60 +42,78 @@ class ilCmiXapiAccess
     /**
      * @return bool
      */
-    public function hasWriteAccess()
+    public function hasWriteAccess($usrId = null)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        return (bool) $DIC->access()->checkAccess(
-            'write',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'write',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'write',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
     }
     
     /**
      * @return bool
      */
-    public function hasEditPermissionsAccess()
+    public function hasEditPermissionsAccess($usrId = null)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $editPermsAccess = $DIC->access()->checkAccess(
-            'edit_permission',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
-        
-        if ($editPermsAccess) {
-            return true;
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'edit_permission',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'edit_permission',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
         }
-        
-        return false;
     }
     
     /**
      * @return bool
      */
-    public function hasOutcomesAccess()
+    public function hasOutcomesAccess($usrId = null)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $outcomesAccess = $DIC->access()->checkAccess(
-            'read_outcomes',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
-        
-        if ($outcomesAccess) {
-            return true;
+
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'read_outcomes',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'read_outcomes',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
         }
-        return false;
     }
     
     /**

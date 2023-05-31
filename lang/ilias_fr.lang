@@ -418,10 +418,10 @@ adve#:#adve_grp_test#:#Test & évaluation
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_minutes#:#Inactivité (minutes)
 adve#:#adve_minutes_info#:#Temps d'inactivité avant que le verrouillage de page n'expire et qu'un autre utilisateur puisse l'éditer.
-adve#:#adve_page_editor_settings#:#à‰diteur ILIAS
+adve#:#adve_page_editor_settings#:#Éditeur ILIAS
 adve#:#adve_pe_general#:#Paramètres Généraux
-adve#:#adve_rte_settings#:#à‰diteur TinyMCE
-adve#:#adve_text_content_features#:#Options de lâ€™à‰diteur de Texte
+adve#:#adve_rte_settings#:#Éditeur TinyMCE
+adve#:#adve_text_content_features#:#Options de l'éditeur de Texte
 adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
@@ -685,9 +685,9 @@ assessment#:#ects_grade_e_desc#:#La performance répond aux critères minimum
 assessment#:#ects_grade_f_desc#:#travail supplémentaire considérable est nécessaire
 assessment#:#ects_grade_fx_desc#:#plus de travail requis avant de pouvoir attribuer le crédit
 assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
-assessment#:#edit_answer#:#à‰diter la Réponse
-assessment#:#edit_page#:#à‰diter la Page
-assessment#:#edit_question#:#à‰diter la Question
+assessment#:#edit_answer#:#Éditer la Réponse
+assessment#:#edit_page#:#Éditer la Page
+assessment#:#edit_question#:#Éditer la Question
 assessment#:#edit_test_questions#:#Vue par Liste
 assessment#:#element_height#:#Hauteur minimale
 assessment#:#element_height_info#:#Hauteur minimale en pixels pour les termes et définitions/images à  l'affichage de la question.
@@ -962,7 +962,7 @@ assessment#:#option_label_not_adequate#:#inadéquate
 assessment#:#option_label_not_applicable#:#non applicable
 assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
-assessment#:#option_label_right#:#droit
+assessment#:#option_label_right#:#vrai
 assessment#:#option_label_right_wrong#:#vrai / faux
 assessment#:#option_label_wrong#:#faux
 assessment#:#oq_btn_define_pictures#:#Passer à la vue de définition de l’image
@@ -1072,7 +1072,7 @@ assessment#:#qpl_qst_skl_usg_skill_col#:#Compétence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Somme totale de points de compétence par compétence
 assessment#:#qpl_question_is_in_use#:#La question que vous êtes sur le point de modifier existe dans %s test(s).  Si vous changez cette question, vous ne la changerez pas dans ce(s) test(s), car le système crée une copie de la question quand elle est ajoutée dans un test.
 assessment#:#qpl_questions_deleted#:#Question(s) détruite(s).
-assessment#:#qpl_reset_preview#:#Réinitialiser l'aperà§u
+assessment#:#qpl_reset_preview#:#Réinitialiser l'aperàçu
 assessment#:#qpl_save_skill_assigns_update#:#Sauvegarder les tâches de compétence
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Lorsque activé, les taxinomies créées sont utilisées pour le filtrage.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtre de Taxinomie comme Arbre de Navigation
@@ -1107,7 +1107,7 @@ assessment#:#qst_lifecycle_sharable#:#Sharable###07 02 2020 new variable
 assessment#:#qst_nested_nested_answers_off#:#No indents, just order###29 07 2022 new variable
 assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers###29 07 2022 new variable
 assessment#:#qst_nr_of_tries#:#Nombre de tentatives
-assessment#:#qst_preview_reset_msg#:#L'aperà§u a été réinitialisé.
+assessment#:#qst_preview_reset_msg#:#L'aperàçu a été réinitialisé.
 assessment#:#qst_use_nested_answers#:#Nested answers###29 07 2022 new variable
 assessment#:#que_contains_unused_var#:#Le texte de la question contient une variable qui n'est utilisée dans aucune formule de réponse.
 assessment#:#question_browse_area_info#:#Veuillez sélectionner un objet à partir duquel vous souhaitez importer des questions.
@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#Before Reservation
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
 book#:#book_reminder_days#:#Day(s)
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s disponible
 book#:#book_reservation_confirmed#:#Votre réservation a été confirmée.
 book#:#book_reservation_failed#:#Votre réservation a échoué.
@@ -2629,7 +2631,7 @@ buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
 buddysystem#:#buddy_bs_state_unlinked_a#:#Non liée
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
 buddysystem#:#buddy_enable#:#Activer les Contacts
-buddysystem#:#buddy_enable_info#:#Si activé, les utilisateurs sont autorisés à  communiquer entre eux en lanà§ant des demandes de contact. De plus, il y a un paramètre d'utilisateur personnel pour permettre ou éviter d'être contacté.
+buddysystem#:#buddy_enable_info#:#Si activé, les utilisateurs sont autorisés à  communiquer entre eux en lanàçant des demandes de contact. De plus, il y a un paramètre d'utilisateur personnel pour permettre ou éviter d'être contacté.
 buddysystem#:#buddy_handle_contact_request#:#Demande de contact
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###07 02 2020 new variable
 buddysystem#:#buddy_notification_contact_request#:#Demande de contact
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#Titre Court
 common#:#short_inst_name_info#:#Ce titre apparaît dans la barre de titre du navigateur. Si aucune valeur n'est entrée, 'ILIAS' sera utilisé.
 common#:#show#:#Afficher
 common#:#show_all_details#:#Montrer les détails
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Afficher Détails
 common#:#show_filter#:#Afficher le Filtre
 common#:#show_hidden_sections#:#Afficher plus d'informations &raquo;
@@ -5592,8 +5595,10 @@ common#:#soap_user_administration_desc#:#Si active, tous les comptes utilisateur
 common#:#soap_wsdl_path#:#Chemin WSDL
 common#:#soap_wsdl_path_info#:#Entrer le chemin du fichier wsdl qui sera utilisé par le Webservice. Si ce champs est vide, le chemin par defaut est :%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###31 05 2023 new variable
 common#:#sort_by_this_column#:#Trier selon cette colonne
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###31 05 2023 new variable
 common#:#sort_inherit_prefix#:#Défaut
 common#:#sorting_asc#:#Croissant
 common#:#sorting_creation_header#:#Trier par Date de Création
@@ -6463,6 +6468,8 @@ content#:#cont_grid_width_s#:#Petite
 content#:#cont_grid_width_s_info#:#Par ex. smartphone
 content#:#cont_grid_width_xl#:#Extra large
 content#:#cont_grid_width_xl_info#:#Par ex. ordinateur large
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Entête
 content#:#cont_height#:#Hauteur
 content#:#cont_help_no_valid_tooltip_id#:#L'ID d'info-bulle que vous avez saisi n'était pas valide.
@@ -10537,6 +10544,7 @@ lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable

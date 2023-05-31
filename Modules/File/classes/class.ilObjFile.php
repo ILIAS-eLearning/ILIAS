@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\File\Sanitation\FilePathSanitizer;
@@ -155,11 +169,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // bugfix mantis 0026160 && 0030391 and 0032340
         $title_info = new SplFileInfo($title);
         $filename_info = new SplFileInfo($filename);
-    
-        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
+
+        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getPathname());
         $extension = $filename_info->getExtension();
-    
-        return $filename . '.' . $extension;
+
+        return $this->secure($filename . '.' . $extension);
     }
 
     /**
@@ -430,7 +444,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $q = "SELECT * FROM file_data WHERE file_id = %s";
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
-    
+
         $this->setFileName($this->secure($row->file_name ?? ''));
         $this->setFileType($row->file_type);
         $this->setFileSize($row->file_size);

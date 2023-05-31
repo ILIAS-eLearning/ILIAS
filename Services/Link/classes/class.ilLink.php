@@ -29,14 +29,8 @@ class ilLink
                 $param_string .= ('&' . $name . '=' . $value);
             }
         }
-        switch ($a_type) {
-            case 'git':
-            //case 'pg':
-                return ILIAS_HTTP_PATH . '/' . IL_INTERNAL_LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
-            
-            default:
-                return ILIAS_HTTP_PATH . '/' . IL_INTERNAL_LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
-        }
+        return ILIAS_HTTP_PATH . '/' . IL_INTERNAL_LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id .
+          $append . '&client_id=' . CLIENT_ID . $param_string;
     }
 
     /**

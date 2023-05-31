@@ -115,7 +115,7 @@ class ilTestPDFGenerator
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
 
         if (!$pdf_factory->deliverPDFFromHTMLString(
-            array($pdf_output),
+            $pdf_output,
             $filename,
             $output_mode,
             self::service,

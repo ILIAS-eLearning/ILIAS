@@ -18,7 +18,7 @@ class ilObjLTIConsumer extends ilObject2
     /**
      * repository object activation settings (handled by ilObject)
      */
-    protected $activationLimited;
+    protected $activationLimited = false;
     protected $activationStartingTime;
     protected $activationEndingTime;
     protected $activationVisibility;

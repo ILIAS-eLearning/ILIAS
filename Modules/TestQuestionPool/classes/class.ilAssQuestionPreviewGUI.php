@@ -255,7 +255,6 @@ class ilAssQuestionPreviewGUI
 
         switch ($nextClass) {
             case 'ilassquestionhintrequestgui':
-
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
                 $gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
 

@@ -270,7 +270,9 @@ var mainbar = function() {
             }
         }
         mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
-        mb.renderer.render(mb.model.getState());
+        let state = mb.model.getState();
+        mb.renderer.render(state);
+        mb.persistence.store(state);
     },
     init_mobile = function() {
         var mb = il.UI.maincontrols.mainbar;

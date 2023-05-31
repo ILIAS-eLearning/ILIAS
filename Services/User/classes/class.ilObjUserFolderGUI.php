@@ -1305,7 +1305,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $ilUser = $DIC->user();
 
-        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . session_id();
+        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . mb_substr(session_id(), 0, 8);
 
         return $importDir;
     }
@@ -1686,7 +1686,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $form_elements = [
             "file_info" => $file_info_section
         ];
-        
+
         if (!empty($global_selects)) {
             $global_role_info_section = $ui->input()
                 ->field()
@@ -4182,7 +4182,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields['ps_security_protection'] = array(null, null, $subitems);
 
                 return array(array("generalSettings", $fields));
-                
+
             case ilAdministrationSettingsFormHandler::FORM_TOS:
                 return [
                     [

@@ -2002,7 +2002,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $item) {
-            if ($item->getAnswertext() == $answerOptionValue) {
+            if ($item->getAnswertext() === $answerOptionValue) {
                 return false;
             }
         }

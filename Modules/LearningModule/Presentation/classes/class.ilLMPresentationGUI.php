@@ -638,7 +638,7 @@ class ilLMPresentationGUI
                         $content = $this->getContent();
                         $content .= $this->ilLMNotes();
                         $additional = $this->ui->renderer() ->render($this->additional_content);
-                        $this->tpl->setContent($content.$additional);
+                        $this->tpl->setContent($content . $additional);
                         break;
 
                     case "ilGlossary":
@@ -829,7 +829,7 @@ class ilLMPresentationGUI
         ilAccordionGUI::addJavaScript($this->tpl);
         ilAccordionGUI::addCss($this->tpl);
 
-            // set style sheets
+        // set style sheets
         $this->setContentStyles();
         $this->setSystemStyle();
 
@@ -1623,8 +1623,10 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
         }
         $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
-        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink("sourcecodeDownload",
-            $this->getCurrentPageId()));
+        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink(
+            "sourcecodeDownload",
+            $this->getCurrentPageId()
+        ));
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
         }
@@ -1714,6 +1716,7 @@ class ilLMPresentationGUI
             $this->linker->getLink("fullscreen");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->lm->getRefId(),'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
 
@@ -3010,7 +3013,7 @@ class ilLMPresentationGUI
             return new ilLMPageGUI($a_id, 0, false, $this->lang, $concrete_lang);
         }
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(),$concrete_lang);
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $concrete_lang);
         }
         return new ilLMPageGUI($a_id, 0, false, "", $concrete_lang);
     }

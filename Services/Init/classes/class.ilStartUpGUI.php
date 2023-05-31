@@ -41,6 +41,12 @@ class ilStartUpGUI
 
     /** @var \ILIAS\DI\Container $dic */
     protected $dic;
+
+    /**
+     * @var ilHelpGUI
+     */
+    private $help;
+
     /**
      * ilStartUpGUI constructor.
      * @param \ilObjUser|null              $user
@@ -77,6 +83,7 @@ class ilStartUpGUI
             $httpRequest = $DIC->http()->request();
         }
         $this->httpRequest = $httpRequest;
+        $this->help = $DIC->help();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -86,6 +93,7 @@ class ilStartUpGUI
         $this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 
         $this->user->setLanguage($this->lng->getLangKey());
+        $this->help->setScreenIdComponent('init');
     }
 
     /**
@@ -214,6 +222,7 @@ class ilStartUpGUI
     {
         global $tpl, $ilSetting;
 
+        $this->help->setSubScreenId('login');
 
         $this->getLogger()->debug('Showing login page');
 
@@ -300,6 +309,8 @@ class ilStartUpGUI
     protected function showCodeForm($a_username = null, $a_form = null)
     {
         global $tpl, $lng;
+
+        $this->help->setSubScreenId('code_input');
 
         self::initStartUpTemplate("tpl.login_reactivate_code.html");
 
@@ -1113,6 +1124,8 @@ class ilStartUpGUI
      */
     public function showAccountMigration(string $message = '') : void
     {
+        $this->help->setSubScreenId('account_migration');
+
         $tpl = self::initStartUpTemplate('tpl.login_account_migration.html');
 
         $form = new ilPropertyFormGUI();
@@ -1306,6 +1319,8 @@ class ilStartUpGUI
 
         $lng = $DIC->language();
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
+
+        $this->help->setSubScreenId('logout');
 
         $tpl = self::initStartUpTemplate("tpl.logout.html");
 
@@ -1590,6 +1605,8 @@ class ilStartUpGUI
      */
     protected function showTermsOfService(bool $accepted = false) : void
     {
+        $this->help->setSubScreenId('terms_of_service');
+
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
         if (!$this->user->getId()) {
@@ -2279,6 +2296,8 @@ class ilStartUpGUI
     protected function showSamlIdpSelection(\ilSamlAuth $auth, array $idps)
     {
         global $DIC;
+
+        $this->help->setSubScreenId('saml_idp_selection');
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 

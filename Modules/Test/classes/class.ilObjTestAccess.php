@@ -1,7 +1,12 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessQuestionImage;
+use ILIAS\Modules\Test\SimpleAccess;
+use ILIAS\Modules\Test\Readable;
+use ILIAS\Data\Result;
+use ILIAS\Data\Result\Error;
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -24,10 +29,24 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public function canBeDelivered(ilWACPath $ilWACPath)
     {
         global $DIC;
+        $readable = new Readable($DIC);
 
-        $can_it = (new CanAccessFileUploadAnswer($DIC))->isTrue($ilWACPath->getPath());
+        $can_it = $this->findMatch($ilWACPath->getPath(), [
+            new AccessFileUploadAnswer($DIC, $readable),
+            new AccessQuestionImage($readable),
+        ]);
+
 
         return !$can_it->isOk() || $can_it->value();
+    }
+
+    private function findMatch(string $path, array $array): Result
+    {
+        return array_reduce($array, static function (Result $result, SimpleAccess $access) use ($path): Result {
+            return $result->except(static function () use ($access, $path): Result {
+                return $access->isPermitted($path);
+            });
+        }, new Error('Not a known path.'));
     }
 
     /**

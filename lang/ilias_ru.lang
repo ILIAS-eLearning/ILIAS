@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#Before Reservation###10 11 2018 new variable
 book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.###10 11 2018 new variable
 book#:#book_reminder_days#:#Day(s)###10 11 2018 new variable
 book#:#book_reminder_setting#:#Reminder###10 11 2018 new variable
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#Your booking has failed.
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#Заголовок окна
 common#:#short_inst_name_info#:#Этот текст появляется в заголовке окна/вкладки браузера. Если ничего не введено, выводится 'ILIAS'.
 common#:#show#:#Показать
 common#:#show_all_details#:#Show all details
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#Показать Детали
 common#:#show_filter#:#Показать фильтр
 common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
@@ -5592,8 +5595,10 @@ common#:#soap_user_administration_desc#:#Если включено, все уч�
 common#:#soap_wsdl_path#:#Путь к WSDL
 common#:#soap_wsdl_path_info#:#Пожалуйста, введите путь к файлу wsdl, который используется Веб-сервисом. Если оставить это поле пустым, то по умолчанию будет использован следующий путь :%s
 common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###31 05 2023 new variable
 common#:#sort_by_this_column#:#Сортировать по этому столбцу
 common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#sort_descending_long#:#Change Sort Direction to Descending###31 05 2023 new variable
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_asc#:#Ascending###26 09 2014 new variable
 common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable
@@ -6463,6 +6468,8 @@ content#:#cont_grid_width_s#:#Small###31 08 2017 new variable
 content#:#cont_grid_width_s_info#:#E.g. smartphone###31 08 2017 new variable
 content#:#cont_grid_width_xl#:#Extra Large###31 08 2017 new variable
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop###31 08 2017 new variable
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Header
 content#:#cont_height#:#Высота
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###26 09 2014 new variable
@@ -10537,6 +10544,7 @@ lti#:#lti_object_consumer#:#LTI Consumers###31 08 2017 new variable
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
 lti#:#lti_provider#:#LTI-Freigaben###31 08 2017 new variable
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable

@@ -668,10 +668,7 @@ class ilGlossaryPresentationGUI
         }
 
         if (!$a_get_html) {
-            $tpl->setPermanentLink("git", $term_id, "", ILIAS_HTTP_PATH .
-                "/goto.php?target=" .
-                "git" .
-                "_" . $term_id . "_" . $ref_id . "&client_id=" . CLIENT_ID);
+            $tpl->setPermanentLink("git", "", $term_id . "_" . $ref_id);
 
             // show taxonomy
             $this->showTaxonomy();
@@ -811,6 +808,7 @@ class ilGlossaryPresentationGUI
 
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->requested_ref_id, 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         echo xslt_error($xh);

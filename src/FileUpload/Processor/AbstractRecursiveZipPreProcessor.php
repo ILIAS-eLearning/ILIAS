@@ -31,6 +31,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 abstract class AbstractRecursiveZipPreProcessor implements PreProcessor
 {
+    use IsMimeTypeOrExtension;
     /**
      * @param string $path to a file
      * @return bool false leads to rejection, true to accept
@@ -70,18 +71,10 @@ abstract class AbstractRecursiveZipPreProcessor implements PreProcessor
 
     private function isFileAZip(Metadata $metadata) : bool
     {
-        // is extension zip?
-        if ((substr_compare($metadata->getFilename(), 'zip', -strlen('zip')) === 0) === true) {
-            return true;
-        }
-        // is mime-type zip?
-        $mime_type = strtolower($metadata->getMimeType());
-        if ($mime_type === 'application/zip'
-            || $mime_type === 'application/x-zip-compressed'
-        ) {
-            return true;
-        }
-
-        return false;
+        return $this->isMimeTypeOrExtension(
+            $metadata,
+            'zip',
+            ['application/zip', 'application/x-zip-compressed']
+        );
     }
 }

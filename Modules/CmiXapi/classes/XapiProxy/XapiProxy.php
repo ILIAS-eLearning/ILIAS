@@ -218,10 +218,12 @@
                     $statementEvaluation = new \ilXapiStatementEvaluation($this->log(), $object);
                     $statementEvaluation->evaluateStatement($xapiStatement, $this->authToken->getUsrId());
 
-                    \ilLPStatusWrapper::_updateStatus(
-                        $this->authToken->getObjId(),
-                        $this->authToken->getUsrId()
-                    );
+                    if ($this->authToken->getUsrId() != ANONYMOUS_USER_ID) {
+                        \ilLPStatusWrapper::_updateStatus(
+                            $this->authToken->getObjId(),
+                            $this->authToken->getUsrId()
+                        );
+                    }
                 }
                 if ($xapiStatement->verb->id == self::TERMINATED_VERB) {
                     // ToDo : only cmi5 or also xapi? authToken object still used after that?

@@ -644,7 +644,7 @@ class ilTable2GUI extends ilTableGUI
 
         // restore filter values (from stored view)
         if ($this->restore_filter) {
-            if (array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values)) {
+            if (array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values ?? [])) {
                 $this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
             } else {
                 $this->setFilterValue($a_input_item, null); // #14949
@@ -1506,7 +1506,11 @@ class ilTable2GUI extends ilTableGUI
             if ($column["sort_field"] == $this->order_field) {
                 $order_dir = $this->sort_order;
 
-                $lng_change_sort = $this->lng->txt("change_sort_direction");
+                if ($order_dir === "asc") {
+                    $lng_change_sort = $this->lng->txt("sort_ascending_long");
+                } else {
+                    $lng_change_sort = $this->lng->txt("sort_descending_long");
+                }
                 $this->tpl->setVariable("TBL_ORDER_ALT", $lng_change_sort);
             }
 

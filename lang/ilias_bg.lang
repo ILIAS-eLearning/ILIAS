@@ -2552,6 +2552,8 @@ book#:#book_reminder_day#:#Преди резервация
 book#:#book_reminder_day_info#:#Изпращане на списък със собствени резервации на потребителите и пълен списък с резервации на администраторите.
 book#:#book_reminder_days#:#Ден/дни
 book#:#book_reminder_setting#:#Reminder
+book#:#book_rerun_assignments#:#Run Assignment Process###05 05 2023 new variable
+book#:#book_rerun_confirmation#:#Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process.###05 05 2023 new variable
 book#:#book_reservation_available#:#%s available
 book#:#book_reservation_confirmed#:#Вашата резервация е потвърдена.
 book#:#book_reservation_failed#:#Вашата резервация се е провалила.
@@ -5569,6 +5571,7 @@ common#:#short_inst_name#:#Кратко заглавие
 common#:#short_inst_name_info#:#Това заглавие ще се появи в заглавната лента на браузъра. Ако не е въведена стойност, се използва "ILIAS".
 common#:#show#:#Показване
 common#:#show_all_details#:#Показване на всички детайли
+common#:#show_content#:#Show Content###05 05 2023 new variable
 common#:#show_details#:#показване на детайлите
 common#:#show_filter#:#Показване на филтъра
 common#:#show_hidden_sections#:#Покажи повече информация "
@@ -5592,8 +5595,10 @@ common#:#soap_user_administration_desc#:#Ако е включено, всичк�
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Въведете пътя до ilias wsdl файла, който трябва да се използва за уеб услугата. Ако оставите това поле празно, по подразбиране ще се използва следният път:%s
 common#:#sort_ascending#:#Сортиране по възходящ ред
+common#:#sort_ascending_long#:#Change Sort Direction to Ascending###31 05 2023 new variable
 common#:#sort_by_this_column#:#Сортиране по тази колона
 common#:#sort_descending#:#Сортиране по низходящ ред
+common#:#sort_descending_long#:#Change Sort Direction to Descending###31 05 2023 new variable
 common#:#sort_inherit_prefix#:#По подразбиране
 common#:#sorting_asc#:#Ascending
 common#:#sorting_creation_header#:#By Creation Date
@@ -6463,6 +6468,8 @@ content#:#cont_grid_width_s#:#Малка###22 06 2022 new variable
 content#:#cont_grid_width_s_info#:#Напр. смартфон
 content#:#cont_grid_width_xl#:#Много голяма###22 06 2022 new variable
 content#:#cont_grid_width_xl_info#:#Напр. широк работен плот
+content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.###05 05 2023 new variable
+content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.###05 05 2023 new variable
 content#:#cont_header#:#Заглавие###22 06 2022 new variable
 content#:#cont_height#:#Височина в пиксели###22 06 2022 new variable
 content#:#cont_help_no_valid_tooltip_id#:#Идентификаторът на инструмента, който сте въвели, не е валиден.
@@ -10537,6 +10544,7 @@ lti#:#lti_object_consumer#:#Потребители на LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#Доставчикът на LTI е настроен на 'Not Available'
+lti#:#lti_provider_not_set_msg#:#LTI Provider is configured incompletely.###05 05 2023 new variable
 lti#:#lti_providing_tab#:#ILIAS като доставчик на LTI
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Избор на доставчик

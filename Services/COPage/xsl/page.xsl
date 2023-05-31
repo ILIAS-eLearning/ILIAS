@@ -104,8 +104,8 @@
 		<xsl:value-of select="$pg_title"/>
 		</h1>
 	</xsl:if>
-	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:comment>COPage-PageTop</xsl:comment>
+	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div data-copg-ed-type="add-area">
@@ -2439,7 +2439,7 @@
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
 			<xsl:if test = "$enable_html_mob = 'y'">
-				<iframe frameborder="0">
+				<iframe frameborder="0" style="width: 100%;">
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:if test="$width != ''">
 						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>

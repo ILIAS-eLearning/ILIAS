@@ -352,6 +352,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
+
+                if($filename === "" || $filename === null) {
+                    continue;
+                }
+
                 if (!file_exists($imagepath_original . $filename)
                     || !copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!");

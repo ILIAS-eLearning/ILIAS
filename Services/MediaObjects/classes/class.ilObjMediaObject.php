@@ -961,6 +961,7 @@ class ilObjMediaObject extends ilObject
         $enlarge_path = "";
         $params = array('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => "",
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         //echo xslt_error($xh);

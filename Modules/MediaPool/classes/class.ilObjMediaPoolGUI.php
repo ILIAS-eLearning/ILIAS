@@ -335,6 +335,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $ilTabs->activateTab("export");
                 include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
@@ -806,6 +807,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "showFullscreen", "", false, false);
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $_GET["ref_id"], 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         echo xslt_error($xh);
@@ -2214,7 +2216,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * Return from item editing
      */
-    protected function returnFromItem(): void
+    protected function returnFromItem() : void
     {
         $ctrl = $this->ctrl;
 

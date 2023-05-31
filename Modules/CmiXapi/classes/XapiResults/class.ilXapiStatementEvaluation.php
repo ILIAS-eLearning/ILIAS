@@ -69,7 +69,9 @@ class ilXapiStatementEvaluation
             $this->evaluateStatement($xapiStatement, $cmixUser->getUsrId());
 
             $this->log->debug('update lp for object (' . $this->object->getId() . ')');
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $cmixUser->getUsrId());
+            if ($cmixUser->getUsrId() != ANONYMOUS_USER_ID) {
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $cmixUser->getUsrId());
+            }
         }
     }
     
