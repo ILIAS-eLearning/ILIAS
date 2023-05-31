@@ -8926,6 +8926,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-table-data .header.cell {
   font-weight: 600;
 }
+.il-workflow {
+  word-break: break-word;
+}
 .il-workflow.linear {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -20012,4 +20015,3 @@ table.mceToolbar td {
     width: auto !important;
   }
 }
-/*# sourceMappingURL=delos.css.map */
