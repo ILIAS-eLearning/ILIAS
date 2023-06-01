@@ -41,11 +41,11 @@ function show_multi_step_modal()
         $modal = null;
         if ($page == "login") {
             $legacy = $f->legacy("<p>The Login Page</p>");
-            $modal = $f->modal()->roundtrip("Login", [$button1, $button2, $legacy]);
+            $modal = $f->modal()->roundtrip("Login", [$legacy])->withActionButtons([$button1, $button2]);
         }
         if ($page == "register") {
             $legacy = $f->legacy("<p>The Registration Page</p>");
-            $modal = $f->modal()->roundtrip("Registration", [$button1, $button2, $legacy]);
+            $modal = $f->modal()->roundtrip("Registration", [$legacy])->withActionButtons([$button1, $button2]);
         }
 
         echo $r->renderAsync([$modal]);
