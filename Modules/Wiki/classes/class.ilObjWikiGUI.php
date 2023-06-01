@@ -17,6 +17,7 @@ use \ILIAS\Wiki\Export;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
+ * @ilCtrl_IsCalledBy ilObjWikiGUI: ilObjectCopyGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
