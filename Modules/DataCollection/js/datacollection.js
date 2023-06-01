@@ -45,7 +45,7 @@ $(document).ready(function () {
 		var fields = ['#datatype_11', '#datatype_7'];
 		for (var i in fields) {
 			var id = fields[i];
-			if ($(id).attr('checked') == 'checked') {
+			if ($(id).is(':checked')) {
 				return true;
 			}
 		}
@@ -53,12 +53,13 @@ $(document).ready(function () {
 		return false;
 	};
 
+	/**
+	 * mantis #36938, JourFixe-2023-03-20 decision: unique option shall be possible for all types of fields
+	 */
 	dcl.onDatatypeChange = function () {
         var state = dcl.checkForUnsupportedRequiredOrUniqueFields();
         var required = $('#required');
         required.prop('disabled', state);
-        var unique = $('#unique');
-        unique.prop('disabled', state);
 	};
 
 	dcl.onDatatypeChange();
