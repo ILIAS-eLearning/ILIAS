@@ -15,10 +15,9 @@ function base()
         ->withProperty('number', '7')
         ->withProperty(
             'status',
-            [
+            $renderer->render(
                 $f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'),
-                $f->legacy('in progress')
-            ],
+            ) . ' in progress',
             false
         );
 

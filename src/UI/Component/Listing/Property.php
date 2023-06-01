@@ -29,18 +29,9 @@ use ILIAS\UI\Component\Link\Standard as StandardLink;
  */
 interface Property extends Listing
 {
-    public const ALLOWED_VALUE_TYPES = [
-        Symbol::class,
-        Legacy::class,
-        StandardLink::class
-    ];
-
-    /**
-     * @param string|Symbol|Legacy|StandardLink|array<Symbol|Legacy|StandardLink> $value
-     */
     public function withProperty(
         string $label,
-        string|array|Symbol|Legacy|StandardLink $value,
+        string|Symbol|Legacy|StandardLink $value,
         bool $show_label = true
     ): self;
 }

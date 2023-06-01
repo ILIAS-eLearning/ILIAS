@@ -33,6 +33,11 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Property extends Listing implements IListing\Property
 {
     use ComponentHelper;
+    protected const ALLOWED_VALUE_TYPES = [
+        Symbol::class,
+        Legacy::class,
+        StandardLink::class
+    ];
 
     public function __construct()
     {
@@ -44,7 +49,6 @@ class Property extends Listing implements IListing\Property
      */
     public function withItems(array $items): self
     {
-        $this->checkArgListElements("items", $items, 'array');
         $clone = clone $this;
         $clone->items = [];
         foreach ($items as $item) {
@@ -53,7 +57,7 @@ class Property extends Listing implements IListing\Property
         return $clone;
     }
 
-    public function withProperty(string $label, string|array|Symbol|Legacy|StandardLink $value, bool $show_label = true): self
+    public function withProperty(string $label, string|Symbol|Legacy|StandardLink $value, bool $show_label = true): self
     {
         if (is_array($value)) {
             $this->checkArgListElements("value", $value, self::ALLOWED_VALUE_TYPES);

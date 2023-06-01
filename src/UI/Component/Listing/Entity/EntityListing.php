@@ -34,12 +34,4 @@ interface EntityListing extends Component
      * record of any sort or a repository, e.g. - into a respective Entity.
      */
     public function withData(mixed $data): self;
-
-    /**
-     * This will call the Listing's EntityFactory::get-method, providing
-     * $ui_factory and $data (see above) as parameters.
-     *
-     * @return \Generator<Entity>
-     */
-    public function getEntities(\ILIAS\UI\Factory $ui_factory): \Generator;
 }
