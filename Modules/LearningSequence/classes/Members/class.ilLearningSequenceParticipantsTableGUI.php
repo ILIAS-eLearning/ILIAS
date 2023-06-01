@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
@@ -151,7 +150,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
@@ -337,7 +336,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
-                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                 if (strpos($user_units, $title) === false) {
                     continue;
                 }
