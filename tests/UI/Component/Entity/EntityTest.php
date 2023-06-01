@@ -23,14 +23,21 @@ use ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Implementation\Component\Image;
 use ILIAS\UI\Implementation\Component\Dropdown;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component as I;
 use ILIAS\UI\Factory as UIFactory;
 
 class EntityTest extends ILIAS_UI_TestBase
 {
-    public function getEntityFactory(): Entity\Factory
+    protected function getEntityFactory(): Entity\Factory
     {
         return new Entity\Factory();
+    }
+
+    protected function legacy(string $string): Legacy
+    {
+        return new Legacy($string, (new SignalGenerator()));
     }
 
     public function testEntityFactory(): void
@@ -44,12 +51,12 @@ class EntityTest extends ILIAS_UI_TestBase
     public function testEntityBasicProperties(): void
     {
         $entity = $this->getEntityFactory()->standard('primary', 'secondary');
-        $this->assertEquals('bc', $entity->withBlockingAvailabilityConditions('bc')->getBlockingAvailabilityConditions());
-        $this->assertEquals('fp', $entity->withFeaturedProperties('fp')->getFeaturedProperties());
-        $this->assertEquals('md', $entity->withMainDetails('md')->getMainDetails());
-        $this->assertEquals('ps', $entity->withPersonalStatus('ps')->getPersonalStatus());
-        $this->assertEquals('a', $entity->withAvailability('a')->getAvailability());
-        $this->assertEquals('d', $entity->withDetails('d')->getDetails());
+        $this->assertEquals([$this->legacy('bc')], $entity->withBlockingAvailabilityConditions($this->legacy('bc'))->getBlockingAvailabilityConditions());
+        $this->assertEquals([$this->legacy('fp')], $entity->withFeaturedProperties($this->legacy('fp'))->getFeaturedProperties());
+        $this->assertEquals([$this->legacy('md')], $entity->withMainDetails($this->legacy('md'))->getMainDetails());
+        $this->assertEquals([$this->legacy('ps')], $entity->withPersonalStatus($this->legacy('ps'))->getPersonalStatus());
+        $this->assertEquals([$this->legacy('a')], $entity->withAvailability($this->legacy('a'))->getAvailability());
+        $this->assertEquals([$this->legacy('d')], $entity->withDetails($this->legacy('d'))->getDetails());
     }
 
     public function EntityAllowedIdentiferTypes(): array
@@ -83,13 +90,13 @@ class EntityTest extends ILIAS_UI_TestBase
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions([$glyph, $tag])
-            ->withReactions([$glyph])
-            ->withActions(['act'=>$shy]);
+            ->withPrioritizedReactions($glyph, $tag)
+            ->withReactions($glyph, $glyph, $glyph)
+            ->withActions($shy);
 
         $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
-        $this->assertEquals([$glyph], $entity->getReactions());
-        $this->assertEquals(['act'=>$shy], $entity->getActions());
+        $this->assertEquals([$glyph,$glyph,$glyph], $entity->getReactions());
+        $this->assertEquals([$shy], $entity->getActions());
     }
 
     public function testEntityComponentProperties(): void
@@ -98,13 +105,13 @@ class EntityTest extends ILIAS_UI_TestBase
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions([$glyph, $tag])
-            ->withReactions([$glyph])
-            ->withActions(['act'=>$shy]);
+            ->withPrioritizedReactions($glyph, $tag)
+            ->withReactions($glyph)
+            ->withActions($shy);
 
         $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
         $this->assertEquals([$glyph], $entity->getReactions());
-        $this->assertEquals(['act'=>$shy], $entity->getActions());
+        $this->assertEquals([$shy], $entity->getActions());
     }
 
 
@@ -123,15 +130,15 @@ class EntityTest extends ILIAS_UI_TestBase
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions([$glyph, $tag])
-            ->withReactions([$glyph])
-            ->withActions(['act'=>$shy])
-            ->withBlockingAvailabilityConditions('bc')
-            ->withFeaturedProperties('fp')
-            ->withMainDetails('md')
-            ->withPersonalStatus('ps')
-            ->withAvailability('a')
-            ->withDetails('d');
+            ->withPrioritizedReactions($glyph, $tag)
+            ->withReactions($glyph, $glyph)
+            ->withActions($shy, $shy)
+            ->withBlockingAvailabilityConditions($this->legacy('bc'))
+            ->withFeaturedProperties($this->legacy('fp'))
+            ->withMainDetails($this->legacy('md'))
+            ->withPersonalStatus($this->legacy('ps'))
+            ->withAvailability($this->legacy('a'))
+            ->withDetails($this->legacy('d'));
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($entity));
@@ -139,9 +146,11 @@ class EntityTest extends ILIAS_UI_TestBase
 <div class="c-entity __container">
     <div class="c-entity __blocking-conditions">bc</div>
     <div class="c-entity __actions">
-        <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-            <ul id="id_2_menu" class="dropdown-menu">
-                <li><button class="btn btn-link" data-action="#" id="id_1">shy</button></li>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_9" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
+            <ul id="id_9_menu" class="dropdown-menu">
+                <li><button class="btn btn-link" data-action="#" id="id_7">shy</button></li>
+                <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>
             </ul>
         </div>
     </div>
@@ -154,14 +163,14 @@ class EntityTest extends ILIAS_UI_TestBase
     <div class="c-entity __details">d</div>
     <div class="c-entity __reactions">
         <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
     </div>
     <div class="c-entity __featured-reactions">
         <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_3">tag</button>
+        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_10">tag</button>
     </div>
 </div>
         ');
-
         $this->assertEquals($expected, $html);
     }
 }

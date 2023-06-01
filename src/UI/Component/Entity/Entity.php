@@ -39,11 +39,9 @@ interface Entity extends Component
     /**
      * Set (and maybe explain) Blocking Availability Conditions when there is
      * some access restriction for the user on this object.
-     *
-     * @param string|PropertyListing|StandardLink|Legacy|array<PropertyListing|StandardLink|Legacy> $blocking_conditions
      */
     public function withBlockingAvailabilityConditions(
-        string|array|PropertyListing|StandardLink|Legacy $blocking_conditions
+        PropertyListing|StandardLink|Legacy ...$blocking_conditions
     ): self;
 
     /**
@@ -51,21 +49,17 @@ interface Entity extends Component
      * significant properties of the entity itself or of greater importance
      * within the context; you may "feature" them, i.e. put them in a prominent
      * place.
-     *
-     * @param string|PropertyListing|StandardLink|Legacy|array<string|PropertyListing|StandardLink|Legacy> $featured_props
      */
     public function withFeaturedProperties(
-        string|array|PropertyListing|StandardLink|Legacy $featured_props
+        PropertyListing|StandardLink|Legacy ...$featured_props
     ): self;
 
     /**
      * Main Details should provide a quick differentiation or choice on the entity.
      * "Description" would be one of the most prominent examples.
-     *
-     * @param string|PropertyListing|Legacy|array<PropertyListing|Legacy> $main_details
      */
     public function withMainDetails(
-        string|array|PropertyListing|Legacy $main_details
+        PropertyListing|Legacy ...$main_details
     ): self;
 
     /**
@@ -74,57 +68,46 @@ interface Entity extends Component
      * common ones (here) and less often used ones.
      * Another way of distinguishing Reactions might be the availability/significance
      * for everybody in contrast to the current user (e.g. rating vs. my favorite)
-     *
-     * @param array<Glyph|Tag> $prio_reactions
      */
-    public function withPrioritizedReactions(array $prio_reactions): self;
+    public function withPrioritizedReactions(Glyph|Tag ...$prio_reactions): self;
 
 
     //Further Areas
 
     /**
      * Reactions that are less prominent than Prioritized Reactions go here.
-     * @param array<Glyph|Tag> $reactions
      */
-    public function withReactions(array $reactions): self;
+    public function withReactions(Glyph|Tag ...$reactions): self;
 
     /**
      * Properties that could potentially limit a users access to the object
      * belong to this group. If they _are_ actually blocking access, then
      * you should place them into Blocking Availability Conditions.
-     *
-     * @param string|PropertyListing|StandardLink|Legacy|array<PropertyListing|StandardLink|Legacy> $availability
      */
     public function withAvailability(
-        string|array|PropertyListing|StandardLink|Legacy $availability
+        PropertyListing|StandardLink|Legacy ...$availability
     ): self;
 
     /**
      * Details provide further information about the entity - worth knowing and helpful,
      * but not as significantly important than Main Details or Featured Properties.
-     *
-     * @param string|PropertyListing|Legacy|array<PropertyListing|Legacy> $details
      */
     public function withDetails(
-        string|array|PropertyListing|Legacy $details
+        PropertyListing|Legacy ...$details
     ): self;
 
     /**
      * Actions are the things you can actually _do_ with the entity,
      * e.g. in context of repository items: view, copy, delete, etc.
-     *
-     * @param Shy[] $actions
      */
-    public function withActions(array $actions): self;
+    public function withActions(Shy ...$actions): self;
 
     /**
      * Personal Status properties indicate the status of a relation between
      * the current user and the object. A most prominent example would be
      * the learning Progress of a Course.
-     *
-     * @param string|PropertyListing|Legacy|array<PropertyListing|Legacy> $personal_status
      */
     public function withPersonalStatus(
-        string|array|PropertyListing|Legacy $personal_status
+        PropertyListing|Legacy ...$personal_status
     ): self;
 }

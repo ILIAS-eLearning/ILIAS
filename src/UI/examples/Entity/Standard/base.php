@@ -31,7 +31,7 @@ function base()
         $f->button()->shy("ILIAS", "https://www.ilias.de"),
         $f->button()->shy("GitHub", "https://www.github.com")
     ];
-    $entity = $entity->withActions($actions);
+    $entity = $entity->withActions(...$actions);
 
     /*
     * Logic for Pulling Availabilty Properties to Blocking Conditions
@@ -74,15 +74,15 @@ function base()
         ->withProperty('Recording', 'recording available', false)
     ;
 
-    $status = [
-        $f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'),
-        $f->legacy('in progress')
-    ];
+    $status = $f->legacy(
+        $renderer->render($f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'))
+        . ' in progress'
+    );
 
     $entity = $entity
-    ->withPersonalStatus($status)
-    ->withDetails($details)
-    ->withReactions($reactions)
+      ->withPersonalStatus($status)
+      ->withDetails($details)
+      ->withReactions(...$reactions)
     ;
 
     /*
@@ -104,28 +104,10 @@ function base()
         ->withProperty('detail: ', '7')
         ->withProperty('detail2', 'unlabled detail', false);
 
-    $details2 = $f->listing()->property()
-        ->withProperty('another detail: ', 'anothervalue');
-
-    $status = [
-        $f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'),
-        $f->legacy('personal status')
-    ];
-
-    $availability = $f->listing()->property()
-        ->withProperty('available', 'until 2024/12/24');
-
-    $entity = $f->entity()->standard(
-        'primary id',
-        $secondary_id
-    )
-    ->withFeaturedProperties('Status: offline')
-    ->withMainDetails('This is a descriptive text. This is a descriptive text. This is a descriptive text.')
-    ->withBlockingAvailabilityConditions('there are blocking conditions!')
-    ->withPersonalStatus($status)
-    ->withAvailability($availability)
-    ->withDetails([$details, $details2])
-    ->withPrioritizedReactions($prio_reactions)
+    $entity = $entity
+        ->withFeaturedProperties($featured_properties)
+        ->withMainDetails($main_detail_1, $main_detail_2)
+        ->withPrioritizedReactions(...$prio_reactions)
     ;
 
     return $renderer->render($entity);

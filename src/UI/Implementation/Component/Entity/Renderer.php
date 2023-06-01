@@ -60,14 +60,18 @@ class Renderer extends AbstractComponentRenderer
                 break;
         }
 
-        $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($component->getBlockingAvailabilityConditions(), $default_renderer));
-        $tpl->setVariable('SECONDARY_IDENTIFIER', $this->maybeRender($secondary_identifier, $default_renderer));
-        $tpl->setVariable('FEATURES', $this->maybeRender($component->getFeaturedProperties(), $default_renderer));
-        $tpl->setVariable('PRIMARY_IDENTIFIER', $this->maybeRender($component->getPrimaryIdentifier(), $default_renderer));
-        $tpl->setVariable('PERSONAL_STATUS', $this->maybeRender($component->getPersonalStatus(), $default_renderer));
-        $tpl->setVariable('MAIN_DETAILS', $this->maybeRender($component->getMainDetails(), $default_renderer));
-        $tpl->setVariable('AVAILABILITY', $this->maybeRender($component->getAvailability(), $default_renderer));
-        $tpl->setVariable('DETAILS', $this->maybeRender($component->getDetails(), $default_renderer));
+        $tpl->setVariable('SECONDARY_IDENTIFIER', is_string($secondary_identifier) ? $secondary_identifier : $this->maybeRender($default_renderer, $secondary_identifier));
+
+        $primary_identifier  = $component->getPrimaryIdentifier();
+        $primary_identifier = is_string($primary_identifier) ? $primary_identifier : $this->maybeRender($default_renderer, $primary_identifier);
+        $tpl->setVariable('PRIMARY_IDENTIFIER', $primary_identifier);
+
+        $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($default_renderer, ...$component->getBlockingAvailabilityConditions()));
+        $tpl->setVariable('FEATURES', $this->maybeRender($default_renderer, ...$component->getFeaturedProperties()));
+        $tpl->setVariable('PERSONAL_STATUS', $this->maybeRender($default_renderer, ...$component->getPersonalStatus()));
+        $tpl->setVariable('MAIN_DETAILS', $this->maybeRender($default_renderer, ...$component->getMainDetails()));
+        $tpl->setVariable('AVAILABILITY', $this->maybeRender($default_renderer, ...$component->getAvailability()));
+        $tpl->setVariable('DETAILS', $this->maybeRender($default_renderer, ...$component->getDetails()));
 
         if ($actions = $component->getActions()) {
             $actions_dropdown = $this->getUIFactory()->dropdown()->standard($actions);
@@ -83,15 +87,14 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param Component\Component|string|null|array<Component\Component> $value
-     */
-    protected function maybeRender(Component\Component|array|string|null $value, RendererInterface $default_renderer): ?string
+    protected function maybeRender(RendererInterface $default_renderer, Component\Component|null ...$values): ?string
     {
-        if (is_null($value) || is_string($value)) {
-            return $value;
+        //$values = array_filter($values);
+        if ($values === []) {
+            return null;
         }
-        return $default_renderer->render($value);
+
+        return $default_renderer->render($values);
     }
 
     /**

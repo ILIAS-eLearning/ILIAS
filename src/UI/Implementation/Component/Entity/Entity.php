@@ -37,17 +37,17 @@ abstract class Entity implements I\Entity
     use ComponentHelper;
 
     /**
-     * @var null|string|PropertyListing|StandardLink|Legacy|array<StandardLink|Legacy>
+     * @var array<PropertyListing|StandardLink|Legacy>
      */
-    protected null|string|array|PropertyListing|StandardLink|Legacy $blocking_conditions = null;
+    protected array $blocking_conditions = [];
     /**
-     * @var null|string|PropertyListing|StandardLink|Legacy|array<string|PropertyListing|StandardLink|Legacy>
+     * @var array<PropertyListing|StandardLink|Legacy>
      */
-    protected null|string|array|PropertyListing|StandardLink|Legacy $featured_props = null;
+    protected array $featured_props = [];
     /**
-     * @var null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @var array<PropertyListing|Legacy>
      */
-    protected null|string|array|PropertyListing|Legacy $main_details = null;
+    protected array $main_details = [];
     /**
      * @var array<Glyph|Tag>
      */
@@ -57,21 +57,21 @@ abstract class Entity implements I\Entity
      */
     protected array $reactions = [];
     /**
-     * @var null|string|PropertyListing|StandardLink|Legacy|array<StandardLink|Legacy>
+     * @var array<PropertyListing|StandardLink|Legacy>
      */
-    protected null|string|array|PropertyListing|StandardLink|Legacy $availability = null;
+    protected array $availability = [];
     /**
-     * @var null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @var array<PropertyListing|Legacy>
      */
-    protected null|string|array|PropertyListing|Legacy $details = null;
+    protected array $details = [];
     /**
      * @var Shy[]
      */
     protected array $actions = [];
     /**
-     * @var null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @var array<PropertyListing|Legacy>
      */
-    protected null|string|array|PropertyListing|Legacy $personal_status = null;
+    protected array $personal_status = [];
 
     public function __construct(
         protected Symbol|Image|Shy|StandardLink|string $primary_identifier,
@@ -105,16 +105,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withBlockingAvailabilityConditions(
-        string|array|PropertyListing|StandardLink|Legacy $blocking_conditions
+        PropertyListing|StandardLink|Legacy ...$blocking_conditions
     ): self {
         $clone = clone $this;
         $clone->blocking_conditions = $blocking_conditions;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|StandardLink|Legacy|array<PropertyListing|StandardLink|Legacy>
+     * @return array<PropertyListing|StandardLink|Legacy>
      */
-    public function getBlockingAvailabilityConditions(): null|string|array|PropertyListing|StandardLink|Legacy
+    public function getBlockingAvailabilityConditions(): array
     {
         return $this->blocking_conditions;
     }
@@ -123,16 +123,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withFeaturedProperties(
-        string|array|PropertyListing|StandardLink|Legacy $featured_props
+        PropertyListing|StandardLink|Legacy ...$featured_props
     ): self {
         $clone = clone $this;
         $clone->featured_props = $featured_props;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @return array<PropertyListing|StandardLink|Legacy>
      */
-    public function getFeaturedProperties(): null|string|array|PropertyListing|StandardLink|Legacy
+    public function getFeaturedProperties(): array
     {
         return $this->featured_props;
     }
@@ -141,16 +141,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withMainDetails(
-        string|array|PropertyListing|Legacy $main_details
+        PropertyListing|Legacy ...$main_details
     ): self {
         $clone = clone $this;
         $clone->main_details = $main_details;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @return array<PropertyListing|Legacy>
      */
-    public function getMainDetails(): null|string|array|PropertyListing|Legacy
+    public function getMainDetails(): array
     {
         return $this->main_details;
     }
@@ -158,7 +158,7 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withPrioritizedReactions(array $prio_reactions): self
+    public function withPrioritizedReactions(Glyph|Tag ...$prio_reactions): self
     {
         $this->checkArgListElements(
             "Entity Prioritized Reactions",
@@ -180,7 +180,7 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withReactions(array $reactions): self
+    public function withReactions(Glyph|Tag ...$reactions): self
     {
         $this->checkArgListElements(
             "Entity Reactions",
@@ -204,16 +204,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withAvailability(
-        string|array|PropertyListing|StandardLink|Legacy $availability
+        PropertyListing|StandardLink|Legacy ...$availability
     ): self {
         $clone = clone $this;
         $clone->availability = $availability;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|StandardLink|Legacy|array<PropertyListing|StandardLink|Legacy>
+     * @return array<PropertyListing|StandardLink|Legacy>
      */
-    public function getAvailability(): null|string|array|PropertyListing|StandardLink|Legacy
+    public function getAvailability(): array
     {
         return $this->availability;
     }
@@ -222,16 +222,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withDetails(
-        string|array|PropertyListing|Legacy $details
+        PropertyListing|Legacy ...$details
     ): self {
         $clone = clone $this;
         $clone->details = $details;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @return array<PropertyListing|Legacy>
      */
-    public function getDetails(): null|string|array|PropertyListing|Legacy
+    public function getDetails(): array
     {
         return $this->details;
     }
@@ -239,14 +239,8 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withActions(array $actions): self
+    public function withActions(Shy ...$actions): self
     {
-        $this->checkArgListElements(
-            "Entity Actions",
-            $actions,
-            [Shy::class]
-        );
-
         $clone = clone $this;
         $clone->actions = $actions;
         return $clone;
@@ -263,16 +257,16 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withPersonalStatus(
-        string|array|PropertyListing|Legacy $personal_status
+        PropertyListing|Legacy ...$personal_status
     ): self {
         $clone = clone $this;
         $clone->personal_status = $personal_status;
         return $clone;
     }
     /**
-     * @return null|string|PropertyListing|Legacy|array<PropertyListing|Legacy>
+     * @return array<PropertyListing|Legacy>
      */
-    public function getPersonalStatus(): null|string|array|PropertyListing|Legacy
+    public function getPersonalStatus(): array
     {
         return $this->personal_status;
     }

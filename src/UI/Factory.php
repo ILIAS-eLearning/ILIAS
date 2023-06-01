@@ -983,13 +983,17 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Entity displays information about entities within the system,
-     *     such as Repository Objects, Users, OrgUnits, etc, when the purpose is
-     *     to represent the entity itself.
-     *     Properties and relations of the entity are arranged in semantic groups
-     *     to structure and prioritize information.
+     *     An Entity displays information about entities within the system, when
+     *     the purpose is to represent the entity itself. Properties and relations
+     *     of the Entity are arranged in semantic groups to structure and prioritize
+     *     information.
+     *     Entities are things were "sameness" is determined by "identity" instead of "equality".
+     *     For example, a user (or an repository object, OrgUnit, etc) is an "entity",
+     *     because it is the same user, even if some property (e.g. the phone number) changes.
+     *     The address, however, is not an entity, because if, e.g., the street changes,
+     *     it is not the same address anymore.
      *   composition:
-     *     Entities will have a primary and secondary Identifier, which may be
+     *     Entities will have a primary and secondary identifier, which may be
      *     a string or Symbol or Image. Other semantic groups may also hold basic
      *     string information or more sophisticated components.
      *     Items in 'Reactions', i.e. interactive aspects of the entity, are
