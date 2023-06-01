@@ -2205,6 +2205,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateInstantResponseModal(assQuestionGUI $questionGui, $navUrl)
     {
+        $questionGui->setNavigationGUI(null);
         $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
 
         $answerFeedbackEnabled = $this->object->getSpecificAnswerFeedback();
@@ -2837,7 +2838,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $forced_feeback_navigation_url = ilSession::get('forced_feedback_navigation_url');
         $forced_feeback_navigation_url[$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
         ilSession::set('forced_feedback_navigation_url', $forced_feeback_navigation_url);
-        //$_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
     }
 
     protected function getRegisteredForcedFeedbackNavUrl()

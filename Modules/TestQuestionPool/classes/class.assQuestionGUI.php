@@ -95,7 +95,7 @@ abstract class assQuestionGUI
 
     private ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder;
 
-    private ilTestQuestionNavigationGUI $navigationGUI;
+    private ?ilTestQuestionNavigationGUI $navigationGUI = null;
 
     public const PRESENTATION_CONTEXT_TEST = 'pContextTest';
     public const PRESENTATION_CONTEXT_RESULTS = 'pContextResults';
@@ -340,12 +340,12 @@ abstract class assQuestionGUI
         $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
     }
 
-    public function getNavigationGUI(): ilTestQuestionNavigationGUI
+    public function getNavigationGUI(): ?ilTestQuestionNavigationGUI
     {
         return $this->navigationGUI;
     }
 
-    public function setNavigationGUI(ilTestQuestionNavigationGUI $navigationGUI): void
+    public function setNavigationGUI(?ilTestQuestionNavigationGUI $navigationGUI): void
     {
         $this->navigationGUI = $navigationGUI;
     }
