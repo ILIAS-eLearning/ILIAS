@@ -194,7 +194,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         if (!$a_set['complete']) {
             $warning_icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_alert.svg"),
+                ilUtil::getImagePath('icon_alert.svg'),
                 $this->lng->txt("warning_question_not_complete")
             );
             $this->tpl->setVariable("IMAGE_WARNING", $this->renderer->render($warning_icon));
