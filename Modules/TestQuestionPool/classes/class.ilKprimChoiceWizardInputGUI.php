@@ -80,7 +80,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     {
         $this->values = [];
 
-        $is_rte = isset($_POST["answer_type"]) &&  $_POST["answer_type"] == "multiLine";
+        $is_rte = isset($_POST["answer_type"]) && $_POST["answer_type"] == "multiLine";
         $a_value = $this->cleanupAnswerText($value, $is_rte);
 
         if (is_array($a_value) && is_array($a_value['answer'])) {
@@ -233,8 +233,12 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][{$value->getPosition()}]");
                 $tpl->setVariable("UP_ID", "up_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("DOWN_ID", "down_{$this->getPostVar()}[{$value->getPosition()}]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
 

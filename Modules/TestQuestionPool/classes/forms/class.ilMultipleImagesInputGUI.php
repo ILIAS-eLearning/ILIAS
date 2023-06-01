@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  */
@@ -52,6 +55,8 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
 
     /**
      * Constructor
@@ -61,12 +66,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
+        parent::__construct($a_title, $a_postvar);
 
+        global $DIC;
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
-        parent::__construct($a_title, $a_postvar);
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize(25);
@@ -332,8 +338,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("ID_DOWN", $this->getMultiValuePosIndexedSubFieldId($identifier, 'down', $i));
                 $tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
                 $tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
 
@@ -343,8 +353,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
                 $tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
                 $tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
-                $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->add()
+                ));
+                $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->remove()
+                ));
                 $tpl->parseCurrentBlock();
             }
 

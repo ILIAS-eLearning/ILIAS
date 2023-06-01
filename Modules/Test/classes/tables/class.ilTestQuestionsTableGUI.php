@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -58,8 +61,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     private int $position = 0;
     private int $parent_ref_id;
 
-    protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\UI\Factory $factory;
+    protected Renderer $renderer;
+    protected Factory $factory;
 
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
@@ -194,7 +197,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         if (!$a_set['complete']) {
             $warning_icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_alert.svg"),
+                ilUtil::getImagePath('icon_alert.svg'),
                 $this->lng->txt("warning_question_not_complete")
             );
             $this->tpl->setVariable("IMAGE_WARNING", $this->renderer->render($warning_icon));
@@ -379,8 +382,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
-            // obligatory icon
-            return ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
+            return $this->renderer->render(
+                $this->factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath('icon_alert.svg'),
+                    $this->lng->txt('question_obligatory')
+                )
+            );
         }
 
         $checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
