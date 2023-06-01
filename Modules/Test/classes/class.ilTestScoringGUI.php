@@ -461,7 +461,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
             $text = new ilTextInputGUI($lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {
-                $text->setValue(assQuestion::_getReachedPoints($activeId, $questionId, $pass));
+                $text->setValue((string) assQuestion::_getReachedPoints($activeId, $questionId, $pass));
             }
             if ($disabled) {
                 $text->setDisabled($disabled);
