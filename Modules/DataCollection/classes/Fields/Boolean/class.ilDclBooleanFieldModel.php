@@ -43,4 +43,20 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
 
         return $sql_obj;
     }
+
+
+    /**
+     * @param ilPropertyFormGUI $form
+     * @param null              $record_id
+     */
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = null)
+    {
+        $value = $form->getInput('field_' . $this->getId());
+
+        //"1" for true, "0" for false
+        if (strcmp($value, "1") !== 0) {
+            $value = "0";               //this applies to all values that are already set
+        }
+        $this->checkValidity($value, $record_id);
+    }
 }
