@@ -512,13 +512,56 @@ class ilDclRecordEditGUI
         }
 
         //Check if we can create this record.
-        foreach ($all_fields as $field) {
-            try {
-                $field->checkValidityFromForm($this->form, $this->record_id);
-            } catch (ilDclInputException $e) {
-                $valid = false;
-                $item = $this->form->getItemByPostVar('field_' . $field->getId());
-                $item->setAlert($e);
+
+        // get content of all fields - to be able to check the formula field afterwards
+        if ($valid) {
+            foreach ($all_fields as $field) {
+                if ((int) $field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_FORMULA) {
+                    // process later
+                    continue;
+                }
+                // check validity of any field
+                $field_setting = $field->getViewSetting($this->tableview_id);
+                if ($field_setting->isVisibleInForm($create_mode)) {
+                    try {
+                        $field->checkValidityFromForm($this->form, $this->record_id);
+                    } catch (ilDclInputException $e) {
+                        $valid = false;
+                        $item = $this->form->getItemByPostVar('field_' . $field->getId());
+                        $item->setAlert($e);
+                        break;
+                    }
+                    // set all visible fields
+                    $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+                } elseif ($create_mode) { //isVisibleInForm
+                    // set default values
+                    $default_value = ilDclTableViewBaseDefaultValue::findSingle(
+                        $field_setting->getFieldObject()->getDatatypeId(),
+                        $field_setting->getId()
+                    );
+                    if ($default_value !== null) {
+                        $record_obj->setRecordFieldValue($field->getId(), $default_value->getValue());
+                    }
+                }
+            }
+        }
+
+        // check validity of the content of the formula field - bug fix mantis #0030758
+        if ($valid) {
+            foreach ($all_fields as $field) {
+                if ((int) $field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_FORMULA) {
+                    // parse and evaluate formula
+                    $value = $record_obj->getRecordFieldFormulaValue($field->getId());
+                    try {
+                        $field->checkValidity($value, $this->record_id);
+                    } catch (ilDclInputException $e) {
+                        $valid = false;
+                        $item = $this->form->getItemByPostVar('field_' . $field->getId());
+                        $item->setAlert($e);
+                    }
+                    //is it really necessary to put the input into the record - isn't this be done later? todo
+                    $record_obj->setRecordFieldValue($field->getId(), $value);
+                }
             }
         }
 
@@ -527,7 +570,6 @@ class ilDclRecordEditGUI
 
             return;
         }
-
         if ($valid) {
             if ($create_mode) {
                 if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id))) {
