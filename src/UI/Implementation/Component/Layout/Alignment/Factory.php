@@ -35,7 +35,7 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function forceHorizontal(array ...$blocksets): ForceHorizontal
+    public function forceHorizontal(array ...$blocksets): I\ForceHorizontal
     {
         return new ForceHorizontal(...$blocksets);
     }

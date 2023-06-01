@@ -21,10 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Layout\Alignment;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 /**
  * This describes an Alignment.
  */
 interface Alignment extends Component
 {
+    /**
+     * @return list<Block[]>
+     */
+    public function getBlocksets(): array;
 }

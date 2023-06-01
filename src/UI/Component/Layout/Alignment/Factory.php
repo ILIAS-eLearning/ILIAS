@@ -45,10 +45,6 @@ interface Factory
      *       nothing like a row in a table; do not use multiple Alignments to
      *       mimic a Table.
      *
-     * rules:
-     *   usage:
-     *     1: >
-     *       You SHOULD not align more than 3 Blocks
      * ----
      * @param  Block[] $blocksets
      * @return  \ILIAS\UI\Component\Layout\Alignment\PreferHorizontal
@@ -66,19 +62,15 @@ interface Factory
      *     alignment of the groups will remain, though.
      *   rivals:
      *     Prefer Horizontal: >
-     *       Prefer Horizontal will eventually disband the horizontal placement;
-     *       Most of the time, this leads to a much better user experience on
-     *       small screens. Please consider using "prefer" over "force".
+     *       Most of the time, Prefer Horizontal will lead to a much better
+     *       user experience on small screens.
+     *       Please consider using "prefer" over "force".
      *     Table: >
      *       Tables may present potentially large sets of uniformly structured data.
      *       While Tables are not meant to layout Components, Horizontal Alignments are
      *       nothing like a row in a table; do not use multiple Alignments to
      *       mimic a Table.
      *
-     * rules:
-     *   usage:
-     *     1: >
-     *       You SHOULD not align more than 3 Blocks
      * ----
      * @param  Block[] $blocksets
      * @return  \ILIAS\UI\Component\Layout\Alignment\ForceHorizontal
