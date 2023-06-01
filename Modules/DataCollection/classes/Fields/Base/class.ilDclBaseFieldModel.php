@@ -705,14 +705,15 @@ class ilDclBaseFieldModel
     public function checkValidity($value, $record_id = null)
     {
         //Don't check empty values
-        if ($value == null) {
+        if ($value === null) {
             return true;
         }
 
         if ($this->isUnique()) {
             $table = ilDclCache::getTableCache($this->getTableId());
+            // compare the actual field content with the field content of all other records
             foreach ($table->getRecords() as $record) {
-                if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) == $this->normalizeValue($value) && ($record->getId() != $record_id || $record_id == 0)) {
+                if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) === $this->normalizeValue($value) && ($record->getId() !== $record_id || $record_id === 0)) {
                     throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
                 }
             }
