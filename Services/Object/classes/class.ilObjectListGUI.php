@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
@@ -2238,7 +2237,8 @@ class ilObjectListGUI
             return;
         }
 
-        if ($this->getContainerObject() instanceof ilContainerGUI) {
+        if ($this->getContainerObject() instanceof ilContainerGUI
+            && $this->getContainerObject()->isMultiDownloadEnabled()) {
             $this->ctrl->setParameter($this->getContainerObject(), "type", "");
             $this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
             $this->ctrl->setParameter($this->getContainerObject(), "active_node", "");

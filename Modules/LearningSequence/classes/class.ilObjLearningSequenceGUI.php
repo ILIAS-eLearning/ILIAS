@@ -226,6 +226,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->lng->loadLanguageModule($this->obj_type);
 
         $this->data_factory = new Data\Factory();
+        $this->multi_download_enabled = false;
 
         $this->ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         parent::__construct([], $this->ref_id, true, false);
