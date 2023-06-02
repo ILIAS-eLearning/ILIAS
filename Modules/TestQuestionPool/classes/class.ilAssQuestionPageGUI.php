@@ -38,7 +38,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     {
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
-        if (strtolower($this->ctrl->getCmdClass()) === 'ilassquestionpreviewgui') {
+        if (strtolower($_GET['cmdClass']) === 'ilassquestionpreviewgui') {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
         } else {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));

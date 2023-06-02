@@ -25,7 +25,7 @@ class ilAssGenFeedbackPageGUI extends ilPageObjectGUI
         parent::__construct("qfbg", $a_id, $a_old_nr);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(true);
-        if ($_GET['cmdClass'] === 'ilassquestionpreviewgui') {
+        if (strtolower($_GET['cmdClass']) === 'ilassquestionpreviewgui') {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
         } else {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
