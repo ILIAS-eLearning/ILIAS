@@ -1669,6 +1669,9 @@ class ilObjMediaObject extends ilObject
         $logger = $GLOBALS['DIC']->logger()->mob();
 
         $item = $this->getMediaItem("Standard");
+        if ($item->getFormat() === "image/svg+xml") {
+            return;
+        }
 
         if ($item->getLocationType() == "LocalFile") {
             if (is_int(strpos($item->getFormat(), "image/"))) {
