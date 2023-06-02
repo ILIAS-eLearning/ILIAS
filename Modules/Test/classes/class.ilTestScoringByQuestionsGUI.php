@@ -504,15 +504,19 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $form->addItem($hidden_points);
         }
 
-        $tmp_tpl->setVariable('TINYMCE_ACTIVE', ilObjAdvancedEditing::_getRichTextEditor());
-        $text_area = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
         $feedback_text = '';
         if (array_key_exists('feedback', $feedback)) {
             $feedback_text = $feedback['feedback'];
         }
-        $text_area->setDisabled($disable);
-        $text_area->setValue($feedback_text);
-        $form->addItem($text_area);
+
+        if ($disable) {
+            $feedback_input = new ilNonEditableValueGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var, true);
+        } else {
+            $tmp_tpl->setVariable('TINYMCE_ACTIVE', ilObjAdvancedEditing::_getRichTextEditor());
+            $feedback_input = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
+        }
+        $feedback_input->setValue($feedback_text);
+        $form->addItem($feedback_input);
 
         $reached_points_form = new ilNumberInputGUI($this->lng->txt('tst_change_points_for_question'), $scoring_post_var);
         $reached_points_form->allowDecimals(true);

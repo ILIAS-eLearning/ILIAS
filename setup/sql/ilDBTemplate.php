@@ -11321,6 +11321,9 @@ $ilDB->createTable("event_appointment", $fields);
 $pk_fields = array("appointment_id");
 $ilDB->addPrimaryKey("event_appointment", $pk_fields);
 
+$in_fields = array("event_id");
+$ilDB->addIndex("event_appointment", $in_fields, "i1", false);
+
 $ilDB->createSequence("event_appointment", 1);
 
 
@@ -35068,6 +35071,12 @@ $ilDB->addPrimaryKey("rbac_fa", $pk_fields);
 $in_fields = array("parent");
 $ilDB->addIndex("rbac_fa", $in_fields, "i1", false);
 
+$in_fields = array("assign","rol_id");
+$ilDB->addIndex("rbac_fa", $in_fields, "i2", false);
+
+$in_fields = array("assign","parent");
+$ilDB->addIndex("rbac_fa", $in_fields, "i3", false);
+
 $ilDB->insert("rbac_fa", array(
 'rol_id' => array('integer', '2'), 'parent' => array('integer', '8'), 'assign' => array('text', 'y'), 'protected' => array('text', 'y'), 'blocked' => array('integer', '0')));
 
@@ -47340,7 +47349,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '99')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '102')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
@@ -57360,7 +57369,7 @@ $ilDB->addPrimaryKey("usr_search", $pk_fields);
 $fields = array (
 	"session_id" => array (
 		"notnull" => true
-		,"length" => 80
+		,"length" => 256
 		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
@@ -57398,7 +57407,7 @@ $ilDB->addPrimaryKey("usr_sess_istorage", $pk_fields);
 $fields = array (
 	"session_id" => array (
 		"notnull" => true
-		,"length" => 250
+		,"length" => 256
 		,"default" => " "
 		,"fixed" => false
 		,"type" => "text"
@@ -57617,7 +57626,7 @@ $ilDB->addIndex("usr_session_stats", $in_fields, "i1", false);
 $fields = array (
 	"session_id" => array (
 		"notnull" => true
-		,"length" => 80
+		,"length" => 256
 		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
