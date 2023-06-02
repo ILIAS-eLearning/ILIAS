@@ -1914,6 +1914,9 @@ class ilObjMediaObject extends ilObject
     public function generatePreviewPic($a_width, $a_height, $sec = 1)
     {
         $item = $this->getMediaItem("Standard");
+        if ($item->getFormat() === "image/svg+xml") {
+            return;
+        }
 
         if ($item->getLocationType() == "LocalFile") {
             if (is_int(strpos($item->getFormat(), "image/"))) {

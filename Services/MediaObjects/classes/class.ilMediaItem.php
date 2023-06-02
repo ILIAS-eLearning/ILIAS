@@ -841,15 +841,13 @@ class ilMediaItem
         if (is_file($jpeg_file)) {
             $format = "jpeg";
         }
-
         if (is_int(strpos($this->getFormat(), "image"))) {
             $thumb_file = $this->getThumbnailDirectory() . "/" .
                 $this->getPurpose() . "." . $format;
-
             $thumb_file_small = $this->getThumbnailDirectory() . "/" .
                 $this->getPurpose() . "_small." . $format;
             // generate thumbnail (if not tried before)
-            if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile") {
+            if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile" && $this->getFormat() !== "image/svg+xml") {
                 if (is_file($thumb_file)) {
                     unlink($thumb_file);
                 }
@@ -865,6 +863,9 @@ class ilMediaItem
                     $mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "." . $format, $format, "80");
                     $mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "_small." . $format, $format, "40");
                 }
+            }
+            if ($this->getFormat() === "image/svg+xml") {
+                return ilObjMediaObject::_getURL($this->getMobId()) . "/" . $this->getLocation();
             }
             if ($a_size == "small") {
                 if (is_file($thumb_file_small)) {
