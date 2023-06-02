@@ -354,6 +354,46 @@ class ilDclFieldEditGUI
         $lng = $DIC['lng'];
         $return = $this->form->checkInput();
 
+        //mantis 30758, 36585, jour fixe decision:
+        //uniqueness shall be possible and changeable for all types of fields
+        $this->field_obj->setDatatypeId($this->form->getInput("datatype"));
+        $this->field_obj->setUnique($this->form->getInput("unique"));
+
+        //check validity of all available records, because the properties may have changed
+        foreach ($this->table->getRecords() as $record) {
+
+            //validity of standard field
+            if ((int) ($this->field_obj->getDatatypeId()) !== 11) {
+                $value = $record->getRecordFieldValue($this->field_obj->getId());
+                try {
+                    $this->field_obj->checkValidity($value, $record->getId());
+                } catch (ilDclInputException $e) {
+                    $item = $this->form->getItemByPostVar('unique');
+                    //make the user aware of the violation of the unique property
+                    $item->setAlert($e . " " . $lng->txt("form_input_concern_existing_data"));
+                    //saving will not be possible until the user unchecks the 'unique' checkbox
+                    $return = false;
+                    break;
+                }
+            }
+            //validity of formula field
+            if ((int) $this->field_obj->getDatatypeId() === ilDclDatatype::INPUTFORMAT_FORMULA) {
+
+                // parse and evaluate formula field of current record
+                $value = $record->getRecordFieldFormulaValue($this->field_obj->getId());
+                try {
+                    $this->field_obj->checkValidity($value, $record->getId());
+                } catch (ilDclInputException $e) {
+                    $item = $this->form->getItemByPostVar('unique');
+                    //make the user aware of the violation of the unique property
+                    $item->setAlert($e . " " . $lng->txt("form_input_concern_existing_data"));
+                    //saving will not be possible until the user unchecks the 'unique' checkbox
+                    $return = false;
+                    break;
+                }
+            }
+        }//validity of all available records
+
         // load specific model for input checking
         $datatype_id = $this->form->getInput('datatype');
         if ($datatype_id != null && is_numeric($datatype_id)) {
