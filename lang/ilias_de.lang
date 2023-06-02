@@ -4134,6 +4134,7 @@ common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte 
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forgot_password#:#Passwort vergessen?
 common#:#forgot_username#:#Benutzernamen vergessen?
+common#:#form_input_concern_existing_data#:#Hierbei kann es sich auch um bereits vorhandene Einträge handeln.
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Benachrichtigung
