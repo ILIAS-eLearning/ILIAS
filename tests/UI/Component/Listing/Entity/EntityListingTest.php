@@ -21,19 +21,18 @@ use ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Component\Entity;
 use ILIAS\UI\Component as I;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\Range;
 
 class EntityListingTest extends ILIAS_UI_TestBase
 {
-    public function getEntityFactory(): Listing\Entity\EntityFactory
+    public function getEntityMapping(): I\Listing\Entity\RecordToEntity
     {
-        return new class () extends Listing\Entity\EntityFactory {
-            public function get(
+        return new class () implements I\Listing\Entity\RecordToEntity {
+            public function map(
                 UIFactory $ui_factory,
-                mixed $data
-            ): \Generator {
-                foreach ($data as $obj) {
-                    yield $ui_factory->entity()->standard('primary', 'secondary');
-                }
+                mixed $record
+            ): Entity\Entity {
+                return $ui_factory->entity()->standard('primary', 'secondary');
             }
         };
     }
@@ -55,15 +54,29 @@ class EntityListingTest extends ILIAS_UI_TestBase
     {
         $this->assertInstanceOf(
             I\Listing\Entity\EntityListing::class,
-            $this->getUIFactory()->listing()->entity()->standard($this->getEntityFactory())
+            $this->getUIFactory()->listing()->entity()->standard($this->getEntityMapping())
         );
     }
 
     public function testEntityListingYieldingEntities(): void
     {
+        $data = new class () implements I\Listing\Entity\DataRetrieval {
+            protected $data = [1,2,3];
+
+            public function getEntities(
+                \Closure $mapping,
+                ?Range $range,
+                ?array $additional_parameters
+            ): \Generator {
+                foreach ($this->data as $entry) {
+                    yield $mapping($entry);
+                }
+            }
+        };
+
         $listing = $this->getUIFactory()->listing()->entity()
-            ->standard($this->getEntityFactory())
-            ->withData([1,2,3]);
+            ->standard($this->getEntityMapping())
+            ->withData($data);
 
         $entities = iterator_to_array($listing->getEntities($this->getUIFactory()));
 

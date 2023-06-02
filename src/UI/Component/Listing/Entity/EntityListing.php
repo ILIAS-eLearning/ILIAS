@@ -20,7 +20,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Listing\Entity;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Entity\Entity;
 
 /**
  * This is what an EntityListings looks like
@@ -28,10 +27,9 @@ use ILIAS\UI\Component\Entity\Entity;
 interface EntityListing extends Component
 {
     /**
-     * An Entity Listing is constructed with an instance of
-     * \ILIAS\UI\Implementation\Component\Listing\Entity\EntityFactory.
-     * The purpose of the factory is to "translate" your $data - be it an array
-     * record of any sort or a repository, e.g. - into a respective Entity.
+     * An Entity Listing is constructed with an instance of RecordToEntity,
+     * which is the mapping of a single record to an Entity.
+     * Data retrieval will accumulate/consolidate the records.
      */
-    public function withData(mixed $data): self;
+    public function withData(DataRetrieval $data): self;
 }

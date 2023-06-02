@@ -22,27 +22,37 @@ namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 use ILIAS\UI\Component\Listing\Entity as I;
 use ILIAS\UI\Component\Entity as IEntity;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\Data\Range;
 
 abstract class EntityListing implements I\EntityListing
 {
     use ComponentHelper;
 
-    protected mixed $data;
+    protected I\DataRetrieval $data;
 
     public function __construct(
-        protected EntityFactory $entity_factory
+        protected I\RecordToEntity $entity_mapping
     ) {
     }
 
-    public function withData(mixed $data): self
+    public function withData(I\DataRetrieval $data): self
     {
         $clone = clone $this;
         $clone->data = $data;
         return $clone;
     }
 
-    public function getEntities(\ILIAS\UI\Factory $ui_factory): \Generator
-    {
-        return $this->entity_factory->get($ui_factory, $this->data);
+    /**
+     * @param array<string,mixed> $additional_parameters
+     * @return \Generator<IEntity\Entity>
+     */
+    public function getEntities(
+        \ILIAS\UI\Factory $ui_factory,
+        Range $range = null,
+        array $additional_parameters = null
+    ): \Generator {
+        $mapping = fn (mixed $record): IEntity\Entity => $this->entity_mapping->map($ui_factory, $record);
+        $additional_parameters = null;
+        return $this->data->getEntities($mapping, $range, $additional_parameters);
     }
 }

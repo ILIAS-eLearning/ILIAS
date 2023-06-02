@@ -17,14 +17,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Listing\Entity;
+namespace ILIAS\UI\Component\Listing\Entity;
 
-use ILIAS\UI\Component\Listing\Entity as I;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Entity\Entity;
 
-class Factory implements I\Factory
+/**
+ * Listings will have to map records to Entities.
+ */
+interface RecordToEntity
 {
-    public function standard(I\RecordToEntity $mapping): Standard
-    {
-        return new Standard($mapping);
-    }
+    public function map(UIFactory $ui_factory, mixed $record): Entity;
 }

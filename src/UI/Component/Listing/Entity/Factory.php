@@ -34,7 +34,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Listing\Entity\Standard
      */
-    public function standard(
-        \ILIAS\UI\Implementation\Component\Listing\Entity\EntityFactory $entity_factory
-    ): Standard;
+    public function standard(RecordToEntity $entity_mapping): Standard;
 }
