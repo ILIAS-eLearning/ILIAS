@@ -117,8 +117,32 @@ interface Factory
      *   purpose: >
      *     The Entity Listing yields Entities according to a consumer defined concept
      *     and lists them one after the other.
+     *     Striking the right balance between providing sufficient information and
+     *     avoiding information overload is important for interfaces where we cannot
+     *     rely on homogenous mental models and clear user intent - due to of the
+     *     huge variety of Entities and user roles/intents.
+     *     Consequently, Entities (and their listings) strive to visually reduce/structure
+     *     the amount of shown properties without cutting out important information.
      *   composition: >
      *     The Entity Listing will provide Entities.
+     *   rivals:
+     *     DataTable: >
+     *       All fields in a DataTable are displayed with rather equal emphasis;
+     *       The semantic groups in Entities structure and focus information.
+     *       The purpose of Entity Listings is rather to identify one Entity
+     *       instead of comparing or focussing certain attributes.
+     *       Data Tables are better suited for administrative user intents.
+     *     PresentationTable: >
+     *       While both the Entity Listing and the Presentation Table share
+     *       an explorative character, the Presentation Table might still list
+     *       all kinds of aggregated data; Entity Listings provide solely Entities.
+     *       Also, Presentation Table will not display all information at once,
+     *       so the Entity Listing will widen the range of anticipated user intents.
+     *
+     * background: >
+     *  ../../docu/UI-Repository-Item_proposal.md,
+     *  ../../docu/ux-guide-repository-objects-properties-and-actions.md
+     *
      * ----
      * @return \ILIAS\UI\Component\Listing\Entity\Factory
      */
