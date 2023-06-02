@@ -176,7 +176,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
     {
         $this->loadActionBar();
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::INDEX);
-        $userId = intval($this->usrId);
+        $userId = $this->usrId;
 
         $talks = null;
         if ($this->talkAccess->hasPermissionToReadUnownedTalksOfUser($userId)) {
@@ -190,8 +190,10 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
 
     private function loadActionBar(): void
     {
-        $gl = new ilGroupedListGUI();
-        $gl->setAsDropDown(true, false);
+        $talkAccess = new ilObjEmployeeTalkAccess();
+        if (!$talkAccess->canCreate()) {
+            return;
+        }
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
@@ -199,55 +201,38 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
                 return
                     (
                         $item['offline'] === "0" ||
+                        $item['offline'] === 0 ||
                         $item['offline'] === null
                     ) && ilObjTalkTemplate::_hasUntrashedReference(intval($item['obj_id']));
             }
         );
 
+        $buttons = [];
+        $talk_class = strtolower(ilObjEmployeeTalkSeriesGUI::class);
         foreach ($templates as $item) {
-            $type = $item["type"];
-
-            $path = ilObject::_getIcon(0, 'tiny', $type);
-            $icon = ($path != "")
-                ? ilUtil::img($path, "") . " "
-                : "";
-
-            $this->ctrl->setParameterByClass(
-                ilObjEmployeeTalkSeriesGUI::class,
-                "new_type",
-                ilObjEmployeeTalkSeries::TYPE
-            );
-            $url = $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
-            //$url = $this->ctrl->appendRequestTokenParameterString($base_url . "&new_type=" . ilObjEmployeeTalkSeries::TYPE);
-            $refId = ilObject::_getAllReferences(intval($item['obj_id']));
+            $objId = intval($item['obj_id']);
+            $refId = ilObject::_getAllReferences($objId);
 
             // Templates only have one ref id
-            $url .= "&template=" . array_pop($refId);
-            $url .= "&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId();
-            $url .= '&usr_id=' . $this->usrId;
+            $this->ctrl->setParameterByClass($talk_class, 'new_type', ilObjEmployeeTalkSeries::TYPE);
+            $this->ctrl->setParameterByClass($talk_class, 'template', array_pop($refId));
+            $this->ctrl->setParameterByClass($talk_class, 'ref_id', ilObjTalkTemplateAdministration::getRootRefId());
+            $this->ctrl->setParameterByClass($talk_class, 'usr_id', $this->usrId);
+            $url = $this->ctrl->getLinkTargetByClass($talk_class, ControlFlowCommand::CREATE);
+            $this->ctrl->clearParametersByClass($talk_class);
 
-            $ttip = ilHelp::getObjCreationTooltipText("tals");
-
-            $gl->addEntry(
-                $icon . $item["title"],
-                $url,
-                "_top",
-                "",
-                "",
-                $type,
-                $ttip,
-                "bottom center",
-                "top center",
-                false
+            $buttons[] = $this->ui->factory()->button()->shy(
+                (string) $item["title"],
+                $url
             );
         }
 
-        $adv = new ilAdvancedSelectionListGUI();
-        $adv->setListTitle($this->language->txt("etal_add_new_item"));
-        //$gl->getHTML();
-        $adv->setGroupedList($gl);
-        $adv->setStyle(ilAdvancedSelectionListGUI::STYLE_EMPH);
-        //$this->toolbar->addDropDown($this->language->txt("cntr_add_new_item"), $adv->getHTML());
-        $this->ui->mainTemplate()->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
+        $dropdown = $this->ui->factory()->dropdown()->standard($buttons)->withLabel(
+            $this->language->txt('etal_add_new_item')
+        );
+        $this->ui->mainTemplate()->setVariable(
+            'SELECT_OBJTYPE_REPOS',
+            $this->ui->renderer()->render($dropdown)
+        );
     }
 }
