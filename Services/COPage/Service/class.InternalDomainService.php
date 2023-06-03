@@ -27,6 +27,7 @@ use ILIAS\COPage\Compare\PageCompare;
 use ILIAS\COPage\Page\PageContentManager;
 use ILIAS\COPage\PC\PCDefinition;
 use ILIAS\COPage\Link\LinkManager;
+use ILIAS\COPage\Style\StyleManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -100,5 +101,10 @@ class InternalDomainService
     public function link(): LinkManager
     {
         return new LinkManager();
+    }
+
+    public function style(): StyleManager
+    {
+        return new StyleManager();
     }
 }

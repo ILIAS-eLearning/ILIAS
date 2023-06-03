@@ -32,14 +32,7 @@ abstract class ilPageContent
     protected string $type = "";
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
-    /**
-     * @deprecated use getDomNode()
-     */
-    public ?php4DOMElement $node = null;
-    /**
-     * @deprecated use getDomDoc()
-     */
-    public ?php4DOMDocument $dom = null;
+    public ?DOMNode $dom_node = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
     protected string $file_download_link;
@@ -64,7 +57,6 @@ abstract class ilPageContent
 
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->setPage($a_pg_obj);
-        $this->dom = $a_pg_obj->getDom();
         $this->dom_doc = $a_pg_obj->getDomDoc();
         $this->init();
         if ($this->getType() == "") {
@@ -116,31 +108,19 @@ abstract class ilPageContent
         return $this->type;
     }
 
-    /**
-     * Set xml node of page content.
-     * @param php4DOMElement $a_node node object
-     */
-    public function setNode(php4DOMElement $a_node): void
-    {
-        $this->node = $a_node;
-    }
-
-    /**
-     * @deprecated  use getDomNode()
-     */
-    public function getNode(): ?php4DOMElement
-    {
-        return $this->node;
-    }
-
     public function getDomNode(): ?DOMNode
     {
-        return $this->node?->myDOMNode;
+        return $this->dom_node;
+    }
+
+    public function getDomDoc(): DOMDocument
+    {
+        return $this->dom_doc;
     }
 
     public function setDomNode(DOMNode $node): void
     {
-        $this->node = new php4DOMElement($node);
+        $this->dom_node = $node;
     }
 
     public function getChildNode(): ?DOMNode
@@ -181,7 +161,7 @@ abstract class ilPageContent
 
     protected function hasNode(): bool
     {
-        return is_object($this->node);
+        return is_object($this->dom_node);
     }
 
     public function readHierId(): string
@@ -318,11 +298,11 @@ abstract class ilPageContent
     /**
      * Create page content node (always use this method first when adding a new element)
      */
-    public function createPageContentNode(bool $a_set_this_node = true): php4DOMElement
+    public function createPageContentNode(bool $a_set_this_node = true): DomNode
     {
-        $node = $this->dom->create_element("PageContent");
+        $node = $this->dom_doc->createElement("PageContent");
         if ($a_set_this_node) {
-            $this->node = $node;
+            $this->setDomNode($node);
         }
         return $node;
     }

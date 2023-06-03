@@ -29,6 +29,7 @@ use ILIAS\COPage\Link\LinkManager;
 use ILIAS\COPage\PC\FileList\FileListManager;
 use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
 use ILIAS\COPage\PC\MediaObject\InteractiveImageManager;
+use ILIAS\COPage\PC\Question\QuestionManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -85,5 +86,10 @@ class DomainService
     public function interactiveImage(): InteractiveImageManager
     {
         return new InteractiveImageManager();
+    }
+
+    public function question(): QuestionManager
+    {
+        return new QuestionManager();
     }
 }

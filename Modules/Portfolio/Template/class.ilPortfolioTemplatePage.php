@@ -34,10 +34,7 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
         $quota_sum = 0;
 
         $this->buildDom();
-        $dom = $this->getDom();
-        if ($dom instanceof php4DOMDocument) {
-            $dom = $dom->myDOMDocument;
-        }
+        $dom = $this->getDomDoc();
         $xpath_temp = new DOMXPath($dom);
 
         // mobs

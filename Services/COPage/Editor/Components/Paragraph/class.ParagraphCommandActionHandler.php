@@ -284,28 +284,28 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $par = $page->getContentObjectForPcId($pcid);
                 $sec = $page->getContentObjectForPcId($sec_pcid);
                 // note: we want the pcid of the Section itself here
-                $sec_node_pc_id = $sec->getNode()->first_child()->get_attribute("PCID");
+                $sec_node_pc_id = $sec->getDomNode()->firstChild->getAttribute("PCID");
                 $hier_ids = $page->getHierIdsForPCIds([$sec_node_pc_id]);
-                $node = $par->getNode();
-                $node->unlink_node();
+                $node = $par->getDomNode();
+                $node->parentNode->removeChild($node);
                 $page->insertContentNode($node, $hier_ids[$sec_node_pc_id], IL_INSERT_CHILD, $sec_node_pc_id);
                 $updated = $page->update();
             }            // case 3: move from section to none
             elseif ((!is_null($parent) && $parent->getType() == "sec") && $old_section_characteristic != "" && $new_section_characteristic == "") {
                 // note: we want the pcid of the PageContent element of the Section here
-                $sec_node_pc_id = $parent->getNode()->get_attribute("PCID");
+                $sec_node_pc_id = $parent->getDomNode()->getAttribute("PCID");
                 $sec_node_hier_id = $page->getHierIdForPCId($sec_node_pc_id);
                 // all kids of the section
-                $childs_reverse = array_reverse($parent->getNode()->first_child()->child_nodes());
+                $childs_reverse = array_reverse($parent->getDomNode()->firstChild->childNodes);
                 foreach ($childs_reverse as $child) {
                     // unlink kid
-                    $child->unlink_node();
+                    $child->parentNode->removeChild($child);
                     // insert after section
                     $page->insertContentNode($child, $sec_node_hier_id, IL_INSERT_AFTER, $sec_node_pc_id, true);
                 }
                 // unlink section
-                $node = $parent->getNode();
-                $node->unlink_node();
+                $node = $parent->getDomNode();
+                $node->parentNode->removeChild($node);
                 $updated = $page->update();
             }
         }

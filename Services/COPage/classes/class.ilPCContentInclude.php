@@ -43,10 +43,6 @@ class ilPCContentInclude extends ilPageContent
         $this->access = $DIC->access();
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-    }
 
     public function create(
         ilPageObject $a_pg_obj,

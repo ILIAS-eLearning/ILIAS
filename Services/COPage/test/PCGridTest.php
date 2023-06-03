@@ -312,9 +312,9 @@ EOT;
     protected function getCellForHierId(ilPageObject $page, string $hier_id): ilPCGridCell
     {
         $pc_id = $page->getPCIdForHierId($hier_id);
-        $cont_node = $page->getContentNode($hier_id);
+        $cont_node = $page->getContentDomNode($hier_id);
         $pc = new ilPCGridCell($page);
-        $pc->setNode($cont_node);
+        $pc->setDomNode($cont_node);
         $pc->setHierId($hier_id);
         $pc->setPcId($pc_id);
         return $pc;

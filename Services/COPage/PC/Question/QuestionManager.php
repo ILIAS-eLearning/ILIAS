@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\COPage\Page;
+namespace ILIAS\COPage\PC\Question;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class PageManager implements PageManagerInterface
+class QuestionManager
 {
     public function __construct()
     {
@@ -31,28 +31,24 @@ class PageManager implements PageManagerInterface
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
-    public function get(
-        string $parent_type,
-        int $id = 0,
-        int $old_nr = 0,
-        string $lang = "-"
-    ): \ilPageObject {
-        return ilPageObjectFactory::getInstance(
-            $parent_type,
-            $id,
-            $old_nr,
-            $lang
-        );
-    }
-
-    public function content(\DOMDocument $dom): PageContentManager
-    {
-        return new PageContentManager($dom);
-    }
-
-    public function contentFromXml($xml): PageContentManager
-    {
-        $dom = $this->dom_util->docFromString($xml);
-        return new PageContentManager($dom);
+    /**
+     * Resolve all quesiont references
+     * (after import)
+     */
+    public function resolveQuestionReferences(
+        \DOMDocument $dom,
+        array $a_mapping
+    ): bool {
+        $path = "//Question";
+        $updated = false;
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $qref = $nodes->getAttribute("QRef");
+            if (isset($a_mapping[$qref])) {
+                $nodes->setAttribute("QRef", "il__qst_" . $a_mapping[$qref]["pool"]);
+                $updated = true;
+            }
+        }
+        return $updated;
     }
 }

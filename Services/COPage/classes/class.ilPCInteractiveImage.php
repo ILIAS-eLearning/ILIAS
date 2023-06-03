@@ -49,10 +49,9 @@ class ilPCInteractiveImage extends ilPageContent
         }
     }
 
-    public function setNode(php4DOMElement $a_node): void
+    public function setDomNode(DOMNode $dom_node): void
     {
-        parent::setNode($a_node);		// this is the PageContent node
-        $dom_node = $a_node->myDOMNode;
+        parent::setDomNode($dom_node);		// this is the PageContent node
         $this->iim_node = $dom_node->firstChild;
         if (isset($this->iim_node)) {
             $this->med_alias_node = $this->iim_node->firstChild;
@@ -65,7 +64,7 @@ class ilPCInteractiveImage extends ilPageContent
             }
         }
         $this->std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->getDomDoc(),
             $this->readHierId(),
             "Standard",
             $this->readPCId(),

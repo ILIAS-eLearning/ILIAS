@@ -470,7 +470,7 @@ class ilPCMediaObject extends ilPageContent
     public function getStandardMediaAliasItem(): ilMediaAliasItem
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->getPCId()
@@ -481,7 +481,7 @@ class ilPCMediaObject extends ilPageContent
     public function getFullscreenMediaAliasItem(): ilMediaAliasItem
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->getDomDoc(),
             $this->getHierId(),
             "Fullscreen",
             $this->getPCId()
