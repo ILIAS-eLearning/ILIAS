@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
@@ -28,6 +28,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link;
 use ILIAS\UI\Renderer;
 use ILIAS\Data;
 use ILIAS\Refinery;
@@ -43,66 +44,30 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     public const CMD_SAVE_AMEND = "saveAmend";
     public const CMD_DOWNLOAD_FILE = "downloadFile";
 
-    protected ilLanguage $lng;
-    protected ilGlobalPageTemplate $tpl;
-    protected ilObjUser $user;
-    protected Input\Factory $input_factory;
-    protected MessageBox\Factory $messagebox_factory;
-    protected Button\Factory $button_factory;
-    protected Refinery\Factory $refinery_factory;
-    protected Data\Factory $data_factory;
-    protected Renderer $renderer;
-    protected ServerRequest $request;
-    protected ilObjIndividualAssessment $object;
-    protected ilIndividualAssessmentMembersGUI $parent_gui;
     protected ?ilIndividualAssessmentAccessHandler $iass_access = null;
-    protected ilIndividualAssessmentPrimitiveInternalNotificator $notificator;
-    protected ilToolbarGUI $toolbar;
-    protected ilErrorHandling $error_object;
-    protected ILIAS\Refinery\Factory $refinery;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ilIndividualAssessmentDateFormatter $date_formatter;
 
     public function __construct(
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilGlobalPageTemplate $tpl,
-        ilObjUser $user,
-        Input\Factory $input_factory,
-        MessageBox\Factory $messagebox_factory,
-        Button\Factory $button_factory,
-        Refinery\Factory $refinery_factory,
-        Data\Factory $data_factory,
-        Renderer $renderer,
-        ServerRequest $request,
-        ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
-        ilToolbarGUI $toolbar,
-        ilObjIndividualAssessment $object,
-        ilErrorHandling $error_object,
-        ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
-        ilIndividualAssessmentDateFormatter $date_formatter
+        protected ilCtrl $ctrl,
+        protected ilLanguage $lng,
+        protected ilGlobalPageTemplate $tpl,
+        protected ilObjUser $user,
+        protected Input\Factory $input_factory,
+        protected MessageBox\Factory $messagebox_factory,
+        protected Button\Factory $button_factory,
+        protected Link\Factory $link_factory,
+        protected Refinery\Factory $refinery_factory,
+        protected Data\Factory $data_factory,
+        protected Renderer $renderer,
+        protected ServerRequest $request,
+        protected ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
+        protected ilToolbarGUI $toolbar,
+        protected ilObjIndividualAssessment $object,
+        protected ilErrorHandling $error_object,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        protected ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         parent::__construct();
-
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->user = $user;
-        $this->input_factory = $input_factory;
-        $this->messagebox_factory = $messagebox_factory;
-        $this->button_factory = $button_factory;
-        $this->refinery_factory = $refinery_factory;
-        $this->data_factory = $data_factory;
-        $this->renderer = $renderer;
-        $this->request = $request;
-        $this->notificator = $notificator;
-        $this->toolbar = $toolbar;
-        $this->object = $object;
-        $this->error_object = $error_object;
-        $this->refinery = $refinery;
-        $this->request_wrapper = $request_wrapper;
-        $this->date_formatter = $date_formatter;
     }
 
     public function executeCommand(): void
@@ -503,12 +468,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         $member = $this->getMember();
         if ($member->fileName() != '') {
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption('download_assessment_paper');
             $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
-            $btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, "", false, true));
+            $url = $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, "", false, true);
             $this->ctrl->setParameter($this, 'usr_id', null);
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->link_factory->standard(
+                $this->lng->txt('download_assessment_paper'),
+                $url
+            );
+            $this->toolbar->addComponent($btn);
         }
     }
 
@@ -535,7 +502,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return
             $this->getAccessHandler()->isSystemAdmin() ||
             (!$this->targetWasEditedByOtherUser($this->getMember()) && $this->getAccessHandler()->mayGradeUser($this->getMember()->id()))
-            ;
+        ;
     }
 
     protected function userMayView(): bool
