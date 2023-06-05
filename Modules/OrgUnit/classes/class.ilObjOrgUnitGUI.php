@@ -32,7 +32,7 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilDidacticTemplateGUI, illearningprogressgui
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitStaffGUI, ilExtIdGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
@@ -121,12 +121,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             case "ilorgunitsimpleuserimportgui":
                 $ilOrgUnitSimpleUserImportGUI = new ilOrgUnitSimpleUserImportGUI($this);
                 $this->ctrl->forwardCommand($ilOrgUnitSimpleUserImportGUI);
-                break;
-            case "ilorgunitstaffgui":
-            case "ilrepositorysearchgui":
-                $this->tabs_gui->activateTab(self::TAB_STAFF);
-                $ilOrgUnitStaffGUI = new ilOrgUnitStaffGUI($this);
-                $this->ctrl->forwardCommand($ilOrgUnitStaffGUI);
                 break;
             case "ilobjusergui":
                 switch ($cmd) {
@@ -228,7 +222,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     $_GET['obj_id']
                 )) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                    $this->ctrl->redirectByClass("ilOrgUnitStaffGUI", "showStaff");
+                    $this->ctrl->redirectByClass("ilOrgUnitUserAssignmentGUI", "index");
                 }
                 $this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
                 $this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
@@ -494,7 +488,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         // Tabs for OrgUnits exclusive root!
         if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
             if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
-                // $this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
                 $this->tabs_gui->addTab(
                     self::TAB_STAFF,
                     $this->lng->txt(self::TAB_STAFF),

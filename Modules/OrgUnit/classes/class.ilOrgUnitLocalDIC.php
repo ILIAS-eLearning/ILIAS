@@ -53,7 +53,21 @@ class ilOrgUnitLocalDIC
             $dic["repo.Operations"],
             $dic["repo.OperationContexts"]
         );
+        $dic['ui.factory'] = fn (): \ILIAS\UI\Factory => $DIC['ui.factory'];
+        $dic['ui.renderer'] = fn (): \ILIAS\UI\Renderer => $DIC['ui.renderer'];
+        $dic['query'] = fn (): \ILIAS\HTTP\Wrapper\RequestWrapper => $DIC['http']->wrapper()->query();
+        $dic['refinery'] = fn (): \ILIAS\Refinery\Factory => $DIC['refinery'];
+        $dic['access'] = fn (): \ilAccessHandler => $DIC['ilAccess'];
+        $dic['lng'] = fn (): \ilLanguage => $DIC['lng'];
+        $dic['rowactions'] = fn ($d): \ILIAS\Modules\OrgUnit\ARHelper\RowActions =>
+            new  \ILIAS\Modules\OrgUnit\ARHelper\RowActions(
+                $d['ui.factory'],
+                $d['ui.renderer'],
+                $d['lng']
+            );
 
+        $dic['ctrl'] = fn (): \ilCtrl => $DIC['ilCtrl'];
+        $dic['tabs'] = fn (): \ilTabsGUI => $DIC['ilTabs'];
         return $dic;
     }
 }
