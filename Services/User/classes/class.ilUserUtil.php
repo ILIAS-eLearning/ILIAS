@@ -48,7 +48,7 @@ class ilUserUtil
      * - [loginname] (always)
      * modifications by jposselt at databay . de :
      * if $a_user_id is an array of user ids the method returns an array of
-     * "id" => "NamePresentation" pairs.
+     * 'id' => 'NamePresentation' pairs.
      * @param int|int[]    $a_user_id
      * @param string|array $a_ctrl_path
      * @return array|false|mixed
@@ -58,12 +58,12 @@ class ilUserUtil
         $a_user_id,
         bool $a_user_image = false,
         bool $a_profile_link = false,
-        string $a_profile_back_link = "",
+        string $a_profile_back_link = '',
         bool $a_force_first_lastname = false,
         bool $a_omit_login = false,
         bool $a_sortable = true,
         bool $a_return_data_array = false,
-        $a_ctrl_path = "ilpublicuserprofilegui"
+        $a_ctrl_path = 'ilpublicuserprofilegui'
     ) {
         global $DIC;
 
@@ -72,11 +72,11 @@ class ilUserUtil
         $ilDB = $DIC['ilDB'];
 
         if (!is_array($a_ctrl_path)) {
-            $a_ctrl_path = array($a_ctrl_path);
+            $a_ctrl_path = [$a_ctrl_path];
         }
 
         if (!($return_as_array = is_array($a_user_id))) {
-            $a_user_id = array($a_user_id);
+            $a_user_id = [$a_user_id];
         }
 
         $sql = 'SELECT
@@ -99,28 +99,28 @@ class ilUserUtil
 							c.keyword = %s)
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
 
-        $userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
+        $userrow = $ilDB->queryF($sql, ['text', 'text'], ['public_profile', 'public_title']);
 
-        $names = array();
+        $names = [];
 
-        $data = array();
+        $data = [];
         while ($row = $ilDB->fetchObject($userrow)) {
             $pres = '';
-            $d = array(
-                "id" => (int) $row->usr_id,
-                "title" => "",
-                "lastname" => "",
-                "firstname" => "",
-                "img" => "",
-                "link" => ""
-            );
-            $has_public_profile = in_array($row->public_profile, array("y", "g"));
+            $d = [
+                'id' => (int) $row->usr_id,
+                'title' => '',
+                'lastname' => '',
+                'firstname' => '',
+                'img' => '',
+                'link' => ''
+            ];
+            $has_public_profile = in_array($row->public_profile, ['y', 'g']);
             if ($a_force_first_lastname || $has_public_profile) {
-                $title = "";
-                if ($row->public_title == "y" && $row->title) {
-                    $title = $row->title . " ";
+                $title = '';
+                if ($row->public_title == 'y' && $row->title) {
+                    $title = $row->title . ' ';
                 }
-                $d["title"] = $title;
+                $d['title'] = $title;
                 if ($a_sortable) {
                     $pres = $row->lastname;
                     if (strlen($row->firstname)) {
@@ -133,36 +133,36 @@ class ilUserUtil
                     }
                     $pres .= ($row->lastname . ' ');
                 }
-                $d["firstname"] = $row->firstname;
-                $d["lastname"] = $row->lastname;
+                $d['firstname'] = $row->firstname;
+                $d['lastname'] = $row->lastname;
             }
-            $d["login"] = $row->login;
-            $d["public_profile"] = $has_public_profile;
+            $d['login'] = $row->login;
+            $d['public_profile'] = $has_public_profile;
 
 
             if (!$a_omit_login) {
-                $pres .= "[" . $row->login . "]";
+                $pres .= '[' . $row->login . ']';
             }
 
             if ($a_profile_link && $has_public_profile) {
-                $ilCtrl->setParameterByClass(end($a_ctrl_path), "user_id", $row->usr_id);
-                if ($a_profile_back_link != "") {
+                $ilCtrl->setParameterByClass(end($a_ctrl_path), 'user_id', $row->usr_id);
+                if ($a_profile_back_link != '') {
                     $ilCtrl->setParameterByClass(
                         end($a_ctrl_path),
-                        "back_url",
+                        'back_url',
                         rawurlencode($a_profile_back_link)
                     );
                 }
-                $link = $ilCtrl->getLinkTargetByClass($a_ctrl_path, "getHTML");
+                $link = $ilCtrl->getLinkTargetByClass($a_ctrl_path, 'getHTML');
                 $pres = '<a href="' . $link . '">' . $pres . '</a>';
-                $d["link"] = $link;
+                $d['link'] = $link;
             }
 
             if ($a_user_image) {
-                $img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
-                $pres = '<img class="ilUserXXSmall" src="' . $img . '" alt="' . $lng->txt("icon") .
-                    " " . $lng->txt("user_picture") . '" /> ' . $pres;
-                $d["img"] = $img;
+                $img = ilObjUser::_getPersonalPicturePath($row->usr_id, 'xxsmall');
+                $pres = '<img class="ilUserXXSmall" src="' . $img . '" alt="' . $lng->txt('icon') .
+                    ' ' . $lng->txt('user_picture') . '" /> ' . $pres;
+                $d['img'] = $img;
             }
 
             $names[$row->usr_id] = $pres;
@@ -192,13 +192,13 @@ class ilUserUtil
         $ilDB = $DIC['ilDB'];
 
         $set = $ilDB->query(
-            "SELECT value FROM usr_pref " .
-            " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
-            " and keyword = " . $ilDB->quote("public_profile", "text")
+            'SELECT value FROM usr_pref ' .
+            ' WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer') .
+            ' and keyword = ' . $ilDB->quote('public_profile', 'text')
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return in_array($rec["value"] ?? "", array("y", "g"));
+        return in_array($rec['value'] ?? '', ['y', 'g']);
     }
 
 
@@ -226,7 +226,7 @@ class ilUserUtil
      * Get all valid starting points
      * @return array<int,string>
      */
-    public static function getPossibleStartingPoints(bool $a_force_all = false): array
+    public static function getPossibleStartingPoints(bool $force_all = false): array
     {
         global $DIC;
 
@@ -235,11 +235,11 @@ class ilUserUtil
 
         // for all conditions: see ilMainMenuGUI
 
-        $all = array();
+        $all = [];
 
         $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
 
-        if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
+        if ($force_all || ($ilSetting->get('disable_my_offers') == 0 &&
             $ilSetting->get('disable_my_memberships') == 0)) {
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
         }
@@ -248,11 +248,11 @@ class ilUserUtil
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
 
-        if ($a_force_all || !$ilSetting->get("disable_personal_workspace")) {
+        if ($force_all || !$ilSetting->get('disable_personal_workspace')) {
             $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
         $settings = ilCalendarSettings::_getInstance();
-        if ($a_force_all || $settings->isEnabled()) {
+        if ($force_all || $settings->isEnabled()) {
             $all[self::START_PD_CALENDAR] = 'calendar';
         }
 
@@ -283,14 +283,14 @@ class ilUserUtil
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
                 !$tree->isDeleted($a_ref_id)) {
-                $ilSetting->set("usr_starting_point", $a_value);
-                $ilSetting->set("usr_starting_point_ref_id", $a_ref_id);
+                $ilSetting->set('usr_starting_point', $a_value);
+                $ilSetting->set('usr_starting_point_ref_id', $a_ref_id);
                 return true;
             }
         }
         $valid = array_keys(self::getPossibleStartingPoints());
         if (in_array($a_value, $valid)) {
-            $ilSetting->set("usr_starting_point", $a_value);
+            $ilSetting->set('usr_starting_point', $a_value);
             if ($a_value == self::START_PD_CALENDAR) {
                 foreach ($a_cal_view as $key => $value) {
                     $ilSetting->set($key, $value);
@@ -312,7 +312,7 @@ class ilUserUtil
         $ilUser = $DIC['ilUser'];
 
         $valid = array_keys(self::getPossibleStartingPoints());
-        $current = $ilSetting->get("usr_starting_point");
+        $current = $ilSetting->get('usr_starting_point');
         if ($current == self::START_REPOSITORY_OBJ) {
             return $current;
         } elseif (!$current || !in_array($current, $valid)) {
@@ -340,6 +340,7 @@ class ilUserUtil
 
         $tree = $DIC['tree'];
         $ilUser = $DIC['ilUser'];
+        $db = $DIC['ilDB'];
         $rbacreview = $DIC['rbacreview'];
 
         $ref_id = 1;
@@ -354,32 +355,30 @@ class ilUserUtil
                 $ref_id = self::getPersonalStartingObject();
             }
         } else {
-            if (ilStartingPoint::ROLE_BASED) {
-                //getting all roles with starting points and store them in array
-                $roles = ilStartingPoint::getRolesWithStartingPoint();
+            $roles = (new ilStartingPoint($db, $rbacreview, null))->getRolesWithStartingPoint();
 
-                $roles_ids = array_keys($roles);
-                $gr = array();
-                foreach ($roles_ids as $role_id) {
-                    if ($rbacreview->isAssigned($ilUser->getId(), $role_id)) {
-                        $gr[$roles[$role_id]['position']] = array(
-                            "point" => $roles[$role_id]['starting_point'],
-                            "object" => $roles[$role_id]['starting_object'],
-                            "cal_view" => $roles[$role_id]['calendar_view'],
-                            "cal_period" => $roles[$role_id]['calendar_period']
-                        );
-                    }
-                }
-                if (!empty($gr)) {
-                    krsort($gr);	// ak: if we use array_pop (last element) we need to reverse sort, since we want the one with the smallest number
-                    $role_point = array_pop($gr);
-                    $current = $role_point['point'];
-                    $ref_id = $role_point['object'];
-                    $cal_view = $role_point['cal_view'];
-                    $cal_period = $role_point['cal_period'];
-                    $by_default = false;
+            $roles_ids = array_keys($roles);
+            $gr = [];
+            foreach ($roles_ids as $role_id) {
+                if ($rbacreview->isAssigned($ilUser->getId(), $role_id)) {
+                    $gr[$roles[$role_id]['position']] = [
+                        'point' => $roles[$role_id]['starting_point'],
+                        'object' => $roles[$role_id]['starting_object'],
+                        'cal_view' => $roles[$role_id]['calendar_view'],
+                        'cal_period' => $roles[$role_id]['calendar_period']
+                    ];
                 }
             }
+            if (!empty($gr)) {
+                krsort($gr);	// ak: if we use array_pop (last element) we need to reverse sort, since we want the one with the smallest number
+                $role_point = array_pop($gr);
+                $current = $role_point['point'];
+                $ref_id = $role_point['object'];
+                $cal_view = $role_point['cal_view'];
+                $cal_period = $role_point['cal_period'];
+                $by_default = false;
+            }
+
             if ($by_default) {
                 $current = self::getStartingPoint();
 
@@ -391,9 +390,9 @@ class ilUserUtil
             }
         }
 
-        $calendar_string = "";
+        $calendar_string = '';
         if (!empty($cal_view) && !empty($cal_period)) {
-            $calendar_string = "&cal_view=" . $cal_view . "&cal_agenda_per=" . $cal_period;
+            $calendar_string = '&cal_view=' . $cal_view . '&cal_agenda_per=' . $cal_period;
         }
 
         switch ($current) {
@@ -413,13 +412,13 @@ class ilUserUtil
 
                 // no break
             default:
-                $map = array(
+                $map = [
                     self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSelectedItems',
                     self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilMembershipOverviewGUI',
                     self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace',
                     self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar' . $calendar_string,
                     self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilDashboardGUI::class . '&cmd=' . ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
-                );
+                ];
                 return $map[$current];
         }
     }
@@ -433,7 +432,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
 
-        return $ilSetting->get("usr_starting_point_ref_id");
+        return $ilSetting->get('usr_starting_point_ref_id');
     }
 
     /**
@@ -445,7 +444,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
 
-        return (int) $ilSetting->get("user_calendar_view");
+        return (int) $ilSetting->get('user_calendar_view');
     }
 
     /**
@@ -457,7 +456,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
 
-        return (int) $ilSetting->get("user_cal_period");
+        return (int) $ilSetting->get('user_cal_period');
     }
 
     /**
@@ -469,7 +468,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
 
-        $ilSetting->set("usr_starting_point_personal", (string) $a_value);
+        $ilSetting->set('usr_starting_point_personal', (string) $a_value);
     }
 
     /**
@@ -481,7 +480,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
 
-        return (bool) $ilSetting->get("usr_starting_point_personal");
+        return (bool) $ilSetting->get('usr_starting_point_personal');
     }
 
     /**
@@ -493,7 +492,7 @@ class ilUserUtil
 
         $ilUser = $DIC['ilUser'];
 
-        return (bool) $ilUser->getPref("usr_starting_point");
+        return (bool) $ilUser->getPref('usr_starting_point');
     }
 
     /**
@@ -506,7 +505,7 @@ class ilUserUtil
         $ilUser = $DIC['ilUser'];
 
         $valid = array_keys(self::getPossibleStartingPoints());
-        $current = $ilUser->getPref("usr_starting_point");
+        $current = $ilUser->getPref('usr_starting_point');
         if ($current == self::START_REPOSITORY_OBJ) {
             return $current;
         } elseif (!$current || !in_array($current, $valid)) {
@@ -528,8 +527,8 @@ class ilUserUtil
         $tree = $DIC['tree'];
 
         if (!$a_value) {
-            $ilUser->setPref("usr_starting_point", null);
-            $ilUser->setPref("usr_starting_point_ref_id", null);
+            $ilUser->setPref('usr_starting_point', null);
+            $ilUser->setPref('usr_starting_point_ref_id', null);
             return false;
         }
 
@@ -537,14 +536,14 @@ class ilUserUtil
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
                 !$tree->isDeleted($a_ref_id)) {
-                $ilUser->setPref("usr_starting_point", $a_value);
-                $ilUser->setPref("usr_starting_point_ref_id", $a_ref_id);
+                $ilUser->setPref('usr_starting_point', $a_value);
+                $ilUser->setPref('usr_starting_point_ref_id', $a_ref_id);
                 return true;
             }
         }
         $valid = array_keys(self::getPossibleStartingPoints());
         if (in_array($a_value, $valid)) {
-            $ilUser->setPref("usr_starting_point", $a_value);
+            $ilUser->setPref('usr_starting_point', $a_value);
             return true;
         }
         return false;
@@ -559,7 +558,7 @@ class ilUserUtil
 
         $ilUser = $DIC['ilUser'];
 
-        $ref_id = $ilUser->getPref("usr_starting_point_ref_id");
+        $ref_id = $ilUser->getPref('usr_starting_point_ref_id');
         if (!$ref_id) {
             $ref_id = self::getStartingObject();
         }

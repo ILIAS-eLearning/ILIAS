@@ -27,23 +27,26 @@ class ilUserAppEventListener implements ilAppEventListener
     /**
      * @param array<string,mixed>  $a_parameter
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
+    public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        if ('Services/Object' === $a_component && 'beforeDeletion' === $a_event) {
-            if (isset($a_parameter['object']) && $a_parameter['object'] instanceof ilObjRole) {
-                \ilStartingPoint::onRoleDeleted($a_parameter['object']);
+        global $DIC;
+
+        $db = $DIC['ilDB'];
+        $rbac_review = $DIC['rbacreview'];
+        $settings = $DIC['ilSetting'];
+
+        if ('Services/Object' === $component && 'beforeDeletion' === $event) {
+            if (isset($parameter['object']) && $parameter['object'] instanceof ilObjRole) {
+                (new \ilStartingPoint($db, $rbac_review, null))->onRoleDeleted($parameter['object']);
             }
         }
 
-        if ('Services/TermsOfService' === $a_component && ilTermsOfServiceEventWithdrawn::class === $a_event) {
-            global $DIC;
-
-            /** @var ilObjUser $user */
-            $user = $a_parameter['event']->getUser();
+        if ('Services/TermsOfService' === $component && ilTermsOfServiceEventWithdrawn::class === $event) {
+            $user = $parameter['event']->getUser();
 
             $defaultAuth = ilAuthUtils::AUTH_LOCAL;
-            if ($DIC['ilSetting']->get('auth_mode')) {
-                $defaultAuth = $DIC['ilSetting']->get('auth_mode');
+            if ($settings->get('auth_mode')) {
+                $defaultAuth = $settings->get('auth_mode');
             }
             $isLdapUser = (
                 $user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
@@ -53,9 +56,9 @@ class ilUserAppEventListener implements ilAppEventListener
             if ($isLdapUser) {
                 $mail = new ilTermsOfServiceWithdrawnMimeMail();
                 $mail->setAdditionalInformation(['user' => $user]);
-                $mail->setRecipients([$DIC->settings()->get('admin_mail')]);
+                $mail->setRecipients([$settings->get('admin_mail')]);
                 $mail->send();
-            } elseif ($DIC->settings()->get('tos_withdrawal_usr_deletion', "0")) {
+            } elseif ($settings->get('tos_withdrawal_usr_deletion', "0")) {
                 $user->delete();
             }
         }

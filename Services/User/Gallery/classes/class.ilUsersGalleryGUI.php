@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,30 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
  * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
 class ilUsersGalleryGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilObjUser $user;
-    protected ilRbacSystem $rbacsystem;
-    protected \ILIAS\UI\Factory $factory;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\HTTP\GlobalHttpState $http;
-    protected \ILIAS\Refinery\Factory $refinery;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilRbacSystem $rbacsystem;
+    private UIFactory $ui_factory;
+    private Renderer $ui_renderer;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+
+    private ilUserActionGUI $user_action_gui;
 
     public function __construct(protected ilUsersGalleryCollectionProvider $collection_provider)
     {
@@ -44,10 +51,19 @@ class ilUsersGalleryGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+
+        $this->user_action_gui = new ilUserActionGUI(
+            new ilUserActionProviderFactory(),
+            new ilGalleryUserActionContext(),
+            $this->tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->user->getId()
+        );
     }
 
     public function executeCommand(): void
@@ -90,8 +106,7 @@ class ilUsersGalleryGUI
     {
         $contact_btn_html = "";
 
-        if (
-            !$this->user->isAnonymous() &&
+        if (!$this->user->isAnonymous() &&
             !$user->isAnonymous() &&
             ilBuddySystem::getInstance()->isEnabled() &&
             $this->user->getId() !== $user->getId()
@@ -99,11 +114,10 @@ class ilUsersGalleryGUI
             $contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
         }
 
-        $ua_gui = ilUserActionGUI::getInstance(new ilGalleryUserActionContext(), $this->tpl, $this->user->getId());
-        $list_html = $ua_gui->renderDropDown($user->getId());
+        $list_html = $this->user_action_gui->renderDropDown($user->getId());
 
         if ($contact_btn_html || $list_html) {
-            $sections[] = $this->factory->legacy(
+            $sections[] = $this->ui_factory->legacy(
                 "<div style='float:left; margin-bottom:5px;'>" . $contact_btn_html . "</div><div class='button-container'>&nbsp;" . $list_html . "</div>"
             );
         }
@@ -143,8 +157,8 @@ class ilUsersGalleryGUI
             $group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
 
             foreach ($group as $user) {
-                $card = $this->factory->card()->standard($user->getPublicName());
-                $avatar = $this->factory->image()->standard(
+                $card = $this->ui_factory->card()->standard($user->getPublicName());
+                $avatar = $this->ui_factory->image()->standard(
                     $user->getAggregatedUser()->getPersonalPicturePath('big'),
                     $user->getPublicName()
                 );
@@ -155,7 +169,7 @@ class ilUsersGalleryGUI
                     $card = $card->withHighlight($group->isHighlighted());
                 }
 
-                $sections[] = $this->factory->listing()->descriptive(
+                $sections[] = $this->ui_factory->listing()->descriptive(
                     [
                         $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
                         $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
@@ -182,7 +196,7 @@ class ilUsersGalleryGUI
             }
         }
 
-        $tpl->setVariable('GALLERY_HTML', $this->renderer->render($this->factory->deck($cards)));
+        $tpl->setVariable('GALLERY_HTML', $this->ui_renderer->render($this->ui_factory->deck($cards)));
 
         if ($this->collection_provider->hasRemovableUsers()) {
             $tpl->touchBlock('js_remove_handler');

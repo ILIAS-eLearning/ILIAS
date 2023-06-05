@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,44 +16,43 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilStartingPoint
  * @author Jesús López <lopez@leifos.com>
  */
 class ilStartingPoint
 {
-    //list view: first and last items in the table are fixed.
-    protected const ORDER_POSITION_MIN = 0;
-    protected const ORDER_POSITION_MAX = 9999;
+    private const ORDER_POSITION_MIN = 0;
+    private const ORDER_POSITION_MAX = 9999;
 
-    //rule options.
-    public const FALLBACK_RULE = 1;
-    public const ROLE_BASED = 2;
-    public const USER_SELECTION_RULE = 3;
+    private const DEFAULT_STARTING_POINT_ID = 0;
 
-    protected ?int $starting_point = null;
-    protected ?int $starting_object = null;
-    protected ?int $starting_position = null;
-    protected ?int $rule_type = null;
-    protected ?string $rule_options = null; // array serialized in db
-    protected int $id;
-    protected ?int $calendar_view = null;
-    protected ?int $calendar_period = null;
+    private const ROLE_BASED = 2;
 
-    protected ilDBInterface $db;
+    private ?int $starting_point = null;
+    private ?int $starting_object = null;
+    private ?int $starting_position = null;
+    private ?int $rule_type = null;
+    private ?string $rule_options = null; // array serialized in db
+    private ?int $calendar_view = null;
+    private ?int $calendar_period = null;
 
-    public function __construct(int $a_id = 0)
-    {
-        global $DIC;
-
-        $this->db = $DIC->database();
-        $this->id = $a_id;
-        $this->setData();
+    public function __construct(
+        private ilDBInterface $db,
+        private ilRbacReview $rbac_review,
+        private ?int $id
+    ) {
+        if ($this->id === null) {
+            $this->id = self::DEFAULT_STARTING_POINT_ID;
+        }
+        $this->loadData();
     }
 
-    private function setData(): void
+    private function loadData(): void
     {
-        $query = "SELECT * FROM usr_starting_point WHERE id = " . $this->db->quote($this->id, 'integer');
+        $query = 'SELECT * FROM usr_starting_point WHERE id = ' . $this->db->quote($this->id, 'integer');
         $res = $this->db->query($query);
 
         while ($point = $this->db->fetchAssoc($res)) {
@@ -62,10 +60,17 @@ class ilStartingPoint
             $this->setRuleOptions((string) $point['rule_options']);
             $this->setPosition((int) $point['position']);
             $this->setStartingObject((int) $point['starting_object']);
-            $this->setRuleType((int) $point['rule_type']);
+            if ($point['rule_type'] === self::ROLE_BASED) {
+                $this->setRuleTypeRoleBased();
+            }
             $this->setCalendarView((int) $point['calendar_view']);
             $this->setCalendarPeriod((int) $point['calendar_period']);
         }
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function setStartingPoint(int $a_starting_point): void
@@ -98,22 +103,14 @@ class ilStartingPoint
         return $this->starting_position;
     }
 
-    public function setRuleType(int $a_rule_type): void
-    {
-        $this->rule_type = $a_rule_type;
-    }
+   public function isRoleBasedStartingPoint(): bool
+   {
+       return $this->rule_type === self::ROLE_BASED;
+   }
 
-    public function getRuleType(): int
+    public function setRuleTypeRoleBased(): void
     {
-        return $this->rule_type;
-    }
-
-    /**
-     * serialized string
-     */
-    public function setRuleOptions(string $a_rule_options): void
-    {
-        $this->rule_options = $a_rule_options;
+        $this->rule_type = self::ROLE_BASED;
     }
 
     /**
@@ -147,37 +144,47 @@ class ilStartingPoint
         return $this->rule_options;
     }
 
-    /**
-     * Get all the starting points in database
-     */
-    public static function getStartingPoints(): array
+    public function setRuleOptions(string $a_rule_options): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = "SELECT * FROM usr_starting_point";
-        $res = $ilDB->query($query);
-        $points = array();
-        while ($point = $ilDB->fetchAssoc($res)) {
-            $points[] = array(
-                "id" => $point["id"],
-                "position" => $point["position"],
-                "starting_point" => $point['starting_point'],
-                "starting_object" => $point['starting_object'],
-                "calendar_view" => $point['calendar_view'],
-                "calendar_period" => $point['calendar_period'],
-                "rule_type" => $point['rule_type'],
-                "rule_options" => $point['rule_options']
-            );
-        }
-
-        return $points;
+        $this->rule_options = $a_rule_options;
     }
 
-    public static function onRoleDeleted(ilObjRole $role): void
+    /**
+     * Get all the starting points in database
+     *
+     * @return array<ilStartingPoint>
+     */
+    public function getStartingPoints(): array
     {
-        foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
+        $query = 'SELECT * FROM usr_starting_point';
+        $res = $this->db->query($query);
+        $starting_points = [];
+        while ($point = $this->db->fetchAssoc($res)) {
+            $starting_point = new static(
+                $this->db,
+                $this->rbac_review,
+                $point['id']
+            );
+
+            $starting_point->setPosition((int) $point['position']);
+            $starting_point->setStartingPoint((int) $point['starting_point']);
+            $starting_point->setStartingObject((int)$point['starting_object']);
+            $starting_point->setCalendarView((int) $point['calendar_view']);
+            $starting_point->setCalendarPeriod((int) $point['calendar_period']);
+            $starting_point->setRuleOptions($point['rule_options']);
+            if ($point['rule_type'] === self::ROLE_BASED) {
+                $starting_point->setRuleTypeRoleBased();
+            }
+
+            $starting_points[] = $starting_point;
+        }
+
+        return $starting_points;
+    }
+
+    public function onRoleDeleted(ilObjRole $role): void
+    {
+        foreach ($this->getRolesWithStartingPoint() as $roleId => $data) {
             if ((int) $roleId === $role->getId()) {
                 $sp = new self((int) $data['id']);
                 $sp->delete();
@@ -191,68 +198,53 @@ class ilStartingPoint
         }
     }
 
-    /**
-     * get array with all roles which have starting point defined.
-     */
-    public static function getRolesWithStartingPoint(): array
+    public function getRolesWithStartingPoint(): array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $query = "SELECT * FROM usr_starting_point WHERE rule_options LIKE %s";
-        $res = $ilDB->queryF($query, ['text'], ["%role_id%"]);
+        $query = 'SELECT * FROM usr_starting_point WHERE rule_options LIKE %s';
+        $res = $this->db->queryF($query, ['text'], ['%role_id%']);
 
         $roles = [];
-        while ($sp = $ilDB->fetchAssoc($res)) {
+        while ($sp = $this->db->fetchAssoc($res)) {
             $options = unserialize($sp['rule_options']);
 
             $roles[$options['role_id']] = [
-                "id" => (int) $sp['id'],
-                "starting_point" => (int) $sp['starting_point'],
-                "starting_object" => (int) $sp['starting_object'],
-                "calendar_view" => (int) $sp['calendar_view'],
-                "calendar_period" => (int) $sp['calendar_period'],
-                "position" => (int) $sp['position'],
-                "role_id" => (int) $options['role_id'],
+                'id' => (int) $sp['id'],
+                'starting_point' => (int) $sp['starting_point'],
+                'starting_object' => (int) $sp['starting_object'],
+                'calendar_view' => (int) $sp['calendar_view'],
+                'calendar_period' => (int) $sp['calendar_period'],
+                'position' => (int) $sp['position'],
+                'role_id' => (int) $options['role_id'],
 
             ];
         }
         return $roles;
     }
 
-    /**
-     * Get id and title of the roles without starting points
-     */
-    public static function getGlobalRolesWithoutStartingPoint(): array
+    public function getGlobalRolesWithoutStartingPoint(): array
     {
-        global $DIC;
+        $global_roles = $this->rbac_review->getGlobalRoles();
+        $roles_with_starting_point = $this->getRolesWithStartingPoint();
 
-        $rbacreview = $DIC['rbacreview'];
-        $global_roles = $rbacreview->getGlobalRoles();
-        $roles_with_starting_point = self::getRolesWithStartingPoint();
-
-        $ids_roles_with_sp = array();
+        $ids_roles_with_sp = [];
         foreach ($roles_with_starting_point as $role) {
             $ids_roles_with_sp[] = $role['role_id'];
         }
 
         $ids_roles_without_sp = array_diff($global_roles, $ids_roles_with_sp);
 
-        $roles = array();
+        $roles = [];
         foreach ($ids_roles_without_sp as $roleid) {
             $role_obj = new ilObjRole($roleid);
-            $roles[] = array(
-                "id" => $role_obj->getId(),
-                "title" => $role_obj->getTitle(),
-            );
+            $roles[] = [
+                'id' => $role_obj->getId(),
+                'title' => $role_obj->getTitle(),
+            ];
         }
 
         return $roles;
     }
 
-    /**
-     * insert starting point into database
-     */
     public function save(): void
     {
         //get position
@@ -260,20 +252,20 @@ class ilStartingPoint
         $position = $max_position + 10;
 
         $next_id = $this->db->nextId('usr_starting_point');
-        $values = array(
+        $values = [
             $next_id,
-            $this->getStartingPoint(),
-            $this->getStartingObject(),
+            $this->starting_point,
+            $this->starting_object,
             $position,
-            $this->getRuleType(),
-            $this->getRuleOptions(),
-            $this->getCalendarView(),
-            $this->getCalendarPeriod()
-        );
+            $this->rule_type,
+            $this->rule_options,
+            $this->calendar_view,
+            $this->calendar_period
+        ];
 
         $this->db->manipulateF(
-            "INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-            array(ilDBConstants::T_INTEGER,
+            'INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
+            [ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
@@ -281,7 +273,7 @@ class ilStartingPoint
                   ilDBConstants::T_TEXT,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER
-            ),
+            ],
             $values
         );
     }
@@ -301,7 +293,7 @@ class ilStartingPoint
 				calendar_view = %s,
 				calendar_period = %s
 			WHERE id = %s',
-            array(ilDBConstants::T_INTEGER,
+            [ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
@@ -309,32 +301,29 @@ class ilStartingPoint
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER,
                   ilDBConstants::T_INTEGER
-            ),
-            array($this->getStartingPoint(),
-                  $this->getStartingObject(),
-                  $this->getPosition(),
-                  $this->getRuleType(),
-                  $this->getRuleOptions(),
-                  $this->getCalendarView(),
-                  $this->getCalendarPeriod(),
-                  $this->id
-            )
+            ],
+            [
+                $this->starting_point,
+                $this->starting_object,
+                $this->starting_position,
+                $this->rule_type,
+                $this->rule_options,
+                $this->calendar_view,
+                $this->calendar_period
+            ]
         );
     }
 
-    /**
-     * delete starting point
-     */
     public function delete(): void
     {
-        $query = "DELETE FROM usr_starting_point WHERE id = " . $this->db->quote($this->id, "integer");
+        $query = 'DELETE FROM usr_starting_point WHERE id = ' . $this->db->quote($this->id, 'integer');
         $this->db->manipulate($query);
     }
 
     public function getMaxPosition(): int
     {
         //get max order number
-        $result = $this->db->query("SELECT max(position) as max_order FROM usr_starting_point");
+        $result = $this->db->query('SELECT max(position) as max_order FROM usr_starting_point');
 
         $order_val = 0;
         while ($row = $this->db->fetchAssoc($result)) {
@@ -343,7 +332,7 @@ class ilStartingPoint
         return $order_val;
     }
 
-    public static function reArrangePositions(array $a_items): array
+    public function reArrangePositions(array $a_items): array
     {
         $ord_const = 0;
         $rearranged = [];
@@ -355,9 +344,6 @@ class ilStartingPoint
         return $rearranged;
     }
 
-    /**
-     * Save all starting point positions. Ordering values with increment +10
-     */
     public function saveOrder(array $a_items): void
     {
         asort($a_items);
@@ -365,9 +351,9 @@ class ilStartingPoint
         foreach ($a_items as $id => $position) {
             if ($position > self::ORDER_POSITION_MIN && $position < self::ORDER_POSITION_MAX) {
                 $this->db->manipulate(
-                    "UPDATE usr_starting_point SET" .
-                    " position = " . $this->db->quote($nr, 'integer') .
-                    " WHERE id = " . $this->db->quote($id, 'integer')
+                    'UPDATE usr_starting_point SET' .
+                    ' position = ' . $this->db->quote($nr, 'integer') .
+                    ' WHERE id = ' . $this->db->quote($id, 'integer')
                 );
                 $nr += 10;
             }

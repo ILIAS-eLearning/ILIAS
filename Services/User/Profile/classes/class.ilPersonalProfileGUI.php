@@ -16,10 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use Psr\Http\Message\RequestInterface;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\ProfileGUIRequest;
 
 /**
  * GUI class for personal profile
@@ -28,72 +33,82 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilPersonalProfileGUI
 {
+    private ilGlobalTemplateInterface $tpl;
+    private ?ilUserDefinedFields $user_defined_fields = null;
     private ilAppEventHandler $eventHandler;
-    protected ilPropertyFormGUI $form;
-    protected string $password_error;
-    protected string $upload_error;
-    protected ilSetting $setting;
-    protected ilObjUser $user;
-    protected \ILIAS\User\ProfileGUIRequest $profile_request;
-    public ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    public ?ilUserDefinedFields $user_defined_fields = null;
-    protected ilTabsGUI $tabs;
-    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
-    protected ilTermsOfServiceHelper $termsOfServiceHelper;
-    protected ilErrorHandling $errorHandler;
-    protected ilProfileChecklistGUI $checklist;
-    protected ilUserSettingsConfig $user_settings_config;
-    protected ilProfileChecklistStatus $checklist_status;
-    private RequestInterface $request;
-    private \ILIAS\FileUpload\FileUpload $uploads;
-    private Services $irss;
+    private ilPropertyFormGUI $form;
+    private string $password_error;
+    private string $upload_error;
+    private ilSetting $setting;
+    private ilObjUser $user;
+
+    private ilLanguage $lng;
+    private ilCtrl $ctrl;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private ilHelpGUI $help;
+    private ilTermsOfServiceDocumentEvaluation $terms_of_service_evaluation;
+    private ilTermsOfServiceHelper $terms_of_service_helper;
+    private ilErrorHandling $error_handler;
+    private ilProfileChecklistGUI $checklist;
+    private ilUserSettingsConfig $user_settings_config;
+    private ilProfileChecklistStatus $checklist_status;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+
+    private ProfileGUIRequest $profile_request;
+
+    private FileUpload $uploads;
+    private IRSS $irss;
     private ResourceStakeholder $stakeholder;
 
     public function __construct(
-        \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-        \ilTermsOfServiceHelper $termsOfServiceHelper = null
+        \ilTermsOfServiceDocumentEvaluation $terms_of_service_evaluation = null,
+        \ilTermsOfServiceHelper $terms_of_service_helper = null
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->tabs = $DIC->tabs();
-        $this->user = $DIC->user();
-        $this->lng = $DIC->language();
-        $this->setting = $DIC->settings();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->ctrl = $DIC->ctrl();
-        $this->errorHandler = $DIC['ilErr'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->help = $DIC['ilHelp'];
+        $this->user = $DIC['ilUser'];
+        $this->lng = $DIC['lng'];
+        $this->setting = $DIC['ilSetting'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->error_handler = $DIC['ilErr'];
         $this->eventHandler = $DIC['ilAppEventHandler'];
-        $this->request = $DIC->http()->request();
-        $this->uploads = $DIC->upload();
-        $this->irss = $DIC->resourceStorage();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->uploads = $DIC['upload'];
+        $this->irss = $DIC['resource_storage'];
         $this->stakeholder = new ilUserProfilePictureStakeholder();
 
-        if ($termsOfServiceEvaluation === null) {
-            $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+        if ($terms_of_service_evaluation === null) {
+            $terms_of_service_evaluation = $DIC['tos.document.evaluator'];
         }
-        $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
-        if ($termsOfServiceHelper === null) {
-            $termsOfServiceHelper = new ilTermsOfServiceHelper();
+        $this->terms_of_service_evaluation = $terms_of_service_evaluation;
+        if ($terms_of_service_helper === null) {
+            $terms_of_service_helper = new ilTermsOfServiceHelper();
         }
-        $this->termsOfServiceHelper = $termsOfServiceHelper;
+        $this->terms_of_service_helper = $terms_of_service_helper;
 
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
-        $this->lng->loadLanguageModule("jsmath");
-        $this->lng->loadLanguageModule("pd");
-        $this->upload_error = "";
-        $this->password_error = "";
-        $this->lng->loadLanguageModule("user");
-        $this->ctrl->saveParameter($this, "prompted");
+        $this->lng->loadLanguageModule('jsmath');
+        $this->lng->loadLanguageModule('pd');
+        $this->upload_error = '';
+        $this->password_error = '';
+        $this->lng->loadLanguageModule('user');
+        $this->ctrl->saveParameter($this, 'prompted');
 
         $this->checklist = new ilProfileChecklistGUI();
         $this->checklist_status = new ilProfileChecklistStatus();
 
         $this->user_settings_config = new ilUserSettingsConfig();
 
-        $this->profile_request = new \ILIAS\User\ProfileGUIRequest(
+        $this->profile_request = new ProfileGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -101,36 +116,28 @@ class ilPersonalProfileGUI
 
     public function executeCommand(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
-            case "ilpublicuserprofilegui":
-                $pub_profile_gui = new ilPublicUserProfileGUI($ilUser->getId());
-                $pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
-                $ilCtrl->forwardCommand($pub_profile_gui);
-                $tpl->printToStdout();
+            case 'ilpublicuserprofilegui':
+                $pub_profile_gui = new ilPublicUserProfileGUI($this->user->getId());
+                $pub_profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showPersonalData'));
+                $this->ctrl->forwardCommand($pub_profile_gui);
+                $this->tpl->printToStdout();
                 break;
 
-            case "iluserprivacysettingsgui":
+            case 'iluserprivacysettingsgui':
                 $this->setHeader();
                 $this->setTabs();
-                $ilTabs->activateTab("visibility_settings");
+                $this->tabs->activateTab('visibility_settings');
                 $this->showChecklist(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
                 $gui = new ilUserPrivacySettingsGUI();
-                $ilCtrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
                 $this->setTabs();
-                $cmd = $this->ctrl->getCmd("showPersonalData");
+                $cmd = $this->ctrl->getCmd('showPersonalData');
                 $this->$cmd();
                 break;
         }
@@ -154,9 +161,9 @@ class ilPersonalProfileGUI
 
     public function uploadUserPicture(): void
     {
-        if ($this->workWithUserSetting("upload")) {
-            if (!$this->form->hasFileUpload("userfile") && $this->profile_request->getUserFileCapture() == "") {
-                if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
+        if ($this->workWithUserSetting('upload')) {
+            if (!$this->form->hasFileUpload('userfile') && $this->profile_request->getUserFileCapture() == '') {
+                if ($this->form->getItemByPostVar('userfile')->getDeletionFlag()) {
                     $this->user->removeUserPicture();
                 }
             } else {
@@ -166,11 +173,11 @@ class ilPersonalProfileGUI
                 $revision_title = 'Avatar for user ' . $this->user->getLogin();
 
                 // move uploaded file
-                if ($this->form->hasFileUpload("userfile") && $this->uploads->hasBeenProcessed()) {
+                if ($this->form->hasFileUpload('userfile') && $this->uploads->hasBeenProcessed()) {
                     $uploads = $this->uploads->getResults();
                     // this implementation uses the $_FILES superglobal since
                     // the file has to be identified by the name of the input field
-                    $upload_tmp_name = $_FILES["userfile"]["tmp_name"];
+                    $upload_tmp_name = $_FILES['userfile']['tmp_name'];
                     $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
                     if ($avatar_upload_result !== null) {
                         if ($existing_rid === null) {
@@ -190,8 +197,8 @@ class ilPersonalProfileGUI
                         }
                     }
                     if ($avatar_upload_result === null || !isset($rid)) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                        $this->ctrl->redirect($this, "showProfile");
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+                        $this->ctrl->redirect($this, 'showProfile');
                     }
                 } else {
                     // cam capture png
@@ -199,8 +206,8 @@ class ilPersonalProfileGUI
                     $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
                     $data = base64_decode($img);
                     if ($data === false) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                        $this->ctrl->redirect($this, "showProfile");
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+                        $this->ctrl->redirect($this, 'showProfile');
                     }
                     $stream = Streams::ofString($data);
 
@@ -229,10 +236,7 @@ class ilPersonalProfileGUI
 
     public function removeUserPicture(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilUser->removeUserPicture();
+        $this->user->removeUserPicture();
     }
 
     /**
@@ -264,10 +268,10 @@ class ilPersonalProfileGUI
                 $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $entity->getText());
             }
         } else {
-            $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+            $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->terms_of_service_evaluation->hasDocument();
             if ($handleDocument) {
                 $noAgreement = false;
-                $document = $this->termsOfServiceEvaluation->document();
+                $document = $this->terms_of_service_evaluation->document();
                 $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
             }
         }
@@ -293,9 +297,9 @@ class ilPersonalProfileGUI
     {
         if (
             !$this->user->getPref('consent_withdrawal_requested') ||
-            !$this->termsOfServiceHelper->isIncludedUser($this->user)
+            !$this->terms_of_service_helper->isIncludedUser($this->user)
         ) {
-            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
         }
 
         $this->tabs->clearTargets();
@@ -312,8 +316,8 @@ class ilPersonalProfileGUI
 
     protected function cancelWithdrawal(): void
     {
-        if (!$this->termsOfServiceHelper->isIncludedUser($this->user)) {
-            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+        if (!$this->terms_of_service_helper->isIncludedUser($this->user)) {
+            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
         }
 
         $this->user->deletePref('consent_withdrawal_requested');
@@ -331,11 +335,11 @@ class ilPersonalProfileGUI
     {
         if (
             !$this->user->getPref('consent_withdrawal_requested') ||
-            !$this->termsOfServiceHelper->isIncludedUser($this->user)
+            !$this->terms_of_service_helper->isIncludedUser($this->user)
         ) {
-            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+            $this->error_handler->raiseError($this->lng->txt('permission_denied'), $this->error_handler->MESSAGE);
         }
-        $this->termsOfServiceHelper->resetAcceptance($this->user);
+        $this->terms_of_service_helper->resetAcceptance($this->user);
 
         $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
@@ -370,23 +374,19 @@ class ilPersonalProfileGUI
      */
     public function addLocationToForm(ilPropertyFormGUI $a_form, ilObjUser $a_user): void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         // check map activation
         if (!ilMapUtil::isActivated()) {
             return;
         }
 
         // Don't really know if this is still necessary...
-        $this->lng->loadLanguageModule("maps");
+        $this->lng->loadLanguageModule('maps');
 
         // Get user settings
-        $latitude = ($a_user->getLatitude() != "")
+        $latitude = ($a_user->getLatitude() != '')
             ? (float) $a_user->getLatitude()
             : null;
-        $longitude = ($a_user->getLongitude() != "")
+        $longitude = ($a_user->getLongitude() != '')
             ? (float) $a_user->getLongitude()
             : null;
         $zoom = $a_user->getLocationZoom();
@@ -394,33 +394,33 @@ class ilPersonalProfileGUI
         // Get Default settings, when nothing is set
         if ($latitude == null && $longitude == null && $zoom == 0) {
             $def = ilMapUtil::getDefaultSettings();
-            $latitude = (float) $def["latitude"];
-            $longitude = (float) $def["longitude"];
-            $zoom = (int) $def["zoom"];
+            $latitude = (float) $def['latitude'];
+            $longitude = (float) $def['longitude'];
+            $zoom = (int) $def['zoom'];
         }
 
         $street = $a_user->getStreet();
         if (!$street) {
-            $street = $this->lng->txt("street");
+            $street = $this->lng->txt('street');
         }
         $city = $a_user->getCity();
         if (!$city) {
-            $city = $this->lng->txt("city");
+            $city = $this->lng->txt('city');
         }
         $country = $a_user->getCountry();
         if (!$country) {
-            $country = $this->lng->txt("country");
+            $country = $this->lng->txt('country');
         }
 
         // location property
         $loc_prop = new ilLocationInputGUI(
-            $this->lng->txt("location"),
-            "location"
+            $this->lng->txt('location'),
+            'location'
         );
         $loc_prop->setLatitude($latitude);
         $loc_prop->setLongitude($longitude);
         $loc_prop->setZoom($zoom);
-        $loc_prop->setAddress($street . "," . $city . "," . $country);
+        $loc_prop->setAddress($street . ',' . $city . ',' . $country);
 
         $a_form->addItem($loc_prop);
     }
@@ -428,51 +428,46 @@ class ilPersonalProfileGUI
     // init sub tabs
     public function setTabs(): void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-        $ilHelp = $DIC['ilHelp'];
-
-        $ilHelp->setScreenIdComponent("user");
+        $this->help->setScreenIdComponent('user');
 
         // personal data
-        $ilTabs->addTab(
-            "personal_data",
-            $this->lng->txt("user_profile_data"),
-            $this->ctrl->getLinkTarget($this, "showPersonalData")
+        $this->tabs->addTab(
+            'personal_data',
+            $this->lng->txt('user_profile_data'),
+            $this->ctrl->getLinkTarget($this, 'showPersonalData')
         );
 
         // publishing options
-        $ilTabs->addTab(
-            "public_profile",
-            $this->lng->txt("user_publish_options"),
-            $this->ctrl->getLinkTarget($this, "showPublicProfile")
+        $this->tabs->addTab(
+            'public_profile',
+            $this->lng->txt('user_publish_options'),
+            $this->ctrl->getLinkTarget($this, 'showPublicProfile')
         );
 
         // visibility settings
         $txt_visibility = $this->checklist_status->anyVisibilitySettings()
-            ? $this->lng->txt("user_visibility_settings")
-            : $this->lng->txt("preview");
-        $ilTabs->addTab(
-            "visibility_settings",
+            ? $this->lng->txt('user_visibility_settings')
+            : $this->lng->txt('preview');
+        $this->tabs->addTab(
+            'visibility_settings',
             $txt_visibility,
-            $this->ctrl->getLinkTargetByClass("ilUserPrivacySettingsGUI", "")
+            $this->ctrl->getLinkTargetByClass('ilUserPrivacySettingsGUI', '')
         );
 
         // export
-        $ilTabs->addTab(
-            "export",
-            $this->lng->txt("export") . "/" . $this->lng->txt("import"),
-            $this->ctrl->getLinkTarget($this, "showExportImport")
+        $this->tabs->addTab(
+            'export',
+            $this->lng->txt('export') . '/' . $this->lng->txt('import'),
+            $this->ctrl->getLinkTarget($this, 'showExportImport')
         );
     }
 
 
     public function __showOtherInformations(): bool
     {
-        $d_set = new ilSetting("delicous");
-        if ($this->userSettingVisible("matriculation") or count($this->user_defined_fields->getVisibleDefinitions())
-            or $d_set->get("user_profile") == "1") {
+        $d_set = new ilSetting('delicous');
+        if ($this->userSettingVisible('matriculation') or count($this->user_defined_fields->getVisibleDefinitions())
+            or $d_set->get('user_profile') == '1') {
             return true;
         }
         return false;
@@ -480,22 +475,18 @@ class ilPersonalProfileGUI
 
     public function __showUserDefinedFields(): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $user_defined_data = $ilUser->getUserDefinedData();
+        $user_defined_data = $this->user->getUserDefinedData();
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
-                $this->tpl->setCurrentBlock("field_text");
+                $this->tpl->setCurrentBlock('field_text');
                 $this->tpl->setVariable(
-                    "FIELD_VALUE",
+                    'FIELD_VALUE',
                     ilLegacyFormElementsUtil::prepareFormOutput($user_defined_data[$field_id])
                 );
                 if (!$definition['changeable']) {
-                    $this->tpl->setVariable("DISABLED_FIELD", 'disabled=\"disabled\"');
+                    $this->tpl->setVariable('DISABLED_FIELD', 'disabled="disabled"');
                 }
-                $this->tpl->setVariable("FIELD_NAME", 'udf[' . $definition['field_id'] . ']');
+                $this->tpl->setVariable('FIELD_NAME', 'udf[' . $definition['field_id'] . ']');
             } else {
                 if ($definition['changeable']) {
                     $name = 'udf[' . $definition['field_id'] . ']';
@@ -504,9 +495,9 @@ class ilPersonalProfileGUI
                     $name = '';
                     $disabled = true;
                 }
-                $this->tpl->setCurrentBlock("field_select");
+                $this->tpl->setCurrentBlock('field_select');
                 $this->tpl->setVariable(
-                    "SELECT_BOX",
+                    'SELECT_BOX',
                     ilLegacyFormElementsUtil::formSelect(
                         $user_defined_data[$field_id],
                         $name,
@@ -523,14 +514,14 @@ class ilPersonalProfileGUI
                 );
             }
             $this->tpl->parseCurrentBlock();
-            $this->tpl->setCurrentBlock("user_defined");
+            $this->tpl->setCurrentBlock('user_defined');
 
             if ($definition['required']) {
-                $name = $definition['field_name'] . "<span class=\"asterisk\">*</span>";
+                $name = $definition['field_name'] . '<span class="asterisk">*</span>';
             } else {
                 $name = $definition['field_name'];
             }
-            $this->tpl->setVariable("TXT_FIELD_NAME", $name);
+            $this->tpl->setVariable('TXT_FIELD_NAME', $name);
             $this->tpl->parseCurrentBlock();
         }
         return true;
@@ -541,47 +532,34 @@ class ilPersonalProfileGUI
         $this->tpl->setTitle($this->lng->txt('personal_profile'));
     }
 
-    //
-    //
-    //	PERSONAL DATA FORM
-    //
-    //
-
     public function showPersonalData(
-        bool $a_no_init = false,
-        bool $a_migration_started = false
+        bool $a_no_init = false
     ): void {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-        $ilTabs = $DIC['ilTabs'];
         $prompt_service = new ilUserProfilePromptService();
 
-        $ilTabs->activateTab("personal_data");
-        $ctrl = $DIC->ctrl();
+        $this->tabs->activateTab('personal_data');
 
-        $it = "";
+        $it = '';
         if ($this->profile_request->getPrompted() == 1) {
-            $it = $prompt_service->data()->getSettings()->getPromptText($ilUser->getLanguage());
+            $it = $prompt_service->data()->getSettings()->getPromptText($this->user->getLanguage());
         }
-        if ($it === "") {
-            $it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
+        if ($it === '') {
+            $it = $prompt_service->data()->getSettings()->getInfoText($this->user->getLanguage());
         }
-        if (trim($it) !== "") {
-            $pub_prof = in_array($ilUser->prefs["public_profile"] ?? "", array("y", "n", "g"))
-                ? $ilUser->prefs["public_profile"]
-                : "n";
-            $box = $DIC->ui()->factory()->messageBox()->info($it);
-            if ($pub_prof === "n") {
+        if (trim($it) !== '') {
+            $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
+                ? $this->user->prefs['public_profile']
+                : 'n';
+            $box = $this->ui_factory->messageBox()->info($it);
+            if ($pub_prof === 'n') {
                 $box = $box->withLinks(
-                    [$DIC->ui()->factory()->link()->standard(
-                        $lng->txt("user_make_profile_public"),
-                        $ctrl->getLinkTarget($this, "showPublicProfile")
+                    [$this->ui_factory->link()->standard(
+                        $this->lng->txt('user_make_profile_public'),
+                        $this->ctrl->getLinkTarget($this, 'showPublicProfile')
                     )]
                 );
             }
-            $it = $DIC->ui()->renderer()->render($box);
+            $it = $this->ui_renderer->render($box);
         }
         $this->setHeader();
 
@@ -590,8 +568,8 @@ class ilPersonalProfileGUI
         if (!$a_no_init) {
             $this->initPersonalDataForm();
             // catch feedback message
-            if ($ilUser->getProfileIncomplete()) {
-                $this->tpl->setOnScreenMessage('info', $lng->txt("profile_incomplete"));
+            if ($this->user->getProfileIncomplete()) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('profile_incomplete'));
             }
         }
         $this->tpl->setContent($it . $this->form->getHTML());
@@ -601,21 +579,17 @@ class ilPersonalProfileGUI
 
     public function initPersonalDataForm(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
         $input = [];
 
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
 
         // user defined fields
-        $user_defined_data = $ilUser->getUserDefinedData();
+        $user_defined_data = $this->user->getUserDefinedData();
 
 
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            $value = $user_defined_data["f_" . $field_id] ?? "";
+            $value = $user_defined_data['f_' . $field_id] ?? '';
 
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
@@ -629,138 +603,130 @@ class ilPersonalProfileGUI
 
         // standard fields
         $up = new ilUserProfile();
-        $up->skipField("password");
-        $up->skipGroup("settings");
-        $up->skipGroup("preferences");
+        $up->skipField('password');
+        $up->skipGroup('settings');
+        $up->skipGroup('preferences');
 
         $up->setAjaxCallback(
             $this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'doProfileAutoComplete', '', true)
         );
 
         // standard fields
-        $up->addStandardFieldsToForm($this->form, $ilUser, $input);
+        $up->addStandardFieldsToForm($this->form, $this->user, $input);
 
-        $this->addLocationToForm($this->form, $ilUser);
+        $this->addLocationToForm($this->form, $this->user);
 
-        $this->form->addCommandButton("savePersonalData", $lng->txt("user_save_continue"));
+        $this->form->addCommandButton('savePersonalData', $this->lng->txt('user_save_continue'));
     }
 
     public function savePersonalData(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        $ilSetting = $this->setting;
-
         $this->initPersonalDataForm();
         if ($this->form->checkInput()) {
             $form_valid = true;
 
             // if form field name differs from setter
             $map = [
-                "firstname" => "FirstName",
-                "lastname" => "LastName",
-                "title" => "UTitle",
-                "sel_country" => "SelectedCountry",
-                "phone_office" => "PhoneOffice",
-                "phone_home" => "PhoneHome",
-                "phone_mobile" => "PhoneMobile",
-                "referral_comment" => "Comment",
-                "interests_general" => "GeneralInterests",
-                "interests_help_offered" => "OfferingHelp",
-                "interests_help_looking" => "LookingForHelp"
+                'firstname' => 'FirstName',
+                'lastname' => 'LastName',
+                'title' => 'UTitle',
+                'sel_country' => 'SelectedCountry',
+                'phone_office' => 'PhoneOffice',
+                'phone_home' => 'PhoneHome',
+                'phone_mobile' => 'PhoneMobile',
+                'referral_comment' => 'Comment',
+                'interests_general' => 'GeneralInterests',
+                'interests_help_offered' => 'OfferingHelp',
+                'interests_help_looking' => 'LookingForHelp'
             ];
             $up = new ilUserProfile();
             foreach ($up->getStandardFields() as $f => $p) {
                 // if item is part of form, it is currently valid (if not disabled)
-                $item = $this->form->getItemByPostVar("usr_" . $f);
+                $item = $this->form->getItemByPostVar('usr_' . $f);
                 if ($item && !$item->getDisabled()) {
-                    $value = $this->form->getInput("usr_" . $f);
+                    $value = $this->form->getInput('usr_' . $f);
                     switch ($f) {
-                        case "birthday":
+                        case 'birthday':
                             $value = $item->getDate();
-                            $ilUser->setBirthday($value
+                            $this->user->setBirthday($value
                                 ? $value->get(IL_CAL_DATE)
-                                : "");
+                                : '');
                             break;
-                        case "second_email":
-                            $ilUser->setSecondEmail($value);
+                        case 'second_email':
+                            $this->user->setSecondEmail($value);
                             break;
                         default:
                             $m = $map[$f] ?? ucfirst($f);
-                            $ilUser->{"set" . $m}($value);
+                            $this->user->{'set' . $m}($value);
                             break;
                     }
                 }
             }
-            $ilUser->setFullname();
+            $this->user->setFullname();
 
             // check map activation
             if (ilMapUtil::isActivated()) {
                 // #17619 - proper escaping
-                $location = $this->form->getInput("location");
-                $lat = ilUtil::stripSlashes($location["latitude"]);
-                $long = ilUtil::stripSlashes($location["longitude"]);
-                $zoom = ilUtil::stripSlashes($location["zoom"]);
-                $ilUser->setLatitude(is_numeric($lat) ? $lat : null);
-                $ilUser->setLongitude(is_numeric($long) ? $long : null);
-                $ilUser->setLocationZoom(is_numeric($zoom) ? $zoom : null);
+                $location = $this->form->getInput('location');
+                $lat = ilUtil::stripSlashes($location['latitude']);
+                $long = ilUtil::stripSlashes($location['longitude']);
+                $zoom = ilUtil::stripSlashes($location['zoom']);
+                $this->user->setLatitude(is_numeric($lat) ? $lat : null);
+                $this->user->setLongitude(is_numeric($long) ? $long : null);
+                $this->user->setLocationZoom(is_numeric($zoom) ? $zoom : null);
             }
 
             // Set user defined data
             $defs = $this->user_defined_fields->getVisibleDefinitions();
             $udf = [];
             foreach ($defs as $definition) {
-                $f = "udf_" . $definition['field_id'];
+                $f = 'udf_' . $definition['field_id'];
                 $item = $this->form->getItemByPostVar($f);
                 if ($item && !$item->getDisabled()) {
                     $udf[$definition['field_id']] = $this->form->getInput($f);
                 }
             }
-            $ilUser->setUserDefinedData($udf);
+            $this->user->setUserDefinedData($udf);
 
             // if loginname is changeable -> validate
             $un = $this->form->getInput('username');
-            if ((int) $ilSetting->get('allow_change_loginname') &&
-               $un != $ilUser->getLogin()) {
+            if ((int) $this->settings->get('allow_change_loginname') &&
+               $un != $this->user->getLogin()) {
                 if (!strlen($un) || !ilUtil::isLogin($un)) {
-                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
                     $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
                     $form_valid = false;
-                } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
-                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
-                    $this->form->getItemByPostVar('username')->setAlert($lng->txt('loginname_already_exists'));
+                } elseif (ilObjUser::_loginExists($un, $this->user->getId())) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+                    $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
                     $form_valid = false;
                 } else {
-                    $ilUser->setLogin($un);
+                    $this->user->setLogin($un);
 
                     try {
-                        $ilUser->updateLogin($ilUser->getLogin());
+                        $this->user->updateLogin($this->user->getLogin());
                     } catch (ilUserException $e) {
-                        $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
                         $this->form->getItemByPostVar('username')->setAlert($e->getMessage());
                         $form_valid = false;
                     }
                 }
             }
 
-            // everthing's ok. save form data
             if ($form_valid) {
                 $this->uploadUserPicture();
 
-                // profile ok
-                $ilUser->setProfileIncomplete(false);
+                $this->user->setProfileIncomplete(false);
 
-                // save user data & object_data
-                $ilUser->setTitle($ilUser->getFullname());
-                $ilUser->setDescription($ilUser->getEmail());
+                $this->user->setTitle($this->user->getFullname());
+                $this->user->setDescription($this->user->getEmail());
 
-                $ilUser->update();
+                $this->user->update();
 
                 $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
-                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-                $ilCtrl->redirect($this, "showPublicProfile");
+                $this->user->redirect($this, 'showPublicProfile');
             }
         }
 
@@ -768,17 +734,9 @@ class ilPersonalProfileGUI
         $this->showPersonalData(true);
     }
 
-    //
-    //
-    //	PUBLIC PROFILE FORM
-    //
-    //
-
     public function showPublicProfile(bool $a_no_init = false): void
     {
-        $ilTabs = $this->tabs;
-
-        $ilTabs->activateTab("public_profile");
+        $this->tabs->activateTab('public_profile');
         $this->showChecklist(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
 
         $this->setHeader();
@@ -791,84 +749,70 @@ class ilPersonalProfileGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     * has profile set to a portfolio?
-     */
     protected function getProfilePortfolio(): ?int
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-
-        if ($ilSetting->get('user_portfolios')) {
-            return ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
+        if ($this->setting->get('user_portfolios')) {
+            return ilObjPortfolio::getDefaultPortfolio($this->user->getId());
         }
         return null;
     }
 
     public function initPublicProfileForm(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-
         $this->form = new ilPropertyFormGUI();
 
-        $this->form->setTitle($lng->txt("user_publish_options"));
-        $this->form->setDescription($lng->txt("user_public_profile_info"));
+        $this->form->setTitle($this->lng->txt('user_publish_options'));
+        $this->form->setDescription($this->lng->txt('user_public_profile_info'));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
 
         $portfolio_id = $this->getProfilePortfolio();
 
         if (!$portfolio_id) {
             // Activate public profile
-            $radg = new ilRadioGroupInputGUI($lng->txt("user_activate_public_profile"), "public_profile");
-            $info = $this->lng->txt("user_activate_public_profile_info");
-            $profile_mode = new ilPersonalProfileMode($ilUser, $ilSetting);
+            $radg = new ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
+            $info = $this->lng->txt('user_activate_public_profile_info');
+            $profile_mode = new ilPersonalProfileMode($this->user, $this->setting);
             $pub_prof = $profile_mode->getMode();
             $radg->setValue($pub_prof);
-            $op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n", $lng->txt("usr_public_profile_disabled_info"));
+            $op1 = new ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
             $radg->addOption($op1);
-            $op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y");
+            $op2 = new ilRadioOption($this->lng->txt('usr_public_profile_logged_in'), 'y');
             $radg->addOption($op2);
-            if ($ilSetting->get('enable_global_profiles')) {
-                $op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g");
+            if ($this->setting->get('enable_global_profiles')) {
+                $op3 = new ilRadioOption($this->lng->txt('usr_public_profile_global'), 'g');
                 $radg->addOption($op3);
             }
             $this->form->addItem($radg);
 
             // #11773
-            if ($ilSetting->get('user_portfolios')) {
+            if ($this->setting->get('user_portfolios')) {
                 // #10826
-                $prtf = "<br />" . $lng->txt("user_profile_portfolio");
-                $prtf .= "<br /><a href=\"ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio\">&raquo; " .
-                    $lng->txt("user_portfolios") . "</a>";
+                $prtf = '<br />' . $this->lng->txt('user_profile_portfolio');
+                $prtf .= '<br /><a href="ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio">&raquo; ' .
+                    $this->lng->txt('user_portfolios') . '</a>';
                 $info .= $prtf;
             }
 
             $radg->setInfo($info);
         } else {
-            $prtf = $lng->txt("user_profile_portfolio_selected");
-            $prtf .= "<br /><a href=\"ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio&prt_id=" . $portfolio_id . "\">&raquo; " .
-                $lng->txt("portfolio") . "</a>";
+            $prtf = $this->lng->txt('user_profile_portfolio_selected');
+            $prtf .= '<br /><a href="ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio&prt_id=' . $portfolio_id . '">&raquo; ' .
+                $this->lng->txt('portfolio') . '</a>';
 
-            $info = new ilCustomInputGUI($lng->txt("user_activate_public_profile"));
+            $info = new ilCustomInputGUI($this->lng->txt('user_activate_public_profile'));
             $info->setHtml($prtf);
             $this->form->addItem($info);
-            $this->showPublicProfileFields($this->form, $ilUser->prefs);
+            $this->showPublicProfileFields($this->form, $this->user->prefs);
         }
 
         if (isset($op2)) {
-            $this->showPublicProfileFields($this->form, $ilUser->prefs, $op2, false, "-1");
+            $this->showPublicProfileFields($this->form, $this->user->prefs, $op2, false, '-1');
         }
         if (isset($op3)) {
-            $this->showPublicProfileFields($this->form, $ilUser->prefs, $op3, false, "-2");
+            $this->showPublicProfileFields($this->form, $this->user->prefs, $op3, false, '-2');
         }
         $this->form->setForceTopButtons(true);
-        $this->form->addCommandButton("savePublicProfile", $lng->txt("user_save_continue"));
+        $this->form->addCommandButton('savePublicProfile', $this->lng->txt('user_save_continue'));
     }
 
     public function showPublicProfileFields(
@@ -876,68 +820,66 @@ class ilPersonalProfileGUI
         array $prefs,
         ?object $parent = null,
         bool $anonymized = false,
-        string $key_suffix = ""
+        string $key_suffix = ''
     ): void {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $birthday = $ilUser->getBirthday();
+        $birthday = $this->user->getBirthday();
         if ($birthday) {
             $birthday = ilDatePresentation::formatDate(new ilDate($birthday, IL_CAL_DATE));
         }
-        $gender = $ilUser->getGender();
+        $gender = $this->user->getGender();
         if ($gender) {
-            $gender = $this->lng->txt("gender_" . $gender);
+            $gender = $this->lng->txt('gender_' . $gender);
         }
 
-        $txt_sel_country = "";
-        if ($ilUser->getSelectedCountry() != "") {
-            $this->lng->loadLanguageModule("meta");
-            $txt_sel_country = $this->lng->txt("meta_c_" . $ilUser->getSelectedCountry());
+        $txt_sel_country = '';
+        if ($this->user->getSelectedCountry() != '') {
+            $this->lng->loadLanguageModule('meta');
+            $txt_sel_country = $this->lng->txt('meta_c_' . $this->user->getSelectedCountry());
         }
 
         // profile picture
-        $pic = ilObjUser::_getPersonalPicturePath($ilUser->getId(), "xsmall", true, true);
+        $pic = ilObjUser::_getPersonalPicturePath($this->user->getId(), 'xsmall', true, true);
         if ($pic) {
-            $pic = "<img src=\"" . $pic . "\" />";
+            $pic = '<img src="' . $pic . '" />';
         }
 
         // personal data
-        $val_array = array(
-            "title" => $ilUser->getUTitle(),
-            "birthday" => $birthday,
-            "gender" => $gender,
-            "upload" => $pic,
-            "interests_general" => $ilUser->getGeneralInterestsAsText(),
-            "interests_help_offered" => $ilUser->getOfferingHelpAsText(),
-            "interests_help_looking" => $ilUser->getLookingForHelpAsText(),
-            "org_units" => $ilUser->getOrgUnitsRepresentation(),
-            "institution" => $ilUser->getInstitution(),
-            "department" => $ilUser->getDepartment(),
-            "street" => $ilUser->getStreet(),
-            "zipcode" => $ilUser->getZipcode(),
-            "city" => $ilUser->getCity(),
-            "country" => $ilUser->getCountry(),
-            "sel_country" => $txt_sel_country,
-            "phone_office" => $ilUser->getPhoneOffice(),
-            "phone_home" => $ilUser->getPhoneHome(),
-            "phone_mobile" => $ilUser->getPhoneMobile(),
-            "fax" => $ilUser->getFax(),
-            "email" => $ilUser->getEmail(),
-            "second_email" => $ilUser->getSecondEmail(),
-            "hobby" => $ilUser->getHobby(),
-            "matriculation" => $ilUser->getMatriculation()
-        );
+        $val_array = [
+            'title' => $this->user->getUTitle(),
+            'birthday' => $birthday,
+            'gender' => $gender,
+            'upload' => $pic,
+            'interests_general' => $this->user->getGeneralInterestsAsText(),
+            'interests_help_offered' => $this->user->getOfferingHelpAsText(),
+            'interests_help_looking' => $this->user->getLookingForHelpAsText(),
+            'org_units' => $this->user->getOrgUnitsRepresentation(),
+            'institution' => $this->user->getInstitution(),
+            'department' => $this->user->getDepartment(),
+            'street' => $this->user->getStreet(),
+            'zipcode' => $this->user->getZipcode(),
+            'city' => $this->user->getCity(),
+            'country' => $this->user->getCountry(),
+            'sel_country' => $txt_sel_country,
+            'phone_office' => $this->user->getPhoneOffice(),
+            'phone_home' => $this->user->getPhoneHome(),
+            'phone_mobile' => $this->user->getPhoneMobile(),
+            'fax' => $this->user->getFax(),
+            'email' => $this->user->getEmail(),
+            'second_email' => $this->user->getSecondEmail(),
+            'hobby' => $this->user->getHobby(),
+            'matriculation' => $this->user->getMatriculation()
+        ];
 
         // location
         if (ilMapUtil::isActivated()) {
-            $val_array["location"] = ((int) $ilUser->getLatitude() + (int) $ilUser->getLongitude() + (int) $ilUser->getLocationZoom() > 0)
-                ? " "
-                : "";
+            $val_array['location'] = ((int) $this->user->getLatitude() +
+                (int) $this->user->getLongitude()
+                + (int) $this->user->getLocationZoom() > 0)
+                ? ' '
+                : '';
         }
         foreach ($val_array as $key => $value) {
-            if (in_array($value, ["", "-"]) && !$anonymized) {
+            if (in_array($value, ['', '-']) && !$anonymized) {
                 continue;
             }
             if ($anonymized) {
@@ -947,22 +889,21 @@ class ilPersonalProfileGUI
             if ($this->userSettingVisible($key)) {
                 // #18795 - we should use ilUserProfile
                 switch ($key) {
-                    case "upload":
-                        $caption = "personal_picture";
+                    case 'upload':
+                        $caption = 'personal_picture';
                         break;
 
-                    case "title":
-                        $caption = "person_title";
+                    case 'title':
+                        $caption = 'person_title';
                         break;
 
                     default:
                         $caption = $key;
                 }
-                $cb = new ilCheckboxInputGUI($this->lng->txt($caption), "chk_" . $key . $key_suffix);
-                if (isset($prefs["public_" . $key]) && $prefs["public_" . $key] == "y") {
+                $cb = new ilCheckboxInputGUI($this->lng->txt($caption), 'chk_' . $key . $key_suffix);
+                if (isset($prefs['public_' . $key]) && $prefs['public_' . $key] == 'y') {
                     $cb->setChecked(true);
                 }
-                //$cb->setInfo($value);
                 $cb->setOptionTitle((string) $value);
 
                 if (!$parent) {
@@ -974,15 +915,15 @@ class ilPersonalProfileGUI
         }
 
         // additional defined user data fields
-        $user_defined_data = array();
+        $user_defined_data = [];
         if (!$anonymized) {
-            $user_defined_data = $ilUser->getUserDefinedData();
+            $user_defined_data = $this->user->getUserDefinedData();
         }
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
-            $cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_" . $definition["field_id"] . $key_suffix);
-            $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]] ?? "");
-            $public_udf = (string) ($prefs["public_udf_" . $definition["field_id"]] ?? '');
+            $cb = new ilCheckboxInputGUI($definition['field_name'], 'chk_udf_' . $definition['field_id'] . $key_suffix);
+            $cb->setOptionTitle($user_defined_data['f_' . $definition['field_id']] ?? '');
+            $public_udf = (string) ($prefs['public_udf_' . $definition['field_id']] ?? '');
             if ($public_udf === 'y') {
                 $cb->setChecked(true);
             }
@@ -997,9 +938,9 @@ class ilPersonalProfileGUI
         if (!$anonymized) {
             $handler = ilBadgeHandler::getInstance();
             if ($handler->isActive()) {
-                $badge_options = array();
+                $badge_options = [];
 
-                foreach (ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass) {
+                foreach (ilBadgeAssignment::getInstancesByUserId($this->user->getId()) as $ass) {
                     // only active
                     if ($ass->getPosition()) {
                         $badge = new ilBadge($ass->getBadgeId());
@@ -1008,7 +949,7 @@ class ilPersonalProfileGUI
                 }
 
                 if (count($badge_options) > 1) {
-                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
+                    $badge_order = new ilNonEditableValueGUI($this->lng->txt('obj_bdga'), 'bpos' . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
                     $badge_order->setMulti(true, true, false);
@@ -1023,8 +964,8 @@ class ilPersonalProfileGUI
         }
 
         // permalink
-        $ne = new ilNonEditableValueGUI($this->lng->txt("perma_link"), "");
-        $ne->setValue(ilLink::_getLink($this->user->getId(), "usr"));
+        $ne = new ilNonEditableValueGUI($this->lng->txt('perma_link'), '');
+        $ne->setValue(ilLink::_getLink($this->user->getId(), 'usr'));
         if (!$parent) {
             $form->addItem($ne);
         } else {
@@ -1034,73 +975,69 @@ class ilPersonalProfileGUI
 
     public function savePublicProfile(): void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $key_suffix = "";
+        $key_suffix = '';
 
         $this->initPublicProfileForm();
         if ($this->form->checkInput()) {
             // with active portfolio no options are presented
-            if ($this->form->getInput("public_profile") != "") {
-                $ilUser->setPref("public_profile", $this->form->getInput("public_profile"));
+            if ($this->form->getInput('public_profile') != '') {
+                $this->user->setPref('public_profile', $this->form->getInput('public_profile'));
             }
 
             // if check on Institute
-            $val_array = array("title", "birthday", "gender", "org_units", "institution", "department", "upload",
-                "street", "zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-                "fax", "email", "second_email", "hobby", "matriculation", "location",
-                "interests_general", "interests_help_offered", "interests_help_looking");
+            $val_array = ['title', 'birthday', 'gender', 'org_units',
+                'institution', 'department', 'upload', 'street', 'zipcode',
+                'city', 'country', 'sel_country', 'phone_office', 'phone_home',
+                'phone_mobile', 'fax', 'email', 'second_email', 'hobby',
+                'matriculation', 'location', 'interests_general',
+                'interests_help_offered', 'interests_help_looking'];
 
             // set public profile preferences
             $checked_values = $this->getCheckedValues();
             foreach ($val_array as $key => $value) {
-                if ($checked_values["chk_" . $value] ?? false) {
-                    $ilUser->setPref("public_" . $value, "y");
+                if ($checked_values['chk_' . $value] ?? false) {
+                    $this->user->setPref('public_' . $value, 'y');
                 } else {
-                    $ilUser->setPref("public_" . $value, "n");
+                    $this->user->setPref('public_' . $value, 'n');
                 }
             }
             // additional defined user data fields
             foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-                if ($checked_values["chk_udf_" . $definition["field_id"]] ?? false) {
-                    $ilUser->setPref("public_udf_" . $definition["field_id"], "y");
+                if ($checked_values['chk_udf_' . $definition['field_id']] ?? false) {
+                    $this->user->setPref('public_udf_' . $definition['field_id'], 'y');
                 } else {
-                    $ilUser->setPref("public_udf_" . $definition["field_id"], "n");
+                    $this->user->setPref('public_udf_' . $definition['field_id'], 'n');
                 }
             }
 
-            $ilUser->update();
+            $this->user->update();
 
-            switch ($this->form->getInput("public_profile")) {
-                case "y":
-                    $key_suffix = "-1";
+            switch ($this->form->getInput('public_profile')) {
+                case 'y':
+                    $key_suffix = '-1';
                     break;
-                case "g":
-                    $key_suffix = "-2";
+                case 'g':
+                    $key_suffix = '-2';
                     break;
             }
 
             $handler = ilBadgeHandler::getInstance();
             if ($handler->isActive()) {
                 $badgePositions = [];
-                $bpos = $this->form->getInput("bpos" . $key_suffix);
+                $bpos = $this->form->getInput('bpos' . $key_suffix);
                 if (isset($bpos) && is_array($bpos)) {
                     $badgePositions = $bpos;
                 }
 
                 if (count($badgePositions) > 0) {
-                    ilBadgeAssignment::updatePositions($ilUser->getId(), $badgePositions);
+                    ilBadgeAssignment::updatePositions($this->user->getId(), $badgePositions);
                 }
             }
 
             // update lucene index
-            ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['DIC']['ilUser']->getId()));
+            ilLuceneIndexer::updateLuceneIndex([(int) $this->user->getId()]);
 
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
             $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
 
@@ -1109,36 +1046,36 @@ class ilPersonalProfileGUI
                 ilSession::set('orig_request_target', '');
                 ilUtil::redirect($target);
             } else {
-                $ilCtrl->redirectByClass("iluserprivacysettingsgui", "");
+                $this->ctrl->redirectByClass('iluserprivacysettingsgui', '');
             }
         }
         $this->form->setValuesByPost();
-        $tpl->showPublicProfile(true);
+        $this->tpl->showPublicProfile(true);
     }
 
-    protected function getCheckedValues(): array // Missing array type.
+    protected function getCheckedValues(): array
     {
-        $key_suffix = "";
-        switch ($this->form->getInput("public_profile")) {
-            case "y":
-                $key_suffix = "-1";
+        $key_suffix = '';
+        switch ($this->form->getInput('public_profile')) {
+            case 'y':
+                $key_suffix = '-1';
                 break;
-            case "g":
-                $key_suffix = "-2";
+            case 'g':
+                $key_suffix = '-2';
                 break;
         }
 
         $checked_values = [];
-        $post = $this->request->getParsedBody();
+        $post = $this->profile_request->getParsedBody();
         foreach ($post as $k => $v) {
-            if (strpos($k, "chk_") === 0 && substr($k, -2) === $key_suffix) {
-                $k = str_replace(["-1", "-2"], "", $k);
+            if (strpos($k, 'chk_') === 0 && substr($k, -2) === $key_suffix) {
+                $k = str_replace(['-1', '-2'], '', $k);
                 $checked_values[$k] = $v;
             }
         }
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            if (isset($post["chk_udf_" . $definition["field_id"] . $key_suffix])) {
-                $checked_values["chk_udf_" . $definition["field_id"]] = "1";
+            if (isset($post['chk_udf_' . $definition['field_id'] . $key_suffix])) {
+                $checked_values['chk_udf_' . $definition['field_id']] = '1';
             }
         }
         return $checked_values;
@@ -1146,50 +1083,37 @@ class ilPersonalProfileGUI
 
     public function showExportImport(): void
     {
-        global $DIC;
-
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilUser = $DIC['ilUser'];
-
-        $ilTabs->activateTab("export");
+        $this->tabs->activateTab('export');
         $this->setHeader();
 
         $button = ilLinkButton::getInstance();
         $button->setCaption("pd_export_profile");
-        $button->setUrl($ilCtrl->getLinkTarget($this, "exportPersonalData"));
-        $ilToolbar->addStickyItem($button);
+        $button->setUrl($this->ctrl->getLinkTarget($this, "exportPersonalData"));
+        $this->toolbar->addStickyItem($button);
 
-        $exp_file = $ilUser->getPersonalDataExportFile();
-        if ($exp_file != "") {
-            $ilToolbar->addSeparator();
-            $ilToolbar->addButton(
+        $exp_file = $this->user->getPersonalDataExportFile();
+        if ($exp_file != '') {
+            $this->toolbar->addSeparator();
+            $this->toolbar->addButton(
                 $this->lng->txt("pd_download_last_export_file"),
-                $ilCtrl->getLinkTarget($this, "downloadPersonalData")
+                $this->ctrl->getLinkTarget($this, "downloadPersonalData")
             );
         }
 
-        $ilToolbar->addSeparator();
-        $ilToolbar->addButton(
+        $this->toolbar->addSeparator();
+        $this->toolbar->addButton(
             $this->lng->txt("pd_import_personal_data"),
-            $ilCtrl->getLinkTarget($this, "importPersonalDataSelection")
+            $this->ctrl->getLinkTarget($this, "importPersonalDataSelection")
         );
 
-        $tpl->printToStdout();
+        $this->tpl->printToStdout();
     }
 
     public function exportPersonalData(): void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-
-        $ilUser->exportPersonalData();
-        $ilUser->sendPersonalDataFile();
-        $ilCtrl->redirect($this, "showExportImport");
+        $this->user->exportPersonalData();
+        $this->user->sendPersonalDataFile();
+        $this->ctrl->redirect($this, 'showExportImport');
     }
 
     /**
@@ -1197,95 +1121,72 @@ class ilPersonalProfileGUI
      */
     public function downloadPersonalData(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $ilUser->sendPersonalDataFile();
+        $this->user->sendPersonalDataFile();
     }
 
     public function importPersonalDataSelection(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->activateTab("export");
+        $this->tabs->activateTab('export');
         $this->setHeader();
 
         $this->initPersonalDataImportForm();
 
-        $tpl->setContent($this->form->getHTML());
-        $tpl->printToStdout();
+        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->printToStdout();
     }
 
     public function initPersonalDataImportForm(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->form = new ilPropertyFormGUI();
 
         // input file
-        $fi = new ilFileInputGUI($lng->txt("file"), "file");
+        $fi = new ilFileInputGUI($this->lng->txt('file'), 'file');
         $fi->setRequired(true);
-        $fi->setSuffixes(array("zip"));
+        $fi->setSuffixes(['zip']);
         $this->form->addItem($fi);
 
         // profile data
-        $cb = new ilCheckboxInputGUI($this->lng->txt("pd_profile_data"), "profile_data");
+        $cb = new ilCheckboxInputGUI($this->lng->txt('pd_profile_data'), 'profile_data');
         $this->form->addItem($cb);
 
         // settings
-        $cb = new ilCheckboxInputGUI($this->lng->txt("settings"), "settings");
+        $cb = new ilCheckboxInputGUI($this->lng->txt('settings'), 'settings');
         $this->form->addItem($cb);
 
         // personal notes
-        $cb = new ilCheckboxInputGUI($this->lng->txt("notes"), "notes");
+        $cb = new ilCheckboxInputGUI($this->lng->txt('notes'), 'notes');
         $this->form->addItem($cb);
 
         // calendar entries
-        $cb = new ilCheckboxInputGUI($this->lng->txt("pd_private_calendars"), "calendar");
+        $cb = new ilCheckboxInputGUI($this->lng->txt('pd_private_calendars'), 'calendar');
         $this->form->addItem($cb);
 
-        $this->form->addCommandButton("importPersonalData", $lng->txt("import"));
-        $this->form->addCommandButton("showExportImport", $lng->txt("cancel"));
+        $this->form->addCommandButton('importPersonalData', $this->lng->txt('import'));
+        $this->form->addCommandButton('showExportImport', $this->lng->txt('cancel'));
 
-        $this->form->setTitle($lng->txt("pd_import_personal_data"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
+        $this->form->setTitle($this->lng->txt('pd_import_personal_data'));
+        $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
 
     public function importPersonalData(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-
         $this->initPersonalDataImportForm();
         if ($this->form->checkInput()) {
-            $ilUser->importPersonalData(
-                $_FILES["file"],
-                (int) $this->form->getInput("profile_data"),
-                (int) $this->form->getInput("settings"),
-                (int) $this->form->getInput("notes"),
-                (int) $this->form->getInput("calendar")
+            $this->user->importPersonalData(
+                $_FILES['file'],
+                (int) $this->form->getInput('profile_data'),
+                (int) $this->form->getInput('settings'),
+                (int) $this->form->getInput('notes'),
+                (int) $this->form->getInput('calendar')
             );
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "");
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+            $this->ctrl->redirect($this, '');
         } else {
-            $ilTabs->activateTab("export");
+            $this->tabs->activateTab('export');
             $this->setHeader();
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHTML());
-            $tpl->printToStdout();
+            $this->tpl->setContent($this->form->getHTML());
+            $this->tpl->printToStdout();
         }
     }
 
