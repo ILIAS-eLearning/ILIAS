@@ -19,7 +19,7 @@ function base()
                     fn ($v) => ['vc_range' => $v]
                 )
             )
-            ->withTotalCount(312)
+            //->withTotalCount(312)
             ->withValue('0:50'),
 
         $f->input()->viewControl()->sortation([

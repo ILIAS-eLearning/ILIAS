@@ -10,7 +10,6 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
 
-    //construct without options; default value is 'unlimited'.
     $pagination = $f->input()->viewControl()->pagination()
         ->withTotalCount(932)
         ->withValue("31:10")

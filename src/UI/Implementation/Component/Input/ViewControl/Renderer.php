@@ -160,88 +160,99 @@ class Renderer extends AbstractComponentRenderer
         $internal_signal = $component->getInternalSignal();
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
-        $no_entries = $component->getNumberOfVisibleEntries();
 
         $set_value = $component->getValue() ?? '0:' . end($limit_options);//$component->getDefaultValue();
         list($offset, $limit) = array_map('intval', explode(':', $set_value));
 
-        $ranges = [];
-        $current = 0;
-        if ($limit > $total_count) {
-            $ranges[] = $data_factory->range(0, $limit);
-            $entries = $ranges;
+
+        if (! $total_count) {
+            $input = $ui_factory->input()->field()->numeric('offset')
+                ->withValue($offset);
+            $apply = $ui_factory->button()->standard('apply', '');
+            $tpl->setVariable("INPUT", $default_renderer->render($input));
+            $tpl->setVariable("BUTTON", $default_renderer->render($apply));
         } else {
-            foreach (range(0, $total_count, $limit + 1) as $idx => $start) {
-                $ranges[] = $data_factory->range($start, $limit);
-                if ($offset >= $start && $offset < $start + $limit) {
-                    $current = $idx;
+            $no_entries = $component->getNumberOfVisibleEntries();
+
+            $ranges = [];
+            $current = 0;
+            if ($limit > $total_count) {
+                $ranges[] = $data_factory->range(0, $limit);
+                $entries = $ranges;
+            } else {
+                foreach (range(0, $total_count, $limit + 1) as $idx => $start) {
+                    $ranges[] = $data_factory->range($start, $limit);
+                    if ($offset >= $start && $offset < $start + $limit) {
+                        $current = $idx;
+                    }
+                }
+
+                $first = reset($ranges);
+                $last = end($ranges);
+
+                $start = max(0, $current - floor(($no_entries - 1) / 2));
+                if ($start + $no_entries >= count($ranges)) {
+                    $start = max(0, count($ranges) - $no_entries);
+                }
+
+                $entries = array_slice($ranges, (int)$start, $no_entries);
+                if (! in_array($first, $entries)) {
+                    array_shift($entries);
+                    array_unshift($entries, $first);
+                }
+                if (! in_array($last, $entries)) {
+                    array_pop($entries);
+                    array_push($entries, $last);
                 }
             }
 
-            $first = reset($ranges);
-            $last = end($ranges);
 
-            $start = max(0, $current - floor(($no_entries - 1) / 2));
-            if ($start + $no_entries >= count($ranges)) {
-                $start = max(0, count($ranges) - $no_entries);
+            foreach ($ranges as $idx => $range) {
+                if (in_array($range, $entries)) {
+                    $signal = clone $internal_signal;
+                    $signal->addOption('offset', $range->getStart());
+                    $signal->addOption('limit', $limit);
+                    $tpl->setCurrentBlock("entry");
+                    $entry = $ui_factory->button()->shy((string)($idx + 1), '#')->withOnClick($signal);
+                    if ($idx === $current) {
+                        $entry = $entry->withEngagedState(true);
+                    }
+                    $tpl->setVariable("ENTRY", $default_renderer->render($entry));
+                    $tpl->parseCurrentBlock();
+                } else {
+                    if ($idx === 1 || $idx === count($ranges) - 2) {
+                        $tpl->setCurrentBlock("entry");
+                        $tpl->touchBlock("spacer");
+                        $tpl->parseCurrentBlock();
+                    }
+                }
             }
 
-            $entries = array_slice($ranges, (int)$start, $no_entries);
-            if (! in_array($first, $entries)) {
-                array_shift($entries);
-                array_unshift($entries, $first);
-            }
-            if (! in_array($last, $entries)) {
-                array_pop($entries);
-                array_push($entries, $last);
-            }
-        }
-
-
-        foreach ($ranges as $idx => $range) {
-            if (in_array($range, $entries)) {
+            $icon_left = $ui_factory->symbol()->glyph()->back();
+            if ($current > 0 && count($entries) > 1) {
+                $range = $ranges[$current - 1];
                 $signal = clone $internal_signal;
                 $signal->addOption('offset', $range->getStart());
                 $signal->addOption('limit', $limit);
-                $tpl->setCurrentBlock("entry");
-                $entry = $ui_factory->button()->shy((string)($idx + 1), '#')->withOnClick($signal);
-                if ($idx === $current) {
-                    $entry = $entry->withEngagedState(true);
-                }
-                $tpl->setVariable("ENTRY", $default_renderer->render($entry));
-                $tpl->parseCurrentBlock();
+                $icon_left = $icon_left ->withOnClick($signal);
             } else {
-                if ($idx === 1 || $idx === count($ranges) - 2) {
-                    $tpl->setCurrentBlock("entry");
-                    $tpl->touchBlock("spacer");
-                    $tpl->parseCurrentBlock();
-                }
+                $icon_left = $icon_left->withUnavailableAction();
             }
+            $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
+
+            $icon_right = $ui_factory->symbol()->glyph()->next();
+            if ($current < count($ranges) - 1) {
+                $range = $ranges[$current + 1];
+                $signal = clone $internal_signal;
+                $signal->addOption('offset', $range->getStart());
+                $signal->addOption('limit', $limit);
+                $icon_right = $icon_right ->withOnClick($signal);
+            } else {
+                $icon_right = $icon_right->withUnavailableAction();
+            }
+            $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
         }
 
-        $icon_left = $ui_factory->symbol()->glyph()->back();
-        if ($current > 0 && count($entries) > 1) {
-            $range = $ranges[$current - 1];
-            $signal = clone $internal_signal;
-            $signal->addOption('offset', $range->getStart());
-            $signal->addOption('limit', $limit);
-            $icon_left = $icon_left ->withOnClick($signal);
-        } else {
-            $icon_left = $icon_left->withUnavailableAction();
-        }
-        $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
-
-        $icon_right = $ui_factory->symbol()->glyph()->next();
-        if ($current < count($ranges) - 1) {
-            $range = $ranges[$current + 1];
-            $signal = clone $internal_signal;
-            $signal->addOption('offset', $range->getStart());
-            $signal->addOption('limit', $limit);
-            $icon_right = $icon_right ->withOnClick($signal);
-        } else {
-            $icon_right = $icon_right->withUnavailableAction();
-        }
-        $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
 
 
         foreach ($component->getLimitOptions() as $option) {

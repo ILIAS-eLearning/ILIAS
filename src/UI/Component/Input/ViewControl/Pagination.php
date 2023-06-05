@@ -29,6 +29,7 @@ interface Pagination extends IViewControl
 {
     public function withLimitOptions(array $options): self;
     public function withTotalCount(int $total_count = null): self;
+    public function withNumberOfVisibleEntries(int $no_entries): self;
 
     //public function withLabelLimit(string $label): self;
 }

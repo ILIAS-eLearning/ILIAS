@@ -143,6 +143,12 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $clone;
     }
     */
+    public function withNumberOfVisibleEntries(int $no_entries): self
+    {
+        $clone = clone $this;
+        $clone->visible_entries = $no_entries;
+        return $clone;
+    }
 
     public function getNumberOfVisibleEntries(): int
     {
