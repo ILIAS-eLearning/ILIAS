@@ -218,4 +218,20 @@ class COPageTestBase extends TestCase
         $content = ilPCParagraph::handleAjaxContentPost($content);
         return $content;
     }
+
+    /**
+     * @return (ilObjMediaObject&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getMediaObjectMock()
+    {
+        $media_item = new ilMediaItem();
+        $media_item->setWidth("100");
+        $media_item->setHeight("50");
+        $media_object = $this->getMockBuilder(ilObjMediaObject::class)
+                             ->disableOriginalConstructor()
+                             ->getMock();
+        $media_object->method("getMediaItem")
+                     ->willReturnCallback(fn () => $media_item);
+        return $media_object;
+    }
 }

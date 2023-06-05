@@ -27,6 +27,7 @@ class ilPageLayout
     public const MODULE_SCORM = 1;
     public const MODULE_PORTFOLIO = 2;
     public const MODULE_LM = 3;
+    protected ?string $xml_content = null;
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected int $special_page;
     protected int $style_id;
@@ -203,10 +204,18 @@ class ilPageLayout
         $this->setModules($mods);
     }
 
+    public function setXMLContent(string $content): void
+    {
+        $this->xml_content = $content;
+    }
+
     public function getXMLContent(): string
     {
+        if (!is_null($this->xml_content)) {
+            return $this->xml_content;
+        }
         $layout_page = new ilPageLayoutPage($this->layout_id);
-        return $layout_page->getXMLContent();
+        return $this->layout_page->getXMLContent();
     }
 
     public function getPreview(): string
@@ -226,11 +235,11 @@ class ilPageLayout
         $path = "////PlaceHolder";
         $nodes = $this->dom_util->path($dom, $path);
         foreach ($nodes as $node) {
-            $height = $item->getAttribute("Height");
+            $height = $node->getAttribute("Height");
 
             $height = str_ireplace("px", "", $height);
             $height = $height / 10;
-            $item->setAttribute("Height", $height . "px");
+            $node->setAttribute("Height", $height . "px");
         }
 
         $xml = $this->dom_util->dump($dom->documentElement);

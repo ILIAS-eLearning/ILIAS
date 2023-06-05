@@ -36,17 +36,17 @@ class LinkManager
         $this->obj_definition = $DIC["objDefinition"];
     }
 
-    protected function getDefaultMediaResolver(): \Closure
+    protected function getDefaultMediaCollector(): \Closure
     {
         return fn (int $id) => \ilMediaItem::_getMapAreasIntLinks($id);
     }
 
     public function getInternalLinks(
         \DOMDocument $dom,
-        ?\Closure $media_resolver = null
+        ?\Closure $media_collector = null
     ): array {
-        if (is_null($media_resolver)) {
-            $media_resolver = $this->getDefaultMediaResolver();
+        if (is_null($media_collector)) {
+            $media_collector = $this->getDefaultMediaCollector();
         }
         // get all internal links of the page
         $path = "//IntLink";
@@ -71,7 +71,7 @@ class LinkManager
                     $id_arr = explode("_", $target);
                     $id = $id_arr[count($id_arr) - 1];
 
-                    $med_links = $media_resolver((int) $id);
+                    $med_links = $media_collector((int) $id);
                     //    \ilMediaItem::_getMapAreasIntLinks($id);
                     foreach ($med_links as $key => $med_link) {
                         $links[$key] = $med_link;
@@ -89,7 +89,7 @@ class LinkManager
                 $id_arr = explode("_", $oid);
                 $id = $id_arr[count($id_arr) - 1];
 
-                $med_links = $media_resolver($id);
+                $med_links = $media_collector($id);
                 foreach ($med_links as $key => $med_link) {
                     $links[$key] = $med_link;
                 }
@@ -131,7 +131,6 @@ class LinkManager
         array $a_link_map = null
     ): bool {
         $changed = false;
-
         // resolve normal internal links
         $path = "//IntLink";
         $nodes = $this->dom_util->path($dom, $path);
@@ -139,13 +138,13 @@ class LinkManager
             $target = $node->getAttribute("Target");
             $type = $node->getAttribute("Type");
 
-            if ($a_link_map == null) {
+            if ($a_link_map === null) {
                 $new_target = \ilInternalLink::_getIdForImportId($type, $target);
             //$this->log->debug("no map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
             } else {
-                $nt = explode("_", $a_link_map[$target]);
+                $nt = explode("_", $a_link_map[$target] ?? "");
                 $new_target = false;
-                if ($nt[1] == IL_INST_ID) {
+                if (($nt[1] ?? "") == IL_INST_ID) {
                     $new_target = "il__" . $nt[2] . "_" . $nt[3];
                 }
                 //$this->log->debug("map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
@@ -177,14 +176,24 @@ class LinkManager
         return $changed;
     }
 
+    protected function getDefaultLMTypeLookuper(): \Closure
+    {
+        return fn (int $id) => \ilLMObject::_lookupType($id);
+    }
+
     /**
      * Move internal links from one destination to another. This is used
      * for pages and structure links. Just use IDs in "from" and "to".
      */
     public function moveIntLinks(
         \DOMDocument $dom,
-        array $a_from_to
+        array $a_from_to,
+        ?\Closure $lm_type_lookup = null
     ): bool {
+        if (is_null($lm_type_lookup)) {
+            $lm_type_lookup = $this->getDefaultLMTypeLookuper();
+        }
+
         $changed = false;
 
         // resolve normal internal links
@@ -195,11 +204,11 @@ class LinkManager
             $type = $node->getAttribute("Type");
             $obj_id = \ilInternalLink::_extractObjIdOfTarget($target);
             if (($a_from_to[$obj_id] ?? 0) > 0 && is_int(strpos($target, "__"))) {
-                if ($type == "PageObject" && \ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg") {
+                if ($type == "PageObject" && $lm_type_lookup($a_from_to[$obj_id]) == "pg") {
                     $node->setAttribute("Target", "il__pg_" . $a_from_to[$obj_id]);
                     $changed = true;
                 }
-                if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st") {
+                if ($type == "StructureObject" && $lm_type_lookup($a_from_to[$obj_id]) == "st") {
                     $node->setAttribute("Target", "il__st_" . $a_from_to[$obj_id]);
                     $changed = true;
                 }
@@ -294,10 +303,10 @@ class LinkManager
                         $type = $area["Link"]["Type"];
                         $obj_id = \ilInternalLink::_extractObjIdOfTarget($target);
                         if ($a_from_to[$obj_id] > 0) {
-                            if ($type == "PageObject" && \ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg") {
+                            if ($type == "PageObject" && $lm_type_lookup($a_from_to[$obj_id]) == "pg") {
                                 $area["Link"]["Target"] = "il__pg_" . $a_from_to[$obj_id];
                             }
-                            if ($type == "StructureObject" && \ilLMObject::_lookupType($a_from_to[$obj_id]) == "st") {
+                            if ($type == "StructureObject" && $lm_type_lookup($a_from_to[$obj_id]) == "st") {
                                 $area["Link"]["Target"] = "il__st_" . $a_from_to[$obj_id];
                             }
                         }

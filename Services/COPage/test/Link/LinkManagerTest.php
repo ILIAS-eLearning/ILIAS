@@ -159,4 +159,88 @@ class LinkManagerTest extends \COPageTestBase
             $lm->extractFileFromLinkId("il__file_555")
         );
     }
+
+    public function testResolveInternalLinks(): void
+    {
+        $lm = new LinkManager();
+
+        $cases = [
+            [
+                "html" => 'xx [iln inst="20" page="107"] xx [/iln] xx',
+                "map" => [
+                    "il_20_pg_107" => "il_0_pg_108"
+                ],
+                "expected" => '<IntLink Target="il__pg_108" Type="PageObject">'
+            ],
+            [
+                "html" => 'xx [iln inst="20" chap="11"] xx [/iln] xx',
+                "map" => [
+                    "il_20_st_11" => "il_0_st_12"
+                ],
+                "expected" => '<IntLink Target="il__st_12" Type="StructureObject">'
+            ]
+        ];
+
+        foreach ($cases as $case) {
+            $page = $this->getEmptyPageWithDom();
+            $html = $this->legacyHtmlToXml(
+                '<div id="1:1234" class="ilc_text_block_Standard">' . $case["html"] . '</div>'
+            );
+            $this->insertParagraphAt($page, "pg", $html);
+            $page->insertPCIds();
+
+            $dom = $page->getDomDoc();
+            $links = $lm->resolveIntLinks($dom, $case["map"]);
+
+            $this->assertStringContainsString(
+                $case["expected"],
+                $page->getXMLFromDom()
+            );
+        }
+    }
+
+    public function testMoveInternalLinks(): void
+    {
+        $lm = new LinkManager();
+
+        $cases = [
+            [
+                "html" => 'xx [iln page="107"] xx [/iln] xx',
+                "map" => [
+                    107 => 108
+                ],
+                "expected" => '<IntLink Target="il__pg_108" Type="PageObject">'
+            ],
+            [
+                "html" => 'xx [iln chap="10"] xx [/iln] xx',
+                "map" => [
+                    10 => 11
+                ],
+                "expected" => '<IntLink Target="il__st_11" Type="StructureObject">'
+            ]
+        ];
+
+        foreach ($cases as $case) {
+            $page = $this->getEmptyPageWithDom();
+            $html = $this->legacyHtmlToXml(
+                '<div id="1:1234" class="ilc_text_block_Standard">' . $case["html"] . '</div>'
+            );
+            $this->insertParagraphAt($page, "pg", $html);
+            $page->insertPCIds();
+
+            $dom = $page->getDomDoc();
+            $links = $lm->moveIntLinks($dom, $case["map"], function (int $id) {
+                $type = [
+                    11 => "st",
+                    108 => "pg"
+                ];
+                return $type[$id];
+            });
+
+            $this->assertStringContainsString(
+                $case["expected"],
+                $page->getXMLFromDom()
+            );
+        }
+    }
 }
