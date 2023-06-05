@@ -28,12 +28,12 @@ interface ilUsersGalleryUserCollection extends Iterator, Countable
     public function setLabel(string $label): void;
 
     /**
-     * @param ilUsersGalleryUser[] $items
+     * @param array<ilUsersGalleryUser> $items
      */
     public function setItems(array $items): void;
 
     /**
-     * @return ilUsersGalleryUser[]
+     * @return array<ilUsersGalleryUser>
      */
     public function getItems(): array;
 }

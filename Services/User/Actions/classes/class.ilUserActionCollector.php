@@ -22,16 +22,16 @@
  */
 class ilUserActionCollector
 {
-    protected static array $instances = array();
+    private static array $instances = [];
+    private static ilUserActionProviderFactory $permanent_user_action_provider_factory;
 
-    protected ilUserActionCollection $collection;
-    protected int $user_id;
-    protected ilUserActionContext $action_context;
+    private ilUserActionCollection $collection;
 
-    protected function __construct(int $a_user_id, ilUserActionContext $a_context)
-    {
-        $this->user_id = $a_user_id;
-        $this->action_context = $a_context;
+    protected function __construct(
+        private int $user_id,
+        private ilUserActionContext $action_context,
+        private ilUserActionProviderFactory $user_action_provider_factory
+    ) {
     }
 
 
@@ -39,21 +39,24 @@ class ilUserActionCollector
      * Get instance (for a user)
      */
     public static function getInstance(
-        int $a_user_id,
-        ilUserActionContext $a_context
+        int $user_id,
+        ilUserActionContext $context,
     ): self {
-        if (!isset(self::$instances[$a_user_id])) {
-            self::$instances[$a_user_id] = new ilUserActionCollector($a_user_id, $a_context);
+        if (!isset(self::$permanent_user_action_provider_factory)) {
+            self::$permanent_user_action_provider_factory = new ilUserActionProviderFactory();
+        }
+        if (!isset(self::$instances[$user_id])) {
+            self::$instances[$user_id] = new ilUserActionCollector($user_id, $context, self::$permanent_user_action_provider_factory);
         }
 
-        return self::$instances[$a_user_id];
+        return self::$instances[$user_id];
     }
 
     public function getActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         // overall collection of users
         $this->collection = ilUserActionCollection::getInstance();
-        foreach (ilUserActionProviderFactory::getAllProviders() as $prov) {
+        foreach ($this->user_action_provider_factory->getProviders() as $prov) {
             if (!$this->hasProviderActiveActions($prov)) {
                 continue;
             }

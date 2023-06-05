@@ -15,6 +15,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\UserGUIRequest;
+use ILIAS\UI\Factory as UIFactory;
+
 /**
  * Class ilCustomUserFieldsGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -22,16 +27,21 @@
  */
 class ilCustomUserFieldsGUI
 {
-    protected \ILIAS\User\StandardGUIRequest $request;
-    protected int $ref_id = 0;
-    protected bool $confirm_change = false;
-    protected int $field_id = 0;
+    private UserGUIRequest $request;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private UIFactory $ui_factory;
+    private ilGlobalTemplateInterface $main_tpl;
+    private ilToolbarGUI $toolbar;
+
+    private int $ref_id = 0;
+    private bool $confirm_change = false;
+    private int $field_id = 0;
     /**
-     * @var array[]
+     * @var array<string>
      */
-    protected array $field_definition = [];
-    protected ilClaimingPermissionHelper $permissions;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private array $field_definition = [];
+    private ilClaimingPermissionHelper $permissions;
 
     public function __construct(
         int $ref_id,
@@ -39,16 +49,18 @@ class ilCustomUserFieldsGUI
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->toolbar = $DIC['ilToolbar'];
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->lng->loadLanguageModule('user');
+        $this->lng->loadLanguageModule('administration');
+
         $this->ref_id = $ref_id;
 
-        $lng->loadLanguageModule("user");
-        $lng->loadLanguageModule("administration");
-
         $this->field_id = $requested_field_id;
-        $ilCtrl->saveParameter($this, "field_id", $this->field_id);
+        $this->ctrl->saveParameter($this, 'field_id', $this->field_id);
 
         if ($this->field_id) {
             $user_field_definitions = ilUserDefinedFields::_getInstance();
@@ -59,7 +71,7 @@ class ilCustomUserFieldsGUI
             $DIC->user()->getId(),
             $ref_id
         );
-        $this->request = new \ILIAS\User\StandardGUIRequest(
+        $this->request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -72,17 +84,13 @@ class ilCustomUserFieldsGUI
 
     public function executeCommand(): void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             default:
                 if (!$cmd) {
-                    $cmd = "listUserDefinedFields";
+                    $cmd = 'listUserDefinedFields';
                 }
                 $this->$cmd();
                 break;
@@ -91,42 +99,33 @@ class ilCustomUserFieldsGUI
 
     public function listUserDefinedFields(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         if ($this->getPermissions()->hasPermission(
             ilUDFPermissionHelper::CONTEXT_UDF,
             (string) $this->ref_id,
             ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD
         )) {
-            $ilToolbar->addButton(
-                $lng->txt("add_user_defined_field"),
-                $ilCtrl->getLinkTarget($this, "addField")
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('add_user_defined_field'),
+                    $this->ctrl->getLinkTarget($this, 'addField')
+                )
             );
         }
 
-        $tab = new ilCustomUserFieldSettingsTableGUI($this, "listUserDefinedFields", $this->getPermissions());
+        $tab = new ilCustomUserFieldSettingsTableGUI($this, 'listUserDefinedFields', $this->getPermissions());
         if ($this->confirm_change) {
             $tab->setConfirmChange();
         }
-        $tpl->setContent($tab->getHTML());
+        $this->main_tpl->setContent($tab->getHTML());
     }
 
     public function addField(ilPropertyFormGUI $a_form = null): void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         if (!$a_form) {
             $a_form = $this->initForm('create');
         }
 
-        $tpl->setContent($a_form->getHTML());
+        $this->main_tpl->setContent($a_form->getHTML());
     }
 
     /**
@@ -135,22 +134,18 @@ class ilCustomUserFieldsGUI
      */
     public function getAccessOptions(): array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
-        $opts = array();
-        $opts["visible"] = $lng->txt("user_visible_in_profile");
-        $opts["visib_reg"] = $lng->txt("visible_registration");
-        $opts["visib_lua"] = $lng->txt("usr_settings_visib_lua");
-        $opts["course_export"] = $lng->txt("course_export");
-        $opts["group_export"] = $lng->txt("group_export");
-        $opts["changeable"] = $lng->txt("changeable");
-        $opts["changeable_lua"] = $lng->txt("usr_settings_changeable_lua");
-        $opts["required"] = $lng->txt("required_field");
-        $opts["export"] = $lng->txt("export");
-        $opts["searchable"] = $lng->txt("header_searchable");
-        $opts["certificate"] = $lng->txt("certificate");
+        $opts = [];
+        $opts['visible'] = $this->lng->txt('user_visible_in_profile');
+        $opts['visib_reg'] = $this->lng->txt('visible_registration');
+        $opts['visib_lua'] = $this->lng->txt('usr_settings_visib_lua');
+        $opts['course_export'] = $this->lng->txt('course_export');
+        $opts['group_export'] = $this->lng->txt('group_export');
+        $opts['changeable'] = $this->lng->txt('changeable');
+        $opts['changeable_lua'] = $this->lng->txt('usr_settings_changeable_lua');
+        $opts['required'] = $this->lng->txt('required_field');
+        $opts['export'] = $this->lng->txt('export');
+        $opts['searchable'] = $this->lng->txt('header_searchable');
+        $opts['certificate'] = $this->lng->txt('certificate');
         return $opts;
     }
 
@@ -159,64 +154,87 @@ class ilCustomUserFieldsGUI
      */
     public static function getAccessPermissions(): array
     {
-        return array("visible" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
-            "changeable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
-            "searchable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE,
-            "required" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED,
-            "export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT,
-            "course_export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES,
+        return [
+            'visible' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
+            'changeable' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
+            'searchable' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE,
+            'required' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED,
+            'export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT,
+            'course_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES,
             'group_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS,
-            "visib_reg" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION,
+            'visib_reg' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION,
             'visib_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL,
             'changeable_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL,
             'certificate' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE
-        );
+        ];
     }
 
     protected function initFieldDefinition(): array // Missing array type.
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (ilMemberAgreement::_hasAgreements()) {
-            $lng->loadLanguageModule("ps");
-            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
+            $this->lng->loadLanguageModule('ps');
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('ps_warning_modify'));
         }
 
-        $perms = array();
+        $perms = [];
         if ($this->field_definition) {
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
-                (string) $this->field_definition["field_id"],
-                array(
-                    array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
-            )
+                (string) $this->field_definition['field_id'],
+                [
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_TITLE
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE
+                    ]
+                ]
             );
         }
         return $perms;
@@ -224,16 +242,14 @@ class ilCustomUserFieldsGUI
 
     protected function initForm(string $a_mode = 'create'): ilPropertyFormGUI
     {
-        global $ilCtrl, $lng;
-
         $perms = [];
         $se_mu = null;
         $perm_map = [];
         $udf_type = null;
 
         if (ilMemberAgreement::_hasAgreements()) {
-            $lng->loadLanguageModule("ps");
-            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
+            $this->lng->loadLanguageModule('ps');
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('ps_warning_modify'));
         }
 
         if ($this->field_definition) {
@@ -242,9 +258,9 @@ class ilCustomUserFieldsGUI
         }
 
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
 
-        $name = new ilTextInputGUI($lng->txt("field_name"), "name");
+        $name = new ilTextInputGUI($this->lng->txt('field_name'), 'name');
         $name->setRequired(true);
         $form->addItem($name);
 
@@ -253,10 +269,10 @@ class ilCustomUserFieldsGUI
         }
 
         // type
-        $radg = new ilRadioGroupInputGUI($lng->txt("field_type"), "field_type");
+        $radg = new ilRadioGroupInputGUI($this->lng->txt('field_type'), 'field_type');
         $radg->setRequired(true);
         foreach (ilCustomUserFieldsHelper::getInstance()->getUDFTypes() as $udf_type => $udf_name) {
-            $op = new ilRadioOption($udf_name, $udf_type);
+            $op = new ilRadioOption($udf_name, (string) $udf_type);
             $radg->addOption($op);
 
             switch ($udf_type) {
@@ -266,11 +282,11 @@ class ilCustomUserFieldsGUI
                     break;
                 case UDF_TYPE_SELECT:
                     // select values
-                    $se_mu = new ilTextWizardInputGUI($lng->txt("value"), "selvalue");
+                    $se_mu = new ilTextWizardInputGUI($this->lng->txt('value'), 'selvalue');
                     $se_mu->setRequired(true);
                     $se_mu->setSize(32);
                     $se_mu->setMaxLength(128);
-                    $se_mu->setValues(array(''));
+                    $se_mu->setValues(['']);
                     $op->addSubItem($se_mu);
                     break;
 
@@ -292,9 +308,9 @@ class ilCustomUserFieldsGUI
 
 
         // access
-        $acc = new ilCheckboxGroupInputGUI($lng->txt("access"), "access");
+        $acc = new ilCheckboxGroupInputGUI($this->lng->txt('access'), 'access');
 
-        $acc_values = array();
+        $acc_values = [];
         foreach ($this->getAccessOptions() as $id => $caption) {
             $opt = new ilCheckboxOption($caption, $id);
             $acc->addOption($opt);
@@ -312,31 +328,31 @@ class ilCustomUserFieldsGUI
 
 
         if ($a_mode == 'create') {
-            $radg->setValue(UDF_TYPE_TEXT);
-            $form->setTitle($lng->txt('add_new_user_defined_field'));
-            $form->addCommandButton("create", $lng->txt("save"));
+            $radg->setValue((string) UDF_TYPE_TEXT);
+            $form->setTitle($this->lng->txt('add_new_user_defined_field'));
+            $form->addCommandButton('create', $this->lng->txt('save'));
         } else {
-            $name->setValue($this->field_definition["field_name"]);
-            $radg->setValue($this->field_definition["field_type"]);
+            $name->setValue($this->field_definition['field_name']);
+            $radg->setValue($this->field_definition['field_type']);
             $radg->setDisabled(true);
             $acc->setValue($acc_values);
 
-            switch ($this->field_definition["field_type"]) {
+            switch ($this->field_definition['field_type']) {
                 case UDF_TYPE_SELECT:
-                    $values = $this->field_definition["field_values"];
+                    $values = $this->field_definition['field_values'];
                     if (!is_array($values) || $values === []) {
                         $values = [''];
                     }
                     $se_mu->setValue($values);
-                    $form->setTitle($lng->txt("udf_update_select_field"));
+                    $form->setTitle($this->lng->txt('udf_update_select_field'));
                     break;
 
                 case UDF_TYPE_TEXT:
-                    $form->setTitle($lng->txt("udf_update_text_field"));
+                    $form->setTitle($this->lng->txt('udf_update_text_field'));
                     break;
 
                 case UDF_TYPE_WYSIWYG:
-                    $form->setTitle($lng->txt("udf_update_wysiwyg_field"));
+                    $form->setTitle($this->lng->txt('udf_update_wysiwyg_field'));
                     break;
 
                 default:
@@ -346,9 +362,9 @@ class ilCustomUserFieldsGUI
                     }
                     break;
             }
-            $form->addCommandButton("update", $lng->txt("save"));
+            $form->addCommandButton('update', $this->lng->txt('save'));
         }
-        $form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
+        $form->addCommandButton('listUserDefinedFields', $this->lng->txt('cancel'));
         return $form;
     }
 
@@ -358,21 +374,18 @@ class ilCustomUserFieldsGUI
         array &$access,
         array $a_field_permissions = null
     ): bool {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         $perm_map = [];
 
         if ($form->checkInput()) {
             $valid = true;
 
-            $incoming = (array) $form->getInput("access");
+            $incoming = (array) $form->getInput('access');
 
             if ($a_field_permissions) {
                 $perm_map = self::getAccessPermissions();
             }
 
-            $access = array();
+            $access = [];
             foreach (array_keys($this->getAccessOptions()) as $id) {
                 $access[$id] = in_array($id, $incoming);
 
@@ -384,28 +397,28 @@ class ilCustomUserFieldsGUI
 
             if ($access['required'] && !$access['visib_reg']) {
                 $this->confirm_change = true;
-                $form->getItemByPostVar("access")->setAlert($lng->txt('udf_required_requires_visib_reg'));
+                $form->getItemByPostVar('access')->setAlert($this->lng->txt('udf_required_requires_visib_reg'));
                 $valid = false;
             }
 
             if ($access['required'] && $access['visible'] && !$access['changeable']) {
                 $this->confirm_change = true;
-                $form->getItemByPostVar("access")->setAlert($lng->txt('udf_required_and_visible_requires_changeable'));
+                $form->getItemByPostVar('access')->setAlert($this->lng->txt('udf_required_and_visible_requires_changeable'));
                 $valid = false;
             }
 
-            if (!$this->field_id && $user_field_definitions->nameExists($form->getInput("name"))) {
-                $form->getItemByPostVar("name")->setAlert($lng->txt('udf_name_already_exists'));
+            if (!$this->field_id && $user_field_definitions->nameExists($form->getInput('name'))) {
+                $form->getItemByPostVar('name')->setAlert($this->lng->txt('udf_name_already_exists'));
                 $valid = false;
             }
 
-            if ($form->getInput("field_type") == UDF_TYPE_SELECT &&
+            if ($form->getInput('field_type') == UDF_TYPE_SELECT &&
                 (!$a_field_permissions || $a_field_permissions[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES])) {
-                $user_field_definitions->setFieldValues($form->getInput("selvalue"));
+                $user_field_definitions->setFieldValues($form->getInput('selvalue'));
                 if ($error = $user_field_definitions->validateValues()) {
                     switch ($error) {
                         case UDF_DUPLICATE_VALUES:
-                            $form->getItemByPostVar("selvalue")->setAlert($lng->txt('udf_duplicate_entries'));
+                            $form->getItemByPostVar('selvalue')->setAlert($this->lng->txt('udf_duplicate_entries'));
                             $valid = false;
                             break;
                     }
@@ -413,7 +426,7 @@ class ilCustomUserFieldsGUI
             }
 
             if (!$valid) {
-                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
             return $valid;
         }
@@ -423,22 +436,17 @@ class ilCustomUserFieldsGUI
 
     public function create(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $user_field_definitions->setFieldType(
             $this->request->getFieldType()
         );
 
-        $access = array();
+        $access = [];
         $form = $this->initForm('create');
         if ($this->validateForm($form, $user_field_definitions, $access)) {
-            $user_field_definitions->setFieldName($form->getInput("name"));
+            $user_field_definitions->setFieldName($form->getInput('name'));
             $user_field_definitions->enableVisible($access['visible']);
-            $user_field_definitions->enableVisibleRegistration((int) $access['visib_reg']);
+            $user_field_definitions->enableVisibleRegistration((bool) $access['visib_reg']);
             $user_field_definitions->enableVisibleLocalUserAdministration($access['visib_lua']);
             $user_field_definitions->enableCourseExport($access['course_export']);
             $user_field_definitions->enableGroupExport($access['group_export']);
@@ -460,8 +468,8 @@ class ilCustomUserFieldsGUI
                 ilMemberAgreement::_reset();
             }
 
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_added_field'), true);
-            $ilCtrl->redirect($this);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('udf_added_field'), true);
+            $this->ctrl->redirect($this);
         }
 
         $form->setValuesByPost();
@@ -470,72 +478,90 @@ class ilCustomUserFieldsGUI
 
     public function edit(ilPropertyFormGUI $a_form = null): void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         if (!$a_form) {
-            $a_form = $this->initForm("edit");
+            $a_form = $this->initForm('edit');
         }
 
-        $tpl->setContent($a_form->getHTML());
+        $this->main_tpl->setContent($a_form->getHTML());
     }
 
     public function update(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
         $perms = [];
 
         $user_field_definitions = ilUserDefinedFields::_getInstance();
-        $user_field_definitions->setFieldType($this->field_definition["field_type"]);
+        $user_field_definitions->setFieldType($this->field_definition['field_type']);
 
         // gather old select options
         $old_options = null;
         if ($this->field_id) {
             $old_values = $user_field_definitions->getDefinition($this->field_id);
-            if ($old_values["field_type"] == UDF_TYPE_SELECT) {
-                $old_options = $old_values["field_values"];
+            if ($old_values['field_type'] == UDF_TYPE_SELECT) {
+                $old_options = $old_values['field_values'];
             }
 
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
                 (string) $this->field_id,
-                array(
-                    array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
-            )
+                [
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_TITLE
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE
+                    ]
+                ]
             );
         }
 
-        $access = array();
-        $form = $this->initForm("edit");
+        $access = [];
+        $form = $this->initForm('edit');
         if ($this->validateForm($form, $user_field_definitions, $access, $perms) && $this->field_id) {
             // field values are set in validateForm()...
 
@@ -555,9 +581,9 @@ class ilCustomUserFieldsGUI
             }
 
             if (!$perms || $perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_TITLE]) {
-                $user_field_definitions->setFieldName($form->getInput("name"));
+                $user_field_definitions->setFieldName($form->getInput('name'));
             } else {
-                $user_field_definitions->setFieldName($this->field_definition["field_name"]);
+                $user_field_definitions->setFieldName($this->field_definition['field_name']);
             }
 
             $user_field_definitions->enableVisible($access['visible']);
@@ -584,8 +610,8 @@ class ilCustomUserFieldsGUI
                 ilMemberAgreement::_reset();
             }
 
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
-            $ilCtrl->redirect($this);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->ctrl->redirect($this);
         }
 
         $form->setValuesByPost();
@@ -594,48 +620,37 @@ class ilCustomUserFieldsGUI
 
     public function askDeleteField(): bool
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         $fields = $this->request->getFields();
         if (count($fields) == 0) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("select_one"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->listUserDefinedFields();
             return false;
         }
 
         $confirmation_gui = new ilConfirmationGUI();
-        $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
-        $confirmation_gui->setHeaderText($lng->txt("udf_delete_sure"));
-        $confirmation_gui->setCancel($lng->txt("cancel"), "listUserDefinedFields");
-        $confirmation_gui->setConfirm($lng->txt("delete"), "deleteField");
+        $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
+        $confirmation_gui->setHeaderText($this->lng->txt('udf_delete_sure'));
+        $confirmation_gui->setCancel($this->lng->txt('cancel'), 'listUserDefinedFields');
+        $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteField');
 
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         foreach ($fields as $id) {
             $definition = $user_field_definitions->getDefinition($id);
-            $confirmation_gui->addItem("fields[]", $id, $definition["field_name"]);
+            $confirmation_gui->addItem('fields[]', $id, $definition['field_name']);
         }
 
-        $tpl->setContent($confirmation_gui->getHTML());
+        $this->main_tpl->setContent($confirmation_gui->getHTML());
 
         return true;
     }
 
     public function deleteField(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $fields = $this->request->getFields();
 
         // all fields have to be deletable
-        $fail = array();
+        $fail = [];
         foreach ($fields as $id) {
             if (!$this->getPermissions()->hasPermission(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
@@ -643,32 +658,27 @@ class ilCustomUserFieldsGUI
                 ilUDFPermissionHelper::ACTION_FIELD_DELETE
             )) {
                 $field = $user_field_definitions->getDefinition($id);
-                $fail[] = $field["field_name"];
+                $fail[] = $field['field_name'];
             }
         }
         if ($fail) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
-            $ilCtrl->redirect($this, "listUserDefinedFields");
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_delete') . ' ' . implode(', ', $fail), true);
+            $this->ctrl->redirect($this, 'listUserDefinedFields');
         }
 
         foreach ($fields as $id) {
             $user_field_definitions->delete($id);
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_field_deleted'), true);
-        $ilCtrl->redirect($this);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('udf_field_deleted'), true);
+        $this->ctrl->redirect($this);
     }
 
     /**
      * Update custom fields properties (from table gui)
      */
-    public function updateFields(string $action = ""): void
+    public function updateFields(string $action = ''): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $a_fields = $user_field_definitions->getDefinitions();
 
@@ -680,30 +690,52 @@ class ilCustomUserFieldsGUI
             $perms = $this->permissions->hasPermissions(
                 ilUDFPermissionHelper::CONTEXT_FIELD,
                 (string) $field_id,
-                array(
-                    array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
-                    ,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
-                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
-            )
+                [
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE
+                    ]
+                ]
             );
 
             // disabled field
@@ -721,7 +753,7 @@ class ilCustomUserFieldsGUI
                 (!isset($checked['visib_reg_' . $field_id]) || !(int) $checked['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
 
-                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('invalid_visible_required_options_selected'));
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('invalid_visible_required_options_selected'));
                 $valid = false;
             }
 
@@ -730,7 +762,7 @@ class ilCustomUserFieldsGUI
                 (!isset($checked['changeable_' . $field_id]) || !(int) $checked['changeable_' . $field_id])) {
                 $this->confirm_change = true;
 
-                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('udf_required_and_visible_requires_changeable'));
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('udf_required_and_visible_requires_changeable'));
                 $valid = false;
             }
         }
@@ -759,7 +791,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->update($field_id);
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
-        $ilCtrl->redirect($this);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this);
     }
 }
