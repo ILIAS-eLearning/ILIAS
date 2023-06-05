@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
@@ -37,6 +38,9 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
     {
         $entries = [];
         foreach ($item->getChildren() as $child) {
+            if (!$child->isVisible()) {
+                continue;
+            }
             $entries[] = $this->buildEntry($child);
         }
 
@@ -70,6 +74,9 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
             case LinkList::class:
                 $links = [];
                 foreach ($item->getLinks() as $child) {
+                    if (!$child->isVisible()) {
+                        continue;
+                    }
                     $links[] = $this->buildEntry($child);
                 }
                 $entry = $this->ui_factory->menu()->sub($title, $links);
