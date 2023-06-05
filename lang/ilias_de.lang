@@ -4065,11 +4065,18 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
+common#:#forums_closed#:#geschlossen
 common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_last_posting_asc#:#Neuestes Thema zuerst
+common#:#forums_last_posting_dsc#:#Ältestes Thema zuerst
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
+common#:#forums_rating_asc#:#Bewertung aufsteigend
+common#:#forums_rating_dsc#:#Bewertung absteigend
+common#:#forums_thread_sorting_asc#:#Thema A→Z
+common#:#forums_thread_sorting_dsc#:#Thema Z→A
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
@@ -9589,6 +9596,7 @@ forum#:#deletePosting#:#Beitrag löschen
 forum#:#deletePostingDraft#:#Beitragsentwurf löschen
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
+forum#:#delete_thread#:#Thema löschen
 forum#:#descending_order#:#Neueste Beiträge oben
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
 forum#:#empty_subject#:#Benutzer müssen Titel selbst angeben.
@@ -9719,7 +9727,7 @@ forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_enabled_desc#:#Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat.
 forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
-forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
+forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass das folgendende Thema gelöscht werden soll?
 forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
@@ -9731,7 +9739,7 @@ forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich her
 forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
+forum#:#move_chosen_topics#:#Thema "%s" verschieben nach:
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
@@ -9783,7 +9791,7 @@ forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zie
 forum#:#target_select#:#Beitrag für begrenzte Ansicht auswählen
 forum#:#thread#:#Thema
 forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
-forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
+forum#:#threads_moved_successfully#:#Das gewählte Thema wurde erfolgreich in ein anderes Forum verschoben.
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
