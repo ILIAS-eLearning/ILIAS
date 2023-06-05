@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 class ilObjLearningSequenceLearnerGUI
@@ -31,58 +31,24 @@ class ilObjLearningSequenceLearnerGUI
     public const LSO_CMD_NEXT = 'lson';
     public const LSO_CMD_PREV = 'lsop';
 
-    protected ilAccess $access;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilToolbarGUI $toolbar;
-    protected ILIAS\UI\Factory $ui_factory;
-    protected ILIAS\UI\Renderer $renderer;
-    protected ilLearningSequenceRoles $roles;
-    protected ilLearningSequenceSettings $settings;
-    protected ilLSCurriculumBuilder $curriculum_builder;
-    protected ilLSLaunchlinksBuilder $launchlinks_builder;
-    protected ilLSPlayer $player;
-    protected string $intro;
-    protected string $extro;
-    protected RequestWrapper $get;
-
-
-
     public function __construct(
-        int $usr_id,
-        ilAccess $access,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilGlobalTemplateInterface $tpl,
-        ilToolbarGUI $toolbar,
-        ILIAS\UI\Factory $ui_factory,
-        ILIAS\UI\Renderer $ui_renderer,
-        ilLearningSequenceRoles $roles,
-        ilLearningSequenceSettings $settings,
-        ilLSCurriculumBuilder $curriculum_builder,
-        ilLSLaunchlinksBuilder $launchlinks_builder,
-        ilLSPlayer $player,
-        string $intro,
-        string $extro,
-        RequestWrapper $get
+        protected int $usr_id,
+        protected ilAccess $access,
+        protected ilCtrl $ctrl,
+        protected ilLanguage $lng,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilToolbarGUI $toolbar,
+        protected ILIAS\UI\Factory $ui_factory,
+        protected ILIAS\UI\Renderer $renderer,
+        protected ilLearningSequenceRoles $roles,
+        protected ilLearningSequenceSettings $settings,
+        protected ilLSCurriculumBuilder $curriculum_builder,
+        protected ilLSLaunchlinksBuilder $launchlinks_builder,
+        protected ilLSPlayer $player,
+        protected string $intro,
+        protected string $extro,
+        protected RequestWrapper $get
     ) {
-        $this->usr_id = $usr_id;
-        $this->access = $access;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $toolbar;
-        $this->ui_factory = $ui_factory;
-        $this->renderer = $ui_renderer;
-        $this->roles = $roles;
-        $this->settings = $settings;
-        $this->curriculum_builder = $curriculum_builder;
-        $this->launchlinks_builder = $launchlinks_builder;
-        $this->player = $player;
-        $this->intro = $intro;
-        $this->extro = $extro;
-        $this->get = $get;
     }
 
     public function executeCommand(): void
@@ -149,11 +115,13 @@ class ilObjLearningSequenceLearnerGUI
     {
         foreach ($this->launchlinks_builder->getLinks() as $entry) {
             list($label, $link, $primary) = $entry;
-            $sub_button = ilLinkButton::getInstance();
-            $sub_button->setPrimary($primary);
-            $sub_button->setCaption($label, false);
-            $sub_button->setUrl($link);
-            $this->toolbar->addButtonInstance($sub_button);
+
+            if ($primary) {
+                $btn = $this->ui_factory->button()->primary($label, $link);
+            } else {
+                $btn = $this->ui_factory->button()->standard($label, $link);
+            }
+            $this->toolbar->addComponent($btn);
         }
     }
 
