@@ -26,7 +26,6 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
     protected ilAccess $access;
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
-    protected ilAdvancedSelectionListGUI $advanced_selection_list_gui;
     protected LSItemOnlineStatus $ls_item_online_status;
     protected string $alert_icon;
     protected bool $lp_globally_enabled;
@@ -40,7 +39,6 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         ilAccess $access,
         ILIAS\UI\Factory $ui_factory,
         ILIAS\UI\Renderer $ui_renderer,
-        ilAdvancedSelectionListGUI $advanced_selection_list_gui,
         LSItemOnlineStatus $ls_item_online_status,
         string $alert_icon
     ) {
@@ -53,7 +51,6 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->access = $access;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
-        $this->advanced_selection_list_gui = $advanced_selection_list_gui;
         $this->ls_item_online_status = $ls_item_online_status;
         $this->alert_icon = $alert_icon;
 
