@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
@@ -36,23 +36,16 @@ class ilObjLearningSequenceSettingsGUI
     public const CMD_OLD_EXTRO = "viewlegacye";
 
     public function __construct(
-        ilObjLearningSequence $obj,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilGlobalTemplateInterface $tpl,
-        ilObjectService $obj_service,
-        ArrayBasedRequestWrapper $post_wrapper,
-        ILIAS\Refinery\Factory $refinery,
-        ilToolbarGUI $toolbar
+        protected ilObjLearningSequence $obj,
+        protected ilCtrl $ctrl,
+        protected ilLanguage $lng,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilObjectService $obj_service,
+        protected ArrayBasedRequestWrapper $post_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ilToolbarGUI $toolbar,
+        protected ILIAS\UI\Factory $ui_factory
     ) {
-        $this->obj = $obj;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->obj_service = $obj_service;
-        $this->post_wrapper = $post_wrapper;
-        $this->refinery = $refinery;
-
         $this->settings = $obj->getLSSettings();
         $this->activation = $obj->getLSActivation();
         $this->obj_title = $obj->getTitle();
@@ -60,7 +53,6 @@ class ilObjLearningSequenceSettingsGUI
 
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
-        $this->toolbar = $toolbar;
     }
 
     public function executeCommand(): void
@@ -104,14 +96,18 @@ class ilObjLearningSequenceSettingsGUI
     //TODO: remove in release 9
     public function addLegacypagesToToolbar(): void
     {
-        $this->toolbar->addButton(
-            $this->lng->txt("lso_settings_old_intro"),
-            $this->ctrl->getLinkTarget($this, self::CMD_OLD_INTRO)
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt("lso_settings_old_intro"),
+                $this->ctrl->getLinkTarget($this, self::CMD_OLD_INTRO)
+            )
         );
 
-        $this->toolbar->addButton(
-            $this->lng->txt("lso_settings_old_extro"),
-            $this->ctrl->getLinkTarget($this, self::CMD_OLD_EXTRO)
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt("lso_settings_old_extro"),
+                $this->ctrl->getLinkTarget($this, self::CMD_OLD_EXTRO)
+            )
         );
     }
 
