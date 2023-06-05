@@ -315,25 +315,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'cat_administrate_users',
                 $this->object->getRefId()
             )) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('usr_add');
-            $button->setUrl(
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'addUser'
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('usr_add'),
+                    $this->ctrl->getLinkTarget($this, 'addUser')
                 )
             );
-            $this->toolbar->addButtonInstance($button);
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('import_users');
-            $button->setUrl(
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'importUserForm'
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('import_users'),
+                    $this->ctrl->getLinkTarget($this, 'importUserForm')
                 )
             );
-            $this->toolbar->addButtonInstance($button);
         }
 
         if (
@@ -2049,24 +2043,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $this->lng->loadLanguageModule('ps');
 
-        $confirmation = new \ilConfirmationGUI();
-        $confirmation->setFormAction(
-            $this->ctrl->getFormAction(
-                $this,
-                'askForUserPasswordReset'
-            )
-        );
-        $confirmation->setHeaderText($this->lng->txt('ps_passwd_policy_changed_force_user_reset'));
-        $confirmation->setConfirm(
-            $this->lng->txt('yes'),
-            'forceUserPasswordReset'
-        );
-        $confirmation->setCancel(
-            $this->lng->txt('no'),
-            'generalSettings'
+        $this->tpl->setOnScreenMessage(
+            'question',
+            $this->lng->txt('ps_passwd_policy_changed_force_user_reset')
         );
 
-        $this->tpl->setContent($confirmation->getHTML());
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('yes'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'forceUserPasswordReset')
+            )
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('no'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'generalSettings')
+            )
+        );
     }
 
     protected function initFormGeneralSettings(): void
@@ -2964,12 +2958,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function exportObject(): void
     {
         $this->checkPermission('write,read_users');
-
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption('create_export_file');
-        $button->setCommand('performExport');
-        $toolbar = $DIC->toolbar();
-        $toolbar->setFormAction($this->ctrl->getFormAction($this));
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
         $export_types = [
             'userfolder_export_excel_x86',
@@ -2986,11 +2975,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $type_selection->setOptions($options);
 
-        $toolbar->addInputItem(
+        $this->toolbar->addInputItem(
             $type_selection,
             true
         );
-        $toolbar->addButtonInstance($button);
+
+        $on_load_code = function ($id) {
+            return "document.getElementById('$id')"
+                . '.addEventListener("click", '
+                . '(e) => {e.preventDefault();'
+                . 'e.target.setAttribute("name", "cmd[performExport]");'
+                . 'e.target.form.requestSubmit(e.target);});';
+        };
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('create_export_file'),
+                '#'
+            )->withOnLoadCode($on_load_code)
+        );
 
         $table = new \ilUserExportFileTableGUI(
             $this,

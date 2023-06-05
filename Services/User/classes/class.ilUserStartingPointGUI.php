@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilUserStartingPointGUI
@@ -28,35 +30,48 @@ use ILIAS\User\UserGUIRequest;
  */
 class ilUserStartingPointGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilToolbarGUI $toolbar;
-    protected UserGUIRequest $user_request;
-    protected ilLogger $log;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected int $parent_ref_id;
+    private ilLogger $log;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilToolbarGUI $toolbar;
+    private ilTabsGUI $tabs;
+    private ilCtrl $ctrl;
+    private ilDBInterface $db;
+    private ilRbacReview $rbac_review;
+    private ilRbacSystem $rbac_system;
+    private UIFactory $ui_factory;
+    private Renderer $ui_renderer;
+    private UserGUIRequest $user_request;
+    private ilStartingPoint $starting_point;
+
+    private int $parent_ref_id;
 
     public function __construct(int $a_parent_ref_id)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->log = ilLoggerFactory::getLogger("user");
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $ilToolbar;
-        $this->ctrl = $ilCtrl;
-        $this->parent_ref_id = $a_parent_ref_id;
-        $this->lng->loadLanguageModule("administration");
-        $this->lng->loadLanguageModule("dateplaner");
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->db = $DIC['ilDB'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->rbac_system = $DIC['rbacsystem'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->user_request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $this->starting_point = new ilStartingPoint($DIC['ilDB'], $DIC['rbacreview'], null);
+
+        $this->parent_ref_id = $a_parent_ref_id;
+
+        $this->lng->loadLanguageModule("administration");
+        $this->lng->loadLanguageModule("dateplaner");
     }
 
     public function executeCommand(): void
@@ -77,16 +92,24 @@ class ilUserStartingPointGUI
         $roles_without_point = $this->starting_point->getGlobalRolesWithoutStartingPoint();
 
         if (!empty($roles_without_point)) {
-            $this->toolbar->addButton(
-                $this->lng->txt('create_starting_point'),
-                $this->ctrl->getLinkTarget($this, "roleStartingPointform")
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('create_starting_point'),
+                    $this->ctrl->getLinkTarget($this, "roleStartingPointform")
+                )
             );
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('all_roles_has_starting_point'));
         }
 
 
-        $tbl = new ilUserRoleStartingPointTableGUI($this);
+        $tbl = new ilUserRoleStartingPointTableGUI(
+            $this,
+            $this->starting_point,
+            $this->rbac_review,
+            $this->ui_factory,
+            $this->ui_renderer,
+        );
 
         $this->tpl->setContent($tbl->getHTML());
     }
@@ -143,7 +166,7 @@ class ilUserStartingPointGUI
         $req_role_id = $this->user_request->getRoleId();
 
         //edit no default
-        if ($spoint_id > 0 && $spoint_id != 'default') {
+        if ($spoint_id > 0 && $spoint_id !== 'default') {
             $st_point = new ilStartingPoint(
                 $this->db,
                 $this->rbac_review,
@@ -151,8 +174,8 @@ class ilUserStartingPointGUI
             );
 
             //starting point role based
-            if ($st_point->isRuleBasedStartingPoint() && $req_role_id) {
-                $rolid = $req_role_id;
+            if ($st_point->isRoleBasedStartingPoint() && $req_role_id) {
+                $rolid = (int) $req_role_id;
                 if ($role = new ilObjRole($rolid)) {
                     $options[$rolid] = $role->getTitle();
                     $starting_point = $st_point->getStartingPoint();
@@ -205,6 +228,9 @@ class ilUserStartingPointGUI
         $si->setInfo($this->lng->txt('adm_user_starting_point_info'));
         $valid = array_keys(ilUserUtil::getPossibleStartingPoints());
         foreach (ilUserUtil::getPossibleStartingPoints(true) as $value => $caption) {
+            if ($value === ilUserUtil::START_REPOSITORY_OBJ) {
+                continue;
+            }
             $opt = new ilRadioOption($caption, (string) $value);
 
             if ($value === ilUserUtil::START_PD_CALENDAR) {
@@ -488,7 +514,7 @@ class ilUserStartingPointGUI
             $rolid = $req_role_id;
             $spid = $req_sp_id;
 
-            $role = new ilObjRole($rolid);
+            $role = new ilObjRole((int) $rolid);
 
             $conf->addItem('rolid', $rolid, $role->getTitle());
             $conf->addItem('spid', $spid, '');

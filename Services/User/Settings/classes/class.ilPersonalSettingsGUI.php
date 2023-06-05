@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\User\UserGUIRequest;
 use ILIAS\DI\LoggingServices;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
 
 /**
  * GUI class for personal profile
@@ -38,6 +39,7 @@ class ilPersonalSettingsGUI
     private UserGUIRequest $request;
     private ilGlobalTemplateInterface $tpl;
     private UIFactory $ui_factory;
+    private Renderer $ui_renderer;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
     private LoggingServices $log;
@@ -62,6 +64,7 @@ class ilPersonalSettingsGUI
 
         $this->tpl = $DIC['tpl'];
         $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->lng = $DIC['lng'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->log = $DIC->logger();
@@ -661,32 +664,22 @@ class ilPersonalSettingsGUI
         $this->initSubTabs('deleteOwnAccount');
         $this->tabs->activateTab('delacc');
 
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('delete_account'),
+            $this->lng->txt('user_delete_own_account_logout_confirmation'),
+            $this->ctrl->getFormActionByClass(ilPersonalSettingsGUI::class, 'deleteOwnAccountLogout')
+        )->withActionButtonLabel($this->lng->txt('user_delete_own_account_logout_button'));
+
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_info'));
-        $this->toolbar->addButton(
-            $this->lng->txt('btn_next'),
-            $this->ctrl->getLinkTarget($this, 'deleteOwnAccountStep2')
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('btn_next'),
+                $modal->getShowSignal()
+            )
         );
 
-        $this->tpl->printToStdout();
-    }
+        $this->tpl->setContent($this->ui_renderer->render($modal));
 
-    protected function deleteOwnAccountStep2(): void
-    {
-        if (!(bool) $this->settings->get('user_delete_own_account') ||
-            $this->user->getId() == SYSTEM_USER_ID) {
-            $this->ctrl->redirect($this, 'showGeneralSettings');
-        }
-
-        $this->setHeader();
-        $this->initSubTabs('deleteOwnAccount');
-        $this->tabs->activateTab('delacc');
-
-        $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt('user_delete_own_account_logout_confirmation'));
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt('cancel'), 'abortDeleteOwnAccount');
-        $cgui->setConfirm($this->lng->txt('user_delete_own_account_logout_button'), 'deleteOwnAccountLogout');
-        $this->tpl->setContent($cgui->getHTML());
         $this->tpl->printToStdout();
     }
 
@@ -708,7 +701,7 @@ class ilPersonalSettingsGUI
         $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . md5('usrdelown'));
     }
 
-    protected function deleteOwnAccountStep3(): void
+    protected function deleteOwnAccountStep2(): void
     {
         if (!(bool) $this->settings->get('user_delete_own_account') ||
             $this->user->getId() == SYSTEM_USER_ID ||
@@ -720,16 +713,28 @@ class ilPersonalSettingsGUI
         $this->initSubTabs('deleteOwnAccount');
         $this->tabs->activateTab('delacc');
 
-        $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt('user_delete_own_account_final_confirmation'));
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt('cancel'), 'abortDeleteOwnAccount');
-        $cgui->setConfirm($this->lng->txt('confirm'), 'deleteOwnAccountStep4');
-        $this->tpl->setContent($cgui->getHTML());
+        $this->tpl->setOnScreenMessage(
+            'question',
+            $this->lng->txt('user_delete_own_account_final_confirmation')
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('confirm'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'deleteOwnAccountStep3')
+            )
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('cancel'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'abortDeleteOwnAccount')
+            )
+        );
         $this->tpl->printToStdout();
     }
 
-    protected function deleteOwnAccountStep4(): void
+    protected function deleteOwnAccountStep3(): void
     {
         if (!(bool) $this->settings->get('user_delete_own_account') ||
             $this->user->getId() == SYSTEM_USER_ID ||
