@@ -33,42 +33,19 @@ class ilObjLearningSequenceContentGUI
     public const FIELD_ONLINE = 'f_online';
     public const FIELD_POSTCONDITION_TYPE = 'f_pct';
 
-    protected ilObjLearningSequenceGUI $parent_gui;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilAccess $access;
-    protected ilConfirmationGUI $confirmation_gui;
-    protected LSItemOnlineStatus $ls_item_online_status;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
-    protected ILIAS\UI\Factory $ui_factory;
-    protected ILIAS\UI\Renderer $ui_renderer;
-
     public function __construct(
-        ilObjLearningSequenceGUI $parent_gui,
-        ilCtrl $ctrl,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilAccess $access,
-        ilConfirmationGUI $confirmation_gui,
-        LSItemOnlineStatus $ls_item_online_status,
-        ArrayBasedRequestWrapper $post_wrapper,
-        Factory $refinery,
-        ILIAS\UI\Factory $ui_factory,
-        ILIAS\UI\Renderer $ui_renderer
+        protected ilObjLearningSequenceGUI $parent_gui,
+        protected ilCtrl $ctrl,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilLanguage $lng,
+        protected ilAccess $access,
+        protected ilConfirmationGUI $confirmation_gui,
+        protected LSItemOnlineStatus $ls_item_online_status,
+        protected ArrayBasedRequestWrapper $post_wrapper,
+        protected Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory,
+        protected ILIAS\UI\Renderer $ui_renderer
     ) {
-        $this->parent_gui = $parent_gui;
-        $this->ctrl = $ctrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->access = $access;
-        $this->confirmation_gui = $confirmation_gui;
-        $this->ls_item_online_status = $ls_item_online_status;
-        $this->post_wrapper = $post_wrapper;
-        $this->refinery = $refinery;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
     }
 
     public function executeCommand(): void
@@ -117,7 +94,6 @@ class ilObjLearningSequenceContentGUI
             $this->access,
             $this->ui_factory,
             $this->ui_renderer,
-            new ilAdvancedSelectionListGUI(),
             $this->ls_item_online_status,
             $alert_icon
         );
