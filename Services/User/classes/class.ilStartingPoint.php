@@ -265,14 +265,15 @@ class ilStartingPoint
 
         $this->db->manipulateF(
             'INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
-            [ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_TEXT,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER
+            [
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER
             ],
             $values
         );
@@ -293,14 +294,15 @@ class ilStartingPoint
 				calendar_view = %s,
 				calendar_period = %s
 			WHERE id = %s',
-            [ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_TEXT,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER,
-                  ilDBConstants::T_INTEGER
+            [
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER,
+                ilDBConstants::T_INTEGER
             ],
             [
                 $this->starting_point,
@@ -309,7 +311,8 @@ class ilStartingPoint
                 $this->rule_type,
                 $this->rule_options,
                 $this->calendar_view,
-                $this->calendar_period
+                $this->calendar_period,
+                $this->id
             ]
         );
     }

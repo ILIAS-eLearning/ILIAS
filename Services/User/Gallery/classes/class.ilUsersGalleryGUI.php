@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Legacy\Legacy as LegacyComponent;
+use ILIAS\UI\Component\Card\Standard as StandardCard;
+use ILIAS\UI\Component\Image\Image as Image;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -62,6 +65,8 @@ class ilUsersGalleryGUI
             $this->tpl,
             $this->ui_factory,
             $this->ui_renderer,
+            $this->lng,
+            $DIC['ilDB'],
             $this->user->getId()
         );
     }
@@ -100,9 +105,82 @@ class ilUsersGalleryGUI
     }
 
     /**
-     * @param \ILIAS\UI\Component\Component[] $sections
+     * @param array<ilUsersGalleryUserCollection> $gallery_groups
      */
-    protected function addActionSection(ilObjUser $user, array &$sections): void
+    protected function populateTemplate(array $gallery_groups): ilTemplate
+    {
+        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+
+        $panel = ilPanelGUI::getInstance();
+        $panel->setBody($this->lng->txt('no_gallery_users_available'));
+        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
+
+        $groups_with_users = array_filter(
+            $gallery_groups,
+            static fn (ilUsersGalleryGroup $group): bool => count($group) > 0
+        );
+
+        if (count($groups_with_users) === 0) {
+            $tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
+            return $tpl;
+        }
+
+        $cards = [];
+
+        foreach ($gallery_groups as $group) {
+            $sorted_group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
+
+            foreach ($sorted_group as $user) {
+                $cards[] = $this->getCardForUser($user, $sorted_group);
+            }
+        }
+
+        $tpl->setVariable('GALLERY_HTML', $this->ui_renderer->render($this->ui_factory->deck($cards)));
+
+        if ($this->collection_provider->hasRemovableUsers()) {
+            $tpl->touchBlock('js_remove_handler');
+        }
+
+        return $tpl;
+    }
+
+    protected function getCardForUser(
+        ilUsersGalleryUser $user,
+        ilUsersGalleryUserCollection $group
+    ): StandardCard {
+        $card = $this->ui_factory->card()->standard($user->getPublicName())
+            ->withHighlight($group->isHighlighted());
+        $avatar = $this->ui_factory->image()->standard(
+            $user->getAggregatedUser()->getPersonalPicturePath('big'),
+            $user->getPublicName()
+        );
+
+        $sections = [];
+
+        $sections[] = $this->ui_factory->listing()->descriptive(
+            [
+                $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
+                $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
+            ]
+        );
+
+        $actions_section = $this->getActionsSection($user->getAggregatedUser());
+        if ($actions_section !== null) {
+            $sections[] = $actions_section;
+        }
+
+        if ($user->hasPublicProfile()) {
+            list($avatar, $card) = $this->addPublicProfileLinksToAvatarAndCard(
+                $avatar,
+                $card,
+                $user->getAggregatedUser()->getId()
+            );
+        }
+
+        return $card->withImage($avatar)->withSections($sections);
+    }
+
+    protected function getActionsSection(ilObjUser $user): ?LegacyComponent
     {
         $contact_btn_html = "";
 
@@ -117,91 +195,37 @@ class ilUsersGalleryGUI
         $list_html = $this->user_action_gui->renderDropDown($user->getId());
 
         if ($contact_btn_html || $list_html) {
-            $sections[] = $this->ui_factory->legacy(
-                "<div style='float:left; margin-bottom:5px;'>" . $contact_btn_html . "</div><div class='button-container'>&nbsp;" . $list_html . "</div>"
+            return $this->ui_factory->legacy(
+                "<div style='display:grid; grid-template-columns: max-content max-content;'>"
+                . "<div>"
+                . $contact_btn_html
+                . "</div><div style='margin-left: 5px;'>"
+                . $list_html
+                . "</div></div>"
             );
         }
+
+        return null;
     }
 
-    /**
-     * @param ilUsersGalleryUserCollection[] $gallery_groups
-     */
-    protected function populateTemplate(array $gallery_groups): ilTemplate
-    {
-        $buddylist = ilBuddyList::getInstanceByGlobalUser();
-        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+    protected function addPublicProfileLinksToAvatarAndCard(
+        Image $avatar,
+        StandardCard $card,
+        int $user_id
+    ): array {
+        $this->ctrl->setParameterByClass(
+            ilPublicUserProfileGUI::class,
+            'user',
+            $user_id
+        );
+        $public_profile_url = $this->ctrl->getLinkTargetByClass(
+            ilPublicUserProfileGUI::class,
+            'getHTML'
+        );
 
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
-
-        $groups_with_users = array_filter($gallery_groups, static function (ilUsersGalleryGroup $group): bool {
-            return count($group) > 0;
-        });
-        $groups_with_highlight = array_filter($groups_with_users, static function (ilUsersGalleryGroup $group): bool {
-            return $group->isHighlighted();
-        });
-
-        if (0 === count($groups_with_users)) {
-            $tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
-            return $tpl;
-        }
-
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
-
-        $cards = [];
-
-        foreach ($gallery_groups as $group) {
-            $group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
-
-            foreach ($group as $user) {
-                $card = $this->ui_factory->card()->standard($user->getPublicName());
-                $avatar = $this->ui_factory->image()->standard(
-                    $user->getAggregatedUser()->getPersonalPicturePath('big'),
-                    $user->getPublicName()
-                );
-
-                $sections = [];
-
-                if (count($groups_with_highlight) > 0) {
-                    $card = $card->withHighlight($group->isHighlighted());
-                }
-
-                $sections[] = $this->ui_factory->listing()->descriptive(
-                    [
-                        $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
-                        $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
-                    ]
-                );
-
-                $this->addActionSection($user->getAggregatedUser(), $sections);
-
-                if ($user->hasPublicProfile()) {
-                    $this->ctrl->setParameterByClass(
-                        ilPublicUserProfileGUI::class,
-                        'user',
-                        $user->getAggregatedUser()->getId()
-                    );
-                    $public_profile_url = $this->ctrl->getLinkTargetByClass(ilPublicUserProfileGUI::class, 'getHTML');
-
-                    $avatar = $avatar->withAction($public_profile_url);
-                    $card = $card->withTitleAction($public_profile_url);
-                }
-
-                $card = $card->withImage($avatar)->withSections($sections);
-
-                $cards[] = $card;
-            }
-        }
-
-        $tpl->setVariable('GALLERY_HTML', $this->ui_renderer->render($this->ui_factory->deck($cards)));
-
-        if ($this->collection_provider->hasRemovableUsers()) {
-            $tpl->touchBlock('js_remove_handler');
-        }
-
-        return $tpl;
+        return [
+            $avatar->withAction($public_profile_url),
+            $card->withTitleAction($public_profile_url)
+        ];
     }
 }

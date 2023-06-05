@@ -73,9 +73,10 @@ class ilUserActionGUI
         $action_collection = $this->user_action_collector->getActionsForTargetUser($target_user_id);
         $actions = [];
         foreach ($action_collection->getActions() as $action) {
-            $actions[] = $this->ui->factory()->link()->standard($action->getText(), $action->getHref());
+            $actions[] = $this->ui_factory->link()->standard($action->getText(), $action->getHref());
         }
-        $action_list = $this->ui_factory->dropdown()->standard($actions);
+        $action_list = $this->ui_factory->dropdown()->standard($actions)
+            ->withAriaLabel($this->lng->txt('user_actions'));
         return $this->ui_renderer->render($action_list);
     }
 }

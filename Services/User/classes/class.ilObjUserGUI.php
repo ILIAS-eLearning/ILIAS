@@ -1836,7 +1836,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($ilUser->getId() != ANONYMOUS_USER_ID &&
                 $ilUser->hasDeletionFlag()) {
                 $ilCtrl->setTargetScript('ilias.php');
-                $ilCtrl->redirectByClass(['ildashboardgui', 'ilpersonalsettingsgui'], 'deleteOwnAccountStep3');
+                $ilCtrl->redirectByClass(['ildashboardgui', 'ilpersonalsettingsgui'], 'deleteOwnAccountStep2');
             }
             exit('This account is not flagged for deletion.'); // #12160
         }

@@ -1086,24 +1086,29 @@ class ilPersonalProfileGUI
         $this->tabs->activateTab('export');
         $this->setHeader();
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("pd_export_profile");
-        $button->setUrl($this->ctrl->getLinkTarget($this, "exportPersonalData"));
+        $button = $this->ui_factory->link()->standard(
+            $this->lng->txt('pd_export_profile'),
+            $this->ctrl->getLinkTarget($this, 'exportPersonalData')
+        );
         $this->toolbar->addStickyItem($button);
 
         $exp_file = $this->user->getPersonalDataExportFile();
         if ($exp_file != '') {
             $this->toolbar->addSeparator();
-            $this->toolbar->addButton(
-                $this->lng->txt("pd_download_last_export_file"),
-                $this->ctrl->getLinkTarget($this, "downloadPersonalData")
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt("pd_download_last_export_file"),
+                    $this->ctrl->getLinkTarget($this, "downloadPersonalData")
+                )
             );
         }
 
         $this->toolbar->addSeparator();
-        $this->toolbar->addButton(
-            $this->lng->txt("pd_import_personal_data"),
-            $this->ctrl->getLinkTarget($this, "importPersonalDataSelection")
+        $this->toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt("pd_import_personal_data"),
+                $this->ctrl->getLinkTarget($this, "importPersonalDataSelection")
+            )
         );
 
         $this->tpl->printToStdout();
