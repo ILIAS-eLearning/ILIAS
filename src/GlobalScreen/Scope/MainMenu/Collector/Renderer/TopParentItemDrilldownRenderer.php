@@ -38,6 +38,9 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
     {
         $entries = [];
         foreach ($item->getChildren() as $child) {
+            if (!$child->isVisible()) {
+                continue;
+            }
             $entries[] = $this->buildEntry($child);
         }
 
@@ -69,6 +72,9 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
             case LinkList::class:
                 $links = [];
                 foreach ($item->getLinks() as $child) {
+                    if (!$child->isVisible()) {
+                        continue;
+                    }
                     $links[] = $this->buildEntry($child);
                 }
                 $entry = $this->ui_factory->menu()->sub($title, $links);
