@@ -40,14 +40,15 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate('tpl.entitylisting.html', true, true);
 
-        foreach ($component->getEntities($this->getUIFactory()) as $entity) {
+        foreach ($component->getEntities(
+            $this->getUIFactory()
+        ) as $entity) {
             $tpl->setCurrentBlock('entry');
             $tpl->setVariable('ENTITY', $default_renderer->render($entity));
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
     }
-
 
     /**
      * @inheritdoc

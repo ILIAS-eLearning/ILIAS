@@ -64,12 +64,12 @@ class EntityListingTest extends ILIAS_UI_TestBase
             protected $data = [1,2,3];
 
             public function getEntities(
-                \Closure $mapping,
+                I\Listing\Entity\Mapping $mapping,
                 ?Range $range,
                 ?array $additional_parameters
             ): \Generator {
                 foreach ($this->data as $entry) {
-                    yield $mapping($entry);
+                    yield $mapping->map($entry);
                 }
             }
         };

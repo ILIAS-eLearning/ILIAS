@@ -20,20 +20,11 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Listing\Entity;
 
 use ILIAS\UI\Component\Entity\Entity;
-use ILIAS\Data\Range;
 
 /**
- * This is to accumulate/consolidate the data to be shown in the listing.
+ * Hand a record over to RecordToEntity and factor an Entity
  */
-interface DataRetrieval
+interface Mapping
 {
-    /**
-     * @param array<string,mixed> $additional_parameters
-     * @return \Generator<Entity>
-     */
-    public function getEntities(
-        Mapping $mapping,
-        ?Range $range,
-        ?array $additional_parameters
-    ): \Generator;
+    public function map(mixed $record): Entity;
 }

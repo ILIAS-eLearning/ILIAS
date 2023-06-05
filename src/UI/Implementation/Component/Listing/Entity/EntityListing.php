@@ -51,7 +51,19 @@ abstract class EntityListing implements I\EntityListing
         Range $range = null,
         array $additional_parameters = null
     ): \Generator {
-        $mapping = fn (mixed $record): IEntity\Entity => $this->entity_mapping->map($ui_factory, $record);
+        $mapping = new class ($this->entity_mapping, $ui_factory) implements I\Mapping {
+            public function __construct(
+                protected I\RecordToEntity $mapper,
+                protected \ILIAS\UI\Factory $ui_factory
+            ) {
+            }
+
+            public function map(mixed $record): IEntity\Entity
+            {
+                return $this->mapper->map($this->ui_factory, $record);
+            }
+        };
+
         $additional_parameters = null;
         return $this->data->getEntities($mapping, $range, $additional_parameters);
     }

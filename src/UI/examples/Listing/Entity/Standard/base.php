@@ -17,7 +17,7 @@ function base()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $mapping = new class () implements RecordToEntity {
+    $record_to_entity = new class () implements RecordToEntity {
         public function map(UIFactory $ui_factory, mixed $record): Entity
         {
             list($abbreviation, $login, $email, $name, $last_seen, $active) = $record;
@@ -47,17 +47,17 @@ function base()
         ];
 
         public function getEntities(
-            \Closure $mapping,
+            Mapping $mapping,
             ?Range $range,
             ?array $additional_parameters
         ): \Generator {
             foreach ($this->data as $usr) {
-                yield $mapping($usr);
+                yield $mapping->map($usr);
             }
         }
     };
 
-    $listing = $f->listing()->entity()->standard($mapping)
+    $listing = $f->listing()->entity()->standard($record_to_entity)
         ->withData($data);
 
     return $renderer->render($listing);
