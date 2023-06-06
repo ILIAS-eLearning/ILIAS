@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 
@@ -303,7 +303,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $prgrs_id,
         int $ass_id
     ): string {
-        $l = new ilAdvancedSelectionListGUI();
+        $l = [];
 
         $view_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN);
         $edit_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN);
@@ -331,10 +331,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             }
 
             $target = $this->getLinkTargetForAction($action, $prgrs_id, $ass_id);
-            $l->addItem($this->lng->txt("prg_$action"), $action, $target);
+            $l[] = $this->ui_factory->button()->shy($this->lng->txt("prg_$action"), $target);
         }
-
-        return $l->getHTML();
+        return $this->ui_renderer->render(
+            $this->ui_factory->dropdown()->standard($l)->withLabel($this->lng->txt('actions'))
+        );
     }
 
 
