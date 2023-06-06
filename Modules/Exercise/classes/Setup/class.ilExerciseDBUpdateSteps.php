@@ -66,4 +66,20 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex('il_exc_team', ['id'], 'i1');
         }
     }
+
+    public function step_6(): void
+    {
+        if (!$this->db->tableColumnExists('exc_assignment', 'if_rcid')) {
+            $this->db->addTableColumn(
+                'exc_assignment',
+                'if_rcid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }
