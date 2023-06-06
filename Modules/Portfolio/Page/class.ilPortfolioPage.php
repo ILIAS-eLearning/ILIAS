@@ -25,11 +25,18 @@ class ilPortfolioPage extends ilPageObject
 {
     public const TYPE_PAGE = 1;
     public const TYPE_BLOG = 2;
+    private \ILIAS\COPage\Dom\DomUtil $dom_util;
 
     protected int $portfolio_id;
     protected int $type = 1;
     protected string $title;
     protected int $order_nr;
+
+    public function afterConstructor(): void
+    {
+        global $DIC;
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+    }
 
     public function getParentType(): string
     {
@@ -370,17 +377,16 @@ class ilPortfolioPage extends ilPageObject
         $changed = false;
 
         // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
+        $nodes = $this->dom_util->path($this->getDomDoc(), $path);
+        foreach ($nodes as $node) {
+            $target = $node->getAttribute("Target");
+            $type = $node->getAttribute("Type");
             $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
             if (isset($a_title_changes[$obj_id]) && is_int(strpos($target, "__"))) {
                 if ($type == "PortfolioPage") {
-                    if ($res->nodeset[$i]->get_content() == $a_title_changes[$obj_id]["old"]) {
-                        $res->nodeset[$i]->set_content($a_title_changes[$obj_id]["new"]);
+                    if ($this->dom_util->getContent($node) == $a_title_changes[$obj_id]["old"]) {
+                        $this->dom_util->setContent($node, $a_title_changes[$obj_id]["new"]);
                         $changed = true;
                     }
                 }

@@ -46,7 +46,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
     public function getItems(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->pc_media_object->dom,
+            $this->pc_media_object->getDomDoc(),
             $this->pc_media_object->hier_id,
             "Standard",
             $this->pc_media_object->getPCId(),

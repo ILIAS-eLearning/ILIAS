@@ -28,9 +28,10 @@ class ilUserTableGUI extends ilTable2GUI
 
     private ?int $mode = null;
     private int $user_folder_id = 0;
+    private bool $with_write_access = false;
     protected \ILIAS\User\StandardGUIRequest $user_request;
-    protected array $udf_fields = array(); // Missing array type.
-    protected array $filter = array(); // Missing array type.
+    protected array $udf_fields = [];
+    protected array $filter = [];
 
     public function __construct(
         object $a_parent_obj,
@@ -38,10 +39,15 @@ class ilUserTableGUI extends ilTable2GUI
         int $a_mode = self::MODE_USER_FOLDER,
         bool $a_load_items = true
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+
+        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->getRefId())) {
+            $this->with_write_access = true;
+        }
 
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
@@ -667,7 +673,9 @@ class ilUserTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->getMode() == self::MODE_USER_FOLDER or $a_set['time_limit_owner'] == $this->getUserFolderId()) {
+        if ($this->with_write_access
+            && ($this->getMode() == self::MODE_USER_FOLDER
+                || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
             $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
             $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
             $this->tpl->setVariable(

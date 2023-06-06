@@ -368,9 +368,9 @@ EOT;
     {
         $page->insertPCIds();
         $pc_id = $page->getPCIdForHierId($hier_id);
-        $cont_node = $page->getContentNode($hier_id);
+        $cont_node = $page->getContentDomNode($hier_id);
         $pc = new ilPCTab($page);
-        $pc->setNode($cont_node);
+        $pc->setDomNode($cont_node);
         $pc->setHierId($hier_id);
         $pc->setPcId($pc_id);
         return $pc;

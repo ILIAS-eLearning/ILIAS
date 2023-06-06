@@ -202,9 +202,9 @@ EOT;
     protected function getItemForHierId(ilPageObject $page, string $hier_id): ilPCListItem
     {
         $pc_id = $page->getPCIdForHierId($hier_id);
-        $cont_node = $page->getContentNode($hier_id);
+        $cont_node = $page->getContentDomNode($hier_id);
         $pc = new ilPCListItem($page);
-        $pc->setNode($cont_node);
+        $pc->setDomNode($cont_node);
         $pc->setHierId($hier_id);
         $pc->setPcId($pc_id);
         return $pc;

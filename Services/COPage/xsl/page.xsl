@@ -4323,6 +4323,25 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- PRGStatusInfo -->
+<xsl:template match="PRGStatusInfo">
+	<xsl:if test="$mode = 'edit'">
+		<div class="copg-content-placeholder-prg-statusinfo il-prg-statusinfo-container">
+			<div>
+				<img class="icon prg large" src="./templates/default/images/icon_prg.svg" alt="StatusInfo StudyProgramme" />
+				StatusInfo StudyProgramme
+			</div>
+		</div>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<div class="il-prg-statusinfo-container">
+			<Launcher>
+				[[[PRG_STATUS_INFO]]]
+			</Launcher>
+		</div>
+	</xsl:if>
+</xsl:template>
+
 
 <!-- helper functions -->
 

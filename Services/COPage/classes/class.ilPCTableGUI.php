@@ -55,6 +55,7 @@ class ilPCTableGUI extends ilPageContentGUI
             ->domain()
             ->pc()
             ->definition();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function setBasicTableCellStyles(): void
@@ -421,9 +422,9 @@ class ilPCTableGUI extends ilPageContentGUI
         string $a_submode = ""
     ): string {
         $template_xml = "";
-        $tab_node = $this->content_obj->getNode();
-        $tab_node->set_attribute("Enabled", "True");
-        $content = $this->dom->dump_node($tab_node);
+        $tab_node = $this->content_obj->getDomNode();
+        $tab_node->setAttribute("Enabled", "True");
+        $content = $this->dom_util->dump($tab_node);
 
         $trans = $this->pg_obj->getLanguageVariablesXML();
         $mobs = $this->pg_obj->getMultimediaXML();
@@ -1057,20 +1058,18 @@ class ilPCTableGUI extends ilPageContentGUI
         );
 
         // get all rows
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
             "/Table/TableRow";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $xpc2 = xpath_new_context($this->dom);
+        $nodes = $this->dom_util->path($this->dom, $path);
+        $i = 0;
+        foreach ($nodes as $node) {
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
                 "/Table/TableRow[$i+1]/TableData";
-            $res2 = xpath_eval($xpc2, $path2);
-
+            $nodes2 = $this->dom_util->path($this->dom, $path2);
             // if this is the first row -> col icons
             if ($i == 0) {
-                for ($j = 0; $j < count($res2->nodeset); $j++) {
+                $j = 0;
+                foreach ($nodes2 as $node2) {
                     if ($j == 0) {
                         $dtpl->touchBlock("empty_td");
                     }
@@ -1078,12 +1077,12 @@ class ilPCTableGUI extends ilPageContentGUI
                     $move_forward = false;
                     $move_backward = false;
                     if ($j == 0) {
-                        if (count($res2->nodeset) == 1) {
+                        if (count($nodes2) == 1) {
                             //
                         } else {
                             $move_forward = true;
                         }
-                    } elseif ($j == (count($res2->nodeset) - 1)) {
+                    } elseif ($j == (count($nodes2) - 1)) {
                         $move_backward = true;
                     } else {
                         $move_forward = true;
@@ -1091,19 +1090,21 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     $dtpl->setCurrentBlock("col_icon");
                     $dtpl->setVariable("NR_COLUMN", $j + 1);
-                    $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
+                    $dtpl->setVariable("PCID_COLUMN", $node2->getAttribute("PCID"));
                     $dtpl->setVariable("COLUMN_CAPTION", $this->getColumnCaption($j + 1));
                     $dtpl->parseCurrentBlock();
+                    $j++;
                 }
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
 
-            for ($j = 0; $j < count($res2->nodeset); $j++) {
+            $j = 0;
+            foreach ($nodes2 as $node2) {
                 // first col: row icons
                 if ($j == 0) {
                     if ($i == 0) {
-                        if (count($res->nodeset) == 1) {
+                        if (count($nodes) == 1) {
                             $move_type = "none";
                         } else {
                             $move_type = "forward";
@@ -1115,13 +1116,13 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     $dtpl->setCurrentBlock("row_icon");
                     $dtpl->setVariable("NR_ROW", $i + 1);
-                    $dtpl->setVariable("PCID_ROW", $res2->nodeset[$j]->get_attribute("PCID"));
+                    $dtpl->setVariable("PCID_ROW", $node2->getAttribute("PCID"));
                     $dtpl->setVariable("ROW_CAPTION", $i + 1);
                     $dtpl->parseCurrentBlock();
                 }
 
                 // cell
-                if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
+                if ($node2->getAttribute("Hidden") != "Y") {
                     if ($this->content_obj->getType() == "dtab") {
                         $dtpl->touchBlock("cell_type");
                         //$dtpl->setCurrentBlock("cell_type");
@@ -1154,9 +1155,11 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     $dtpl->parseCurrentBlock();
                 }
+                $j++;
             }
             $dtpl->setCurrentBlock("row");
             $dtpl->parseCurrentBlock();
+            $i++;
         }
 
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
@@ -1198,18 +1201,18 @@ class ilPCTableGUI extends ilPageContentGUI
 
     protected function getCellContent(int $i, int $j): string
     {
-        $tab_node = $this->content_obj->getNode();
+        $tab_node = $this->content_obj->getDomNode();
         $cnt_i = 0;
         $content = "";
         $template_xml = "";
         // get correct cell and dump content of all its childrem
-        foreach ($tab_node->first_child()->child_nodes() as $child) {
+        foreach ($tab_node->firstChild->childNodes as $child) {
             if ($i == $cnt_i) {
                 $cnt_j = 0;
-                foreach ($child->child_nodes() as $child2) {
+                foreach ($child->childNodes as $child2) {
                     if ($j == $cnt_j) {
-                        foreach ($child2->child_nodes() as $cell_content_node) {
-                            $content .= $this->dom->dump_node($cell_content_node);
+                        foreach ($child2->childNodes as $cell_content_node) {
+                            $content .= $this->dom_util->dump($cell_content_node);
                         }
                     }
                     $cnt_j++;

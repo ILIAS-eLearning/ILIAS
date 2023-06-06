@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Pimple\Container;
 
@@ -363,6 +363,19 @@ class ilStudyProgrammeDIC
 
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
+
+        $dic['pc.statusinfo'] = static fn ($dic) =>
+            new ilPRGStatusInfoBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                new ilCertificateDownloadValidator(),
+                $dic['current_user']->getId()
+            );
 
         $dic['cron.riskyToFail'] = static fn ($dic) =>
             new ilPrgRiskyToFail(

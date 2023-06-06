@@ -39,10 +39,10 @@ class ilPCCurriculum extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->cach_node = $this->dom->create_element(self::PCELEMENT);
-        $this->cach_node = $this->node->append_child($this->cach_node);
+        $cach_node = $this->dom_doc->createElement(self::PCELEMENT);
+        $this->getDomNode()->appendChild($cach_node);
     }
 
     /**

@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
 * This class represents a single choice wizard property in a property form.
 *
@@ -30,6 +33,9 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     protected $qstObject = null;
     protected $suffixes = array();
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+
     /**
     * Constructor
     *
@@ -39,6 +45,11 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
+
         $this->setSuffixes(assQuestion::getAllowedImageMaterialFileExtensions());
         $this->setSize('25');
         $this->validationRegexp = "";
@@ -276,8 +287,12 @@ class ilImageWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -286,8 +301,12 @@ class ilImageWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
             $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()
+            ));
             $tpl->parseCurrentBlock();
             $i++;
         }

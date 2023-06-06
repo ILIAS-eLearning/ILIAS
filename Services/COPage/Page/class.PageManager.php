@@ -27,6 +27,8 @@ class PageManager implements PageManagerInterface
 {
     public function __construct()
     {
+        global $DIC;
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function get(
@@ -45,6 +47,12 @@ class PageManager implements PageManagerInterface
 
     public function content(\DOMDocument $dom): PageContentManager
     {
+        return new PageContentManager($dom);
+    }
+
+    public function contentFromXml($xml): PageContentManager
+    {
+        $dom = $this->dom_util->docFromString($xml);
         return new PageContentManager($dom);
     }
 }

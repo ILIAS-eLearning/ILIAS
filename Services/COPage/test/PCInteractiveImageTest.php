@@ -225,7 +225,7 @@ EOT;
         $page->insertPCIds();
         $pc->setHierId("1");
         $pc->setPCId($page->getPCIdForHierId("1"));
-        $pc->setNode($pc->getNode());
+        $pc->setDomNode($pc->getDomNode());
         return $pc;
     }
 

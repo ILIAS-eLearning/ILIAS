@@ -20,8 +20,8 @@ function with_custom_labels()
             $factory->messageBox()->info('I am something.'),
         ]
     )->withCancelButtonLabel(
-        'wow, that was something'
-    );
+        'Thank you and goodbye'
+    )->withActionButtons([$factory->button()->standard('Nothing todo here', '#')]);
 
     $trigger = $factory->button()->standard('I will show you something', $modal->getShowSignal());
 

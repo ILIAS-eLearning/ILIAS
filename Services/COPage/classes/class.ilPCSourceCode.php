@@ -41,8 +41,6 @@ class ilPCSourceCode extends ilPCParagraph
         string $a_mode = "presentation",
         bool $a_abstract_only = false
     ): string {
-        $dom = $this->getPage()->getDom();
-
         $nodes = $this->dom_util->path($this->dom_doc, "//Paragraph");
         foreach ($nodes as $context_node) {
             $char = $context_node->getAttribute('Characteristic');

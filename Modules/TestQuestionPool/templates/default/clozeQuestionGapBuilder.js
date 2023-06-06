@@ -55,7 +55,7 @@ var ClozeQuestionGapBuilder = (function () {
 		if (ClozeSettings.gaps_php === null) {
 			ClozeSettings.gaps_php = [];
 		}
-		
+
 		ClozeSettings.gaps_php[0].forEach(
 			(gap) => {
 				if (gap.type === 'text' || gap.type === 'select') {
@@ -418,7 +418,7 @@ var ClozeQuestionGapBuilder = (function () {
 		var prototype_head = $('#select_field');
 		prototype_head.clone().attr({
 			'id':    type + '-gap-r-' + counter,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var select_field_selector = $('#' + type + '-gap-r-' + counter);
 		pub.appendFormClasses(select_field_selector);
@@ -457,7 +457,7 @@ var ClozeQuestionGapBuilder = (function () {
 	pro.buildNumericFormObjectHelper = function (row, type, value) {
 		$('#numeric_prototype_numeric' + type).clone().attr({
 			'id':    'numeric_answers' + type + '_' + row,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var form = $('#numeric_answers' + type + '_' + row);
 		pub.appendFormClasses(form);
@@ -476,7 +476,7 @@ var ClozeQuestionGapBuilder = (function () {
 			$('#prototype_gapsize').clone().attr({
 				'id':    'gap_' + counter + '_gapsize_row',
 				'name':  'gap_' + counter + '_gapsize_row',
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			var gapsize_row = $('#gap_' + counter + '_gapsize_row');
 			pub.appendFormClasses(gapsize_row);
@@ -493,7 +493,7 @@ var ClozeQuestionGapBuilder = (function () {
 		else if (type === 'select') {
 			$('#shuffle_answers').clone().attr({
 				'id':    'shuffle_answers_' + counter,
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			pub.appendFormClasses($('#shuffle_answers_' + counter));
 			pro.changeIdentifierTextField(type, counter, values);
@@ -514,7 +514,7 @@ var ClozeQuestionGapBuilder = (function () {
 			$('#numeric_prototype_remove_button').clone().attr({
 				'id':    'remove_gap_container_' + counter,
 				'name':  'remove_gap_container_' + counter,
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			$('#remove_gap_container_' + counter).find('.btn.btn-default.remove_gap_button').attr(
 				{
@@ -523,7 +523,7 @@ var ClozeQuestionGapBuilder = (function () {
 		}
 		$('#error_answer').clone().attr({
 			'id':    'gap_error_' + counter,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var gap_error = $('#gap_error_' + counter);
 		pub.appendFormClasses(gap_error);
@@ -544,7 +544,7 @@ var ClozeQuestionGapBuilder = (function () {
 				$('#answer_text').clone().attr(
 					{
 						'id':    'text_row_' + counter_question + '_' + c,
-						'class': ClozeGlobals.form_row + ' interactive'
+						'class': ClozeGlobals.form_row + ' interactive row'
 					}).appendTo(ClozeGlobals.form_class);
 				text_row_selector = $('#text_row_' + counter_question + '_' + c);
 				pub.appendFormClasses(text_row_selector);

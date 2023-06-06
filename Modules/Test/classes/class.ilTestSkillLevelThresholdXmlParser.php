@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -97,12 +98,12 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         $this->curSkillTrefId = $curSkillTrefId;
     }
 
-    public function getCurSkillLevelThreshold(): ?\ilTestSkillLevelThresholdImport
+    public function getCurSkillLevelThreshold(): ?ilTestSkillLevelThresholdImport
     {
         return $this->curSkillLevelThreshold;
     }
 
-    public function setCurSkillLevelThreshold(\ilTestSkillLevelThresholdImport $curSkillLevelThreshold): void
+    public function setCurSkillLevelThreshold(?ilTestSkillLevelThresholdImport $curSkillLevelThreshold): void
     {
         $this->curSkillLevelThreshold = $curSkillLevelThreshold;
     }

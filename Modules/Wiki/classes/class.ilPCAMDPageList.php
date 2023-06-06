@@ -25,7 +25,6 @@
  */
 class ilPCAMDPageList extends ilPageContent
 {
-    protected php4DOMElement $amdpl_node;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
@@ -43,21 +42,15 @@ class ilPCAMDPageList extends ilPageContent
         return array("ed_insert_amd_page_list", "pc_amdpl");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->amdpl_node = $a_node->first_child();		// this is the courses node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->amdpl_node = $this->dom->create_element("AMDPageList");
-        $this->amdpl_node = $this->node->append_child($this->amdpl_node);
+        $amdpl_node = $this->dom_doc->createElement("AMDPageList");
+        $amdpl_node = $this->getDomNode()->appendChild($amdpl_node);
     }
 
     public function setData(
@@ -66,16 +59,16 @@ class ilPCAMDPageList extends ilPageContent
     ): void {
         $ilDB = $this->db;
 
-        $data_id = $this->amdpl_node->get_attribute("Id");
+        $data_id = $this->getChildNode()->getAttribute("Id");
         if ($data_id) {
             $ilDB->manipulate("DELETE FROM pg_amd_page_list" .
                 " WHERE id = " . $ilDB->quote($data_id, "integer"));
         } else {
             $data_id = $ilDB->nextId("pg_amd_page_list");
-            $this->amdpl_node->set_attribute("Id", $data_id);
+            $this->getChildNode()->setAttribute("Id", $data_id);
         }
 
-        $this->amdpl_node->set_attribute("Mode", (int) $a_mode);
+        $this->getChildNode()->setAttribute("Mode", (int) $a_mode);
 
         foreach ($a_fields_data as $field_id => $field_data) {
             $fields = array(
@@ -89,8 +82,8 @@ class ilPCAMDPageList extends ilPageContent
 
     public function getMode(): int
     {
-        if (is_object($this->amdpl_node)) {
-            return (int) $this->amdpl_node->get_attribute("Mode");
+        if (is_object($this->getChildNode())) {
+            return (int) $this->getChildNode()->getAttribute("Mode");
         }
         return 0;
     }
@@ -106,8 +99,8 @@ class ilPCAMDPageList extends ilPageContent
         $res = array();
 
         if (!$a_data_id) {
-            if (is_object($this->amdpl_node)) {
-                $a_data_id = $this->amdpl_node->get_attribute("Id");
+            if (is_object($this->getChildNode())) {
+                $a_data_id = $this->getChildNode()->getAttribute("Id");
             }
         }
 

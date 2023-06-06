@@ -14,6 +14,7 @@ $il-workflow-available-text-color: $il-text-color;
 $il-workflow-unavailable-text-color: $il-main-border-color;
 
 .il-workflow {
+	word-break: break-word;
 	&.linear {
 		-webkit-box-shadow: $il-panel-shadow;
 		box-shadow: $il-panel-shadow;

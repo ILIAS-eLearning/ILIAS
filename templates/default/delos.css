@@ -10995,6 +10995,9 @@ footer {
   left: 25%;
 }
 
+.il-workflow {
+  word-break: break-word;
+}
 .il-workflow.linear {
   -webkit-box-shadow: none;
   box-shadow: none;

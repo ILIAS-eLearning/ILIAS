@@ -22,7 +22,6 @@
  */
 class ilPCLearningHistory extends ilPageContent
 {
-    protected php4DOMElement $lhist_node;
     protected ilObjUser $user;
 
     public function init(): void
@@ -33,55 +32,49 @@ class ilPCLearningHistory extends ilPageContent
         $this->setType("lhist");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->lhist_node = $a_node->first_child();		// this is the skill node
-    }
-
     /**
      * Create learning history node
      */
     public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id = ""): void
     {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->lhist_node = $this->dom->create_element("LearningHistory");
-        $this->lhist_node = $this->node->append_child($this->lhist_node);
+        $lhist_node = $this->dom_doc->createElement("LearningHistory");
+        $lhist_node = $this->getDomNode()->appendChild($lhist_node);
     }
 
     public function setFrom(string $a_val): void
     {
-        $this->lhist_node->set_attribute("From", $a_val);
+        $this->getChildNode()->setAttribute("From", $a_val);
     }
 
     public function getFrom(): string
     {
-        return (string) $this->lhist_node->get_attribute("From");
+        return (string) $this->getChildNode()->getAttribute("From");
     }
 
     public function setTo(string $a_val): void
     {
-        $this->lhist_node->set_attribute("To", $a_val);
+        $this->getChildNode()->setAttribute("To", $a_val);
     }
 
     public function getTo(): string
     {
-        return (string) $this->lhist_node->get_attribute("To");
+        return (string) $this->getChildNode()->getAttribute("To");
     }
 
     public function setClasses(array $a_val): void
     {
         // delete properties
-        $children = $this->lhist_node->child_nodes();
+        $children = $this->getChildNode()->childNodes;
         foreach ($children as $iValue) {
-            $this->lhist_node->remove_child($iValue);
+            $this->getChildNode()->removeChild($iValue);
         }
         // set classes
         foreach ($a_val as $key => $class) {
-            $prop_node = $this->dom->create_element("LearningHistoryProvider");
-            $prop_node = $this->lhist_node->append_child($prop_node);
-            $prop_node->set_attribute("Name", $class);
+            $prop_node = $this->dom_doc->createElement("LearningHistoryProvider");
+            $prop_node = $this->getChildNode()->appendChild($prop_node);
+            $prop_node->setAttribute("Name", $class);
         }
     }
 
@@ -89,9 +82,9 @@ class ilPCLearningHistory extends ilPageContent
     {
         $classes = [];
         // delete properties
-        $children = $this->lhist_node->child_nodes();
+        $children = $this->getChildNode()->childNodes;
         foreach ($children as $iValue) {
-            $classes[] = $iValue->get_attribute("Name");
+            $classes[] = $iValue->getAttribute("Name");
         }
         return $classes;
     }

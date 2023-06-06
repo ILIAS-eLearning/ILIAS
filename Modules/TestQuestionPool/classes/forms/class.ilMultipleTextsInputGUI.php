@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  */
@@ -31,6 +34,9 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     protected $editElementOrderEnabled = false;
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+
     /**
      * Constructor
      *
@@ -39,10 +45,13 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->lng = $DIC->language();
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
+
         $this->validationRegexp = "";
     }
 
@@ -134,8 +143,12 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
                 $tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
                 $tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -154,8 +167,12 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
                 $tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
                 $tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
-                $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->add()
+                ));
+                $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->remove()
+                ));
             }
 
             $tpl->parseCurrentBlock();

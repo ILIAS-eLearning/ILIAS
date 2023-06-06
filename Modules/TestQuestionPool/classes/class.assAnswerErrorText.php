@@ -28,9 +28,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assAnswerErrorText
 {
-    public string $text_wrong;
-    public string $text_correct;
-    public float  $points;
+    protected string $text_wrong;
+    protected string $text_correct;
+    protected float  $points;
+    protected ?int $position;
 
     /**
      * assAnswerErrorText constructor
@@ -38,10 +39,60 @@ class assAnswerErrorText
      * @param string $text_correct Correct text
      * @param double $points       Points
      */
-    public function __construct(string $text_wrong = "", string $text_correct = "", float $points = 0.0)
-    {
+    public function __construct(
+        string $text_wrong = "",
+        string $text_correct = "",
+        float $points = 0.0,
+        ?int $position = null
+    ) {
         $this->text_wrong = $text_wrong;
         $this->text_correct = $text_correct;
         $this->points = $points;
+        $this->position = $position;
+
+        $word_array = preg_split("/\s+/", $text_wrong);
+
+        if ($word_array) {
+            $this->length = count($word_array);
+        }
+    }
+
+    public function getTextWrong(): string
+    {
+        return $this->text_wrong;
+    }
+
+    public function getTextCorrect(): string
+    {
+        return $this->text_correct;
+    }
+
+    public function getPoints(): string
+    {
+        return $this->points;
+    }
+
+    public function withPoints(float $points): self
+    {
+        $clone = clone $this;
+        $clone->points = $points;
+        return $clone;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function withPosition(int $position): self
+    {
+        $clone = clone $this;
+        $clone->position = $position;
+        return $clone;
+    }
+
+    public function getLength(): int
+    {
+        return $this->length;
     }
 }

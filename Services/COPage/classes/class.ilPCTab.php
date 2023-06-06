@@ -53,8 +53,8 @@ class ilPCTab extends ilPageContent
 
     public function deleteItem(): void
     {
-        $tab = $this->getNode();
-        $tab->unlink($tab);
+        $tab = $this->getDomNode();
+        $tab->parentNode->removeChild($tab);
     }
 
     public function moveItemDown(): void
@@ -100,7 +100,7 @@ class ilPCTab extends ilPageContent
         }
 EOT;
         }
-        $script.= "</script>";
+        $script .= "</script>";
 
 
 

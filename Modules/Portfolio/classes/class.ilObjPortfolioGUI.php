@@ -1122,10 +1122,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         array $a_skill_ids,
         ilPortfolioTemplatePage $a_source_page
     ): array {
-        $dom = $a_source_page->getDom();
-        if ($dom instanceof php4DOMDocument) {
-            $dom = $dom->myDOMDocument;
-        }
+        $dom = $a_source_page->getDomDoc();
         $xpath = new DOMXPath($dom);
         $nodes = $xpath->query("//PageContent/Skills");
         foreach ($nodes as $node) {

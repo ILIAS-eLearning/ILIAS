@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Assignments are relations of users to a PRG;
@@ -186,6 +186,17 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $assignments = array_filter(iterator_to_array(
             $this->read([
                 'ass.' . self::ASSIGNMENT_FIELD_USR_ID . ' = ' . $this->db->quote($usr_id, 'integer')
+            ])
+        ));
+        return $assignments;
+    }
+
+    public function getForUserOnNode(int $usr_id, int $root_prg_obj_id): array
+    {
+        $assignments = array_filter(iterator_to_array(
+            $this->read([
+                'ass.' . self::ASSIGNMENT_FIELD_USR_ID . ' = ' . $this->db->quote($usr_id, 'integer'),
+                self::ASSIGNMENT_FIELD_ROOT_PRG_ID . ' = ' . $this->db->quote($root_prg_obj_id, 'integer')
             ])
         ));
         return $assignments;
@@ -722,7 +733,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             . self::PROGRESS_FIELD_VQ_DATE . '=' . $validity . ','
             . self::PROGRESS_FIELD_INVALIDATED . '=' . $invalidated . ','
             . self::PROGRESS_FIELD_IS_INDIVIDUAL . '=' . $individual
-            ;
+        ;
         $this->db->manipulate($q);
     }
 

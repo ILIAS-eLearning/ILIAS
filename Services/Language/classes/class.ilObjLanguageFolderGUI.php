@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
@@ -40,6 +39,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 {
     protected HTTPServices $http;
     protected Refinery $refinery;
+    protected \ILIAS\DI\UIServices $ui;
 
     /**
      * Constructor
@@ -49,10 +49,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         global $DIC;
         $this->type = "lngf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        //$_GET["sort_by"] = "language";
         $this->lng->loadLanguageModule("lng");
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui = $DIC->ui();
     }
 
     /**
@@ -64,24 +64,27 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         if ($this->checkPermissionBool("write")) {
             // refresh
-            $refresh = ilLinkButton::getInstance();
-            $refresh->setUrl($this->ctrl->getLinkTarget($this, "confirmRefresh"));
-            $refresh->setCaption("refresh_languages");
-            $this->toolbar->addButtonInstance($refresh);
+            $refresh = $this->ui->factory()->button()->standard(
+                $this->lng->txt("refresh_languages"),
+                $this->ctrl->getLinkTarget($this, "confirmRefresh")
+            );
+            $this->toolbar->addComponent($refresh);
 
             // check languages
-            $check = ilLinkButton::getInstance();
-            $check->setUrl($this->ctrl->getLinkTarget($this, "checkLanguage"));
-            $check->setCaption("check_languages");
-            $this->toolbar->addButtonInstance($check);
+            $check = $this->ui->factory()->button()->standard(
+                $this->lng->txt("check_languages"),
+                $this->ctrl->getLinkTarget($this, "checkLanguage")
+            );
+            $this->toolbar->addComponent($check);
         }
 
         $ilClientIniFile = $DIC["ilClientIniFile"];
         if ($ilClientIniFile->variableExists("system", "LANGUAGE_LOG")) {
-            $download = ilLinkButton::getInstance();
-            $download->setUrl($this->ctrl->getLinkTarget($this, "listDeprecated"));
-            $download->setCaption("lng_download_deprecated");
-            $this->toolbar->addButtonInstance($download);
+            $download = $this->ui->factory()->button()->standard(
+                $this->lng->txt("lng_download_deprecated"),
+                $this->ctrl->getLinkTarget($this, "listDeprecated")
+            );
+            $this->toolbar->addComponent($download);
         }
 
         if ($this->checkPermissionBool("write")) {
@@ -594,9 +597,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
      */
     public function listDeprecatedObject(): void
     {
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("download");
-        $button->setUrl($this->ctrl->getLinkTarget($this, "downloadDeprecated"));
+        $button = $this->ui->factory()->button()->standard(
+            $this->lng->txt("download"),
+            $this->ctrl->getLinkTarget($this, "downloadDeprecated")
+        );
         $this->toolbar->addButtonInstance($button);
 
         include_once "./Services/Language/classes/class.ilLangDeprecated.php";
