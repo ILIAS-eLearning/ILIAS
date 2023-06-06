@@ -104,7 +104,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     new assAnswerMatchingTerm(
                         ilUtil::stripSlashes(htmlentities($answer)),
                         $filename,
-                        $terms_identifiers[$index] ?? ''
+                        $terms_identifiers[$index] ?? 0
                     )
                 );
             }
@@ -136,7 +136,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     new assAnswerMatchingDefinition(
                         ilUtil::stripSlashes(htmlentities($answer)),
                         $filename,
-                        $definitions_identifiers[$index] ?? ''
+                        $definitions_identifiers[$index] ?? 0
                     )
                 );
             }

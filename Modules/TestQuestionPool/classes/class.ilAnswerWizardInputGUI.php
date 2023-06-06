@@ -328,10 +328,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAction('#')
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -345,10 +345,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->add()
+                    $this->glyph_factory->add()->withAction('#')
                 ));
                 $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->remove()
+                    $this->glyph_factory->remove()->withAction('#')
                 ));
             }
             if ($this->getDisabled()) {
@@ -369,7 +369,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizard.js");
     }
 

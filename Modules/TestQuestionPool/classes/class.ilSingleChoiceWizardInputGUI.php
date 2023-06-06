@@ -443,8 +443,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             }
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
                     $this->glyph_factory->up()
@@ -465,8 +463,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $i);
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
@@ -519,7 +515,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/singlechoicewizard.js");
     }
 }

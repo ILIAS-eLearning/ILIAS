@@ -35,7 +35,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     protected $text_name = '';
     protected $image_name = '';
     protected $values = array();
-    protected $allowMove = false;
     protected $qstObject = null;
     protected $suffixes = array();
     protected $hideImages = false;
@@ -140,26 +139,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         return $this->qstObject;
     }
 
-    /**
-    * Set allow move
-    *
-    * @param	boolean	$a_allow_move Allow move
-    */
-    public function setAllowMove($a_allow_move): void
-    {
-        $this->allowMove = $a_allow_move;
-    }
-
-    /**
-    * Get allow move
-    *
-    * @return	boolean	Allow move
-    */
-    public function getAllowMove(): bool
-    {
-        return $this->allowMove;
-    }
-
     public function setValue($a_value): void
     {
         $this->values = array();
@@ -168,8 +147,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                 foreach ($a_value['answer'] as $index => $value) {
                     $answer = new assAnswerMatchingTerm(
                         $value,
-                        $a_value['imagename'][$index] ?? '',
-                        $a_value['identifier'][$index] ?? ''
+                        $a_value['imagename'][$index] ?? 0,
+                        $a_value['identifier'][$index] ?? 0
                     );
                     array_push($this->values, $answer);
                 }
@@ -293,6 +272,9 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
+        $global_tpl = $DIC['tpl'];
+        $global_tpl->addJavascript('./Modules/TestQuestionPool/templates/default/matchinginput.js');
+        $global_tpl->addOnLoadCode('il.test.matchingquestion.init();');
 
         $tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
@@ -339,26 +321,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("DISABLED_SINGLELINE", " disabled=\"disabled\"");
             }
             $tpl->parseCurrentBlock();
-            if ($this->getAllowMove()) {
-                $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
-                ));
-                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
-                ));
-                $tpl->parseCurrentBlock();
-            }
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $i + 1);
             $tpl->setVariable("ROW_IDENTIFIER", $value->getIdentifier());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
                 $this->glyph_factory->add()
             ));

@@ -345,9 +345,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                 $coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $area->getCoords());
                 $template->setVariable('VALUE_COORDINATES', $area->getCoords());
                 $template->setVariable('TEXT_COORDINATES', $coords);
-                $template->setVariable('COUNTER', $counter);
                 $template->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->remove()
+                    $this->glyph_factory->remove()->withAction('#')
                 ));
                 $template->parseCurrentBlock();
                 $counter++;
@@ -379,7 +378,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
     }
 }

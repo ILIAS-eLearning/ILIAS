@@ -334,15 +334,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
             if ($this->isEditElementOrderEnabled()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("ID_UP", $this->getMultiValuePosIndexedSubFieldId($identifier, 'up', $i));
-                $tpl->setVariable("ID_DOWN", $this->getMultiValuePosIndexedSubFieldId($identifier, 'down', $i));
-                $tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
-                $tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAction('#')
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -351,13 +347,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setCurrentBlock("row");
                 $tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
                 $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
-                $tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
-                $tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
                 $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->add()
+                    $this->glyph_factory->add()->withAction('#')
                 ));
                 $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->remove()
+                    $this->glyph_factory->remove()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -375,11 +369,6 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes") . " " . $suff_str);
             $tpl->parseCurrentBlock();
         }
-        /*
-        $tpl->setCurrentBlock("image_heading");
-        $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-        $tpl->parseCurrentBlock();
-        */
 
         $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
@@ -407,9 +396,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     }'
             ];
 
-            $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-            $this->tpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-            $this->tpl->addOnLoadCode("$.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init("
+            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
+            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
                 . json_encode($config)
                 . ");");
         }

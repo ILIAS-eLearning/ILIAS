@@ -322,10 +322,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('WHITESPACE_BACK', $lng->txt('cloze_textgap_whitespace_after'));
         $custom_template->setVariable('WHITESPACE_MULTIPLE', $lng->txt('cloze_textgap_multiple_whitespace'));
         $custom_template->setVariable('ADD_BUTTON', $renderer->render(
-            $glyph_factory->add()
+            $glyph_factory->add()->withAction('#')
         ));
         $custom_template->setVariable('REMOVE_BUTTON', $renderer->render(
-            $glyph_factory->remove()
+            $glyph_factory->remove()->withAction('#')
         ));
         $template->setCurrentBlock('prop_generic');
         $template->setVariable('PROP_GENERIC', $custom_template->get());

@@ -61,8 +61,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     sel = document.selection.createRange();
                     sel.text = code_start + sel.text + code_end;
                     this.focus();
-                }
-                else if (this.selectionStart || this.selectionStart == '0') {
+                } else if (this.selectionStart || this.selectionStart == '0') {
                     //For browsers like Firefox and Webkit based
                     var startPos = this.selectionStart;
                     var endPos = this.selectionEnd;

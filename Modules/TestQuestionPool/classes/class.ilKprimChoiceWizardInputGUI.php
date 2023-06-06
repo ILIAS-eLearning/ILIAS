@@ -166,7 +166,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if (strlen($value->getImageFile())) {
+                    if ($value->getImageFile() !== null
+                        && $value->getImageFile() !== '') {
                         $imagename = $value->getImageWebPath();
 
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
@@ -229,15 +230,13 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             }
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][{$value->getPosition()}]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][{$value->getPosition()}]");
                 $tpl->setVariable("UP_ID", "up_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("DOWN_ID", "down_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAction('#')
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -313,16 +312,12 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         $tpl->setVariable("OPTIONS_TEXT", $this->lng->txt('options'));
 
-        // winzards input column label values will be updated on document ready js
-        //$tpl->setVariable("TRUE_TEXT", $this->qstObject->getTrueOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
-        //$tpl->setVariable("FALSE_TEXT", $this->qstObject->getFalseOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
-
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
+        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/answerwizardinput.js");
+        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
         $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
     }
 
