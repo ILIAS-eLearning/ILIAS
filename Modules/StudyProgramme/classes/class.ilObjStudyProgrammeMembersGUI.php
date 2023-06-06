@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\Factory;
 
@@ -46,55 +46,28 @@ class ilObjStudyProgrammeMembersGUI
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
     public const F_SELECTED_USER_IDS = 'usrids';
 
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilToolbarGUI $toolbar;
-    protected ilLanguage $lng;
-    protected ilObjUser $user;
-    protected ilTabsGUI $tabs;
-    protected ilPRGAssignmentDBRepository $assignment_db;
-    protected ilStudyProgrammeRepositorySearchGUI $repository_search_gui;
-    protected ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui;
-    protected ilPRGMessagePrinter $messages;
-    protected Factory $data_factory;
-    protected ilConfirmationGUI $confirmation_gui;
-    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
     protected ?ilObjStudyProgramme $object;
     protected ?ilPRGPermissionsHelper $permissions;
     protected ilObjectGUI $parent_gui;
     protected int $ref_id;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilLanguage $lng,
-        ilObjUser $user,
-        ilTabsGUI $tabs,
-        ilPRGAssignmentDBRepository $assignment_db,
-        ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
-        ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
-        ilPRGMessagePrinter $messages,
-        Factory $data_factory,
-        ilConfirmationGUI $confirmation_gui,
-        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilToolbarGUI $toolbar,
+        protected ilLanguage $lng,
+        protected ilObjUser $user,
+        protected ilTabsGUI $tabs,
+        protected ilPRGAssignmentDBRepository $assignment_db,
+        protected ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
+        protected ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
+        protected ilPRGMessagePrinter $messages,
+        protected Factory $data_factory,
+        protected ilConfirmationGUI $confirmation_gui,
+        protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory
     ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->user = $user;
-        $this->tabs = $tabs;
-        $this->assignment_db = $assignment_db;
-        $this->repository_search_gui = $repository_search_gui;
-        $this->individual_plan_gui = $individual_plan_gui;
-        $this->messages = $messages;
-        $this->data_factory = $data_factory;
-        $this->confirmation_gui = $confirmation_gui;
-        $this->http_wrapper = $http_wrapper;
-        $this->refinery = $refinery;
         $this->object = null;
         $this->permissions = null;
 
@@ -761,11 +734,13 @@ class ilObjStudyProgrammeMembersGUI
             $toolbar->addSeparator();
         }
 
-        $toolbar->addButton(
-            $this->lng->txt('mail_assignments'),
-            $this->ctrl->getLinkTargetByClass(
-                'ilStudyProgrammeMailMemberSearchGUI',
-                'showSelectableUsers'
+        $toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('mail_assignments'),
+                $this->ctrl->getLinkTargetByClass(
+                    'ilStudyProgrammeMailMemberSearchGUI',
+                    'showSelectableUsers'
+                )
             )
         );
     }

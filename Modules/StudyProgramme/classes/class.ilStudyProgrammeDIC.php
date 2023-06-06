@@ -200,7 +200,8 @@ class ilStudyProgrammeDIC
                 $dic['DataFactory'],
                 new ilConfirmationGUI(),
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory'],
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn ($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(
@@ -393,7 +394,7 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-
+        $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
 
         return $dic;
     }
