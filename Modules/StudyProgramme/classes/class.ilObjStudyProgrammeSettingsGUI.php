@@ -139,11 +139,7 @@ class ilObjStudyProgrammeSettingsGUI
 
     protected function view(): string
     {
-        $this->buildModalHeading(
-            $this->lng->txt('prg_async_settings'),
-            $this->request_wrapper->has("currentNode")
-        );
-
+        $this->tmp_heading = "<div class=''>" . $this->lng->txt('prg_async_settings') . "</div>";
         $form = $this->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"));
         return $this->renderer->render($form);
     }
@@ -189,32 +185,6 @@ class ilObjStudyProgrammeSettingsGUI
             }
 
             return $this->renderer->render($form);
-        }
-    }
-
-    protected function buildModalHeading(string $label, bool $current_node): void
-    {
-        if (!$current_node) {
-            $this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
-            $heading_button = ilLinkButton::getInstance();
-            $heading_button->setCaption('prg_open_node');
-            $heading_button->setUrl(
-                $this->ctrl->getLinkTargetByClass(
-                    'ilobjstudyprogrammetreegui',
-                    'view'
-                )
-            );
-
-            $heading =
-                "<div class=''>" .
-                $label .
-                "<div class='pull-right'>" .
-                $heading_button->render() .
-                "</div></div>"
-            ;
-            $this->tmp_heading = $heading;
-        } else {
-            $this->tmp_heading = "<div class=''>" . $label . "</div>";
         }
     }
 
