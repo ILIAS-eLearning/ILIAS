@@ -31,4 +31,11 @@ class Agent extends Setup\Agent\NullAgent
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilExerciseDBUpdateSteps());
     }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilExerciseInstructionFilesMigration()
+        ];
+    }
 }
