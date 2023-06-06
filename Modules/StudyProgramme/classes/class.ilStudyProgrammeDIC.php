@@ -130,7 +130,7 @@ class ilStudyProgrammeDIC
         $dic['ilStudyProgrammeDelayedEvents'] = static fn ($dic) =>
             new PRGEventsDelayed($dic['ilStudyProgrammeEvents']);
 
-        $dic['repo.assignment'] =  static fn ($dic) =>
+        $dic['repo.assignment'] = static fn ($dic) =>
             new ilPRGAssignmentDBRepository(
                 $DIC['ilDB'],
                 $DIC['tree'],
@@ -243,7 +243,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilTabs'],
                 $DIC['ilUser'],
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
-                $DIC->ui()->factory()->input(),
+                $DIC->ui()->factory(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
