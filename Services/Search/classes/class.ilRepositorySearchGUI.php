@@ -39,6 +39,7 @@ class ilRepositorySearchGUI
     private array $search_results = [];
 
     protected array $add_options = [];
+    protected string $default_option = '';
     protected bool $object_selection = false;
 
     protected bool $searchable_check = true;
@@ -637,16 +638,32 @@ class ilRepositorySearchGUI
         }
     }
 
-    public function setCallback(object $class, string $method, array $a_add_options = array()): void
-    {
+    /**
+     * @param string[]  $a_add_options
+     */
+    public function setCallback(
+        object $class,
+        string $method,
+        array $a_add_options = [],
+        string $default_option = ''
+    ): void {
         $this->callback = array('class' => $class,'method' => $method);
         $this->add_options = $a_add_options;
+        $this->default_option = $default_option;
     }
 
-    public function setRoleCallback(object $class, string $method, array $a_add_options = array()): void
-    {
+    /**
+     * @param string[]  $a_add_options
+     */
+    public function setRoleCallback(
+        object $class,
+        string $method,
+        array $a_add_options = [],
+        string $default_option = ''
+    ): void {
         $this->role_callback = array('class' => $class,'method' => $method);
         $this->add_options = $a_add_options;
+        $this->default_option = $default_option;
     }
 
 
@@ -1194,7 +1211,8 @@ class ilRepositorySearchGUI
                 'selectedCommand',
                 $this->add_options,
                 'handleMultiCommand',
-                $this->lng->txt('execute')
+                $this->lng->txt('execute'),
+                $this->default_option
             );
         } else {
             $table->addMultiCommand('addUser', $this->lng->txt('btn_add'));

@@ -247,14 +247,16 @@ class ilMembershipGUI
                     $rep_search->setCallback(
                         $this,
                         'assignMembers',
-                        $this->getParentGUI()->getLocalRoles()
+                        $this->getParentGUI()->getLocalRoles(),
+                        (string) $this->getDefaultRole()
                     );
                 } else {
                     //#18445 excludes admin role
                     $rep_search->setCallback(
                         $this,
                         'assignMembers',
-                        $this->getLocalRoles()
+                        $this->getLocalRoles(),
+                        (string) $this->getDefaultRole()
                     );
                 }
 
