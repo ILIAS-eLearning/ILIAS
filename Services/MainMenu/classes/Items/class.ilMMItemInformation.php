@@ -163,9 +163,9 @@ class ilMMItemInformation implements ItemInformation
                 $aria_label = $old_symbol->getLabel();
             } elseif ($item instanceof hasTitle) {
                 $aria_label = $item->getTitle();
-            } else {
-                $aria_label = 'Custom icon';
             }
+
+            $aria_label = empty($aria_label) ? $id : $aria_label;
 
             $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
 
