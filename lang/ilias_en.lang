@@ -2522,7 +2522,7 @@ book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Sen
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
-book#:#book_nr_preferences#:#Prefences
+book#:#book_nr_preferences#:#Preferences
 book#:#book_object_added#:#A booking object has been added.
 book#:#book_object_deleted#:#The booking object has been deleted.
 book#:#book_object_updated#:#The booking object has been updated.
