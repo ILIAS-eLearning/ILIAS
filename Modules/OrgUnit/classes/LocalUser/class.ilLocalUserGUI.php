@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLocalUserGUI
@@ -39,6 +40,7 @@ class ilLocalUserGUI
     private ilRbacAdmin $rbacAdmin;
     private ilObjUser $user;
     private \ILIAS\DI\LoggingServices $logger;
+    protected \ILIAS\UI\Factory $ui_factory;
 
     public function __construct(ilObjectGUI $parentGui)
     {
@@ -57,11 +59,17 @@ class ilLocalUserGUI
         $this->access = $DIC->access();
         $this->tabsGui = $DIC->tabs();
         $this->logger = $DIC->logger();
+        $this->ui_factory = $DIC['ui.factory'];
 
         $this->lng->loadLanguageModule('user');
         if (!$this->rbacSystem->checkAccess("cat_administrate_users", $this->parentGui->getObject()->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_admin_users"), true);
         }
+    }
+
+    public function getRefId()
+    {
+        return $_GET['ref_id'];
     }
 
     public function executeCommand(): bool
@@ -116,13 +124,17 @@ class ilLocalUserGUI
         if (count($this->rbacReview->getGlobalAssignableRoles())
             or in_array(SYSTEM_ROLE_ID, $this->rbacReview->assignedRoles($this->user->getId()))
         ) {
-            $this->toolbar->addButton(
-                $this->lng->txt('add_user'),
-                $this->ctrl->getLinkTargetByClass('ilobjusergui', 'create')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('add_user'),
+                    $this->ctrl->getLinkTargetByClass("ilobjusergui", "create")
+                )
             );
-            $this->toolbar->addButton(
-                $this->lng->txt('import_users'),
-                $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'importUserForm')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('import_users'),
+                    $this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "importUserForm")
+                )
             );
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_roles_user_can_be_assigned_to'));
@@ -428,7 +440,9 @@ class ilLocalUserGUI
         $offset = $_GET["offset"] ?: 0;
         $limit = $_GET["limit"] ?: 0;
 
-        if ($a_from == 'clipboardObject') $tbl->disable("footer");
+        if ($a_from == 'clipboardObject') {
+            $tbl->disable("footer");
+        }
         $tbl->disable("linkbar");
 
         $tbl->setOrderColumn((string) $order);

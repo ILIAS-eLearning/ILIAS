@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
 
@@ -48,7 +50,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public const TAB_GLOBAL_SETTINGS = 'global_settings';
     public const TAB_EXPORT = 'export';
     public const TAB_VIEW_CONTENT = 'view_content';
-
     public const CMD_EDIT_SETTINGS = 'editSettings';
 
     public ilCtrl $ctrl;
@@ -64,8 +65,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function __construct()
     {
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->ilAccess = $DIC->access();
         $this->ilLocator = $DIC['ilLocator'];
         $this->tree = $DIC->repositoryTree();
         $this->toolbar = $DIC->toolbar();
@@ -73,11 +72,17 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->ilias = $DIC['ilias'];
         $this->type = 'orgu';
 
-        parent::__construct(array(), $_GET["ref_id"], true, false);
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->ctrl = $dic['ctrl'];
+        $this->ilAccess = $dic['access'];
+        $to_int = $dic['refinery']->kindlyTo()->int();
+        $this->ref_id = $dic['query']->retrieve('ref_id', $to_int);
 
-        $lng = $DIC->language();
-        $lng->loadLanguageModule("orgu");
+        parent::__construct(array(), $this->ref_id, true, false);
+
         $this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
+        $this->lng = $dic['lng'];
+        $this->lng->loadLanguageModule("orgu");
 
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
             OrgUnitToolProvider::SHOW_ORGU_TREE,
@@ -103,7 +108,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($global_settings);
                 break;
             case "illocalusergui":
-                if (!ilObjOrgUnitAccess::_checkAccessAdministrateUsers((int) $_GET['ref_id'])) {
+                if (!ilObjOrgUnitAccess::_checkAccessAdministrateUsers($this->ref_id)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this);
                 }
@@ -125,7 +130,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             case "ilobjusergui":
                 switch ($cmd) {
                     case "create":
-                        $ilObjUserGUI = new ilObjUserGUI("", (int) $_GET['ref_id'], true, false);
+                        $ilObjUserGUI = new ilObjUserGUI("", $this->ref_id, true, false);
                         $ilObjUserGUI->setCreationMode(true);
                         $this->ctrl->forwardCommand($ilObjUserGUI);
                         $this->tabs_gui->setBackTarget(
@@ -134,7 +139,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                         );
                         break;
                     case "save":
-                        $ilObjUserGUI = new ilObjUserGUI("", $_GET['ref_id'], true, false);
+                        $ilObjUserGUI = new ilObjUserGUI("", $this->ref_id, true, false);
                         $ilObjUserGUI->setCreationMode(true);
                         $this->ctrl->forwardCommand($ilObjUserGUI);
                         $this->tabs_gui->clearTargets();
@@ -165,8 +170,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                         $this->ctrl->redirectByClass("illocalusergui", "index");
                         break;
                     default:
-                        $ilObjUserFolderGUI = new ilObjUserFolderGUI("", (int) $_GET['ref_id'], true, false);
-                        $ilObjUserFolderGUI->setUserOwnerId((int) $_GET['ref_id']);
+                        $ilObjUserFolderGUI = new ilObjUserFolderGUI("", $this->ref_id, true, false);
+                        $ilObjUserFolderGUI->setUserOwnerId($this->ref_id);
                         $ilObjUserFolderGUI->setCreationMode(true);
                         $this->ctrl->forwardCommand($ilObjUserFolderGUI);
                         $this->tabs_gui->clearTargets();
@@ -228,13 +233,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT,
-                    $_GET["ref_id"],
+                    $this->ref_id,
                     $_GET['obj_id']
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
             case 'ilorgunitexportgui':
-                if (!ilObjOrgUnitAccess::_checkAccessExport((int) $_GET['ref_id'])) {
+                if (!ilObjOrgUnitAccess::_checkAccessExport($this->ref_id)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this);
                 }
@@ -359,8 +364,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function view(): void
     {
-        if (!$this->rbacsystem->checkAccess("read", $_GET["ref_id"])) {
-            if ($this->rbacsystem->checkAccess("visible", $_GET["ref_id"])) {
+        if (!$this->rbacsystem->checkAccess("read", $this->ref_id)) {
+            if ($this->rbacsystem->checkAccess("visible", $this->ref_id)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_read"));
                 $this->ctrl->redirectByClass('ilinfoscreengui', '');
             }
@@ -412,7 +417,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-        //$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
+        //$gui->setCreationUrl("ilias.php?ref_id=" . $this->ref_id . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
         $gui->setCreationUrl($this->ctrl->getLinkTarget($this, 'create'));
         $gui->render();
     }
@@ -441,7 +446,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
-        $path = $this->tree->getPathFull($_GET["ref_id"], ilObjOrgUnit::getRootOrgRefId());
+        $path = $this->tree->getPathFull($this->ref_id, ilObjOrgUnit::getRootOrgRefId());
         // add item for each node on path
         foreach ((array) $path as $key => $row) {
             if ($row["title"] === "__OrgUnitAdministration") {
@@ -454,7 +459,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 ilFrameTargetInfo::_getFrame("MainContent"),
                 $row["child"]
             );
-            $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $_GET["ref_id"]);
+            $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
         }
     }
 
