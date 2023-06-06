@@ -56,6 +56,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tree = $DIC['tree'];
+        $ui_factory = $DIC['ui.factory'];
 
         if (!$toolbar instanceof ilToolbarGUI) {
             $toolbar = $ilToolbar;
@@ -115,10 +116,11 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             $toolbar->addSeparator();
 
             if ((bool) $a_options['add_search']) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("search_users");
-                $button->setUrl($ilCtrl->getLinkTargetByClass('ilStudyProgrammeRepositorySearchGUI', ''));
-                $toolbar->addButtonInstance($button);
+                $link = $ui_factory->link()->standard(
+                    $lng->txt('search_users'),
+                    $ilCtrl->getLinkTargetByClass('ilStudyProgrammeRepositorySearchGUI', '')
+                );
+                $toolbar->addComponent($link);
             }
 
             if (isset($a_options['add_from_container']) && is_numeric($a_options['add_from_container'])) {
@@ -140,15 +142,14 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                         ilObject::_lookupObjId($parent_container_ref_id)
                     );
 
-                    $button = ilLinkButton::getInstance();
-                    $button->setCaption("search_add_members_from_container_" . $parent_container_type);
-                    $button->setUrl(
+                    $link = $ui_factory->link()->standard(
+                        $lng->txt('search_add_members_from_container_' . $parent_container_type),
                         $ilCtrl->getLinkTargetByClass(
-                            array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
+                            [get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'],
                             'listUsers'
                         )
                     );
-                    $toolbar->addButtonInstance($button);
+                    $toolbar->addComponent($link);
                 }
             }
         }

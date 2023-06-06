@@ -226,10 +226,8 @@ class ilStudyProgrammeTypeGUI
     protected function listTypes(): void
     {
         if ($this->access->checkAccess("write", "", $this->parent_gui->getObject()->getRefId())) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('prg_subtype_add');
-            $button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
-            $this->toolbar->addButtonInstance($button);
+            $link = $this->ui_factory->link()->standard($this->lng->txt('prg_subtype_add'), $this->ctrl->getLinkTarget($this, 'add'));
+            $this->toolbar->addComponent($link);
         }
         $table = new ilStudyProgrammeTypeTableGUI(
             $this,

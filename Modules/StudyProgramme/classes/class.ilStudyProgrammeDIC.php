@@ -230,7 +230,8 @@ class ilStudyProgrammeDIC
                 $DIC['tree'],
                 $DIC['rbacadmin'],
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory']
             );
         $dic['ilStudyProgrammeTypeGUI'] = static fn ($dic) =>
             new ilStudyProgrammeTypeGUI(

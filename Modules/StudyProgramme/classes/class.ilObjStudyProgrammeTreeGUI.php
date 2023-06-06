@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjStudyProgrammeTreeGUI
  * Generates the manage view for ilTrainingProgramme-Repository objects. Handles all the async requests.
@@ -27,19 +27,6 @@ declare(strict_types=1);
  */
 class ilObjStudyProgrammeTreeGUI
 {
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilAccessHandler $access;
-    protected ilToolbarGUI $toolbar;
-    protected ilLanguage $lng;
-    protected ilComponentLogger $log;
-    protected Ilias $ilias;
-    protected ilSetting $ilSetting;
-    protected ilTree $ilTree;
-    protected ilRbacAdmin $rbacadmin;
-    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
-
     /**
      * CSS-ID of the modal windows
      */
@@ -54,36 +41,23 @@ class ilObjStudyProgrammeTreeGUI
     protected ilObjStudyProgramme $object;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilAccess $ilAccess,
-        ilToolbarGUI $ilToolbar,
-        ilLanguage $lng,
-        ilComponentLogger $ilLog,
-        ILIAS $ilias,
-        ilSetting $ilSetting,
-        ilTree $ilTree,
-        ilRbacAdmin $rbacadmin,
-        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilAccess $access,
+        protected ilToolbarGUI $toolbar,
+        protected ilLanguage $lng,
+        protected ilComponentLogger $log,
+        protected ILIAS $ilias,
+        protected ilSetting $ilSetting,
+        protected ilTree $ilTree,
+        protected ilRbacAdmin $rbacadmin,
+        protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory
     ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->access = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->log = $ilLog;
-        $this->ilias = $ilias;
-        $this->lng = $lng;
-        $this->ilSetting = $ilSetting;
-        $this->ilTree = $ilTree;
-        $this->rbacadmin = $rbacadmin;
-        $this->http_wrapper = $http_wrapper;
-        $this->refinery = $refinery;
-
         $this->modal_id = "tree_modal";
         $this->async_output_handler = new ilAsyncOutputHandler();
-
-        $lng->loadLanguageModule("prg");
+        $this->lng->loadLanguageModule("prg");
     }
 
     public function setRefId(int $ref_id): void
@@ -566,20 +540,13 @@ class ilObjStudyProgrammeTreeGUI
      */
     protected function getToolbar(): void
     {
-        $save_order_btn = ilLinkButton::getInstance();
-        $save_order_btn->setId('save_order_button');
-        $save_order_btn->setUrl("javascript:void(0);");
-        $save_order_btn->setOnClick("$('body').trigger('study_programme-save_order');");
-        $save_order_btn->setCaption('prg_save_tree_order');
+        $save_order_btn = $this->ui_factory->button()->standard($this->lng->txt('prg_save_tree_order'), '')
+           ->withOnLoadCode(fn ($id) => "$(\"#$id\").click( () => $('body').trigger('study_programme-save_order'));");
+        $cancel_order_btn = $this->ui_factory->button()->standard($this->lng->txt('prg_cancel_tree_order'), '')
+           ->withOnLoadCode(fn ($id) => "$(\"#$id\").click( () => $('body').trigger('study_programme-cancel_order'));");
 
-        $cancel_order_btn = ilLinkButton::getInstance();
-        $cancel_order_btn->setId('cancel_order_button');
-        $cancel_order_btn->setUrl("javascript:void(0);");
-        $cancel_order_btn->setOnClick("$('body').trigger('study_programme-cancel_order');");
-        $cancel_order_btn->setCaption('prg_cancel_tree_order');
-
-        $this->toolbar->addButtonInstance($save_order_btn);
-        $this->toolbar->addButtonInstance($cancel_order_btn);
+        $this->toolbar->addComponent($save_order_btn);
+        $this->toolbar->addComponent($cancel_order_btn);
     }
 
     /**
