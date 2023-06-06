@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Exercise\Assignment\Mandatory;
+use ILIAS\Services\ResourceStorage\Collections\View\Configuration;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilExAssignmentEditorGUI
@@ -24,6 +27,7 @@ use ILIAS\Exercise\Assignment\Mandatory;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilExAssignmentEditorGUI: ilResourceCollectionGUI
  */
 class ilExAssignmentEditorGUI
 {
@@ -52,6 +56,8 @@ class ilExAssignmentEditorGUI
      * @var int[]
      */
     protected array $requested_order;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private \ILIAS\FileUpload\FileUpload $upload;
 
     public function __construct(
         int $a_exercise_id,
@@ -85,6 +91,8 @@ class ilExAssignmentEditorGUI
         );
         $this->requested_ass_ids = $request->getAssignmentIds();
         $this->requested_order = $request->getOrder();
+        $this->irss = $DIC->resourceStorage();
+        $this->upload = $DIC->upload();
     }
 
     /**
@@ -105,6 +113,24 @@ class ilExAssignmentEditorGUI
                 $ilCtrl->forwardCommand($form);
                 break;
 
+            case strtolower(ilResourceCollectionGUI::class):
+                $this->setAssignmentHeader();
+                $ilTabs->activateTab("ass_files");
+                if (!$this->assignment->hasInstructionFileRCID()) {
+                    throw new LogicException("No resource collection id found for assignment " . $this->assignment->getId());
+                }
+                $collection_id = $this->assignment->getInstructionFileRCID();
+                $collection = $this->irss->collection()->get($collection_id);
+
+                $overview = new ilResourceCollectionGUI(new Configuration(
+                    $collection,
+                    new ilExcInstructionFilesStakeholder(),
+                    $this->lng->txt('exc_instruction_files')
+                ));
+
+                $this->ctrl->forwardCommand($overview);
+
+                break;
                 // instruction files
             case "ilexassignmentfilesystemgui":
                 $this->setAssignmentHeader();
@@ -868,13 +894,42 @@ class ilExAssignmentEditorGUI
             $a_ass->setFeedbackDateCustom((int) $a_input["fb_date_custom"]);
         }
 
+        // Create Collection ID
+        $rcid = $this->irss->collection()->id();
+        $a_ass->setInstructionFileRCID($rcid);
+        $a_ass->update();
+
         // id needed for file handling
         if ($is_create) {
             $a_ass->save();
 
             // #15994 - assignment files
             if (is_array($a_input["files"])) {
-                $a_ass->uploadAssignmentFiles($a_input["files"]);
+                if (!$this->upload->hasBeenProcessed()) {
+                    $this->upload->process();
+                }
+                $stakeholder = new ilExcInstructionFilesStakeholder();
+                $collection = $this->irss->collection()->get($rcid);
+
+                foreach ($this->upload->getResults() as $name => $result) {
+                    // we must check if these are files from this input
+                    if (!in_array($name, $a_input["files"]["tmp_name"] ?? [], true)) {
+                        continue;
+                    }
+                    // if the result is not OK, we skip it
+                    if (!$result->isOK()) {
+                        continue;
+                    }
+                    // we store the file in the IRSS
+                    $rid = $this->irss->manage()->upload(
+                        $result,
+                        $stakeholder
+                    );
+                    // and add its identification to the collection
+                    $collection->add($rid);
+                }
+                // we store the collection after all files have been added
+                $this->irss->collection()->store($collection);
             }
         } else {
             // remove global feedback file?
@@ -1285,11 +1340,10 @@ class ilExAssignmentEditorGUI
                 $ilCtrl->getLinkTarget($this, "editPeerReview")
             );
         }
-
         $ilTabs->addTab(
             "ass_files",
             $lng->txt("exc_instruction_files"),
-            $ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilexassignmentfilesystemgui"), "listFiles")
+            $ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", ilResourceCollectionGUI::class))
         );
     }
 
