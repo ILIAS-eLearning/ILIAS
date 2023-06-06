@@ -65,6 +65,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected ?ilPRGPermissionsHelper $permissions = null;
     protected Refinery\Factory $refinery;
     protected RequestWrapper $request_wrapper;
+    protected ILIAS\UI\Factory $ui_factory;
 
     /**
      * @var ilObjStudyProgramme
@@ -95,13 +96,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("prg");
 
-        $this->settings_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeSettingsGUI'];
-        $this->members_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
-        $this->memberships_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoMembershipsGUI'];
-        $this->tree_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
-        $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
-        $this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
-        $this->type_repository = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
+        $dic = ilStudyProgrammeDIC::dic();
+        $this->settings_gui = $dic['ilObjStudyProgrammeSettingsGUI'];
+        $this->members_gui = $dic['ilObjStudyProgrammeMembersGUI'];
+        $this->memberships_gui = $dic['ilObjStudyProgrammeAutoMembershipsGUI'];
+        $this->tree_gui = $dic['ilObjStudyProgrammeTreeGUI'];
+        $this->type_gui = $dic['ilStudyProgrammeTypeGUI'];
+        $this->autocategories_gui = $dic['ilObjStudyProgrammeAutoCategoriesGUI'];
+        $this->type_repository = $dic['model.Type.ilStudyProgrammeTypeRepository'];
+        $this->ui_factory = $dic['ui.factory'];
 
         $this->container_view_manager = $DIC
             ->container()
@@ -405,9 +408,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_READ);
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
 
-        $this->toolbar->addButton(
-            $this->lng->txt('cntr_text_media_editor'),
-            $this->getLinkTarget("edit_page")
+        $this->toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('cntr_text_media_editor'),
+                $this->getLinkTarget("edit_page")
+            )
         );
 
         parent::renderObject();

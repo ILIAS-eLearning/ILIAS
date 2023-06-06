@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Custom repository search gui class for study programme to make it possible
@@ -103,6 +103,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         $button = ilSubmitButton::getInstance();
         $button->setCaption($a_options['submit_name'], false);
         $button->setCommand('addUserFromAutoComplete');
+
         if (!$a_sticky) {
             $toolbar->addButtonInstance($button);
         } else {
