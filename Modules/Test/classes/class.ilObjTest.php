@@ -7290,10 +7290,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $bestrow = null;
         $bestfactor = 0;
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($bestrow === null) {
-                $bestrow = $row;
-                continue;
-            }
             if ($row["maxpoints"] > 0) {
                 $factor = $row["points"] / $row["maxpoints"];
             } else {
