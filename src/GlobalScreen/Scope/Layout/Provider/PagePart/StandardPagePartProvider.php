@@ -68,7 +68,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent(): ?Legacy
+    public function getContent(): Legacy
     {
         return $this->content ?? $this->ui->factory()->legacy("");
     }
@@ -76,12 +76,9 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar(): ?MetaBar
+    public function getMetaBar(): MetaBar
     {
         $this->gs->collector()->metaBar()->collectOnce();
-        if (!$this->gs->collector()->metaBar()->hasItems()) {
-            return null;
-        }
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
@@ -99,14 +96,9 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar(): ?MainBar
+    public function getMainBar(): MainBar
     {
         $this->gs->collector()->mainmenu()->collectOnce();
-        if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
-            && !$this->gs->collector()->tool()->hasVisibleItems()) {
-            return null;
-        }
-
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
@@ -162,7 +154,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs(): ?Breadcrumbs
+    public function getBreadCrumbs(): Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
@@ -183,7 +175,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo(): ?Image
+    public function getLogo(): Image
     {
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
 
@@ -195,7 +187,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getResponsiveLogo(): ?Image
+    public function getResponsiveLogo(): Image
     {
         $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
 
@@ -238,7 +230,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getFooter(): ?Footer
+    public function getFooter(): Footer
     {
         return $this->ui->factory()->mainControls()->footer([]);
     }
