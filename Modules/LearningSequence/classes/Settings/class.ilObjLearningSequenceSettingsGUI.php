@@ -97,14 +97,7 @@ class ilObjLearningSequenceSettingsGUI
     public function addLegacypagesToToolbar(): void
     {
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt("lso_settings_old_intro"),
-                $this->ctrl->getLinkTarget($this, self::CMD_OLD_INTRO)
-            )
-        );
-
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
+            $this->ui_factory->link()->standard(
                 $this->lng->txt("lso_settings_old_extro"),
                 $this->ctrl->getLinkTarget($this, self::CMD_OLD_EXTRO)
             )
@@ -113,9 +106,11 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function showLegacyPage(string $cmd): string
     {
-        $this->toolbar->addButton(
-            $this->lng->txt('back'),
-            $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
+        $this->toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt("back"),
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
+            )
         );
 
         $out = [];
