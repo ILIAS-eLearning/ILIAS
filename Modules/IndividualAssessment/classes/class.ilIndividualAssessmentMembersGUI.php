@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI;
 use ILIAS\UI\Component\ViewControl;
@@ -255,13 +255,19 @@ class ilIndividualAssessmentMembersGUI
             $this->handleAccessViolation();
         }
         $usr_id = $this->request_wrapper->retrieve("usr_id", $this->refinery->kindlyTo()->int());
-        $confirm = new ilConfirmationGUI();
-        $confirm->addItem('usr_id', (string) $usr_id, ilObjUser::_lookupFullname($usr_id));
-        $confirm->setHeaderText($this->txt('iass_remove_user_qst'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->txt('remove'), 'removeUser');
-        $confirm->setCancel($this->txt('cancel'), 'view');
-        $this->tpl->setContent($confirm->getHTML());
+        $message = $this->lng->txt('iass_remove_user_qst');
+
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $usr_id);
+        $remove = $this->ctrl->getFormAction($this, 'removeUser');
+        $cancel = $this->ctrl->getFormAction($this, 'view');
+        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+
+        $buttons = [
+            $this->factory->button()->standard($this->lng->txt('remove'), $remove),
+            $this->factory->button()->standard($this->lng->txt('cancel'), $cancel)
+        ];
+        $message_box = $this->factory->messageBox()->confirmation($message)->withButtons($buttons);
+        $this->tpl->setContent($this->renderer->render($message_box));
     }
 
     /**
