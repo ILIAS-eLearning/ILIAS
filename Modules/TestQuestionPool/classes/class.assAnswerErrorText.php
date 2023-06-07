@@ -32,6 +32,7 @@ class assAnswerErrorText
     protected string $text_correct;
     protected float  $points;
     protected ?int $position;
+    protected int $length;
 
     /**
      * assAnswerErrorText constructor

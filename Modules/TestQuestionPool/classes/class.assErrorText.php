@@ -186,7 +186,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setErrorText((string) $data["errortext"]);
-            $this->setParsedErrorText(json_decode($data['parsed_errortext'], true) ?? []);
+            $this->setParsedErrorText(json_decode($data['parsed_errortext'] ?? json_encode([]), true));
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
 
