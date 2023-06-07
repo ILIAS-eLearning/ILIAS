@@ -113,6 +113,7 @@ class StandardPagePartProvider implements PagePartProvider
     public function getMainBar() : ?MainBar
     {
         $this->gs->collector()->mainmenu()->collectOnce();
+        $this->gs->collector()->tool()->collectOnce();
         if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
             && !$this->gs->collector()->tool()->hasVisibleItems()) {
             return null;
