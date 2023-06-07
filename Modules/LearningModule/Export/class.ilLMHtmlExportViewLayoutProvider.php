@@ -54,7 +54,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->metabar()
-                ->withModification(function (MetaBar $current = null): ?MetaBar {
+                ->withModification(function (?MetaBar $current): ?MetaBar {
                     return null;
                 })->withHighPriority();
         }
@@ -72,7 +72,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->mainbar()
-                ->withModification(function (MainBar $current = null): ?MainBar {
+                ->withModification(function (?MainBar $current): ?MainBar {
                     global $DIC;
 
                     $lng = $DIC->language();
@@ -90,13 +90,15 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                     $lm_tools = new ilLMGSToolProvider($DIC);
                     $ids = $lm_tools->getOfflineToolIds();
 
-                    // copy all offline tools from original main bar to offline main bar
-                    foreach ($current->getToolEntries() as $id => $te) {
-                        if (in_array($id, $ids)) {
-                            $offline_main_bar = $offline_main_bar->withAdditionalToolEntry(
-                                $id,
-                                $te
-                            );
+                    if ($current !== null) {
+                        // copy all offline tools from original main bar to offline main bar
+                        foreach ($current->getToolEntries() as $id => $te) {
+                            if (in_array($id, $ids)) {
+                                $offline_main_bar = $offline_main_bar->withAdditionalToolEntry(
+                                    $id,
+                                    $te
+                                );
+                            }
                         }
                     }
 
@@ -118,7 +120,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->breadcrumbs()
-                ->withModification(function (Breadcrumbs $current = null): ?Breadcrumbs {
+                ->withModification(function (?Breadcrumbs $current): ?Breadcrumbs {
                     return null;
                 })->withHighPriority();
         } else {

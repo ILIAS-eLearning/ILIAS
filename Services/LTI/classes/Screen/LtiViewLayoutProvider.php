@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\LTI\Screen;
 
@@ -95,16 +95,18 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->mainbar()
                     ->withModification(
-                        function (MainBar $mainbar) use ($is_exit_mode): ?MainBar {
-                            $tools = $mainbar->getToolEntries();
-                            $mainbar = $mainbar->withClearedEntries();
-                            if ($is_exit_mode) {
-                                return $mainbar;
+                        function (?MainBar $mainbar) use ($is_exit_mode): ?MainBar {
+                            if ($mainbar !== null) {
+                                $tools = $mainbar->getToolEntries();
+                                $mainbar = $mainbar->withClearedEntries();
+                                if ($is_exit_mode) {
+                                    return $mainbar;
+                                }
+                                foreach ($tools as $id => $entry) {
+                                    $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
+                                }
+                                //$mainbar = $mainbar->withAdditionalEntry('lti_home', $lti_home);
                             }
-                            foreach ($tools as $id => $entry) {
-                                $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
-                            }
-                            //$mainbar = $mainbar->withAdditionalEntry('lti_home', $lti_home);
                             return $mainbar;
                         }
                     )
@@ -120,16 +122,18 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->metabar()
                     ->withModification(
-                        function (MetaBar $metabar) use ($is_exit_mode, $screen_context_stack): ?Metabar {
-                            $metabar = $metabar->withClearedEntries();
-                            if ($is_exit_mode) {
-                                return $metabar;
+                        function (?MetaBar $metabar) use ($is_exit_mode, $screen_context_stack): ?Metabar {
+                            if ($metabar !== null) {
+                                $metabar = $metabar->withClearedEntries();
+                                if ($is_exit_mode) {
+                                    return $metabar;
+                                }
+                                $f = $this->dic->ui()->factory();
+                                $exit_symbol = $f->symbol()->glyph()->close();
+                                $exit_txt = $this->dic['lti']->lng->txt('lti_exit');
+                                $exit = $f->button()->bulky($exit_symbol, $exit_txt, $this->dic["lti"]->getCmdLink('exit'));
+                                $metabar = $metabar->withAdditionalEntry('exit', $exit);
                             }
-                            $f = $this->dic->ui()->factory();
-                            $exit_symbol = $f->symbol()->glyph()->close();
-                            $exit_txt = $this->dic['lti']->lng->txt('lti_exit');
-                            $exit = $f->button()->bulky($exit_symbol, $exit_txt, $this->dic["lti"]->getCmdLink('exit'));
-                            $metabar = $metabar->withAdditionalEntry('exit', $exit);
                             return $metabar;
                         }
                     )

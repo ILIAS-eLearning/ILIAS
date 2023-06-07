@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -68,16 +68,18 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar): ?MainBar {
-                    $entries = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
-                    $tools = $mainbar->getToolEntries();
-                    $mainbar = $mainbar->withClearedEntries();
+                function (?MainBar $mainbar): ?MainBar {
+                    if ($mainbar !== null) {
+                        $entries = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
+                        $tools = $mainbar->getToolEntries();
+                        $mainbar = $mainbar->withClearedEntries();
 
-                    foreach ($entries as $key => $entry) {
-                        $mainbar = $mainbar->withAdditionalEntry($key, $entry);
-                    }
-                    foreach ($tools as $key => $entry) {
-                        $mainbar = $mainbar->withAdditionalToolEntry($key, $entry);
+                        foreach ($entries as $key => $entry) {
+                            $mainbar = $mainbar->withAdditionalEntry($key, $entry);
+                        }
+                        foreach ($tools as $key => $entry) {
+                            $mainbar = $mainbar->withAdditionalToolEntry($key, $entry);
+                        }
                     }
                     return $mainbar;
                 }
@@ -92,7 +94,12 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                fn (MetaBar $metabar): ?Metabar => $metabar->withClearedEntries()
+                function (?MetaBar $metabar): ?Metabar {
+                    if ($metabar !== null) {
+                        $metabar = $metabar->withClearedEntries();
+                    }
+                    return $metabar;
+                }
             )
             ->withHighPriority();
     }

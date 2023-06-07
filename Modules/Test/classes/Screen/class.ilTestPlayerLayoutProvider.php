@@ -56,7 +56,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $logo = $this->globalScreen()->layout()->factory()->logo();
 
-            $logo = $logo->withModification(function (Image $current) {
+            $logo = $logo->withModification(function (?Image $current) {
                 return null;
             });
 
@@ -70,7 +70,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $logo = $this->globalScreen()->layout()->factory()->logo();
 
-            $logo = $logo->withModification(function (Image $current) {
+            $logo = $logo->withModification(function (?Image $current) {
                 return null;
             });
 
@@ -85,7 +85,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $mainBar = $this->globalScreen()->layout()->factory()->mainbar();
 
-            $mainBar = $mainBar->withModification(function (MainBar $current) {
+            $mainBar = $mainBar->withModification(function (?MainBar $current) {
                 return null;
             });
 
@@ -100,7 +100,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $metaBar = $this->globalScreen()->layout()->factory()->metabar();
 
-            $metaBar = $metaBar->withModification(function (MetaBar $current) {
+            $metaBar = $metaBar->withModification(function (?MetaBar $current) {
                 return null;
             });
 
@@ -115,7 +115,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $footer = $this->globalScreen()->layout()->factory()->footer();
 
-            $footer = $footer->withModification(function (Footer $current) {
+            $footer = $footer->withModification(function (?Footer $current) {
                 return null;
             });
 
