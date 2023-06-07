@@ -8128,10 +8128,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $bestrow = null;
             $bestfactor = 0;
             while ($row = $ilDB->fetchAssoc($result)) {
-                if ($bestrow === null) {
-                    $bestrow = $row;
-                    continue;
-                }
                 if ($row["maxpoints"] > 0) {
                     $factor = $row["points"] / $row["maxpoints"];
                 } else {
@@ -12293,7 +12289,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * This is originally a fix for https://mantis.ilias.de/view.php?id=35707;
-     * in general, the handling of those pathes shold be improved or better, 
+     * in general, the handling of those pathes shold be improved or better,
      * avoided entirely (e.g. with the IRSS).
      */
     public static function getDataWebPath(string $relative_path = '') : string
@@ -12304,7 +12300,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             CLIENT_ID,
             $relative_path
         ]);
-        $parts = array_filter(explode('/', $webdir), function($p) {return trim($p) != '' && trim($p) != '.';});
+        $parts = array_filter(explode('/', $webdir), function ($p) {
+            return trim($p) != '' && trim($p) != '.';
+        });
         return array_shift($parts) . '//' . implode('/', $parts) . '/';
     }
 }
