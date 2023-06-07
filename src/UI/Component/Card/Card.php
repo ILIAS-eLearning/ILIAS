@@ -98,4 +98,14 @@ interface Card extends Component, JavaScriptBindable, Clickable
      * Returns whether the Card is highlighted
      */
     public function isHighlighted(): bool;
+
+    /**
+     * Sets the component in the context as further information within another component
+     */
+    public function withFurtherInformationContext(bool $context): Card;
+
+    /**
+     * Is the component standalone or serves as further information within another component?
+     */
+    public function getFurtherInformationContext(): bool;
 }

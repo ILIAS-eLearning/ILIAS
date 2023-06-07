@@ -58,6 +58,7 @@ class Card implements C\Card
      * @var Component[]
      */
     protected array $hidden_sections = [];
+    protected bool $further_information_context = false;
 
     /**
      * @param string|Shy$title
@@ -197,6 +198,24 @@ class Card implements C\Card
     public function isHighlighted(): bool
     {
         return $this->highlight;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withFurtherInformationContext(bool $context): Card
+    {
+        $clone = clone $this;
+        $clone->further_information_context = $context;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFurtherInformationContext(): bool
+    {
+        return $this->further_information_context;
     }
 
     /**

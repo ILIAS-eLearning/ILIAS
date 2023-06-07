@@ -36,6 +36,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     protected string $title;
     protected ?C\Dropdown\Standard $actions = null;
     protected ?C\Button\Shy $footer_component = null;
+    protected bool $further_information_context = false;
 
     /**
      * Gets the secondary panel title
@@ -79,5 +80,23 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     public function getFooter(): ?C\Button\Shy
     {
         return $this->footer_component;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withFurtherInformationContext(bool $context): C\Panel\Secondary\Secondary
+    {
+        $clone = clone $this;
+        $clone->further_information_context = $context;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFurtherInformationContext(): bool
+    {
+        return $this->further_information_context;
     }
 }

@@ -87,7 +87,15 @@ class Renderer extends AbstractComponentRenderer
         $view_controls = $component->getViewControls();
 
         if ($title != "" || $actions || $view_controls) {
-            $tpl->setVariable("TITLE", $title);
+            if ($component->getFurtherInformationContext()) {
+                $tpl->setCurrentBlock("title_h4");
+                $tpl->setVariable("TITLE_H4", $title);
+                $tpl->parseCurrentBlock();
+            } else {
+                $tpl->setCurrentBlock("title_h2");
+                $tpl->setVariable("TITLE_H2", $title);
+                $tpl->parseCurrentBlock();
+            }
             if ($actions) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }

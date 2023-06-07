@@ -49,4 +49,14 @@ interface Secondary extends Component\Component, HasViewControls
      * Gets the action dropdown to be displayed on the right of the title
      */
     public function getActions(): ?Dropdown\Standard;
+
+    /**
+     * Sets the component in the context as further information within another component
+     */
+    public function withFurtherInformationContext(bool $context): Secondary;
+
+    /**
+     * Is the component standalone or serves as further information within another component?
+     */
+    public function getFurtherInformationContext(): bool;
 }
