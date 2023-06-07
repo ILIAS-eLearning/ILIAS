@@ -24,6 +24,7 @@ return (new PhpCsFixer\Config())
         'strict_param' => false,
         'concat_space' => ['spacing' => 'one'],
         'function_typehint_space' => true,
+        'function_declaration' => ['closure_fn_spacing' => 'none'],
         'binary_operator_spaces' => ['default' => 'single_space'],
         // 'types_spaces' => ['space' => 'single'],
 	])
