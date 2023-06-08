@@ -69,7 +69,10 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) : ?MainBar {
+                function (?MainBar $mainbar) : ?MainBar {
+                    if ($mainbar === null) {
+                        return null;
+                    }
                     $entries = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
@@ -93,7 +96,10 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) : ?Metabar {
+                function (?MetaBar $metabar) : ?Metabar {
+                    if ($metabar === null) {
+                        return null;
+                    }
                     $metabar = $metabar->withClearedEntries();
                     foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
                         $metabar = $metabar->withAdditionalEntry($key, $entry);
