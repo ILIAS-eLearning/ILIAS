@@ -297,7 +297,7 @@ class ilObjRole extends ilObject
             // only need to consider _global_ roles. We don't need
             // to check for _local_ roles, because a user who has
             // a local role _always_ has a global role too.
-            $last_role_user_ids = array();
+            $last_role_user_ids = [];
             if ($this->getParent() == ROLE_FOLDER_ID) {
                 ilLoggerFactory::getLogger('ac')->debug('Handling global role...');
                 // The role is a global role: check if
@@ -318,7 +318,7 @@ class ilObjRole extends ilObject
 
             // users with last role found?
             if ($last_role_user_ids !== []) {
-                $user_names = array();
+                $user_names = [];
                 foreach ($last_role_user_ids as $user_id) {
                     // GET OBJECT TITLE
                     $user_names[] = ilObjUser::_lookupLogin($user_id);
@@ -408,8 +408,8 @@ class ilObjRole extends ilObject
         $lng = $DIC->language();
         $subs = $objDefinition->getSubObjectsRecursively($a_obj_type, true, $a_add_admin_objects);
 
-        $filter = array();
-        $sorted = array();
+        $filter = [];
+        $sorted = [];
 
         if (!ilECSSetting::ecsConfigured()) {
             $filter = array_merge($filter, ilECSUtils::getPossibleRemoteTypes(false));
@@ -478,7 +478,7 @@ class ilObjRole extends ilObject
         $query = "SELECT * FROM role_data " .
             "WHERE auth_mode = " . $ilDB->quote($a_auth_mode, 'text');
         $res = $ilDB->query($query);
-        $roles = array();
+        $roles = [];
         while ($row = $ilDB->fetchObject($res)) {
             $roles[] = $row->role_id;
         }
@@ -543,7 +543,7 @@ class ilObjRole extends ilObject
         int $a_start_node,
         int $a_mode,
         array $a_filter,
-        array $a_exclusion_filter = array(),
+        array $a_exclusion_filter = [],
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
     ): void {
@@ -554,7 +554,7 @@ class ilObjRole extends ilObject
         $all_local_policies = $this->rbac_review->getObjectsWithStopedInheritance($this->getId());
 
         // filter relevant roles
-        $local_policies = array();
+        $local_policies = [];
         foreach ($all_local_policies as $lp) {
             if (isset($nodes[$lp])) {
                 $local_policies[] = $lp;
@@ -584,7 +584,7 @@ class ilObjRole extends ilObject
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
 
-        $local_policies = array();
+        $local_policies = [];
         foreach ($a_policies as $policy) {
             if ($policy == $a_start || $policy == SYSTEM_FOLDER_ID) {
                 $local_policies[] = $policy;
@@ -609,13 +609,13 @@ class ilObjRole extends ilObject
         array $a_nodes,
         array $a_policies,
         array $a_filter,
-        array $a_exclusion_filter = array(),
+        array $a_exclusion_filter = [],
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
     ): void {
-        $operation_stack = array();
-        $policy_stack = array();
-        $node_stack = array();
+        $operation_stack = [];
+        $policy_stack = [];
+        $node_stack = [];
 
         $start_node = current($a_nodes);
         $node_stack[] = $start_node;
@@ -712,7 +712,12 @@ class ilObjRole extends ilObject
             ) {
                 // Copy role permission intersection
                 $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms[$node['type']] ?? [], $node['child'], $node['type']);
+                $this->createPermissionIntersection(
+                    $policy_stack,
+                    $perms[$node['type']] ?? [],
+                    $node['child'],
+                    $node['type']
+                );
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
                     $node_stack[] = $node;
@@ -917,7 +922,7 @@ class ilObjRole extends ilObject
         }
 
         // Create intersection template permissions
-        if ($template_id) {
+        if ($template_id && $policy_stack !== []) {
             $this->rbac_admin->copyRolePermissionIntersection(
                 $template_id,
                 ROLE_FOLDER_ID,
