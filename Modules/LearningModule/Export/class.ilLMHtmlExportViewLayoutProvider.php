@@ -54,7 +54,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->metabar()
-                ->withModification(function (MetaBar $current = null): ?MetaBar {
+                ->withModification(function (?MetaBar $current = null): ?MetaBar {
                     return null;
                 })->withHighPriority();
         }
@@ -72,7 +72,10 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->mainbar()
-                ->withModification(function (MainBar $current = null): ?MainBar {
+                ->withModification(function (?MainBar $current = null): ?MainBar {
+                    if($current === null) {
+                        return null;
+                    }
                     global $DIC;
 
                     $lng = $DIC->language();
@@ -118,7 +121,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->breadcrumbs()
-                ->withModification(function (Breadcrumbs $current = null): ?Breadcrumbs {
+                ->withModification(function (?Breadcrumbs $current = null): ?Breadcrumbs {
                     return null;
                 })->withHighPriority();
         } else {
