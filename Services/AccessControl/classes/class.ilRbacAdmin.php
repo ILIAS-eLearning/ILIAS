@@ -451,7 +451,7 @@ class ilRbacAdmin
             'WHERE rol_id = ' . $this->db->quote($a_source_id, 'integer') . ' ' .
             'AND parent = ' . $this->db->quote($a_source_parent, 'integer');
         $res = $this->db->query($query);
-        $operations = array();
+        $operations = [];
         $rownum = 0;
         while ($row = $this->db->fetchObject($res)) {
             $operations[$rownum]['type'] = $row->type;
@@ -509,7 +509,7 @@ class ilRbacAdmin
             "AND s1.ops_id = s2.ops_id";
 
         $res = $this->db->query($query);
-        $operations = array();
+        $operations = [];
         $rowNum = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $operations[$rowNum]['type'] = $row->type;
@@ -873,7 +873,7 @@ class ilRbacAdmin
         $old_context_roles = $this->rbacreview->getParentRoleIds($a_old_parent, false);
         $new_context_roles = $this->rbacreview->getParentRoleIds($new_parent, false);
 
-        $for_addition = $for_deletion = array();
+        $for_addition = $for_deletion = [];
         foreach ($new_context_roles as $new_role_id => $new_role) {
             if (!isset($old_context_roles[$new_role_id])) {
                 $for_addition[$new_role_id] = $new_role;
