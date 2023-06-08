@@ -113,7 +113,14 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function hasValidModification() : bool
     {
-        return ($this->modification instanceof Closure && $this->checkClosure());
+        try {
+            return $this->checkClosure();
+        } catch (\Throwable $e) {
+            if (defined('DEVMODE') && ((bool) DEVMODE) === true) {
+                throw $e;
+            }
+            return false;
+        }
     }
 
     /**
@@ -122,31 +129,53 @@ abstract class AbstractLayoutModification implements LayoutModification
     private function checkClosure() : bool
     {
         $closure = $this->modification;
-        $return_type = $this->getClosureReturnType();
+        if (!$closure instanceof Closure) {
+            return false;
+            //throw new InvalidModification($this, "Modification is not a Closure");
+        }
 
         try {
             $r = new ReflectionFunction($closure);
+
+            $requested_return_type = $this->getClosureReturnType();
+            $requested_first_argument_type = $this->getClosureFirstArgumentType();
+
             // First Argument
-            if (!$this->firstArgumentAllowsNull()) {
-                $first_argument_type = $this->getClosureFirstArgumentType();
-                if (!isset($r->getParameters()[0])
-                    || !$r->getParameters()[0]->hasType()
-                    || ($r->getParameters()[0]->getType()->getName() !== $first_argument_type)
-                ) {
-                    return false;
-                }
+            $param = $r->getParameters()[0] ?? null;
+            // No first argument
+            if ($param === null) {
+                throw new InvalidModification($this, "Modification has no first parameter");
+            }
+            // First argument has no type
+            if (!$param->hasType()) {
+                throw new InvalidModification($this, "Modification's first parameter has no type");
+            }
+            // First argument has wrong type
+            if ($param->getType()->getName() !== $requested_first_argument_type) {
+                throw new InvalidModification($this, "Modification's first parameter does not match the requested type");
+            }
+            // First argument nullable
+            if ($this->firstArgumentAllowsNull() && !$param->allowsNull()) {
+                throw new InvalidModification($this, "Modification's first parameter must be nullable");
             }
 
             // Return type
-            if (!$this->returnTypeAllowsNull()) {
-                if (!$r->hasReturnType()
-                    || ($r->getReturnType()->getName() !== $return_type)
-                ) {
-                    return false;
-                }
+
+            // Return type not available
+            if (!$r->hasReturnType()) {
+                throw new InvalidModification($this, "Modification has no return type");
+            }
+            // return type check
+            if ($r->getReturnType()->getName() !== $requested_return_type) {
+                throw new InvalidModification($this, "Modification's return type does not match the requested type");
+            }
+
+            // Return type nullable
+            if ($this->returnTypeAllowsNull() && !$r->getReturnType()->allowsNull()) {
+                throw new InvalidModification($this, "Modification's return type must be nullable");
             }
         } catch (ReflectionException $e) {
-            return false;
+            throw new InvalidModification($this, "Modification threw an exception while checking the closure");
         }
 
         return true;
