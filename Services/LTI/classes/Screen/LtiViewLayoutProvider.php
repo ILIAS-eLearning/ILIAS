@@ -96,7 +96,10 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) use ($is_exit_mode) : ?MainBar {
+                function (?MainBar $mainbar) use ($is_exit_mode) : ?MainBar {
+                    if ($mainbar === null) {
+                        return null;
+                    }
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
                     if ($is_exit_mode) {
@@ -121,7 +124,10 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) use ($is_exit_mode, $screen_context_stack): ?Metabar {
+                function (?MetaBar $metabar) use ($is_exit_mode, $screen_context_stack) : ?Metabar {
+                    if ($metabar === null) {
+                        return null;
+                    }
                     $metabar = $metabar->withClearedEntries();
                     if ($is_exit_mode) {
                         return $metabar;
@@ -146,7 +152,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->title()
             ->withModification(
-                function (string $content) use ($is_exit_mode) : string {
+                function (?string $content) use ($is_exit_mode) : ?string {
                     if ($is_exit_mode) {
                         return $this->dic["lti"]->getTitleForExitPage();
                     }

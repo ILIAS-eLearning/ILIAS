@@ -51,8 +51,8 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) : ?MainBar {
-                    return $mainbar->withActive($mainbar::NONE_ACTIVE);
+                function (?MainBar $mainbar = null) : ?MainBar {
+                    return $mainbar !== null ? $mainbar->withActive($mainbar::NONE_ACTIVE) : null;
                 }
             )
             ->withLowPriority();
