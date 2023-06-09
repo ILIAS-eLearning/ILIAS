@@ -6867,7 +6867,7 @@ content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
-content#:#cont_restrict_forw_nav_info#:#Eine nachfolgende Seite kann erst dann aufgerufen werden, wenn auf der aktuellen Lernmodulseite alle Testfragen korrekt beantwortet wurden.
+content#:#cont_restrict_forw_nav_info#:#Eine nachfolgende Seite kann erst dann aufgerufen werden, wenn auf der aktuellen Lernmodulseite alle Testfragen korrekt beantwortet wurden. Diese Funktion erfordert bei der Einstellung „Antwortversuche“ die Option „Speichere Antwortversuche“.
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
