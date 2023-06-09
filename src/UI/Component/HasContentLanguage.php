@@ -22,7 +22,14 @@ use ILIAS\Data\LanguageTag;
 
 interface HasContentLanguage
 {
+    /**
+     * If the link text also is not translated (e.g., because it is a formal title
+     * that should be kept in the original language), you should add the language attributes to the anchor element.
+     */
     public function withContentLanguage(LanguageTag $language): self;
 
+    /**
+     * See comment in withContentLanguage
+     */
     public function getContentLanguage(): ?LanguageTag;
 }
