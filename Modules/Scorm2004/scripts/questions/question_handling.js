@@ -629,8 +629,9 @@ ilias.questions.initClozeTest = function(a_id) {
 	var closecounter = 0;
 
     let shuffleItems = (items) => {
+        let j, x, i;
         for (i=items.length-1;i>0;i--) {
-            j = Math.floor(Math.random() * i);
+            j = Math.floor(Math.random() * (i + 1));
             k = items[i];
             items[i] = items[j];
             items[j] = k;
