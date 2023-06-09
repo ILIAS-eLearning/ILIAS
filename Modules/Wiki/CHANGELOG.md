@@ -2,6 +2,7 @@
 
 ## ILIAS 9
 - Added CHANGELOG.md
+- Added PRIVACY.md
 
 ## ILIAS 8
  
