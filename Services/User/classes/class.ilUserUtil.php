@@ -80,7 +80,7 @@ class ilUserUtil
         }
 
         $sql = 'SELECT
-					a.usr_id, 
+					a.usr_id,
 					firstname,
 					lastname,
 					title,
@@ -88,13 +88,13 @@ class ilUserUtil
 					b.value public_profile,
 					c.value public_title
 				FROM
-					usr_data a 
-					LEFT JOIN 
-						usr_pref b ON 
+					usr_data a
+					LEFT JOIN
+						usr_pref b ON
 							(a.usr_id = b.usr_id AND
 							b.keyword = %s)
-					LEFT JOIN 
-						usr_pref c ON 
+					LEFT JOIN
+						usr_pref c ON
 							(a.usr_id = c.usr_id AND
 							c.keyword = %s)
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
@@ -257,6 +257,7 @@ class ilUserUtil
         }
 
         $all[self::START_REPOSITORY] = 'obj_root';
+        $all[self::START_REPOSITORY_OBJ] = 'obj';
 
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);
