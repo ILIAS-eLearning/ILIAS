@@ -6304,7 +6304,7 @@ content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
 content#:#cont_disable_def_feedback#:#Standard-Feedback deaktivieren
-content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feedback nach der Beantwortung von Fragen.
+content#:#cont_disable_def_feedback_info#:#Das Standard-Feedback zu einer Frage wird nach Beantwortung einer Frage nicht angezeigt.
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
@@ -6622,7 +6622,7 @@ content#:#cont_lk_page_faq#:#Seite in FAQ Tool
 content#:#cont_lk_page_new#:#Seite in neuem Tab
 content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff in neuem Tab
-content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
+content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern, öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_mail_permanent_link#:#Klicken Sie auf den folgenden Link um das Lernmodul aufzurufen:
 content#:#cont_lm_menu#:#Menü
@@ -6833,7 +6833,7 @@ content#:#cont_profile_mode_manual#:#Manuell
 content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:
 content#:#cont_profile_mode_template_inherit_info#:#Verwendet die Daten des Profils
 content#:#cont_progress_icons#:#Fortschritts-Icons
-content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an.
+content#:#cont_progress_icons_info#:#Im Inhaltsverzeichnis werden Fortschritt-Icons anstelle der Kapitel- und Seiten-Icons angezeigt.
 content#:#cont_prtf_page#:#Portfolioseite
 content#:#cont_prtt_page#:#Portfoliovorlagenseite
 content#:#cont_public_access#:#Öffentlicher Zugriff
@@ -6870,7 +6870,7 @@ content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
-content#:#cont_restrict_forw_nav_info#:#Benutzer können eine nachfolgende Seite erst dann aufrufen, wenn sie zuvor alle vorherigen Testfragen korrekt beantwortet haben.
+content#:#cont_restrict_forw_nav_info#:#Eine nachfolgende Seite kann erst dann aufgerufen werden, wenn auf der aktuellen Lernmodulseite alle Testfragen korrekt beantwortet wurden.
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -7081,9 +7081,9 @@ content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_remaining#:#Verbleibende Versuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
-content#:#cont_tries_reset_on_visit_info#:#Benutzer haben bei jedem Aufruf einer Seite mit einer Testfrage die maximale Anzahl an Antwortversuchen. Die Testfragen müssen jedesmal beantwortet werden.
+content#:#cont_tries_reset_on_visit_info#:#Bei jedem Aufruf einer Seite mit eingebetteter Testfrage ist die maximale Anzahl an Antwortversuchen möglich. Die Testfragen können jedes Mal erneut beantworten werden.
 content#:#cont_tries_store#:#Speichere Antwortversuche
-content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen müssen nicht mehr beantwortet werden. Benutzer können Fragen nach Erreichen der maximalen Versuche nicht erneut beantworten.
+content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen können nicht mehr beantwortet werden. Nach Erreichen der maximalen Anzahl an Versuchen ist ein weiterer Antwortversuch nicht mehr möglich.
 content#:#cont_trigger_area#:#Bereich für Auslöser
 content#:#cont_type#:#Typ
 content#:#cont_type_not_allowed#:#Dieses Element ist an dieser Stelle nicht erlaubt
@@ -12337,13 +12337,13 @@ obj#:#obj_tool_setting_booking#:#Ressourcen
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_empty#:#Anzeige bei leerem Filter
 obj#:#obj_tool_setting_filter_empty_info#:#Zeigt alle Elemente, wenn der Filter leer ist.
-obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
+obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter „Inhalte“ angezeigt.
 obj#:#obj_tool_setting_info_tab#:#Info-Reiter
-obj#:#obj_tool_setting_info_tab_info#:#Der Reiter "Info" wird angezeigt.
+obj#:#obj_tool_setting_info_tab_info#:#Der Reiter „Info“ wird angezeigt.
 obj#:#obj_tool_setting_skills#:#Kompetenzen
 obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzstufen zuzuweisen.
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
-obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block "Auswahl nach Themen" im Reiter "Inhalt" angezeigt.
+obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block „Auswahl nach Themen“ im Reiter „Inhalt“ angezeigt.
 obj#:#obj_tool_setting_taxonomies#:#Taxonomien
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks „Neuigkeiten“ oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.

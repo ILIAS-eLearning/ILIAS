@@ -6302,7 +6302,7 @@ content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
-content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.
+content#:#cont_disable_def_feedback_info#:#The standard feedback for a question is not displayed after answering a question.
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
 content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.
@@ -6868,7 +6868,7 @@ content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
-content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
+content#:#cont_restrict_forw_nav_info#:#A subsequent page can only be accessed when all test questions have been answered correctly on the current learning module page.
 content#:#cont_revision#:#Revision
 content#:#cont_right#:#Right
 content#:#cont_right_float#:#Right, Floating
@@ -7079,9 +7079,9 @@ content#:#cont_tree_fixed#:#Tree structure has been fixed.
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_remaining#:#Tries Remaining
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
-content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.
+content#:#cont_tries_reset_on_visit_info#:#Each time a page with an embedded test question is called up, the maximum number of answer attempts is possible. The test questions can be answered again each time.
 content#:#cont_tries_store#:#Store Answer Status
-content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.
+content#:#cont_tries_store_info#:#The number of answer attempts is recorded and saved. Correctly answered questions can no longer be answered. After reaching the maximum number of attempts, a further answer attempt is no longer possible.
 content#:#cont_trigger_area#:#Trigger Area
 content#:#cont_type#:#Type
 content#:#cont_type_not_allowed#:#Content type not allowed at this position
