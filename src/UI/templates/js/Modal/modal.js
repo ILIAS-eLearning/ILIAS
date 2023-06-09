@@ -22,22 +22,34 @@ il.UI = il.UI || {};
             }
             triggeredSignalsStorage[signalData.id] = true;
             options = $.extend(defaultShowOptions, options);
+
             if (options.ajaxRenderUrl) {
-                var $container = $('#' + id);
-                $container.load(options.ajaxRenderUrl, function() {
-                    var $modal = $(this).find('.modal');
-                    if ($modal.length) {
-                        $modal.modal(options);
+                let $container = $('#' + id);
+                let opts = {};
+                Object.keys(signalData.options).forEach(
+                  (v) => {opts[v] = JSON.stringify(signalData.options[v]);}
+                );
+
+                $.ajax({
+                    type: 'POST',
+                    url: options.ajaxRenderUrl,
+                    data: opts,
+                    success: function(response){
+                        $container.html(response);
+                        let modal = $container.find('.modal');
+                        if (modal.length) {
+                            modal.modal(options);
+                        }
+                        triggeredSignalsStorage[signalData.id] = false;
                     }
-                    triggeredSignalsStorage[signalData.id] = false;
                 });
             } else {
                 var $modal = $('#' + id);
                 $modal.modal(options);
                 triggeredSignalsStorage[signalData.id] = false;
             }
-			initializedModalboxes[signalData.id] = id;
-		};
+            initializedModalboxes[signalData.id] = id;
+        };
 
         var closeModal = function (id) {
             $('#' + id).modal('close');

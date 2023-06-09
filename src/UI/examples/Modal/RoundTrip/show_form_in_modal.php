@@ -11,6 +11,7 @@ function show_form_in_modal()
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $factory = $DIC->ui()->factory();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     // declare roundtrip with inputs and form action.
     $modal = $factory->modal()->roundtrip(
@@ -20,7 +21,7 @@ function show_form_in_modal()
             $factory->input()->field()->text('some text'),
             $factory->input()->field()->numeric('some numbere'),
         ],
-        '#'
+        $request->getUri()->__toString() . '&rtwithform=1'
     );
 
     // declare something that triggers the modal.
@@ -28,7 +29,9 @@ function show_form_in_modal()
 
     // please use ilCtrl to generate an appropriate link target
     // and check it's command instead of this.
-    if ('POST' === $request->getMethod()) {
+    if ($request->getMethod() === 'POST' &&
+        $request_wrapper->has('rtwithform')
+    ) {
         $modal = $modal->withRequest($request);
         $data = $modal->getData();
     } else {

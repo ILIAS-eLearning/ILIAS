@@ -16,7 +16,6 @@ function with_actions()
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
-    $ctrl = $DIC['ilCtrl'];
     $request = $DIC->http()->request();
 
     // This is what the table will look like
@@ -36,7 +35,7 @@ function with_actions()
      * a single entry, while Single- and Multiactions will only work for
      * one of them.
     */
-    $modal = getSomeExampleModal($f, $ctrl);
+    $modal = getSomeExampleModal($f, $request);
     $signal = $modal->getShowSignal();
 
     $actions = [
@@ -101,7 +100,6 @@ function with_actions()
 
     //apply request and render
     $out = [
-        $modal,
         $table->withRequest($request)
     ];
 
@@ -109,6 +107,29 @@ function with_actions()
     $params = [];
     parse_str($request->getUri()->getQuery(), $params);
     if (array_key_exists('table_action', $params)) {
+        if ($params['table_action'] === 'confirm_delete') {
+            $post = $request->getParsedBody();
+            if (array_key_exists('ids', $post)) {
+                $ids = json_decode($post['ids'], true);
+                if (!is_array($ids)) {
+                    $ids = [$ids];
+                }
+                $params['ids'] = $ids ?? [];
+                $affected_items = [];
+                foreach ($ids as $id) {
+                    $affected_items[] = $f->modal()->interruptiveItem()->standard($id, $id);
+                }
+                $modal = $modal
+                    ->withAffectedItems($affected_items)
+                    ->withAsyncRenderUrl('');
+                print $r->render($modal);
+                exit();
+            }
+        }
+        if ($params['table_action'] === 'delete') {
+            $params['ids'] = $request->getParsedBody()['interruptive_items'] ?? [];
+        }
+
         $items = [
             'table_action' => $params['table_action'],
             'ids' => print_r($params['ids'], true)
@@ -118,6 +139,7 @@ function with_actions()
         $out[] = $f->listing()->characteristicValue()->text($items);
     }
 
+    $out[] = $modal;
     return $r->render($out);
 }
 
@@ -127,9 +149,11 @@ function buildDemoURL(ServerRequestInterface $request, string $param): URI
     return $df->uri($request->getUri()->__toString() . '&' . $param);
 }
 
-function getSomeExampleModal($factory, $ctrl)
+function getSomeExampleModal($factory, ServerRequestInterface $request)
 {
-    $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
-    $modal = $factory->modal()->interruptive('Delete', 'really delete?', $form_action);
+    $async_url = buildDemoURL($request, 'table_action=confirm_delete');
+    $form_action = buildDemoURL($request, 'table_action=delete')->__toString();
+    $modal = $factory->modal()->interruptive('Delete', 'really delete?', $form_action)
+        ->withAsyncRenderUrl($async_url->__toString());
     return $modal;
 }

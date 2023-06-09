@@ -189,7 +189,7 @@ export default class DataTable {
       const opts = {};
       opts[this.#actionsConstants.opt.id] = target.id;
       opts[this.#actionsConstants.opt.mainkey] = target.options;
-      this.#jquery(`#${this.#component.getAttr('id')}`).trigger(target.id, opts);
+      this.#jquery(`#${this.#component.id}`).trigger(target.id, opts);
     }
   }
 
