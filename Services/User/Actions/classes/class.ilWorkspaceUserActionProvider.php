@@ -58,7 +58,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         if (!$this->wsp_activated) {
             return $coll;

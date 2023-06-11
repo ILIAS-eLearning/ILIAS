@@ -64,7 +64,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
      */
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             return $coll;

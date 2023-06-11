@@ -27,6 +27,9 @@ use ILIAS\UI\Renderer;
  */
 class ilUserActionGUI
 {
+    private ilUserActionAdmin $user_action_admin;
+    private ilUserActionCollector $user_action_collector;
+
     public function __construct(
         private ilUserActionProviderFactory $user_action_provider_factory,
         private ilUserActionContext $user_action_context,
@@ -51,7 +54,7 @@ class ilUserActionGUI
     {
         foreach ($this->user_action_provider_factory->getProviders() as $prov) {
             foreach ($prov->getActionTypes() as $act_type => $txt) {
-                if (ilUserActionAdmin::lookupActive(
+                if ($this->user_action_admin->isActionActive(
                     $this->user_action_context->getComponentId(),
                     $this->user_action_context->getContextId(),
                     $prov->getComponentId(),
@@ -65,10 +68,9 @@ class ilUserActionGUI
         }
     }
 
-    public function renderDropDown(int $a_target_user_id): string
+    public function renderDropDown(int $target_user_id): string
     {
-        $act_collector = ilUserActionCollector::getInstance($this->current_user_id, $this->user_action_context);
-        $action_collection = $act_collector->getActionsForTargetUser($a_target_user_id);
+        $action_collection = $this->user_action_collector->getActionsForTargetUser($target_user_id);
         $actions = [];
         foreach ($action_collection->getActions() as $action) {
             $actions[] = $this->ui->factory()->link()->standard($action->getText(), $action->getHref());

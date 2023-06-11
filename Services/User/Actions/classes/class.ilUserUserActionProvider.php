@@ -39,7 +39,7 @@ class ilUserUserActionProvider extends ilUserActionProvider
 
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         if (!in_array(
             ilObjUser::_lookupPref($a_target_user, "public_profile"),

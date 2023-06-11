@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Awareness;
 
 use ILIAS\DI\Container;
@@ -33,6 +33,10 @@ class InternalDomainService
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+
+    protected \ilUserActionProviderFactory $user_action_provider_factory;
+    protected \ilUserActionAdmin $user_action_admin;
+
     /** @var array<int,WidgetManager> */
     protected static array $managers = array();
     /** @var array<int,User\Collector>  */
@@ -47,6 +51,9 @@ class InternalDomainService
         $this->data_service = $data_service;
         $this->initDomainServices($DIC);
         $this->dic = $DIC;
+
+        $this->user_action_provider_factory = new \ilUserActionProviderFactory();
+        $this->user_action_admin = new \ilUserActionAdmin($DIC['ilDB']);
     }
 
     /*
@@ -68,7 +75,9 @@ class InternalDomainService
                 $ref_id,
                 $this->data_service,
                 $this->repo_service,
-                $this
+                $this,
+                $this->user_action_provider_factory,
+                $this->user_action_admin
             );
         }
         return self::$managers[$user_id];
