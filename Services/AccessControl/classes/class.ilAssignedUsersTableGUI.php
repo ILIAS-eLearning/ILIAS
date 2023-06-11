@@ -35,37 +35,36 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         bool $a_editable = true,
         bool $isAdministrationContext = false
     ) {
-        $this->setId("rbac_ua_" . $a_role_id);
+        $this->setId('rbac_ua_' . $a_role_id);
         $this->role_id = $a_role_id;
         $this->roleAssignmentEditable = $a_editable;
         $this->isAdministrationContext = $isAdministrationContext;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        //		$this->setTitle($this->lng->txt("users"));
 
-        $this->addColumn("", "", "1", true);
-        $this->addColumn($this->lng->txt("login"), "login", "29%");
-        $this->addColumn($this->lng->txt("firstname"), "firstname", "29%");
-        $this->addColumn($this->lng->txt("lastname"), "lastname", "29%");
+        $this->addColumn('', '', '1', true);
+        $this->addColumn($this->lng->txt('login'), 'login', '29%');
+        $this->addColumn($this->lng->txt('firstname'), 'firstname', '29%');
+        $this->addColumn($this->lng->txt('lastname'), 'lastname', '29%');
         $this->addColumn($this->lng->txt('actions'), '', '13%');
 
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.user_assignment_row.html", "Services/AccessControl");
+        $this->setRowTemplate('tpl.user_assignment_row.html', 'Services/AccessControl');
 
         $this->setEnableTitle(true);
-        $this->setDefaultOrderField("login");
-        $this->setDefaultOrderDirection("asc");
+        $this->setDefaultOrderField('login');
+        $this->setDefaultOrderDirection('asc');
 
         $this->setShowRowsSelector(true);
 
         if ($this->roleAssignmentEditable) {
-            $this->addMultiCommand("deassignUser", $this->lng->txt("remove"));
+            $this->addMultiCommand('deassignUser', $this->lng->txt('remove'));
         }
 
-        $this->setSelectAllCheckbox("user_id[]");
+        $this->setSelectAllCheckbox('user_id[]');
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand(
             'addToClipboard',
@@ -109,8 +108,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             0,
             $this->getRoleId()
         );
-        $this->setMaxCount((int) $usr_data["cnt"]);
-        $this->setData((array) $usr_data["set"]);
+        $this->setMaxCount((int) $usr_data['cnt']);
+        $this->setData((array) $usr_data['set']);
     }
 
     /**
@@ -118,19 +117,19 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("VAL_FIRSTNAME", $a_set["firstname"]);
-        $this->tpl->setVariable("VAL_LASTNAME", $a_set["lastname"]);
+        $this->tpl->setVariable('VAL_FIRSTNAME', $a_set['firstname']);
+        $this->tpl->setVariable('VAL_LASTNAME', $a_set['lastname']);
 
         if (
             $a_set['usr_id'] != SYSTEM_USER_ID and
             ($a_set['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID) and
             $this->isRoleAssignmentEditable()) {
-            $this->tpl->setVariable("ID", $a_set["usr_id"]);
+            $this->tpl->setVariable('ID', $a_set['usr_id']);
         }
 
         $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass("small");
-        $actions->setItemLinkClass("small");
+        $actions->setSelectionHeaderClass('small');
+        $actions->setItemLinkClass('small');
 
         $actions->setListTitle($this->lng->txt('actions'));
         $actions->setId($a_set['usr_id']);
@@ -138,15 +137,15 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $link_contact = ilMailFormCall::getLinkTarget(
             $this->getParentObject(),
             $this->getParentCmd(),
-            array('fr' => rawurlencode(base64_encode($this->ctrl->getLinkTarget(
+            ['fr' => rawurlencode(base64_encode($this->ctrl->getLinkTarget(
                 $this->getParentObject(),
                 'userassignment',
                 '',
                 false,
                 false
             )))
-            ),
-            array('type' => 'new', 'rcp_to' => $a_set['login'])
+            ],
+            ['type' => 'new', 'rcp_to' => $a_set['login']]
         );
         $actions->addItem(
             $this->lng->txt('message'),
@@ -155,15 +154,15 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         );
 
         if ($this->isAdministrationContext) {
-            $this->ctrl->setParameterByClass("ilobjusergui", "ref_id", 7);
-            $this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
+            $this->ctrl->setParameterByClass('ilobjusergui', 'ref_id', 7);
+            $this->ctrl->setParameterByClass('ilobjusergui', 'obj_id', $a_set['usr_id']);
 
-            $link_change = $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
+            $link_change = $this->ctrl->getLinkTargetByClass(['iladministrationgui', 'ilobjusergui'], 'view');
 
             $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
             $this->tpl->setVariable('HREF_LOGIN', $link_change);
             $actions->addItem(
-                $this->lng->txt("edit"),
+                $this->lng->txt('edit'),
                 '',
                 $link_change
             );
@@ -175,8 +174,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             ($this->getRoleId() != SYSTEM_ROLE_ID or $a_set['usr_id'] != SYSTEM_USER_ID) and
             ($this->getRoleId() != ANONYMOUS_ROLE_ID or $a_set['usr_id'] != ANONYMOUS_USER_ID) and
             $this->isRoleAssignmentEditable()) {
-            $this->ctrl->setParameter($this->getParentObject(), "user_id", $a_set["usr_id"]);
-            $link_leave = $this->ctrl->getLinkTarget($this->getParentObject(), "deassignUser");
+            $this->ctrl->setParameter($this->getParentObject(), 'user_id', $a_set['usr_id']);
+            $link_leave = $this->ctrl->getLinkTarget($this->getParentObject(), 'deassignUser');
 
             $actions->addItem(
                 $this->lng->txt('remove'),
