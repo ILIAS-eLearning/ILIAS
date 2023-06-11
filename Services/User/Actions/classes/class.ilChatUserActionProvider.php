@@ -84,7 +84,7 @@ class ilChatUserActionProvider extends ilUserActionProvider
      */
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         if (!$this->chat_enabled) {
             return $coll;

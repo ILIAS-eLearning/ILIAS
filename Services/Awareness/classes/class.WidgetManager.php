@@ -51,7 +51,9 @@ class WidgetManager
         int $ref_id,
         InternalDataService $data_service,
         InternalRepoService $repo_service,
-        InternalDomainService $domain_service
+        InternalDomainService $domain_service,
+        \ilUserActionProviderFactory $user_action_provider_factory,
+        \ilUserActionAdmin $user_action_admin
     ) {
         $this->lng = $domain_service->lng();
         $this->user_id = $a_user_id;
@@ -60,7 +62,12 @@ class WidgetManager
         $this->settings = $domain_service->awarenessSettings();
         $this->data_service = $data_service;
         $this->user_collector = $domain_service->userCollector($a_user_id, $ref_id);
-        $this->action_collector = \ilUserActionCollector::getInstance($a_user_id, new \ilAwarenessUserActionContext());
+        $this->action_collector = new \ilUserActionCollector(
+            $a_user_id,
+            new \ilAwarenessUserActionContext(),
+            $user_action_provider_factory,
+            $user_action_admin
+        );
     }
 
     public function isWidgetVisible(): bool

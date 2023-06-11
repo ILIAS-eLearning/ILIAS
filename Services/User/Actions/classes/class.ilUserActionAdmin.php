@@ -16,72 +16,72 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+
+
 /**
  * User action administration
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionAdmin
 {
-    protected static bool $loaded = false;
-    protected static array $data = array();
+    private array $data = [];
 
-    public static function activateAction(
-        string $a_context_comp,
-        string $a_context_id,
-        string $a_action_comp,
-        string $a_action_type,
-        bool $a_active
-    ): void {
-        global $DIC;
-
-        $db = $DIC->database();
-        $db->replace(
-            "user_action_activation",
-            array(
-                "context_comp" => array("text", $a_context_comp),
-                "context_id" => array("text", $a_context_id),
-                "action_comp" => array("text", $a_action_comp),
-                "action_type" => array("text", $a_action_type),
-            ),
-            array(
-                "active" => array("integer", $a_active))
-        );
-
-        self::$loaded = false;
+    public function __construct(
+        private ilDBInterface $db
+    ) {
+        $this->data = $this->loadData();
     }
 
-    public static function lookupActive(
-        string $a_context_comp,
-        string $a_context_id,
-        string $a_action_comp,
-        string $a_action_type
+    public function activateAction(
+        string $context_comp,
+        string $context_id,
+        string $action_comp,
+        string $action_type,
+        bool $active
+    ): void {
+        $this->db->replace(
+            "user_action_activation",
+            [
+                "context_comp" => ["text", $context_comp],
+                "context_id" => ["text", $context_id],
+                "action_comp" => ["text", $action_comp],
+                "action_type" => ["text", $action_type],
+            ],
+            [
+                "active" => ["integer", $active]
+            ]
+        );
+
+        $this->data[$context_comp][$context_id][$action_comp][$action_type] = $active;
+    }
+
+    public function isActionActive(
+        string $context_comp,
+        string $context_id,
+        string $action_comp,
+        string $action_type
     ): bool {
-        if (!self::$loaded) {
-            self::loadData();
-        }
         if (
-            !isset(self::$data[$a_context_comp])
-        || !isset(self::$data[$a_context_comp][$a_context_id])
-        || !isset(self::$data[$a_context_comp][$a_context_id][$a_action_comp])
-        || !isset(self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type])
+            !isset($this->data[$context_comp])
+            || !isset($this->data[$context_comp][$context_id])
+            || !isset($this->data[$context_comp][$context_id][$action_comp])
+            || !isset($this->data[$context_comp][$context_id][$action_comp][$action_type])
         ) {
             return false;
         }
-        return (bool) self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type];
+        return $this->data[$context_comp][$context_id][$action_comp][$action_type];
     }
 
-    protected static function loadData(): void
+    private function loadData(): array
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $set = $db->query("SELECT * FROM user_action_activation");
-        self::$data = array();
-        while ($rec = $db->fetchAssoc($set)) {
-            self::$data[$rec["context_comp"]][$rec["context_id"]][$rec["action_comp"]][$rec["action_type"]] = (bool) $rec["active"];
+        $data = [];
+        $set = $this->db->query("SELECT * FROM user_action_activation");
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $data[$rec["context_comp"]][$rec["context_id"]][$rec["action_comp"]][$rec["action_type"]] = (bool) $rec["active"];
         }
 
-        self::$loaded = true;
+        return $data;
     }
 }

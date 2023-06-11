@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
@@ -91,9 +91,11 @@ class ilMyStaffGUI
     ): ilAdvancedSelectionListGUI {
         global $DIC;
 
-        $user_action_collector = ilUserActionCollector::getInstance(
+        $user_action_collector = new ilUserActionCollector(
             $DIC->user()->getId(),
-            new ilAwarenessUserActionContext()
+            new ilAwarenessUserActionContext(),
+            new ilUserActionProviderFactory(),
+            new ilUserActionAdmin($DIC['ilDB'])
         );
         $action_collection = $user_action_collector->getActionsForTargetUser($usr_id);
         if (count($action_collection->getActions()) > 0) {
