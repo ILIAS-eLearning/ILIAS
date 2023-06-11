@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Link\Standard as StandardLink;
+
 /**
  * TableGUI class for role administration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -24,23 +29,18 @@ declare(strict_types=1);
  */
 class ilAssignedUsersTableGUI extends ilTable2GUI
 {
-    protected int $role_id;
-    protected bool $roleAssignmentEditable = true;
-    protected bool $isAdministrationContext = false;
-
     public function __construct(
-        object $a_parent_obj,
-        string $a_parent_cmd,
-        int $a_role_id,
-        bool $a_editable = true,
-        bool $isAdministrationContext = false
+        object $parent_obj,
+        string $parent_cmd,
+        private UIFactory $ui_factory,
+        private Renderer $ui_renderer,
+        private int $role_id,
+        private bool $role_assignment_editable = true,
+        private bool $is_administration_context = false
     ) {
-        $this->setId('rbac_ua_' . $a_role_id);
-        $this->role_id = $a_role_id;
-        $this->roleAssignmentEditable = $a_editable;
-        $this->isAdministrationContext = $isAdministrationContext;
+        $this->setId('rbac_ua_' . $role_id);
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('login'), 'login', '29%');
@@ -51,7 +51,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
         $this->setRowTemplate('tpl.user_assignment_row.html', 'Services/AccessControl');
 
         $this->setEnableTitle(true);
@@ -60,7 +60,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 
         $this->setShowRowsSelector(true);
 
-        if ($this->roleAssignmentEditable) {
+        if ($this->role_assignment_editable) {
             $this->addMultiCommand('deassignUser', $this->lng->txt('remove'));
         }
 
@@ -86,7 +86,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
      */
     public function isRoleAssignmentEditable(): bool
     {
-        return $this->roleAssignmentEditable;
+        return $this->role_assignment_editable;
     }
 
     /**
@@ -115,26 +115,64 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set): void
+    protected function fillRow(array $user_row): void
     {
-        $this->tpl->setVariable('VAL_FIRSTNAME', $a_set['firstname']);
-        $this->tpl->setVariable('VAL_LASTNAME', $a_set['lastname']);
+        $this->tpl->setVariable('VAL_FIRSTNAME', $user_row['firstname']);
+        $this->tpl->setVariable('VAL_LASTNAME', $user_row['lastname']);
 
-        if (
-            $a_set['usr_id'] != SYSTEM_USER_ID and
-            ($a_set['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID) and
-            $this->isRoleAssignmentEditable()) {
-            $this->tpl->setVariable('ID', $a_set['usr_id']);
+        if ($user_row['usr_id'] !== SYSTEM_USER_ID
+            && ($user_row['usr_id'] !== ANONYMOUS_USER_ID || $this->getRoleId() !== ANONYMOUS_ROLE_ID)
+            && $this->isRoleAssignmentEditable()) {
+            $this->tpl->setVariable('ID', $user_row['usr_id']);
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass('small');
-        $actions->setItemLinkClass('small');
+        $actions = $this->getActions($user_row['login'], $user_row['usr_id']);
 
-        $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId($a_set['usr_id']);
+        $login_entry = $user_row['login'];
 
-        $link_contact = ilMailFormCall::getLinkTarget(
+        if ($this->is_administration_context) {
+            $login_entry = $this->ui_renderer->render(
+                $this->getChangeLink($user_row['usr_id'], $user_row['login'])
+            );
+        }
+
+        $this->tpl->setVariable('VAL_LOGIN', $login_entry);
+
+        $actions_dropdown = $this->ui_factory->dropdown()->standard($actions)
+            ->withLabel($this->lng->txt('actions'));
+
+        $this->tpl->setVariable(
+            'VAL_ACTIONS',
+            $this->ui_renderer->render($actions_dropdown)
+        );
+    }
+
+    /**
+     *
+     * @return array<ILIAS\UI\Component\Link\Standard>
+     */
+    private function getActions(string $login, int $usr_id): array
+    {
+        $actions = [];
+
+        $actions[] = $this->getContactLink($login);
+
+        if ($this->is_administration_context) {
+            $actions[] = $this->getChangeLink($usr_id, $this->lng->txt('edit'));
+        }
+
+        if (($this->getRoleId() !== SYSTEM_ROLE_ID || $usr_id !== SYSTEM_USER_ID)
+            && ($this->getRoleId() !== ANONYMOUS_ROLE_ID || $usr_id !== ANONYMOUS_USER_ID)
+            && $this->isRoleAssignmentEditable()) {
+            $actions[] = $this->getLeaveLink($usr_id);
+        }
+
+        return $actions;
+    }
+
+    private function getContactLink(string $login): StandardLink
+    {
+        $contact_link = ilMailFormCall::getLinkTarget(
             $this->getParentObject(),
             $this->getParentCmd(),
             ['fr' => rawurlencode(base64_encode($this->ctrl->getLinkTarget(
@@ -145,45 +183,34 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
                 false
             )))
             ],
-            ['type' => 'new', 'rcp_to' => $a_set['login']]
+            ['type' => 'new', 'rcp_to' => $login]
         );
-        $actions->addItem(
+
+        return $this->ui_factory->link()->standard(
             $this->lng->txt('message'),
-            '',
-            $link_contact
+            $contact_link
         );
+    }
 
-        if ($this->isAdministrationContext) {
-            $this->ctrl->setParameterByClass('ilobjusergui', 'ref_id', 7);
-            $this->ctrl->setParameterByClass('ilobjusergui', 'obj_id', $a_set['usr_id']);
+    private function getChangeLink(int $usr_id, string $label): StandardLink
+    {
+        $this->ctrl->setParameterByClass('ilobjusergui', 'ref_id', 7);
+        $this->ctrl->setParameterByClass('ilobjusergui', 'obj_id', $usr_id);
+        $change_link = $this->ctrl->getLinkTargetByClass(['iladministrationgui', 'ilobjusergui'], 'view');
+        return $this->ui_factory->link()->standard(
+            $label,
+            $change_link
+        );
+    }
 
-            $link_change = $this->ctrl->getLinkTargetByClass(['iladministrationgui', 'ilobjusergui'], 'view');
+    private function getLeaveLink(int $usr_id): StandardLink
+    {
+        $this->ctrl->setParameter($this->getParentObject(), 'user_id', $usr_id);
+        $link_leave = $this->ctrl->getLinkTarget($this->getParentObject(), 'deassignUser');
 
-            $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
-            $this->tpl->setVariable('HREF_LOGIN', $link_change);
-            $actions->addItem(
-                $this->lng->txt('edit'),
-                '',
-                $link_change
-            );
-        } else {
-            $this->tpl->setVariable('VAL_PLAIN_LOGIN', $a_set['login']);
-        }
-
-        if (
-            ($this->getRoleId() != SYSTEM_ROLE_ID or $a_set['usr_id'] != SYSTEM_USER_ID) and
-            ($this->getRoleId() != ANONYMOUS_ROLE_ID or $a_set['usr_id'] != ANONYMOUS_USER_ID) and
-            $this->isRoleAssignmentEditable()) {
-            $this->ctrl->setParameter($this->getParentObject(), 'user_id', $a_set['usr_id']);
-            $link_leave = $this->ctrl->getLinkTarget($this->getParentObject(), 'deassignUser');
-
-            $actions->addItem(
-                $this->lng->txt('remove'),
-                '',
-                $link_leave
-            );
-        }
-
-        $this->tpl->setVariable('VAL_ACTIONS', $actions->getHTML());
+        return $this->ui_factory->link()->standard(
+            $this->lng->txt('remove'),
+            $link_leave
+        );
     }
 }
