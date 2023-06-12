@@ -61,12 +61,7 @@ class ilPCConsultationHours extends ilPageContent
         $this->getChildNode()->setAttribute("User", $ilUser->getId());
 
         // remove all children first
-        $children = $this->cach_node->child_nodes();
-        if ($children) {
-            foreach ($children as $child) {
-                $this->cach_node->remove_child($child);
-            }
-        }
+        $this->dom_util->deleteAllChilds($this->getChildNode());
 
         if ($a_mode === "manual") {
             foreach ($a_grp_ids as $grp_id) {
@@ -83,12 +78,9 @@ class ilPCConsultationHours extends ilPageContent
     public function getGroupIds(): array
     {
         $res = array();
-        if (is_object($this->cach_node)) {
-            $children = $this->cach_node->child_nodes();
-            if ($children) {
-                foreach ($children as $child) {
-                    $res[] = $child->get_attribute("Id");
-                }
+        if (is_object($this->getChildNode())) {
+            foreach ($this->getChildNode() as $child) {
+                $res[] = $child->getAttribute("Id");
             }
         }
         return $res;

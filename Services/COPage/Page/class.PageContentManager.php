@@ -27,6 +27,8 @@ use ILIAS\COPage\PC\PCDefinition;
  */
 class PageContentManager
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+    protected \DOMDocument $dom;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
     protected \DOMNode $page_object_node;
@@ -76,16 +78,18 @@ class PageContentManager
     }
 
     public function deleteContent(
+        \ilPageObject $page,
         string $a_hid,
         string $a_pcid = "",
         bool $move_operation = false
     ) {
         $curr_node = $this->getContentDomNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node, $move_operation);
+        $this->handleDeleteContent($page, $curr_node, $move_operation);
         $curr_node->parentNode->removeChild($curr_node);
     }
 
     public function deleteContents(
+        \ilPageObject $page,
         array $a_hids,
         bool $a_self_ass = false,
         bool $move_operation = false
@@ -99,7 +103,7 @@ class PageContentManager
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parentNode;
                     if ($parent_node->nodeName != "TableRow") {
-                        $this->handleDeleteContent($curr_node);
+                        $this->handleDeleteContent($page, $curr_node);
                         $curr_node->parentNode->removeChild($curr_node);
                     }
                 }
@@ -127,7 +131,7 @@ class PageContentManager
     }
 
 
-    public function handleDeleteContent($a_node = null, $move_operation = false): void
+    public function handleDeleteContent(\ilPageObject $page, $a_node = null, $move_operation = false): void
     {
         if (!isset($a_node)) {
             $path = "//PageContent";
@@ -137,12 +141,8 @@ class PageContentManager
         }
 
         foreach ($nodes as $node) {
-            if ($node instanceof php4DOMNode) {
-                $node = $node->myDOMNode;
-            }
-            /** @var DOMElement $node */
-            if ($node->firstChild->nodeName == 'Plugged') {
-                \ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild, $move_operation);
+            if ($node->firstChild->nodeName === 'Plugged') {
+                \ilPCPlugged::handleDeletedPluggedNode($page, $node->firstChild, $move_operation);
             }
         }
     }
@@ -655,6 +655,7 @@ class PageContentManager
      * @throws ilDateTimeException
      */
     public function moveContentAfter(
+        \ilPageObject $page,
         string $a_source,
         string $a_target,
         string $a_spcid = "",
@@ -666,16 +667,18 @@ class PageContentManager
         }
 
         // clone the node
-        $content = $this->getContentObject($a_source, $a_spcid);
-        $source_node = $content->getDomNode();
-        $clone_node = $source_node->cloneNode(true);
+        $content = $page->getContentObject($a_source, $a_spcid);
+        $source_node = $content?->getDomNode();
+        $clone_node = $source_node?->cloneNode(true);
 
         // delete source node
-        $this->deleteContent($a_source, false, $a_spcid, true);
+        $this->deleteContent($page, $a_source, $a_spcid, false);
 
         // insert cloned node at target
-        $content->setDomNode($clone_node);
-        $this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
+        if ($content) {
+            $content->setDomNode($clone_node);
+            $this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
+        }
     }
 
     /**

@@ -103,7 +103,7 @@ EOT;
         $this->insertParagraphAt($page, "1", "World");
         $page->insertPCIds();
 
-        $page_content->deleteContent("1");
+        $page_content->deleteContent($page, "1");
 
         $expected = <<<EOT
 <PageObject HierId="pg"><PageContent HierId="2" PCID="00000000000000000000000000000002"><Paragraph Language="en">World</Paragraph></PageContent></PageObject>
@@ -125,7 +125,7 @@ EOT;
         $this->insertParagraphAt($page, "2", "World");
         $page->insertPCIds();
 
-        $page_content->deleteContents(["1", "2"]);
+        $page_content->deleteContents($page, ["1", "2"]);
 
         $expected = <<<EOT
 <PageObject HierId="pg"><PageContent HierId="3" PCID="00000000000000000000000000000003"><Paragraph Language="en">World</Paragraph></PageContent></PageObject>

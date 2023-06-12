@@ -25,6 +25,8 @@ namespace ILIAS\COPage\PC\Question;
  */
 class QuestionManager
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;

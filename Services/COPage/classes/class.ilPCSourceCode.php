@@ -42,6 +42,7 @@ class ilPCSourceCode extends ilPCParagraph
         bool $a_abstract_only = false
     ): string {
         $nodes = $this->dom_util->path($this->dom_doc, "//Paragraph");
+        $i = 0;
         foreach ($nodes as $context_node) {
             $char = $context_node->getAttribute('Characteristic');
 
@@ -141,6 +142,7 @@ class ilPCSourceCode extends ilPCParagraph
                 // call code handler for offline versions
                 $this->getPage()->getOfflineHandler()->handleCodeParagraph($this->getPage()->getId(), $i + 1, $downloadtitle, $plain_content);
             }
+            $i++;
         }
 
         return $a_output;

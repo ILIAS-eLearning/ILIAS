@@ -215,7 +215,7 @@ class ilPageLayout
             return $this->xml_content;
         }
         $layout_page = new ilPageLayoutPage($this->layout_id);
-        return $this->layout_page->getXMLContent();
+        return $layout_page->getXMLContent();
     }
 
     public function getPreview(): string

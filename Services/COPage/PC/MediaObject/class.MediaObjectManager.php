@@ -25,6 +25,8 @@ namespace ILIAS\COPage\PC\MediaObject;
  */
 class MediaObjectManager
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;
@@ -113,11 +115,12 @@ class MediaObjectManager
     }
 
     public function resolveMediaAliases(
-        \DOMDocument $dom,
+        \ilPageObject $page,
         array $a_mapping,
         bool $a_reuse_existing_by_import = false
     ): bool {
         // resolve normal internal links
+        $dom = $page->getDomDoc();
         $path = "//MediaAlias";
         $changed = false;
         $nodes = $this->dom_util->path($dom, $path);
@@ -135,7 +138,7 @@ class MediaObjectManager
                     // this should work, if the lm has been imported in a translation installation and re-exported
                     $import_id = \ilObject::_lookupImportId($new_id);
                     $imp = explode("_", $import_id);
-                    if ($imp[1] == IL_INST_ID && $imp[2] == "mob" && \ilObject::_lookupType($imp[3]) == "mob") {
+                    if ($imp[1] == IL_INST_ID && $imp[2] == "mob" && \ilObject::_lookupType((int) ($imp[3] ?? 0)) == "mob") {
                         $new_id = $imp[3];
                     }
                 }
@@ -146,8 +149,8 @@ class MediaObjectManager
                 // if the old_id is also referred by the page content of the default language
                 // we assume that this media object is unchanged
                 $med_of_def_lang = \ilObjMediaObject::_getMobsOfObject(
-                    $this->getParentType() . ":pg",
-                    $this->getId(),
+                    $page->getParentType() . ":pg",
+                    $page->getId(),
                     0,
                     "-"
                 );

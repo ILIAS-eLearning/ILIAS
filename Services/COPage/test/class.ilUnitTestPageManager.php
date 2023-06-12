@@ -23,6 +23,8 @@ declare(strict_types=1);
  */
 class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
 {
+    protected ilPageObject $test_get;
+
     public function __construct()
     {
     }

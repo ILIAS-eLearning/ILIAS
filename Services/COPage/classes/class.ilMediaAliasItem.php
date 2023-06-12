@@ -23,6 +23,8 @@
  */
 class ilMediaAliasItem
 {
+    protected DOMDocument $dom_doc;
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected string $parent_node_name;
     protected string $pcid;
     protected ilLanguage $lng;

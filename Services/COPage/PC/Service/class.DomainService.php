@@ -36,6 +36,7 @@ use ILIAS\COPage\PC\Question\QuestionManager;
  */
 class DomainService
 {
+    protected PCFactory $pc_factory;
     protected ?PCDefinition $def;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;

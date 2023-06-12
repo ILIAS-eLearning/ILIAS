@@ -25,6 +25,9 @@ namespace ILIAS\COPage\PC\Paragraph;
  */
 class ParagraphManager
 {
+    protected \ILIAS\Repository\HTTP\HTTPUtil $http_util;
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;
@@ -68,7 +71,7 @@ class ParagraphManager
             $nodes = $this->dom_util->path($dom, $path);
             if (count($nodes) > 0) {
                 $cont_node = $nodes->item(0)->parentNode;
-                $par = new ilPCParagraph($page);
+                $par = new \ilPCParagraph($page);
                 $par->setDomNode($cont_node);
                 $text = $par->getText();
                 return $text;

@@ -25,6 +25,8 @@ namespace ILIAS\COPage\PC\FileList;
  */
 class FileListManager
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;

@@ -60,7 +60,7 @@ class ilPCAMDForm extends ilPageContent
         $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $amdfrm_node = $this->dom_doc->createElement("AMDForm");
-        $amdfrm_node = $this->getDomNode()->appendChild($this->amdfrm_node);
+        $this->getDomNode()->appendChild($amdfrm_node);
     }
 
     public function setRecordIds(array $record_ids): void

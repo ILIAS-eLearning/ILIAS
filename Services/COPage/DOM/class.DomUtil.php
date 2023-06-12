@@ -39,7 +39,7 @@ class DomUtil
     public function docFromString(string $xml, ?string &$error_str): ?\DOMDocument
     {
         $doc = new \DOMDocument();
-        set_error_handler('self::xmlError');
+        set_error_handler('ILIAS\COPage\Dom\DomUtil::xmlError');
         $old = ini_set('html_errors', false);
         $success = $doc->loadXML($xml);
         // Restore error handling

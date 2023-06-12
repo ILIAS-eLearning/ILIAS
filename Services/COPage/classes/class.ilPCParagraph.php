@@ -1678,6 +1678,10 @@ class ilPCParagraph extends ilPageContent
         array $a_terms,
         DOMNode $a_par_node = null
     ): void {
+        global $DIC;
+
+        $domutil = $DIC->copage()->internal()->domain()->domUtil();
+
         $par_node = null;
         // sort terms by their length (shortes first)
         // to prevent that nested tags are builded

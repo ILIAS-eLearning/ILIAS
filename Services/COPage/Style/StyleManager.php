@@ -25,6 +25,7 @@ namespace ILIAS\COPage\Style;
  */
 class StyleManager
 {
+    protected \ilDBInterface $db;
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
 
     public function __construct()

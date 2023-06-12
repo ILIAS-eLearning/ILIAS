@@ -25,6 +25,7 @@
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
@@ -1109,7 +1110,7 @@ class ilPCTableGUI extends ilPageContentGUI
                         } else {
                             $move_type = "forward";
                         }
-                    } elseif ($i == (count($res->nodeset) - 1)) {
+                    } elseif ($i == (count($nodes) - 1)) {
                         $move_type = "backward";
                     } else {
                         $move_type = "both";
@@ -1141,8 +1142,8 @@ class ilPCTableGUI extends ilPageContentGUI
                         $this->getCellContent($i, $j)
                     );
 
-                    $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
-                    $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
+                    $cs = $node2->getAttribute("ColSpan");
+                    $rs = $node2->getAttribute("RowSpan");
                     $dtpl->setVariable("WIDTH", "140");
                     $dtpl->setVariable("HEIGHT", "80");
                     if ($cs > 1) {

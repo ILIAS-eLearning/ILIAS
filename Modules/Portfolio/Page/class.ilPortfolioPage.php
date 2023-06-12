@@ -25,7 +25,6 @@ class ilPortfolioPage extends ilPageObject
 {
     public const TYPE_PAGE = 1;
     public const TYPE_BLOG = 2;
-    private \ILIAS\COPage\Dom\DomUtil $dom_util;
 
     protected int $portfolio_id;
     protected int $type = 1;
@@ -392,7 +391,6 @@ class ilPortfolioPage extends ilPageObject
                 }
             }
         }
-        unset($xpc);
 
         return $changed;
     }

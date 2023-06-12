@@ -28,6 +28,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     public const MATERIALS_OTHER = 2;
 
     private ilLogger $logger;
+    protected \ILIAS\Container\InternalGUIService $gui;
     protected ilTabsGUI $tabs;
     protected array $objective_map = [];
     protected ilToolbarGUI $toolbar;

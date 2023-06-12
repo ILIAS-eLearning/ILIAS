@@ -228,8 +228,8 @@ class LinkManager
             $c_hier_id = $page_content_node->getAttribute("HierId");
 
             // first check, wheter we got instance map areas -> take these
-            $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
+            $std_alias_item = new \ilMediaAliasItem(
+                $dom,
                 $c_hier_id,
                 "Standard"
             );
@@ -336,7 +336,7 @@ class LinkManager
         \DOMDocument $dom,
         array $a_mapping,
         int $a_source_ref_id,
-        ilTree $tree
+        \ilTree $tree
     ): void {
         $type = "";
         $objDefinition = $this->obj_definition;
@@ -357,7 +357,7 @@ class LinkManager
                         "Target",
                         "il__obj_" . $a_mapping[$t[3]]
                     );
-                } elseif ($this->tree->isGrandChild($a_source_ref_id, $t[3])) {
+                } elseif ($tree->isGrandChild($a_source_ref_id, $t[3])) {
                     // we have no mapping, but the linked object is child of the original node -> remove link
                     //$this->log->debug("... remove links.");
                     if ($node->parentNode->nodeName === "MapArea") {    // simply remove map areas

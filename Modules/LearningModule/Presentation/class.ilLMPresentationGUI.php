@@ -27,6 +27,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Notes\DomainService $notes;
@@ -488,7 +489,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             : "//ilFrame[@name='" . $this->requested_frame . "']";
         $nodes = $this->dom_util->path($doc, $path);
         if (count($nodes) != 1) {
-            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($found) . " nodes for " .
+            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($nodes) . " nodes for " .
                 " path " . $path . " in " . $layout . "/" . $a_xml . ". LM Layout is " . $this->lm->getLayout());
         }
         $node = $nodes->item(0);

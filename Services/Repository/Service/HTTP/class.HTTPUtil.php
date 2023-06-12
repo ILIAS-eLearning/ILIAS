@@ -52,15 +52,15 @@ class HTTPUtil
     ): void {
         $delivery = new Delivery(
             Delivery::DIRECT_PHP_OUTPUT,
-            $this->http()
+            $this->http
         );
         $delivery->setMimeType($mime);
         $delivery->setSendMimeType(true);
         $delivery->setDisposition(Delivery::DISP_ATTACHMENT);
         $delivery->setDownloadFileName($filename);
         $delivery->setConvertFileNameToAsci(true);
-        $repsonse = $this->http()->response()->withBody(Streams::ofString($data));
-        $this->http()->saveResponse($repsonse);
+        $repsonse = $this->http->response()->withBody(Streams::ofString($data));
+        $this->http->saveResponse($repsonse);
         $delivery->deliver();
     }
 }

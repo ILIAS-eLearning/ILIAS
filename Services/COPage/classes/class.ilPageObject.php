@@ -49,6 +49,7 @@ define("IL_INSERT_CHILD", 2);
  */
 abstract class ilPageObject
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected int $create_user = 0;
@@ -808,7 +809,7 @@ s     */
     public function handleDeleteContent(?DOMNode $a_node = null, $move_operation = false): void
     {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->handleDeleteContent($a_node, $move_operation);
+        $pm->handleDeleteContent($this, $a_node, $move_operation);
     }
 
     /**
@@ -1142,7 +1143,7 @@ s     */
      */
     public function resolveIntLinks(array $a_link_map = null): bool
     {
-        $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
+        return $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
     }
 
     /**
@@ -1154,7 +1155,7 @@ s     */
         bool $a_reuse_existing_by_import = false
     ): bool {
         return $this->pc_service->mediaObject()->resolveMediaAliases(
-            $this->getDomDoc(),
+            $this,
             $a_mapping,
             $a_reuse_existing_by_import
         );
@@ -1207,7 +1208,7 @@ s     */
         $this->buildDom();
         $this->addHierIDs();
         return $this->link->moveIntLinks(
-            $this->getDomDoc,
+            $this->getDomDoc(),
             $a_from_to
         );
     }
@@ -1232,7 +1233,7 @@ s     */
             }
         }
 
-        $this->link->handleRepositoryLinksOnCopy($dom, $a_mapping, $a_source_ref_id, $tree);
+        $this->link->handleRepositoryLinksOnCopy($this->getDomDoc(), $a_mapping, $a_source_ref_id, $tree);
     }
 
     /**
@@ -1732,7 +1733,7 @@ s     */
         bool $move_operation = false
     ) {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->deleteContent($a_hid, $a_pcid, $move_operation);
+        $pm->deleteContent($this, $a_hid, $a_pcid, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -1753,7 +1754,7 @@ s     */
         bool $move_operation = false
     ) {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->deleteContents($a_hids, $a_self_ass, $move_operation);
+        $pm->deleteContents($this, $a_hids, $a_self_ass, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -1884,6 +1885,7 @@ s     */
     ) {
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->moveContentAfter(
+            $this,
             $a_source,
             $a_target,
             $a_spcid,

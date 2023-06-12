@@ -25,6 +25,8 @@ namespace ILIAS\COPage\Page;
  */
 class PageManager implements PageManagerInterface
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;
@@ -37,7 +39,7 @@ class PageManager implements PageManagerInterface
         int $old_nr = 0,
         string $lang = "-"
     ): \ilPageObject {
-        return ilPageObjectFactory::getInstance(
+        return \ilPageObjectFactory::getInstance(
             $parent_type,
             $id,
             $old_nr,
