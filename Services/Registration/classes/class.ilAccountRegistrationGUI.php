@@ -145,7 +145,7 @@ class ilAccountRegistrationGUI
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
                 true,
-                $user_defined_data['f_' . $field_id] ?? null
+                $user_defined_data['f_' . $field_id] ?? ''
             );
             if ($fprop instanceof ilFormPropertyGUI) {
                 $custom_fields['udf_' . $definition['field_id']] = $fprop;
@@ -436,10 +436,11 @@ class ilAccountRegistrationGUI
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         $defs = $user_defined_fields->getRegistrationDefinitions();
         $udf = [];
-        foreach ($_POST as $k => $v) {
-            if (strpos($k, "udf_") === 0) {
-                $f = substr($k, 4);
-                $udf[$f] = $v;
+        foreach ($defs as $definition) {
+            $f = "udf_" . $definition['field_id'];
+            $item = $this->form->getItemByPostVar($f);
+            if ($item && !$item->getDisabled()) {
+                $udf[$definition['field_id']] = $this->form->getInput($f);
             }
         }
         $this->userObj->setUserDefinedData($udf);
