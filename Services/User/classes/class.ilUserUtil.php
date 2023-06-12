@@ -257,7 +257,7 @@ class ilUserUtil
         }
 
         $all[self::START_REPOSITORY] = 'obj_root';
-        $all[self::START_REPOSITORY_OBJ] = 'obj';
+        $all[self::START_REPOSITORY_OBJ] = 'adm_user_starting_point_object';
 
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);

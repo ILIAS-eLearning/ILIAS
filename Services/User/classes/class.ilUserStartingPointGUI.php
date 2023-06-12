@@ -215,6 +215,9 @@ class ilUserStartingPointGUI
         $si->setInfo($this->lng->txt("adm_user_starting_point_info"));
         $valid = array_keys(ilUserUtil::getPossibleStartingPoints());
         foreach (ilUserUtil::getPossibleStartingPoints(true) as $value => $caption) {
+            if ($value === ilUserUtil::START_REPOSITORY_OBJ) {
+                continue;
+            }
             $opt = new ilRadioOption($caption, $value);
 
             if ($value === ilUserUtil::START_PD_CALENDAR) {
