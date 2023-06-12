@@ -13,7 +13,6 @@
 		serverConnector,
 		logger,
 		messageOptions,
-		smileys,
 		iliasConnector, 
 		chatActions;
 
@@ -189,106 +188,6 @@
 		};
 	};
 	ProfileImageLoader._imagesByUserId = {};
-
-	/**
-	 * This class renders the smiley selection for ChatActions.
-	 * It also replaces all smileys in a chat messages.
-	 *
-	 * @params {array} _smileys
-	 * @constructor
-	 */
-	const Smileys = function Smileys(_smileys) {
-		/**
-		 * Sets smileys into text
-		 *
-		 * @param {string} message
-		 * @returns {string}
-		 */
-		this.replace = function (message) {
-			if (typeof _smileys == "string") {
-				return message;
-			}
-
-			for (let i in _smileys) {
-				while (message.indexOf(i) != -1) {
-					message = message.replace(i, '<img src="' + _smileys[i] + '" />');
-				}
-			}
-
-			return message;
-		};
-
-		this.render = function () {
-			if (typeof _smileys == "object") {
-				if (_smileys.length == 0) {
-					return;
-				}
-				// Emoticons
-				const $emoticons_flyout_trigger = $('<a></a>'),
-					$emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>'),
-					$emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
-					.append($emoticons_flyout_trigger)
-					.append($emoticons_flyout);
-
-				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
-
-				$emoticons_panel.css("top", "3px");
-
-				const $emoticons_table = $("<table></table>"),
-					emoticonMap = new Object();
-
-				let $emoticons_row = null,
-					cnt = 0;
-
-				for (let i in _smileys) {
-					let $emoticon;
-
-					if (emoticonMap[_smileys[i]]) {
-						$emoticon = emoticonMap[_smileys[i]];
-					} else {
-						if (cnt % 6 == 0) {
-							$emoticons_row = $("<tr></tr>");
-							$emoticons_table.append($emoticons_row);
-						}
-
-						$emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
-						$emoticon.data("emoticon", i);
-						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
-
-						emoticonMap[_smileys[i]] = $emoticon;
-						++cnt;
-					}
-
-					$emoticon.attr({
-						alt: [$emoticon.attr('alt').toString(), i].join(' '),
-						title: [$emoticon.attr('title').toString(), i].join(' ')
-					});
-				}
-				$emoticons_flyout.append($emoticons_table);
-
-				$emoticons_flyout_trigger.on('click', function (e) {
-					$emoticons_flyout.toggle();
-
-					if ($(this).hasClass("active")) {
-						$(this).removeClass("active");
-					} else {
-						$(this).addClass("active");
-					}
-				});
-
-				$emoticons_panel.on('clickoutside', function (event) {
-					if ($emoticons_flyout_trigger.hasClass("active")) {
-						$emoticons_flyout_trigger.click();
-					}
-				});
-
-				$("#iosChatEmoticonsPanelFlyout a").click(function () {
-					$emoticons_flyout_trigger.click();
-					$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
-				});
-			}
-		};
-	};
 
 	/**
 	 * This class renders the chat gui and manages all gui actions.
@@ -1483,8 +1382,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 
 		});
 
-		smileys.render();
-
 		// Insert Chatheader into HTML next to AKTION-Button
 		gui.renderHeaderAndActionButton();
 		// When private rooms are disabled, dont show chat header
@@ -1606,15 +1503,11 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 
 			logger = new Logger();
 			translation = new Translation(lang);
-			smileys = new Smileys(initial.smileys);
 			
 			$("#" + appDomElementId).chat(baseurl, instance);
 		},
 		leavePrivateRoom: function () {
 			iliasConnector.leavePrivateRoom();
-		},
-		getSmileys: function () {
-			return smileys;
 		},
 		getUserInfo: function() {
 			return personalUserInfo;

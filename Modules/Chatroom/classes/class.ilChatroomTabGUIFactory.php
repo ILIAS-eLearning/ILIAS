@@ -86,11 +86,6 @@ class ilChatroomTabGUIFactory
                     ]
                 ]
             ],
-            'smiley' => [
-                'lng' => 'smiley',
-                'link' => $DIC->ctrl()->getLinkTargetByClass(ilObjChatroomAdminGUI::class, 'smiley'),
-                'permission' => 'read'
-            ]
         ];
         $DIC->ctrl()->setParameterByClass(ilObjChatroomGUI::class, 'ref_id', $public_room_ref);
 

@@ -2876,7 +2876,6 @@ chatroom#:#chat_osc_conversations#:#Chat
 chatroom#:#chat_osc_doesnt_accept_msg#:#Chatten nicht möglich
 chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu einem Chat eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Persönlichen Einstellungen'
-chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 chatroom#:#chat_osc_invite_to_conversation#:#Zu Chat hinzufügen
 chatroom#:#chat_osc_leave_grp_conv#:#Chat verlassen
@@ -2919,7 +2918,6 @@ chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen N
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Der On-Screen-Chat steht allen auf der Plattform zur Verfügung. Jede Person kann jedoch individuell entscheiden, ob er oder sie von anderen Personen angesprochen werden möchte. Chats können über das „Who is online?“-Tool gestartet werden.
 chatroom#:#chatroom_log#:#Chatserver Log-File
-chatroom#:#chatroom_smiley_keyword#:#Schlagwort
 chatroom#:#chatserver_address#:#IP-Adresse/FQN des Chat-Servers
 chatroom#:#chatserver_port#:#Port des Chat-Servers
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
@@ -2942,12 +2940,10 @@ chatroom#:#display_past_msgs#:#Chat-Rückblick
 chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
-chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#hint_display_past_msgs#:#Anzahl vergangener Beiträge, die beim Betreten des Chatraums angezeigt werden. Durch die Eingabe von „0“ wird die Anzeige deaktiviert.
-chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
 chatroom#:#history_by_day#:#Tagesverlauf
 chatroom#:#history_by_session#:#Sitzungverlauf
 chatroom#:#history_byday_title#:#Zeitraum auswählen
@@ -3003,21 +2999,6 @@ chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
-chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies-Verzeichnis existiert nicht.
-chatroom_adm#:#chat_smilies_initialized#:#Chat Smilies wurden initialisiert
-chatroom_adm#:#chatroom_add_smiley#:#Smiley hinzufügen
-chatroom_adm#:#chatroom_available_smilies#:#Verfügbare Smilies
-chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind Sie sicher, dass Sie den ausgewählten Smiley löschen möchten?
-chatroom_adm#:#chatroom_current_smiley_image#:#Aktueller Smiley
-chatroom_adm#:#chatroom_current_smiley_image_path#:#Aktueller Smiley
-chatroom_adm#:#chatroom_delete_selected#:#Ausgewählte Smilies löschen
-chatroom_adm#:#chatroom_edit_smiley#:#Smiley bearbeiten
-chatroom_adm#:#chatroom_image_path#:#Pfad zu Smiley
-chatroom_adm#:#chatroom_smiley_image#:#Smiley
-chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Bitte nur einen neuen Smiley auswählen, wenn der aktuelle Smiley durch einen neuen ersetzt werden soll.
-chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
-chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Ein Platzhalter pro Zeile
-chatroom_adm#:#chatroom_upload_smiley#:#Smiley hochladen
 chatroom_adm#:#chatserver_settings_title#:#Chat-Server
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
@@ -3032,7 +3013,6 @@ chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
 chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum : Einstellungen
 chatroom_adm#:#server_settings#:#Chat-Server-Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
-chatroom_adm#:#smiley#:#Smilies
 classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_block_title#:#Auswahl nach Themen

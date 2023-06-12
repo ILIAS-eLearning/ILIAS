@@ -35,7 +35,6 @@ class ilChatroomServerSettings
     private string $protocol = self::DEFAULT_PROCOTOL;
     private string $domain = self::DEFAULT_HOST;
     private string $instance = '123456';
-    private bool $smilies_enabled = false;
     private string $authKey = '';
     private string $authSecret = '';
     private bool $clientUrlEnabled = false;
@@ -60,7 +59,6 @@ class ilChatroomServerSettings
             $settings->setPort((int) ($server_settings->port ?? self::DEFAULT_PORT));
             $settings->setProtocol((string) ($server_settings->protocol ?? self::DEFAULT_PROCOTOL));
             $settings->setDomain((string) ($server_settings->address ?? self::DEFAULT_HOST));
-            $settings->setSmiliesEnabled((bool) ($client_settings->enable_smilies ?? false));
             $settings->setClientUrlEnabled((bool) ($server_settings->client_proxy ?? false));
             $settings->setIliasUrlEnabled((bool) ($server_settings->ilias_proxy ?? false));
             $settings->setClientUrl((string) ($server_settings->client_url ?? ''));
@@ -211,16 +209,6 @@ class ilChatroomServerSettings
     public function setClientUrl(string $clientUrl): void
     {
         $this->clientUrl = $clientUrl;
-    }
-
-    public function getSmiliesEnabled(): bool
-    {
-        return $this->smilies_enabled;
-    }
-
-    public function setSmiliesEnabled(bool $a_bool): void
-    {
-        $this->smilies_enabled = $a_bool;
     }
 
     public function getAuthKey(): string
