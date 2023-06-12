@@ -302,7 +302,6 @@ client.cfg:
     "conversation_idle_state_in_minutes": 1,
     "osd_intervall": 60,
     "chat_enabled": true,
-    "enable_smilies": true,
     "play_invitation_sound": false,
     "auth": {
         "key": "0cdc8989-d5f0-1111-4444-244320d9dabc",

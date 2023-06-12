@@ -132,7 +132,6 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
             'conversation_idle_state_in_minutes' => $convIdleStateTime,
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
-            'enable_smilies' => (bool) $form->getInput('enable_smilies'),
             'auth' => $form->getInput('auth')
         ];
 

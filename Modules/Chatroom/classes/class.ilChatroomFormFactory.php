@@ -276,10 +276,6 @@ class ilChatroomFormFactory
         $oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_conv_idle_state_threshold_info'));
         $enable_osc->addSubItem($oscBrowserNotificationIdleTime);
 
-        $enable_smilies = new ilCheckboxInputGUI($this->lng->txt('enable_smilies'), 'enable_smilies');
-        $enable_smilies->setInfo($this->lng->txt('hint_enable_smilies'));
-        $enable_chat->addSubItem($enable_smilies);
-
         $name = new ilTextInputGUI($this->lng->txt('chatroom_client_name'), 'client_name');
         $name->setInfo($this->lng->txt('chatroom_client_name_info'));
         $name->setRequired(true);

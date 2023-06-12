@@ -2877,7 +2877,6 @@ chatroom#:#chat_osc_conversations#:#Conversations
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your %s.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
-chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
@@ -2920,7 +2919,6 @@ chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chatroom_log#:#Chatserver Log
-chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
@@ -2943,12 +2941,10 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
-chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
 chatroom#:#history_by_day#:#Daily History
 chatroom#:#history_by_session#:#Session History
 chatroom#:#history_byday_title#:#Show Conversation per Day
@@ -3004,21 +3000,6 @@ chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
-chatroom_adm#:#chat_smilies_initialized#:#Chat smileys initialized
-chatroom_adm#:#chatroom_add_smiley#:#Add Smiley
-chatroom_adm#:#chatroom_available_smilies#:#Available Smileys
-chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
-chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon
-chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley
-chatroom_adm#:#chatroom_delete_selected#:#Delete Selected Smileys
-chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley
-chatroom_adm#:#chatroom_image_path#:#Path to Smiley
-chatroom_adm#:#chatroom_smiley_image#:#Smiley
-chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
-chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
-chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line
-chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#general_settings_title#:#General Chat Settings
@@ -3033,7 +3014,6 @@ chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-chatroom_adm#:#smiley#:#Smilies
 classification#:#clsfct_back_to_cat#:#Back to Category
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
