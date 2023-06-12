@@ -28,6 +28,7 @@ use ILIAS\DI\UIServices;
  */
 class ilAwarenessGUI implements ilCtrlBaseClassInterface
 {
+    protected InternalGUIService $gui;
     protected ilGlobalTemplateInterface $main_tpl;
     protected int $ref_id;
     protected \ILIAS\Awareness\StandardGUIRequest $request;
