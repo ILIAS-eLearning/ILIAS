@@ -3,42 +3,42 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
- * Memberships block
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPDMembershipBlockGUI: ilCommonActionDispatcherGUI
  */
 class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 {
-    public static string $block_type = 'pdmem';
-
-    // Is block displayed on membership overview?
-    protected bool $on_mem_overview;
+    public const BLOCK_TYPE = 'pdmem';
 
     public function __construct(
-        bool $on_mem_overview = false
+        protected readonly bool $on_mem_overview = false
     ) {
         parent::__construct();
-        $this->lng->loadLanguageModule("dash");
-        $this->lng->loadLanguageModule("mmbr");
-        $this->on_mem_overview = $on_mem_overview;
+        $this->lng->loadLanguageModule('dash');
+        $this->lng->loadLanguageModule('mmbr');
     }
 
-    protected function initViewSettings(): void
+    protected function initView(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
-            ilPDSelectedItemsBlockViewSettings::VIEW_MY_MEMBERSHIPS
+            ilDashboardSelectedItemsBlockConstants::VIEW_MY_MEMBERSHIPS
         );
         $this->viewSettings->parse();
 
@@ -50,7 +50,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     protected function returnToContext(): void
     {
         if ($this->on_mem_overview) {
-            $this->ctrl->redirectByClass('ilmembershipoverviewgui', '');
+            $this->ctrl->redirectByClass(ilMembershipOverviewGUI::class, '');
         }
         parent::returnToContext();
     }
@@ -58,14 +58,13 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     protected function getViewTitle(): string
     {
         if ($this->on_mem_overview) {
-            return $this->lng->txt("mmbr_memberships");
+            return $this->lng->txt('mmbr_memberships');
         }
         return parent::getViewTitle();
     }
 
     public function getNoItemFoundContent(): string
     {
-        $txt = $this->lng->txt("rep_mo_mem_dash");
-        return $txt;
+        return $this->lng->txt('rep_mo_mem_dash');
     }
 }

@@ -1,22 +1,27 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- * Class ilPDSelectedItemsBlockViewSettings
- */
-class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
+declare(strict_types=1);
+
+use ILIAS\Administration\Setting;
+use ILIAS\Dashboard\Access\DashboardAccess;
+
+class ilPDSelectedItemsBlockViewSettings implements ilDashboardSelectedItemsBlockConstants
 {
     /**
      * @var int[]
@@ -45,7 +50,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     ];
 
     /**
-     * @var array[]
+     * @var <int, string[]>
      */
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
@@ -63,7 +68,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     ];
 
     /**
-     * @var array[]
+     * @var <int, string[]>
      */
     protected static array $availablePresentationsByView = [
         self::VIEW_SELECTED_ITEMS => [
@@ -77,95 +82,90 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::VIEW_MY_STUDYPROGRAMME => []
     ];
 
-    protected \ILIAS\Administration\Setting $settings;
-    protected ilObjUser $actor;
     protected array $validViews = [];
-    protected int $currentView = self::VIEW_SELECTED_ITEMS;
     protected string $currentSortOption = self::SORT_BY_LOCATION;
     protected string $currentPresentationOption = self::PRESENTATION_LIST;
-    protected \ILIAS\Dashboard\Access\DashboardAccess $access;
+    protected Setting $settings;
+    protected DashboardAccess $access;
 
     public function __construct(
-        ilObjUser $actor,
-        int $view = self::VIEW_SELECTED_ITEMS,
-        \ILIAS\Administration\Setting $settings = null,
-        \ILIAS\Dashboard\Access\DashboardAccess $access = null
+        protected ilObjUser $actor,
+        protected int $currentView = self::VIEW_SELECTED_ITEMS,
+        Setting $settings = null,
+        DashboardAccess $access = null
     ) {
         global $DIC;
 
         $this->settings = $settings ?? $DIC->settings();
-
-        $this->actor = $actor;
-        $this->currentView = $view;
-        $this->access = $access ?? new \ILIAS\Dashboard\Access\DashboardAccess();
+        $this->access = $access ?? new DashboardAccess();
     }
 
-    public function getMembershipsView(): int
+    final public function getMembershipsView(): int
     {
         return self::VIEW_MY_MEMBERSHIPS;
     }
 
-    public function getSelectedItemsView(): int
+    final public function getSelectedItemsView(): int
     {
         return self::VIEW_SELECTED_ITEMS;
     }
 
-    public function getStudyProgrammeView(): int
+    final public function getStudyProgrammeView(): int
     {
         return self::VIEW_MY_STUDYPROGRAMME;
     }
 
-    public function getListPresentationMode(): string
+    final public function getListPresentationMode(): string
     {
         return self::PRESENTATION_LIST;
     }
 
-    public function getTilePresentationMode(): string
+    final public function getTilePresentationMode(): string
     {
         return self::PRESENTATION_TILE;
     }
 
-    public function isMembershipsViewActive(): bool
+    final public function isMembershipsViewActive(): bool
     {
         return $this->currentView === $this->getMembershipsView();
     }
 
-    public function isSelectedItemsViewActive(): bool
+    final public function isSelectedItemsViewActive(): bool
     {
         return $this->currentView === $this->getSelectedItemsView();
     }
 
-    public function isStudyProgrammeViewActive(): bool
+    final public function isStudyProgrammeViewActive(): bool
     {
         return $this->currentView === $this->getStudyProgrammeView();
     }
 
-    public function getSortByStartDateMode(): string
+    final public function getSortByStartDateMode(): string
     {
         return self::SORT_BY_START_DATE;
     }
 
-    public function getSortByLocationMode(): string
+    final public function getSortByLocationMode(): string
     {
         return self::SORT_BY_LOCATION;
     }
 
-    public function getSortByTypeMode(): string
+    final public function getSortByTypeMode(): string
     {
         return self::SORT_BY_TYPE;
     }
 
-    public function getSortByAlphabetMode(): string
+    final public function getSortByAlphabetMode(): string
     {
         return self::SORT_BY_ALPHABET;
     }
 
-    public function getAvailableSortOptionsByView(int $view): array
+    final public function getAvailableSortOptionsByView(int $view): array
     {
         return self::$availableSortOptionsByView[$view];
     }
 
-    public function getAvailablePresentationsByView(int $view): array
+    final public function getAvailablePresentationsByView(int $view): array
     {
         return self::$availablePresentationsByView[$view];
     }
@@ -181,43 +181,43 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         }
     }
 
-    public function isSortedByType(): bool
+    final public function isSortedByType(): bool
     {
         return $this->currentSortOption === $this->getSortByTypeMode();
     }
 
-    public function isSortedByAlphabet(): bool
+    final public function isSortedByAlphabet(): bool
     {
         return $this->currentSortOption === $this->getSortByAlphabetMode();
     }
 
-    public function isSortedByLocation(): bool
+    final public function isSortedByLocation(): bool
     {
         return $this->currentSortOption === $this->getSortByLocationMode();
     }
 
-    public function isSortedByStartDate(): bool
+    final public function isSortedByStartDate(): bool
     {
         return $this->currentSortOption === $this->getSortByStartDateMode();
     }
 
-    public function isTilePresentation(): bool
+    final public function isTilePresentation(): bool
     {
         return $this->currentPresentationOption === $this->getTilePresentationMode();
     }
 
-    public function isListPresentation(): bool
+    final public function isListPresentation(): bool
     {
         return $this->currentPresentationOption === $this->getListPresentationMode();
     }
 
-    public function storeViewSorting(int $view, string $type, array $active)
+    public function storeViewSorting(int $view, string $type, array $active): void
     {
-        if (!in_array($type, $active)) {
+        if (!in_array($type, $active, true)) {
             $active[] = $type;
         }
 
-        assert(in_array($type, $this->getAvailableSortOptionsByView($view)));
+        assert(in_array($type, $this->getAvailableSortOptionsByView($view), true));
 
         switch ($view) {
             case $this->getSelectedItemsView():
@@ -235,23 +235,23 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getActiveSortingsByView(int $view): array
     {
         $val = $this->settings->get('pd_active_sort_view_' . $view);
-        return ($val == "")
+        return ($val === '')
             ? []
-            : unserialize($val);
+            : unserialize($val, ['allowed_classes' => false]);
     }
 
     public function storeViewPresentation(int $view, string $default, array $active): void
     {
-        if (!in_array($default, $active)) {
+        if (!in_array($default, $active, true)) {
             $active[] = $default;
         }
         $this->settings->set('pd_def_pres_view_' . $view, $default);
         $this->settings->set('pd_active_pres_view_' . $view, serialize($active));
     }
 
-    public function getDefaultPresentationByView(int $view): string
+    final public function getDefaultPresentationByView(int $view): string
     {
-        return $this->settings->get('pd_def_pres_view_' . $view, "list");
+        return $this->settings->get('pd_def_pres_view_' . $view, 'list');
     }
 
     public function getActivePresentationsByView(int $view): array
@@ -260,27 +260,27 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
         return ('' === $val)
             ? []
-            : unserialize($val);
+            : unserialize($val, ['allowed_classes' => false]);
     }
 
-    public function enabledMemberships(): bool
+    final public function enabledMemberships(): bool
     {
-        return $this->settings->get('disable_my_memberships', '0') == 0;
+        return $this->settings->get('disable_my_memberships', '0') === '0';
     }
 
-    public function enabledSelectedItems(): bool
+    final public function enabledSelectedItems(): bool
     {
-        return $this->settings->get('disable_my_offers', '0') == 0;
+        return $this->settings->get('disable_my_offers', '0') === '0';
     }
 
-    public function enableMemberships(bool $status): void
+    final public function enableMemberships(bool $status): void
     {
-        $this->settings->set('disable_my_memberships', (int) !$status);
+        $this->settings->set('disable_my_memberships', ($status) ? '0' : '1');
     }
 
-    public function enableSelectedItems(bool $status): void
+    final public function enableSelectedItems(bool $status): void
     {
-        $this->settings->set('disable_my_offers', (int) !$status);
+        $this->settings->set('disable_my_offers', ($status) ? '0' : '1');
     }
 
     public function allViewsEnabled(): bool
@@ -295,12 +295,12 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function getDefaultView(): int
     {
-        return (int) $this->settings->get('personal_items_default_view', $this->getSelectedItemsView());
+        return (int) $this->settings->get('personal_items_default_view', (string) $this->getSelectedItemsView());
     }
 
-    public function storeDefaultView(int $view): void
+    final public function storeDefaultView(int $view): void
     {
-        $this->settings->set('personal_items_default_view', $view);
+        $this->settings->set('personal_items_default_view', (string) $view);
     }
 
     public function parse(): void
@@ -315,7 +315,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     {
         $mode = $this->actor->getPref('pd_view_pres_' . $this->currentView);
 
-        if (!in_array($mode, $this->getSelectablePresentationModes())) {
+        if (!in_array($mode, $this->getSelectablePresentationModes(), true)) {
             $mode = $this->getDefaultPresentationByView($this->currentView);
         }
 
@@ -326,7 +326,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     {
         $mode = $this->actor->getPref('pd_order_items_' . $this->currentView);
 
-        if (!in_array($mode, $this->getSelectableSortingModes())) {
+        if (!in_array($mode, $this->getSelectableSortingModes(), true)) {
             $mode = $this->getDefaultSortingByView($this->currentView);
         }
 
@@ -378,23 +378,18 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         }
     }
 
-    public function getActor(): ilObjUser
+    final public function getActor(): ilObjUser
     {
         return $this->actor;
     }
 
-    public function getCurrentView(): int
+    final public function getCurrentView(): int
     {
         return $this->currentView;
     }
 
-    public function getCurrentSortOption(): int
-    {
-        return $this->currentSortOption;
-    }
-
     public function isValidView(int $view): bool
     {
-        return in_array($view, $this->validViews);
+        return in_array($view, $this->validViews, true);
     }
 }

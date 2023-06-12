@@ -3,37 +3,45 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
-class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
+declare(strict_types=1);
+
+class ilDashboardSelectedItemsBlockSelectedItemsProvider implements ilDashboardSelectedItemsBlockProvider
 {
-    protected ilObjUser $actor;
-    protected ilFavouritesManager $fav_manager;
-    protected ilAccessHandler $access;
-    protected ilSetting $settings;
+    protected readonly ilFavouritesManager $fav_manager;
+    protected readonly ilAccessHandler $access;
+    protected readonly ilSetting $settings;
 
-    public function __construct(ilObjUser $actor)
-    {
+    public function __construct(
+        protected ilObjUser $actor
+    ) {
         global $DIC;
 
-        $this->actor = $actor;
         $this->fav_manager = new ilFavouritesManager();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
     }
 
-    public function getItems(array $object_type_white_list = array()): array
+    /**
+     * @param string[] $object_type_white_list
+     * @return <string, <string, mixed>>
+     */
+    public function getItems(array $object_type_white_list = []): array
     {
-        $short_desc = $this->settings->get("rep_shorten_description");
-        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+        $short_desc = $this->settings->get('rep_shorten_description');
+        $short_desc_max_length = (int) $this->settings->get('rep_shorten_description_length');
 
         $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),

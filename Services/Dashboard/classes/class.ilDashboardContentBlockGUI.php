@@ -3,35 +3,32 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
- * BlockGUI class for (centered) Content on Personal Desktop
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilDashboardContentBlockGUI extends ilBlockGUI
 {
-    public static string $block_type = "dashcontent";
+    public const BLOCK_TYPE = 'dashcontent';
     protected int $currentitemnumber;
     protected string $content;
 
     public function __construct()
     {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-
         parent::__construct();
 
         $this->setEnableNumInfo(false);
@@ -42,15 +39,15 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
 
     public function getBlockType(): string
     {
-        return self::$block_type;
+        return self::BLOCK_TYPE;
     }
 
-    public function setCurrentItemNumber(int $a_currentitemnumber): void
+    final public function setCurrentItemNumber(int $currentitemnumber): void
     {
-        $this->currentitemnumber = $a_currentitemnumber;
+        $this->currentitemnumber = $currentitemnumber;
     }
 
-    public function getCurrentItemNumber(): int
+    final public function getCurrentItemNumber(): int
     {
         return $this->currentitemnumber;
     }
@@ -60,42 +57,35 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         return false;
     }
 
-    public function getHTML(): string
-    {
-        return parent::getHTML();
-    }
-
-    public function getContent(): string
+    final public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $a_content): void
+    final public function setContent(string $content): void
     {
-        $this->content = $a_content;
+        $this->content = $content;
     }
 
     public function fillDataSection(): void
     {
-        $this->tpl->setVariable("BLOCK_ROW", $this->getContent());
+        $this->tpl->setVariable('BLOCK_ROW', $this->getContent());
     }
 
     public function fillFooter(): void
     {
-        //$this->fillFooterLinks();
         $lng = $this->lng;
 
         if (is_array($this->data)) {
             $this->max_count = count($this->data);
         }
 
-        // table footer numinfo
         if ($this->getEnableNumInfo()) {
-            $numinfo = "(" . $this->getCurrentItemNumber() . " " .
-                strtolower($lng->txt("of")) . " " . $this->max_count . ")";
+            $numinfo = '(' . $this->getCurrentItemNumber() . ' ' .
+                strtolower($lng->txt('of')) . ' ' . $this->max_count . ')';
 
             if ($this->max_count > 0) {
-                $this->tpl->setVariable("NUMINFO", $numinfo);
+                $this->tpl->setVariable('NUMINFO', $numinfo);
             }
         }
     }

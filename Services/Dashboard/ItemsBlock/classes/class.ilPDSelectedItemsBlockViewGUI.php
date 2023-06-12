@@ -1,39 +1,41 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 abstract class ilPDSelectedItemsBlockViewGUI
 {
-    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    protected ilPDSelectedItemsBlockProvider $provider;
-    protected ilLanguage $lng;
-    protected ilTree $tree;
-    protected ilObjectDataCache $object_cache;
-    protected ilRbacSystem $accessHandler;
+    protected readonly ilObjectDataCache $object_cache;
+    protected readonly ilRbacSystem $accessHandler;
+    protected readonly ilLanguage $lng;
+    protected readonly ilTree $tree;
     protected bool $isInManageMode = false;
 
-    private function __construct(ilPDSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
-    {
+    private function __construct(
+        protected readonly ilPDSelectedItemsBlockViewSettings $viewSettings,
+        protected readonly ilDashboardSelectedItemsBlockProvider $provider
+    ) {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->tree = $DIC->repositoryTree();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->accessHandler = $DIC->rbac()->system();
-
-        $this->viewSettings = $viewSettings;
-        $this->provider = $provider;
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
     }
 
     abstract public function getScreenId(): string;
@@ -54,12 +56,12 @@ abstract class ilPDSelectedItemsBlockViewGUI
         return true;
     }
 
-    public function setIsInManageMode(bool $isInManageMode): void
+    final public function setIsInManageMode(bool $isInManageMode): void
     {
         $this->isInManageMode = $isInManageMode;
     }
 
-    public function isInManageMode(): bool
+    final public function isInManageMode(): bool
     {
         return $this->isInManageMode;
     }
@@ -78,21 +80,21 @@ abstract class ilPDSelectedItemsBlockViewGUI
     public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings): ilPDSelectedItemsBlockViewGUI
     {
         if ($viewSettings->isMembershipsViewActive()) {
-            return new ilPDSelectedItemsBlockMembershipsViewGUI(
+            return new ilDashboardSelectedItemsBlockMembershipsViewGUI(
                 $viewSettings,
-                new ilPDSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
+                new ilDashboardSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
             );
         }
 
-        return new ilPDSelectedItemsBlockSelectedItemsViewGUI(
+        return new ilDashboardSelectedItemsBlockSelectedItemsViewGUI(
             $viewSettings,
-            new ilPDSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())
+            new ilDashboardSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())
         );
     }
 
-    protected function isRootNode(int $refId): bool
+    final protected function isRootNode(int $refId): bool
     {
-        return $this->tree->getRootId() == $refId;
+        return $this->tree->getRootId() === $refId;
     }
 
     protected function getRepositoryTitle(): string
@@ -100,7 +102,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
-        if ($title == 'ILIAS') {
+        if ($title === 'ILIAS') {
             $title = $this->lng->txt('repository');
         }
 
@@ -110,7 +112,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @param ilPDSelectedItemsBlockGroup[] $item_groups
      */
-    protected function preloadItemGroups(array $item_groups)
+    protected function preloadItemGroups(array $item_groups): void
     {
         $listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
@@ -133,20 +135,19 @@ abstract class ilPDSelectedItemsBlockViewGUI
     {
         global $DIC;
 
-        $objDefinition = $DIC["objDefinition"];
+        $objDefinition = $DIC['objDefinition'];
 
-        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(array('cat', 'crs', 'grp', 'fold'));
+        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(['cat', 'crs', 'grp', 'fold']);
 
-        $grouped_items = array();
+        $grouped_items = [];
 
         foreach ($object_types_by_container as $container_object_type => $container_data) {
             $group = new ilPDSelectedItemsBlockGroup();
-            // Icons are currently not determined for section header objects
             if (!$objDefinition->isPlugin($container_object_type)) {
                 $title = $this->lng->txt('objs_' . $container_object_type);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($container_object_type);
-                $title = $pl->txt("objs_" . $container_object_type);
+                $title = $pl->txt('objs_' . $container_object_type);
             }
 
             $group->setLabel($title);
@@ -165,18 +166,18 @@ abstract class ilPDSelectedItemsBlockViewGUI
     {
         $items = $this->provider->getItems();
 
-        if (0 == count($items)) {
-            return array();
+        if ($items === []) {
+            return [];
         }
 
-        $groups = array(
-            'upcoming' => array(),
-            'ongoing' => array(),
-            'ended' => array(),
-            'not_dated' => array()
-        );
+        $groups = [
+            'upcoming' => [],
+            'ongoing' => [],
+            'ended' => [],
+            'not_dated' => []
+        ];
         foreach ($items as $key => $item) {
-            if ($item['start'] && $item['start']->get(IL_CAL_UNIX) > 0 && $item['start'] instanceof ilDateTime) {
+            if ($item['start'] instanceof ilDateTime && $item['start']->get(IL_CAL_UNIX) > 0) {
                 if ($item['start']->get(IL_CAL_UNIX) > time()) {
                     $groups['upcoming'][] = $item;
                 } elseif ($item['end']->get(IL_CAL_UNIX) > time()) {
@@ -189,39 +190,40 @@ abstract class ilPDSelectedItemsBlockViewGUI
             }
         }
 
-        uasort($groups['upcoming'], function ($left, $right) {
+        uasort($groups['upcoming'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['ongoing'], function ($left, $right) {
+        uasort($groups['ongoing'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['ended'], function ($left, $right) {
+        uasort($groups['ended'], static function ($left, $right) {
             if ($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX)) {
                 return 1;
-            } elseif ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
+            }
+            if ($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX)) {
                 return -1;
             }
 
             return strcmp($left['title'], $right['title']);
         });
 
-        uasort($groups['not_dated'], function ($left, $right) {
-            return strcmp($left['title'], $right['title']);
-        });
+        uasort($groups['not_dated'], static fn ($left, $right) => strcmp($left['title'], $right['title']));
 
         $upcoming = new ilPDSelectedItemsBlockGroup();
         $upcoming->setLabel($this->lng->txt('pd_upcoming'));
@@ -239,14 +241,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $not_dated->setLabel($this->lng->txt('pd_not_date'));
         $not_dated->setItems($groups['not_dated']);
 
-        return array_filter([
-            $upcoming,
-            $ongoing,
-            $ended,
-            $not_dated
-        ], function (ilPDSelectedItemsBlockGroup $group) {
-            return count($group->getItems()) > 0;
-        });
+        return array_filter(
+            [$upcoming, $ongoing, $ended, $not_dated],
+            static fn (ilPDSelectedItemsBlockGroup $group) => count($group->getItems()) > 0
+        );
     }
 
     /**
@@ -254,20 +252,16 @@ abstract class ilPDSelectedItemsBlockViewGUI
      */
     protected function groupItemsByLocation(): array
     {
-        $grouped_items = array();
+        $grouped_items = [];
 
         $items = $this->provider->getItems();
 
-        $parent_ref_ids = array_values(array_unique(array_map(function ($item) {
-            return $item['parent_ref'];
-        }, $items)));
+        $parent_ref_ids = array_values(array_unique(array_map(static fn ($item) => $item['parent_ref'], $items)));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
         foreach ($items as $key => $item) {
             if (!array_key_exists('grp_' . $item['parent_ref'], $grouped_items)) {
                 $group = new ilPDSelectedItemsBlockGroup();
-                /* The parent objects of items grouped by location do not need an image (per current concept), so
-                   we do not determine images to reduced the runtime/memory */
                 if ($this->isRootNode($item['parent_ref'])) {
                     $group->setLabel($this->getRepositoryTitle());
                 } else {
@@ -289,9 +283,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
     {
         $items = array_values($this->provider->getItems());
 
-        usort($items, static function (array $first, array $second): int {
-            return strnatcmp(strtolower($first['title']), strtolower($second['title']));
-        });
+        usort(
+            $items,
+            static fn (array $first, array $second): int => strnatcasecmp($first['title'], $second['title'])
+        );
 
         $group = new ilPDSelectedItemsBlockGroup();
         array_map([$group, 'pushItem'], $items);

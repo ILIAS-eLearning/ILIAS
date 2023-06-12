@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,40 +16,38 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilPDSelectedItemsBlockListGUIFactory
+declare(strict_types=1);
+
+class ilDashboardSelectedItemsBlockListGUIFactory
 {
     /** @var ilObjectListGUI[] */
     protected static array $list_by_type = [];
-    protected ilObjectDefinition $objDefinition;
-    protected ilPDSelectedItemsBlockGUI $block;
-    protected ilPDSelectedItemsBlockViewGUI $blockView;
+    protected readonly ilObjectDefinition $objDefinition;
 
     public function __construct(
-        ilPDSelectedItemsBlockGUI $block,
-        ilPDSelectedItemsBlockViewGUI $blockView
+        protected readonly ilPDSelectedItemsBlockGUI $block,
+        protected readonly ilPDSelectedItemsBlockViewGUI $blockView
     ) {
         global $DIC;
 
         $this->objDefinition = $DIC['objDefinition'];
-        $this->block = $block;
-        $this->blockView = $blockView;
     }
 
     /**
      * @throws ilException
      */
-    public function byType(string $a_type): ilObjectListGUI
+    public function byType(string $type): ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
-        if (!array_key_exists($a_type, self::$list_by_type)) {
-            $class = $this->objDefinition->getClassName($a_type);
+        if (!array_key_exists($type, self::$list_by_type)) {
+            $class = $this->objDefinition->getClassName($type);
             if (!$class) {
-                throw new ilException(sprintf("Could not find a class for object type: %s", $a_type));
+                throw new ilException(sprintf('Could not find a class for object type: %s', $type));
             }
 
-            $location = $this->objDefinition->getLocation($a_type);
+            $location = $this->objDefinition->getLocation($type);
             if (!$location) {
-                throw new ilException(sprintf("Could not find a class location for object type: %s", $a_type));
+                throw new ilException(sprintf('Could not find a class location for object type: %s', $type));
             }
 
             $full_class = 'ilObj' . $class . 'ListGUI';
@@ -72,9 +68,9 @@ class ilPDSelectedItemsBlockListGUIFactory
 
             $item_list_gui->enableCommands(true, true);
 
-            self::$list_by_type[$a_type] = $item_list_gui;
+            self::$list_by_type[$type] = $item_list_gui;
         }
 
-        return (clone self::$list_by_type[$a_type]);
+        return (clone self::$list_by_type[$type]);
     }
 }
