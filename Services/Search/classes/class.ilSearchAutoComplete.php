@@ -84,7 +84,7 @@ class ilSearchAutoComplete
                 $rec["title"] = '"' . $rec["title"] . '"';
             }
             if (!in_array($rec["title"], $list) && !in_array($rec["obj_id"], $checked)) {
-                if (ilSearchAutoComplete::checkObjectPermission($rec["obj_id"])) {
+                if (ilSearchAutoComplete::checkObjectPermission((int) $rec["obj_id"])) {
                     $list[] = $lim . $rec["title"];
                     $cnt++;
                 }

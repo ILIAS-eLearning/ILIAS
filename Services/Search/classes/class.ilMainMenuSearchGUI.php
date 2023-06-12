@@ -86,6 +86,7 @@ class ilMainMenuSearchGUI
         if ($this->user->getId() != ANONYMOUS_USER_ID && ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             $this->tpl->setCurrentBlock('usr_search');
             $this->tpl->setVariable('TXT_USR_SEARCH', $this->lng->txt('search_users'));
+            $this->tpl->setVariable('USER_SEARCH_ID', ilSearchControllerGUI::TYPE_USER_SEARCH);
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable(
