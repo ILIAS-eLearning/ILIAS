@@ -136,7 +136,11 @@ class ilCustomUserFieldsHelper
                 // should be a plugin
                 foreach ($this->getActivePlugins() as $plugin) {
                     if ($plugin->getDefinitionType() == $definition['field_type']) {
-                        $fprop = $plugin->getFormPropertyForDefinition($definition, $a_changeable);
+                        $fprop = $plugin->getFormPropertyForDefinition(
+                            $definition,
+                            $a_changeable,
+                            $a_default_value
+                        );
                         break;
                     }
                 }
