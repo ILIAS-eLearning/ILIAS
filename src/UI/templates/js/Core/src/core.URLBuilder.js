@@ -1,16 +1,26 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 import URLBuilderToken from './core.URLBuilderToken';
 
+const URLBuilderUrlMaxLength = 2048;
+const URLBuilderSeparator = '_';
+
 export default class URLBuilder {
-  /**
-     * @type {number}
-     */
-  static URL_MAX_LENGTH = 2048;
-
-  /**
-     * @type {string}
-     */
-  static SEPARATOR = '_';
-
   /**
      * @type {URL}
      */
@@ -19,7 +29,7 @@ export default class URLBuilder {
   /**
      * @type {string}
      */
-  #base_url = '';
+  #baseUrl = '';
 
   /**
      * @type {string}
@@ -45,40 +55,68 @@ export default class URLBuilder {
      * New objects will usually be created by code rendered
      * from Data/URLBuilder on the PHP side.
      *
-     * @param {string} url
+     * @param {URL} url
      * @param {Map<URLBuilderToken>} tokens
      */
   constructor(url, tokens = new Map()) {
-    this.#url = new URL(url);
+    this.#url = url;
+    this.#fragment = this.#url.hash.slice(1);
     this.#tokens = tokens;
-    this.#analyzeURL();
+
+    const baseParameters = URLBuilder.getQueryParameters(url.search.slice(1));
+    tokens.forEach(
+      (value, key) => {
+        if (baseParameters.has(key)) {
+          this.#parameters.set(key, baseParameters.get(key));
+        } else {
+          this.#parameters.set(key, '');
+        }
+      },
+    );
   }
 
   /**
-     * @returns {void}
-     */
-  #analyzeURL() {
-    const url = this.#url;
-    this.#query = url.search.slice(1);
-    this.#base_url = url.origin + url.pathname;
-    const slices = this.#query.split('&');
+   * Extract parameters from the query part of an URL
+   *
+   * @param {string} query
+   * @returns {Map}
+   */
+  static getQueryParameters(query) {
+    const slices = query.split('&');
+    const parameters = new Map();
     slices.forEach((slice) => {
       const parameter = slice.split('=');
-      this.#parameters.set(parameter[0], parameter[1]);
+      parameters.set(parameter[0], parameter[1]);
     });
-    this.#fragment = this.#url.hash.slice(1);
+    return parameters;
+  }
+
+  /**
+   * Check the full length of an URL against URLBuilderUrlMaxLength
+   *
+   * @param {string} url
+   * @returns {boolean}
+   */
+  static checkLength(url) {
+    return (url.length <= URLBuilderUrlMaxLength);
   }
 
   /**
      * Get the full URL including query string and fragment/hash
+     * Acquired parameters always get precedence over parameters
+     * existing in the base URL (via Map merge).
      *
-     * @returns {string}
+     * @returns {URL}
+     * @throws {Error}
      */
   getUrl() {
-    let url = this.#base_url;
-    if (this.#parameters.size > 0) {
+    let url = this.#url.origin + this.#url.pathname;
+    const baseParameters = URLBuilder.getQueryParameters(this.#url.search.slice(1));
+    const parameters = new Map([...baseParameters, ...this.#parameters]);
+
+    if (parameters.size > 0) {
       url += '?';
-      this.#parameters.forEach(
+      parameters.forEach(
         (value, key) => {
           url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
         },
@@ -86,7 +124,11 @@ export default class URLBuilder {
       url = url.slice(0, url.length - 1);
     }
     if (this.#fragment !== '') { url += `#${this.#fragment}`; }
-    return url;
+
+    if (!URLBuilder.checkLength(url)) {
+      throw new Error(`The final URL is longer than ${URLBuilderUrlMaxLength} and will not be valid.`);
+    }
+    return new URL(url);
   }
 
   /**
@@ -94,9 +136,15 @@ export default class URLBuilder {
      *
      * @param {string} fragment
      */
-  set fragment(fragment) {
+  setFragment(fragment) {
     this.#fragment = fragment;
   }
+
+  /**
+   * @typedef {Object} URLBuilderReturn
+   * @property {URLBuilder} url
+   * @property {URLBuilderToken} token
+   */
 
   /**
      * Add a new parameter with a namespace
@@ -110,27 +158,34 @@ export default class URLBuilder {
      * Name: "name"
      * Resulting parameter: "ilOrgUnit_filter_name"
      *
+     * The return value is an object containing both the
+     * changed URLBuilder as well as the token for any
+     * subsequent changes to the acquired parameter.
+     *
      * @param {string[]} namespace
      * @param {string} name
      * @param {string|null} value
-     * @returns {(URLBuilder|URLBuilderToken)[]}
+     * @returns {URLBuilderReturn}
+     * @throws {Error}
      */
   acquireParameter(namespace, name, value = null) {
     if (name === '' || namespace.length === 0) {
       throw new Error('Parameter name or namespace not set');
     }
 
-    const parameter = namespace.join(URLBuilder.SEPARATOR) + URLBuilder.SEPARATOR + name;
+    const parameter = namespace.join(URLBuilderSeparator) + URLBuilderSeparator + name;
     if (this.#parameterExists(parameter)) {
-      throw new Error(`Parameter '${parameter}' already exists in URL`);
+      throw new Error(`Parameter '${parameter}' has already been acquired`);
     }
 
-    const token = new URLBuilderToken(namespace, name);
+    const newToken = new URLBuilderToken(namespace, name);
     this.#parameters.set(parameter, value ?? '');
-    this.#tokens.set(parameter, token);
-    this.#checkLength();
+    this.#tokens.set(parameter, newToken);
 
-    return [this, token];
+    return {
+      url: this,
+      token: newToken,
+    };
   }
 
   /**
@@ -156,12 +211,11 @@ export default class URLBuilder {
   writeParameter(token, value) {
     this.#checkToken(token);
     this.#parameters.set(token.getName(), value);
-    this.#checkLength();
     return this;
   }
 
   /**
-     * Check if parameter already exists
+     * Check if parameter was already acquired
      *
      * @param {string} parameter
      * @returns {boolean}
@@ -175,30 +229,18 @@ export default class URLBuilder {
      *
      * @param {URLBuilderToken} token
      * @returns {void}
-     * @throws Exception
+     * @throws {Error}
      */
   #checkToken(token) {
     if ((token instanceof URLBuilderToken) !== true) {
       throw new Error('Token is not valid');
     }
     if (!this.#tokens.has(token.getName())
-            || this.#tokens.get(token.getName()).token !== token.token) {
+            || this.#tokens.get(token.getName()).getToken() !== token.getToken()) {
       throw new Error(`Token for '${token.getName()}' is not valid`);
     }
     if (!this.#parameters.has(token.getName())) {
       throw new Error(`Parameter '${token.getName()}' does not exist in URL`);
-    }
-  }
-
-  /**
-     * Check the full length of the URL against URL_MAX_LENGTH
-     *
-     * @returns {void}
-     * @throws Exception
-     */
-  #checkLength() {
-    if (!(this.getUrl().length <= URLBuilder.URL_MAX_LENGTH)) {
-      throw new Error(`The final URL is longer than ${URLBuilder.URL_MAX_LENGTH} and will not be valid.`);
     }
   }
 }
