@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
@@ -2906,7 +2906,10 @@ class ilObjectListGUI
         // if file upload is enabled the content is wrapped by a UI dropzone.
         $content = $this->tpl->get();
         $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $content);
-        if ($this->context === self::CONTEXT_REPOSITORY && $file_upload_dropzone->isUploadAllowed($this->type)) {
+        if ($this->context === self::CONTEXT_REPOSITORY
+            && $this->requested_cmd === "view"
+            && $file_upload_dropzone->isUploadAllowed($this->type)
+        ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
 
