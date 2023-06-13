@@ -9511,7 +9511,6 @@ file#:#msg_success_icon_deactivated#:#Icon successfully deactivated.
 file#:#msg_success_icon_deletion#:#Icon successfully deleted.
 file#:#msg_success_icon_updated#:#Icon successfully updated.
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#on_click_action#:#Action on Click on Title
 file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#Maximum length of the preview images in px.

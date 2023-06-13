@@ -9513,7 +9513,6 @@ file#:#msg_success_icon_deactivated#:#Icon erfolgreich deaktiviert.
 file#:#msg_success_icon_deletion#:#Icon erfolgreich gelöscht.
 file#:#msg_success_icon_updated#:#Icon erfolgreich aktualisiert.
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
-file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#on_click_action#:#Klick auf Titel
 file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Maximale Seitenlänge der Vorschaubilder in px.
