@@ -7078,7 +7078,7 @@ content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_remaining#:#Verbleibende Versuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
-content#:#cont_tries_reset_on_visit_info#:#Bei jedem Aufruf einer Seite mit eingebetteter Testfrage ist die maximale Anzahl an Antwortversuchen möglich. Die Testfragen können jedes Mal erneut beantworten werden.
+content#:#cont_tries_reset_on_visit_info#:#Bei jedem Aufruf einer Seite mit eingebetteter Testfrage ist die maximale Anzahl an Antwortversuchen möglich. Die Testfragen können jedes Mal erneut beantwortet werden.
 content#:#cont_tries_store#:#Speichere Antwortversuche
 content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen können nicht mehr beantwortet werden. Nach Erreichen der maximalen Anzahl an Versuchen ist ein weiterer Antwortversuch nicht mehr möglich.
 content#:#cont_trigger_area#:#Bereich für Auslöser
