@@ -50,6 +50,12 @@
 		}
 	}
 
+	.panel-viewcontrols:not(:empty) {
+		justify-content: center;
+		margin: $il-margin-xxxlarge-vertical $il-margin-xlarge-horizontal;
+		margin-bottom: $il-margin-xxxlarge-vertical - $il-margin-xlarge-vertical; // to compensate margin of inner elements - see l-bar system
+	}
+
 	.panel-body {
 		padding: $il-padding-xxxlarge-vertical $il-padding-xlarge-horizontal;
 		background-color: $il-main-bg;
@@ -92,29 +98,6 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
-	}
-
-	.panel-heading {
-		> .il-viewcontrol-sortation {
-			flex-shrink: 1;
-			order: 2;
-			margin-right: $il-margin-base-horizontal;
-			margin-left: auto;
-		}
-		> .dropdown {
-			flex-shrink: 1;
-			order: 3;
-		}
-		> .il-viewcontrol-pagination,
-		> .il-viewcontrol-section {
-			flex-grow: 1;
-			flex-shrink: 1;
-			flex-basis: 100%;
-			order: 4;
-			background-color:$il-main-dark-bg;
-			justify-content: center;
-			padding-top:$il-padding-base-horizontal;
-		}
 	}
 }
 

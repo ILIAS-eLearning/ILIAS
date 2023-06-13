@@ -1,5 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../070-components/UI-framework/Button/ui-component_button" as *;
 
 
 //== View Control
@@ -11,23 +12,71 @@ $il-vc-glyph-hover-bg: lighten($il-main-color, 5%);
 $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
 
-// to set pagination inline next to arrows
-.il-viewcontrol-pagination {
+// basic layout for all viewcontrol flex constructs
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode,
+.il-viewcontrol-pagination__sectioncontrol {
 	display: flex;
-	align-items: center; // more accurate center than with inline-block vertical-align
-	> * + * {
-		margin-left: $il-margin-xs-horizontal; // so we are not dependend on browser base inline space
+	align-items: center;
+	gap: $il-margin-xs-horizontal;
+}
+
+// viewcontrols container bar to include set of inner buttons
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode {
+	width: fit-content;
+	min-height: $il-btn-ctrl-outer-height;
+	min-width: $il-btn-ctrl-outer-height;
+	border: 1px solid $il-btn-ctrl-border;
+	padding: $il-padding-xs-horizontal;
+	background-color: $il-btn-ctrl-bg;
+	border-radius: $il-border-radius-secondary-large;
+}
+
+// buttons inside the container
+.il-viewcontrol-section,
+.il-viewcontrol-pagination__sectioncontrol,
+.il-viewcontrol-pagination__num-of-items,
+.il-viewcontrol-pagination,
+.il-viewcontrol-pagination .dropdown,
+.il-viewcontrol-pagination .last,
+.il-viewcontrol-mode {
+	// turn any buttons in bar into viewcontrol buttons
+	> .btn-default, > .btn-link  {
+		@extend .btn-ctrl;
+	}
+	> .btn-default, > .btn-link, > .btn-ctrl  {
+		min-height: $il-btn-ctrl-inner-btn-height;
+		min-width: $il-btn-ctrl-inner-btn-height;
+		border-radius: $il-border-radius-secondary-large;
 	}
 }
 
-// View control buttons with only glyph and no text
+// viewcontrols as single buttons
+// should in the future be done by using btn-ctrl class on these buttons
+.il-viewcontrol-sortation {
+	.btn-default.btn {
+		@extend .btn-ctrl;
+		border-radius: $il-border-radius-secondary-large;
+	}
+}
+
+.il-viewcontrol-fieldselection .dropdown-menu {
+	padding: $il-padding-xlarge-horizontal $il-padding-xlarge-vertical;
+}
+
+// View control buttons with glyphs
 .il-viewcontrol-sortation .dropdown-toggle .caret,
 .il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret,
 .il-viewcontrol-fieldselection .dropdown-toggle .caret {
 	display: inline;
-	border: none;
+	border: none; // removes dropdown arrow
 	vertical-align: initial;
 }
+
+// specify glyps for specific types
 .il-viewcontrol-sortation .dropdown-toggle .caret {
 	&:before {
 		content: "\21f5";
@@ -48,23 +97,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	}
 }
 
-.il-viewcontrol-pagination .btn {
-	&.engaged {
-		background-color: $il-vc-pagination-btn-active-bg;
-		padding: 0px $il-padding-small-horizontal 0px $il-padding-small-horizontal;
-		border: 1px solid $il-main-color;
-		font-weight: $il-font-weight-base;
-	}
-}
-
-.ilBlockContent .il-viewcontrol-section .btn.btn-default {
-	background-color: transparent;
-	border: 0;
-	color: $il-link-color;
-	padding: $il-padding-base-vertical $il-padding-base-vertical;
-
-}
-
+// make engaged buttons not clickable
 .il-viewcontrol-pagination, .il-viewcontrol-mode {
 	.engaged{
 		pointer-events: none;
@@ -72,24 +105,27 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	}
 }
 
-.il-viewcontrol-mode {
-	.btn + .btn {
-		border-left-color: $il-main-border-color;
+// strip normal form column layout from apply offest viewcontrol
+.il-viewcontrol-pagination__sectioncontrol .form-group.row {
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    gap: 9px;
+	label {
+		width: fit-content;
+		margin-left: 9px;
+		margin-bottom: 0;
+		// adding colon to label, so a cleanly defined translation string could be used
+		&:after {
+			content: ":"
+		}
 	}
-	.btn:not(:last-child):hover {
-		border-right-color: $il-main-border-color;
+	[class*="col-"] {
+		width: auto;
+		flex-grow: 1;
+		padding: 0;
 	}
-}
-
-.panel-secondary .il-viewcontrol-section {
-	.btn-default, .btn-default:active {
-		background-color: transparent;
-		border-color: transparent;
-		color: $il-link-color;
-		box-shadow: none;
-	}
-
-	.glyphicon {
-		font-size: $il-font-size-base;
+	input[type="number"] {
+		width: 5rem;
 	}
 }
