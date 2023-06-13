@@ -146,26 +146,32 @@ class ilMarkSchemaGUI
     /**
      * Delete selected mark steps
      */
-    protected function deleteMarkSteps()
+    protected function deleteMarkSteps(): void
     {
+        $delete_mark_steps = $_POST['marks'];
         $this->ensureMarkSchemaCanBeEdited();
-
-        if (!isset($_POST['marks']) || !is_array($_POST['marks'])) {
+        if (!isset($delete_mark_steps) || !is_array($delete_mark_steps)) {
             $this->showMarkSchema();
             return;
         }
 
-        $this->saveMarkSchemaFormData();
-        $delete_mark_steps = array();
-        foreach ($_POST['marks'] as $mark_step_id) {
-            $delete_mark_steps[] = $mark_step_id;
+        // test delete
+        $schema = clone $this->object->getMarkSchema();
+        $schema->deleteMarkSteps($delete_mark_steps);
+        $check_result = $schema->checkMarks();
+        if (is_string($check_result)) {
+            ilUtil::sendFailure($this->lng->txt($check_result), true);
+            $this->showMarkSchema();
+            return;
         }
 
-        if (count($delete_mark_steps)) {
+        //  actual delete
+        if (!empty($delete_mark_steps)) {
             $this->object->getMarkSchema()->deleteMarkSteps($delete_mark_steps);
         } else {
-            ilUtil::sendInfo($this->lng->txt('tst_delete_missing_mark'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
+        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
 
         $this->showMarkSchema();
     }
