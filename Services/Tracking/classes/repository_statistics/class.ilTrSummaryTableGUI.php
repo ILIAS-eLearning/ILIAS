@@ -973,6 +973,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
+    public function isStatusShown(): bool
+    {
+        return in_array('status', $this->getSelectedColumns());
+    }
+
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("title"));
