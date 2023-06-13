@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -121,11 +121,14 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         $html = $r->render($slate);
 
         $expected = <<<EOT
-		<div class="il-maincontrols-slate disengaged" id="id_1">
-		<div class="il-maincontrols-slate-content" data-replace-marker="content">
-		<hr class="il-divider-with-label" />
-		<h4 class="il-divider">Title</h4>
-		<hr /></div></div>
+        <div class="il-maincontrols-slate disengaged" id="id_1">
+            <div class="il-maincontrols-slate-content" data-replace-marker="content">
+                <ul>
+                    <li><hr class="il-divider-with-label" /><h4 class="il-divider">Title</h4></li>
+                    <li><hr /></li>
+                </ul>
+            </div>
+        </div>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -135,7 +138,6 @@ EOT;
 
     public function testRenderingWithSubslateAndButton(): void
     {
-
         $icon = $this->icon_factory->custom('', '');
         $subslate = new Combined($this->sig_gen, 'subslate_name', $icon);
         $subbutton = $this->button_factory->bulky($icon, 'button_name', '');
