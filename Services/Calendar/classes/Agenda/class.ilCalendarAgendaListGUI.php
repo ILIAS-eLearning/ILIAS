@@ -60,7 +60,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->ctrl->setParameterByClass("ilcalendarinboxgui", "seed", $this->seed->get(IL_CAL_DATE));
 
         $this->initEndPeriod();
-
     }
 
     /**
@@ -292,7 +291,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
 
 
-        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
+        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("cal_period"));
 
         $list_title =
             $this->lng->txt("cal_agenda") . ": " . ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
@@ -342,7 +341,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         global $DIC;
 
         $settings = ilCalendarSettings::_getInstance();
-        $ilUser   = $DIC->user();
+        $ilUser = $DIC->user();
 
         $qp = $DIC->http()->request()->getQueryParams();
         if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {

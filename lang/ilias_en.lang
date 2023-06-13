@@ -8234,6 +8234,7 @@ dateplaner#:#cal_on_the#:#On the:
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Owner
+dateplaner#:#cal_period#:#Period
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 dateplaner#:#cal_recurrences#:#Recurrences
