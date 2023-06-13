@@ -308,7 +308,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         );
         $this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
 
-        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
+        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("cal_period"));
 
         $list_title =
             $this->lng->txt("cal_agenda") . ": " . ilDatePresentation::formatDate(new ilDate(
