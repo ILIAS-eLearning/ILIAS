@@ -38,38 +38,38 @@ class ilOrgUnitLocalDIC
         global $DIC;
         $dic = new Container();
 
-        $dic['repo.UserAssignments'] = fn ($dic) => new ilOrgUnitUserAssignmentDBRepository($DIC['ilDB']);
-        $dic['repo.Authorities'] = fn ($dic) => new ilOrgUnitAuthorityDBRepository($DIC['ilDB']);
-        $dic['repo.Positions'] = fn ($dic) => new ilOrgUnitPositionDBRepository(
+        $dic['repo.UserAssignments'] = static fn ($dic) => new ilOrgUnitUserAssignmentDBRepository($DIC['ilDB']);
+        $dic['repo.Authorities'] = static fn ($dic) => new ilOrgUnitAuthorityDBRepository($DIC['ilDB']);
+        $dic['repo.Positions'] = static fn ($dic) => new ilOrgUnitPositionDBRepository(
             $DIC['ilDB'],
             $dic['repo.Authorities'],
             $dic['repo.UserAssignments']
         );
-        $dic['repo.OperationContexts'] = fn ($dic) => new ilOrgUnitOperationContextDBRepository($DIC['ilDB']);
-        $dic['repo.Operations'] = fn ($dic) => new ilOrgUnitOperationDBRepository(
+        $dic['repo.OperationContexts'] = static fn ($dic) => new ilOrgUnitOperationContextDBRepository($DIC['ilDB']);
+        $dic['repo.Operations'] = static fn ($dic) => new ilOrgUnitOperationDBRepository(
             $DIC['ilDB'],
             $dic["repo.OperationContexts"]
         );
-        $dic['repo.Permissions'] = fn ($dic) => new ilOrgUnitPermissionDBRepository(
+        $dic['repo.Permissions'] = static fn ($dic) => new ilOrgUnitPermissionDBRepository(
             $DIC['ilDB'],
             $dic["repo.Operations"],
             $dic["repo.OperationContexts"]
         );
-        $dic['ui.factory'] = fn (): \ILIAS\UI\Factory => $DIC['ui.factory'];
-        $dic['ui.renderer'] = fn (): \ILIAS\UI\Renderer => $DIC['ui.renderer'];
-        $dic['query'] = fn (): \ILIAS\HTTP\Wrapper\RequestWrapper => $DIC['http']->wrapper()->query();
-        $dic['refinery'] = fn (): \ILIAS\Refinery\Factory => $DIC['refinery'];
-        $dic['access'] = fn (): \ilAccessHandler => $DIC['ilAccess'];
-        $dic['lng'] = fn (): \ilLanguage => $DIC['lng'];
-        $dic['rowactions'] = fn ($d): \ILIAS\Modules\OrgUnit\ARHelper\RowActions =>
+        $dic['ui.factory'] = static fn (): \ILIAS\UI\Factory => $DIC['ui.factory'];
+        $dic['ui.renderer'] = static fn (): \ILIAS\UI\Renderer => $DIC['ui.renderer'];
+        $dic['query'] = static fn (): \ILIAS\HTTP\Wrapper\RequestWrapper => $DIC['http']->wrapper()->query();
+        $dic['refinery'] = static fn (): \ILIAS\Refinery\Factory => $DIC['refinery'];
+        $dic['access'] = static fn (): \ilAccessHandler => $DIC['ilAccess'];
+        $dic['lng'] = static fn (): \ilLanguage => $DIC['lng'];
+        $dic['rowactions'] = static fn ($d): \ILIAS\Modules\OrgUnit\ARHelper\RowActions =>
             new  \ILIAS\Modules\OrgUnit\ARHelper\RowActions(
                 $d['ui.factory'],
                 $d['ui.renderer'],
                 $d['lng']
             );
 
-        $dic['ctrl'] = fn (): \ilCtrl => $DIC['ilCtrl'];
-        $dic['tabs'] = fn (): \ilTabsGUI => $DIC['ilTabs'];
+        $dic['ctrl'] = static fn (): \ilCtrl => $DIC['ilCtrl'];
+        $dic['tabs'] = static fn (): \ilTabsGUI => $DIC['ilTabs'];
         return $dic;
     }
 }
