@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-use ILIAS\Modules\OrgUnit\ARHelper\RowActions;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitRecursiveUserAssignmentTableGUI
@@ -31,7 +31,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
     private static array $permission_access_staff_recursive = [];
     private static array $permission_view_lp_recursive = [];
     protected ilAccessHandler $access;
-    protected RowActions $row_actions;
+    protected DropdownBuilder $dropdownbuilder;
 
     public function __construct(
         BaseCommands $parent_obj,
@@ -46,7 +46,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->orgu_ref_id = $dic['query']->retrieve('ref_id', $to_int);
 
         $this->access = $dic['access'];
-        $this->row_actions = $dic['rowactions'];
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
 
         $this->setPrefix("il_orgu_" . $position->getId());
         $this->setFormName('il_orgu_' . $position->getId());
@@ -174,8 +174,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
             $this->position->getId()
         );
 
-        $row_actions = $this->row_actions
-            ->reset()
+        $dropdownbuilder = $this->dropdownbuilder
             ->withItem(
                 'show_learning_progress',
                 $this->ctrl->getLinkTargetByClass([
@@ -195,6 +194,6 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 ),
                 $this->access->checkAccess("write", "", $this->orgu_ref_id)
             );
-        $this->tpl->setVariable("ACTIONS", $row_actions->get());
+        $this->tpl->setVariable("ACTIONS", $dropdownbuilder->get());
     }
 }

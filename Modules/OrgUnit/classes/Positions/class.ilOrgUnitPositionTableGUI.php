@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-use ILIAS\Modules\OrgUnit\ARHelper\RowActions;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitPositionTableGUI
@@ -33,7 +33,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
             'authorities',
         ];
     protected \ilOrgUnitPositionDBRepository $positionRepo;
-    protected RowActions $row_actions;
+    protected DropdownBuilder $dropdownbuilder;
 
     /**
      * ilOrgUnitPositionTableGUI constructor.
@@ -46,7 +46,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
 
         $dic = ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
-        $this->row_actions = $dic['rowactions'];
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
 
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
@@ -74,8 +74,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $a_set['id']);
 
-        $row_actions = $this->row_actions
-            ->reset()
+        $dropdownbuilder = $this->dropdownbuilder
             ->withItem(
                 'edit',
                 $this->ctrl->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_EDIT)
@@ -86,7 +85,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
                 !$position->isCorePosition()
             )
             ->get();
-        $this->tpl->setVariable('ACTIONS', $row_actions);
+        $this->tpl->setVariable('ACTIONS', $dropdownbuilder);
     }
 
     private function initColumns(): void

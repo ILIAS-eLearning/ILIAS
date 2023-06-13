@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\RowActions;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 class ilOrgUnitTypeTableGUI extends ilTable2GUI
 {
@@ -29,7 +29,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         'default_language',
         'icon',
     ];
-    protected RowActions $row_actions;
+    protected DropdownBuilder $dropdownbuilder;
 
     public function __construct(ilOrgUnitTypeGUI $parent_obj, string $parent_cmd)
     {
@@ -37,7 +37,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->ctrl = $dic['ctrl'];
         $this->tabs = $dic['tabs'];
         $this->lng = $dic['lng'];
-        $this->row_actions = $dic['rowactions'];
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
 
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
@@ -59,8 +59,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->tpl->setVariable('DEFAULT_LANG', $a_set['default_language']);
         $this->tpl->setVariable('ICON', $a_set['icon']);
         $this->ctrl->setParameterByClass("ilorgunittypegui", "type_id", $a_set['id']);
-        $row_actions = $this->row_actions
-            ->reset()
+        $dropdownbuilder = $this->dropdownbuilder
             ->withItem(
                 'edit',
                 $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit')
@@ -70,7 +69,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete')
             )
             ->get();
-        $this->tpl->setVariable('ACTIONS', $row_actions);
+        $this->tpl->setVariable('ACTIONS', $dropdownbuilder);
     }
 
     protected function initColumns(): void

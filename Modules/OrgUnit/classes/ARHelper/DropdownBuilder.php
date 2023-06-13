@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
-class RowActions
+/**
+ * This is to construct/collect the entries (=Links) of a row's action-dropdown
+ */
+class DropdownBuilder
 {
     protected array $items = [];
 
@@ -47,12 +50,6 @@ class RowActions
         return $clone;
     }
 
-    public function reset(): self
-    {
-        $clone = clone $this;
-        $clone->items = [];
-        return $clone;
-    }
     public function get(): string
     {
         return $this->ui_r->render(

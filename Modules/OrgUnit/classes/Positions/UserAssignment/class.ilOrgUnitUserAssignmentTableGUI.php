@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-use ILIAS\Modules\OrgUnit\ARHelper\RowActions;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitUserAssignmentTableGUI
@@ -27,14 +27,14 @@ use ILIAS\Modules\OrgUnit\ARHelper\RowActions;
 class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 {
     protected ilOrgUnitPosition $ilOrgUnitPosition;
-    protected RowActions $row_actions;
+    protected DropdownBuilder $dropdownbuilder;
     protected \ilAccess $access;
     protected int $ref_id;
 
     public function __construct(BaseCommands $parent_obj, string $parent_cmd, ilOrgUnitPosition $position)
     {
         $dic = ilOrgUnitLocalDIC::dic();
-        $this->row_actions = $dic['rowactions'];
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
         $this->parent_obj = $parent_obj;
         $this->ilOrgUnitPosition = $position;
         $this->ctrl = $dic['ctrl'];
@@ -109,8 +109,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
         $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
-        $row_actions = $this->row_actions
-            ->reset()
+        $dropdownbuilder = $this->dropdownbuilder
             ->withItem(
                 'show_learning_progress',
                 $this->ctrl->getLinkTargetByClass([
@@ -132,6 +131,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
             )
             ->get();
 
-        $this->tpl->setVariable("ACTIONS", $row_actions);
+        $this->tpl->setVariable("ACTIONS", $dropdownbuilder);
     }
 }
