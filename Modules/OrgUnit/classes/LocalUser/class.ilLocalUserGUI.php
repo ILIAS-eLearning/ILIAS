@@ -41,6 +41,8 @@ class ilLocalUserGUI
     private ilObjUser $user;
     private \ILIAS\DI\LoggingServices $logger;
     protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\HTTP\Wrapper\RequestWrapper $query_wrapper;
+    protected \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(ilObjectGUI $parentGui)
     {
@@ -60,6 +62,8 @@ class ilLocalUserGUI
         $this->tabsGui = $DIC->tabs();
         $this->logger = $DIC->logger();
         $this->ui_factory = $DIC['ui.factory'];
+        $this->refinery = $DIC['refinery'];
+        $this->query_wrapper = $DIC['http']->wrapper()->query();
 
         $this->lng->loadLanguageModule('user');
         if (!$this->rbacSystem->checkAccess("cat_administrate_users", $this->parentGui->getObject()->getRefId())) {
@@ -69,7 +73,8 @@ class ilLocalUserGUI
 
     public function getRefId()
     {
-        return $_GET['ref_id'];
+        $to_int = $this->refinery->kindlyTo()->int();
+        return $this->query_wrapper->retrieve('ref_id', $to_int);
     }
 
     public function executeCommand(): bool
@@ -172,7 +177,7 @@ class ilLocalUserGUI
     {
         $this->checkPermission("cat_administrate_users");
         foreach ($_POST['user_ids'] as $user_id) {
-            if (!in_array($user_id, ilLocalUser::_getAllUserIds($_GET['ref_id']))) {
+            if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->getRefId()))) {
                 $this->logger->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
