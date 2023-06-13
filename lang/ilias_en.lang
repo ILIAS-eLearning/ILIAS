@@ -5070,7 +5070,6 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Copy Weblink list
-common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Folder
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Copy Wiki
@@ -14084,10 +14083,6 @@ rbac#:#webr_edit_permission#:#User can change permission settings
 rbac#:#webr_read#:#User can read and use weblinks
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
-rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
-rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
-rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
-rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_copy#:#User can copy wiki
 rbac#:#wiki_delete#:#User can move or delete wiki
@@ -16862,37 +16857,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
-wfe#:#context_by_id#:#Context By ID
-wfe#:#context_by_mask#:#Masked Context
-wfe#:#context_id#:#Context ID
-wfe#:#context_type#:#Context Type
-wfe#:#dashboard#:#Dashboard
-wfe#:#definition_deleted#:#Workflow-Definition deleted.
-wfe#:#definitions#:#Process Definitions
-wfe#:#delete_definition#:#Delete Definition
-wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
-wfe#:#input_variables_desc#:#The process requires the following data to start:
-wfe#:#input_variables_required#:#Input required
-wfe#:#instances#:#Process Instances
-wfe#:#obj_wfe_desc#:#Process Automation
-wfe#:#process_definition_file#:#Process Definition File
-wfe#:#process_definition_file_info#:#BPMN2-Models
-wfe#:#process_started#:#Process started
-wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
-wfe#:#start_listening#:#Activate Listener
-wfe#:#start_process#:#Start Process
-wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
-wfe#:#stop_listening#:#Deactivate Listener
-wfe#:#subject_by_id#:#Subject By ID
-wfe#:#subject_by_mask#:#Masked Subject
-wfe#:#subject_id#:#Subject ID
-wfe#:#subject_type#:#Subject Type
-wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
-wfe#:#upload_process#:#Upload Process Definition
-wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
-wfe#:#wfe_started_listening#:#Process armed
-wfe#:#wfe_stopped_listening#:#Process disarmed
-wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
 wfld#:#wfld_add#:#Create Folder
 wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
 wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.

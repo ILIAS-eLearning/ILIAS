@@ -5072,7 +5072,6 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
-common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Ordner
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Wiki kopieren
@@ -14084,10 +14083,6 @@ rbac#:#webr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#webr_read#:#Weblinks aufrufen
 rbac#:#webr_visible#:#Weblinks sind sichtbar
 rbac#:#webr_write#:#Einstellungen der Weblinks bearbeiten
-rbac#:#wfe_edit_permission#:#Rechteeinstellung der Administration der Workflow Engine ändern
-rbac#:#wfe_read#:#Lesezugriff auf Administration der Workflow Engine
-rbac#:#wfe_visible#:#Administration der Workflow Engine ist sichtbar
-rbac#:#wfe_write#:#Einstellungen der Administration der Workflow Engine bearbeiten
 rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
 rbac#:#wiki_copy#:#Wiki kopieren
 rbac#:#wiki_delete#:#Wiki löschen oder verschieben
@@ -16859,37 +16854,6 @@ webr#:#webr_set_to_list#:#In Weblink-Sammlung umwandeln
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
 webr#:#webr_sorting#:#Sortierung der Weblinks
-wfe#:#context_by_id#:#Kontext nach ID
-wfe#:#context_by_mask#:#Maskierter Kontext
-wfe#:#context_id#:#Kontext ID
-wfe#:#context_type#:#Kontext Typ
-wfe#:#dashboard#:#Dashboard
-wfe#:#definition_deleted#:#Workflow-Definition gelöscht.
-wfe#:#definitions#:#Prozessdefinitionen
-wfe#:#delete_definition#:#Definition löschen
-wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
-wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
-wfe#:#input_variables_required#:#Eingaben erforderlich
-wfe#:#instances#:#Prozessinstanzen
-wfe#:#obj_wfe_desc#:#Prozessautomatisierung
-wfe#:#process_definition_file#:#Prozessdefinitionsdatei
-wfe#:#process_definition_file_info#:#BPMN2-Modelle
-wfe#:#process_started#:#Prozess gestartet
-wfe#:#start_event_form_header#:#Relevante Ereignisse für den Start der Workflows
-wfe#:#start_listening#:#Listener aktivieren
-wfe#:#start_process#:#Prozess starten
-wfe#:#static_input_form_header#:#Eingabedaten für alle Instanzen des Workflows
-wfe#:#stop_listening#:#Listener deaktivieren
-wfe#:#subject_by_id#:#Subjekt nach ID
-wfe#:#subject_by_mask#:#Maskiertes Subjekt
-wfe#:#subject_id#:#Subjekt ID
-wfe#:#subject_type#:#Subjekt Typ
-wfe#:#upload_parse_success#:#Prozessdefinition hochgeladen, geparst und abgelegt.
-wfe#:#upload_process#:#Prozessdefinition hochladen
-wfe#:#wfe_request_missing_process_id#:#Für die gewählte Aktion wurde keine Prozess-ID übertragen.
-wfe#:#wfe_started_listening#:#Der Prozess wurde scharf geschaltet.
-wfe#:#wfe_stopped_listening#:#Der Prozess wurde unscharf geschaltet, das Event wird nicht berücksichtigt.
-wfe#:#wfe_sure_to_delete_process_def#:#Sind Sie sicher, dass Sie die Definition löschen möchten?
 wfld#:#wfld_add#:#Ordner anlegen
 wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
 wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
