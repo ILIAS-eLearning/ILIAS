@@ -9499,7 +9499,6 @@ file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#storage_id#:#Storage ID

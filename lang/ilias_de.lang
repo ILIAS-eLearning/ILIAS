@@ -9499,7 +9499,6 @@ file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwar
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#migrated#:#Status
 file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
-file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#storage_id#:#Storage ID
