@@ -2875,7 +2875,10 @@ class ilObjectListGUI
         // if file upload is enabled the content is wrapped by a UI dropzone.
         $content = $this->tpl->get();
         $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $content);
-        if ($this->context === self::CONTEXT_REPOSITORY && $file_upload_dropzone->isUploadAllowed($this->type)) {
+        if ($this->context === self::CONTEXT_REPOSITORY
+            && $this->requested_cmd === "view"
+            && $file_upload_dropzone->isUploadAllowed($this->type)
+        ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
 
