@@ -91,10 +91,8 @@ class ilWorkspaceContentGUI
             : 0;
         $selected = $this->user_folder_settings->getSortation($this->object_gui->getObject()->getId());
         $sort_options = $this->folder_sorting->getOptionsByType($this->object_gui->getObject()->getType(), $selected, $parent_effective);
-        $sortation = $this->ui->factory()->viewControl()->sortation($sort_options)
-            ->withTargetURL($this->ctrl->getLinkTarget($this->object_gui, "setSortation"), 'sortation')
-            ->withLabel($this->lng->txt("wfld_sortation"));
-
+        $sortation = $this->ui->factory()->viewControl()->sortation($sort_options, $selected)
+            ->withTargetURL($this->ctrl->getLinkTarget($this->object_gui, "setSortation"), 'sortation');
 
         if ($first) {
             return "";

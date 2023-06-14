@@ -978,17 +978,18 @@ abstract class ilBlockGUI
         }
 
         if ($this->sort_options !== []) {
+            if(! array_key_exists($this->activeSortOption, $this->sort_options)) {
+                $this->activeSortOption = current(array_keys($this->sort_options));
+            }
             $sortation = $this->factory->viewControl()->sortation(
-                $this->sort_options
+                $this->sort_options,
+                $this->activeSortOption
             )->withTargetURL(
                 $this->sort_target,
                 'sorting'
-            )->withLabel(
-                $this->activeSortOption
             );
             $viewControls[] = $sortation;
         }
-
 
         if ($this->getPresentation() === self::PRES_SEC_LIST) {
             $pg_view_control = $this->getPaginationViewControl();
@@ -1007,10 +1008,9 @@ abstract class ilBlockGUI
     public function addSortOption(string $option, string $label, bool $active): void
     {
         if ($active) {
-            $this->activeSortOption = $label;
-        } else {
-            $this->sort_options[$option] = $label;
+            $this->activeSortOption = $option;
         }
+        $this->sort_options[$option] = $label;
     }
 
     public function setSortTarget(string $target): void

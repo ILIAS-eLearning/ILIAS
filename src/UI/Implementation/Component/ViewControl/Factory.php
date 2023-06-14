@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
@@ -53,9 +53,9 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function sortation(array $options): VC\Sortation
+    public function sortation(array $options, string $default): VC\Sortation
     {
-        return new Sortation($options, $this->signal_generator);
+        return new Sortation($options, $default, $this->signal_generator);
     }
 
     /**

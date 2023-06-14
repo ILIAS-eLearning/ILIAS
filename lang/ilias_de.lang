@@ -2240,10 +2240,10 @@ badge#:#criteria#:#Kriterium
 badge#:#endless#:#Für immer
 badge#:#issued_on#:#Ausgestellt am
 badge#:#position_updated#:#Zuordnungen zum Profil geändert.
-badge#:#sort_by_date_asc#:#Aufsteigend nach Datum sortieren
-badge#:#sort_by_date_desc#:#Absteigend nach Datum sortieren
-badge#:#sort_by_title_asc#:#Aufsteigend nach Titel sortieren
-badge#:#sort_by_title_desc#:#Absteigend nach Titel sortieren
+badge#:#sort_by_date_asc#:#Datum, aufsteigend
+badge#:#sort_by_date_desc#:#Datum, absteigend
+badge#:#sort_by_title_asc#:#Titel, aufsteigend
+badge#:#sort_by_title_desc#:#Titel, absteigend
 badge#:#table_view#:#Tabelle
 badge#:#tile_view#:#Kacheln
 badge#:#valid_until#:#Gültig bis
@@ -8098,10 +8098,10 @@ dash#:#dash_presentation#:#Präsentation
 dash#:#dash_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
-dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
-dash#:#dash_sort_by_location#:#Nach Ort sortieren
-dash#:#dash_sort_by_start_date#:#Nach Veranstaltungszeitraum sortieren
-dash#:#dash_sort_by_type#:#Nach Typ sortieren
+dash#:#dash_sort_by_alphabet#:#Alphabet
+dash#:#dash_sort_by_location#:#Ort
+dash#:#dash_sort_by_start_date#:#Veranstaltungszeitraum
+dash#:#dash_sort_by_type#:#Typ
 dash#:#dash_sortation#:#Sortierung
 dash#:#dash_study_programmes#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
@@ -17115,6 +17115,7 @@ ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_transcription#:#Abschrift
+ui#:#vc_sort#:#Sortiert nach:
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen

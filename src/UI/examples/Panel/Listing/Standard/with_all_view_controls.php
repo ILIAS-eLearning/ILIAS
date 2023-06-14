@@ -28,9 +28,8 @@ function with_all_view_controls(): string
         'date' => 'Sort by Date',
         'location' => 'Sort by Location'
     ];
-    $sortation = $f->viewControl()->sortation($sortation_options)
-    ->withTargetURL($url, "sort")
-    ->withLabel($sortation_options[$current_sortation]);
+    $sortation = $f->viewControl()->sortation($sortation_options, $current_sortation)
+    ->withTargetURL($url, "sort");
 
     $current_presentation = 'list';
     if ($request_wrapper->has('mode')) {

@@ -636,9 +636,9 @@ class ilNoteGUI
         $select_option = (true)
             ? 'asc'
             : 'desc';
-        $s = $this->ui->factory()->viewControl()->sortation($options)
-                      ->withTargetURL($this->ctrl->getLinkTarget($this, "setSortation"), 'sortation')
-                      ->withLabel($options[$select_option]);*/
+        $s = $this->ui->factory()->viewControl()->sortation($options, $select_option)
+                      ->withTargetURL($this->ctrl->getLinkTarget($this, "setSortation"), 'sortation');
+        */
         $dd_buttons = [];
         if ($this->manager->getSortAscending()) {
             $dd_buttons[] = $this->getShyButton(
