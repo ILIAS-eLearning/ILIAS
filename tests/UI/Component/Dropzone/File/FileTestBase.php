@@ -26,6 +26,7 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Factory;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
@@ -34,24 +35,47 @@ abstract class FileTestBase extends \ILIAS_UI_TestBase
 {
     protected C\Dropzone\File\Factory $factory;
     protected I\Component\Input\Field\File $input;
-    protected string $input_html = 'test_file_input';
+    private C\Button\Factory $button_factory;
 
     public function setUp(): void
     {
-        $this->input = $this->createMock(I\Component\Input\Field\File::class);
-        $this->input->method('getCanonicalName')->willReturn($this->input_html);
+        $this->button_factory = new I\Component\Button\Factory();
 
-        $group_mock = $this->createMock(I\Component\Input\Field\Group::class);
-        $group_mock->method('withNameFrom')->willReturnSelf();
-
-        $factory_mock = $this->createMock(C\Input\Field\Factory::class);
-        $factory_mock->method('group')->willReturn($group_mock);
-
-        $this->factory = new I\Component\Dropzone\File\Factory(
-            new I\Component\SignalGenerator(),
-            $factory_mock
+        $signal_generator = new I\Component\SignalGenerator();
+        $field_factory = new I\Component\Input\Field\Factory(
+            $this->createMock(I\Component\Input\UploadLimitResolver::class),
+            $signal_generator,
+            $this->getDataFactory(),
+            $this->getRefinery(),
+            $this->getLanguage()
         );
 
+        $this->factory = new I\Component\Dropzone\File\Factory(
+            $signal_generator,
+            $field_factory,
+        );
+
+        $this->input = $field_factory->file($this->createMock(C\Input\Field\UploadHandler::class), '');
+
         parent::setUp();
+    }
+
+    /**
+     * Returns the factory with an actual implementation of the button factory.
+     * This is needed for the modal-buttons.
+     */
+    public function getUIFactory(): \NoUIFactory
+    {
+        return new class ($this->button_factory) extends \NoUIFactory {
+            public function __construct(
+                protected C\Button\Factory $button_factory,
+            ) {
+            }
+
+            public function button(): C\Button\Factory
+            {
+                return $this->button_factory;
+            }
+        };
     }
 }
