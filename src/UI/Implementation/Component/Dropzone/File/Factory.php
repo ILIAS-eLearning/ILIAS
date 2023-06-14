@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -47,32 +48,44 @@ class Factory implements FileDropzoneFactory
     /**
      * @inheritDoc
      */
-    public function standard(string $title, string $message, string $post_url, FileInput $file_input): StandardDropzone
-    {
+    public function standard(
+        string $title,
+        string $message,
+        string $post_url,
+        FileInput $file_input,
+        ?Input $additional_input = null,
+    ): StandardDropzone {
         return new Standard(
             $this->signal_generator,
             $this->field_factory,
             new FormInputNameSource(),
-            $file_input,
             $title,
             $message,
-            $post_url
+            $post_url,
+            $file_input,
+            $additional_input
         );
     }
 
     /**
      * @inheritDoc
      */
-    public function wrapper(string $title, string $post_url, $content, FileInput $file_input): WrapperDropzone
-    {
+    public function wrapper(
+        string $title,
+        string $post_url,
+        $content,
+        FileInput $file_input,
+        ?Input $additional_input = null,
+    ): WrapperDropzone {
         return new Wrapper(
             $this->signal_generator,
             $this->field_factory,
             new FormInputNameSource(),
-            $file_input,
             $title,
             $content,
-            $post_url
+            $post_url,
+            $file_input,
+            $additional_input
         );
     }
 }
