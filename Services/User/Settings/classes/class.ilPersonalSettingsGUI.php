@@ -473,22 +473,6 @@ class ilPersonalSettingsGUI
             $this->form->addItem($si);
         }
 
-        // Users Online
-        /*
-        if ($this->userSettingVisible("show_users_online"))
-        {
-            $si = new ilSelectInputGUI($this->lng->txt("show_users_online"), "show_users_online");
-
-            $options = array(
-                "y" => $this->lng->txt("users_online_show_y"),
-                "associated" => $this->lng->txt("users_online_show_associated"),
-                "n" => $this->lng->txt("users_online_show_n"));
-            $si->setOptions($options);
-            $si->setValue($ilUser->prefs["show_users_online"]);
-            $si->setDisabled($ilSetting->get("usr_settings_disable_show_users_online"));
-            $this->form->addItem($si);
-        }*/
-
         // Store last visited
         $lv = new ilSelectInputGUI($this->lng->txt("user_store_last_visited"), "store_last_visited");
         $options = array(
@@ -577,6 +561,9 @@ class ilPersonalSettingsGUI
             $def_opt->setInfo($this->lng->txt("adm_user_starting_point_inherit_info"));
             $si->addOption($def_opt);
             foreach (ilUserUtil::getPossibleStartingPoints() as $value => $caption) {
+                if ($value === ilUserUtil::START_REPOSITORY_OBJ) {
+                    continue;
+                }
                 $si->addOption(new ilRadioOption($caption, $value));
             }
             $si->setValue(ilUserUtil::hasPersonalStartPointPref()

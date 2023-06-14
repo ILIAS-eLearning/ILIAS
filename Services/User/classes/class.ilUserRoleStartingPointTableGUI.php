@@ -75,7 +75,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $status = (ilUserUtil::hasPersonalStartingPoint() ? $lng->txt("yes") : $lng->txt("no"));
 
-        $result = array();
+        $result = [];
         $result[] = array(
             "id" => "user",
             "criteria" => $lng->txt("user_chooses_starting_page"),
