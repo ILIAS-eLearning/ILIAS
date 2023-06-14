@@ -55,6 +55,8 @@ class ilPersonalSettingsGUI
     private ilNavigationHistory $navigation_history;
     private ilUserSettingsConfig $user_settings_config;
 
+    private ilUserStartingPointRepository $starting_point_repository;
+
     public function __construct()
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -86,7 +88,15 @@ class ilPersonalSettingsGUI
         $this->user_settings_config = new ilUserSettingsConfig();
         $this->request = new UserGUIRequest(
             $DIC->http(),
-            $DIC->refinery()
+            $DIC['refinery']
+        );
+
+        $this->starting_point_repository = new ilUserStartingPointRepository(
+            $this->user,
+            $DIC['ilDB'],
+            $DIC['tree'],
+            $DIC['rbacreview'],
+            $this->settings
         );
         $this->entered_new_password = $this->request->getNewPassword();
         $this->entered_current_password = $this->request->getCurrentPassword();
@@ -515,7 +525,7 @@ class ilPersonalSettingsGUI
         $select->setValue($user_settings->getTimeFormat());
         $this->form->addItem($select);
 
-        if (ilUserUtil::hasPersonalStartingPoint()) {
+        if ($this->starting_point_repository->isPersonalStartingPointEnabled()) {
             $this->lng->loadLanguageModule('administration');
             $si = new ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'usr_start');
             $si->setRequired(true);
@@ -523,22 +533,26 @@ class ilPersonalSettingsGUI
             $def_opt = new ilRadioOption($this->lng->txt('adm_user_starting_point_inherit'), '0');
             $def_opt->setInfo($this->lng->txt('adm_user_starting_point_inherit_info'));
             $si->addOption($def_opt);
-            foreach (ilUserUtil::getPossibleStartingPoints() as $value => $caption) {
-                $si->addOption(new ilRadioOption($caption, (string) $value));
+            foreach ($this->starting_point_repository->getPossibleStartingPoints() as $value => $caption) {
+                if ($value === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+                    continue;
+                }
+                $si->addOption(new ilRadioOption($this->lng->txt($caption), (string) $value));
             }
-            $si->setValue(ilUserUtil::hasPersonalStartPointPref()
-                ? (string) ilUserUtil::getPersonalStartingPoint()
-                : '0');
+            $si->setValue((string) $this->starting_point_repository->getCurrentUserPersonalStartingPoint());
             $this->form->addItem($si);
 
             // starting point: repository object
-            $repobj = new ilRadioOption($this->lng->txt('adm_user_starting_point_object'), (string) ilUserUtil::START_REPOSITORY_OBJ);
+            $repobj = new ilRadioOption(
+                $this->lng->txt('adm_user_starting_point_object'),
+                (string) ilUserStartingPointRepository::START_REPOSITORY_OBJ
+            );
             $repobj_id = new ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'usr_start_ref_id');
             $repobj_id->setInfo($this->lng->txt('adm_user_starting_point_ref_id_info'));
             $repobj_id->setRequired(true);
             $repobj_id->setSize(5);
-            if ($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ) {
-                $start_ref_id = ilUserUtil::getPersonalStartingObject();
+            if ($si->getValue() == ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+                $start_ref_id = $this->starting_point_repository->getCurrentUserPersonalStartingObject();
                 $repobj_id->setValue($start_ref_id);
                 if ($start_ref_id) {
                     $start_obj_id = ilObject::_lookupObjId($start_ref_id);
@@ -614,12 +628,12 @@ class ilPersonalSettingsGUI
                 $this->user->setPref('session_reminder_lead_time', $this->form->getInput('session_reminder_lead_time'));
             }
 
-            if (ilUserUtil::hasPersonalStartingPoint()) {
+            if ($this->starting_point_repository->isPersonalStartingPointEnabled()) {
                 $s_ref_id = $this->form->getInput('usr_start_ref_id');
-                $s_ref_id = ($s_ref_id == '')
+                $s_ref_id = ($s_ref_id === '')
                     ? null
                     : (int) $s_ref_id;
-                ilUserUtil::setPersonalStartingPoint(
+                $this->starting_point_repository->setCurrentUserPersonalStartingPoint(
                     (int) $this->form->getInput('usr_start'),
                     $s_ref_id
                 );

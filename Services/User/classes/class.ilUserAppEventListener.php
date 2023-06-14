@@ -32,12 +32,21 @@ class ilUserAppEventListener implements ilAppEventListener
         global $DIC;
 
         $db = $DIC['ilDB'];
+        $tree = $DIC['tree'];
         $rbac_review = $DIC['rbacreview'];
         $settings = $DIC['ilSetting'];
+        $user = $DIC['ilUser'];
+        $user_starting_point_repository = new ilUserStartingPointRepository(
+            $user,
+            $db,
+            $tree,
+            $rbac_review,
+            $settings
+        );
 
         if ('Services/Object' === $component && 'beforeDeletion' === $event) {
             if (isset($parameter['object']) && $parameter['object'] instanceof ilObjRole) {
-                (new \ilStartingPoint($db, $rbac_review, null))->onRoleDeleted($parameter['object']);
+                $user_starting_point_repository->onRoleDeleted($parameter['object']);
             }
         }
 

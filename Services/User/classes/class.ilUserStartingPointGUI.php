@@ -32,30 +32,37 @@ class ilUserStartingPointGUI
 {
     private ilLogger $log;
     private ilLanguage $lng;
+    private ilSetting $settings;
     private ilGlobalTemplateInterface $tpl;
     private ilToolbarGUI $toolbar;
     private ilTabsGUI $tabs;
     private ilCtrl $ctrl;
+    private ilTree $tree;
+    private ilObjUser $user;
     private ilDBInterface $db;
     private ilRbacReview $rbac_review;
     private ilRbacSystem $rbac_system;
     private UIFactory $ui_factory;
     private Renderer $ui_renderer;
     private UserGUIRequest $user_request;
-    private ilStartingPoint $starting_point;
+    private ilUserStartingPointRepository $starting_point_repository;
 
     private int $parent_ref_id;
 
     public function __construct(int $a_parent_ref_id)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->log = ilLoggerFactory::getLogger("user");
         $this->lng = $DIC['lng'];
+        $this->settings = $DIC['ilSetting'];
         $this->tpl = $DIC['tpl'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->tabs = $DIC['ilTabs'];
         $this->ctrl = $DIC['ilCtrl'];
+        $this->tree = $DIC['tree'];
+        $this->user = $DIC['ilUser'];
         $this->db = $DIC['ilDB'];
         $this->rbac_review = $DIC['rbacreview'];
         $this->rbac_system = $DIC['rbacsystem'];
@@ -66,7 +73,13 @@ class ilUserStartingPointGUI
             $DIC->refinery()
         );
 
-        $this->starting_point = new ilStartingPoint($DIC['ilDB'], $DIC['rbacreview'], null);
+        $this->starting_point_repository = new ilUserStartingPointRepository(
+            $this->user,
+            $this->db,
+            $this->tree,
+            $this->rbac_review,
+            $this->settings
+        );
 
         $this->parent_ref_id = $a_parent_ref_id;
 
@@ -89,7 +102,7 @@ class ilUserStartingPointGUI
      */
     public function startingPoints(): void
     {
-        $roles_without_point = $this->starting_point->getGlobalRolesWithoutStartingPoint();
+        $roles_without_point = $this->starting_point_repository->getGlobalRolesWithoutStartingPoint();
 
         if (!empty($roles_without_point)) {
             $this->toolbar->addComponent(
@@ -105,7 +118,7 @@ class ilUserStartingPointGUI
 
         $tbl = new ilUserRoleStartingPointTableGUI(
             $this,
-            $this->starting_point,
+            $this->starting_point_repository,
             $this->rbac_review,
             $this->ui_factory,
             $this->ui_renderer,
@@ -137,7 +150,7 @@ class ilUserStartingPointGUI
         // starting point: personal
         $startp = new ilCheckboxInputGUI($this->lng->txt('user_chooses_starting_page'), 'usr_start_pers');
         $startp->setInfo($this->lng->txt('adm_user_starting_point_personal_info'));
-        $startp->setChecked(ilUserUtil::hasPersonalStartingPoint());
+        $startp->setChecked($this->starting_point_repository->isPersonalStartingPointEnabled());
 
         $form->addItem($startp);
 
@@ -152,156 +165,29 @@ class ilUserStartingPointGUI
      */
     protected function getRoleStartingPointForm(): ilPropertyFormGUI
     {
-        $options = [];
-        $starting_point = 0;
-        $st_point = null;
-
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->FATAL);
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->error->FATAL
+            );
         }
         $form = new ilPropertyFormGUI();
         $this->ctrl->saveParameter($this, ['spid']);
 
-        $spoint_id = $this->user_request->getStartingPointId();
+        $starting_point_id = $this->user_request->getStartingPointId();
+        $starting_point = $this->getCurrentStartingPointOrNullForStartingPointForm($starting_point_id);
+        $starting_point_type = $this->getCurrentTypeForStartingPointForm($starting_point);
         $req_role_id = $this->user_request->getRoleId();
 
-        //edit no default
-        if ($spoint_id > 0 && $spoint_id !== 'default') {
-            $st_point = new ilStartingPoint(
-                $this->db,
-                $this->rbac_review,
-                (int) $spoint_id
+        foreach ($this->getFormTypeSpecificStartingPointFormParts($starting_point_id, $req_role_id) as $input) {
+            $form->addItem(
+                $input
             );
-
-            //starting point role based
-            if ($st_point->isRoleBasedStartingPoint() && $req_role_id) {
-                $rolid = (int) $req_role_id;
-                if ($role = new ilObjRole($rolid)) {
-                    $options[$rolid] = $role->getTitle();
-                    $starting_point = $st_point->getStartingPoint();
-
-                    // role title, non editable
-                    $ne = new ilNonEditableValueGUI($this->lng->txt('editing_this_role'), 'role_disabled');
-                    $ne->setValue($role->getTitle());
-                    $form->addItem($ne);
-
-                    $hi = new ilHiddenInputGUI('role');
-                    $hi->setValue((string) $rolid);
-                    $form->addItem($hi);
-
-                    $hidde_sp_id = new ilHiddenInputGUI('start_point_id');
-                    $hidde_sp_id->setValue((string) $spoint_id);
-                    $form->addItem($hidde_sp_id);
-                }
-            }
-        } elseif (!$spoint_id || $spoint_id != 'default') {
-            $roles = $this->starting_point->getGlobalRolesWithoutStartingPoint();
-
-            // role type
-            $radg = new ilRadioGroupInputGUI($this->lng->txt('role'), 'role_type');
-            $radg->setValue('0');
-            $op1 = new ilRadioOption($this->lng->txt('user_global_role'), '0');
-            $radg->addOption($op1);
-            $op2 = new ilRadioOption($this->lng->txt('user_local_role'), '1');
-            $radg->addOption($op2);
-            $form->addItem($radg);
-
-            foreach ($roles as $role) {
-                $options[$role['id']] = $role['title'];
-            }
-            $si_roles = new ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
-            $si_roles->setOptions($options);
-            $op1->addSubItem($si_roles);
-
-            // local role
-            $role_search = new ilRoleAutoCompleteInputGUI('', 'role_search', $this, 'addRoleAutoCompleteObject');
-            $role_search->setSize(40);
-            $op2->addSubItem($role_search);
-        } else {
-            $starting_point = ilUserUtil::getStartingPoint();
         }
 
-        // starting point
-
-        $si = new ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
-        $si->setRequired(true);
-        $si->setInfo($this->lng->txt('adm_user_starting_point_info'));
-        $valid = array_keys(ilUserUtil::getPossibleStartingPoints());
-        foreach (ilUserUtil::getPossibleStartingPoints(true) as $value => $caption) {
-            if ($value === ilUserUtil::START_REPOSITORY_OBJ) {
-                continue;
-            }
-            $opt = new ilRadioOption($caption, (string) $value);
-
-            if ($value === ilUserUtil::START_PD_CALENDAR) {
-                $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
-                $default_cal_view->setRequired(true);
-
-                $option = new ilRadioOption($this->lng->txt('day'), (string) ilCalendarSettings::DEFAULT_CAL_DAY);
-                $default_cal_view->addOption($option);
-                $option = new ilRadioOption($this->lng->txt('week'), (string) ilCalendarSettings::DEFAULT_CAL_WEEK);
-                $default_cal_view->addOption($option);
-                $option = new ilRadioOption($this->lng->txt('month'), (string) ilCalendarSettings::DEFAULT_CAL_MONTH);
-                $default_cal_view->addOption($option);
-
-                $option = new ilRadioOption($this->lng->txt('cal_list'), (string) ilCalendarSettings::DEFAULT_CAL_LIST);
-
-                $cal_periods = new ilSelectInputGUI($this->lng->txt('cal_list'), 'user_cal_period');
-                $cal_periods->setOptions([
-                    ilCalendarAgendaListGUI::PERIOD_DAY => '1 ' . $this->lng->txt('day'),
-                    ilCalendarAgendaListGUI::PERIOD_WEEK => '1 ' . $this->lng->txt('week'),
-                    ilCalendarAgendaListGUI::PERIOD_MONTH => '1 ' . $this->lng->txt('month'),
-                    ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => '6 ' . $this->lng->txt('months')
-                ]);
-                $cal_periods->setRequired(true);
-
-
-                if (isset($st_point)) {
-                    $default_cal_view->setValue((string) $st_point->getCalendarView());
-                    $cal_periods->setValue($st_point->getCalendarPeriod());
-                } else {
-                    $default_cal_view->setValue((string) ilUserUtil::getCalendarView());
-                    $cal_periods->setValue(ilUserUtil::getCalendarPeriod());
-                }
-                $option->addSubItem($cal_periods);
-                $default_cal_view->addOption($option);
-
-                $opt->addSubItem($default_cal_view);
-            }
-
-            $si->addOption($opt);
-
-            if (!in_array($value, $valid)) {
-                $opt->setInfo($this->lng->txt('adm_user_starting_point_invalid_info'));
-            }
-        }
-        $si->setValue((string) $starting_point);
+        $si = $this->getStartingPointSelectionInput($starting_point);
+        $si->setValue((string) $starting_point_type);
         $form->addItem($si);
-
-        // starting point: repository object
-        $repobj = new ilRadioOption($this->lng->txt('adm_user_starting_point_object'), (string) ilUserUtil::START_REPOSITORY_OBJ);
-        $repobj_id = new ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'start_object');
-        $repobj_id->setRequired(true);
-        $repobj_id->setSize(5);
-        //$i has the starting_point value, so we are here only when edit one role or setting the default role.
-        if ((int) $si->getValue() === ilUserUtil::START_REPOSITORY_OBJ) {
-            if ($st_point) {
-                $start_ref_id = $st_point->getStartingObject();
-            } else {
-                $start_ref_id = ilUserUtil::getStartingObject();
-            }
-
-            $repobj_id->setValue($start_ref_id);
-            if ($start_ref_id) {
-                $start_obj_id = ilObject::_lookupObjId($start_ref_id);
-                if ($start_obj_id) {
-                    $repobj_id->setInfo($this->lng->txt('obj_' . ilObject::_lookupType($start_obj_id)) .
-                        ': ' . ilObject::_lookupTitle($start_obj_id));
-                }
-            }
-        }
-        $repobj->addSubItem($repobj_id);
-        $si->addOption($repobj);
 
         // save and cancel commands
         $form->addCommandButton('saveStartingPoint', $this->lng->txt('save'));
@@ -311,6 +197,181 @@ class ilUserStartingPointGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
+    }
+
+    private function getCurrentStartingPointOrNullForStartingPointForm(?int $starting_point_id): ?ilUserStartingPoint
+    {
+        if ($starting_point_id === null) {
+            return null;
+        }
+
+        return $this->starting_point_repository->getStartingPointById(
+            $starting_point_id
+        );
+    }
+
+    private function getCurrentTypeForStartingPointForm(?ilUserStartingPoint $starting_point): ?int
+    {
+        if ($starting_point === null) {
+            return null;
+        }
+
+        return $starting_point->getStartingPointType();
+    }
+
+    private function getFormTypeSpecificStartingPointFormParts(?int $spoint_id, ?int $req_role_id): Generator
+    {   //edit no default
+        if ($spoint_id === null) {
+            yield $this->getCreateFormSpecificInputs();
+        } else {
+            yield from $this->getEditFormSpecificInputs($spoint_id, $req_role_id);
+        }
+    }
+
+    private function getCreateFormSpecificInputs(): ilRadioGroupInputGUI
+    {
+        $roles = $this->starting_point_repository->getGlobalRolesWithoutStartingPoint();
+
+        // role type
+        $radg = new ilRadioGroupInputGUI($this->lng->txt('role'), 'role_type');
+        $radg->setValue('0');
+        $op1 = new ilRadioOption($this->lng->txt('user_global_role'), '0');
+        $radg->addOption($op1);
+        $op2 = new ilRadioOption($this->lng->txt('user_local_role'), '1');
+        $radg->addOption($op2);
+
+        $role_options = [];
+        foreach ($roles as $role) {
+            $role_options[$role['id']] = $role['title'];
+        }
+        $si_roles = new ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
+        $si_roles->setOptions($role_options);
+        $op1->addSubItem($si_roles);
+
+        // local role
+        $role_search = new ilRoleAutoCompleteInputGUI('', 'role_search', $this, 'addRoleAutoCompleteObject');
+        $role_search->setSize(40);
+        $op2->addSubItem($role_search);
+        return $radg;
+    }
+
+    private function getEditFormSpecificInputs(int $spoint_id, int $req_role_id): array
+    {
+        $title = $this->lng->txt('default');
+        if ($spoint_id !== $this->starting_point_repository->getDefaultStartingPointID()) {
+            $role = new ilObjRole($req_role_id);
+            $title = $role->getTitle();
+        }
+
+        $inputs = [];
+        $inputs[0] = new ilNonEditableValueGUI($this->lng->txt('editing_this_role'), 'role_disabled');
+        $inputs[0]->setValue($title);
+
+        $inputs[1] = new ilHiddenInputGUI('role');
+        $inputs[1]->setValue((string) $req_role_id);
+
+        $inputs[2] = new ilHiddenInputGUI('start_point_id');
+        $inputs[2]->setValue((string) $spoint_id);
+
+        return $inputs;
+    }
+
+    private function getStartingPointSelectionInput(?ilUserStartingPoint $st_point): ilRadioGroupInputGUI
+    {
+        $si = new ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
+        $si->setRequired(true);
+        $si->setInfo($this->lng->txt('adm_user_starting_point_info'));
+        $valid = array_keys($this->starting_point_repository->getPossibleStartingPoints());
+        foreach ($this->starting_point_repository->getPossibleStartingPoints(true) as $value => $caption) {
+            $si->addOption(
+                $this->getStartingPointSelectionOption($value, $caption, $st_point, $valid)
+            );
+        }
+
+        return $si;
+    }
+
+    private function getStartingPointSelectionOption(
+        int $value,
+        string $caption,
+        ?ilUserStartingPoint $st_point,
+        array $valid
+    ): ilRadioOption {
+        $opt = new ilRadioOption($this->lng->txt($caption), (string) $value);
+
+        if ($value === ilUserStartingPointRepository::START_PD_CALENDAR) {
+            $opt->addSubItem(
+                $this->getCalenderSubInputs($st_point)
+            );
+        }
+
+        if ($value === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+            $opt->addSubItem(
+                $this->getRepositoryObjectInput($st_point)
+            );
+        }
+
+        if (!in_array($value, $valid)) {
+            $opt->setInfo($this->lng->txt('adm_user_starting_point_invalid_info'));
+        }
+
+        return $opt;
+    }
+
+    private function getCalenderSubInputs(?ilUserStartingPoint $st_point): ilRadioGroupInputGUI
+    {
+        $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
+        $default_cal_view->setRequired(true);
+
+        $day = new ilRadioOption($this->lng->txt('day'), (string) ilCalendarSettings::DEFAULT_CAL_DAY);
+        $default_cal_view->addOption($day);
+        $week = new ilRadioOption($this->lng->txt('week'), (string) ilCalendarSettings::DEFAULT_CAL_WEEK);
+        $default_cal_view->addOption($week);
+        $month = new ilRadioOption($this->lng->txt('month'), (string) ilCalendarSettings::DEFAULT_CAL_MONTH);
+        $default_cal_view->addOption($month);
+
+        $list = new ilRadioOption($this->lng->txt('cal_list'), (string) ilCalendarSettings::DEFAULT_CAL_LIST);
+
+        $cal_periods = new ilSelectInputGUI($this->lng->txt('cal_list'), 'user_cal_period');
+        $cal_periods->setOptions([
+            ilCalendarAgendaListGUI::PERIOD_DAY => '1 ' . $this->lng->txt('day'),
+            ilCalendarAgendaListGUI::PERIOD_WEEK => '1 ' . $this->lng->txt('week'),
+            ilCalendarAgendaListGUI::PERIOD_MONTH => '1 ' . $this->lng->txt('month'),
+            ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => '6 ' . $this->lng->txt('months')
+        ]);
+        $cal_periods->setRequired(true);
+
+        if ($st_point !== null) {
+            $default_cal_view->setValue((string) $st_point->getCalendarView());
+            $cal_periods->setValue((string) $st_point->getCalendarPeriod());
+        }
+
+        $list->addSubItem($cal_periods);
+        $default_cal_view->addOption($list);
+
+        return $default_cal_view;
+    }
+
+    private function getRepositoryObjectInput(?ilUserStartingPoint $st_point): ilTextInputGUI
+    {
+        $repobj_id = new ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'start_object');
+        $repobj_id->setRequired(true);
+        $repobj_id->setSize(5);
+
+        if ($st_point !== null) {
+            $start_ref_id = $st_point->getStartingObject();
+            $repobj_id->setValue($start_ref_id);
+        }
+
+        if (isset($start_ref_id)) {
+            $start_obj_id = ilObject::_lookupObjId($start_ref_id);
+            if ($start_obj_id) {
+                $repobj_id->setInfo($this->lng->txt('obj_' . ilObject::_lookupType($start_obj_id)) .
+                    ': ' . ilObject::_lookupTitle($start_obj_id));
+            }
+        }
+
+        return $repobj_id;
     }
 
     public function addRoleAutoCompleteObject(): void
@@ -327,7 +388,7 @@ class ilUserStartingPointGUI
         $form = $this->getUserStartingPointForm();
 
         if ($form->checkInput()) {
-            ilUserUtil::togglePersonalStartingPoint((bool) $form->getInput('usr_start_pers'));
+            $this->starting_point_repository->togglePersonalStartingPointActivation((bool) $form->getInput('usr_start_pers'));
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'startingPoints');
         }
@@ -340,112 +401,105 @@ class ilUserStartingPointGUI
      */
     protected function saveStartingPoint(): void
     {
-        $start_point_id = null;
-
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->FATAL);
         }
 
-        if ((int) $this->user_request->getStartingPointId() > 0) {
-            $start_point_id = (int) $this->user_request->getStartingPointId();
-        }
+        $start_point_id = $this->user_request->getStartingPointId();
 
         //add from form
         $form = $this->getRoleStartingPointForm();
-        if ($form->checkInput()) {
-            //if role
-            if ($form->getInput('role')) {
-                // check if we have a locale role
-                if ($form->getInput('role_type') == 1) {
-                    if ($this->user_request->getRoleId() > 0) {
-                        $role_id = $this->user_request->getRoleId();     // id from role selection
-                    } else {
-                        $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
 
-                        // TODO: Handle minWordLength
-                        $parser->setMinWordLength(1);
-                        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
-                        $parser->parse();
+        if (!$form->checkInput()) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+            return;
+        }
 
-                        $object_search = new ilLikeObjectSearch($parser);
-                        $object_search->setFilter(['role']);
-                        $res = $object_search->performSearch();
+        $starting_point = $this->starting_point_repository->getStartingPointById(
+            $start_point_id
+        );
 
-                        $entries = $res->getEntries();
-                        if (count($entries) == 1) {         // role name only finds one match -> use it
-                            $role = current($entries);
-                            $role_id = $role['obj_id'];
-                        } elseif (count($entries) > 1) {    // multiple matches -> show selection
-                            $this->showRoleSelection(
-                                $form->getInput('role'),
-                                $form->getInput('role_search'),
-                                $form->getInput('start_point'),
-                                $form->getInput('start_object')
-                            );
-                            return;
-                        }
-                    }
-                } else {
-                    $role_id = $form->getInput('role');
-                }
 
-                $starting_point = new ilStartingPoint(
-                    $this->db,
-                    $this->rbac_review,
-                    $start_point_id
-                );
+        $role_id = $this->user_request->getRoleId() ??
+            $form->getInput('role');
 
-                $starting_point->setRuleTypeRoleBased();
-                $starting_point->setStartingPoint((int) $form->getInput('start_point'));
-                $rules = ['role_id' => $role_id];
-                $starting_point->setRuleOptions(serialize($rules));
+        if ($form->getInput('role_type') === '1' &&
+            $role_id === null || $role_id < 1) {
+            $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
 
-                $obj_id = $form->getInput('start_object');
-                $cal_view = $form->getInput('user_calendar_view');
-                $cal_period = $form->getInput('user_cal_period');
-                if ($obj_id && ($starting_point->getStartingPoint() == ilUserUtil::START_REPOSITORY_OBJ)) {
-                    if (ilObject::_lookupObjId($obj_id) && !$this->tree->isDeleted($obj_id)) {
-                        $starting_point->setStartingObject($obj_id);
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-                    } else {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
-                    }
-                } else {
-                    $starting_point->setStartingObject(0);
-                }
+            // TODO: Handle minWordLength
+            $parser->setMinWordLength(1);
+            $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
+            $parser->parse();
 
-                if (!empty($cal_view) && !empty($cal_period) && ($starting_point->getStartingPoint() == ilUserUtil::START_PD_CALENDAR)) {
-                    $starting_point->setCalendarView($cal_view);
-                    $starting_point->setCalendarPeriod($cal_period);
-                } else {
-                    $starting_point->setCalendarView(0);
-                    $starting_point->setCalendarPeriod(0);
-                }
+            $object_search = new ilLikeObjectSearch($parser);
+            $object_search->setFilter(['role']);
+            $res = $object_search->performSearch();
 
-                if ($start_point_id !== null) {
-                    $starting_point->update();
-                } else {
-                    $starting_point->save();
-                }
-            } elseif (!empty($form->getInput('user_calendar_view')) && !empty($form->getInput('user_cal_period'))) {
-                $calendar_info = [
-                    'user_calendar_view' => $form->getInput('user_calendar_view'),
-                    'user_cal_period' => $form->getInput('user_cal_period')
-                ];
-                ilUserUtil::setStartingPoint($form->getInput('start_point'), (int) $form->getInput('start_object'), $calendar_info);
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            } else {  //default
-                ilUserUtil::setStartingPoint((int) $form->getInput('start_point'), (int) $form->getInput('start_object'));
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+            $entries = $res->getEntries();
+
+            if (count($entries) === 0) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
+                $form->setValuesByPost();
+                $this->tpl->setContent($form->getHTML());
+                return;
             }
 
-            $this->ctrl->redirect($this, 'startingPoints');
+            if (count($entries) > 1) {
+                $this->showRoleSelection(
+                    $form->getInput('role'),
+                    $form->getInput('role_search'),
+                    $form->getInput('start_point'),
+                    $form->getInput('start_object')
+                );
+                return;
+            }
+
+            if (count($entries) === 1) {
+                $role = current($entries);
+                $role_id = $role['obj_id'];
+            }
         }
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
+
+        if ($role_id !== 0) {
+            $starting_point->setRuleTypeRoleBased();
+            $rules = ['role_id' => $role_id];
+            $starting_point->setRuleOptions(serialize($rules));
+        }
+
+        $starting_point->setStartingPointType((int) $form->getInput('start_point'));
+
+        $obj_id = (int) $form->getInput('start_object');
+        $cal_view = (int) $form->getInput('user_calendar_view');
+        $cal_period = (int) $form->getInput('user_cal_period');
+
+
+        if ($starting_point->getStartingPointType() === ilUserStartingPointRepository::START_REPOSITORY_OBJ
+            && (ilObject::_lookupObjId($obj_id) === 0 || $this->tree->isDeleted($obj_id))) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+            return;
+        }
+        $starting_point->setStartingObject($obj_id);
+
+        if ($starting_point->getStartingPointType() === ilUserStartingPointRepository::START_PD_CALENDAR) {
+            $starting_point->setCalendarView($cal_view);
+            $starting_point->setCalendarPeriod($cal_period);
+        }
+
+        if ($start_point_id !== null) {
+            $this->starting_point_repository->update($starting_point);
+        } else {
+            $this->starting_point_repository->save($starting_point);
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, 'startingPoints');
     }
 
-    protected function showRoleSelection(
+    private function showRoleSelection(
         string $role,
         string $role_search,
         string $start_point,
@@ -485,51 +539,15 @@ class ilUserStartingPointGUI
 
         $positions = $this->user_request->getPositions();
         if (count($positions) > 0) {
-            $sp = new ilStartingPoint(
-                $this->db,
-                $this->rbac_review,
-                null
-            );
-            $sp->saveOrder($positions);
+            $this->starting_point_repository->saveOrder($positions);
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, 'startingPoints');
     }
 
-    public function confirmDeleteStartingPoint(): void
-    {
-        $this->tabs->clearTargets();
-        $this->tabs->setBackTarget($this->lng->txt('back_to_starting_points_list'), $this->ctrl->getLinkTarget($this, 'startingPoints'));
-
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('confirm_delete_starting_point'));
-
-        $req_role_id = $this->user_request->getRoleId();
-        $req_sp_id = $this->user_request->getStartingPointId();
-
-        //if type role based
-        if ($req_role_id && $req_sp_id) {
-            $rolid = $req_role_id;
-            $spid = $req_sp_id;
-
-            $role = new ilObjRole((int) $rolid);
-
-            $conf->addItem('rolid', $rolid, $role->getTitle());
-            $conf->addItem('spid', $spid, '');
-        }
-
-        $conf->setConfirm($this->lng->txt('delete'), 'deleteStartingPoint');
-        $conf->setCancel($this->lng->txt('cancel'), 'startingPoints');
-
-        $this->tpl->setContent($conf->getHTML());
-    }
-
     protected function deleteStartingPoint(): void
     {
-        $spid = 0;
-
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
             throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
         }
@@ -537,13 +555,11 @@ class ilUserStartingPointGUI
         $spoint_id = $this->user_request->getStartingPointId();
         $req_role_id = $this->user_request->getRoleId();
 
-        if ($req_role_id && $spid = $spoint_id) {
-            $sp = new ilStartingPoint(
-                $this->db,
-                $this->rbac_review,
-                $spid
+        if ($req_role_id && is_numeric($spoint_id)) {
+            $sp = $this->starting_point_repository->getStartingPointById(
+                $spoint_id
             );
-            $sp->delete();
+            $this->starting_point_repository->delete($sp->getId());
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_spoint_not_modified'), true);
