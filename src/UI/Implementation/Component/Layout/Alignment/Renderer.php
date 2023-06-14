@@ -55,7 +55,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('CONTENT', $default_renderer->render($block));
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('ALGINMENTTYPE', $component->getCanonicalName());
+        $type = strtolower(str_replace(' ', '', $component->getCanonicalName()));
+        $tpl->setVariable('ALGINMENTTYPE', $type);
         return $tpl->get();
     }
 
