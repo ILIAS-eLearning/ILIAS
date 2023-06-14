@@ -746,7 +746,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $feedback = $ilDB->fetchAll($result);
 
         // Check if feedback exists
-        if (sizeof($feedback) >= 1){
+        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_mc WHERE question_fi = %s",
@@ -783,30 +783,25 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             }
 
             // Delete all feedback in database
-            $ilDB->manipulateF(
-                "DELETE FROM qpl_fb_specific 
-                WHERE question_fi = %s ",
-                array( 'integer'),
-                array( $this->getId())
-            );
-
+            $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
             // Recreate remaining feedback in database
-            foreach ($feedback as $feedback_option){
+            foreach ($feedback as $feedback_option) {
                 $next_id = $ilDB->nextId('qpl_fb_specific');
                 $ilDB->manipulateF(
                     "INSERT INTO qpl_fb_specific (feedback_id, question_fi, answer, tstamp, feedback, question) 
-                    VALUES (%s, %s, %s, %s, %s, %s)",
-                    array( 'integer', 'integer', 'integer', 'integer', 'text', 'integer'),
-                    array(
-                        $next_id,
-                        $feedback_option["question_fi"],
-                        $feedback_option["answer"],
-                        time(),
-                        $feedback_option["feedback"],
-                        $feedback_option["question"]
-                    )
+                            VALUES (%s, %s, %s, %s, %s, %s)",
+                            ['integer', 'integer', 'integer', 'integer', 'text', 'integer'],
+                            [
+                                $next_id,
+                                $feedback_option["question_fi"],
+                                $feedback_option["answer"],
+                                time(),
+                                $feedback_option["feedback"],
+                                $feedback_option["question"]
+                            ]
                 );
             }
+
         }
 
         // Delete all entries in qpl_a_mc for question
@@ -1010,9 +1005,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-
         $imagepath = $this->getImagePath();
-
         $question_id = $this->getOriginalId();
         $originalObjId = parent::lookupParentObjId($this->getOriginalId());
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
