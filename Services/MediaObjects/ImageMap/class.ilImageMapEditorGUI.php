@@ -698,9 +698,9 @@ class ilImageMapEditorGUI
                 if ($this->request->getAreaLinkType() == IL_INT_LINK) {
                     $area->setLinkType(IL_INT_LINK);
                     $int_link = $this->map->getInternalLink();
-                    $area->setType($int_link["type"]);
-                    $area->setTarget($int_link["target"]);
-                    $area->setTargetFrame($int_link["target_frame"]);
+                    $area->setType($int_link["type"] ?? "");
+                    $area->setTarget($int_link["target"] ?? "");
+                    $area->setTargetFrame($int_link["target_frame"] ?? "");
                 } else {
                     $area->setLinkType(IL_EXT_LINK);
                     if ($this->request->getAreaLinkType() != IL_NO_LINK) {
@@ -752,9 +752,9 @@ class ilImageMapEditorGUI
                     case "int":
                         $area->setLinkType(IL_INT_LINK);
                         $int_link = $this->map->getInternalLink();
-                        $area->setType($int_link["type"]);
-                        $area->setTarget($int_link["target"]);
-                        $area->setTargetFrame($int_link["type_frame"]);
+                        $area->setType($int_link["type"] ?? "");
+                        $area->setTarget($int_link["target"] ?? "");
+                        $area->setTargetFrame($int_link["type_frame"] ?? "");
                         break;
                 }
 
@@ -798,18 +798,18 @@ class ilImageMapEditorGUI
         if ($a_handle) {
             $this->handleMapParameters();
         }
-        if ($this->map->getAreaNr() != "") {
+        if ($this->map->getAreaNr() > 0) {
             $area_nr = $this->map->getAreaNr();
         } else {
             $area = $this->request->getArea();
-            $area_nr = $area[0] ?? "";
+            $area_nr = (int) ($area[0] ?? 0);
         }
-        if ($area_nr == "") {
+        if ($area_nr === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
-        if (count($area) > 1) {
+        if (count($area ?? []) > 1) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
@@ -985,18 +985,18 @@ class ilImageMapEditorGUI
         if ($_POST["areatype2"] != "") {
             $this->map->setAreaType($_POST["areatype2"]);
         }*/
-        if ($this->map->getAreaNr() != "") {
+        if ($this->map->getAreaNr() > 0) {
             $area_nr = $this->map->getAreaNr();
         } else {
             $area = $this->request->getArea();
-            $area_nr = $area[0] ?? "";
+            $area_nr = (int) ($area[0] ?? 0);
         }
-        if ($area_nr == "") {
+        if ($area_nr === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
-        if (count($area) > 1) {
+        if (count($area ?? []) > 1) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
