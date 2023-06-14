@@ -32,7 +32,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
     public function __construct(
         object $parent_obj,
-        private ilStartingPoint $starting_point,
+        private ilUserStartingPointRepository $starting_point_repository,
         private ilRbacReview $rbac_review,
         private UIFactory $ui_factory,
         private Renderer $ui_renderer,
@@ -64,34 +64,34 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
     {
         $dc = new ilObjectDataCache();
 
-        $valid_points = ilUserUtil::getPossibleStartingPoints();
+        $valid_points = $this->starting_point_repository->getPossibleStartingPoints();
 
-        $status = (ilUserUtil::hasPersonalStartingPoint() ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $status = ($this->starting_point_repository->isPersonalStartingPointEnabled()
+            ? $this->lng->txt('yes') : $this->lng->txt('no'));
 
         $starting_points = [];
         $starting_points[] = [
-            'id' => 'user',
+            'id' => $this->starting_point_repository->getUserStartingPointID(),
             'criteria' => $this->lng->txt('user_chooses_starting_page'),
             'starting_page' => $status,
             'starting_position' => self::TABLE_POSITION_USER_CHOOSES
         ];
 
-        $available_starting_points = $this->starting_point->getStartingPoints();
+        $available_starting_points = $this->starting_point_repository->getStartingPoints();
 
         foreach ($available_starting_points as $available_starting_point) {
-            $starting_point = $available_starting_point->getStartingPoint();
+            $starting_point_type = $available_starting_point->getStartingPointType();
             $position = $available_starting_point->getPosition();
-            $sp_text = $valid_points[$starting_point] ?? '';
+            $sp_text = $this->lng->txt($valid_points[$starting_point_type]) ?? '';
 
-            if ($starting_point === ilUserUtil::START_REPOSITORY_OBJ
+            if ($starting_point_type === ilUserStartingPointRepository::START_REPOSITORY_OBJ
                 && $available_starting_point->getStartingObject() !== null) {
-                $starting_object = $available_starting_point->getStartingObject();
-                $object_id = ilObject::_lookupObjId($starting_object);
+                $starting_object_ref_id = $available_starting_point->getStartingObject();
+                $object_id = ilObject::_lookupObjId($starting_object_ref_id);
                 $type = $dc->lookupType($object_id);
                 $title = $dc->lookupTitle($object_id);
-                $sp_text = $this->lng->txt('obj_' . $type)
-                    . ' <i>"' . $title . '"</i> '
-                    . '[' . (string) $starting_object . ']';
+                $sp_text = $this->lng->txt('obj_' . $type) . ' '
+                    . '<i>"' . $title . '" (' . $starting_object_ref_id . ')</i>';
             }
 
             if ($available_starting_point->isRoleBasedStartingPoint()) {
@@ -112,25 +112,26 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
             }
         }
 
-        $default_sp = ilUserUtil::getStartingPoint();
-        $starting_point = $valid_points[$default_sp];
-        if ($default_sp == ilUserUtil::START_REPOSITORY_OBJ) {
-            $reference_id = ilUserUtil::getStartingObject();
+        $default_sp = $this->starting_point_repository->getSystemDefaultStartingPointType();
+        $starting_point = $this->lng->txt($valid_points[$default_sp]);
+        if ($default_sp === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+            $starting_object_ref_id = $this->starting_point_repository->getSystemDefaultStartingObject();
 
-            $object_id = ilObject::_lookupObjId($reference_id);
+            $object_id = ilObject::_lookupObjId($starting_object_ref_id);
             $type = $dc->lookupType($object_id);
             $title = $dc->lookupTitle($object_id);
-            $starting_point = $this->lng->txt('obj_' . $type) . ' ' . '<i>"' . $title . '" (' . $reference_id . ')</i>';
+            $starting_point = $this->lng->txt('obj_' . $type) . ' '
+                . '<i>"' . $title . '" (' . $starting_object_ref_id . ')</i>';
         }
 
         $starting_points[] = [
-            'id' => 'default',
+            'id' => $this->starting_point_repository->getDefaultStartingPointID(),
             'criteria' => $this->lng->txt('default'),
             'starting_page' => $starting_point,
             'starting_position' => self::TABLE_POSITION_DEFAULT
         ];
 
-        $sorted_starting_points = $this->starting_point->reArrangePositions(
+        $sorted_starting_points = $this->starting_point_repository->reArrangePositions(
             ilArrayUtil::sortArray($starting_points, 'starting_position', 'asc', true)
         );
 
@@ -143,14 +144,14 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $row_data): void
     {
-        $id = (string) $row_data['id'];
+        $id = $row_data['id'];
         $role_id = $row_data['role_id'] ?? null;
         $this->ctrl->setParameter($this->getParentObject(), 'spid', $id);
 
         if ($this->isSortingHidden($id)) {
             $this->tpl->setVariable('HIDDEN', 'hidden');
         } else {
-            $this->tpl->setVariable('VAL_ID', 'position[' . $id . ']');
+            $this->tpl->setVariable('VAL_ID', 'position[' . (string) $id . ']');
             $this->tpl->setVariable('VAL_POS', $row_data['starting_position']);
         }
 
@@ -177,21 +178,22 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
     /**
      * @return array<strings>
      */
-    private function getActions(string $id, ?int $role_id): array
+    private function getActions(int $id, ?int $role_id): array
     {
         $actions = [];
 
-        $edit_link = $this->getEditLink($id, $role_id);
+        $edit_url = $this->getEditLink($id, $role_id);
 
         $actions[] = $this->ui_factory->link()->standard(
             $this->lng->txt('edit'),
-            $edit_link
+            $edit_url
         );
 
-        if (!in_array($id, ['0', 'default', 'user'])) {
+        if ($id !== $this->starting_point_repository->getDefaultStartingPointID()
+            && $id !== $this->starting_point_repository->getUserStartingPointID()) {
             $delete_url = $this->ctrl->getLinkTarget(
                 $this->getParentObject(),
-                'confirmDeleteStartingPoint'
+                'deleteStartingPoint'
             );
             $actions[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('delete'),
@@ -202,38 +204,36 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         return $actions;
     }
 
-    private function getEditLink(string $id, ?int $role_id): string
+    private function getEditLink(int $id, ?int $role_id): string
     {
         $cmd = 'initRoleStartingPointForm';
-        $rolid = $role_id;
-        if ($id === '0' || $id === 'user') {
+        if ($id === $this->starting_point_repository->getUserStartingPointID()) {
             $cmd = 'initUserStartingPointForm';
-            $rolid = 'user';
-        } elseif ($id === 'default') {
-            $rolid = 'default';
         }
 
-        $this->ctrl->setParameter($this->getParentObject(), 'rolid', $rolid);
+        $this->ctrl->setParameter($this->getParentObject(), 'rolid', $role_id);
         return $this->ctrl->getLinkTargetByClass(
             get_class($this->getParentObject()),
             $cmd
         );
     }
 
-    private function isSortingHidden(string $id): bool
+    private function isSortingHidden(int $id): bool
     {
-        if (in_array($id, ['0', 'default', 'user'])) {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
+            || $id === $this->starting_point_repository->getUserStartingPointID()) {
             return true;
         }
         return false;
     }
 
     private function getTitleForCriterium(
-        string $id,
+        int $id,
         ?int $role_id,
         string $criterium
     ): string {
-        if (in_array($id, ['0', 'default', 'user'])) {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
+            || $id === $this->starting_point_repository->getUserStartingPointID()) {
             return $criterium;
         }
 

@@ -79,22 +79,27 @@ class UserGUIRequest
         return $this->str("term");
     }
 
-    public function getStartingPointId(): string
+    public function getStartingPointId(): ?int
     {
-        $id = $this->str("spid");
-        if ($id !== '0') {
+        if (!$this->wrapper->query()->has('spid') &&
+            !$this->wrapper->query()->has('start_point_id')) {
+            return null;
+        }
+
+        $id = $this->int('spid');
+        if ($id !== 0) {
             return $id;
         }
-        return $this->str("start_point_id");
+        return $this->int('start_point_id');
     }
 
-    public function getRoleId(): string
+    public function getRoleId(): int
     {
-        $role_id = $this->str("rolid");
-        if ($role_id !== '0') {
+        $role_id = $this->int("rolid");
+        if ($role_id !== 0) {
             return $role_id;
         }
-        return $this->str("role_id");
+        return $this->int("role_id");
     }
 
     public function getActionActive(): array
