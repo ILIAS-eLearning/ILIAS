@@ -1226,7 +1226,7 @@ abstract class assQuestionGUI
 
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-        $question->setValue($this->object->getQuestion());
+        $question->setValue(htmlspecialchars_decode($this->object->getQuestion()));
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
