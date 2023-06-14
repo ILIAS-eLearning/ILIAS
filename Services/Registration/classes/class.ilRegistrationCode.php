@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Class ilRegistrationCode
@@ -255,6 +254,19 @@ class ilRegistrationCode
         return (bool) $res->numRows();
     }
 
+    public static function getCodeValidUntil(string $code): string
+    {
+        $code_data = self::getCodeData($code);
+
+        if ($code_data["alimit"]) {
+            switch ($code_data["alimit"]) {
+                case "absolute":
+                    return $code_data['alimitdt'];
+            }
+        }
+        return "0";
+    }
+
     public static function useCode(string $code): bool
     {
         global $DIC;
@@ -289,5 +301,85 @@ class ilRegistrationCode
             " FROM " . self::DB_TABLE .
             " WHERE code = " . $ilDB->quote($code, "text"));
         return $ilDB->fetchAssoc($set);
+    }
+
+    public static function applyRoleAssignments(
+        ilObjUser $user,
+        string $code
+    ): bool {
+        $recommended_content_manager = new ilRecommendedContentManager();
+
+        $grole = self::getCodeRole($code);
+        if ($grole) {
+            $GLOBALS['DIC']['rbacadmin']->assignUser($grole, $user->getId());
+        }
+        $code_data = self::getCodeData($code);
+        if ($code_data["role_local"]) {
+            $code_local_roles = explode(";", $code_data["role_local"]);
+            foreach ($code_local_roles as $role_id) {
+                $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
+
+                // patch to remove for 45 due to mantis 21953
+                $role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($role_id);
+                switch (ilObject::_lookupType($role_obj)) {
+                    case 'crs':
+                    case 'grp':
+                        $role_refs = ilObject::_getAllReferences($role_obj);
+                        $role_ref = end($role_refs);
+                        // deactivated for now, see discussion at
+                        // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+                        //$recommended_content_manager->addObjectRecommendation($user->getId(), $role_ref);
+                        break;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static function applyAccessLimits(
+        ilObjUser $user,
+        string $code
+    ): void {
+        $code_data = self::getCodeData($code);
+
+        if ($code_data["alimit"]) {
+            switch ($code_data["alimit"]) {
+                case "absolute":
+                    $end = new ilDateTime($code_data['alimitdt'], IL_CAL_DATE);
+                    //$user->setTimeLimitFrom(time());
+                    $user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+                    $user->setTimeLimitUnlimited(false);
+                    break;
+
+                case "relative":
+
+                    $rel = unserialize($code_data["alimitdt"], ["allowed_classes" => false]);
+
+                    $end = new ilDateTime(time(), IL_CAL_UNIX);
+
+                    if ($rel['y'] > 0) {
+                        $end->increment(IL_CAL_YEAR, $rel['y']);
+                    }
+
+                    if ($rel['m'] > 0) {
+                        $end->increment(IL_CAL_MONTH, $rel['m']);
+                    }
+
+                    if ($rel['d'] > 0) {
+                        $end->increment(IL_CAL_DAY, $rel['d']);
+                    }
+
+                    //$user->setTimeLimitFrom(time());
+                    $user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+                    $user->setTimeLimitUnlimited(false);
+                    break;
+
+                case 'unlimited':
+                    $user->setTimeLimitUnlimited(true);
+                    break;
+            }
+        } else {
+            $user->setTimeLimitUnlimited(true);
+        }
     }
 }

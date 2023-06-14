@@ -405,8 +405,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $form = $this->initCodeForm($uname);
         if ($uname && $form->checkInput()) {
             $code = $form->getInput("code");
-            if (ilAccountCode::isUnusedCode($code)) {
-                $valid_until = ilAccountCode::getCodeValidUntil($code);
+            if (ilRegistrationCode::isUnusedCode($code)) {
+                $valid_until = ilRegistrationCode::getCodeValidUntil($code);
                 if (!$user_id = ilObjUser::_lookupId($uname)) {
                     $this->showLoginPage();
                     return false;
@@ -442,11 +442,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
                 if (!$invalid_code) {
                     $user->setActive(true);
-                    ilAccountCode::useCode($code);
+                    ilRegistrationCode::useCode($code);
                     // apply registration code role assignments
-                    ilAccountCode::applyRoleAssignments($user, $code);
+                    ilRegistrationCode::applyRoleAssignments($user, $code);
                     // apply registration code tie limits
-                    ilAccountCode::applyAccessLimits($user, $code);
+                    ilRegistrationCode::applyAccessLimits($user, $code);
 
                     $user->update();
 

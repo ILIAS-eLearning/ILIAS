@@ -26,7 +26,7 @@ use ILIAS\Services\User\ChangedUserFieldAttribute;
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
@@ -183,14 +183,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     'view'
                 );
                 $this->ctrl->forwardCommand($user_search);
-                break;
-
-            case 'ilaccountcodesgui':
-                $this->tabs_gui->setTabActive('settings');
-                $this->setSubTabs("settings");
-                $ilTabs->activateSubTab("account_codes");
-                $acc = new ilAccountCodesGUI($this->ref_id);
-                $this->ctrl->forwardCommand($acc);
                 break;
 
             case 'ilcustomuserfieldsgui':
@@ -1970,7 +1962,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->initFormGeneralSettings();
         if ($this->form->checkInput()) {
             $valid = true;
-            if (!strlen($this->form->getInput('loginname_change_blocking_time'))) {
+            if ($this->form->getInput('allow_change_loginname') === '1' &&
+               !is_numeric($this->form->getInput('loginname_change_blocking_time'))) {
                 $valid = false;
                 $this->form->getItemByPostVar('loginname_change_blocking_time')
                            ->setAlert($this->lng->txt('loginname_change_blocking_time_invalidity_info'));
@@ -2013,30 +2006,30 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 (bool) $this->form->getInput("password_must_not_contain_loginame")
             );
 
-            if (!is_null($security->validate($this->form))) {
+            if ($security->validate($this->form) !== null) {
                 $valid = false;
             }
 
             if ($valid) {
                 $security->save();
 
-                ilUserAccountSettings::getInstance()->enableLocalUserAdministration($this->form->getInput('lua'));
-                ilUserAccountSettings::getInstance()->restrictUserAccess($this->form->getInput('lrua'));
+                ilUserAccountSettings::getInstance()->enableLocalUserAdministration((bool) $this->form->getInput('lua'));
+                ilUserAccountSettings::getInstance()->restrictUserAccess((bool) $this->form->getInput('lrua'));
                 ilUserAccountSettings::getInstance()->update();
 
                 $ilSetting->set(
                     'allow_change_loginname',
-                    (int) $this->form->getInput('allow_change_loginname')
+                    $this->form->getInput('allow_change_loginname')
                 );
                 $ilSetting->set(
                     'create_history_loginname',
-                    (int) $this->form->getInput('create_history_loginname')
+                    $this->form->getInput('create_history_loginname')
                 );
                 $ilSetting->set(
                     'reuse_of_loginnames',
-                    (int) $this->form->getInput('reuse_of_loginnames')
+                    $this->form->getInput('reuse_of_loginnames')
                 );
-                $save_blocking_time_in_seconds = (int) ($this->form->getInput(
+                $save_blocking_time_in_seconds = (string) ((int) $this->form->getInput(
                     'loginname_change_blocking_time'
                 ) * 86400);
                 $ilSetting->set(
@@ -2045,16 +2038,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
                 $ilSetting->set(
                     'user_adm_alpha_nav',
-                    (int) $this->form->getInput('user_adm_alpha_nav')
+                    $this->form->getInput('user_adm_alpha_nav')
                 );
                 $ilSetting->set(
                     'user_reactivate_code',
-                    (int) $this->form->getInput('user_reactivate_code')
+                    $this->form->getInput('user_reactivate_code')
                 );
 
                 $ilSetting->set(
                     'user_delete_own_account',
-                    (int) $this->form->getInput('user_own_account')
+                    $this->form->getInput('user_own_account')
                 );
                 $ilSetting->set(
                     'user_delete_own_account_email',
@@ -2062,7 +2055,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
                 $ilSetting->set(
                     'tos_withdrawal_usr_deletion',
-                    (string) ((int) $this->form->getInput('tos_withdrawal_usr_deletion'))
+                    (string) ($this->form->getInput('tos_withdrawal_usr_deletion'))
                 );
 
                 $ilSetting->set(
@@ -2073,7 +2066,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // BEGIN SESSION SETTINGS
                 $ilSetting->set(
                     'session_handling_type',
-                    (int) $this->form->getInput('session_handling_type')
+                    $this->form->getInput('session_handling_type')
                 );
 
                 if ($this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_FIXED) {
@@ -2095,26 +2088,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                         $ilSetting->set(
                             'session_max_count',
-                            (int) $this->form->getInput('session_max_count')
+                            $this->form->getInput('session_max_count')
                         );
                         $ilSetting->set(
                             'session_min_idle',
-                            (int) $this->form->getInput('session_min_idle')
+                            $this->form->getInput('session_min_idle')
                         );
                         $ilSetting->set(
                             'session_max_idle',
-                            (int) $this->form->getInput('session_max_idle')
+                            $this->form->getInput('session_max_idle')
                         );
                         $ilSetting->set(
                             'session_max_idle_after_first_request',
-                            (int) $this->form->getInput('session_max_idle_after_first_request')
+                            $this->form->getInput('session_max_idle_after_first_request')
                         );
                     }
                 }
                 // END SESSION SETTINGS
                 $ilSetting->set(
                     'letter_avatars',
-                    (int) $this->form->getInput('letter_avatars')
+                    $this->form->getInput('letter_avatars')
                 );
 
                 $requestPasswordReset = false;
