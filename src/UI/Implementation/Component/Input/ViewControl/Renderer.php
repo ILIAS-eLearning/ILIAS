@@ -120,6 +120,10 @@ class Renderer extends AbstractComponentRenderer
                 ->withOnClick($internal_signal);
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("OPTION", $default_renderer->render($item));
+            if ($opt_value === $component->getValue()) {
+                $tpl->touchBlock("selected");
+                $tpl->setCurrentBlock("option");
+            }
             $tpl->parseCurrentBlock();
         }
 
@@ -253,7 +257,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
         }
 
-
+        $current_limit = explode(':', $component->getValue());
+        $current_limit = (int)array_pop($current_limit);
 
         foreach ($component->getLimitOptions() as $option) {
             $signal = clone $internal_signal;
@@ -265,6 +270,10 @@ class Renderer extends AbstractComponentRenderer
                 ->withOnClick($signal);
             $tpl->setCurrentBlock("option_limit");
             $tpl->setVariable("OPTION_LIMIT", $default_renderer->render($item));
+            if ($option === $current_limit) {
+                $tpl->touchBlock("selected");
+                $tpl->setCurrentBlock("option_limit");
+            }
             $tpl->parseCurrentBlock();
         }
 

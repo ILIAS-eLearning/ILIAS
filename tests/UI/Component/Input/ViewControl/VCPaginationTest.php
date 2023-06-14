@@ -88,30 +88,36 @@ class VCPaginationTest extends VCBaseTest
 
         $expected = $this->brutallyTrimHTML('
 <div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="">
-    <a tabindex="0" class="glyph" aria-label="back" id="id_8">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    </a>
+    <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
+            <div class="btn btn-ctrl">
+                <a tabindex="0" class="glyph" aria-label="back" id="id_8">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </a>
+            </div>
 
-    <button class="btn btn-link" id="id_1">1</button>
-    <span class="il-viewcontrol-pagination__spacer">...</span>
-    <button class="btn btn-link" id="id_2">3</button>
-    <button class="btn btn-link" id="id_3">4</button>
-    <button class="btn btn-link engaged" aria-pressed="true" id="id_4">5</button>
-    <button class="btn btn-link" id="id_5">6</button>
-    <button class="btn btn-link" id="id_6">7</button>
-    <span class="il-viewcontrol-pagination__spacer">...</span>
-    <button class="btn btn-link" id="id_7">15</button>
+        <button class="btn btn-link" id="id_1">1</button>
+        <span class="il-viewcontrol-pagination__spacer">...</span>
+        <button class="btn btn-link" id="id_2">3</button>
+        <button class="btn btn-link" id="id_3">4</button>
+        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">5</button>
+        <button class="btn btn-link" id="id_5">6</button>
+        <button class="btn btn-link" id="id_6">7</button>
+        <span class="il-viewcontrol-pagination__spacer">...</span>
+        <button class="btn btn-link" id="id_7">15</button>
 
-    <a tabindex="0" class="glyph" aria-label="next" id="id_9">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    </a>
+        <div class="btn btn-ctrl">
+            <a tabindex="0" class="glyph" aria-label="next" id="id_9">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
 
     <div class="dropdown il-viewcontrol-pagination__num-of-items">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_limit">
+        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_limit">
             <span class="caret"></span>
         </button>
         <ul id="_ctrl_limit" class="dropdown-menu">
-            <li><button class="btn btn-link" id="id_10">2</button></li>
+            <li class="selected"><button class="btn btn-link" id="id_10">2</button></li>
             <li><button class="btn btn-link" id="id_11">5</button></li>
             <li><button class="btn btn-link" id="id_12">10</button></li>
         </ul>

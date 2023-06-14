@@ -94,7 +94,7 @@ class VCFieldSelectionTest extends VCBaseTest
 
             $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-fieldselection l-bar__element" id="id_3">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="field selection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="field selection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
         <ul id="id_3_ctrl" class="dropdown-menu">
             <li><input type="checkbox" value="opt1" id="id_1" /><label for="id_1">A</label></li>
             <li><input type="checkbox" value="opt2" id="id_2" /><label for="id_2">B</label></li>

@@ -53,6 +53,11 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         $this->operations[] = $this->getRangeTransform();
     }
 
+    public function getValue(): string
+    {
+        return $this->value ?? $this->getDefaultValue();
+    }
+
     protected function getDefaultValue(): string
     {
         $options = $this->getLimitOptions();
