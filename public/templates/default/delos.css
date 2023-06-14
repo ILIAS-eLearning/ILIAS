@@ -9796,6 +9796,16 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination .glyph .glyphicon::before {
   top: 0;
 }
+.il-viewcontrol-pagination li .btn.btn-link {
+  padding-left: 36px;
+}
+.il-viewcontrol-pagination li.selected .btn::before {
+  position: absolute;
+  left: 12px;
+  font-family: "Glyphicons Halflings";
+  color: #4c6586;
+  content: "\e013";
+}
 
 .il-viewcontrol-fieldselection .dropdown-menu {
   padding: 15px 9px;
