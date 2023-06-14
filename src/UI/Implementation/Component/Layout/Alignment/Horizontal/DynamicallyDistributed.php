@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Layout\Alignment;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Horizontal as I;
+use ILIAS\UI\Implementation\Component\Layout\Alignment\Alignment;
 
-/**
- * This describes the Force Horizontal Alignment.
- */
-interface ForceHorizontal extends Alignment
+class DynamicallyDistributed extends Alignment implements I\DynamicallyDistributed
 {
 }

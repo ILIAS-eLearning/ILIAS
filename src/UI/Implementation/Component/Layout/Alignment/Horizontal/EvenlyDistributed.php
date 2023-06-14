@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Layout\Alignment;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Horizontal as I;
+use ILIAS\UI\Implementation\Component\Layout\Alignment\Alignment;
 
-/**
- * This describes the Prefer Horizontal Alignment.
- */
-interface PreferHorizontal extends Alignment
+class EvenlyDistributed extends Alignment implements I\EvenlyDistributed
 {
 }

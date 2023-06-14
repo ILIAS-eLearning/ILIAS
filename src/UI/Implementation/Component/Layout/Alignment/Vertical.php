@@ -21,32 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
 
 use ILIAS\UI\Component\Layout\Alignment as I;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-abstract class HorizontalAlignment implements I\Alignment
+class Vertical extends Alignment implements I\Vertical
 {
-    use ComponentHelper;
-
-    /**
-     * @var list<I\Block[]>
-     */
-    protected $blocks = [];
-
-    /**
-     * @param  I\Block[] $blocksets
-     */
-    public function __construct(array ...$blocksets)
-    {
-        $sets = array_merge(...$blocksets);
-        $this->checkArgListElements('blocksets', $sets, [I\Block::class]);
-        $this->blocks = $blocksets;
-    }
-
-    /**
-     * @return list<I\Block[]>
-     */
-    public function getBlocksets(): array
-    {
-        return $this->blocks;
-    }
 }

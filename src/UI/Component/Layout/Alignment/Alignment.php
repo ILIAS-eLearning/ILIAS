@@ -26,10 +26,10 @@ use ILIAS\UI\Component\Layout\Alignment\Block;
 /**
  * This describes an Alignment.
  */
-interface Alignment extends Component
+interface Alignment extends Component, Block
 {
     /**
-     * @return list<Block[]>
+     * @return Block[]
      */
-    public function getBlocksets(): array;
+    public function getBlocks(): array;
 }

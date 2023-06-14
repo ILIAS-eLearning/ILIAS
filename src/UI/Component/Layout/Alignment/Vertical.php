@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
+namespace ILIAS\UI\Component\Layout\Alignment;
 
-use ILIAS\UI\Component\Layout\Alignment as I;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
-class PreferHorizontal extends HorizontalAlignment implements I\PreferHorizontal
+/**
+ * This describes an Vertical Alignment.
+ */
+interface Vertical extends Alignment
 {
 }

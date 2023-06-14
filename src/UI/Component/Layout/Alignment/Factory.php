@@ -46,10 +46,57 @@ interface Factory
      *       mimic a Table.
      *
      * ----
+     * @return  \ILIAS\UI\Component\Layout\Alignment\Horizontal\Factory
+     */
+    public function horizontal(): Horizontal\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     X
+     *   effect: >
+     *     X
+     *   rivals:
+     *     Force Horizontal: >
+     *       X
+     *     Table: >
+     *       X
+     *
+     * ----
+     * @param  Block[] $blocks
+     * @return  \ILIAS\UI\Component\Layout\Alignment\Vertical
+     */
+    public function vertical(Block ...$blocks): Vertical;
+
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     An Horizontal Alignment groups some sets of Blocks and displays those
+     *     groups horizontally next to each other.
+     *   effect: >
+     *     Blocks will break to a new line within the groups first;
+     *     preferably, the groups will remain next to each other, however, if
+     *     space is really scarce, the groups will be vertically aligned.
+     *   rivals:
+     *     Force Horizontal: >
+     *       Force Horizontal will keep the horizontal placement no matter what.
+     *       Try to avoid that, though, unless there is a very good reason.
+     *     Table: >
+     *       Tables may present potetially large sets of uniformly structured data.
+     *       While Tables are not meant to layout Components, Horizontal Alignments are
+     *       nothing like a row in a table; do not use multiple Alignments to
+     *       mimic a Table.
+     *
+     * ----
      * @param  Block[] $blocksets
      * @return  \ILIAS\UI\Component\Layout\Alignment\PreferHorizontal
      */
-    public function preferHorizontal(array ...$blocksets): PreferHorizontal;
+    //public function preferHorizontal(array ...$blocksets): PreferHorizontal;
 
     /**
      * ---
@@ -75,5 +122,5 @@ interface Factory
      * @param  Block[] $blocksets
      * @return  \ILIAS\UI\Component\Layout\Alignment\ForceHorizontal
      */
-    public function forceHorizontal(array ...$blocksets): ForceHorizontal;
+    //public function forceHorizontal(array ...$blocksets): ForceHorizontal;
 }

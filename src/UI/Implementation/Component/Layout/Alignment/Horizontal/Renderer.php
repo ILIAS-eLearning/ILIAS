@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -36,7 +36,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
         switch(true) {
-            case ($component instanceof Component\Layout\Alignment\Vertical):
+            case ($component instanceof Component\Layout\Alignment\Horizontal\EvenlyDistributed):
+            case ($component instanceof Component\Layout\Alignment\Horizontal\DynamicallyDistributed):
                 return $this->renderAlignment($component, $default_renderer);
                 break;
 
@@ -65,9 +66,8 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName(): array
     {
         return [
-            Component\Layout\Alignment\Vertical::class,
-            //Component\Layout\Alignment\Horizontal\EvenlyDistributed::class
-            //Component\Layout\Alignment\Horizontal\DynamicallyDistributed::class
+            Component\Layout\Alignment\Horizontal\EvenlyDistributed::class,
+            Component\Layout\Alignment\Horizontal\DynamicallyDistributed::class
         ];
     }
 }

@@ -18,25 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
-use ILIAS\UI\Component\Layout\Alignment as I;
+use ILIAS\UI\Component\Layout\Alignment\Horizontal as I;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 class Factory implements I\Factory
 {
     /**
      * @inheritdoc
      */
-    public function horizontal(): I\Horizontal\Factory
+    public function evenlyDistributed(Block ...$blocks): I\EvenlyDistributed
     {
-        return new Horizontal\Factory();
+        return new EvenlyDistributed(...$blocks);
     }
 
     /**
      * @inheritdoc
      */
-    public function vertical(I\Block ...$blocks): I\Vertical
+    public function dynamicallyDistributed(Block ...$blocks): I\DynamicallyDistributed
     {
-        return new Vertical(...$blocks);
+        return new DynamicallyDistributed(...$blocks);
     }
 }

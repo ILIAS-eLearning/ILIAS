@@ -21,22 +21,30 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
 
 use ILIAS\UI\Component\Layout\Alignment as I;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Factory implements I\Factory
+abstract class Alignment implements I\Alignment
 {
+    use ComponentHelper;
+
     /**
-     * @inheritdoc
+     * @var I\Block[]
      */
-    public function horizontal(): I\Horizontal\Factory
+    protected $blocks = [];
+
+    /**
+     * @param  I\Block[] $blocks
+     */
+    public function __construct(I\Block ...$blocks)
     {
-        return new Horizontal\Factory();
+        $this->blocks = $blocks;
     }
 
     /**
-     * @inheritdoc
+     * @return I\Block[]
      */
-    public function vertical(I\Block ...$blocks): I\Vertical
+    public function getBlocks(): array
     {
-        return new Vertical(...$blocks);
+        return $this->blocks;
     }
 }
