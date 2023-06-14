@@ -164,11 +164,7 @@ class ilCalendarExport
     protected function addAppointment(int $a_app_id): void
     {
         $app = new ilCalendarEntry($a_app_id);
-        if ($app->isMilestone()) {
-            $this->createVTODO($app);
-        } else {
-            $this->createVEVENT($app);
-        }
+        $this->createVEVENT($app);
     }
 
     protected function createVTODO(ilCalendarEntry $app): void
