@@ -215,6 +215,11 @@ class ilObjLearningSequence extends ilContainer
                 ->withActivationEnd($this->getLSActivation()->getActivationEnd());
         }
 
+        $new_status = ($new_obj->getLSActivation()->getEffectiveOnlineStatus())
+            ? $new_obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
+            : $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
+        $new_obj->getObjectProperties()->storePropertyIsOnline($new_status);
+
         $new_obj->getActivationDB()->store(
             $activation
         );
