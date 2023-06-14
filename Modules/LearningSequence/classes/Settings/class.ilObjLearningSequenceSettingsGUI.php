@@ -25,7 +25,8 @@ class ilObjLearningSequenceSettingsGUI
     public const PROP_TITLE = 'title';
     public const PROP_DESC = 'desc';
     public const PROP_ONLINE = 'online';
-    public const PROP_AVAIL_PERIOD = 'online_period';
+    public const PROP_AVAIL_FROM = 'start';
+    public const PROP_AVAIL_TO = 'end';
     public const PROP_GALLERY = 'gallery';
 
     public const CMD_EDIT = "settings";
@@ -37,16 +38,11 @@ class ilObjLearningSequenceSettingsGUI
         protected ilCtrl $ctrl,
         protected ilLanguage $lng,
         protected ilGlobalTemplateInterface $tpl,
-        protected ilObjectService $obj_service,
-        protected ArrayBasedRequestWrapper $post_wrapper,
         protected ILIAS\Refinery\Factory $refinery,
-        protected ILIAS\UI\Factory $ui_factory
+        protected ILIAS\UI\Factory $ui_factory,
+        protected ILIAS\UI\Renderer $renderer,
+        protected Psr\Http\Message\ServerRequestInterface $request
     ) {
-        $this->settings = $obj->getLSSettings();
-        $this->activation = $obj->getLSActivation();
-        $this->obj_title = $obj->getTitle();
-        $this->obj_description = $obj->getLongDescription();
-
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
     }
@@ -70,10 +66,10 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function settings(): string
     {
-        $form = $this->buildForm();
-        $this->fillForm($form);
-        $this->addCommonFieldsToForm($form);
-        return $form->getHTML();
+        return $this->renderer->render($this->buildForm(
+            $this->obj,
+            $this->ctrl->getFormAction($this, self::CMD_SAVE)
+        ));
     }
 
     protected function cancel(): void
@@ -81,155 +77,180 @@ class ilObjLearningSequenceSettingsGUI
         $this->ctrl->redirectByClass(ilObjLearningSequenceGUI::class);
     }
 
-    protected function buildForm(): ilPropertyFormGUI
-    {
-        $txt = fn ($id) => $this->lng->txt($id);
-        $settings = $this->settings;
-        $activation = $this->activation;
+    protected function buildForm(
+        ilObjLearningSequence $lso,
+        string $submit_action
+    ): ILIAS\UI\Component\Input\Container\Form\Standard {
+        $if = $this->ui_factory->input();
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE));
-        $form->setTitle($this->lng->txt('lso_edit'));
-
-        $title = new ilTextInputGUI($txt("title"), self::PROP_TITLE);
-        $title->setRequired(true);
-        $desc = new ilTextAreaInputGUI($txt("description"), self::PROP_DESC);
-
-        $section_avail = new ilFormSectionHeaderGUI();
-        $section_avail->setTitle($txt('lso_settings_availability'));
-        $online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);
-        $online->setInfo($this->lng->txt('lso_activation_online_info'));
-        $duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
-        $duration->setShowTime(true);
-        if ($activation->getActivationStart() !== null) {
-            $duration->setStart(
-                new ilDateTime(
-                    $activation->getActivationStart()->format('Y-m-d H:i:s'),
-                    IL_CAL_DATETIME
-                )
-            );
-        }
-        if ($activation->getActivationEnd() !== null) {
-            $duration->setEnd(
-                new ilDateTime(
-                    $activation->getActivationEnd()->format('Y-m-d H:i:s'),
-                    IL_CAL_DATETIME
-                )
-            );
-        }
-
-        $section_misc = new ilFormSectionHeaderGUI();
-        $section_misc->setTitle($txt('obj_features'));
-        $show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
-        $show_members_gallery->setInfo($txt('lso_show_members_info'));
-
-        $form->addItem($title);
-        $form->addItem($desc);
-
-        $form->addItem($section_avail);
-        $form->addItem($online);
-        $form->addItem($duration);
-        $form->addItem($section_misc);
-        $form->addItem($show_members_gallery);
-
-        $form->addCommandButton(self::CMD_SAVE, $txt("save"));
-        $form->addCommandButton(self::CMD_CANCEL, $txt("cancel"));
+        $form = $if->container()->form()->standard(
+            $submit_action,
+            $this->buildFormElements(
+                $lso,
+                $if
+            )
+        );
 
         return $form;
     }
 
-    protected function fillForm(ilPropertyFormGUI $form): ilPropertyFormGUI
-    {
-        $settings = $this->settings;
-        $activation = $this->activation;
-        $values = [
-            self::PROP_TITLE => $this->obj_title,
-            self::PROP_DESC => $this->obj_description,
-            self::PROP_ONLINE => $activation->getIsOnline(),
-            self::PROP_GALLERY => $settings->getMembersGallery()
-        ];
-        $form->setValuesByArray($values);
-        return $form;
-    }
+    protected function buildFormElements(
+        ilObjLearningSequence $lso,
+        ILIAS\UI\Component\Input\Factory $if
+    ) {
+        $txt = fn($id) => $this->lng->txt($id);
+        $settings = $lso->getLSSettings();
+        $activation = $lso->getLSActivation();
+        $formElements = [];
 
-    protected function addCommonFieldsToForm(ilPropertyFormGUI $form): void
-    {
-        $txt = fn ($id) => $this->lng->txt($id);
-        $section_appearance = new ilFormSectionHeaderGUI();
-        $section_appearance->setTitle($txt('cont_presentation'));
-        $form->addItem($section_appearance);
-        $form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
-        $form_service->addTitleIconVisibility();
-        $form_service->addTopActionsVisibility();
-        $form_service->addIcon();
-        $form_service->addTileImage();
+        // Title & Description
+        $title = $if->field()->text($txt("title"))
+            ->withRequired(true)
+            ->withValue($lso->getTitle());
+        $description = $if->field()->text($txt("description"))
+            ->withValue($lso->getLongDescription());
+        $section_object = $if->field()->section(
+            [
+                self::PROP_TITLE => $title,
+                self::PROP_DESC => $description
+            ],
+            $txt('lso_edit')
+        );
+        $formElements['object'] = $section_object;
+
+        // Online status
+        $online = $if->field()->checkbox(
+            $txt('online'),
+            $txt('lso_activation_online_info')
+        )->withValue($activation->getIsOnline());
+        $online_start = $if->field()->dateTime($txt('from'))
+            ->withUseTime(true)
+            ->withValue(($activation->getActivationStart()) ? $activation->getActivationStart()->format('Y-m-d H:i') : '');
+        $online_end = $if->field()->dateTime($txt('to'))
+            ->withUseTime(true)
+            ->withValue(($activation->getActivationEnd()) ? $activation->getActivationEnd()->format('Y-m-d H:i') : '');
+        $section_online = $if->field()->section(
+            [
+                self::PROP_ONLINE => $online,
+                self::PROP_AVAIL_FROM => $online_start,
+                self::PROP_AVAIL_TO => $online_end
+            ],
+            $txt('lso_settings_availability')
+        )->withAdditionalTransformation(
+            $this->refinery->custom()->constraint(
+                function ($values) {
+                    $start = $values[self::PROP_AVAIL_FROM] ?? '';
+                    $end = $values[self::PROP_AVAIL_TO] ?? '';
+                    if (($start !== '' && $end !== '') && ($end < $start)) {
+                        return false;
+                    }
+                    return true;
+                },
+                $txt('lso_settings_availability_error')
+            )
+        );
+        $formElements['online'] = $section_online;
+
+        // Member gallery
+        $gallery = $if->field()->checkbox($txt("members_gallery"), $txt('lso_show_members_info'))
+            ->withValue($settings->getMembersGallery())
+            ->withAdditionalTransformation(
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->bool(),
+                    $this->refinery->always(false)
+                ])
+            );
+        $section_additional = $if->field()->section(
+            [
+                self::PROP_GALLERY => $gallery
+            ],
+            $txt('obj_features')
+        );
+        $formElements['additional'] = $section_additional;
+
+        // Common properties
+        $title_icon = $lso->getObjectProperties()->getPropertyTitleAndIconVisibility()->toForm(
+            $this->lng,
+            $if->field(),
+            $this->refinery
+        );
+        $header_actions = $lso->getObjectProperties()->getPropertyHeaderActionVisibility()->toForm(
+            $this->lng,
+            $if->field(),
+            $this->refinery
+        );
+        $image = $lso->getObjectProperties()->getPropertyTileImage()->toForm(
+            $this->lng,
+            $if->field(),
+            $this->refinery
+        );
+        $section_common = $if->field()->section(
+            [
+                'icon' => $title_icon,
+                'header_actions' => $header_actions,
+                'image' => $image
+            ],
+            $txt('cont_presentation')
+        );
+        $formElements['common'] = $section_common;
+
+        return $formElements;
     }
 
     protected function update(): ?string
     {
-        $form = $this->buildForm();
-        $this->addCommonFieldsToForm($form);
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        $form = $this
+            ->buildForm($this->obj, $this->ctrl->getFormAction($this, self::CMD_SAVE))
+            ->withRequest($this->request);
+
+        $result = $form->getInputGroup()->getContent();
+
+        if ($result->isOK()) {
+            $values = $result->value();
+            $lso = $this->obj;
+
+            $lso->setTitle($values['object'][self::PROP_TITLE]);
+            $lso->setDescription($values['object'][self::PROP_DESC]);
+
+            $settings = $lso->getLSSettings()
+                ->withMembersGallery($values['additional'][self::PROP_GALLERY]);
+            $lso->updateSettings($settings);
+
+            $activation = $lso->getLSActivation()
+                ->withIsOnline($values['online'][self::PROP_ONLINE])
+                ->withActivationStart(null)
+                ->withActivationEnd(null);
+            if ($values['online'][self::PROP_AVAIL_FROM] !== null) {
+                $activation = $activation
+                    ->withActivationStart(
+                        DateTime::createFromImmutable($values['online'][self::PROP_AVAIL_FROM])
+                    );
+            }
+            if ($values['online'][self::PROP_AVAIL_TO] !== null) {
+                $activation = $activation
+                    ->withActivationEnd(
+                        DateTime::createFromImmutable($values['online'][self::PROP_AVAIL_TO])
+                    );
+            }
+            $lso->updateActivation($activation);
+
+            $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
+            $lso->getObjectProperties()->storePropertyIsOnline(
+                new ilObjectPropertyIsOnline(! $status)
+            );
+
+            $lso->getObjectProperties()->storePropertyTitleAndIconVisibility($values['common']['icon']);
+            $lso->getObjectProperties()->storePropertyHeaderActionVisibility($values['common']['header_actions']);
+            $lso->getObjectProperties()->storePropertyTileImage($values['common']['image']);
+
+            $lso->update();
+
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this);
+            return null;
+        } else {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
-            return $form->getHTML();
+            return $this->renderer->render($form);
         }
-
-        $lso = $this->obj;
-
-        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE, $this->refinery->kindlyTo()->string()));
-        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC, $this->refinery->kindlyTo()->string()));
-
-        $settings = $this->settings
-            ->withMembersGallery(
-                $this->post_wrapper->retrieve(
-                    self::PROP_GALLERY,
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->bool(),
-                        $this->refinery->always(false)
-                    ])
-                )
-            );
-
-        $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
-        $start = $inpt->getStart();
-        $end = $inpt->getEnd();
-        $activation = $this->activation
-            ->withIsOnline(
-                $this->post_wrapper->retrieve(
-                    self::PROP_ONLINE,
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->bool(),
-                        $this->refinery->always(false)
-                    ])
-                )
-            );
-
-        if ($start) {
-            $activation = $activation
-                ->withActivationStart(DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
-        } else {
-            $activation = $activation->withActivationStart();
-        }
-        if ($end) {
-            $activation = $activation
-                ->withActivationEnd(DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
-        } else {
-            $activation = $activation->withActivationEnd();
-        }
-
-        $form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
-        $form_service->saveTitleIconVisibility();
-        $form_service->saveTopActionsVisibility();
-        $form_service->saveIcon();
-        $form_service->saveTileImage();
-
-        $lso->updateSettings($settings);
-        $lso->updateActivation($activation);
-        $lso->update();
-
-        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this);
-        return null;
     }
 }

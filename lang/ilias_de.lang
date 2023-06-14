@@ -10534,6 +10534,7 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
+lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
