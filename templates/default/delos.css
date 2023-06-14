@@ -4176,6 +4176,41 @@ input[type=checkbox]:focus:focus-visible {
     width: auto;
   }
 }
+.c-launcher .btn-bulky {
+  min-width: 50%;
+  width: max-content;
+  border-radius: 6px;
+  border-width: 2px;
+  border-color: #557b2e;
+  padding: 12px 15px;
+  font-size: 1.115rem;
+  color: white;
+  background-color: #557b2e;
+}
+.c-launcher .btn-bulky:hover {
+  border-color: #3b5620;
+  color: white;
+  background-color: #3b5620;
+}
+.c-launcher .btn-bulky[disabled] {
+  background-color: #737373;
+  border-color: #737373;
+  cursor: not-allowed;
+}
+.c-launcher .btn-bulky[disabled]:hover {
+  color: white;
+  background-color: #737373;
+  border-color: #737373;
+}
+.c-launcher .btn-bulky .glyph {
+  color: white;
+}
+@media screen and (max-width: 768px) {
+  .c-launcher .btn-bulky {
+    min-width: 100%;
+  }
+}
+
 .c-launcher__status {
   display: flex;
   flex-direction: row;

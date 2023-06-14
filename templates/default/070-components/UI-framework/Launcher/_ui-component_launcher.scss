@@ -1,5 +1,42 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as legacy-setting-symbol;
+@use "../../../010-settings/" as s;
 @use "../../../050-layout/basics/" as layout-basics;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+.c-launcher {
+    .btn-bulky {
+        min-width: 50%;
+        width: max-content;
+        border-radius: s.$il-border-radius-secondary-large;
+        border-width: 2px;
+        border-color: s.$il-btn-primary-border;
+        padding: layout-basics.$il-padding-xxlarge-vertical layout-basics.$il-padding-xxlarge-horizontal;
+        font-size: s.$il-font-size-xlarge;
+        color: s.$il-btn-primary-color;
+        background-color: s.$il-btn-primary-bg;
+        &:hover {
+            border-color: darken(s.$il-btn-primary-bg,10%);
+            color: s.$il-btn-primary-color;
+            background-color: darken(s.$il-btn-primary-bg,10%);
+        }
+        &[disabled] {
+            background-color: s.$il-neutral-light-color;
+            border-color: s.$il-neutral-light-color;
+            &:hover {
+                color: s.$il-btn-primary-color;
+                background-color: s.$il-neutral-light-color;
+                border-color: s.$il-neutral-light-color;
+            }
+            cursor: not-allowed;
+        }
+        .glyph {
+            color: s.$il-text-color-invert;
+        }
+        @media screen and (max-width: s.$il-grid-float-breakpoint-max) {
+            min-width: 100%;
+        }
+    }
+}
 
 .c-launcher__status {
     display: flex;
