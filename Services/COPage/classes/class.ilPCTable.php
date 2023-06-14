@@ -283,14 +283,14 @@ class ilPCTable extends ilPageContent
                 foreach ($cells as $cell) {
                     if ($cell->nodeName == "TableData") {
                         $ckey = $cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID");
-                        if ((int) $a_colspans[$ckey] > 1) {
+                        if ((int) ($a_colspans[$ckey] ?? 0) > 1) {
                             $cell->setAttribute("ColSpan", (int) $a_colspans[$ckey]);
                         } else {
                             if ($cell->hasAttribute("ColSpan")) {
                                 $cell->removeAttribute("ColSpan");
                             }
                         }
-                        if ((int) $a_rowspans[$ckey] > 1) {
+                        if ((int) ($a_rowspans[$ckey] ?? 0) > 1) {
                             $cell->setAttribute("RowSpan", (int) $a_rowspans[$ckey]);
                         } else {
                             if ($cell->hasAttribute("RowSpan")) {
