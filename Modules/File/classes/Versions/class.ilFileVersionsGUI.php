@@ -29,9 +29,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilFileVersionsGUI
 {
+    use ilObjFileCopyrightInput;
+
     public const KEY_FILE_RID = 'file_rid';
     public const KEY_FILE_EXTRACT = 'file_extract';
     public const KEY_FILE_STRUCTURE = 'file_structure';
+    public const KEY_COPYRIGHT_OPTION = "copyright_option";
+    public const KEY_INHERIT_COPYRIGHT = "inherit_copyright";
+    public const KEY_SELECT_COPYRIGHT = "select_copyright";
+    public const KEY_COPYRIGHT_ID = "copyright_id";
 
     public const CMD_DEFAULT = 'index';
     public const CMD_DELETE_VERSIONS = "deleteVersions";
@@ -204,8 +210,9 @@ class ilFileVersionsGUI
         if (!empty($data)) {
             $file_rid = $this->storage->manage()->find($data[self::KEY_FILE_RID]);
             if (null !== $file_rid) {
+                $copyright_id = $data[self::KEY_COPYRIGHT_OPTION][1][self::KEY_COPYRIGHT_ID] ?? null;
                 $processor = $this->getFileProcessor($data[self::KEY_FILE_STRUCTURE]);
-                $processor->process($file_rid);
+                $processor->process($file_rid, null, null, $copyright_id);
 
                 if ($processor->getInvalidFileNames() !== []) {
                     $this->ui->mainTemplate()->setOnScreenMessage(
@@ -543,18 +550,50 @@ class ilFileVersionsGUI
 
     private function getFileZipOptionsForm(): Form
     {
-        return $this->ui->factory()->input()->container()->form()->standard(
-            $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP),
-            [
-                self::KEY_FILE_RID => $this->ui->factory()->input()->field()->hidden()->withValue(
-                    $this->file->getResourceId()
-                ),
-                self::KEY_FILE_STRUCTURE => $this->ui->factory()->input()->field()->checkbox(
-                    $this->lng->txt('take_over_structure'),
-                    $this->lng->txt('take_over_structure_info'),
-                ),
-            ]
+        $form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP);
+
+        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue($this->file->getResourceId());
+        $inputs[self::KEY_FILE_STRUCTURE] = $this->ui->factory()->input()->field()->checkbox(
+            $this->lng->txt('take_over_structure'),
+            $this->lng->txt('take_over_structure_info'),
         );
+
+        // return form at this point if copyright selection is not enabled
+        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+            return $this->ui->factory()->input()->container()->form()->standard($form_action, $inputs);
+        }
+
+        // add the option for letting all unzipped files inherit the copyright of their parent zip (if a copyright has been set for the zip)
+        $zip_md = new ilMD($this->file->getId(), 0, $this->file->getType());
+        $rights = $zip_md->getRights();
+        if ($rights !== null) {
+            $zip_copyright_description = $zip_md->getRights()->getDescription();
+            $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
+            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue((string) $zip_copyright_id);
+            $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
+                [self::KEY_COPYRIGHT_ID =>  $copyright_inheritance_input],
+                $this->lng->txt("copyright_inherited"),
+                sprintf(
+                    $this->lng->txt("copyright_inherited_info"),
+                    ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($zip_copyright_description)
+                )
+            );
+        }
+
+        // add the option to collectively select the copyright for all unzipped files independent of the original copyright of the zip
+        $copyright_selection_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
+        $copyright_options[self::KEY_SELECT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
+            [self::KEY_COPYRIGHT_ID =>  $copyright_selection_input],
+            $this->lng->txt("copyright_custom"),
+            $this->lng->txt("copyright_custom_info")
+        );
+
+        $inputs[self::KEY_COPYRIGHT_OPTION] = $this->ui->factory()->input()->field()->switchableGroup(
+            $copyright_options,
+            $this->lng->txt("md_copyright")
+        )->withValue(self::KEY_SELECT_COPYRIGHT);
+
+        return $this->ui->factory()->input()->container()->form()->standard($form_action, $inputs);
     }
 
     private function getFileProcessor(bool $keep_structure): ilObjFileProcessorInterface
@@ -608,5 +647,15 @@ class ilFileVersionsGUI
     private function isWorkspaceContext(): bool
     {
         return $this->http->wrapper()->query()->has('wsp_id');
+    }
+
+    protected function getUIFactory(): ILIAS\UI\Factory
+    {
+        return $this->ui->factory();
+    }
+
+    protected function getLanguage(): \ilLanguage
+    {
+        return $this->lng;
     }
 }

@@ -163,4 +163,26 @@ trait ilObjFileMetadata
         }
         $technical->update();
     }
+
+    /**
+     * update copyright meta data
+     */
+    protected function updateCopyright(): void
+    {
+        $copyright_id = $this->getCopyrightID();
+        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive() || $copyright_id === null) {
+            return;
+        }
+
+        $md_obj = new ilMD($this->getId(), 0, $this->getType());
+        $rights = $md_obj->getRights();
+        if ($rights === null) {
+            $rights = $md_obj->addRights();
+            $rights->save();
+        }
+
+        $rights->setCopyrightAndOtherRestrictions("Yes");
+        $rights->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . $copyright_id);
+        $rights->update();
+    }
 }

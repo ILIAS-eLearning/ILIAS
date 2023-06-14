@@ -19,8 +19,9 @@ use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
+use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
 
@@ -36,8 +37,14 @@ use ILIAS\Modules\File\Settings\General;
  */
 class ilObjFileGUI extends ilObject2GUI
 {
+    use ilObjFileCopyrightInput;
+    use ilObjFileTransformation;
+
     public const UPLOAD_MAX_FILES = 100;
     public const PARAM_FILES = 0;
+    public const PARAM_TITLE = 'title';
+    public const PARAM_DESCRIPTION = 'description';
+    public const PARAM_COPYRIGHT_ID = "copyright_id";
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
     public const UPLOAD_ORIGIN_STANDARD = 'standard';
@@ -343,21 +350,33 @@ class ilObjFileGUI extends ilObject2GUI
             self::UPLOAD_ORIGIN_STANDARD
         );
 
+        // add file input
+        $inputs[] = $this->ui->factory()->input()->field()->file(
+            $this->upload_handler,
+            $this->lng->txt('upload_files'),
+            null,
+            $this->ui->factory()->input()->field()->group([
+                self::PARAM_TITLE => $this->ui->factory()->input()->field()->text($this->lng->txt('title'))->withAdditionalTransformation(
+                    $this->getEmptyStringToNullTransformation()
+                ),
+                self::PARAM_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description'))->withAdditionalTransformation(
+                    $this->getEmptyStringToNullTransformation()
+                ),
+            ])
+        )->withMaxFiles(
+            self::UPLOAD_MAX_FILES
+        )->withMaxFileSize(
+            (int) ilFileUtils::getUploadSizeLimitBytes()
+        )->withRequired(true);
+
+        // add input for copyright selection if enabled in the metadata settings
+        if (ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+            $inputs[] = $this->getCopyrightSelectionInput('set_license_for_all_files');
+        }
+
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(self::class, self::CMD_UPLOAD_FILES),
-            [
-                self::PARAM_FILES => $this->ui->factory()->input()->field()->file(
-                    $this->upload_handler,
-                    $this->lng->txt('upload_files'),
-                    null,
-                    $this->ui->factory()->input()->field()->group([
-                        ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->lng->txt('title')),
-                        ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description')),
-                    ])
-                )->withMaxFiles(self::UPLOAD_MAX_FILES)
-                 ->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes())
-                 ->withRequired(true),
-            ]
+            $inputs
         )->withSubmitCaption($this->lng->txt('upload_files'));
     }
 
@@ -375,11 +394,12 @@ class ilObjFileGUI extends ilObject2GUI
         if (self::UPLOAD_ORIGIN_DROPZONE === $origin) {
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
-            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;
+            $data = $dropzone->getData();
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
-            $files = $form->getData()[self::PARAM_FILES] ?? null;
+            $data = $form->getData();
         }
+        $files = $data[self::PARAM_FILES] ?? null;
 
         if (empty($files)) {
             $form = $this->initUploadForm()->withRequest($this->request);
@@ -399,10 +419,12 @@ class ilObjFileGUI extends ilObject2GUI
             $rid = $this->storage->manage()->find($file_data[$this->upload_handler->getFileIdentifierParameterName()]);
             if (null !== $rid) {
                 try {
-                    $processor->process($rid, [
-                        ilObjFileProcessorInterface::OPTION_FILENAME => $file_data[ilObjFileProcessorInterface::OPTION_FILENAME],
-                        ilObjFileProcessorInterface::OPTION_DESCRIPTION => $file_data[ilObjFileProcessorInterface::OPTION_DESCRIPTION],
-                    ]);
+                    $processor->process(
+                        $rid,
+                        $file_data[self::PARAM_TITLE] ?? null,
+                        $file_data[0] ?? null,
+                        $data[1] ?? null
+                    );
                 } catch (Throwable $t) {
                     $errors = true;
                     if (null !== $this->log) {
@@ -881,5 +903,20 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         return $lg;
+    }
+
+    protected function getUIFactory(): ILIAS\UI\Factory
+    {
+        return $this->ui->factory();
+    }
+
+    protected function getLanguage(): \ilLanguage
+    {
+        return $this->lng;
+    }
+
+    protected function getRefinery(): \ILIAS\Refinery\Factory
+    {
+        return $this->refinery;
     }
 }

@@ -9468,6 +9468,10 @@ file#:#action_show#:#Infoseite anzeigen
 file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
+file#:#copyright_custom#:#Benutzerdefiniert
+file#:#copyright_custom_info#:#Benutzerdefiniertes Copyright auswählen, welches auf alle entpackten Dateien dieses Archivs angewandt wird.
+file#:#copyright_inherited#:#Vererbt
+file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
 file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
@@ -9521,6 +9525,7 @@ file#:#preview_persisting#:#Vorschaubilder persistieren
 file#:#preview_persisting_info#:#Generierte vVorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf generiert.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
+file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
 file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
 file#:#storage_id#:#Storage ID

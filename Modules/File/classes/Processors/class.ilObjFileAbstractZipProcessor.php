@@ -80,14 +80,10 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Creates a container object depending on the parent's node type and returns it.
      */
-    protected function createContainerObj(string $dir_name, int $parent_id, array $options = []): ilObject
+    protected function createContainerObj(string $dir_name, int $parent_id): ilObject
     {
         $container_obj = $this->getPossibleContainerObj($parent_id);
         $container_obj->setTitle($dir_name);
-
-        if (!empty($options)) {
-            $this->applyOptions($container_obj, $options);
-        }
 
         $container_obj->create();
         $container_obj->createReference();

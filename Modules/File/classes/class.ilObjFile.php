@@ -54,6 +54,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected int $filesize;
     protected int $version = 1;
     protected int $max_version = 1;
+    protected ?int $copyright_id = null;
     protected string $action = '';
     protected ?string $resource_id = null;
     public string $mode = self::MODE_OBJECT;
@@ -297,6 +298,16 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change max-version');
     }
 
+    public function getCopyrightID(): ?int
+    {
+        return $this->copyright_id;
+    }
+
+    public function setCopyrightID(?int $copyright_id): void
+    {
+        $this->copyright_id = $copyright_id;
+    }
+
     public function getPageCount(): int
     {
         return $this->page_count;
@@ -364,6 +375,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doCreate(bool $clone_mode = false): void
     {
         $this->createProperties(true);
+        $this->updateCopyright();
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
@@ -446,6 +458,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->updateMetaData();
+            $this->updateCopyright();
         }
 
         return true;
