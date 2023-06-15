@@ -101,6 +101,14 @@ class ilMailOptions
             ]
         );
     }
+    
+    private function shouldUseIndividualSettings() : bool
+    {
+        return (
+            $this->settings->get('show_mail_settings') === '1' &&
+            $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
+        );
+    }
 
     protected function read() : void
     {
@@ -109,7 +117,7 @@ class ilMailOptions
             'mail_options.signature, mail_options.linebreak, mail_options.incoming_type,',
             'mail_options.mail_address_option, usr_data.email, usr_data.second_email',
             'FROM mail_options',
-            'LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id',
+            'INNER JOIN usr_data ON mail_options.user_id = usr_data.usr_id',
             'WHERE mail_options.user_id = %s',
         ]);
         $res = $this->db->queryF(
@@ -118,36 +126,39 @@ class ilMailOptions
             [$this->usrId]
         );
         $row = $this->db->fetchObject($res);
-        if ($row !== null) {
-            if ($this->settings->get('show_mail_settings') === '1') {
-                $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
-                $this->signature = (string) $row->signature;
-                $this->linebreak = (int) $row->linebreak;
-                $this->incomingType = (int) $row->incoming_type;
-                $this->emailAddressMode = (int) $row->mail_address_option;
+        if ($row === null) {
+            $this->mailTransportSettings->adjust($this->firstEmailAddress, $this->secondEmailAddress, false);
+            return;
+        }
 
-                if (false === filter_var(
-                    $this->incomingType,
-                    FILTER_VALIDATE_INT,
-                    ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
-                )) {
-                    $this->incomingType = self::INCOMING_LOCAL;
-                }
+        $this->firstEmailAddress = (string) $row->email;
+        $this->secondEmailAddress = (string) $row->second_email;
 
-                if (false === filter_var(
-                    $this->emailAddressMode,
-                    FILTER_VALIDATE_INT,
-                    ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
-                )) {
-                    $this->emailAddressMode = self::FIRST_EMAIL;
-                }
+        if ($this->shouldUseIndividualSettings()) {
+            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+            $this->signature = (string) $row->signature;
+            $this->linebreak = (int) $row->linebreak;
+            $this->incomingType = (int) $row->incoming_type;
+            $this->emailAddressMode = (int) $row->mail_address_option;
+
+            if (false === filter_var(
+                $this->incomingType,
+                FILTER_VALIDATE_INT,
+                ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
+            )) {
+                $this->incomingType = self::INCOMING_LOCAL;
             }
 
-            $this->firstEmailAddress = (string) $row->email;
-            $this->secondEmailAddress = (string) $row->second_email;
-
-            $this->mailTransportSettings->adjust($this->firstEmailAddress, $this->secondEmailAddress);
+            if (false === filter_var(
+                $this->emailAddressMode,
+                FILTER_VALIDATE_INT,
+                ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
+            )) {
+                $this->emailAddressMode = self::FIRST_EMAIL;
+            }
         }
+
+        $this->mailTransportSettings->adjust($this->firstEmailAddress, $this->secondEmailAddress);
     }
 
     public function updateOptions()
