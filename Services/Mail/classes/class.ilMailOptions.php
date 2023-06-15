@@ -91,7 +91,7 @@ class ilMailOptions
             ]
         );
     }
-    
+
     private function shouldUseIndividualSettings(): bool
     {
         return (
