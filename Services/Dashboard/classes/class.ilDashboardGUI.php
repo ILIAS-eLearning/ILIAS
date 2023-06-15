@@ -214,11 +214,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($ggui);
                 $this->tpl->printToStdout();
                 break;
-            case strtolower(ilLearningSequenceBlockGUI::class):
+            case strtolower(ilDashboardLearningSequenceGUI::class):
             case strtolower(ilMembershipBlockGUI::class):
-            case strtolower(ilRecommendedContentBlockGUI::class):
+            case strtolower(ilDashboardRecommendedContentGUI::class):
             case strtolower(ilSelectedItemsBlockGUI::class):
-            case strtolower(ilStudyProgrammeBlockGUI::class):
+            case strtolower(ilDashboardStudyProgrammeGUI::class):
                 $gui = new $next_class();
                 $ret = $this->ctrl->forwardCommand($gui);
                 if ($ret !== "" && $ret !== null) {
@@ -540,12 +540,12 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderRecommendedContent(): string
     {
-        return (new ilRecommendedContentBlockGUI())->getHTML();
+        return (new ilDashboardRecommendedContentGUI())->getHTML();
     }
 
     protected function renderStudyProgrammes(): string
     {
-        return (new ilStudyProgrammeBlockGUI())->getHTML();
+        return (new ilDashboardStudyProgrammeGUI())->getHTML();
     }
 
     protected function renderMemberships(): string
@@ -555,6 +555,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderLearningSequences(): string
     {
-        return (new ilLearningSequenceBlockGUI())->getHTML();
+        return (new ilDashboardLearningSequenceGUI())->getHTML();
     }
 }

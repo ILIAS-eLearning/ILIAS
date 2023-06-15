@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Services\Dashboard\Block\BlockDTO;
 
-class ilRecommendedContentBlockGUI extends ilDashboardBlockGUI
+class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
 {
     private ilFavouritesManager $favourites;
 

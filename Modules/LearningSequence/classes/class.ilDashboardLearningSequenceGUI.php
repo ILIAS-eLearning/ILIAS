@@ -25,7 +25,7 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
  * @ilCtrl_IsCalledBy ilLearningSequenceBlockGUI: ilColumnGUI
  * @ilCtrl_Calls      ilLearningSequenceBlockGUI: ilCommonActionDispatcherGUI
  */
-class ilLearningSequenceBlockGUI extends ilDashboardBlockGUI
+class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 {
     protected function getIcon(string $title): Standard
     {
