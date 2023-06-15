@@ -218,7 +218,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             case strtolower(ilMembershipBlockGUI::class):
             case strtolower(ilDashboardRecommendedContentGUI::class):
             case strtolower(ilSelectedItemsBlockGUI::class):
-            case strtolower(ilDashboardStudyProgrammeGUI::class):
+            case strtolower(ilStudyProgrammeDashboardViewGUI::class):
                 $gui = new $next_class();
                 $ret = $this->ctrl->forwardCommand($gui);
                 if ($ret !== "" && $ret !== null) {
@@ -545,7 +545,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderStudyProgrammes(): string
     {
-        return (new ilDashboardStudyProgrammeGUI())->getHTML();
+        return (new ilStudyProgrammeDashboardViewGUI())->getHTML();
     }
 
     protected function renderMemberships(): string
