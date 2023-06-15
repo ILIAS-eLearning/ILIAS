@@ -129,8 +129,9 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
 
             $validator = new ilCertificateDownloadValidator();
             if ($validator->isCertificateDownloadable($data->getUsrId(), $data->getNodeId())) {
-                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId(
-                ) . "&cmd=deliverCertificate";
+                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $prg->getRefId());
+                $cert_url = $this->ctrl->getLinkTargetByClass(ilRepositoryGUI::class, 'deliverCertificate');
+                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', null);
                 $cert_link = $this->factory->link()->standard($this->lng->txt('download_certificate'), $cert_url);
                 $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
             }
