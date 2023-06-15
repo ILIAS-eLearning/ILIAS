@@ -99,16 +99,15 @@ class ilMarkSchemaGUI
 
                 $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
                 if (!is_numeric($percentage)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mark_schema_invalid'), true);
-                    $this->showMarkSchema();
-                } else {
-                    $this->object->getMarkSchema()->addMarkStep(
-                        ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
-                        ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
-                        (float) $percentage,
-                        (int) ilUtil::stripSlashes($passed)
-                    );
+                    throw new ilException('mark_percentage_invalid');
                 }
+
+                $this->object->getMarkSchema()->addMarkStep(
+                    ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
+                    ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
+                    (float) $percentage,
+                    (int) ilUtil::stripSlashes($passed)
+                );
             }
         }
     }
@@ -165,7 +164,7 @@ class ilMarkSchemaGUI
             $this->saveMarkSchemaFormData();
             $result = $this->object->checkMarks();
         } catch (Exception $e) {
-            $result = $this->lng->txt('mark_schema_invalid');
+            $result = 'mark_schema_invalid';
         }
 
         if (is_string($result)) {
