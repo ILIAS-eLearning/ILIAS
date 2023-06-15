@@ -79,7 +79,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 
     protected function prepareOutput(): void
     {
-        $this->addMultiCommand("delete" . $this->base_cmd . "s", $this->lng->txt("remove"));
+        $this->addMultiCommand("confirmDelete" . $this->base_cmd . "s", $this->lng->txt("remove"));
         if ($this->fallback_mode) {
             $this->addMultiCommand("setFallback", $this->lng->txt("obj_set_fallback_lang"));
         }
