@@ -98,7 +98,7 @@ class ilMailOptions
             ]
         );
     }
-    
+
     private function shouldUseIndividualSettings(): bool
     {
         return (
@@ -141,7 +141,6 @@ class ilMailOptions
         if ($this->shouldUseIndividualSettings()) {
             $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
             $this->signature = (string) $row->signature;
-            $this->linebreak = (int) $row->linebreak;
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
             $this->setAbsenceStatus((bool) $row->absence_status);
