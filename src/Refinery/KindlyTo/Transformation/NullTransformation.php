@@ -26,7 +26,7 @@ class NullTransformation implements Transformation
             return null;
         }
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into null', $from),
+            sprintf('The value "%s" could not be transformed into null', var_export($from, true)),
             'not_null',
             $from
         );
