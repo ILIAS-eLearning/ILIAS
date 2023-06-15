@@ -13035,6 +13035,7 @@ div.ilSideBarContent {
   background-color: white;
   border: 1px solid #dddddd;
   font-size: 90%;
+  z-index: 5;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
