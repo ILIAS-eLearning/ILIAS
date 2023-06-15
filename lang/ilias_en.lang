@@ -11088,7 +11088,7 @@ mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#All Tutors
 mail#:#show_mail_settings#:#Show Mail Settings
-mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
+mail#:#show_mail_settings_info#:'Mail Settings' are visible via the 'Personal Settings' or 'Mail' section. The permission to change these settings depends on the configuration of the user profile in ILIAS. If users do not have the permission to change these profile settings the global default is applied even if users were able to and did change their personal mail settings in the past.
 mail#:#system_notification_installation_changed_by#:#Changed By
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
