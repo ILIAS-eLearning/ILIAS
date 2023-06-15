@@ -2,6 +2,17 @@ import { Emitter } from "@socket.io/component-emitter";
 import { deconstructPacket, reconstructPacket } from "./binary.js";
 import { isBinary, hasBinary } from "./is-binary.js";
 /**
+ * These strings must not be used as event names, as they have a special meaning.
+ */
+const RESERVED_EVENTS = [
+    "connect",
+    "connect_error",
+    "disconnect",
+    "disconnecting",
+    "newListener",
+    "removeListener", // used by the Node.js EventEmitter
+];
+/**
  * Protocol version.
  *
  * @public
@@ -88,6 +99,10 @@ export class Encoder {
         buffers.unshift(pack); // add packet info to beginning of data list
         return buffers; // write all the buffers
     }
+}
+// see https://stackoverflow.com/questions/8511281/check-if-a-value-is-an-object-in-javascript
+function isObject(value) {
+    return Object.prototype.toString.call(value) === "[object Object]";
 }
 /**
  * A socket.io Decoder instance
@@ -228,14 +243,17 @@ export class Decoder extends Emitter {
     static isPayloadValid(type, payload) {
         switch (type) {
             case PacketType.CONNECT:
-                return typeof payload === "object";
+                return isObject(payload);
             case PacketType.DISCONNECT:
                 return payload === undefined;
             case PacketType.CONNECT_ERROR:
-                return typeof payload === "string" || typeof payload === "object";
+                return typeof payload === "string" || isObject(payload);
             case PacketType.EVENT:
             case PacketType.BINARY_EVENT:
-                return Array.isArray(payload) && payload.length > 0;
+                return (Array.isArray(payload) &&
+                    (typeof payload[0] === "number" ||
+                        (typeof payload[0] === "string" &&
+                            RESERVED_EVENTS.indexOf(payload[0]) === -1)));
             case PacketType.ACK:
             case PacketType.BINARY_ACK:
                 return Array.isArray(payload);
