@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 declare(strict_types=1);
 
@@ -151,7 +152,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
@@ -337,7 +338,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
-                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                 if (strpos($user_units, $title) === false) {
                     continue;
                 }

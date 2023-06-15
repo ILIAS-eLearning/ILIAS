@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Pimple\Container;
 
@@ -130,7 +130,7 @@ class ilStudyProgrammeDIC
         $dic['ilStudyProgrammeDelayedEvents'] = static fn ($dic) =>
             new PRGEventsDelayed($dic['ilStudyProgrammeEvents']);
 
-        $dic['repo.assignment'] =  static fn ($dic) =>
+        $dic['repo.assignment'] = static fn ($dic) =>
             new ilPRGAssignmentDBRepository(
                 $DIC['ilDB'],
                 $DIC['tree'],
@@ -200,7 +200,8 @@ class ilStudyProgrammeDIC
                 $dic['DataFactory'],
                 new ilConfirmationGUI(),
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory'],
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn ($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(
@@ -230,7 +231,8 @@ class ilStudyProgrammeDIC
                 $DIC['tree'],
                 $DIC['rbacadmin'],
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory']
             );
         $dic['ilStudyProgrammeTypeGUI'] = static fn ($dic) =>
             new ilStudyProgrammeTypeGUI(
@@ -243,7 +245,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilTabs'],
                 $DIC['ilUser'],
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
-                $DIC->ui()->factory()->input(),
+                $DIC->ui()->factory(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
@@ -364,6 +366,19 @@ class ilStudyProgrammeDIC
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
 
+        $dic['pc.statusinfo'] = static fn ($dic) =>
+            new ilPRGStatusInfoBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                new ilCertificateDownloadValidator(),
+                $dic['current_user']->getId()
+            );
+
         $dic['cron.riskyToFail'] = static fn ($dic) =>
             new ilPrgRiskyToFail(
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
@@ -379,7 +394,7 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-
+        $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
 
         return $dic;
     }

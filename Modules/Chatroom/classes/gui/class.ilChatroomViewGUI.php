@@ -143,37 +143,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'broadcast_typing' => $chat_user->enabledBroadcastTyping(),
         ];
 
-        $smileys = [];
-
-        if ($settings->getSmiliesEnabled()) {
-            $smileys_array = ilChatroomSmilies::_getSmilies();
-            foreach ($smileys_array as $smiley_array) {
-                $new_keys = [];
-                $new_val = '';
-                foreach ($smiley_array as $key => $value) {
-                    if ($key === 'smiley_keywords') {
-                        $new_keys = explode("\n", $value);
-                    }
-
-                    if ($key === 'smiley_fullpath') {
-                        $new_val = $value;
-                    }
-                }
-
-                if (!$new_keys || !$new_val) {
-                    continue;
-                }
-
-                foreach ($new_keys as $new_key) {
-                    $smileys[$new_key] = $new_val;
-                }
-            }
-
-            $initial->smileys = $smileys;
-        } else {
-            $initial->smileys = '{}';
-        }
-
         $initial->messages = [];
 
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');

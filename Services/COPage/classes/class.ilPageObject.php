@@ -49,6 +49,7 @@ define("IL_INSERT_CHILD", 2);
  */
 abstract class ilPageObject
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected int $create_user = 0;
@@ -66,10 +67,10 @@ abstract class ilPageObject
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected int $id;
-    public ?php4DOMDocument $dom = null;
+    public ?DOMDocument $dom = null;
     public string $xml = "";
     public string $encoding = "";
-    public php4DOMElement $node;
+    public DomNode $node;
     public string $cur_dtd = "ilias_pg_8.dtd";
     public bool $contains_int_link = false;
     public bool $needs_parsing = false;
@@ -100,6 +101,7 @@ abstract class ilPageObject
     protected $concrete_lang = "";
     protected \ILIAS\COPage\ID\ContentIdManager $content_id_manager;
     protected \ILIAS\COPage\Page\PageManager $page_manager;
+    protected \ILIAS\COPage\Style\StyleManager $style_manager;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
 
     final public function __construct(
@@ -156,16 +158,10 @@ abstract class ilPageObject
             ->contentIds($this);
         $this->page_manager = $domain->page();
         $this->pc_service = $domain->pc();
-        $this->pc_definition = $DIC
-            ->copage()
-            ->internal()
-            ->domain()
-            ->pc()
-            ->definition();
-        $this->link = $DIC->copage()
-            ->internal()
-            ->domain()
-            ->link();
+        $this->pc_definition = $domain->pc()->definition();
+        $this->link = $domain->link();
+        $this->style_manager = $domain->style();
+        $this->dom_util = $domain->domUtil();
     }
 
     public function setContentIdManager(
@@ -382,16 +378,12 @@ abstract class ilPageObject
         if ($this->dom_builded && !$a_force) {
             return true;
         }
-        $options = 0;
-        //$options = DOMXML_LOAD_VALIDATING;
-        //$options = LIBXML_DTDLOAD;
-        //$options = LIBXML_NOXMLDECL;
-        $this->dom = domxml_open_mem($this->getXMLContent(true), $options, $error);
-        $xpc = xpath_new_context($this->dom);
+        $error = null;
+        $this->dom = $this->dom_util->docFromString($this->getXMLContent(true), $error);
         $path = "//PageObject";
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) == 1) {
-            $this->node = $res->nodeset[0];
+        $nodes = $this->dom_util->path($this->dom, $path);
+        if (count($nodes) == 1) {
+            $this->node = $nodes->item(0);
         }
 
         if (empty($error)) {
@@ -408,24 +400,11 @@ abstract class ilPageObject
     }
 
     /**
-     * @depracated
-     */
-    public function getDom(): ?php4DOMDocument
-    {
-        return $this->dom;
-    }
-
-    /**
      * Get dom doc (DOMDocument)
      */
     public function getDomDoc(): DOMDocument
     {
-        if ($this->dom instanceof php4DOMDocument) {
-            return $this->dom->myDOMDocument;
-        }
-        /** @var DOMDocument $dom */
-        $dom = $this->dom;
-        return $dom;
+        return $this->dom;
     }
 
     public function setId(int $a_id): void
@@ -734,58 +713,24 @@ abstract class ilPageObject
     public function getParentContentObjectForPcId(string $pcid): ?ilPageContent
     {
         $content_object = $this->getContentObjectForPcId($pcid);
-        $node = $content_object->getNode();
-        $node = $node->parent_node();
+        $node = $content_object->getDomNode();
+        $node = $node->parentNode;
         while ($node) {
-            if ($node->node_name() == "PageContent") {
-                $pcid = $node->get_attribute("PCID");
+            if ($node->nodeName == "PageContent") {
+                $pcid = $node->getAttribute("PCID");
                 if ($pcid != "") {
                     return $this->getContentObjectForPcId($pcid);
                 }
             }
-            $node = $node->parent_node();
-        }
-        return null;
-    }
-
-    /**
-     * @deprecated use getContentDomNode instead
-     */
-    public function getContentNode(string $a_hier_id, string $a_pc_id = ""): ?php4DOMElement
-    {
-        $xpc = xpath_new_context($this->dom);
-        if ($a_hier_id == "pg") {
-            return $this->node;
-        } else {
-            // get per pc id
-            if ($a_pc_id != "") {
-                $path = "//*[@PCID = '$a_pc_id']";
-                $res = xpath_eval($xpc, $path);
-                if (count($res->nodeset) == 1) {
-                    $cont_node = $res->nodeset[0];
-                    return $cont_node;
-                }
-            }
-
-            // fall back to hier id
-            $path = "//*[@HierId = '$a_hier_id']";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) == 1) {
-                $cont_node = $res->nodeset[0];
-                return $cont_node;
-            }
+            $node = $node->parentNode;
         }
         return null;
     }
 
     public function getContentDomNode(string $a_hier_id, string $a_pc_id = ""): ?DOMNode
     {
-        return $this->getContentNode($a_hier_id, $a_pc_id)?->myDOMNode;
-    }
-
-    public function getNode(): php4DOMElement
-    {
-        return $this->node;
+        $cm = $this->page_manager->content($this->getDomDoc());
+        return $cm->getContentDomNode($a_hier_id, $a_pc_id);
     }
 
     /**
@@ -844,68 +789,27 @@ s     */
         int $a_new_parent_id = 0,
         int $obj_copy_id = 0
     ): string {
-        $xml = $this->getXMLContent();
-        $temp_dom = domxml_open_mem(
-            '<?xml version="1.0" encoding="UTF-8"?>' . $xml,
-            DOMXML_LOAD_PARSING,
-            $error
+        $cm = $this->page_manager->contentFromXml($this->getXMLContent());
+        return $cm->copyXmlContent(
+            $a_clone_mobs,
+            $a_new_parent_id,
+            $obj_copy_id
         );
-        if (empty($error)) {
-            $this->handleCopiedContent($temp_dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
-        }
-        $xml = $temp_dom->dump_mem(0, $this->encoding);
-        $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
-        $xml = preg_replace('/<!DOCTYPE[^>]*>/i', "", $xml);
-
-        return $xml;
     }
 
     // @todo 1: begin: generalize, remove concrete dependencies
 
-    /**
-     * Handle copied content
-     * This function copies items, that must be copied, if page
-     * content is duplicated.
-     * Currently called by
-     * - copyXmlContent
-     * - called by pasteContents
-     * - called by ilPageEditorGUI->paste -> pasteContents
-     */
-    public function handleCopiedContent(
-        php4DOMDocument $a_dom,
-        bool $a_self_ass = true,
-        bool $a_clone_mobs = false,
-        int $new_parent_id = 0,
-        int $obj_copy_id = 0
-    ): void {
-        $defs = $this->pc_definition->getPCDefinitions();
-
-        // @todo 1: move all functions from above to the new domdoc
-        $dom = $a_dom;
-        if ($a_dom instanceof php4DOMDocument) {
-            $dom = $a_dom->myDOMDocument;
-        }
-        foreach ($defs as $def) {
-            $cl = $def["pc_class"];
-            if ($cl == 'ilPCPlugged') {
-                // the page object is provided for ilPageComponentPlugin
-                ilPCPlugged::handleCopiedPluggedContent($this, $dom);
-            } else {
-                $cl::handleCopiedContent($dom, $a_self_ass, $a_clone_mobs, $new_parent_id, $obj_copy_id);
-            }
-        }
-    }
 
     /**
      * Handle content before deletion
      * This currently treats only plugged content
      * If no node is given, then the whole dom will be scanned
-     * @param php4DOMNode|DOMNode|null $a_node
+     * @param DOMNode|null $a_node
      */
-    public function handleDeleteContent($a_node = null, $move_operation = false): void
+    public function handleDeleteContent(?DOMNode $a_node = null, $move_operation = false): void
     {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->handleDeleteContent($a_node, $move_operation);
+        $pm->handleDeleteContent($this, $a_node, $move_operation);
     }
 
     /**
@@ -922,7 +826,7 @@ s     */
     ): string {
         if ($a_incl_head) {
             //echo "\n<br>#".$this->encoding."#";
-            return $this->dom->dump_mem(0, $this->encoding);
+            return $this->dom_util->dump($this->node);
         } else {
             // append multimedia object elements
             if ($a_append_mobs || $a_append_bib) {
@@ -937,17 +841,16 @@ s     */
                 }
                 $trans = $this->getLanguageVariablesXML($style_id);
                 //echo htmlentities($this->dom->dump_node($this->node)); exit;
-                return "<dummy>" . $this->dom->dump_node($this->node) . $mobs . $bibs . $trans . $a_append_str . "</dummy>";
+                return "<dummy>" . $this->dom_util->dump($this->node) . $mobs . $bibs . $trans . $a_append_str . "</dummy>";
             } else {
                 if (is_object($this->dom)) {
                     if ($a_omit_pageobject_tag) {
                         $xml = "";
-                        $childs = $this->node->child_nodes();
-                        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
-                            $xml .= $this->dom->dump_node($childs[$i]);
+                        foreach ($this->node->childNodes as $child) {
+                            $xml .= $this->dom_util->dump($child);
                         }
                     } else {
-                        $xml = $this->dom->dump_mem(0, $this->encoding);
+                        $xml = $this->dom_util->dump($this->node);
                         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
                         $xml = preg_replace('/<!DOCTYPE[^>]*>/i', "", $xml);
 
@@ -1173,7 +1076,7 @@ s     */
         //libxml_disable_entity_loader(false);
 
         $error = null;
-        $this->dom->validate($error);
+        $this->dom_util->validate($this->dom, $error);
         return $error;
     }
 
@@ -1240,7 +1143,7 @@ s     */
      */
     public function resolveIntLinks(array $a_link_map = null): bool
     {
-        $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
+        return $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
     }
 
     /**
@@ -1252,7 +1155,7 @@ s     */
         bool $a_reuse_existing_by_import = false
     ): bool {
         return $this->pc_service->mediaObject()->resolveMediaAliases(
-            $this->getDomDoc(),
+            $this,
             $a_mapping,
             $a_reuse_existing_by_import
         );
@@ -1285,240 +1188,31 @@ s     */
     /**
      * Resolve all quesiont references
      * (after import)
-     * @todo: move to question classes
      */
     public function resolveQuestionReferences(array $a_mapping): bool
     {
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//Question";
-        $res = xpath_eval($xpc, $path);
-        $updated = false;
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $qref = $res->nodeset[$i]->get_attribute("QRef");
-
-            if (isset($a_mapping[$qref])) {
-                $res->nodeset[$i]->set_attribute("QRef", "il__qst_" . $a_mapping[$qref]["pool"]);
-                $updated = true;
-            }
-        }
-        unset($xpc);
-
-        return $updated;
+        $qm = $this->pc_service->question();
+        return $qm->resolveQuestionReferences(
+            $this->getDomDoc(),
+            $a_mapping
+        );
     }
 
 
     /**
      * Move internal links from one destination to another. This is used
      * for pages and structure links. Just use IDs in "from" and "to".
-     * @todo: generalize, internal links usage info
      */
     public function moveIntLinks(array $a_from_to): bool
     {
         $this->buildDom();
-
-        $changed = false;
-
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-            $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
-            if (($a_from_to[$obj_id] ?? 0) > 0 && is_int(strpos($target, "__"))) {
-                if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg") {
-                    $res->nodeset[$i]->set_attribute("Target", "il__pg_" . $a_from_to[$obj_id]);
-                    $changed = true;
-                }
-                if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st") {
-                    $res->nodeset[$i]->set_attribute("Target", "il__st_" . $a_from_to[$obj_id]);
-                    $changed = true;
-                }
-                if ($type == "PortfolioPage") {
-                    $res->nodeset[$i]->set_attribute("Target", "il__ppage_" . $a_from_to[$obj_id]);
-                    $changed = true;
-                }
-            }
-        }
-        unset($xpc);
-
-        // map areas
         $this->addHierIDs();
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaAlias";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $media_object_node = $res->nodeset[$i]->parent_node();
-            $page_content_node = $media_object_node->parent_node();
-            $c_hier_id = $page_content_node->get_attribute("HierId");
-
-            // first check, wheter we got instance map areas -> take these
-            $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
-                $c_hier_id,
-                "Standard"
-            );
-            $areas = $std_alias_item->getMapAreas();
-            $correction_needed = false;
-            if (count($areas) > 0) {
-                // check if correction needed
-                foreach ($areas as $area) {
-                    if ($area["Type"] == "PageObject" ||
-                        $area["Type"] == "StructureObject") {
-                        $t = $area["Target"];
-                        $tid = ilInternalLink::_extractObjIdOfTarget($t);
-                        if ($a_from_to[$tid] > 0) {
-                            $correction_needed = true;
-                        }
-                    }
-                }
-            } else {
-                $areas = array();
-
-                // get object map areas and check whether at least one must
-                // be corrected
-                $oid = $res->nodeset[$i]->get_attribute("OriginId");
-                if (substr($oid, 0, 4) == "il__") {
-                    $id_arr = explode("_", $oid);
-                    $id = $id_arr[count($id_arr) - 1];
-
-                    $mob = new ilObjMediaObject($id);
-                    $med_item = $mob->getMediaItem("Standard");
-                    $med_areas = $med_item->getMapAreas();
-
-                    foreach ($med_areas as $area) {
-                        $link_type = ($area->getLinkType() == "int")
-                            ? "IntLink"
-                            : "ExtLink";
-
-                        $areas[] = array(
-                            "Nr" => $area->getNr(),
-                            "Shape" => $area->getShape(),
-                            "Coords" => $area->getCoords(),
-                            "Link" => array(
-                                "LinkType" => $link_type,
-                                "Href" => $area->getHref(),
-                                "Title" => $area->getTitle(),
-                                "Target" => $area->getTarget(),
-                                "Type" => $area->getType(),
-                                "TargetFrame" => $area->getTargetFrame()
-                            )
-                        );
-
-                        if ($area->getType() == "PageObject" ||
-                            $area->getType() == "StructureObject") {
-                            $t = $area->getTarget();
-                            $tid = ilInternalLink::_extractObjIdOfTarget($t);
-                            if ($a_from_to[$tid] > 0) {
-                                $correction_needed = true;
-                            }
-                            //var_dump($a_from_to);
-                        }
-                    }
-                }
-            }
-
-            // correct map area links
-            if ($correction_needed) {
-                $changed = true;
-                $std_alias_item->deleteAllMapAreas();
-                foreach ($areas as $area) {
-                    if ($area["Link"]["LinkType"] == "IntLink") {
-                        $target = $area["Link"]["Target"];
-                        $type = $area["Link"]["Type"];
-                        $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
-                        if ($a_from_to[$obj_id] > 0) {
-                            if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg") {
-                                $area["Link"]["Target"] = "il__pg_" . $a_from_to[$obj_id];
-                            }
-                            if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st") {
-                                $area["Link"]["Target"] = "il__st_" . $a_from_to[$obj_id];
-                            }
-                        }
-                    }
-
-                    $std_alias_item->addMapArea(
-                        $area["Shape"],
-                        $area["Coords"],
-                        $area["Link"]["Title"],
-                        array("Type" => $area["Link"]["Type"],
-                              "TargetFrame" => $area["Link"]["TargetFrame"],
-                              "Target" => $area["Link"]["Target"],
-                              "Href" => $area["Link"]["Href"],
-                              "LinkType" => $area["Link"]["LinkType"],
-                        )
-                    );
-                }
-            }
-        }
-        unset($xpc);
-
-        return $changed;
-    }
-
-    /**
-     * Change targest of repository links. Use full targets in "from" and "to"!!!
-     * @todo: generalize, internal links usage info
-     */
-    public static function _handleImportRepositoryLinks(
-        int $a_rep_import_id,
-        string $a_rep_type,
-        int $a_rep_ref_id
-    ): void {
-        //echo "-".$a_rep_import_id."-".$a_rep_ref_id."-";
-        $sources = ilInternalLink::_getSourcesOfTarget(
-            "obj",
-            ilInternalLink::_extractObjIdOfTarget($a_rep_import_id),
-            ilInternalLink::_extractInstOfTarget($a_rep_import_id)
+        return $this->link->moveIntLinks(
+            $this->getDomDoc(),
+            $a_from_to
         );
-        //var_dump($sources);
-        foreach ($sources as $source) {
-            if ($source["type"] == "lm:pg") {
-                if (self::_exists("lm", $source["id"], $source["lang"])) {
-                    $page_obj = new ilLMPage($source["id"], 0, $source["lang"]);
-                    if (!$page_obj->page_not_found) {
-                        $page_obj->handleImportRepositoryLink(
-                            $a_rep_import_id,
-                            $a_rep_type,
-                            $a_rep_ref_id
-                        );
-                    }
-                    $page_obj->update();
-                }
-            }
-        }
     }
 
-    // @todo: generalize, internal links usage info
-    public function handleImportRepositoryLink(
-        string $a_rep_import_id,
-        string $a_rep_type,
-        int $a_rep_ref_id
-    ): void {
-        $this->buildDom();
-
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        //echo "1";
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            //echo "2";
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-            if ($target == $a_rep_import_id && $type == "RepositoryItem") {
-                //echo "setting:"."il__".$a_rep_type."_".$a_rep_ref_id;
-                $res->nodeset[$i]->set_attribute(
-                    "Target",
-                    "il__" . $a_rep_type . "_" . $a_rep_ref_id
-                );
-            }
-        }
-        unset($xpc);
-    }
 
     /**
      * Handle repository links on copy process
@@ -1527,14 +1221,11 @@ s     */
         array $a_mapping,
         int $a_source_ref_id
     ): void {
-        $type = "";
-        $tree = $this->tree;
-        $objDefinition = $this->obj_definition;
-
         $this->buildDom();
+
+        $tree = $this->tree;
         $this->log->debug("Handle repository links...");
 
-        // pc classes hook, @todo: move rest of function to this hook, too
         $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
             if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
@@ -1542,137 +1233,7 @@ s     */
             }
         }
 
-
-        // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-            $this->log->debug("Target: " . $target);
-            $t = explode("_", $target);
-            if ($type == "RepositoryItem" && ((int) $t[1] == 0 || (int) $t[1] == IL_INST_ID)) {
-                if (isset($a_mapping[$t[3]])) {
-                    // we have a mapping -> replace the ID
-                    $this->log->debug("... replace " . $t[3] . " with " . $a_mapping[$t[3]] . ".");
-                    $res->nodeset[$i]->set_attribute(
-                        "Target",
-                        "il__obj_" . $a_mapping[$t[3]]
-                    );
-                } elseif ($this->tree->isGrandChild($a_source_ref_id, $t[3])) {
-                    // we have no mapping, but the linked object is child of the original node -> remove link
-                    $this->log->debug("... remove links.");
-                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {    // simply remove map areas
-                        $parent = $res->nodeset[$i]->parent_node();
-                        $parent->unlink_node($parent);
-                    } else {    // replace link by content of the link for other internal links
-                        $source_node = $res->nodeset[$i];
-                        $new_node = $source_node->clone_node(true);
-                        $new_node->unlink_node($new_node);
-                        $childs = $new_node->child_nodes();
-                        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
-                            $this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
-                            $source_node->insert_before($childs[$j], $source_node);
-                        }
-                        $source_node->unlink_node($source_node);
-                    }
-                }
-            }
-        }
-        unset($xpc);
-
-        // resolve normal external links
-        $ilias_url = parse_url(ILIAS_HTTP_PATH);
-        $xpc = xpath_new_context($this->dom);
-        $path = "//ExtLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $href = $res->nodeset[$i]->get_attribute("Href");
-            $this->log->debug("Href: " . $href);
-
-            $url = parse_url($href);
-
-            // only handle links on same host
-            $this->log->debug("Host: " . ($url["host"] ?? ""));
-            if (($url["host"] ?? "") !== "" && $url["host"] !== $ilias_url["host"]) {
-                continue;
-            }
-
-            // get parameters
-            $par = [];
-            if (substr($href, strlen($href) - 5) === ".html") {
-                $parts = explode(
-                    "_",
-                    basename(
-                        substr($url["path"], 0, strlen($url["path"]) - 5)
-                    )
-                );
-                if (array_shift($parts) !== "goto") {
-                    continue;
-                }
-                $par["client_id"] = array_shift($parts);
-                $par["target"] = implode("_", $parts);
-            } else {
-                foreach (explode("&", ($url["query"] ?? "")) as $p) {
-                    $p = explode("=", $p);
-                    if (isset($p[0]) && isset($p[1])) {
-                        $par[$p[0]] = $p[1];
-                    }
-                }
-            }
-
-            $target_client_id = $par["client_id"] ?? "";
-            if ($target_client_id != "" && $target_client_id != CLIENT_ID) {
-                continue;
-            }
-
-            // get ref id
-            $ref_id = 0;
-            if (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) ($par["ref_id"] ?? 0);
-            } elseif (isset($par["target"]) && $par["target"] !== "") {
-                $t = explode("_", $par["target"]);
-                if ($objDefinition->isRBACObject($t[0] ?? "")) {
-                    $ref_id = (int) ($t[1] ?? 0);
-                    $type = $t[0] ?? "";
-                }
-            }
-            if ($ref_id > 0) {
-                if (isset($a_mapping[$ref_id])) {
-                    $new_ref_id = $a_mapping[$ref_id];
-                    // we have a mapping -> replace the ID
-                    if (is_int(strpos($href, "ilias.php"))) {
-                        $new_href = str_replace("ref_id=" . ($par["ref_id"] ?? ""), "ref_id=" . $new_ref_id, $href);
-                    } else {
-                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
-                        $new_href = str_replace($par["target"], $nt, $href);
-                    }
-                    if ($new_href != "") {
-                        $this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
-                        $res->nodeset[$i]->set_attribute("Href", $new_href);
-                    }
-                } elseif ($tree->isGrandChild($a_source_ref_id, $ref_id)) {
-                    // we have no mapping, but the linked object is child of the original node -> remove link
-                    $this->log->debug("... remove ext links.");
-                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {    // simply remove map areas
-                        $parent = $res->nodeset[$i]->parent_node();
-                        $parent->unlink_node($parent);
-                    } else {    // replace link by content of the link for other internal links
-                        $source_node = $res->nodeset[$i];
-                        $new_node = $source_node->clone_node(true);
-                        $new_node->unlink_node($new_node);
-                        $childs = $new_node->child_nodes();
-                        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
-                            $this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
-                            $source_node->insert_before($childs[$j], $source_node);
-                        }
-                        $source_node->unlink_node($source_node);
-                    }
-                }
-            }
-        }
-        unset($xpc);
+        $this->link->handleRepositoryLinksOnCopy($this->getDomDoc(), $a_mapping, $a_source_ref_id, $tree);
     }
 
     /**
@@ -2096,106 +1657,11 @@ s     */
         DOMDocument $a_domdoc,
         int $a_old_nr = 0
     ): void {
-        $sname = "";
-        $stype = "";
-        $template = "";
-        // media aliases
-        $xpath = new DOMXPath($a_domdoc);
-        $path = "//Paragraph | //Section | //MediaAlias | //FileItem" .
-            " | //Table | //TableData | //Tabs | //List";
-        $nodes = $xpath->query($path);
-        $usages = array();
-        foreach ($nodes as $node) {
-            switch ($node->localName) {
-                case "Paragraph":
-                    $sname = $node->getAttribute("Characteristic");
-                    $stype = "text_block";
-                    $template = 0;
-                    break;
-
-                case "Section":
-                    $sname = $node->getAttribute("Characteristic");
-                    $stype = "section";
-                    $template = 0;
-                    break;
-
-                case "MediaAlias":
-                    $sname = $node->getAttribute("Class");
-                    $stype = "media_cont";
-                    $template = 0;
-                    break;
-
-                case "FileItem":
-                    $sname = $node->getAttribute("Class");
-                    $stype = "flist_li";
-                    $template = 0;
-                    break;
-
-                case "Table":
-                    $sname = $node->getAttribute("Template");
-                    if ($sname == "") {
-                        $sname = $node->getAttribute("Class");
-                        $stype = "table";
-                        $template = 0;
-                    } else {
-                        $stype = "table";
-                        $template = 1;
-                    }
-                    break;
-
-                case "TableData":
-                    $sname = $node->getAttribute("Class");
-                    $stype = "table_cell";
-                    $template = 0;
-                    break;
-
-                case "Tabs":
-                    $sname = $node->getAttribute("Template");
-                    if ($sname != "") {
-                        if ($node->getAttribute("Type") == "HorizontalAccordion") {
-                            $stype = "haccordion";
-                        }
-                        if ($node->getAttribute("Type") == "VerticalAccordion") {
-                            $stype = "vaccordion";
-                        }
-                    }
-                    $template = 1;
-                    break;
-
-                case "List":
-                    $sname = $node->getAttribute("Class");
-                    if ($node->getAttribute("Type") == "Ordered") {
-                        $stype = "list_o";
-                    } else {
-                        $stype = "list_u";
-                    }
-                    $template = 0;
-                    break;
-            }
-            if ($sname != "" && $stype != "") {
-                $usages[$sname . ":" . $stype . ":" . $template] = array("sname" => $sname,
-                                                                         "stype" => $stype,
-                                                                         "template" => $template
-                );
-            }
-        }
-
-        $this->deleteStyleUsages($a_old_nr);
-
-        foreach ($usages as $u) {
-            $id = $this->db->nextId('page_style_usage');
-            $this->db->manipulate("INSERT INTO page_style_usage " .
-                "(id, page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (" .
-                $this->db->quote($id, "integer") . "," .
-                $this->db->quote($this->getId(), "integer") . "," .
-                $this->db->quote($this->getParentType(), "text") . "," .
-                $this->db->quote($this->getLanguage(), "text") . "," .
-                $this->db->quote($a_old_nr, "integer") . "," .
-                $this->db->quote($u["template"], "integer") . "," .
-                $this->db->quote($u["stype"], "text") . "," .
-                $this->db->quote($u["sname"], "text") .
-                ")");
-        }
+        $this->style_manager->saveStyleUsage(
+            $this,
+            $a_domdoc,
+            $a_old_nr
+        );
     }
 
     /**
@@ -2203,20 +1669,8 @@ s     */
      */
     public function deleteStyleUsages(int $a_old_nr = 0): void
     {
-        $and_old_nr = "";
-        if ($a_old_nr !== 0) {
-            $and_old_nr = " AND page_nr = " . $this->db->quote($a_old_nr, "integer");
-        }
-
-        $this->db->manipulate(
-            "DELETE FROM page_style_usage WHERE " .
-            " page_id = " . $this->db->quote($this->getId(), "integer") .
-            " AND page_type = " . $this->db->quote($this->getParentType(), "text") .
-            " AND page_lang = " . $this->db->quote($this->getLanguage(), "text") .
-            $and_old_nr
-        );
+        $this->style_manager->deleteStyleUsages($this, $a_old_nr);
     }
-
 
     /**
      * Get last update of included elements (media objects and files).
@@ -2242,11 +1696,7 @@ s     */
      */
     public function deleteInternalLinks(): void
     {
-        ilInternalLink::_deleteAllLinksOfSource(
-            $this->getParentType() . ":pg",
-            $this->getId(),
-            $this->getLanguage()
-        );
+        $this->link->deleteInternalLinks($this);
     }
 
 
@@ -2256,74 +1706,10 @@ s     */
      */
     public function saveInternalLinks(DOMDocument $a_domdoc): void
     {
-        $this->deleteInternalLinks();
-        $t_type = "";
-        // query IntLink elements
-        $xpath = new DOMXPath($a_domdoc);
-        $nodes = $xpath->query('//IntLink');
-        foreach ($nodes as $node) {
-            $link_type = $node->getAttribute("Type");
-
-            switch ($link_type) {
-                case "StructureObject":
-                    $t_type = "st";
-                    break;
-
-                case "PageObject":
-                    $t_type = "pg";
-                    break;
-
-                case "GlossaryItem":
-                    $t_type = "git";
-                    break;
-
-                case "MediaObject":
-                    $t_type = "mob";
-                    break;
-
-                case "RepositoryItem":
-                    $t_type = "obj";
-                    break;
-
-                case "File":
-                    $t_type = "file";
-                    break;
-
-                case "WikiPage":
-                    $t_type = "wpage";
-                    break;
-
-                case "PortfolioPage":
-                    $t_type = "ppage";
-                    break;
-
-                case "User":
-                    $t_type = "user";
-                    break;
-            }
-
-            $target = $node->getAttribute("Target");
-            $target_arr = explode("_", $target);
-            $t_id = $target_arr[count($target_arr) - 1];
-
-            // link to other internal object
-            if (is_int(strpos($target, "__"))) {
-                $t_inst = 0;
-            } else {    // link to unresolved object in other installation
-                $t_inst = (int) ($target_arr[1] ?? 0);
-            }
-
-            if ($t_id > 0) {
-                ilInternalLink::_saveLink(
-                    $this->getParentType() . ":pg",
-                    $this->getId(),
-                    $t_type,
-                    $t_id,
-                    $t_inst,
-                    $this->getLanguage()
-                );
-            }
-        }
+        $this->link->saveInternalLinks(
+            $this,
+            $a_domdoc
+        );
     }
 
     /**
@@ -2347,7 +1733,7 @@ s     */
         bool $move_operation = false
     ) {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->deleteContent($a_hid, $a_pcid, $move_operation);
+        $pm->deleteContent($this, $a_hid, $a_pcid, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -2368,7 +1754,7 @@ s     */
         bool $move_operation = false
     ) {
         $pm = $this->page_manager->content($this->getDomDoc());
-        $pm->deleteContents($a_hids, $a_self_ass, $move_operation);
+        $pm->deleteContents($this, $a_hids, $a_self_ass, $move_operation);
         if ($a_update) {
             return $this->update();
         }
@@ -2396,59 +1782,8 @@ s     */
      */
     public function copyContents(array $a_hids): void
     {
-        $user = $this->user;
-
-        $pc_id = null;
-
-        if (!is_array($a_hids)) {
-            return;
-        }
-
-        $time = date("Y-m-d H:i:s", time());
-
-        $hier_ids = array();
-        $skip = array();
-        foreach ($a_hids as $a_hid) {
-            if ($a_hid == "") {
-                continue;
-            }
-            $a_hid = explode(":", $a_hid);
-
-            // check, whether new hid is child of existing one or vice versa
-            reset($hier_ids);
-            foreach ($hier_ids as $h) {
-                if ($h . "_" == substr($a_hid[0], 0, strlen($h) + 1)) {
-                    $skip[] = $a_hid[0];
-                }
-                if ($a_hid[0] . "_" == substr($h, 0, strlen($a_hid[0]) + 1)) {
-                    $skip[] = $h;
-                }
-            }
-            $pc_id[$a_hid[0]] = $a_hid[1];
-            if ($a_hid[0] != "") {
-                $hier_ids[$a_hid[0]] = $a_hid[0];
-            }
-        }
-        foreach ($skip as $s) {
-            unset($hier_ids[$s]);
-        }
-        $hier_ids = ilPageContent::sortHierIds($hier_ids);
-        $nr = 1;
-        foreach ($hier_ids as $hid) {
-            $curr_node = $this->getContentNode($hid, $pc_id[$hid]);
-            if (is_object($curr_node)) {
-                if ($curr_node->node_name() == "PageContent") {
-                    $content = $this->dom->dump_node($curr_node);
-                    // remove pc and hier ids
-                    $content = preg_replace('/PCID=\"[a-z0-9]*\"/i', "", $content);
-                    $content = preg_replace('/HierId=\"[a-z0-9_]*\"/i', "", $content);
-
-                    $user->addToPCClipboard($content, $time, $nr);
-                    $nr++;
-                }
-            }
-        }
-        ilEditClipboard::setAction("copy");
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->copyContents($a_hids, $this->user);
     }
 
     /**
@@ -2461,39 +1796,12 @@ s     */
         bool $a_self_ass = false
     ) {
         $user = $this->user;
-
-        $a_hid = explode(":", $a_hier_id);
-        $content = $user->getPCClipboardContent();
-
-        // we insert from last to first, because we insert all at the
-        // same hier_id
-        for ($i = count($content) - 1; $i >= 0; $i--) {
-            $c = $content[$i];
-            $temp_dom = domxml_open_mem(
-                '<?xml version="1.0" encoding="UTF-8"?>' . $c,
-                DOMXML_LOAD_PARSING,
-                $error
-            );
-            if (empty($error)) {
-                $this->handleCopiedContent($temp_dom, $a_self_ass);
-                $xpc = xpath_new_context($temp_dom);
-                $path = "//PageContent";
-                $res = xpath_eval($xpc, $path);
-                if (count($res->nodeset) > 0) {
-                    $new_pc_node = $res->nodeset[0];
-                    $cloned_pc_node = $new_pc_node->clone_node(true);
-                    $cloned_pc_node->unlink_node($cloned_pc_node);
-                    $this->insertContentNode(
-                        $cloned_pc_node,
-                        $a_hid[0],
-                        IL_INSERT_AFTER,
-                        $a_hid[1]
-                    );
-                }
-            } else {
-                //var_dump($error);
-            }
-        }
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->pasteContents(
+            $user,
+            $a_hier_id,
+            $a_self_ass
+        );
         return $this->update();
     }
 
@@ -2518,123 +1826,6 @@ s     */
     }
 
     /**
-     * delete content object with hierarchical id >= $a_hid
-     * as part of a split page operation
-     * @param string  $a_hid hierarchical id of content object
-     * @param bool $a_update update page in db (note: update deletes all
-     *                       hierarchical ids in DOM!)
-     * @return array|bool
-     * @throws ilDateTimeException
-     */
-    public function deleteContentFromHierId(
-        string $a_hid,
-        bool $a_update = true
-    ) {
-        $hier_ids = $this->getHierIds();
-
-        // iterate all hierarchical ids
-        foreach ($hier_ids as $hier_id) {
-            // delete top level nodes only
-            if (!is_int(strpos($hier_id, "_"))) {
-                if ($hier_id != "pg" && $hier_id >= $a_hid) {
-                    $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node, true);
-                    $curr_node->unlink_node($curr_node);
-                }
-            }
-        }
-        if ($a_update) {
-            return $this->update();
-        }
-        return true;
-    }
-
-    /**
-     * delete content object with hierarchical id < $a_hid
-     * as part of the split page operation
-     * @param string  $a_hid              hierarchical id of content object
-     * @param bool $a_update           update page in db (note: update deletes all
-     *                                    hierarchical ids in DOM!)
-     * @return array|bool
-     * @throws ilDateTimeException
-     */
-    public function deleteContentBeforeHierId(
-        string $a_hid,
-        bool $a_update = true
-    ) {
-        $hier_ids = $this->getHierIds();
-
-        // iterate all hierarchical ids
-        foreach ($hier_ids as $hier_id) {
-            // delete top level nodes only
-            if (!is_int(strpos($hier_id, "_"))) {
-                if ($hier_id != "pg" && $hier_id < $a_hid) {
-                    $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node, true);
-                    $curr_node->unlink_node($curr_node);
-                }
-            }
-        }
-        if ($a_update) {
-            return $this->update();
-        }
-        return true;
-    }
-
-    /**
-     * move content of hierarchical id >= $a_hid to other page
-     * @throws ilDateTimeException
-     */
-    public static function _moveContentAfterHierId(
-        ilPageObject $a_source_page,
-        ilPageObject $a_target_page,
-        string $a_hid
-    ): void {
-        $hier_ids = $a_source_page->getHierIds();
-
-        $copy_ids = array();
-
-        // iterate all hierarchical ids
-        foreach ($hier_ids as $hier_id) {
-            // move top level nodes only
-            if (!is_int(strpos($hier_id, "_"))) {
-                if ($hier_id != "pg" && $hier_id >= $a_hid) {
-                    $copy_ids[] = $hier_id;
-                }
-            }
-        }
-        asort($copy_ids);
-
-        $parent_node = $a_target_page->getContentNode("pg");
-        $target_dom = $a_target_page->getDom();
-        $parent_childs = $parent_node->child_nodes();
-        $cnt_parent_childs = count($parent_childs);
-        //echo "-$cnt_parent_childs-";
-        $first_child = $parent_childs[0];
-        foreach ($copy_ids as $copy_id) {
-            $source_node = $a_source_page->getContentNode($copy_id);
-
-            $new_node = $source_node->clone_node(true);
-            $new_node->unlink_node($new_node);
-
-            $source_node->unlink_node($source_node);
-
-            if ($cnt_parent_childs == 0) {
-                $new_node = $parent_node->append_child($new_node);
-            } else {
-                //$target_dom->import_node($new_node);
-                $new_node = $first_child->insert_before($new_node, $first_child);
-            }
-            $parent_childs = $parent_node->child_nodes();
-
-            //$cnt_parent_childs++;
-        }
-
-        $a_target_page->update();
-        $a_source_page->update();
-    }
-
-    /**
      * insert a content node before/after a sibling or as first child of a parent
      */
     public function insertContent(
@@ -2644,209 +1835,35 @@ s     */
         string $a_pcid = "",
         bool $remove_placeholder = true
     ): void {
-        if ($a_pcid == "" && $a_pos == "") {
-            $a_pos = "pg";
-        }
-        // move mode into container elements is always INSERT_CHILD
-        $curr_node = $this->getContentNode($a_pos, $a_pcid);
-        $curr_name = $curr_node->node_name();
-
-        // @todo: try to generalize this
-        if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-            ($curr_name == "ListItem") || ($curr_name == "Section")
-            || ($curr_name == "Tab") || ($curr_name == "ContentPopup")
-            || ($curr_name == "GridCell")) {
-            $a_mode = IL_INSERT_CHILD;
-        }
-
-        $hid = $curr_node->get_attribute("HierId");
-        if ($hid != "") {
-            //echo "-".$a_pos."-".$hid."-";
-            $a_pos = $hid;
-        }
-
-        if ($a_mode != IL_INSERT_CHILD) {            // determine parent hierarchical id
-            // of sibling at $a_pos
-            $pos = explode("_", $a_pos);
-            $target_pos = array_pop($pos);
-            $parent_pos = implode("_", $pos);
-        } else {        // if we should insert a child, $a_pos is alreade the hierarchical id
-            // of the parent node
-            $parent_pos = $a_pos;
-        }
-
-        // get the parent node
-        if ($parent_pos != "") {
-            $parent_node = $this->getContentNode($parent_pos);
-        } else {
-            $parent_node = $this->getNode();
-        }
-
-        // count the parent children
-        $parent_childs = $parent_node->child_nodes();
-        $cnt_parent_childs = count($parent_childs);
-        //echo "ZZ$a_mode";
-        switch ($a_mode) {
-            // insert new node after sibling at $a_pos
-            case IL_INSERT_AFTER:
-                $new_node = $a_cont_obj->getNode();
-                //$a_pos = ilPageContent::incEdId($a_pos);
-                //$curr_node = $this->getContentNode($a_pos);
-                //echo "behind $a_pos:";
-                if ($succ_node = $curr_node->next_sibling()) {
-                    $new_node = $succ_node->insert_before($new_node, $succ_node);
-                } else {
-                    //echo "movin doin append_child";
-                    $new_node = $parent_node->append_child($new_node);
-                }
-                $a_cont_obj->setNode($new_node);
-                break;
-
-            case IL_INSERT_BEFORE:
-                //echo "INSERT_BEF";
-                $new_node = $a_cont_obj->getNode();
-                $succ_node = $this->getContentNode($a_pos);
-                $new_node = $succ_node->insert_before($new_node, $succ_node);
-                $a_cont_obj->setNode($new_node);
-                break;
-
-                // insert new node as first child of parent $a_pos (= $a_parent)
-            case IL_INSERT_CHILD:
-                //echo "insert as child:parent_childs:$cnt_parent_childs:<br>";
-                $new_node = $a_cont_obj->getNode();
-                if ($cnt_parent_childs == 0) {
-                    $new_node = $parent_node->append_child($new_node);
-                } else {
-                    $new_node = $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
-                }
-                $a_cont_obj->setNode($new_node);
-                //echo "PP";
-                break;
-        }
-
-        //check for PlaceHolder to remove in EditMode-keep in Layout Mode
-        if ($remove_placeholder && !$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            $sub_nodes = $curr_node->child_nodes();
-            foreach ($sub_nodes as $sub_node) {
-                if ($sub_node->node_name() == "PlaceHolder") {
-                    $curr_node->unlink_node();
-                }
-            }
-        }
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->insertContent(
+            $a_cont_obj,
+            $a_pos,
+            $a_mode,
+            $a_pcid,
+            $remove_placeholder,
+            $this->getPageConfig()->getEnablePCType("PlaceHolder")
+        );
     }
 
     /**
      * insert a content node before/after a sibling or as first child of a parent
      */
     public function insertContentNode(
-        php4DOMElement $a_cont_node,
+        DOMNode $a_cont_node,
         string $a_pos,
         int $a_mode = IL_INSERT_AFTER,
         string $a_pcid = ""
     ): void {
-        // move mode into container elements is always INSERT_CHILD
-        $curr_node = $this->getContentNode($a_pos, $a_pcid);
-        $curr_name = $curr_node->node_name();
-        // @todo: try to generalize
-        if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-            ($curr_name == "ListItem") || ($curr_name == "Section")
-            || ($curr_name == "Tab") || ($curr_name == "ContentPopup")
-            || ($curr_name == "GridCell")) {
-            $a_mode = IL_INSERT_CHILD;
-        }
-
-        $hid = $curr_node->get_attribute("HierId");
-        if ($hid != "") {
-            $a_pos = $hid;
-        }
-
-        if ($a_mode != IL_INSERT_CHILD) {            // determine parent hierarchical id
-            // of sibling at $a_pos
-            $pos = explode("_", $a_pos);
-            $target_pos = array_pop($pos);
-            $parent_pos = implode("_", $pos);
-        } else {        // if we should insert a child, $a_pos is alreade the hierarchical id
-            // of the parent node
-            $parent_pos = $a_pos;
-        }
-
-        // get the parent node
-        if ($parent_pos != "") {
-            $parent_node = $this->getContentNode($parent_pos);
-        } else {
-            $parent_node = $this->getNode();
-        }
-
-        // count the parent children
-        $parent_childs = $parent_node->child_nodes();
-        $cnt_parent_childs = count($parent_childs);
-        switch ($a_mode) {
-            // insert new node after sibling at $a_pos
-            case IL_INSERT_AFTER:
-                //$new_node = $a_cont_obj->getNode();
-                if ($succ_node = $curr_node->next_sibling()) {
-                    $a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
-                } else {
-                    $a_cont_node = $parent_node->append_child($a_cont_node);
-                }
-                //$a_cont_obj->setNode($new_node);
-                break;
-
-            case IL_INSERT_BEFORE:
-                //$new_node = $a_cont_obj->getNode();
-                $succ_node = $this->getContentNode($a_pos);
-                $a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
-                //$a_cont_obj->setNode($new_node);
-                break;
-
-                // insert new node as first child of parent $a_pos (= $a_parent)
-            case IL_INSERT_CHILD:
-                //$new_node = $a_cont_obj->getNode();
-                if ($cnt_parent_childs == 0) {
-                    $a_cont_node = $parent_node->append_child($a_cont_node);
-                } else {
-                    $a_cont_node = $parent_childs[0]->insert_before($a_cont_node, $parent_childs[0]);
-                }
-                //$a_cont_obj->setNode($new_node);
-                break;
-        }
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->insertContentNode(
+            $a_cont_node,
+            $a_pos,
+            $a_mode,
+            $a_pcid
+        );
     }
 
-    /**
-     * move content object from position $a_source before position $a_target
-     * (both hierarchical content ids)
-     * @param string $a_source source hier id
-     * @param string $a_target target hier id
-     * @param string $a_spcid source pcid
-     * @param string $a_tpcid target pcid
-     * @return array|bool
-     * @throws ilCOPagePCEditException
-     * @throws ilCOPageUnknownPCTypeException
-     * @throws ilDateTimeException
-     */
-    public function moveContentBefore(
-        string $a_source,
-        string $a_target,
-        string $a_spcid = "",
-        string $a_tpcid = ""
-    ) {
-        if ($a_source == $a_target) {
-            return false;
-        }
-
-        // clone the node
-        $content = $this->getContentObject($a_source, $a_spcid);
-        $source_node = $content->getNode();
-        $clone_node = $source_node->clone_node(true);
-
-        // delete source node
-        $this->deleteContent($a_source, false, $a_spcid, true);
-
-        // insert cloned node at target
-        $content->setNode($clone_node);
-        $this->insertContent($content, $a_target, IL_INSERT_BEFORE, $a_tpcid);
-        return $this->update();
-    }
 
     /**
      * move content object from position $a_source before position $a_target
@@ -2866,37 +1883,15 @@ s     */
         string $a_spcid = "",
         string $a_tpcid = ""
     ) {
-        // nothing to do...
-        if ($a_source === $a_target) {
-            return true;
-        }
-
-        // clone the node
-        $content = $this->getContentObject($a_source, $a_spcid);
-        $source_node = $content->getNode();
-        $clone_node = $source_node->clone_node(true);
-
-        // delete source node
-        $this->deleteContent($a_source, false, $a_spcid, true);
-
-        // insert cloned node at target
-        $content->setNode($clone_node);
-        $this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->moveContentAfter(
+            $this,
+            $a_source,
+            $a_target,
+            $a_spcid,
+            $a_tpcid
+        );
         return $this->update();
-    }
-
-    /**
-     * transforms bbCode to corresponding xml
-     * @todo: move to paragraph
-     */
-    public function bbCode2XML(string &$a_content): void
-    {
-        $a_content = preg_replace('/\[com\]/i', "<Comment>", $a_content);
-        $a_content = preg_replace('/\[\/com\]/i', "</Comment>", $a_content);
-        $a_content = preg_replace('/\[emp]/i', "<Emph>", $a_content);
-        $a_content = preg_replace('/\[\/emp\]/i', "</Emph>", $a_content);
-        $a_content = preg_replace('/\[str]/i', "<Strong>", $a_content);
-        $a_content = preg_replace('/\[\/str\]/i', "</Strong>", $a_content);
     }
 
     /**
@@ -2909,98 +1904,8 @@ s     */
         string $a_inst,
         bool $a_res_ref_to_obj_id = true
     ): void {
-        // insert inst id into internal links
-        $xpc = xpath_new_context($this->dom);
-        $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
-
-            if (substr($target, 0, 4) == "il__") {
-                $id = substr($target, 4, strlen($target) - 4);
-
-                // convert repository links obj_<ref_id> to <type>_<obj_id>
-                // this leads to bug 6685.
-                if ($a_res_ref_to_obj_id && $type == "RepositoryItem") {
-                    $id_arr = explode("_", $id);
-
-                    // changed due to bug 6685
-                    $ref_id = $id_arr[1];
-                    $obj_id = ilObject::_lookupObjId($id_arr[1]);
-
-                    $otype = ilObject::_lookupType($obj_id);
-                    if ($obj_id > 0) {
-                        // changed due to bug 6685
-                        // the ref_id should be used, if the content is
-                        // imported on the same installation
-                        // the obj_id should be used, if a different
-                        // installation imports, but has an import_id for
-                        // the object id.
-                        $id = $otype . "_" . $obj_id . "_" . $ref_id;
-                        //$id = $otype."_".$ref_id;
-                    }
-                }
-                $new_target = "il_" . $a_inst . "_" . $id;
-                $res->nodeset[$i]->set_attribute("Target", $new_target);
-            }
-        }
-        unset($xpc);
-
-        // @todo: move to media/fileitems/questions, ...
-
-        // insert inst id into media aliases
-        $xpc = xpath_new_context($this->dom);
-        $path = "//MediaAlias";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $origin_id = $res->nodeset[$i]->get_attribute("OriginId");
-            if (substr($origin_id, 0, 4) == "il__") {
-                $new_id = "il_" . $a_inst . "_" . substr($origin_id, 4, strlen($origin_id) - 4);
-                $res->nodeset[$i]->set_attribute("OriginId", $new_id);
-            }
-        }
-        unset($xpc);
-
-        // insert inst id file item identifier entries
-        $xpc = xpath_new_context($this->dom);
-        $path = "//FileItem/Identifier";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $origin_id = $res->nodeset[$i]->get_attribute("Entry");
-            if (substr($origin_id, 0, 4) == "il__") {
-                $new_id = "il_" . $a_inst . "_" . substr($origin_id, 4, strlen($origin_id) - 4);
-                $res->nodeset[$i]->set_attribute("Entry", $new_id);
-            }
-        }
-        unset($xpc);
-
-        // insert inst id into question references
-        $xpc = xpath_new_context($this->dom);
-        $path = "//Question";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $qref = $res->nodeset[$i]->get_attribute("QRef");
-            //echo "<br>setted:".$qref;
-            if (substr($qref, 0, 4) == "il__") {
-                $new_id = "il_" . $a_inst . "_" . substr($qref, 4, strlen($qref) - 4);
-                //echo "<br>setting:".$new_id;
-                $res->nodeset[$i]->set_attribute("QRef", $new_id);
-            }
-        }
-        unset($xpc);
-
-        // insert inst id into content snippets
-        $xpc = xpath_new_context($this->dom);
-        $path = "//ContentInclude";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $ci = $res->nodeset[$i]->get_attribute("InstId");
-            if ($ci == "") {
-                $res->nodeset[$i]->set_attribute("InstId", $a_inst);
-            }
-        }
-        unset($xpc);
+        $cm = $this->page_manager->content($this->getDomDoc());
+        $cm->insertInstIntoIDs($a_inst, $a_res_ref_to_obj_id);
     }
 
     /**

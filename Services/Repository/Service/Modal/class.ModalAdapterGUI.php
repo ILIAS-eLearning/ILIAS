@@ -41,8 +41,8 @@ class ModalAdapterGUI
      * @param string|array $class_path
      */
     public function __construct(
-        $title = "",
-        $cancel_label = "",
+        string $title,
+        string $cancel_label,
         HTTPUtil $http_util
     ) {
         global $DIC;

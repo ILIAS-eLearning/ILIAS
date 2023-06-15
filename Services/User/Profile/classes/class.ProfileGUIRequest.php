@@ -16,69 +16,129 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\User;
 
-use ILIAS\Repository\BaseGUIRequest;
+use ILIAS\HTTP\Services as RequestServices;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 class ProfileGUIRequest
 {
-    use BaseGUIRequest;
+    private WrapperFactory $wrapper;
+    /**
+     * @var array<string>
+     */
+    private array $post;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery,
-        ?array $passed_query_params = null,
-        ?array $passed_post_data = null
+        RequestServices $request,
+        private Refinery $refinery
     ) {
-        $this->initRequest(
-            $http,
-            $refinery,
-            $passed_query_params,
-            $passed_post_data
-        );
+        $this->wrapper = $request->wrapper();
+        $this->post = $request->request()->getParsedBody();
     }
 
     public function getUserId(): int
     {
-        $user_id = $this->int("user_id");
-        if ($user_id == 0) {
-            $user_id = $this->int("user");
+        $user_id = $this->int('user_id');
+        if ($user_id !== 0) {
+            return $this->int('user_id');
         }
-        return $user_id;
+        return $this->int('user');
     }
 
     public function getBackUrl(): string
     {
-        return $this->str("back_url");
+        return $this->str('back_url');
     }
 
     public function getBaseClass(): string
     {
-        return $this->str("baseClass");
+        return $this->str('baseClass');
     }
 
     public function getPrompted(): int
     {
-        return $this->int("prompted");
+        return $this->int('prompted');
     }
 
     public function getOsdId(): int
     {
-        return $this->int("osd_id");
+        return $this->int('osd_id');
     }
 
     public function getFieldId(): string
     {
-        return $this->str("f");
+        return $this->str('f');
     }
 
     public function getTerm(): string
     {
-        return $this->str("term");
+        return $this->str('term');
     }
 
     public function getUserFileCapture(): string
     {
-        return $this->str("userfile_capture");
+        return $this->str('userfile_capture');
+    }
+
+    private function int(string $key): int
+    {
+        $source = $this->existsInPostOrQuery($key);
+        if ($source === '') {
+            return 0;
+        }
+
+        $transformation = $this->refinery->kindlyTo()->int();
+        return $this->getFromQueryOrPost($key, $transformation, $source);
+    }
+
+    private function str(string $key): string
+    {
+        $source = $this->existsInPostOrQuery($key);
+        if ($source === '') {
+            return '';
+        }
+
+        $transformation = $this->refinery->kindlyTo()->string();
+        return $this->getFromQueryOrPost($key, $transformation, $source);
+    }
+
+    /**
+     * @todo 2023-06-05 sk: This is not what we want, but in order to avoid
+     * having a RequestInterface and a ProfileGUIRequest as class attributes
+     */
+    public function getParsedBody(): array
+    {
+        return $this->post;
+    }
+
+    /**
+     * @todo 2023-06-05 sk: This is ugly and has to go, but right now, I have
+     * no idea, when I want to have information from $_POST or from $_GET.
+     */
+    private function existsInPostOrQuery(string $key): string
+    {
+        if ($this->wrapper->post()->has($key)) {
+            return 'post';
+        }
+
+        if ($this->wrapper->query()->has($key)) {
+            return 'query';
+        }
+
+        return '';
+    }
+
+    private function getFromQueryOrPost(string $key, Transformation $transformation, string $source): string|int
+    {
+        if ($source === 'query') {
+            return $this->wrapper->query()->retrieve($key, $transformation);
+        }
+
+        return $this->wrapper->post()->retrieve($key, $transformation);
     }
 }

@@ -27,7 +27,7 @@ class UpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db): void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -43,10 +43,22 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         $this->dropColumnWhenExists('chatroom_history', 'private_rooms_enabled');
     }
 
+    public function step_2(): void
+    {
+        $this->dropTableWhenExists('chatroom_smilies');
+    }
+
     private function dropColumnWhenExists(string $table, string $column): void
     {
         if ($this->db->tableColumnExists($table, $column)) {
             $this->db->dropTableColumn($table, $column);
+        }
+    }
+
+    private function dropTableWhenExists(string $table): void
+    {
+        if ($this->db->tableExists($table)) {
+            $this->db->dropTable($table);
         }
     }
 }

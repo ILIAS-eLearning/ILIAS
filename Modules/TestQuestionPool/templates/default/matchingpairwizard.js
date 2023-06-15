@@ -40,9 +40,8 @@ var ilMatchingPairWizardInputTemplate = {
 			});
 
 			// button
-			$(this).find('button').each(function() {
+			$(this).find('div.btn.btn-link').each(function() {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
 			});
 
 			rowindex++;
@@ -51,6 +50,6 @@ var ilMatchingPairWizardInputTemplate = {
 };
 
 $(document).ready(function() {
-	var ilMatchingPairWizardInput = $.extend({}, ilMatchingPairWizardInputTemplate, ilWizardInput);
+	var ilMatchingPairWizardInput = $.extend({}, ilMatchingPairWizardInputTemplate, AnswerWizardInput);
 	ilMatchingPairWizardInput.init();
 });

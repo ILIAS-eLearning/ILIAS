@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\UICore;
 
@@ -64,8 +78,8 @@ class PageContentProvider extends AbstractModificationProvider
     public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
         return $this->globalScreen()->layout()->factory()->content()->withModification(function (
-            Legacy $content
-        ): Legacy {
+            ?Legacy $content
+        ): ?Legacy {
             $ui = $this->dic->ui();
             return $ui->factory()->legacy(
                 $ui->renderer()->render($content) . self::$content
@@ -77,7 +91,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification TitleModification */
         $modification = $this->globalScreen()->layout()->factory()->title()->withModification(
-            fn (string $content): string => self::$title
+            fn (?string $content): ?string => self::$title
         )->withLowPriority();
 
         return $modification;
@@ -87,7 +101,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification ShortTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->short_title()->withModification(
-            fn (string $content): string => self::$short_title
+            fn (?string $content): ?string => self::$short_title
         )->withLowPriority();
 
         return $modification;
@@ -97,7 +111,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification ViewTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            fn (string $content): string => self::$view_title
+            fn (?string $content): ?string => self::$view_title
         )->withLowPriority();
 
         return $modification;
@@ -105,7 +119,7 @@ class PageContentProvider extends AbstractModificationProvider
 
     public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {
-        return $this->globalScreen()->layout()->factory()->footer()->withModification(function (): Footer {
+        return $this->globalScreen()->layout()->factory()->footer()->withModification(function (?Footer $footer): ?Footer {
             $f = $this->dic->ui()->factory();
 
             $links = [];

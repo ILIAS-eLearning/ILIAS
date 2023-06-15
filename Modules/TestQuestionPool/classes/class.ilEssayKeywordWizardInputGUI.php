@@ -150,13 +150,15 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $tpl->setVariable("ROW_NUMBER", $i);
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()->withAction('#')
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()->withAction('#')
+            ));
             $tpl->parseCurrentBlock();
             $i++;
         }
@@ -177,7 +179,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/essaykeywordwizard.js");
     }
 }

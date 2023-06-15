@@ -26,22 +26,6 @@ require_once("./Services/MediaObjects/ImageMap/class.ilMapArea.php");
 class PCMediaObjectTest extends COPageTestBase
 {
     /**
-     * @return (ilObjMediaObject&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getMediaObjectMock()
-    {
-        $media_item = new ilMediaItem();
-        $media_item->setWidth("100");
-        $media_item->setHeight("50");
-        $media_object = $this->getMockBuilder(ilObjMediaObject::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
-        $media_object->method("getMediaItem")
-                  ->willReturnCallback(fn () => $media_item);
-        return $media_object;
-    }
-
-    /**
      * @return (\ILIAS\Repository\Object\ObjectAdapter&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getObjectAdapterMock()
@@ -103,7 +87,7 @@ EOT;
         $page->insertPCIds();
         $pc->setHierId("1");
         $pc->setPCId($page->getPCIdForHierId("1"));
-        $pc->setNode($pc->getNode());
+        $pc->setDomNode($pc->getDomNode());
         return $pc;
     }
 

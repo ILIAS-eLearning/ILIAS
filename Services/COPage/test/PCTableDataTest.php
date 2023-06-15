@@ -49,9 +49,9 @@ class PCTableDataTest extends COPageTestBase
     protected function getTDForHierId(ilPageObject $page, string $hier_id): ilPCTableData
     {
         $pc_id = $page->getPCIdForHierId($hier_id);
-        $cont_node = $page->getContentNode($hier_id);
+        $cont_node = $page->getContentDomNode($hier_id);
         $pc = new ilPCTableData($page);
-        $pc->setNode($cont_node);
+        $pc->setDomNode($cont_node);
         $pc->setHierId($hier_id);
         $pc->setPcId($pc_id);
         return $pc;

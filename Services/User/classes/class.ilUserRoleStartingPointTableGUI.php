@@ -16,46 +16,43 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+
 /**
  * TableGUI class for LTI consumer listing
  * @author Jesús López <lopez@leifos.com>
  */
 class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 {
-    public const TABLE_POSITION_USER_CHOOSES = -1;
-    public const TABLE_POSITION_DEFAULT = 9999;
+    private const TABLE_POSITION_USER_CHOOSES = -1;
+    private const TABLE_POSITION_DEFAULT = 9999;
 
-    protected ilLogger $log;
-    protected ilRbacReview $rbacreview;
+    public function __construct(
+        object $parent_obj,
+        private ilUserStartingPointRepository $starting_point_repository,
+        private ilRbacReview $rbac_review,
+        private UIFactory $ui_factory,
+        private Renderer $ui_renderer,
+    ) {
+        $this->setId('usrrolesp');
 
-    public function __construct(object $a_parent_obj)
-    {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $this->rbacreview = $DIC->rbac()->review();
-
-        $this->log = ilLoggerFactory::getLogger("user");
-
-        $this->parent_obj = $a_parent_obj;
-
-        $this->setId("usrrolesp");
-
-        parent::__construct($a_parent_obj);
+        parent::__construct($parent_obj);
 
         $this->getItems();
 
         $this->setLimit(9999);
-        $this->setTitle($lng->txt("user_role_starting_point"));
+        $this->setTitle($this->lng->txt('user_role_starting_point'));
 
-        $this->addColumn($lng->txt("user_order"));
-        $this->addColumn($lng->txt("criteria"));
-        $this->addColumn($lng->txt("starting_page"));
-        $this->addColumn($lng->txt("actions"));
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.user_role_starting_point_row.html", "Services/User");
-        $this->addCommandButton("saveOrder", $lng->txt("save_order"));
+        $this->addColumn($this->lng->txt('user_order'));
+        $this->addColumn($this->lng->txt('criteria'));
+        $this->addColumn($this->lng->txt('starting_page'));
+        $this->addColumn($this->lng->txt('actions'));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
+        $this->setRowTemplate('tpl.user_role_starting_point_row.html', 'Services/User');
+        $this->addCommandButton('saveOrder', $this->lng->txt('save_order'));
 
         $this->setExternalSorting(true);
     }
@@ -65,135 +62,190 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
      */
     public function getItems(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $dc = new ilObjectDataCache();
 
-        $valid_points = ilUserUtil::getPossibleStartingPoints();
+        $valid_points = $this->starting_point_repository->getPossibleStartingPoints();
 
-        $status = (ilUserUtil::hasPersonalStartingPoint() ? $lng->txt("yes") : $lng->txt("no"));
+        $status = ($this->starting_point_repository->isPersonalStartingPointEnabled()
+            ? $this->lng->txt('yes') : $this->lng->txt('no'));
 
-        $result = array();
-        $result[] = array(
-            "id" => "user",
-            "criteria" => $lng->txt("user_chooses_starting_page"),
-            "starting_page" => $status,
-            "starting_position" => self::TABLE_POSITION_USER_CHOOSES
-        );
+        $starting_points = [];
+        $starting_points[] = [
+            'id' => $this->starting_point_repository->getUserStartingPointID(),
+            'criteria' => $this->lng->txt('user_chooses_starting_page'),
+            'starting_page' => $status,
+            'starting_position' => self::TABLE_POSITION_USER_CHOOSES
+        ];
 
-        $points = ilStartingPoint::getStartingPoints();
+        $available_starting_points = $this->starting_point_repository->getStartingPoints();
 
-        foreach ($points as $point) {
-            $starting_point = $point['starting_point'];
-            $position = $point['position'];
-            $sp_text = $valid_points[$starting_point] ?? "";
+        foreach ($available_starting_points as $available_starting_point) {
+            $starting_point_type = $available_starting_point->getStartingPointType();
+            $position = $available_starting_point->getPosition();
+            $sp_text = $this->lng->txt($valid_points[$starting_point_type]) ?? '';
 
-            if ($starting_point == ilUserUtil::START_REPOSITORY_OBJ && $point['starting_object']) {
-                $object_id = ilObject::_lookupObjId($point['starting_object']);
+            if ($starting_point_type === ilUserStartingPointRepository::START_REPOSITORY_OBJ
+                && $available_starting_point->getStartingObject() !== null) {
+                $starting_object_ref_id = $available_starting_point->getStartingObject();
+                $object_id = ilObject::_lookupObjId($starting_object_ref_id);
                 $type = $dc->lookupType($object_id);
                 $title = $dc->lookupTitle($object_id);
-                $sp_text = $this->lng->txt("obj_" . $type) . " <i>\"" . $title . "\"</i> [" . $point['starting_object'] . "]";
+                $sp_text = $this->lng->txt('obj_' . $type) . ' '
+                    . '<i>"' . $title . '" (' . $starting_object_ref_id . ')</i>';
             }
 
-            if ($point['rule_type'] == ilStartingPoint::ROLE_BASED) {
-                $options = unserialize($point['rule_options'], ['allowed_classes' => false]);
+            if ($available_starting_point->isRoleBasedStartingPoint()) {
+                $options = unserialize($available_starting_point->getRuleOptions(), ['allowed_classes' => false]);
 
-                $role_obj = ilObjectFactory::getInstanceByObjId($options['role_id'], false);
+                $role_obj = ilObjectFactory::getInstanceByObjId((int) $options['role_id'], false);
                 if (!($role_obj instanceof \ilObjRole)) {
                     continue;
                 }
 
-                $result[] = array(
-                    "id" => $point['id'],
-                    "criteria" => $role_obj->getTitle(),
-                    "starting_page" => $sp_text,
-                    "starting_position" => (int) $position,
-                    "role_id" => $role_obj->getId()
-                );
+                $starting_points[] = [
+                    'id' => $available_starting_point->getId(),
+                    'criteria' => $role_obj->getTitle(),
+                    'starting_page' => $sp_text,
+                    'starting_position' => $position,
+                    'role_id' => $role_obj->getId()
+                ];
             }
         }
 
-        $default_sp = ilUserUtil::getStartingPoint();
-        $starting_point = $valid_points[$default_sp];
-        if ($default_sp == ilUserUtil::START_REPOSITORY_OBJ) {
-            $reference_id = ilUserUtil::getStartingObject();
+        $default_sp = $this->starting_point_repository->getSystemDefaultStartingPointType();
+        $starting_point = $this->lng->txt($valid_points[$default_sp]);
+        if ($default_sp === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+            $starting_object_ref_id = $this->starting_point_repository->getSystemDefaultStartingObject();
 
-            $object_id = ilObject::_lookupObjId($reference_id);
+            $object_id = ilObject::_lookupObjId($starting_object_ref_id);
             $type = $dc->lookupType($object_id);
             $title = $dc->lookupTitle($object_id);
-            $starting_point = $this->lng->txt("obj_" . $type) . " " . "<i>\"" . $title . "\" ($reference_id)</i>";
+            $starting_point = $this->lng->txt('obj_' . $type) . ' '
+                . '<i>"' . $title . '" (' . $starting_object_ref_id . ')</i>';
         }
 
-        $result[] = array(
-            "id" => "default",
-            "criteria" => $lng->txt("default"),
-            "starting_page" => $starting_point,
-            "starting_position" => self::TABLE_POSITION_DEFAULT
+        $starting_points[] = [
+            'id' => $this->starting_point_repository->getDefaultStartingPointID(),
+            'criteria' => $this->lng->txt('default'),
+            'starting_page' => $starting_point,
+            'starting_position' => self::TABLE_POSITION_DEFAULT
+        ];
+
+        $sorted_starting_points = $this->starting_point_repository->reArrangePositions(
+            ilArrayUtil::sortArray($starting_points, 'starting_position', 'asc', true)
         );
 
-        $result = ilArrayUtil::sortArray($result, "starting_position", "asc", true);
-
-        $result = ilStartingPoint::reArrangePositions($result);
-
-        $this->setData($result);
+        $this->setData($sorted_starting_points);
     }
 
-    protected function fillRow(array $a_set): void // Missing array type.
+    /**
+     *
+     * @param array<string|int> $row_data
+     */
+    protected function fillRow(array $row_data): void
     {
-        global $DIC;
+        $id = $row_data['id'];
+        $role_id = $row_data['role_id'] ?? null;
+        $this->ctrl->setParameter($this->getParentObject(), 'spid', $id);
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setListTitle($lng->txt("actions"));
-
-        $ilCtrl->setParameter($this->getParentObject(), "spid", $a_set['id']);
-
-
-        if ($a_set['id'] > 0 && $a_set['id'] != 'default' && $a_set['id'] != 'user') {
-            if (ilStartingPoint::ROLE_BASED) {
-                $ilCtrl->setParameter($this->getParentObject(), "rolid", $a_set["role_id"]);
-            }
-
-            $list->setId($a_set["id"]);
-
-            $edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "initRoleStartingPointForm");
-            $list->addItem($lng->txt("edit"), "", $edit_url);
-            $delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "confirmDeleteStartingPoint");
-            $list->addItem($lng->txt("delete"), "", $delete_url);
-            $this->tpl->setVariable("VAL_ID", "position[" . $a_set['id'] . "]");
-            $this->tpl->setVariable("VAL_POS", $a_set["starting_position"]);
-
-            $parent_title = "";
-            if (ilObject::_lookupType($a_set["role_id"]) == "role") {
-                $ref_id = $this->rbacreview->getObjectReferenceOfRole($a_set["role_id"]);
-                if ($ref_id != ROLE_FOLDER_ID) {
-                    $parent_title = " (" . ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)) . ")";
-                }
-            }
-            $this->tpl->setVariable("TXT_TITLE", $this->lng->txt("has_role") . ": " .
-                ilObjRole::_getTranslation($a_set["criteria"]) . $parent_title);
+        if ($this->isSortingHidden($id)) {
+            $this->tpl->setVariable('HIDDEN', 'hidden');
         } else {
-            if ($a_set['id'] == "default") {
-                $ilCtrl->setParameter($this->getParentObject(), "rolid", "default");
-                $edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "initRoleStartingPointForm");
-            } else {
-                $ilCtrl->setParameter($this->getParentObject(), "rolid", "user");
-                $edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "initUserStartingPointForm");
-            }
-
-            $list->addItem($lng->txt("edit"), "", $edit_url);
-
-            $this->tpl->setVariable("HIDDEN", "hidden");
-
-            $this->tpl->setVariable("TXT_TITLE", $a_set["criteria"]);
+            $this->tpl->setVariable('VAL_ID', 'position[' . (string) $id . ']');
+            $this->tpl->setVariable('VAL_POS', $row_data['starting_position']);
         }
 
-        $this->tpl->setVariable("TXT_PAGE", $a_set["starting_page"]);
+        $this->tpl->setVariable(
+            'TXT_TITLE',
+            $this->getTitleForCriterium(
+                $id,
+                $role_id,
+                $row_data['criteria']
+            )
+        );
 
-        $this->tpl->setVariable("ACTION", $list->getHTML());
+        $actions = $this->getActions($id, $role_id);
+
+        $this->tpl->setVariable('TXT_PAGE', $row_data['starting_page']);
+
+        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel(
+            $this->lng->txt('actions')
+        );
+
+        $this->tpl->setVariable('ACTION', $this->ui_renderer->render($list));
+    }
+
+    /**
+     * @return array<strings>
+     */
+    private function getActions(int $id, ?int $role_id): array
+    {
+        $actions = [];
+
+        $edit_url = $this->getEditLink($id, $role_id);
+
+        $actions[] = $this->ui_factory->link()->standard(
+            $this->lng->txt('edit'),
+            $edit_url
+        );
+
+        if ($id !== $this->starting_point_repository->getDefaultStartingPointID()
+            && $id !== $this->starting_point_repository->getUserStartingPointID()) {
+            $delete_url = $this->ctrl->getLinkTarget(
+                $this->getParentObject(),
+                'deleteStartingPoint'
+            );
+            $actions[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('delete'),
+                $delete_url
+            );
+        }
+
+        return $actions;
+    }
+
+    private function getEditLink(int $id, ?int $role_id): string
+    {
+        $cmd = 'initRoleStartingPointForm';
+        if ($id === $this->starting_point_repository->getUserStartingPointID()) {
+            $cmd = 'initUserStartingPointForm';
+        }
+
+        $this->ctrl->setParameter($this->getParentObject(), 'rolid', $role_id);
+        return $this->ctrl->getLinkTargetByClass(
+            get_class($this->getParentObject()),
+            $cmd
+        );
+    }
+
+    private function isSortingHidden(int $id): bool
+    {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
+            || $id === $this->starting_point_repository->getUserStartingPointID()) {
+            return true;
+        }
+        return false;
+    }
+
+    private function getTitleForCriterium(
+        int $id,
+        ?int $role_id,
+        string $criterium
+    ): string {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
+            || $id === $this->starting_point_repository->getUserStartingPointID()) {
+            return $criterium;
+        }
+
+        $parent_title = '';
+        if ($role_id !== null && ilObject::_lookupType($role_id) === 'role') {
+            $ref_id = $this->rbac_review->getObjectReferenceOfRole($role_id);
+            if ($ref_id !== ROLE_FOLDER_ID) {
+                $parent_title = ' (' . ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)) . ')';
+            }
+        }
+        return $this->lng->txt('has_role') . ': '
+            . ilObjRole::_getTranslation($criterium)
+            . $parent_title;
     }
 }

@@ -25,6 +25,8 @@ namespace ILIAS\COPage\PC\MediaObject;
  */
 class InteractiveImageManager
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
     public function __construct()
     {
         global $DIC;

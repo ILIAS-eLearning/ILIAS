@@ -53,8 +53,6 @@ class ilChatroomServerSettingsTest extends TestCase
             ['clientUrl', $assertIsString, 'http://proxy.localhost'],
             ['iliasUrlEnabled', $assertIsBool, true],
             ['iliasUrl', $assertIsString, 'http://proxy.localhost'],
-            ['smiliesEnabled', $assertIsBool, false],
-
             //@TODO Remove this properties
             ['instance', $assertIsString, '123456'],
         ];

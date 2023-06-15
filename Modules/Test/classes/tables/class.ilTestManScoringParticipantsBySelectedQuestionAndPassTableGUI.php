@@ -34,6 +34,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     protected bool $first_row_rendered = false;
 
     protected bool $first_row = true;
+    protected array $filter = [];
 
     public function __construct($parentObj)
     {

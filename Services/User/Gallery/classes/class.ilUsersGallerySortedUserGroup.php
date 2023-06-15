@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,23 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
 {
     public function __construct(protected ilUsersGalleryUserCollection $collection, protected ilUsersGalleryUserCollectionSorter $sorter)
     {
     }
 
-    public function setItems(array $items): void // Missing array type.
+    public function setItems(array $items): void
     {
         $this->collection->setItems($items);
     }
 
-    public function getItems(): array // Missing array type.
+    /**
+     * @return array<ilUsersGalleryUser>
+     */
+    public function getItems(): array
     {
         return $this->collection->getItems();
     }

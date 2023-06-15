@@ -63,9 +63,8 @@ var ilKprimChoiceWizardInputTemplate = {
 			});
 
 			// button
-			$(this).find('button').each(function() {
+			$(this).find('div.btn.btn-link').each(function() {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
 			});
 
 			rowindex++;
@@ -83,16 +82,19 @@ var ilKprimChoiceWizardInputTemplate = {
 		var that = this;
 
 		if (typeof tinyMCE == 'undefined' || $(rootel).closest('table').find('textarea').size() == 0) {
-			$(rootel).find('button.' + this.tag_button + '_up').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').click(function(e) {
 				that.moveRowUp(e);
 			});
-			$(rootel).find('button.' + this.tag_button + '_down').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').click(function(e) {
 				that.moveRowDown(e);
 			});
 		} else {
-			// skip the javascript functionality if tinyMCE is running
-			$(rootel).find('button.' + this.tag_button + '_up').attr("type", "submit");
-			$(rootel).find('button.' + this.tag_button + '_down').attr("type", "submit");
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').click((e) => {
+				that.onClickHandler('up', e);
+			});
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').click((e) => {
+				that.onClickHandler('down', e);
+			});
 		}
 	},
 
@@ -107,6 +109,6 @@ var ilKprimChoiceWizardInputTemplate = {
 };
 
 $(document).ready(function() {
-	var ilKprimChoiceWizardInput = $.extend({}, ilWizardInput, ilKprimChoiceWizardInputTemplate);
+	var ilKprimChoiceWizardInput = $.extend({}, AnswerWizardInput, ilKprimChoiceWizardInputTemplate);
 	ilKprimChoiceWizardInput.init();
 });

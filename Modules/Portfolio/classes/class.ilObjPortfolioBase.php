@@ -532,10 +532,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                     // parse content / blocks
 
                     if ($direction === "t2p") {
-                        $dom = $target_page->getDom();
-                        if ($dom instanceof php4DOMDocument) {
-                            $dom = $dom->myDOMDocument;
-                        }
+                        $dom = $target_page->getDomDoc();
 
                         // update profile/consultation hours user id
                         self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());

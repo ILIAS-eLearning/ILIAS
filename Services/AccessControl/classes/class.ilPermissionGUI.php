@@ -17,6 +17,9 @@
  */
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+
 /**
  * New PermissionGUI (extends from old ilPermission2GUI)
  * RBAC related output
@@ -36,22 +39,24 @@ class ilPermissionGUI extends ilPermission2GUI
 
     protected ilRecommendedContentManager $recommended_content_manager;
     protected ilToolbarGUI $toolbar;
-    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
-    protected \ilOrgUnitPositionDBRepository $positionRepo;
-    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
-    protected \ilOrgUnitOperationDBRepository $operationRepo;
+    protected UIFactory $ui_factory;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected ilOrgUnitPositionDBRepository $positionRepo;
+    protected ilOrgUnitPermissionDBRepository $permissionRepo;
+    protected ilOrgUnitOperationDBRepository $operationRepo;
 
     public function __construct(object $a_gui_obj)
     {
         global $DIC;
 
         $this->wrapper = $DIC->http()->wrapper();
-        $this->toolbar = $DIC->toolbar();
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->ui_factory = $DIC['ui.factory'];
         parent::__construct($a_gui_obj);
         $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
-    private function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
     {
         if (!isset($this->positionRepo)) {
             $dic = ilOrgUnitLocalDIC::dic();
@@ -61,7 +66,7 @@ class ilPermissionGUI extends ilPermission2GUI
         return $this->positionRepo;
     }
 
-    private function getPermissionRepo(): \ilOrgUnitPermissionDBRepository
+    private function getPermissionRepo(): ilOrgUnitPermissionDBRepository
     {
         if (!isset($this->permissionRepo)) {
             $dic = ilOrgUnitLocalDIC::dic();
@@ -71,7 +76,7 @@ class ilPermissionGUI extends ilPermission2GUI
         return $this->permissionRepo;
     }
 
-    private function getOperationRepo(): \ilOrgUnitOperationDBRepository
+    private function getOperationRepo(): ilOrgUnitOperationDBRepository
     {
         if (!isset($this->operationRepo)) {
             $dic = ilOrgUnitLocalDIC::dic();
@@ -165,14 +170,18 @@ class ilPermissionGUI extends ilPermission2GUI
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
             if (!$this->isAdminRoleFolder()) {
-                $this->toolbar->addButton(
-                    $this->lng->txt('rbac_add_new_local_role'),
-                    $this->ctrl->getLinkTarget($this, 'displayAddRoleForm')
+                $this->toolbar->addComponent(
+                    $this->ui_factory->link()->standard(
+                        $this->lng->txt('rbac_add_new_local_role'),
+                        $this->ctrl->getLinkTarget($this, 'displayAddRoleForm')
+                    )
                 );
             }
-            $this->toolbar->addButton(
-                $this->lng->txt('rbac_import_role'),
-                $this->ctrl->getLinkTarget($this, 'displayImportRoleForm')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('rbac_import_role'),
+                    $this->ctrl->getLinkTarget($this, 'displayImportRoleForm')
+                )
             );
         }
         $this->__initSubTabs("perm");

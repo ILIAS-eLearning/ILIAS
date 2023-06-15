@@ -1,15 +1,23 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * Group user actions (add to group)
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ModulesGroup
- */
 class ilGroupUserActionProvider extends ilUserActionProvider
 {
     protected static $grp_ops = [];
@@ -60,7 +68,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 
         $ctrl = $DIC->ctrl();
         $this->lng->loadLanguageModule("grp");
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         $commands = self::getCommandAccess($this->user_id);
         if (count($commands) == 0) {

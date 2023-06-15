@@ -147,10 +147,6 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-        if (preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath())) {
-            return true;
-        }
-
         return false;
     }
 }

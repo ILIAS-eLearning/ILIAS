@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,33 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Legacy\Legacy as LegacyComponent;
+use ILIAS\UI\Component\Card\Standard as StandardCard;
+use ILIAS\UI\Component\Image\Image as Image;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
  * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
 class ilUsersGalleryGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilObjUser $user;
-    protected ilRbacSystem $rbacsystem;
-    protected \ILIAS\UI\Factory $factory;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\HTTP\GlobalHttpState $http;
-    protected \ILIAS\Refinery\Factory $refinery;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilRbacSystem $rbacsystem;
+    private UIFactory $ui_factory;
+    private Renderer $ui_renderer;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+
+    private ilUserActionGUI $user_action_gui;
 
     public function __construct(protected ilUsersGalleryCollectionProvider $collection_provider)
     {
@@ -44,10 +54,21 @@ class ilUsersGalleryGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+
+        $this->user_action_gui = new ilUserActionGUI(
+            new ilUserActionProviderFactory(),
+            new ilGalleryUserActionContext(),
+            $this->tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->lng,
+            $DIC['ilDB'],
+            $this->user->getId()
+        );
     }
 
     public function executeCommand(): void
@@ -84,14 +105,86 @@ class ilUsersGalleryGUI
     }
 
     /**
-     * @param \ILIAS\UI\Component\Component[] $sections
+     * @param array<ilUsersGalleryUserCollection> $gallery_groups
      */
-    protected function addActionSection(ilObjUser $user, array &$sections): void
+    protected function populateTemplate(array $gallery_groups): ilTemplate
+    {
+        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+
+        $panel = ilPanelGUI::getInstance();
+        $panel->setBody($this->lng->txt('no_gallery_users_available'));
+        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
+
+        $groups_with_users = array_filter(
+            $gallery_groups,
+            static fn (ilUsersGalleryGroup $group): bool => count($group) > 0
+        );
+
+        if (count($groups_with_users) === 0) {
+            $tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
+            return $tpl;
+        }
+
+        $cards = [];
+
+        foreach ($gallery_groups as $group) {
+            $sorted_group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
+
+            foreach ($sorted_group as $user) {
+                $cards[] = $this->getCardForUser($user, $sorted_group);
+            }
+        }
+
+        $tpl->setVariable('GALLERY_HTML', $this->ui_renderer->render($this->ui_factory->deck($cards)));
+
+        if ($this->collection_provider->hasRemovableUsers()) {
+            $tpl->touchBlock('js_remove_handler');
+        }
+
+        return $tpl;
+    }
+
+    protected function getCardForUser(
+        ilUsersGalleryUser $user,
+        ilUsersGalleryUserCollection $group
+    ): StandardCard {
+        $card = $this->ui_factory->card()->standard($user->getPublicName())
+            ->withHighlight($group->isHighlighted());
+        $avatar = $this->ui_factory->image()->standard(
+            $user->getAggregatedUser()->getPersonalPicturePath('big'),
+            $user->getPublicName()
+        );
+
+        $sections = [];
+
+        $sections[] = $this->ui_factory->listing()->descriptive(
+            [
+                $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
+                $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
+            ]
+        );
+
+        $actions_section = $this->getActionsSection($user->getAggregatedUser());
+        if ($actions_section !== null) {
+            $sections[] = $actions_section;
+        }
+
+        if ($user->hasPublicProfile()) {
+            list($avatar, $card) = $this->addPublicProfileLinksToAvatarAndCard(
+                $avatar,
+                $card,
+                $user->getAggregatedUser()->getId()
+            );
+        }
+
+        return $card->withImage($avatar)->withSections($sections);
+    }
+
+    protected function getActionsSection(ilObjUser $user): ?LegacyComponent
     {
         $contact_btn_html = "";
 
-        if (
-            !$this->user->isAnonymous() &&
+        if (!$this->user->isAnonymous() &&
             !$user->isAnonymous() &&
             ilBuddySystem::getInstance()->isEnabled() &&
             $this->user->getId() !== $user->getId()
@@ -99,95 +192,40 @@ class ilUsersGalleryGUI
             $contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
         }
 
-        $ua_gui = ilUserActionGUI::getInstance(new ilGalleryUserActionContext(), $this->tpl, $this->user->getId());
-        $list_html = $ua_gui->renderDropDown($user->getId());
+        $list_html = $this->user_action_gui->renderDropDown($user->getId());
 
         if ($contact_btn_html || $list_html) {
-            $sections[] = $this->factory->legacy(
-                "<div style='float:left; margin-bottom:5px;'>" . $contact_btn_html . "</div><div class='button-container'>&nbsp;" . $list_html . "</div>"
+            return $this->ui_factory->legacy(
+                "<div style='display:grid; grid-template-columns: max-content max-content;'>"
+                . "<div>"
+                . $contact_btn_html
+                . "</div><div style='margin-left: 5px;'>"
+                . $list_html
+                . "</div></div>"
             );
         }
+
+        return null;
     }
 
-    /**
-     * @param ilUsersGalleryUserCollection[] $gallery_groups
-     */
-    protected function populateTemplate(array $gallery_groups): ilTemplate
-    {
-        $buddylist = ilBuddyList::getInstanceByGlobalUser();
-        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+    protected function addPublicProfileLinksToAvatarAndCard(
+        Image $avatar,
+        StandardCard $card,
+        int $user_id
+    ): array {
+        $this->ctrl->setParameterByClass(
+            ilPublicUserProfileGUI::class,
+            'user',
+            $user_id
+        );
+        $public_profile_url = $this->ctrl->getLinkTargetByClass(
+            ilPublicUserProfileGUI::class,
+            'getHTML'
+        );
 
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
-
-        $groups_with_users = array_filter($gallery_groups, static function (ilUsersGalleryGroup $group): bool {
-            return count($group) > 0;
-        });
-        $groups_with_highlight = array_filter($groups_with_users, static function (ilUsersGalleryGroup $group): bool {
-            return $group->isHighlighted();
-        });
-
-        if (0 === count($groups_with_users)) {
-            $tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
-            return $tpl;
-        }
-
-        $panel = ilPanelGUI::getInstance();
-        $panel->setBody($this->lng->txt('no_gallery_users_available'));
-        $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
-
-        $cards = [];
-
-        foreach ($gallery_groups as $group) {
-            $group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
-
-            foreach ($group as $user) {
-                $card = $this->factory->card()->standard($user->getPublicName());
-                $avatar = $this->factory->image()->standard(
-                    $user->getAggregatedUser()->getPersonalPicturePath('big'),
-                    $user->getPublicName()
-                );
-
-                $sections = [];
-
-                if (count($groups_with_highlight) > 0) {
-                    $card = $card->withHighlight($group->isHighlighted());
-                }
-
-                $sections[] = $this->factory->listing()->descriptive(
-                    [
-                        $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
-                        $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
-                    ]
-                );
-
-                $this->addActionSection($user->getAggregatedUser(), $sections);
-
-                if ($user->hasPublicProfile()) {
-                    $this->ctrl->setParameterByClass(
-                        ilPublicUserProfileGUI::class,
-                        'user',
-                        $user->getAggregatedUser()->getId()
-                    );
-                    $public_profile_url = $this->ctrl->getLinkTargetByClass(ilPublicUserProfileGUI::class, 'getHTML');
-
-                    $avatar = $avatar->withAction($public_profile_url);
-                    $card = $card->withTitleAction($public_profile_url);
-                }
-
-                $card = $card->withImage($avatar)->withSections($sections);
-
-                $cards[] = $card;
-            }
-        }
-
-        $tpl->setVariable('GALLERY_HTML', $this->renderer->render($this->factory->deck($cards)));
-
-        if ($this->collection_provider->hasRemovableUsers()) {
-            $tpl->touchBlock('js_remove_handler');
-        }
-
-        return $tpl;
+        return [
+            $avatar->withAction($public_profile_url),
+            $card->withTitleAction($public_profile_url)
+        ];
     }
 }

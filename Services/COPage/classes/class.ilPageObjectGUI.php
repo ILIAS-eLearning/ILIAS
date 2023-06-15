@@ -2048,6 +2048,7 @@ class ilPageObjectGUI
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->requested_ref_id, 'webspace_path' => $wb_path);
         $output = $this->xsl->process($xml, $params);
 
@@ -2424,7 +2425,9 @@ class ilPageObjectGUI
 
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
-        $params = array('mode' => $mode, 'webspace_path' => $wb_path);
+        $params = array('mode' => $mode,
+        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
+        'webspace_path' => $wb_path);
         $output = $this->xsl->process($xml, $params);
 
         // unmask user html

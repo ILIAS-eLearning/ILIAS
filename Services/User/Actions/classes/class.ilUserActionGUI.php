@@ -16,68 +16,67 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+
 /**
  * A class that provides a collection of actions on users
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionGUI
 {
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilUserActionContext $user_action_context;
-    protected bool $init_done = false;
-    protected int $current_user_id;
+    private ilUserActionAdmin $user_action_admin;
+    private ilUserActionCollector $user_action_collector;
 
-    protected function __construct(
-        ilUserActionContext $a_user_action_context,
-        ilGlobalTemplateInterface $a_global_tpl,
-        int $a_current_user_id
+    public function __construct(
+        private ilUserActionProviderFactory $user_action_provider_factory,
+        private ilUserActionContext $user_action_context,
+        private ilGlobalTemplateInterface $tpl,
+        private UIFactory $ui_factory,
+        private Renderer $ui_renderer,
+        private ilLanguage $lng,
+        ilDBInterface $db,
+        int $user_id
     ) {
-        $this->tpl = $a_global_tpl;
-        $this->user_action_context = $a_user_action_context;
-        $this->current_user_id = $a_current_user_id;
-    }
-
-    public static function getInstance(
-        ilUserActionContext $a_user_action_context,
-        ilGlobalTemplateInterface $a_global_tpl,
-        int $a_current_user_id
-    ): ilUserActionGUI {
-        return new ilUserActionGUI($a_user_action_context, $a_global_tpl, $a_current_user_id);
+        $this->lng->loadLanguageModule('usr');
+        $this->user_action_admin = new ilUserActionAdmin($db);
+        $this->user_action_collector = new ilUserActionCollector(
+            $user_id,
+            new ilGalleryUserActionContext(),
+            new ilUserActionProviderFactory(),
+            new ilUserActionAdmin($db)
+        );
     }
 
     public function init(): void
     {
-        $tpl = $this->tpl;
-
-        foreach (ilUserActionProviderFactory::getAllProviders() as $prov) {
+        foreach ($this->user_action_provider_factory->getProviders() as $prov) {
             foreach ($prov->getActionTypes() as $act_type => $txt) {
-                if (ilUserActionAdmin::lookupActive(
+                if ($this->user_action_admin->isActionActive(
                     $this->user_action_context->getComponentId(),
                     $this->user_action_context->getContextId(),
                     $prov->getComponentId(),
                     $act_type
                 )) {
                     foreach ($prov->getJsScripts($act_type) as $script) {
-                        $tpl->addJavaScript($script);
+                        $this->tpl->addJavaScript($script);
                     }
                 }
             }
         }
     }
 
-    public function renderDropDown(int $a_target_user_id): string
+    public function renderDropDown(int $target_user_id): string
     {
-        if (!$this->init_done) {
-            $this->init();
-        }
-        $act_collector = ilUserActionCollector::getInstance($this->current_user_id, $this->user_action_context);
-        $action_collection = $act_collector->getActionsForTargetUser($a_target_user_id);
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setListTitle("");
-        $list->setPullRight(false);
+        $action_collection = $this->user_action_collector->getActionsForTargetUser($target_user_id);
+        $actions = [];
         foreach ($action_collection->getActions() as $action) {
-            $list->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
+            $actions[] = $this->ui_factory->link()->standard($action->getText(), $action->getHref());
         }
-        return $list->getHTML();
+        $action_list = $this->ui_factory->dropdown()->standard($actions)
+            ->withAriaLabel($this->lng->txt('user_actions'));
+        return $this->ui_renderer->render($action_list);
     }
 }

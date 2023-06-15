@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  */
@@ -31,6 +34,10 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     protected $editElementOrderEnabled = false;
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+    protected ilGlobalTemplateInterface $tpl;
+
     /**
      * Constructor
      *
@@ -39,10 +46,14 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC['ui.renderer'];
+        $this->tpl = $DIC['tpl'];
+
         $this->validationRegexp = "";
     }
 
@@ -119,7 +130,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function render(string $a_mode = ""): string
     {
-        $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
             if ($value !== null) {
@@ -131,11 +142,13 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("ID_UP", $this->getMultiValuePosIndexedSubFieldId($identifier, 'up', $i));
                 $tpl->setVariable("ID_DOWN", $this->getMultiValuePosIndexedSubFieldId($identifier, 'down', $i));
-                $tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
-                $tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
                 $tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()->withAction('#')
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()->withAction('#')
+                ));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -152,10 +165,12 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
             } elseif ($this->isEditElementOccuranceEnabled()) {
                 $tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
                 $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
-                $tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
-                $tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
-                $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->add()->withAction('#')
+                ));
+                $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->remove()->withAction('#')
+                ));
             }
 
             $tpl->parseCurrentBlock();
@@ -164,10 +179,19 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
 
         if (!$this->getDisabled()) {
-            $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-            $globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-            $globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
-            $globalTpl->addJavascript("./Services/Form/js/ServiceFormMultiTextInputInit.js");
+            $config = [
+                'fieldContainerSelector' => '.ilWzdContainerText',
+                'reindexingRequiredElementsSelectors' => ['input:text', 'button'],
+                'handleRowCleanUpCallback' => 'function(rowElem)
+                    {
+                        $(rowElem).find("input:text").val("");
+                    }'
+            ];
+            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
+            $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
+                . json_encode($config)
+                . ");");
         }
 
         return $tpl->get();

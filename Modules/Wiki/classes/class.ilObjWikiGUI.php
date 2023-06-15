@@ -1805,6 +1805,18 @@ class ilObjWikiGUI extends ilObjectGUI
     //
     // User HTML Export
     //
+    /**
+        Current process:
+        - On Button Click (Javascript): il.Wiki.Pres.startHTMLExport()
+          - Ajax call to (PHP): ilObjWikiGUI->initUserHTMLExport()
+            - On Ajax Success (Javascript):
+              - Ajax call to (PHP): ilObjWikiGUI->startUserHTMLExport()
+              - Call to il.Wiki.Pres.updateProgress
+                - Ajax call to (PHP): ilObjWikiGUI->getUserHTMLExportProgress()
+                  - On Ajax Success:
+                    - If finished window.location.href to ilObjWikiGUI->downloadUserHTMLExport()
+                    - If not finished: Wait for a second and call to il.Wiki.Pres.updateProgress
+     */
 
     /**
      * Export html (as user)

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 interface ilUsersGalleryUserCollection extends Iterator, Countable
 {
     public function setHighlighted(bool $status): void;
@@ -28,12 +27,12 @@ interface ilUsersGalleryUserCollection extends Iterator, Countable
     public function setLabel(string $label): void;
 
     /**
-     * @param ilUsersGalleryUser[] $items
+     * @param array<ilUsersGalleryUser> $items
      */
     public function setItems(array $items): void;
 
     /**
-     * @return ilUsersGalleryUser[]
+     * @return array<ilUsersGalleryUser>
      */
     public function getItems(): array;
 }

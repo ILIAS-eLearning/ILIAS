@@ -16,41 +16,31 @@
  *
  *********************************************************************/
 
-const IL_EXTRACT_ROLES = 1;
-const IL_USER_IMPORT = 2;
-const IL_VERIFY = 3;
+declare(strict_types=1);
 
-const IL_FAIL_ON_CONFLICT = 1;
-const IL_UPDATE_ON_CONFLICT = 2;
-const IL_IGNORE_ON_CONFLICT = 3;
+use ILIAS\User\UserGUIRequest;
 
-const IL_IMPORT_SUCCESS = 1;
-const IL_IMPORT_WARNING = 2;
-const IL_IMPORT_FAILURE = 3;
-
-const IL_USER_MAPPING_LOGIN = 1;
-const IL_USER_MAPPING_ID = 2;
-
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * User Import Parser
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilUserImportParser extends ilSaxParser
 {
+    public const IL_EXTRACT_ROLES = 1;
+    public const IL_USER_IMPORT = 2;
+    public const IL_VERIFY = 3;
+
+    public const IL_FAIL_ON_CONFLICT = 1;
+    public const IL_UPDATE_ON_CONFLICT = 2;
+    public const IL_IGNORE_ON_CONFLICT = 3;
+
+    public const IL_IMPORT_SUCCESS = 1;
+    public const IL_IMPORT_WARNING = 2;
+    public const IL_IMPORT_FAILURE = 3;
+
+    private const IL_USER_MAPPING_LOGIN = 1;
+    public const IL_USER_MAPPING_ID = 2;
+
     protected ?string $tmp_udf_name = null;
     protected ?string $tmp_udf_id = null;
     protected array $multi_values; // Missing array type.
@@ -98,13 +88,6 @@ class ilUserImportParser extends ilSaxParser
      */
     public array $logins;
 
-    /**
-     * Conflict handling rule.
-     *
-     * Values:  IL_FAIL_ON_CONFLICT
-     *          IL_UPDATE_ON_CONFLICT
-     *          IL_IGNORE_ON_CONFLICT
-     */
     public int $conflict_rule;
 
     public bool $send_mail;
@@ -236,29 +219,29 @@ class ilUserImportParser extends ilSaxParser
      */
     public function __construct(
         string $a_xml_file = '',
-        int $a_mode = IL_USER_IMPORT,
-        int $a_conflict_rule = IL_FAIL_ON_CONFLICT
+        int $a_mode = self::IL_USER_IMPORT,
+        int $a_conflict_rule = self::IL_FAIL_ON_CONFLICT
     ) {
         global $DIC;
 
         $DIC->settings();
 
-        $this->roles = array();
+        $this->roles = [];
         $this->mode = $a_mode;
         $this->conflict_rule = $a_conflict_rule;
-        $this->error_level = IL_IMPORT_SUCCESS;
-        $this->protocol = array();
-        $this->logins = array();
+        $this->error_level = self::IL_IMPORT_SUCCESS;
+        $this->protocol = [];
+        $this->logins = [];
         $this->userCount = 0;
-        $this->localRoleCache = array();
-        $this->parentRolesCache = array();
+        $this->localRoleCache = [];
+        $this->parentRolesCache = [];
         $this->send_mail = false;
-        $this->mapping_mode = IL_USER_MAPPING_LOGIN;
+        $this->mapping_mode = self::IL_USER_MAPPING_LOGIN;
 
         $this->user_settings_config = new ilUserSettingsConfig();
 
         // get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
-        $this->userStyles = array();
+        $this->userStyles = [];
         $skins = ilStyleDefinition::getAllSkins();
 
         if (is_array($skins)) {
@@ -281,7 +264,7 @@ class ilUserImportParser extends ilSaxParser
 
         $this->recommended_content_manager = new ilRecommendedContentManager();
 
-        $request = new \ILIAS\User\StandardGUIRequest(
+        $request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -358,13 +341,13 @@ class ilUserImportParser extends ilSaxParser
         array $a_attribs
     ): void {
         switch ($this->mode) {
-            case IL_EXTRACT_ROLES:
+            case self::IL_EXTRACT_ROLES:
                 $this->extractRolesBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
-            case IL_USER_IMPORT:
+            case self::IL_USER_IMPORT:
                 $this->importBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
-            case IL_VERIFY:
+            case self::IL_VERIFY:
                 $this->verifyBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
         }
@@ -430,7 +413,7 @@ class ilUserImportParser extends ilSaxParser
 
             case "User":
                 $this->acc_mail->reset();
-                $this->prefs = array();
+                $this->prefs = [];
                 $this->currentPrefKey = null;
                 $this->auth_mode_set = false;
                 $this->approve_date_set = false;
@@ -444,11 +427,11 @@ class ilUserImportParser extends ilSaxParser
                 $this->userObj = new ilObjUser();
 
                 // user defined fields
-                $this->udf_data = array();
+                $this->udf_data = [];
 
                 // if we have an object id, store it
                 $this->user_id = -1;
-                if (isset($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (isset($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -474,7 +457,7 @@ class ilUserImportParser extends ilSaxParser
                 $this->currPassword = null;
                 $this->currPasswordType = null;
                 $this->currActive = null;
-                $this->multi_values = array();
+                $this->multi_values = [];
                 break;
 
             case 'Password':
@@ -599,7 +582,7 @@ class ilUserImportParser extends ilSaxParser
                 // if we have an object id, store it
                 $this->user_id = -1;
 
-                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -680,13 +663,13 @@ class ilUserImportParser extends ilSaxParser
         string $a_name
     ): void {
         switch ($this->mode) {
-            case IL_EXTRACT_ROLES:
+            case self::IL_EXTRACT_ROLES:
                 $this->extractRolesEndTag($a_xml_parser, $a_name);
                 break;
-            case IL_USER_IMPORT:
+            case self::IL_USER_IMPORT:
                 $this->importEndTag($a_xml_parser, $a_name);
                 break;
-            case IL_VERIFY:
+            case self::IL_VERIFY:
                 $this->verifyEndTag($a_xml_parser, $a_name);
                 break;
         }
@@ -795,7 +778,7 @@ class ilUserImportParser extends ilSaxParser
         $rbacreview = $DIC['rbacreview'];
 
         if (!array_key_exists($a_role_id, $this->parentRolesCache)) {
-            $parent_role_ids = array();
+            $parent_role_ids = [];
 
             $role_obj = $this->getRoleObject($a_role_id);
             $short_role_title = substr($role_obj->getTitle(), 0, 12);
@@ -924,10 +907,10 @@ class ilUserImportParser extends ilSaxParser
 
                 // Handle conflicts
                 switch ($this->conflict_rule) {
-                    case IL_FAIL_ON_CONFLICT:
+                    case self::IL_FAIL_ON_CONFLICT:
                         // do not change action
                         break;
-                    case IL_UPDATE_ON_CONFLICT:
+                    case self::IL_UPDATE_ON_CONFLICT:
                         switch ($this->action) {
                             case "Insert":
                                 if ($user_id) {
@@ -949,7 +932,7 @@ class ilUserImportParser extends ilSaxParser
                                 break;
                         }
                         break;
-                    case IL_IGNORE_ON_CONFLICT:
+                    case self::IL_IGNORE_ON_CONFLICT:
                         switch ($this->action) {
                             case "Insert":
                                 if ($user_id) {
@@ -1395,7 +1378,7 @@ class ilUserImportParser extends ilSaxParser
                 }
 
                 // init role array for next user
-                $this->roles = array();
+                $this->roles = [];
                 break;
 
             case "Login":
@@ -1680,7 +1663,7 @@ class ilUserImportParser extends ilSaxParser
 
                 switch ($this->action) {
                     case "Insert":
-                        if ($user_exists and $this->conflict_rule == IL_FAIL_ON_CONFLICT) {
+                        if ($user_exists and $this->conflict_rule === self::IL_FAIL_ON_CONFLICT) {
                             $this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_cant_insert"));
                         }
                         if (is_null($this->userObj->getGender()) && $this->isFieldRequired("gender")) {
@@ -1727,7 +1710,7 @@ class ilUserImportParser extends ilSaxParser
                 }
 
                 // init role array for next user
-                $this->roles = array();
+                $this->roles = [];
                 break;
 
             case "Login":
@@ -2008,13 +1991,13 @@ class ilUserImportParser extends ilSaxParser
         string $aMessage
     ): void {
         if (!array_key_exists($aLogin, $this->protocol)) {
-            $this->protocol[$aLogin] = array();
+            $this->protocol[$aLogin] = [];
         }
         if ($aMessage) {
             $this->protocol[$aLogin][] = $aMessage;
         }
-        if ($this->error_level == IL_IMPORT_SUCCESS) {
-            $this->error_level = IL_IMPORT_WARNING;
+        if ($this->error_level === self::IL_IMPORT_SUCCESS) {
+            $this->error_level = self::IL_IMPORT_WARNING;
         }
     }
 
@@ -2026,12 +2009,12 @@ class ilUserImportParser extends ilSaxParser
         string $aMessage
     ): void {
         if (!array_key_exists($aLogin, $this->protocol)) {
-            $this->protocol[$aLogin] = array();
+            $this->protocol[$aLogin] = [];
         }
         if ($aMessage) {
             $this->protocol[$aLogin][] = $aMessage;
         }
-        $this->error_level = IL_IMPORT_FAILURE;
+        $this->error_level = self::IL_IMPORT_FAILURE;
     }
 
     /**
@@ -2093,7 +2076,7 @@ class ilUserImportParser extends ilSaxParser
      */
     public function isSuccess(): bool
     {
-        return $this->error_level == IL_IMPORT_SUCCESS;
+        return $this->error_level === self::IL_IMPORT_SUCCESS;
     }
 
     /**
@@ -2143,7 +2126,7 @@ class ilUserImportParser extends ilSaxParser
      */
     public function setUserMappingMode(int $value): void
     {
-        if ($value == IL_USER_MAPPING_ID || $value == IL_USER_MAPPING_LOGIN) {
+        if ($value === self::IL_USER_MAPPING_ID || $value === self::IL_USER_MAPPING_LOGIN) {
             $this->mapping_mode = $value;
         } else {
             die("wrong argument using methode setUserMappingMethod in " . __FILE__);
@@ -2177,7 +2160,7 @@ class ilUserImportParser extends ilSaxParser
                 $this->required_fields[$value] = $value;
             }
         }
-        return $this->required_fields ?: array();
+        return $this->required_fields ?: [];
     }
 
     /**

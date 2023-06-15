@@ -28,6 +28,7 @@ use ILIAS\DI\UIServices;
  */
 class ilAwarenessGUI implements ilCtrlBaseClassInterface
 {
+    protected InternalGUIService $gui;
     protected ilGlobalTemplateInterface $main_tpl;
     protected int $ref_id;
     protected \ILIAS\Awareness\StandardGUIRequest $request;
@@ -37,6 +38,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected UIServices $ui;
     protected ilLanguage $lng;
     protected InternalDataService $data_service;
+    protected ilUserActionGUI $user_action_gui;
 
     public function __construct(
         InternalDataService $data_service = null,
@@ -66,6 +68,16 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
             $this->ref_id
         );
         $this->gui = $DIC->awareness()->internal()->gui();
+        $this->user_action_gui = new ilUserActionGUI(
+            new ilUserActionProviderFactory(),
+            new ilAwarenessUserActionContext(),
+            $DIC['tpl'],
+            $this->ui->factory(),
+            $this->ui->renderer(),
+            $this->lng,
+            $DIC['ilDB'],
+            $this->user->getId()
+        );
     }
 
     public function executeCommand(): void
@@ -93,9 +105,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         $this->main_tpl->addOnLoadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
         $this->main_tpl->addOnLoadCode("il.Awareness.init();");
 
-        // include user action js
-        $ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
-        $ua_gui->init();
+        $this->user_action_gui->init();
     }
 
     /**

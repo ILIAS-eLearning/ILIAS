@@ -20,6 +20,7 @@ namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * Describes a factory for file dropzones.
@@ -59,17 +60,19 @@ interface Factory
      *        Standard dropzones MUST offer the possibility to select files
      *        manually from the computer.
      * ---
-     * @param string $title
-     * @param string $message
-     * @param string $post_url
+     * @param string    $title
+     * @param string    $message
+     * @param string    $post_url
      * @param FileInput $file_input
+     * @param Input     $additional_input
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
     public function standard(
         string $title,
         string $message,
         string $post_url,
-        FileInput $file_input
+        FileInput $file_input,
+        ?Input $additional_input = null,
     ): Standard;
 
     /**
@@ -107,16 +110,18 @@ interface Factory
      *     3: Wrapper dropzones MUST NOT contain any other file dropzones.
      *     4: Wrapper dropzones MUST NOT be used in modals.
      * ---
-     * @param string $title
-     * @param string $post_url
+     * @param string                $title
+     * @param string                $post_url
      * @param Component|Component[] $content
-     * @param FileInput $file_input
+     * @param FileInput             $file_input
+     * @param Input                 $additional_input
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
     public function wrapper(
         string $title,
         string $post_url,
         $content,
-        FileInput $file_input
+        FileInput $file_input,
+        ?Input $additional_input = null,
     ): Wrapper;
 }

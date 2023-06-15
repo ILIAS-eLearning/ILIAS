@@ -4762,6 +4762,9 @@ footer {
   left: 25%;
 }
 
+.il-workflow {
+  word-break: break-word;
+}
 .il-workflow.linear {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -11427,6 +11430,11 @@ div.ilc_Question {
   border: 1px solid #C0C0C0;
   padding: 0.25em;
   margin-top: 1em;
+  padding: 15px;
+}
+.questionPrintview .row.ilc_qanswer_Answer {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .solutionbox {
@@ -15539,21 +15547,6 @@ div.ilCreationFormSection .form-horizontal {
   border-top: none;
   padding-top: 15px;
   padding-bottom: 15px;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
-  position: absolute;
-  float: right;
-  bottom: 21px;
-  z-index: 3;
-  right: 28px;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel > a {
-  display: block;
-  height: 14px;
-  width: 14px;
-  background: url("./images/emoticons_trigger.png") no-repeat;
-  background-size: cover;
-  z-index: 1000;
 }
 
 .iosOnScreenChatModalBody .ui-menu-item {

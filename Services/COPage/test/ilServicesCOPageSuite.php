@@ -141,6 +141,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PC/FileList/FileListManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\FileList\FileListManagerTest::class);
 
+        require_once("./Services/COPage/test/Layout/PageLayoutTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Layout\PageLayoutTest::class);
+
         return $suite;
     }
 }

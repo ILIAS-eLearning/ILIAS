@@ -20,42 +20,21 @@ declare(strict_types=1);
 
 class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 {
-    protected ilObjLearningSequenceContentGUI $parent_gui;
-    protected ilObjLearningSequenceGUI $container_gui;
-    protected string $cmd;
-    protected ilAccess $access;
-    protected ILIAS\UI\Factory $ui_factory;
-    protected ILIAS\UI\Renderer $ui_renderer;
-    protected ilAdvancedSelectionListGUI $advanced_selection_list_gui;
-    protected LSItemOnlineStatus $ls_item_online_status;
-    protected string $alert_icon;
     protected bool $lp_globally_enabled;
 
     public function __construct(
-        ilObjLearningSequenceContentGUI $parent_gui,
-        ilObjLearningSequenceGUI $container_gui,
-        string $cmd,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilAccess $access,
-        ILIAS\UI\Factory $ui_factory,
-        ILIAS\UI\Renderer $ui_renderer,
-        ilAdvancedSelectionListGUI $advanced_selection_list_gui,
-        LSItemOnlineStatus $ls_item_online_status,
-        string $alert_icon
+        protected ilObjLearningSequenceContentGUI $parent_gui,
+        protected ilObjLearningSequenceGUI $container_gui,
+        protected string $cmd,
+        ilCtrl $ctrl, //table2gui
+        ilLanguage $lng, //tablegui
+        protected ilAccess $access,
+        protected ILIAS\UI\Factory $ui_factory,
+        protected ILIAS\UI\Renderer $ui_renderer,
+        protected LSItemOnlineStatus $ls_item_online_status,
+        protected string $alert_icon
     ) {
         parent::__construct($parent_gui, $cmd);
-
-        $this->parent_gui = $parent_gui;
-        $this->container_gui = $container_gui;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->access = $access;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
-        $this->advanced_selection_list_gui = $advanced_selection_list_gui;
-        $this->ls_item_online_status = $ls_item_online_status;
-        $this->alert_icon = $alert_icon;
 
         $this->lp_globally_enabled = ilObjUserTracking::_enabledLearningProgress();
 

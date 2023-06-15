@@ -23,7 +23,6 @@
  */
 class ilPCConsultationHours extends ilPageContent
 {
-    protected php4DOMElement $cach_node;
     protected ilObjUser $user;
 
     public function init(): void
@@ -38,21 +37,15 @@ class ilPCConsultationHours extends ilPageContent
         return array("ed_insert_consultation_hours", "pc_cach");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->cach_node = $a_node->first_child();		// this is the consultation hours node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->cach_node = $this->dom->create_element("ConsultationHours");
-        $this->cach_node = $this->node->append_child($this->cach_node);
+        $cach_node = $this->dom_doc->createElement("ConsultationHours");
+        $cach_node = $this->getDomNode()->appendChild($cach_node);
     }
 
     /**
@@ -64,22 +57,17 @@ class ilPCConsultationHours extends ilPageContent
     ): void {
         $ilUser = $this->user;
 
-        $this->cach_node->set_attribute("Mode", $a_mode);
-        $this->cach_node->set_attribute("User", $ilUser->getId());
+        $this->getChildNode()->setAttribute("Mode", $a_mode);
+        $this->getChildNode()->setAttribute("User", $ilUser->getId());
 
         // remove all children first
-        $children = $this->cach_node->child_nodes();
-        if ($children) {
-            foreach ($children as $child) {
-                $this->cach_node->remove_child($child);
-            }
-        }
+        $this->dom_util->deleteAllChilds($this->getChildNode());
 
         if ($a_mode === "manual") {
             foreach ($a_grp_ids as $grp_id) {
-                $field_node = $this->dom->create_element("ConsultationHoursGroup");
-                $field_node = $this->cach_node->append_child($field_node);
-                $field_node->set_attribute("Id", $grp_id);
+                $field_node = $this->dom_doc->createElement("ConsultationHoursGroup");
+                $field_node = $this->getChildNode()->appendChild($field_node);
+                $field_node->setAttribute("Id", $grp_id);
             }
         }
     }
@@ -90,12 +78,9 @@ class ilPCConsultationHours extends ilPageContent
     public function getGroupIds(): array
     {
         $res = array();
-        if (is_object($this->cach_node)) {
-            $children = $this->cach_node->child_nodes();
-            if ($children) {
-                foreach ($children as $child) {
-                    $res[] = $child->get_attribute("Id");
-                }
+        if (is_object($this->getChildNode())) {
+            foreach ($this->getChildNode() as $child) {
+                $res[] = $child->getAttribute("Id");
             }
         }
         return $res;

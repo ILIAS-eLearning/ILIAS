@@ -1087,6 +1087,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?
 assessment#:#qpl_tab_competences#:#Competences
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:
 assessment#:#qst_essay_allready_written_words#:#Already entered words:
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:
 assessment#:#qst_essay_wordcounter_enabled#:#Count Words
@@ -2528,7 +2529,7 @@ book#:#book_notification_cron_not_active#:#Note: The corresponding cron job "Sen
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
 book#:#book_nr_of_preferences#:#Number of Preferences
 book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
-book#:#book_nr_preferences#:#Prefences
+book#:#book_nr_preferences#:#Preferences
 book#:#book_obj_select#:#Select
 book#:#book_object_added#:#A booking object has been added.
 book#:#book_object_deleted#:#The booking object has been deleted.
@@ -2876,7 +2877,6 @@ chatroom#:#chat_osc_conversations#:#Conversations
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your %s.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
-chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
@@ -2919,7 +2919,6 @@ chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chatroom_log#:#Chatserver Log
-chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
@@ -2942,12 +2941,10 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
-chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
 chatroom#:#history_by_day#:#Daily History
 chatroom#:#history_by_session#:#Session History
 chatroom#:#history_byday_title#:#Show Conversation per Day
@@ -3003,21 +3000,6 @@ chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
-chatroom_adm#:#chat_smilies_initialized#:#Chat smileys initialized
-chatroom_adm#:#chatroom_add_smiley#:#Add Smiley
-chatroom_adm#:#chatroom_available_smilies#:#Available Smileys
-chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
-chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon
-chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley
-chatroom_adm#:#chatroom_delete_selected#:#Delete Selected Smileys
-chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley
-chatroom_adm#:#chatroom_image_path#:#Path to Smiley
-chatroom_adm#:#chatroom_smiley_image#:#Smiley
-chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
-chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
-chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line
-chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#general_settings_title#:#General Chat Settings
@@ -3032,7 +3014,6 @@ chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-chatroom_adm#:#smiley#:#Smilies
 classification#:#clsfct_back_to_cat#:#Back to Category
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
@@ -6301,7 +6282,7 @@ content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
-content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.
+content#:#cont_disable_def_feedback_info#:#The standard feedback for a question is not displayed after answering a question.
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
 content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.
@@ -6538,7 +6519,7 @@ content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_insert_page#:#Insert Page
 content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
-content#:#cont_insert_pagelayout#:#Insert Template Page
+content#:#cont_insert_pagelayout#:#Insert Page from Template
 content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_insert_resources#:#Insert Resource List
@@ -6867,7 +6848,7 @@ content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
-content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
+content#:#cont_restrict_forw_nav_info#:#A subsequent page can only be accessed when all test questions have been answered correctly on the current learning module page.
 content#:#cont_revision#:#Revision
 content#:#cont_right#:#Right
 content#:#cont_right_float#:#Right, Floating
@@ -7078,9 +7059,9 @@ content#:#cont_tree_fixed#:#Tree structure has been fixed.
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_remaining#:#Tries Remaining
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
-content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.
+content#:#cont_tries_reset_on_visit_info#:#Each time a page with an embedded test question is called up, the maximum number of answer attempts is possible. The test questions can be answered again each time.
 content#:#cont_tries_store#:#Store Answer Status
-content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.
+content#:#cont_tries_store_info#:#The number of answer attempts is recorded and saved. Correctly answered questions can no longer be answered. After reaching the maximum number of attempts, a further answer attempt is no longer possible.
 content#:#cont_trigger_area#:#Trigger Area
 content#:#cont_type#:#Type
 content#:#cont_type_not_allowed#:#Content type not allowed at this position
@@ -8258,6 +8239,7 @@ dateplaner#:#cal_on_the#:#On the:
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Owner
+dateplaner#:#cal_period#:#Period
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 dateplaner#:#cal_recurrences#:#Recurrences
@@ -9530,7 +9512,6 @@ file#:#msg_success_icon_deactivated#:#Icon successfully deactivated.
 file#:#msg_success_icon_deletion#:#Icon successfully deleted.
 file#:#msg_success_icon_updated#:#Icon successfully updated.
 file#:#msg_unzip_success#:#Archive has been successfully unziped.
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#on_click_action#:#Action on Click on Title
 file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#Maximum length of the preview images in px.
@@ -9766,10 +9747,6 @@ forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for f
 forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable posting statistics for all participants
 forum#:#frm_statistics_ranking#:#Number of Postings
-forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
-forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
-forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
-forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.
 forum#:#frm_subject_setting#:#Subject setting
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -9829,9 +9806,7 @@ forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The postings
 forum#:#sort_by_posts#:#By Reply
 forum#:#sort_by_posts_desc#:#The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other.
 forum#:#sorting#:#Sorting
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky#:#Sticky
-forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#target_select#:#Select posting for limited view
@@ -12663,6 +12638,7 @@ prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
+prg#:#cont_ed_insert_prgstatusinfo#:#Insert Study Progamme Statusinformation
 prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
@@ -12717,6 +12693,13 @@ prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#optgrp_label_restart#:#Restart
 prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
+prg#:#pc_prgstatus_edit_qualification#:#Re-processing required from
+prg#:#pc_prgstatus_expiration_date#:#Expiry date
+prg#:#pc_prgstatus_qualification_headline#:#Status of your qualification
+prg#:#pc_prgstatus_status_no_qualification#:#No qualification
+prg#:#pc_prgstatus_status_valid_qualification#:#Valid
+prg#:#pc_prgstatus_text_no_qualification#:#Your qualification is not valid
+prg#:#pc_prgstatus_unlimited_validation#:#Unlimited validity
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
@@ -16698,8 +16681,8 @@ user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
-user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
+user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
+user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#editing_this_role#:#Role

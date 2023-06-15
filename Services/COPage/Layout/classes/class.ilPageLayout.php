@@ -27,6 +27,8 @@ class ilPageLayout
     public const MODULE_SCORM = 1;
     public const MODULE_PORTFOLIO = 2;
     public const MODULE_LM = 3;
+    protected ?string $xml_content = null;
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected int $special_page;
     protected int $style_id;
 
@@ -65,6 +67,7 @@ class ilPageLayout
         } else {
             $this->layout_id = $a_id;
         }
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function getActive(): bool
@@ -201,8 +204,16 @@ class ilPageLayout
         $this->setModules($mods);
     }
 
+    public function setXMLContent(string $content): void
+    {
+        $this->xml_content = $content;
+    }
+
     public function getXMLContent(): string
     {
+        if (!is_null($this->xml_content)) {
+            return $this->xml_content;
+        }
         $layout_page = new ilPageLayoutPage($this->layout_id);
         return $layout_page->getXMLContent();
     }
@@ -219,22 +230,19 @@ class ilPageLayout
 
     private function generatePreview(): string
     {
-        $xml = $this->getXMLContent();
         $error = null;
-        $dom = domxml_open_mem($xml, DOMXML_LOAD_PARSING, $error);
-        $xpc = xpath_new_context($dom);
+        $dom = $this->dom_util->docFromString($this->getXMLContent(), $error);
         $path = "////PlaceHolder";
-        $res = xpath_eval($xpc, $path);
-
-        foreach ($res->nodeset as $item) {
-            $height = $item->get_attribute("Height");
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $height = $node->getAttribute("Height");
 
             $height = str_ireplace("px", "", $height);
             $height = $height / 10;
-            $item->set_attribute("Height", $height . "px");
+            $node->setAttribute("Height", $height . "px");
         }
 
-        $xml = $dom->dump_mem(0, "UTF-8");
+        $xml = $this->dom_util->dump($dom->documentElement);
         $output = $this->xslt($xml, []);
         return $output;
     }

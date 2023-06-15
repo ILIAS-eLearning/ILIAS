@@ -81,7 +81,7 @@ class ilTestPasswordChecker
 
     public function wrongUserEnteredPasswordExist(): bool
     {
-        if (!strlen($this->getUserEnteredPassword())) {
+        if ($this->getUserEnteredPassword() && $this->getUserEnteredPassword() === '') {
             return false;
         }
 

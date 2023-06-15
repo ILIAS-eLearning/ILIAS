@@ -4,20 +4,20 @@ var ilAnswerWizardInputTemplate = {
 	tag_row: 'tr.answwzd',
 	tag_button: 'answerwizard',
 
-	getRowFromEvent: function(e) {
+	getRowFromEvent: function (e) {
 		return $(e.target).closest(this.tag_row);
 	},
 
-	getContainerFromEvent: function(e) {
+	getContainerFromEvent: function (e) {
 		return $(e.target).closest(this.tag_container);
 	},
 
-	cleanRow: function(row) {
+	cleanRow: function (row) {
 		$(row).find('input:text').attr('value', '');
 		$(row).find('input:checkbox').prop('checked', false);
 	},
 
-	reindexRows: function(tbody) {
+	reindexRows: function (tbody) {
 		var that = this;
 		var rowindex = 0;
 
@@ -37,9 +37,8 @@ var ilAnswerWizardInputTemplate = {
 			});
 
 			// button
-			$(this).find('button').each(function() {
+			$(this).find('div.btn.btn-link').each(function() {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
 			});
 
 			rowindex++;
@@ -47,7 +46,7 @@ var ilAnswerWizardInputTemplate = {
 	}
 };
 
-$(document).ready(function() {
-	var ilAnswerWizardInput = $.extend({}, ilAnswerWizardInputTemplate, ilWizardInput);
+$(document).ready(function () {
+	var ilAnswerWizardInput = $.extend({}, ilAnswerWizardInputTemplate, AnswerWizardInput);
 	ilAnswerWizardInput.init();
 });

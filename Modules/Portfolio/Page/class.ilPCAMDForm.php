@@ -22,7 +22,6 @@
  */
 class ilPCAMDForm extends ilPageContent
 {
-    protected php4DOMElement $amdfrm_node;
     protected int $ref_id;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -48,12 +47,6 @@ class ilPCAMDForm extends ilPageContent
         return array("ed_insert_amdfrm", "pc_amdfrm");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->amdfrm_node = $a_node->first_child();		// this is the courses node
-    }
-
     protected function isTemplate(): bool
     {
         return ($this->getPage()->getParentType() === "prtt");
@@ -64,21 +57,21 @@ class ilPCAMDForm extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->amdfrm_node = $this->dom->create_element("AMDForm");
-        $this->amdfrm_node = $this->node->append_child($this->amdfrm_node);
+        $amdfrm_node = $this->dom_doc->createElement("AMDForm");
+        $this->getDomNode()->appendChild($amdfrm_node);
     }
 
     public function setRecordIds(array $record_ids): void
     {
-        $this->amdfrm_node->set_attribute("RecordIds", implode(",", $record_ids));
+        $this->getChildNode()->setAttribute("RecordIds", implode(",", $record_ids));
     }
 
     public function getRecordIds(): array
     {
-        if (is_object($this->amdfrm_node)) {
-            return explode(",", $this->amdfrm_node->get_attribute("RecordIds"));
+        if (is_object($this->getChildNode())) {
+            return explode(",", $this->getChildNode()->getAttribute("RecordIds"));
         }
         return [];
     }

@@ -27,6 +27,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Notes\DomainService $notes;
@@ -56,7 +57,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilObjLearningModule $lm;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
-    public php4DOMDocument $layout_doc;
+    public DOMDocument $layout_doc;
     public bool $offline;
     public string $offline_directory;
     protected bool $embed_mode = false;
@@ -177,6 +178,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes()->domain();
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function getUnsafeGetCommands(): array
@@ -428,14 +430,13 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     {
     }
 
-    public function attrib2arr(?array $a_attributes): array
+    public function attrib2arr(?DOMNamedNodeMap $a_attributes): array
     {
         $attr = array();
-        if (!is_array($a_attributes)) {
-            return $attr;
-        }
-        foreach ($a_attributes as $attribute) {
-            $attr[$attribute->name()] = $attribute->value();
+        if (!is_null($a_attributes)) {
+            foreach ($a_attributes as $attribute) {
+                $attr[$attribute->name] = $attribute->value;
+            }
         }
         return $attr;
     }
@@ -478,26 +479,24 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
 
-        $doc = domxml_open_mem($xmlfile);
+        $error = null;
+        $doc = $this->dom_util->docFromString($xmlfile, $error);
         $this->layout_doc = $doc;
-        //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
         // get current frame node
-        $xpc = xpath_new_context($doc);
         $path = (empty($this->requested_frame) || ($this->requested_frame == "_blank"))
             ? "/ilLayout/ilFrame[1]"
             : "//ilFrame[@name='" . $this->requested_frame . "']";
-        $result = xpath_eval($xpc, $path);
-        $found = $result->nodeset;
-        if (count($found) != 1) {
-            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($found) . " nodes for " .
+        $nodes = $this->dom_util->path($doc, $path);
+        if (count($nodes) != 1) {
+            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($nodes) . " nodes for " .
                 " path " . $path . " in " . $layout . "/" . $a_xml . ". LM Layout is " . $this->lm->getLayout());
         }
-        $node = $found[0];
+        $node = $nodes->item(0);
 
         // ProcessFrameset
         // node is frameset, if it has cols or rows attribute
-        $attributes = $this->attrib2arr($node->attributes());
+        $attributes = $this->attrib2arr($node->attributes);
 
         $this->frames = array();
 
@@ -516,12 +515,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             }
 
             // get object specific node
-            $childs = $node->child_nodes();
             $found = false;
-            foreach ($childs as $child) {
-                if ($child->node_name() == $obj_type) {
+            foreach ($node->childNodes as $child) {
+                if ($child->nodeName == $obj_type) {
                     $found = true;
-                    $attributes = $this->attrib2arr($child->attributes());
+                    $attributes = $this->attrib2arr($child->attributes);
                     $node = $child;
                     //echo "<br>2node:".$node->node_name();
                     break;
@@ -544,12 +542,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // to make e.g. advanced seletions lists work:
         //			$GLOBALS["tpl"] = $this->tpl;
 
-        $childs = $node->child_nodes();
+        foreach ($node->childNodes as $child) {
+            $child_attr = $this->attrib2arr($child->attributes);
 
-        foreach ($childs as $child) {
-            $child_attr = $this->attrib2arr($child->attributes());
-
-            switch ($child->node_name()) {
+            switch ($child->nodeName) {
                 case "ilPage":
                     $this->renderPageTitle();
                     $this->setHeader();
@@ -1311,6 +1307,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         'enlarge_path' => $enlarge_path,
                         'link_params' => "ref_id=" . $this->lm->getRefId(),
                         'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                         'ref_id' => $this->lm->getRefId(),
                         'pg_frame' => $pg_frame,
                         'webspace_path' => $wb_path

@@ -24,6 +24,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilNewsTimelineItemGUI implements ilTimelineItemInt
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected ilLanguage $lng;
     protected ilNewsItem $news_item;
     protected ilObjectDefinition $obj_def;

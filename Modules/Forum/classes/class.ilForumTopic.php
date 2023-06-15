@@ -36,7 +36,6 @@ class ilForumTopic
     private int $visits = 0;
     private ?string $import_name = null;
     private bool $is_sticky = false;
-    private ?int $order_sequence_index = null;
     private bool $is_closed = false;
     private string $orderField = '';
     private ?ilForumPost $last_post = null;
@@ -87,10 +86,6 @@ class ilForumTopic
         $this->setAverageRating(isset($data['avg_rating']) ? (float) $data['avg_rating'] : 0);
         $this->setThrAuthorId((int) $data['thr_author_id']);
 
-        if (isset($data['thread_sorting'])) {
-            $this->setOrderSequenceIndex((int) $data['thread_sorting']);
-        }
-
         // Aggregated values
         if (isset($data['num_posts'])) {
             $this->setNumPosts((int) $data['num_posts']);
@@ -120,7 +115,6 @@ class ilForumTopic
                     'thr_last_post' => ['text', $this->last_post_string],
                     'thr_date' => ['timestamp', $this->createdate],
                     'thr_update' => ['timestamp', null],
-                    'thread_sorting' => ['integer', (int) $this->order_sequence_index],
                     'import_name' => ['text', $this->import_name],
                     'is_sticky' => ['integer', (int) $this->is_sticky],
                     'is_closed' => ['integer', (int) $this->is_closed],
@@ -199,7 +193,6 @@ class ilForumTopic
                 $this->frm_obj_id = (int) $row->frm_obj_id;
                 $this->average_rating = (float) $row->avg_rating;
                 $this->thr_author_id = (int) $row->thr_author_id;
-                $this->order_sequence_index = (int) $row->thread_sorting;
 
                 return true;
             }
@@ -966,16 +959,6 @@ class ilForumTopic
     public function isSticky(): bool
     {
         return $this->is_sticky;
-    }
-
-    public function getOrderSequenceIndex(): ?int
-    {
-        return $this->order_sequence_index;
-    }
-
-    public function setOrderSequenceIndex(?int $order_sequence_index): void
-    {
-        $this->order_sequence_index = $order_sequence_index;
     }
 
     public function setClosed(bool $a_closed): void

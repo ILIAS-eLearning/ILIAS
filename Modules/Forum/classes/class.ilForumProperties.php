@@ -30,9 +30,6 @@ class ilForumProperties
     public const VIEW_DATE_DESC = 3;
     public const FILE_UPLOAD_GLOBALLY_ALLOWED = 0;
     public const FILE_UPLOAD_INDIVIDUAL = 1;
-    public const THREAD_SORTING_DEFAULT = 0;
-    public const THREAD_SORTING_MANUAL = 1;
-
     /** @var array<int, ilForumProperties> */
     private static array $instances = [];
 
@@ -57,7 +54,6 @@ class ilForumProperties
     /** Add 'Re: ' to subject on reply */
     private bool $add_re_subject = false;
     private bool $mark_mod_posts = false;
-    private int $thread_sorting = self::THREAD_SORTING_DEFAULT;
     private bool $is_thread_rating_enabled = false;
     private bool $file_upload_allowed = false;
     protected int $styleId = 0;
@@ -111,7 +107,6 @@ class ilForumProperties
 
                 $this->notification_type = $row->notification_type ?? 'default';
                 $this->mark_mod_posts = (bool) $row->mark_mod_posts;
-                $this->thread_sorting = (int) $row->thread_sorting;
                 $this->is_thread_rating_enabled = (bool) $row->thread_rating;
                 $this->file_upload_allowed = (bool) $row->file_upload_allowed;
                 if (is_numeric($row->lp_req_num_postings)) {
@@ -138,7 +133,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
@@ -170,7 +164,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', (int) $this->lp_req_num_postings],
@@ -201,7 +194,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
@@ -426,16 +418,6 @@ class ilForumProperties
     public function getMarkModeratorPosts(): bool
     {
         return $this->mark_mod_posts;
-    }
-
-    public function setThreadSorting(int $a_thread_sorting): void
-    {
-        $this->thread_sorting = $a_thread_sorting;
-    }
-
-    public function getThreadSorting(): int
-    {
-        return $this->thread_sorting;
     }
 
     public function getUserToggleNoti(): bool

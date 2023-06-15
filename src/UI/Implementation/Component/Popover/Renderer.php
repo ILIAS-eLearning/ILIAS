@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Popover;
 
@@ -106,7 +106,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./libs/bower/bower_components/webui-popover/dist/jquery.webui-popover.js');
+        $registry->register('./node_modules/webui-popover/dist/jquery.webui-popover.js');
         $registry->register('./src/UI/templates/js/Popover/popover.js');
     }
 

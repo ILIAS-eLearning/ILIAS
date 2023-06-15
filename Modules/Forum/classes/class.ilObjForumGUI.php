@@ -705,41 +705,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function showThreadsObject(): void
     {
-        $this->getSubTabs();
         $this->setSideBlocks();
         $this->getCenterColumnHTML();
-    }
-
-    public function sortThreadsObject(): void
-    {
-        $this->getSubTabs('sortThreads');
-        $this->setSideBlocks();
-        $this->getCenterColumnHTML();
-    }
-
-    public function getSubTabs($subtab = 'showThreads'): void
-    {
-        if ($this->is_moderator && $this->objProperties->getThreadSorting() === 1) {
-            $this->tabs_gui->addSubTabTarget(
-                'show',
-                $this->ctrl->getLinkTarget($this, 'showThreads'),
-                'showThreads',
-                $this::class,
-                '',
-                $subtab === 'showThreads'
-            );
-
-            if ($this->object->getNumStickyThreads() > 1) {
-                $this->tabs_gui->addSubTabTarget(
-                    'sticky_threads_sorting',
-                    $this->ctrl->getLinkTarget($this, 'sortThreads'),
-                    'sortThreads',
-                    $this::class,
-                    '',
-                    $subtab === 'sortThreads'
-                );
-            }
-        }
     }
 
     public function getContent(): string
@@ -822,7 +789,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->user->getId()
             );
 
-            if (!in_array($cmd, ['showThreads', 'sortThreads'])) {
+            if ($cmd !== 'showThreads') {
                 $cmd = 'showThreads';
             }
 
@@ -4501,32 +4468,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $crsRefId = $this->tree->checkForParentType($this->object->getRefId(), 'crs');
 
         return ($grpRefId > 0 || $crsRefId > 0);
-    }
-
-    protected function saveThreadSortingObject(): void
-    {
-        if (!$this->is_moderator) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
-
-        if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
-
-        $threadIdToSortValueMap = (array) ($this->httpRequest->getParsedBody()['thread_sorting'] ?? []);
-
-        array_walk($threadIdToSortValueMap, function ($sortValue, $threadId): void {
-            $this->ensureThreadBelongsToForum($this->object->getId(), new ilForumTopic((int) $threadId));
-        });
-
-        foreach ($threadIdToSortValueMap as $threadId => $sortValue) {
-            $sortValue = str_replace(',', '.', $sortValue);
-            $sortValue = ((float) $sortValue) * 100;
-            $this->object->setThreadSorting((int) $threadId, (int) $sortValue);
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-        $this->ctrl->redirect($this, 'showThreads');
     }
 
     public function mergeThreadsObject(): void

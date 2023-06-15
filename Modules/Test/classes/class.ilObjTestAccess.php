@@ -541,7 +541,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 );
                 if ($result->numRows()) {
                     $row = $ilDB->fetchAssoc($result);
-                    if (trim($row['clientip']) != "") {
+                    if ($row['clientip'] !== null && trim($row['clientip']) != "") {
                         $row['clientip'] = preg_replace("/[^0-9.?*,:]+/", "", $row['clientip']);
                         $row['clientip'] = str_replace(".", "\\.", $row['clientip']);
                         $row['clientip'] = str_replace(array("?","*",","), array("[0-9]","[0-9]*","|"), $row['clientip']);

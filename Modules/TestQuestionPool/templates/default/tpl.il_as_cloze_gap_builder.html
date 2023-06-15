@@ -100,7 +100,7 @@
         <div>
             <table class="answerwizard">
                 <thead>
-                <tr class="form-group row">
+                <tr class="form-group">
                     <th>{ANSWER_TEXT}</th>
                     <th>{POINTS}</th>
                     <th></th>
@@ -115,8 +115,8 @@
                         <input type="text" style="text-align: right;" class="points_field" id="gap_points" size="5"  value="0">
                     </td>
                     <td style="vertical-align: top;">
-                        <button class="clone_fields_add btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-                        <button class="clone_fields_remove btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+                        <div class="clone_fields_add btn btn-link">{ADD_BUTTON}</div>
+                        <div class="clone_fields_remove btn btn-link">{REMOVE_BUTTON}</div>
                     </td>
                 </tr>
                 </tbody>
@@ -221,8 +221,6 @@
     <div>
         <h3 class="ilHeader">GAP_COMBINATION</h3><div class="help-block"></div>
     </div>
-    <div>
-    </div>
 </div>
 <div class="prototype" id="gap_combination_points_prototype">
     <div>
@@ -248,11 +246,10 @@
         <div class="combination_labels"><table><tr class="first_row"><td>{POINTS}</td></tr><tr class="stretch_row"><td><input type="text" style="text-align: right;" class="gap_combination_points form-control small_hidden_input" size="5"></td></tr></table></div>
         <div class="value_container"><select id="gap_id_value" class="form-control gap_combination" label="value"></select></div>
     </div>
-  
 </div>
 <div class="prototype add_remove_buttons">
-    <button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-    <button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+    <div name="add_gap" class="clone_fields_add combination btn btn-link">{ADD_BUTTON}</div>
+    <div name="remove_gap" class="clone_fields_remove combination btn btn-link">{REMOVE_BUTTON}</div>
 </div>
 <span id="select_option_placeholder" class="prototype"><option value="none_selected_minus_one">{PLEASE_SELECT}</option></span>
 <div class="prototype gap_combination_spacer"></div>
@@ -274,4 +271,4 @@
         </select>
     </div>
 </div>
-</div> 
+</div>

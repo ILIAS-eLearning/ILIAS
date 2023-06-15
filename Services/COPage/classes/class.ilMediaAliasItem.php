@@ -23,16 +23,17 @@
  */
 class ilMediaAliasItem
 {
+    protected DOMDocument $dom_doc;
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected string $parent_node_name;
     protected string $pcid;
     protected ilLanguage $lng;
-    public php4DOMDocument $dom;
     public string $hier_id = "";
     public string $purpose = "";
-    public ?php4DOMElement $item_node = null;
+    public ?DOMNode $item_node = null;
 
     public function __construct(
-        php4DOMDocument $a_dom,
+        DOMDocument $dom,
         string $a_hier_id,
         string $a_purpose,
         string $a_pc_id = "",
@@ -41,23 +42,22 @@ class ilMediaAliasItem
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->dom = $a_dom;
-        $this->dom_doc = $a_dom->myDOMDocument;
+        $this->dom_doc = $dom;
         $this->parent_node_name = $a_parent_node_name;
         $this->hier_id = $a_hier_id;
         $this->purpose = $a_purpose;
         $this->setPcId($a_pc_id);
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
         $this->item_node = $this->getMAItemNode(
             $this->hier_id,
             $this->purpose,
             $this->getPcId()
         );
-        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     protected function getItemNode(): DOMNode
     {
-        return $this->item_node->myDOMNode;
+        return $this->item_node;
     }
 
     public function getMAItemNode(
@@ -65,21 +65,19 @@ class ilMediaAliasItem
         string $a_purpose,
         string $a_pc_id = "",
         string $a_sub_element = ""
-    ): ?php4DOMElement {
+    ): ?DOMNode {
         if ($a_pc_id != "") {
-            $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']" . $a_sub_element;
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) == 1) {
-                return $res->nodeset[0];
+            $nodes = $this->dom_util->path($this->dom_doc, $path);
+            if (count($nodes) == 1) {
+                return $nodes->item(0);
             }
         }
 
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']" . $a_sub_element;
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            return $res->nodeset[0];
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        if (count($nodes) > 0) {
+            return $nodes->item(0);
         }
         return null;
     }
@@ -88,46 +86,28 @@ class ilMediaAliasItem
         string $a_hier_id,
         string $a_purpose,
         string $a_pc_id = ""
-    ): array {
-        $xpc = xpath_new_context($this->dom);
+    ): DOMNodeList {
         if ($a_pc_id != "") {
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                return $res->nodeset;
-            }
-            return array();
+            return $this->dom_util->path($this->dom_doc, $path);
         }
 
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            return $res->nodeset;
-        }
-        return [];
+        return $this->dom_util->path($this->dom_doc, $path);
     }
 
     public function getMapAreaNodes(
         string $a_hier_id,
         string $a_purpose,
         string $a_pc_id = ""
-    ): array {
-        $xpc = xpath_new_context($this->dom);
+    ): DOMNodeList {
         if ($a_pc_id != "") {
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                return $res->nodeset;
-            }
-            return array();
+            return $this->dom_util->path($this->dom_doc, $path);
         }
 
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            return $res->nodeset;
-        }
-        return array();
+        return $this->dom_util->path($this->dom_doc, $path);
     }
 
     public function setPcId(string $a_pcid): void
@@ -157,14 +137,13 @@ class ilMediaAliasItem
      */
     public function insert(): void
     {
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $this->hier_id . "']/" . $this->parent_node_name;
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            $obj_node = $res->nodeset[0];
-            $item_node = $this->dom->create_element("MediaAliasItem");
-            $item_node = $obj_node->append_child($item_node);
-            $item_node->set_attribute("Purpose", $this->purpose);
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        if (count($nodes) > 0) {
+            $obj_node = $nodes->item(0);
+            $item_node = $this->dom_doc->createElement("MediaAliasItem");
+            $item_node = $obj_node->appendChild($item_node);
+            $item_node->setAttribute("Purpose", $this->purpose);
             $this->item_node = $item_node;
         }
     }
@@ -191,7 +170,7 @@ class ilMediaAliasItem
             "/Layout"
         );
         if (is_object($layout_node)) {
-            return $layout_node->get_attribute("Width");
+            return $layout_node->getAttribute("Width");
         }
         return "";
     }
@@ -209,7 +188,7 @@ class ilMediaAliasItem
             "/Layout"
         );
         if (is_object($layout_node)) {
-            return $layout_node->has_attribute("Width");
+            return $layout_node->hasAttribute("Width");
         }
         return false;
     }
@@ -226,11 +205,11 @@ class ilMediaAliasItem
             "/Layout"
         );
         if (is_object($layout_node)) {
-            if ($layout_node->has_attribute("Width")) {
-                $layout_node->remove_attribute("Width");
+            if ($layout_node->hasAttribute("Width")) {
+                $layout_node->removeAttribute("Width");
             }
-            if ($layout_node->has_attribute("Height")) {
-                $layout_node->remove_attribute("Height");
+            if ($layout_node->hasAttribute("Height")) {
+                $layout_node->removeAttribute("Height");
             }
         }
     }
@@ -257,7 +236,7 @@ class ilMediaAliasItem
             "/Layout"
         );
         if (is_object($layout_node)) {
-            return $layout_node->get_attribute("Height");
+            return $layout_node->getAttribute("Height");
         }
         return "";
     }
@@ -282,7 +261,7 @@ class ilMediaAliasItem
             "/Caption"
         );
         if (is_object($caption_node)) {
-            return $caption_node->get_content();
+            return $this->dom_util->getContent($caption_node);
         }
         return "";
     }
@@ -317,7 +296,7 @@ class ilMediaAliasItem
             "/Caption"
         );
         if (is_object($caption_node)) {
-            $caption_node->unlink_node($caption_node);
+            $caption_node->parentNode->removeChild($caption_node);
         }
     }
 
@@ -342,7 +321,7 @@ class ilMediaAliasItem
             "/TextRepresentation"
         );
         if (is_object($text_representation_node)) {
-            return $text_representation_node->get_content();
+            return $this->dom_util->getContent($text_representation_node);
         }
         return "";
     }
@@ -377,7 +356,7 @@ class ilMediaAliasItem
             "/TextRepresentation"
         );
         if (is_object($text_representation_node)) {
-            $text_representation_node->unlink_node($text_representation_node);
+            $text_representation_node->parentNode->removeChild($text_representation_node);
         }
     }
 
@@ -403,7 +382,7 @@ class ilMediaAliasItem
             "/Layout"
         );
         if (is_object($layout_node)) {
-            return $layout_node->get_attribute("HorizontalAlign");
+            return $layout_node->getAttribute("HorizontalAlign");
         }
         return "";
     }
@@ -447,9 +426,8 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         $par_arr = array();
-        for ($i = 0; $i < count($par_nodes); $i++) {
-            $par_node = $par_nodes[$i];
-            $par_arr[] = $par_node->get_attribute("Name") . "=\"" . $par_node->get_attribute("Value") . "\"";
+        foreach ($par_nodes as $par_node) {
+            $par_arr[] = $par_node->getAttribute("Name") . "=\"" . $par_node->getAttribute("Value") . "\"";
         }
         return implode(", ", $par_arr);
     }
@@ -467,8 +445,8 @@ class ilMediaAliasItem
         $par_arr = array();
         for ($i = 0; $i < count($par_nodes); $i++) {
             $par_node = $par_nodes[$i];
-            $par_arr[$par_node->get_attribute("Name")] =
-                $par_node->get_attribute("Value");
+            $par_arr[$par_node->getAttribute("Name")] =
+                $par_node->getAttribute("Value");
         }
         return $par_arr;
     }
@@ -500,11 +478,8 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (count($par_nodes) > 0) {
-            for ($i = 0; $i < count($par_nodes); $i++) {
-                $par_node = $par_nodes[$i];
-                $par_node->unlink_node($par_node);
-            }
+        foreach ($par_nodes as $par_node) {
+            $par_node->parentNode->removeChild($par_node);
         }
     }
 
@@ -520,30 +495,32 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         $maparea_arr = array();
-        for ($i = 0; $i < count($ma_nodes); $i++) {
-            $maparea_node = $ma_nodes[$i];
-            $childs = $maparea_node->child_nodes();
+        $i = 0;
+        foreach ($ma_nodes as $maparea_node) {
+            $childs = $maparea_node->childNodes;
             $link = array();
-            if ($childs[0]->node_name() == "ExtLink") {
+            $first = $childs->item(0);
+            if ($first->nodeName == "ExtLink") {
                 $link = array("LinkType" => "ExtLink",
-                    "Href" => $childs[0]->get_attribute("Href"),
-                    "Title" => $childs[0]->get_content());
+                    "Href" => $first->getAttribute("Href"),
+                    "Title" => $this->dom_util->getContent($first));
             }
-            if ($childs[0]->node_name() == "IntLink") {
+            if ($first->nodeName == "IntLink") {
                 $link = array("LinkType" => "IntLink",
-                    "Target" => $childs[0]->get_attribute("Target"),
-                    "Type" => $childs[0]->get_attribute("Type"),
-                    "TargetFrame" => $childs[0]->get_attribute("TargetFame"),
-                    "Title" => $childs[0]->get_content());
+                    "Target" => $first->getAttribute("Target"),
+                    "Type" => $first->getAttribute("Type"),
+                    "TargetFrame" => $first->getAttribute("TargetFame"),
+                    "Title" => $this->dom_util->getContent($first));
             }
             $maparea_arr[] = array(
                 "Nr" => $i + 1,
-                "Shape" => $maparea_node->get_attribute("Shape"),
-                "Coords" => $maparea_node->get_attribute("Coords"),
-                "HighlightMode" => $maparea_node->get_attribute("HighlightMode"),
-                "HighlightClass" => $maparea_node->get_attribute("HighlightClass"),
-                "Id" => $maparea_node->get_attribute("Id"),
+                "Shape" => $maparea_node->getAttribute("Shape"),
+                "Coords" => $maparea_node->getAttribute("Coords"),
+                "HighlightMode" => $maparea_node->getAttribute("HighlightMode"),
+                "HighlightClass" => $maparea_node->getAttribute("HighlightClass"),
+                "Id" => $maparea_node->getAttribute("Id"),
                 "Link" => $link);
+            $i++;
         }
 
         return $maparea_arr;
@@ -731,8 +708,9 @@ class ilMediaAliasItem
             $this->getPcId()
         );
 
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $ma_nodes[$a_nr - 1]->unlink_node($ma_nodes[$a_nr - 1]);
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $node = $ma_nodes->item($a_nr - 1);
+            $node->parentNode->removeChild($node);
         }
     }
 
@@ -748,8 +726,8 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         foreach ($ma_nodes as $node) {
-            if ($node->get_attribute("Id") == $a_id) {
-                $node->unlink_node($node);
+            if ($node->getAttribute("Id") == $a_id) {
+                $node->parentNode->removeChild($node);
             }
         }
     }
@@ -759,11 +737,10 @@ class ilMediaAliasItem
      */
     public function deleteAllMapAreas(): void
     {
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $this->hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='" . $this->purpose . "']/MapArea";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $res->nodeset[$i]->unlink_node($res->nodeset[$i]);
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        foreach ($nodes as $node) {
+            $node->parentNode->removeChild($node);
         }
     }
 
@@ -777,12 +754,12 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            if ($childs[0]->node_name() == "IntLink") {
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            if ($childs->item(0)->nodeName == "IntLink") {
                 return "int";
             }
-            if ($childs[0]->node_name() == "ExtLink") {
+            if ($childs->item(0)->nodeName == "ExtLink") {
                 return "ext";
             }
         }
@@ -799,9 +776,9 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            return $childs[0]->get_attribute("Type");
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            return $childs->item(0)->getAttribute("Type");
         }
         return "";
     }
@@ -816,9 +793,9 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            return $childs[0]->get_attribute("Target");
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            return $childs->item(0)->getAttribute("Target");
         }
         return "";
     }
@@ -833,9 +810,9 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            return $childs[0]->get_attribute("TargetFrame");
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            return $childs->item(0)->getAttribute("TargetFrame");
         }
         return "";
     }
@@ -850,9 +827,9 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            return $childs[0]->get_attribute("Href");
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            return $childs->item(0)->getAttribute("Href");
         }
         return "";
     }
@@ -867,9 +844,9 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
-            return $childs[0]->get_content();
+        if (is_object($ma_nodes->item($a_nr - 1))) {
+            $childs = $ma_nodes->item($a_nr - 1)->childNodes;
+            return $this->dom_util->getContent($childs->item(0));
         }
         return "";
     }
@@ -880,7 +857,7 @@ class ilMediaAliasItem
     public function delete(): void
     {
         if (is_object($this->item_node)) {
-            $this->item_node->unlink_node($this->item_node);
+            $this->item_node->parentNode->removeChild($this->item_node);
         }
     }
 

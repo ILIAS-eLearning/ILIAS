@@ -2160,7 +2160,7 @@
 			</xsl:if>
 
 			<!-- build object tag -->
-			<div class="ilc_Mob">
+			<div class="ilc_Mob" style="height:100%">
 
 				<!-- set width of td, see bug #10911 and #19464 -->
 				<xsl:if test="$width != ''">
@@ -2447,7 +2447,22 @@
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
 			<xsl:if test = "$enable_html_mob = 'y'">
-				<iframe frameborder="0" style="width: 100%;">
+				<xsl:variable name="style_val" >
+					<xsl:if test="$width != ''">
+						width:<xsl:value-of select="$width"/>px;
+					</xsl:if>
+					<xsl:if test="$width = ''">
+						width:100%;
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						height:<xsl:value-of select="$height"/>px;
+					</xsl:if>
+					<xsl:if test="$height = ''">
+						height:100%;
+					</xsl:if>
+				</xsl:variable>
+				<iframe frameborder="0">
+					<xsl:attribute name="style"><xsl:value-of select="$style_val"/></xsl:attribute>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:if test="$width != ''">
 						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2471,8 +2486,14 @@
 				<xsl:if test="$width != ''">
 					width:<xsl:value-of select="$width"/>px;
 				</xsl:if>
+				<xsl:if test="$width = ''">
+					width:100%;
+				</xsl:if>
 				<xsl:if test="$height != ''">
 					height:<xsl:value-of select="$height"/>px;
+				</xsl:if>
+				<xsl:if test="$height = ''">
+					height:100%;
 				</xsl:if>
 			</xsl:variable>
 			<iframe frameborder="0">
@@ -4318,6 +4339,25 @@
 		<div class="il-lso-startbutton-container">
 			<Launcher>
 				[[[LAUNCHER]]]
+			</Launcher>
+		</div>
+	</xsl:if>
+</xsl:template>
+
+<!-- PRGStatusInfo -->
+<xsl:template match="PRGStatusInfo">
+	<xsl:if test="$mode = 'edit'">
+		<div class="copg-content-placeholder-prg-statusinfo il-prg-statusinfo-container">
+			<div>
+				<img class="icon prg large" src="./templates/default/images/icon_prg.svg" alt="StatusInfo StudyProgramme" />
+				StatusInfo StudyProgramme
+			</div>
+		</div>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<div class="il-prg-statusinfo-container">
+			<Launcher>
+				[[[PRG_STATUS_INFO]]]
 			</Launcher>
 		</div>
 	</xsl:if>

@@ -44,9 +44,18 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      */
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
+        global $DIC;
+        $cmd_class = '';
+        if ($DIC->http()->wrapper()->query()->has('cmdClass')) {
+            $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
+                'cmdClass',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
-        if (strtolower($this->ctrl->getCmdClass()) === 'ilassquestionpreviewgui') {
+        if (strtolower($cmd_class) === 'ilassquestionpreviewgui') {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
         } else {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));

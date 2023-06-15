@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\Input\Field\Input as InputField;
 use ILIAS\UI\Renderer;
@@ -34,60 +35,32 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  */
 class ilStudyProgrammeTypeGUI
 {
-    public ilGlobalTemplateInterface $tpl;
-    public ilCtrl $ctrl;
-    protected ilAccess $access;
-    protected ilToolbarGUI $toolbar;
-    protected ilLanguage $lng;
-    protected ILIAS $ilias;
-    protected ilTabsGUI $tabs;
-    protected ilObjUser $user;
-    protected ilStudyProgrammeTypeRepository $type_repository;
-    protected Input\Factory $input_factory;
-    protected Renderer $renderer;
-    protected Psr\Http\Message\ServerRequestInterface $request;
-    protected Refinery\Factory $refinery_factory;
-    /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/ protected $parent_gui;
+    /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/
+    protected $parent_gui;
     protected ?array $installed_languages = null;
-    protected Filesystem $web_dir;
-    protected RequestWrapper $request_wrapper;
+    protected Input\Factory $input_factory;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilAccess $ilAccess,
-        ilToolbarGUI $ilToolbar,
-        ilLanguage $lng,
-        ILIAS $ilias,
-        ilTabsGUI $ilTabs,
-        ilObjUser $user,
-        ilStudyProgrammeTypeRepository $type_repository,
-        Input\Factory $input_factory,
-        Renderer $renderer,
-        Psr\Http\Message\ServerRequestInterface $request,
-        Refinery\Factory $refinery_factory,
-        Filesystem $web_dir,
-        RequestWrapper $request_wrapper
+        public ilGlobalTemplateInterface $tpl,
+        public ilCtrl $ctrl,
+        protected ilAccess $access,
+        protected ilToolbarGUI $toolbar,
+        protected ilLanguage $lng,
+        protected ILIAS $ilias,
+        protected ilTabsGUI $tabs,
+        protected ilObjUser $user,
+        protected ilStudyProgrammeTypeRepository $type_repository,
+        protected UIFactory $ui_factory,
+        protected Renderer $renderer,
+        protected Psr\Http\Message\ServerRequestInterface $request,
+        protected Refinery\Factory $refinery_factory,
+        protected Filesystem $web_dir,
+        protected RequestWrapper $request_wrapper
     ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->access = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->tabs = $ilTabs;
-        $this->user = $user;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
-        $this->type_repository = $type_repository;
-        $this->input_factory = $input_factory;
-        $this->renderer = $renderer;
-        $this->request = $request;
-        $this->refinery_factory = $refinery_factory;
-        $this->web_dir = $web_dir;
-        $this->request_wrapper = $request_wrapper;
-
         $this->lng->loadLanguageModule('prg');
         $this->ctrl->saveParameter($this, 'type_id');
         $this->lng->loadLanguageModule('meta');
+        $this->input_factory = $ui_factory->input();
     }
 
     public function executeCommand(): void
@@ -253,10 +226,8 @@ class ilStudyProgrammeTypeGUI
     protected function listTypes(): void
     {
         if ($this->access->checkAccess("write", "", $this->parent_gui->getObject()->getRefId())) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('prg_subtype_add');
-            $button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
-            $this->toolbar->addButtonInstance($button);
+            $link = $this->ui_factory->link()->standard($this->lng->txt('prg_subtype_add'), $this->ctrl->getLinkTarget($this, 'add'));
+            $this->toolbar->addComponent($link);
         }
         $table = new ilStudyProgrammeTypeTableGUI(
             $this,
@@ -267,7 +238,9 @@ class ilStudyProgrammeTypeGUI
             $this->tabs,
             $this->access,
             $this->lng,
-            $this->web_dir
+            $this->web_dir,
+            $this->ui_factory,
+            $this->renderer
         );
         $this->tpl->setContent($table->getHTML());
     }

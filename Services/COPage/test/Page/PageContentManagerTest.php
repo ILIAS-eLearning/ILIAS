@@ -103,7 +103,7 @@ EOT;
         $this->insertParagraphAt($page, "1", "World");
         $page->insertPCIds();
 
-        $page_content->deleteContent("1");
+        $page_content->deleteContent($page, "1");
 
         $expected = <<<EOT
 <PageObject HierId="pg"><PageContent HierId="2" PCID="00000000000000000000000000000002"><Paragraph Language="en">World</Paragraph></PageContent></PageObject>
@@ -125,7 +125,7 @@ EOT;
         $this->insertParagraphAt($page, "2", "World");
         $page->insertPCIds();
 
-        $page_content->deleteContents(["1", "2"]);
+        $page_content->deleteContents($page, ["1", "2"]);
 
         $expected = <<<EOT
 <PageObject HierId="pg"><PageContent HierId="3" PCID="00000000000000000000000000000003"><Paragraph Language="en">World</Paragraph></PageContent></PageObject>
@@ -275,6 +275,91 @@ EOT;
 EOT;
         $this->assertXmlEquals(
             $expected,
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInsertInstIntoIDsIntLink(): void
+    {
+        $dom_util = new \ILIAS\COPage\Dom\DomUtil();
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $xml = $this->legacyHtmlToXml(
+            '<div id="1:1234" class="ilc_text_block_Standard">' .
+            '[iln page="107"] xx [/iln]' .
+            '</div>'
+        );
+
+        $this->insertParagraphAt($page, "pg", $xml);
+        $page->insertPCIds();
+
+        $page_content->insertInstIntoIDs("8877");
+
+        $this->assertStringContainsString(
+            '<IntLink Target="il_8877_pg_107" Type="PageObject">',
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInsertInstIntoIDsFileItem(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $pc = new \ilPCFileList($page);
+        $pc->create($page, "pg");
+        $pc->appendItem(10, "file_loc", "image/jpeg");
+        $page->insertPCIds();
+
+        $page_content->insertInstIntoIDs("8877");
+
+        $this->assertStringContainsString(
+            '<Identifier Catalog="ILIAS" Entry="il_8877_file_10"/>',
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInsertInstIntoIDsQuestion(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $pc = new \ilPCQuestion($page);
+        $pc->create($page, "pg", "");
+        $pc->setQuestionReference("il__qst_13");
+        $page_content->insertInstIntoIDs("8877");
+
+        $this->assertStringContainsString(
+            '<Question QRef="il_8877_qst_13"/>',
+            $page->getXMLFromDom()
+        );
+    }
+
+    public function testInsertInstIntoIDsContentInclude(): void
+    {
+        $page = $this->getEmptyPageWithDom();
+        $page_content = new PageContentManager(
+            $page->getDomDoc(),
+            $this->getPCDefinition()
+        );
+
+        $pc = new \ilPCContentInclude($page);
+        $pc->create($page, "pg");
+        $pc->setContentId(13);
+        $page_content->insertInstIntoIDs("8877");
+
+        $this->assertStringContainsString(
+            '<ContentInclude ContentId="13" InstId="8877"/>',
             $page->getXMLFromDom()
         );
     }

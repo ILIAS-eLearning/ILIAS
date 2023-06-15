@@ -36,7 +36,11 @@ class ilUnitTestPageObject extends ilPageObject
         return ".";
     }
 
+    /**
+     * @return array|bool
+     */
     public function update(bool $a_validate = true, bool $a_no_history = false)
     {
+        return true;
     }
 }

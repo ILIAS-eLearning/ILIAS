@@ -92,7 +92,7 @@ var ilImageMapInputTemplate = {
 		this.rects    = this.getRects(rootel);
 		this.circles  = this.getCircles(rootel);
 
-		context.find('button.' + that.tag_button + '_remove').on('click', function(e) {
+		context.find('div.' + that.tag_button + '_remove .glyph').on('click', function(e) {
 			that.removeRow(e);
 		});
 
@@ -139,6 +139,6 @@ var ilImageMapInputTemplate = {
 };
 
 $(document).ready(function() {
-	var ilImageMapInput = $.extend({}, ilWizardInput, ilImageMapInputTemplate);
+	var ilImageMapInput = $.extend({}, AnswerWizardInput, ilImageMapInputTemplate);
 	ilImageMapInput.init();
 });

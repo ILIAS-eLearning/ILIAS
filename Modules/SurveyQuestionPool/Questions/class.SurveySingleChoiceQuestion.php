@@ -445,7 +445,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     ): ?array {
         $ilDB = $this->db;
 
-        $entered_value = $post_data[$this->getId() . "_value"];
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
 
         if ($a_return) {
             return array(array("value" => $entered_value,

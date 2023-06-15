@@ -878,13 +878,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         if (!$this->qplrequest->raw('q_id')) {
             if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
-                $addContEditMode = $this->qplrequest->raw('add_quest_cont_edit_mode');
+                $add_cont_edit_mode = $this->qplrequest->raw('add_quest_cont_edit_mode');
             } else {
-                $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
+                $add_cont_edit_mode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
             }
             $q_gui = assQuestionGUI::_getQuestionGUI($this->qplrequest->raw('sel_question_types'));
             $q_gui->object->setObjId($this->object->getId());
-            $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
+            $q_gui->object->setAdditionalContentEditingMode($add_cont_edit_mode);
             $q_gui->object->createNewQuestion();
 
             $class = get_class($q_gui);

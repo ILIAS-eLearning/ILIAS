@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -36,16 +39,18 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     protected ?bool $finishTestButtonEnabled = false;
 
+    protected Renderer $renderer;
+    protected Factory $factory;
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->renderer = $DIC->ui()->renderer();
+        $this->factory = $DIC->ui()->factory();
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
@@ -155,11 +160,16 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
             // obligatory icon
             if ($a_set["obligatory"]) {
-                $OBLIGATORY = ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
+                $obligatory = $this->renderer->render(
+                    $this->factory->symbol()->icon()->custom(
+                        ilUtil::getImagePath('icon_alert.svg'),
+                        $this->lng->txt('question_obligatory')
+                    )
+                );
             } else {
-                $OBLIGATORY = '';
+                $obligatory = '';
             }
-            $this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+            $this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
         }
 
         $postponed = (

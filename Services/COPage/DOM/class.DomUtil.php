@@ -24,10 +24,22 @@ namespace ILIAS\COPage\Dom;
  */
 class DomUtil
 {
+    protected static function xmlError(int $errno, string $errstr, ?string $errfile = null, ?int $errline = null, ?array $errcontext = null, bool $ret = false)
+    {
+        static $errs = array();
+
+        $tag = 'DOMDocument::validate(): ';
+        $errs[] = str_replace($tag, '', $errstr);
+
+        if ($ret === true) {
+            return $errs;
+        }
+    }
+
     public function docFromString(string $xml, ?string &$error_str): ?\DOMDocument
     {
         $doc = new \DOMDocument();
-        set_error_handler('staticxmlerror');
+        set_error_handler('ILIAS\COPage\Dom\DomUtil::xmlError');
         $old = ini_set('html_errors', false);
         $success = $doc->loadXML($xml);
         // Restore error handling
@@ -35,7 +47,7 @@ class DomUtil
         restore_error_handler();
         $error_str = "";
         if ($doc === false) {
-            $error_arr = staticxmlerror(0, "", "", 0, null, true);
+            $error_arr = self::xmlError(0, "", "", 0, null, true);
             foreach ($error_arr as $error) {
                 $error = str_replace("DOMDocument::loadXML():", "", $error);
                 $error_str .= $error . "<br />";
@@ -43,6 +55,23 @@ class DomUtil
             return null;
         }
         return $doc;
+    }
+
+    public function validate(\DOMDocument $doc, ?string &$error): void
+    {
+        $ok = $doc->validate();
+
+        if (!$ok) {
+            $error = array(array("0", "Unknown Error"));
+
+            if (function_exists("libxml_get_last_error")) {
+                $err = libxml_get_last_error();
+
+                if (is_object($err)) {
+                    $error = array(array($err->code, $err->message));
+                }
+            }
+        }
     }
 
     public function path(\DOMDocument $doc, string $path): \DOMNodeList

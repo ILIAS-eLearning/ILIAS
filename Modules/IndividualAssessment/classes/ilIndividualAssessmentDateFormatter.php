@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,18 +33,7 @@ class ilIndividualAssessmentDateFormatter
     public function getUserDateFormat(ilObjUser $user, bool $with_time = false): DateFormat
     {
         $df = $this->data_factory->dateFormat();
-        switch ($user->getDateFormat()) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                $date_format = $df->germanShort();
-                break;
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                //americanShort
-                $date_format = $df->custom()->month()->slash()->day()->slash()->year()->get();
-                break;
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-            default:
-                $date_format = $df->standard();
-        }
+        $date_format = $user->getDateFormat();
         if ($with_time) {
             switch ($user->getTimeFormat()) {
                 case ilCalendarSettings::TIME_FORMAT_12:

@@ -107,7 +107,7 @@ class ilPCParagraph extends ilPageContent
             $node = $succ_node->parentNode->insertBefore($node, $succ_node);
         } else {
             $parent_node = $node->parentNode;
-            $node = $parent_node->appendChild($this->node);
+            $node = $parent_node->appendChild($node);
         }
         $par_node = $this->dom_doc->createElement("Paragraph");
         $par_node = $node->appendChild($par_node);
@@ -216,7 +216,7 @@ class ilPCParagraph extends ilPageContent
                         $next_par->setCharacteristic($orig_characteristic);
                     }
                     $ok = $next_par->setText($text[$i]["text"], false);
-                    $c_node = $next_par->node;
+                    $c_node = $next_par->getDomNode();
                 }
             }
 
@@ -1678,6 +1678,10 @@ class ilPCParagraph extends ilPageContent
         array $a_terms,
         DOMNode $a_par_node = null
     ): void {
+        global $DIC;
+
+        $domutil = $DIC->copage()->internal()->domain()->domUtil();
+
         $par_node = null;
         // sort terms by their length (shortes first)
         // to prevent that nested tags are builded

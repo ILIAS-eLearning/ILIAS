@@ -42,8 +42,8 @@ class ilRbacReview
     // Cache operation ids
     private static ?array $_opsCache = null;
 
-    protected static array $assigned_users_cache = array();
-    protected static array $is_assigned_cache = array();
+    protected static array $assigned_users_cache = [];
+    protected static array $is_assigned_cache = [];
 
     protected ilLogger $log;
     protected ilDBInterface $db;
@@ -138,7 +138,7 @@ class ilRbacReview
      */
     public function getRoleListByObject(int $a_ref_id, bool $a_templates = false): array
     {
-        $role_list = array();
+        $role_list = [];
         $where = $this->__setTemplateFilter($a_templates);
 
         $query = "SELECT * FROM object_data " .
@@ -168,7 +168,7 @@ class ilRbacReview
         bool $a_internal_roles = false,
         string $title_filter = ''
     ): array {
-        $role_list = array();
+        $role_list = [];
         $where = $this->__setTemplateFilter($a_templates);
         $query = "SELECT * FROM object_data " .
             "JOIN rbac_fa ON obj_id = rol_id " .
@@ -215,7 +215,7 @@ class ilRbacReview
 
         $res = $this->db->query($query);
 
-        $role_list = array();
+        $role_list = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $role_list[] = (int) $row->rol_id;
         }
@@ -407,7 +407,7 @@ class ilRbacReview
         while ($row = $this->db->fetchObject($res)) {
             $role_arr[] = $row->rol_id;
         }
-        return $role_arr !== [] ? $role_arr : array();
+        return $role_arr !== [] ? $role_arr : [];
     }
 
     /**
@@ -480,7 +480,7 @@ class ilRbacReview
 
         $res = $this->db->query($query);
 
-        $role_ids = array();
+        $role_ids = [];
         while ($row = $this->db->fetchObject($res)) {
             $role_ids[] = (int) $row->rol_id;
         }
@@ -532,7 +532,7 @@ class ilRbacReview
      */
     public function getLocalRoles(int $a_ref_id): array
     {
-        $lroles = array();
+        $lroles = [];
         foreach ($this->getRolesOfRoleFolder($a_ref_id) as $role_id) {
             if ($this->isAssignable($role_id, $a_ref_id)) {
                 $lroles[] = $role_id;
@@ -547,7 +547,7 @@ class ilRbacReview
      */
     public function getLocalPolicies(int $a_ref_id): array
     {
-        $lroles = array();
+        $lroles = [];
         foreach ($this->getRolesOfRoleFolder($a_ref_id) as $role_id) {
             $lroles[] = $role_id;
         }
@@ -754,7 +754,7 @@ class ilRbacReview
             "ORDER BY op_order ";
 
         $res = $this->db->query($query);
-        $ops = array();
+        $ops = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ops[] = (int) $row->ops_id;
         }
@@ -765,7 +765,7 @@ class ilRbacReview
      * get all objects in which the inheritance of role with role_id was stopped
      * the function returns all reference ids of objects containing a role folder.
      */
-    public function getObjectsWithStopedInheritance(int $a_rol_id, array $a_filter = array()): array
+    public function getObjectsWithStopedInheritance(int $a_rol_id, array $a_filter = []): array
     {
         $query = 'SELECT parent p FROM rbac_fa ' .
             'WHERE assign = ' . $this->db->quote('n', 'text') . ' ' .
@@ -776,7 +776,7 @@ class ilRbacReview
         }
 
         $res = $this->db->query($query);
-        $parent = array();
+        $parent = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $parent[] = (int) $row->p;
         }
@@ -843,7 +843,7 @@ class ilRbacReview
             case 0:
             default:
                 if (!$a_user_id) {
-                    return array();
+                    return [];
                 }
 
                 $where = 'WHERE ' . $this->db->in(
@@ -855,7 +855,7 @@ class ilRbacReview
                 break;
         }
 
-        $roles = array();
+        $roles = [];
 
         $query = "SELECT * FROM object_data " .
             "JOIN rbac_fa ON obj_id = rol_id " .
@@ -917,7 +917,7 @@ class ilRbacReview
 
         $ilDB = $DIC->database();
         if ($operations === []) {
-            return array();
+            return [];
         }
 
         $query = 'SELECT ops_id FROM rbac_operations ' .
@@ -942,7 +942,7 @@ class ilRbacReview
 
         // Cache operation ids
         if (!is_array(self::$_opsCache)) {
-            self::$_opsCache = array();
+            self::$_opsCache = [];
 
             $q = "SELECT ops_id, operation FROM rbac_operations";
             $r = $ilDB->query($q);
@@ -969,13 +969,13 @@ class ilRbacReview
 
         $ilDB = $DIC->database();
 
-        $operations = array();
+        $operations = [];
         foreach ($a_type_arr as $type) {
             $operations[] = ('create_' . $type);
         }
 
         if ($operations === []) {
-            return array();
+            return [];
         }
 
         $query = 'SELECT ops_id, operation FROM rbac_operations ' .
@@ -983,7 +983,7 @@ class ilRbacReview
 
         $res = $ilDB->query($query);
 
-        $ops_ids = array();
+        $ops_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $type_arr = explode('_', $row->operation);
             $type = $type_arr[1];
@@ -1039,7 +1039,7 @@ class ilRbacReview
             'AND blocked = ' . $this->db->quote(1, 'integer');
         $res = $this->db->query($query);
 
-        $parent_ids = array();
+        $parent_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $parent_ids[] = (int) $row->parent;
         }
@@ -1097,7 +1097,7 @@ class ilRbacReview
         global $DIC;
 
         $ilDB = $DIC->database();
-        $arr = array();
+        $arr = [];
         if ($a_type) {
             $query = sprintf(
                 'SELECT * FROM rbac_operations ' .
@@ -1127,7 +1127,7 @@ class ilRbacReview
 
     public static function _groupOperationsByClass(array $a_ops_arr): array
     {
-        $arr = array();
+        $arr = [];
         foreach ($a_ops_arr as $ops) {
             $arr[$ops['class']][] = array('ops_id' => (int) $ops['ops_id'],
                                           'name' => $ops['operation']
@@ -1143,7 +1143,7 @@ class ilRbacReview
     public function getObjectOfRole(int $a_role_id): int
     {
         // internal cache
-        static $obj_cache = array();
+        static $obj_cache = [];
 
         if (isset($obj_cache[$a_role_id]) && $obj_cache[$a_role_id]) {
             return $obj_cache[$a_role_id];
@@ -1296,7 +1296,7 @@ class ilRbacReview
             "AND rbac_pa.ref_id = " . $this->db->quote($a_ref_id, 'integer') . " ";
 
         $res = $this->db->query($query);
-        $all_ops = array();
+        $all_ops = [];
         while ($row = $this->db->fetchObject($res)) {
             $ops = unserialize($row->ops_id);
             $all_ops = array_merge($all_ops, $ops);
@@ -1305,7 +1305,7 @@ class ilRbacReview
 
         $set = $this->db->query("SELECT operation FROM rbac_operations " .
             " WHERE " . $this->db->in("ops_id", $all_ops, false, "integer"));
-        $perms = array();
+        $perms = [];
         while ($rec = $this->db->fetchAssoc($set)) {
             $perms[] = $rec["operation"];
         }
@@ -1330,8 +1330,8 @@ class ilRbacReview
      */
     public function clearCaches(): void
     {
-        self::$is_assigned_cache = array();
-        self::$assigned_users_cache = array();
+        self::$is_assigned_cache = [];
+        self::$assigned_users_cache = [];
     }
 
     public static function _getCustomRBACOperationId(string $operation, \ilDBInterface $ilDB = null): ?int

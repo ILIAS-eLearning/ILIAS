@@ -55,7 +55,7 @@ var ClozeQuestionGapBuilder = (function () {
 		if (ClozeSettings.gaps_php === null) {
 			ClozeSettings.gaps_php = [];
 		}
-		
+
 		ClozeSettings.gaps_php[0].forEach(
 			(gap) => {
 				if (gap.type === 'text' || gap.type === 'select') {
@@ -418,7 +418,7 @@ var ClozeQuestionGapBuilder = (function () {
 		var prototype_head = $('#select_field');
 		prototype_head.clone().attr({
 			'id':    type + '-gap-r-' + counter,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var select_field_selector = $('#' + type + '-gap-r-' + counter);
 		pub.appendFormClasses(select_field_selector);
@@ -457,7 +457,7 @@ var ClozeQuestionGapBuilder = (function () {
 	pro.buildNumericFormObjectHelper = function (row, type, value) {
 		$('#numeric_prototype_numeric' + type).clone().attr({
 			'id':    'numeric_answers' + type + '_' + row,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var form = $('#numeric_answers' + type + '_' + row);
 		pub.appendFormClasses(form);
@@ -476,7 +476,7 @@ var ClozeQuestionGapBuilder = (function () {
 			$('#prototype_gapsize').clone().attr({
 				'id':    'gap_' + counter + '_gapsize_row',
 				'name':  'gap_' + counter + '_gapsize_row',
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			var gapsize_row = $('#gap_' + counter + '_gapsize_row');
 			pub.appendFormClasses(gapsize_row);
@@ -493,7 +493,7 @@ var ClozeQuestionGapBuilder = (function () {
 		else if (type === 'select') {
 			$('#shuffle_answers').clone().attr({
 				'id':    'shuffle_answers_' + counter,
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			pub.appendFormClasses($('#shuffle_answers_' + counter));
 			pro.changeIdentifierTextField(type, counter, values);
@@ -514,7 +514,7 @@ var ClozeQuestionGapBuilder = (function () {
 			$('#numeric_prototype_remove_button').clone().attr({
 				'id':    'remove_gap_container_' + counter,
 				'name':  'remove_gap_container_' + counter,
-				'class': ClozeGlobals.form_row + ' interactive'
+				'class': ClozeGlobals.form_row + ' interactive row'
 			}).appendTo(ClozeGlobals.form_class);
 			$('#remove_gap_container_' + counter).find('.btn.btn-default.remove_gap_button').attr(
 				{
@@ -523,7 +523,7 @@ var ClozeQuestionGapBuilder = (function () {
 		}
 		$('#error_answer').clone().attr({
 			'id':    'gap_error_' + counter,
-			'class': ClozeGlobals.form_row + ' interactive'
+			'class': ClozeGlobals.form_row + ' interactive row'
 		}).appendTo(ClozeGlobals.form_class);
 		var gap_error = $('#gap_error_' + counter);
 		pub.appendFormClasses(gap_error);
@@ -544,7 +544,7 @@ var ClozeQuestionGapBuilder = (function () {
 				$('#answer_text').clone().attr(
 					{
 						'id':    'text_row_' + counter_question + '_' + c,
-						'class': ClozeGlobals.form_row + ' interactive'
+						'class': ClozeGlobals.form_row + ' interactive row'
 					}).appendTo(ClozeGlobals.form_class);
 				text_row_selector = $('#text_row_' + counter_question + '_' + c);
 				pub.appendFormClasses(text_row_selector);
@@ -593,11 +593,11 @@ var ClozeQuestionGapBuilder = (function () {
 					'class': 'shuffle',
 					'id':    'shuffle_' + counter_question
 				});
-			text_row_selector.find('.clone_fields_add').attr(
+			text_row_selector.find('.clone_fields_add:first-child').attr(
 				{
 					'name': 'add_gap_' + counter_question + '_' + c
 				});
-			text_row_selector.find('.clone_fields_remove').attr(
+			text_row_selector.find('.clone_fields_remove:first-child').attr(
 				{
 					'name': 'remove_gap_' + counter_question + '_' + c
 				});
@@ -1142,13 +1142,13 @@ var ClozeQuestionGapBuilder = (function () {
 		}
 	};
 
-	pro.removeSelectOption = function() {
+	pro.removeSelectOption = (e) => {
 		let getPosition, pos, value;
-		if ($(this).attr('class') !== 'clone_fields_remove combination btn btn-link') {
-			value = $(this).parent().parent().find('.text_field').val();
+        let target = e.currentTarget.parentNode;
+		if ($(target).attr('class') !== 'clone_fields_remove combination btn btn-link') {
+			value = $(target).parent().parent().find('.text_field').val();
 			$('[data-answer="' + value + '"]').show();
-			getPosition = $(this).attr('name');
-			pos = getPosition.split('_');
+			getPosition = $(target).prev().attr('name');
 			pos = getPosition.split('_');
 			ClozeSettings.gaps_php[0][pos[2]].values.splice(pos[3], 1);
 			pro.editTextarea(pos[2]);
@@ -1157,7 +1157,7 @@ var ClozeQuestionGapBuilder = (function () {
 				pro.removeFromTextarea(pos[2]);
 			}
 		} else {
-			getPosition = $(this).parent().attr('name');
+			getPosition = $(target).parent().attr('name');
 			pos = getPosition.split('_');
 			ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10), 1);
 			ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
@@ -1171,29 +1171,27 @@ var ClozeQuestionGapBuilder = (function () {
 		return false;
 	},
 
-   pro.appendEventListenerToBeRefactored = function(){
-       $('.clone_fields_add').off('click');
-       $('.clone_fields_add').on('click', function ()
-       {
-           var getPosition, pos , insert;
-           if($(this).attr('class') != 'clone_fields_add combination btn btn-link')
+   pro.appendEventListenerToBeRefactored = () => {
+       $('.clone_fields_add .glyph').off('click');
+       $('.clone_fields_add .glyph').on('click', (e) => {
+           let getPosition, pos, insert;
+           let target = e.currentTarget.parentNode;
+           if($(target).attr('class') != 'clone_fields_add combination btn btn-link')
            {
-               getPosition = $(this).attr('name');
+               getPosition = $(target).attr('name');
                pos = getPosition.split('_');
                insert = new Object({
                    points  : '0',
                    answer  : $(this).data("answer")
                });
-               if($(this).data("answer") != '')
+               if($(target).data("answer") != '')
                {
-                   $(this).hide();
+                   $(target).hide();
                }
                ClozeSettings.gaps_php[0][pos[2]].values.splice(parseInt(pos[3], 10) + 1, 0, insert);
                pro.editTextarea(pos[2]);
-           }
-           else
-           {
-               getPosition = $(this).parent().attr('name');
+           } else {
+               getPosition = $(target).parent().attr('name');
                pos = getPosition.split('_');
                ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10) + 1, 0, -1);
                ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
@@ -1204,9 +1202,11 @@ var ClozeQuestionGapBuilder = (function () {
            return false;
        });
 
-		$('.clone_fields_add_value').on('click', function () {
-			var getPosition, pos;
-			getPosition = $(this).parent().attr('name');
+        $('.clone_fields_add_value .glyph').off('click');
+		$('.clone_fields_add_value .glyph').on('click', (e) => {
+			let getPosition, pos;
+            let target = e.currentTarget.parentNode;
+			getPosition = $(target).parent().attr('name');
 			pos = getPosition.split('_');
 
 			var dummy_array = [];
@@ -1220,10 +1220,11 @@ var ClozeQuestionGapBuilder = (function () {
 			return false;
 		});
 
-		$('.clone_fields_remove_value').on('click', function () {
-			var getPosition, pos;
-			getPosition = $(this).parent().attr('name');
-			pos = getPosition.split('_');
+        $('.clone_fields_remove_value .glyph').off('click');
+		$('.clone_fields_remove_value .glyph').on('click', (e) => {
+            let target = e.currentTarget.parentNode;
+			let getPosition = $(target).parent().attr('name');
+			let pos = getPosition.split('_');
 
 			if (ClozeSettings.gaps_combination[pos[2]][1].length === 1) {
 				ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10), 1);
@@ -1236,13 +1237,14 @@ var ClozeQuestionGapBuilder = (function () {
 			return false;
 		});
 
-       $('.clone_fields_remove').off('click', pro.removeSelectOption);
-       $('.clone_fields_remove').on('click', pro.removeSelectOption);
+       $('.clone_fields_remove .glyph').off('click', pro.removeSelectOption);
+       $('.clone_fields_remove .glyph').on('click', pro.removeSelectOption);
 
-		$('.remove_gap_button').off('click');
-		$('.remove_gap_button').on('click', function () {
-			var getPosition = $(this).attr('id');
-			var whereAmI = $(this).parents().eq(4).attr('class');
+		$('.remove_gap_button .glyph').off('click');
+		$('.remove_gap_button .glyph').on('click', function () {
+            let target = e.currentTarget.parentNode;
+			let getPosition = $(target).attr('id');
+			var whereAmI = $(target).parents().eq(4).attr('class');
 			var pos = getPosition.split('_');
 			if (confirm($('#delete_gap_question').text())) {
 				ClozeSettings.gaps_php[0].splice(pos[2], 1);
@@ -1253,9 +1255,6 @@ var ClozeQuestionGapBuilder = (function () {
 				}
 			}
 			//return false;
-		});
-		$(function () {
-			// $('#ilGapModal').draggable();
 		});
 	};
 
@@ -1378,7 +1377,7 @@ var ClozeGapCombinationBuilder = (function () {
 
 		$('#gap_combination').clone().attr({
 			'id':    'gap_combination_' + i,
-			'class': ClozeGlobals.form_row + ' interactive clear_before_use'
+			'class': ClozeGlobals.form_row + ' interactive row clear_before_use'
 		}).appendTo(ClozeGlobals.form_class);
 		$('#gap_combination_' + i).find('.form-group').attr({
 			'id': 'gap_id_select_append_' + i + '_0'
@@ -1506,11 +1505,10 @@ var ClozeGapCombinationBuilder = (function () {
 
 	pub.appendGapCombinationForm = function () {
 		$.each(ClozeSettings.gaps_combination, function (i, combination) {
-
-			var combinationCounter = parseInt(i) + 1;
+			let combinationCounter = parseInt(i) + 1;
 			pro.buildCombinationHeader(combinationCounter, i);
-			var gapCombinationSelector = $('#gap_combination_' + i);
-			var first_row = true;
+			let gapCombinationSelector = $('#gap_combination_' + i);
+			let first_row = true;
 
 			$.each(combination[0], function (g, gaps) {
 				if (first_row) {
@@ -1519,8 +1517,7 @@ var ClozeGapCombinationBuilder = (function () {
 						'name': 'gap_combination[select][' + i + '][0]'
 					});
 					first_row = false;
-				}
-				else {
+				} else {
 					$('.gap_combination_spacer').clone().attr({
 						'class': 'gap_combination_spacer_applied'
 					}).appendTo('#gap_id_select_append_' + i + '_0');
@@ -1536,7 +1533,7 @@ var ClozeGapCombinationBuilder = (function () {
 
 			$('#gap_combination_value').clone().attr({
 				'id':    'gap_combination_values_' + i,
-				'class': ClozeGlobals.form_row + ' interactive clear_before_use'
+				'class': ClozeGlobals.form_row + ' interactive row clear_before_use'
 			}).appendTo($('#gap_combination_' + i).parent());
 			$('#gap_combination_values_' + i).find('.form-group').attr({
 				'id': 'gap_id_value_append_' + i + '_0'
@@ -1555,8 +1552,7 @@ var ClozeGapCombinationBuilder = (function () {
 						'name': 'gap_combination[' + i + '][0][0][value]'
 					});
 					first_row = false;
-				}
-				else {
+				} else {
 					gapCombinationValues.find('#gap_id_value_' + i + '_0_0').clone().attr({
 						'id':   'gap_id_value_' + i + '_0_' + a,
 						'name': 'gap_combination[' + i + '][0][' + a + '][value]'

@@ -140,7 +140,7 @@ class ilTestEvaluationPassData
         $this->reachedpoints = $reachedpoints;
     }
 
-    public function getMaxPoints(): int
+    public function getMaxPoints(): float
     {
         return $this->maxpoints;
     }

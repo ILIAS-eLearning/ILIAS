@@ -19,6 +19,10 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
 
 /**
  * GUI class for the workflow of copying objects
@@ -58,9 +62,10 @@ class ilObjectCopyGUI
     protected ilRbacReview $rbacreview;
     protected ilLogger $log;
     protected ilLanguage $lng;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
+    protected RequestWrapper $request_wrapper;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected Refinery $refinery;
+    protected UIFactory $ui_factory;
 
     protected ?object $parent_obj = null;
     protected ClipboardManager $clipboard;
@@ -76,25 +81,27 @@ class ilObjectCopyGUI
 
     public function __construct(ilObjectGUI $parent_gui)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->tree = $DIC->repositoryTree();
-        $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC->toolbar();
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tree = $DIC['tree'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->toolbar = $DIC['ilToolbar'];
         $this->tpl = $DIC["tpl"];
         $this->obj_definition = $DIC["objDefinition"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->access = $DIC->access();
         $this->error = $DIC["ilErr"];
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->user = $DIC->user();
-        $this->rbacreview = $DIC->rbac()->review();
+        $this->user = $DIC['ilUser'];
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->rbacreview = $DIC['rbacreview'];
         $this->log = ilLoggerFactory::getLogger('obj');
-        $this->lng = $DIC->language();
+        $this->lng = $DIC['lng'];
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->refinery = $DIC->refinery();
+        $this->refinery = $DIC['refinery'];
+        $this->ui_factory = $DIC['ui.factory'];
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
 
         $this->parent_obj = $parent_gui;
@@ -330,24 +337,25 @@ class ilObjectCopyGUI
 
         $t = new ilToolbarGUI();
         $t->setFormAction($this->ctrl->getFormAction($this, "saveTarget"));
-        $btn = ilSubmitButton::getInstance();
-        if ($this->obj_definition->isContainer($this->getType())) {
-            $btn->setCaption('btn_next');
-        } else {
-            $btn->setCaption('paste');
-        }
-        $btn->setCommand('saveTarget');
-        $btn->setPrimary(true);
-        $t->addButtonInstance($btn);
+        $primary_button = $this->ui_factory->button()->primary(
+            $this->getPrimaryButtonLabel(),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('saveTarget'));
+        $t->addComponent($primary_button);
         $t->addSeparator();
-        $clipboard_btn = ilSubmitButton::getInstance();
-        $clipboard_btn->setCaption('obj_insert_into_clipboard');
-        $clipboard_btn->setCommand('keepObjectsInClipboard');
-        $t->addButtonInstance($clipboard_btn);
-        $cancel_btn = ilSubmitButton::getInstance();
-        $cancel_btn->setCaption('cancel');
-        $cancel_btn->setCommand('cancel');
-        $t->addButtonInstance($cancel_btn);
+
+        $clipboard_btn = $this->ui_factory->button()->standard(
+            $this->lng->txt('obj_insert_into_clipboard'),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('keepObjectsInClipboard'));
+        $t->addComponent($clipboard_btn);
+
+        $cancel_btn = $this->ui_factory->button()->standard(
+            $this->lng->txt('cancel'),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('cancel'));
+        $t->addComponent($cancel_btn);
+
         $t->setCloseFormTag(false);
         $t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
         $output = $t->getHTML() . $output;
@@ -357,6 +365,26 @@ class ilObjectCopyGUI
         $output .= "<br />" . $t->getHTML();
 
         $this->tpl->setContent($output);
+    }
+
+    private function getPrimaryButtonLabel(): string
+    {
+        if ($this->obj_definition->isContainer($this->getType())) {
+            return $this->lng->txt('btn_next');
+        }
+
+        return $this->lng->txt('paste');
+    }
+
+    private function getOnLoadCode(string $cmd): Closure
+    {
+        return function ($id) use ($cmd) {
+            return "document.getElementById('$id')"
+                . '.addEventListener("click", '
+                . '(e) => {e.preventDefault();'
+                . 'e.target.setAttribute("name", "cmd[' . $cmd . ']");'
+                . 'e.target.form.requestSubmit(e.target);});';
+        };
     }
 
     public function showSourceSelectionTree(): void
@@ -405,7 +433,12 @@ class ilObjectCopyGUI
         $this->tpl->setVariable('CMD_SUBMIT', 'saveSource');
         $this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('btn_next'));
 
-        $this->toolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'cancel'));
+        $this->toolbar->addComponent(
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('cancel'),
+                $this->ctrl->getLinkTarget($this, 'cancel')
+            )
+        );
     }
 
     protected function saveTarget(): void

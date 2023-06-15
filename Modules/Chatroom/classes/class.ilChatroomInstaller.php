@@ -182,27 +182,6 @@ class ilChatroomInstaller
             );
         }
 
-        if (!$ilDB->tableExists('chatroom_smilies')) {
-            $fields = [
-                'smiley_id' => [
-                    'type' => 'integer',
-                    'length' => 4,
-                ],
-                'smiley_keywords' => [
-                    'type' => 'text',
-                    'length' => 100,
-                ],
-                'smiley_path' => [
-                    'type' => 'text',
-                    'length' => 200,
-                ]
-            ];
-
-            $ilDB->createTable('chatroom_smilies', $fields);
-            $ilDB->addPrimaryKey('chatroom_smilies', ['smiley_id']);
-            $ilDB->createSequence('chatroom_smilies');
-        }
-
         self::registerObject();
         self::registerAdminObject();
         self::removeOldChatEntries();

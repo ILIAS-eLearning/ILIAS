@@ -65,41 +65,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         );
     }
 
-    /**
-     * @return array<string, string>
-     */
-    protected static function getEmoticons(ilChatroomServerSettings $chatSettings): array
-    {
-        $smileys = [];
-
-        if ($chatSettings->getSmiliesEnabled()) {
-            $smileys_array = ilChatroomSmilies::_getSmilies();
-            foreach ($smileys_array as $smiley_array) {
-                $new_keys = [];
-                $new_val = '';
-                foreach ($smiley_array as $key => $value) {
-                    if ($key === 'smiley_keywords') {
-                        $new_keys = explode("\n", $value);
-                    }
-
-                    if ($key === 'smiley_fullpath') {
-                        $new_val = $value;
-                    }
-                }
-
-                if (!$new_keys || !$new_val) {
-                    continue;
-                }
-
-                foreach ($new_keys as $new_key) {
-                    $smileys[$new_key] = $new_val;
-                }
-            }
-        }
-
-        return $smileys;
-    }
-
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
@@ -270,7 +235,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     false
                 ),
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
-                'emoticons' => self::getEmoticons($settings),
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
@@ -292,7 +256,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
-                'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
                 'chat_osc_minimize',

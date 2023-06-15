@@ -68,7 +68,8 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
              * @var ilAssKprimChoiceAnswer $value
              */
 
-            if (strlen($value->getImageFile())) {
+            if ($value->getImageFile() !== null
+                && $value->getImageFile() !== '') {
                 $imagename = $value->getImageWebPath();
 
                 if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {

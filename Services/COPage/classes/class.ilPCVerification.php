@@ -25,7 +25,6 @@ declare(strict_types=1);
  */
 class ilPCVerification extends ilPageContent
 {
-    private php4DOMElement $vrfc_node;
     protected ilObjUser $user;
 
     public function init(): void

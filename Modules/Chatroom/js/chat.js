@@ -627,8 +627,7 @@
 							}
 
 							var messageSpan = $('<span class="chat content message"></span>');
-							messageSpan.text(messageSpan.text(content).text())
-							.html(il.Chatroom.getSmileys().replace(messageSpan.text()));
+							messageSpan.text(messageSpan.text(content).text());
 							line.append($('<span class="chat content messageseparator">:</span>'))
 							.append(messageSpan);
 

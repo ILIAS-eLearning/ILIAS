@@ -259,12 +259,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("repository"));
-
-        // presentation
-        $pres = new ilFormSectionHeaderGUI();
-        $pres->setTitle($this->lng->txt('obj_presentation'));
-        $form->addItem($pres);
+        $form->setTitle($this->lng->txt('obj_presentation'));
 
         // list presentation
         $form = $this->initListPresentationForm($form);

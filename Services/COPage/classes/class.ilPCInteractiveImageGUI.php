@@ -195,7 +195,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         } else {
             // get caption
             $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
+                $this->content_obj->getDomDoc(),
                 $this->getHierId(),
                 "Standard",
                 $this->content_obj->getPCId(),
@@ -306,7 +306,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
             // set caption
             $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
+                $this->content_obj->getDomDoc(),
                 $this->getHierId(),
                 "Standard",
                 $this->content_obj->getPCId(),
@@ -329,7 +329,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function centerAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -361,7 +361,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function rightAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -377,7 +377,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function leftFloatAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -393,7 +393,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function rightFloatAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),

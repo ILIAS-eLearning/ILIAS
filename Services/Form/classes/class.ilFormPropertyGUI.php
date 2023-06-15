@@ -374,7 +374,7 @@ class ilFormPropertyGUI
             $tpl->setVariable("TXT_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
             $tpl->setVariable("SRC_ADD", $this->symbol()->glyph("add")->render());
-            $tpl->setVariable("SRC_REMOVE", $this->symbol()->glyph("reomve")->render());
+            $tpl->setVariable("SRC_REMOVE", $this->symbol()->glyph("remove")->render());
             $tpl->parseCurrentBlock();
         }
 
