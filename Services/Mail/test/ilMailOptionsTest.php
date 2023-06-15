@@ -118,7 +118,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $clockService = $this->getMockBuilder(ClockInterface::class)->getMock();
         $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
-        $this->settings->expects($this->atLeast(4))->method('get')->willReturnMap(
+        $this->settings->expects($this->exactly(4))->method('get')->willReturnMap(
             [
                 ['mail_incoming_mail', '', ''],
                 ['mail_address_option', '', ''],
