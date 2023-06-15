@@ -26,78 +26,6 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 {
     protected ?string $visible_on_pd_mode = null;
 
-    protected function getListItemForDataDTO(BlockDTO $data): ?Item
-    {
-        $item_gui = $this->byType($data->getType());
-        $item_gui->initItem(
-            $data->getRefId(),
-            $data->getObjId(),
-            $data->getTitle(),
-            $data->getDescription(),
-        );
-        $item_gui->enableCommands(true, false);
-        $item_gui->insertCommands();
-        $current_item_selection_list = $item_gui->getCurrentSelectionList();
-        if ($current_item_selection_list instanceof ilAdvancedSelectionListGUI) {
-            $commands = $current_item_selection_list->getItems();
-        } else {
-            $commands = [];
-        }
-
-        $commands = array_map(
-            fn (array $command): Shy => $this->factory->button()->shy(
-                $command['title'],
-                $command['link']
-            ),
-            $commands
-        );
-
-        $prg = $data->getAdditionalData()['prg'] ?? null;
-        if (!$prg instanceof ilObjStudyProgramme) {
-            return null;
-        }
-        $properties = $data->getAdditionalData()['properties'] ?? [];
-
-        $title = $prg->getTitle();
-        $link = $this->getDefaultTargetUrl($prg->getRefId());
-        $title_btn = $this->factory->button()->shy($title, $link);
-        $description = $prg->getLongDescription() ?? "";
-        $max = (int) $this->settings->get("rep_shorten_description_length");
-        if ($max !== 0 && $this->settings->get("rep_shorten_description")) {
-            $description = ilStr::shortenTextExtended($description, $max, true);
-        }
-
-        $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
-        return $this->factory->item()->standard($title_btn)
-                             ->withProperties(array_merge(...$properties))
-                             ->withDescription($description)
-                             ->withLeadIcon($icon)
-                             ->withActions(
-                                 $this->factory->dropdown()->standard($commands)
-                             );
-    }
-
-    protected function getDefaultTargetUrl(int $prg_ref_id): string
-    {
-        $this->ctrl->setParameterByClass(
-            ilObjStudyProgrammeGUI::class,
-            'ref_id',
-            $prg_ref_id
-        );
-        $link = $this->ctrl->getLinkTargetByClass(
-            [
-                ilRepositoryGUI::class,
-                ilObjStudyProgrammeGUI::class,
-            ]
-        );
-        $this->ctrl->setParameterByClass(
-            ilObjStudyProgrammeGUI::class,
-            'ref_id',
-            null
-        );
-        return $link;
-    }
-
     public function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
@@ -118,44 +46,12 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
         $user_table = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserTable'];
         $user_table->disablePermissionCheck(true);
         $rows = $user_table->fetchSingleUserRootAssignments($this->user->getId());
+
         $items = [];
         foreach ($rows as $row) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
             if (!$this->isReadable($prg) || !$prg->isActive()) {
                 continue;
-            }
-
-            $min = $row->getPointsRequired();
-            $max = $row->getPointsReachable();
-            $cur = $row->getPointsCurrent();
-            $required_string = $min;
-            if ((float) $max < (float) $min) {
-                $required_string .= ' ' . $this->lng->txt('prg_dash_label_unreachable') . ' (' . $max . ')';
-            }
-
-            $properties = [
-                [$this->lng->txt('prg_dash_label_minimum') => $required_string],
-                [$this->lng->txt('prg_dash_label_gain') => $cur],
-                [$this->lng->txt('prg_dash_label_status') => $row->getStatus()],
-            ];
-
-            if (in_array(
-                $row->getStatusRaw(),
-                [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED],
-                true
-            )) {
-                $validity = $row->getExpiryDate() ?: $row->getValidity();
-                $properties[] = [$this->lng->txt('prg_dash_label_valid') => $validity];
-            } else {
-                $properties[] = [$this->lng->txt('prg_dash_label_finish_until') => $row->getDeadline()];
-            }
-
-            $validator = new ilCertificateDownloadValidator();
-            if ($validator->isCertificateDownloadable($row->getUsrId(), $row->getNodeId())) {
-                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId(
-                ) . "&cmd=deliverCertificate";
-                $cert_link = $this->factory->link()->standard($this->lng->txt('download_certificate'), $cert_url);
-                $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
             }
 
             $items[] = new BlockDTO(
@@ -166,7 +62,6 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
                 $prg->getDescription(),
                 null,
                 null,
-                ['prg' => $prg, 'properties' => $properties]
             );
         }
 
@@ -200,6 +95,12 @@ class ilStudyProgrammeBlockGUI extends ilDashboardBlockGUI
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
+        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
+        $itemListGui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "addToDesk"),
+            "rep_add_to_favourites"
+        );
+        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
     }
 
     public function confirmedRemoveObject(): void
