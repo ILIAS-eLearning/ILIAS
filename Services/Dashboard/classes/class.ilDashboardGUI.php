@@ -30,7 +30,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDMailBlockGUI
- * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilRecommendedContentBlockGUI, ilMembershipBlockGUI, ilLearningSequenceBlockGUI, ilStudyProgrammeBlockGUI, ilObjStudyProgrammeGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface

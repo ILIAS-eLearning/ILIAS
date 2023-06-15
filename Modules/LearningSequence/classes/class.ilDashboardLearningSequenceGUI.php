@@ -22,8 +22,8 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 /**
- * @ilCtrl_IsCalledBy ilLearningSequenceBlockGUI: ilColumnGUI
- * @ilCtrl_Calls      ilLearningSequenceBlockGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_IsCalledBy ilDashboardLearningSequenceGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilDashboardLearningSequenceGUI: ilCommonActionDispatcherGUI
  */
 class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 {
