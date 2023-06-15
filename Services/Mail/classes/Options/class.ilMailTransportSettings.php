@@ -27,7 +27,7 @@ class ilMailTransportSettings
     {
     }
 
-    public function adjust(string $firstMail, string $secondMail): void
+    public function adjust(string $firstMail, string $secondMail, bool $persist = true): void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
@@ -38,19 +38,25 @@ class ilMailTransportSettings
 
         if (!$hasFirstEmail && !$hasSecondEmail) {
             $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);
-            $this->mailOptions->updateOptions();
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
             return;
         }
 
         if (!$hasFirstEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::SECOND_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::SECOND_EMAIL);
-            $this->mailOptions->updateOptions();
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
             return;
         }
 
         if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
-            $this->mailOptions->updateOptions();
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
         }
     }
 }
