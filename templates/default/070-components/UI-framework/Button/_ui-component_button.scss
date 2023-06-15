@@ -1,8 +1,10 @@
 @use "../../../010-settings/"as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../030-tools/legacy-bootstrap-mixins/buttons" as *;
+@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
 @use "../../../050-layout/basics"as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
 
 //== Buttons
 
@@ -18,8 +20,7 @@ $il-engaged-btn-bg: white;
 .btn {
   display: inline-block;
   margin-bottom: 0; // For input.btn
-  font-size: $il-button-font-size;
-  font-weight: btstrp3.$btn-font-weight;
+  font-weight: $il-button-font-weight;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -27,8 +28,8 @@ $il-engaged-btn-bg: white;
   cursor: pointer;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  @include btstrp3.button-size($il-padding-base-vertical, $il-padding-base-horizontal, $il-font-size-base, $il-line-height-base, btstrp3.$btn-border-radius-base);
-  @include btstrp3.user-select(none);
+  @include button-size($il-padding-base-vertical, $il-padding-base-horizontal, $il-font-size-small, $il-line-height-base, $il-btn-border-radius-base);
+  @include user-select(none);
   @include il-focus();
 
   &,
@@ -56,9 +57,9 @@ $il-engaged-btn-bg: white;
   &.disabled,
   &[disabled],
   fieldset[disabled] & {
-    cursor: btstrp3.$cursor-disabled;
-    @include btstrp3.opacity(.65);
-    @include btstrp3.box-shadow(none);
+    cursor: not-allowed;
+    @include opacity(.65);
+    @include box-shadow(none);
   }
 
   // [converter] extracted a& to a.btn
@@ -83,14 +84,14 @@ input.btn{
 }
 
 .btn-default {
-  @include btstrp3.button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
+  @include button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
   &:focus-visible {
     position: relative;
   }
 }
 
 .btn-primary {
-  @include btstrp3.button-variant($il-btn-primary-color, $il-btn-primary-bg, $il-btn-primary-border);
+  @include button-variant($il-btn-primary-color, $il-btn-primary-bg, $il-btn-primary-border);
 }
 
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
@@ -110,7 +111,7 @@ input.btn{
   &[disabled],
   fieldset[disabled] & {
     background-color: transparent;
-    @include btstrp3.box-shadow(none);
+    @include box-shadow(none);
   }
   &,
   &:hover,
@@ -121,14 +122,14 @@ input.btn{
   &:hover,
   &:focus {
     color: $il-link-hover-color;
-    text-decoration: btstrp3.$link-hover-decoration;
+    text-decoration: $il-link-hover-decoration;
     background-color: transparent;
   }
   &[disabled],
   fieldset[disabled] & {
     &:hover,
     &:focus {
-      color: btstrp3.$btn-link-disabled-color;
+      color: $il-disabled-btn-color;
       text-decoration: none;
     }
   }
@@ -140,14 +141,14 @@ input.btn{
 
 .btn-lg {
   // line-height: ensure even-numbered height of button next to large input
-  @include btstrp3.button-size($il-padding-large-vertical, $il-padding-large-horizontal, $il-font-size-large, $il-line-height-large, btstrp3.$btn-border-radius-large);
+  @include button-size($il-padding-large-vertical, $il-padding-large-horizontal, $il-font-size-large, $il-line-height-large, $il-btn-border-radius-large);
 }
 .btn-sm {
   // line-height: ensure proper height of button next to small input
-  @include btstrp3.button-size($il-padding-small-vertical, $il-padding-small-horizontal, $il-font-size-small, $il-line-height-small, btstrp3.$btn-border-radius-small);
+  @include button-size($il-padding-small-vertical, $il-padding-small-horizontal, $il-font-size-small, $il-line-height-small, $il-btn-border-radius-small);
 }
 .btn-xs {
-  @include btstrp3.button-size($il-padding-xs-vertical, $il-padding-xs-horizontal, $il-font-size-small, $il-line-height-small, btstrp3.$btn-border-radius-small);
+  @include button-size($il-padding-xs-vertical, $il-padding-xs-horizontal, $il-font-size-small, $il-line-height-small, $il-btn-border-radius-small);
 }
 
 

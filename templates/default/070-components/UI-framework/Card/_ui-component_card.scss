@@ -1,9 +1,9 @@
 @use "../../../010-settings/"as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 @use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
-@use "../../../030-tools/tool_focus-outline" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
+@use "../../../030-tools/tool_focus-outline" as *;
 @use "../../../050-layout/basics"as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 
 
 //== Card
@@ -168,7 +168,7 @@ $il-card-border-radius: 0;
 	background-color: $il-main-dark-bg;
 }
 
-@media (min-width: btstrp3.$screen-sm-min) {
+@media (min-width: $screen-sm-min) {
 	.row-eq-height {
 		.il-card {
 			display: flex;
@@ -182,7 +182,7 @@ $il-card-border-radius: 0;
 }
 
 /* see bug #25920, limit size of cards for small screens */
-@media (max-width: btstrp3.$screen-sm-min) {
+@media (max-width: $screen-sm-min) {
 	.il-card {
 		max-width: $il-card-max-width-xs;
 		margin-right: auto;

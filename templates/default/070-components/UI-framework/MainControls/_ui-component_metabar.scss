@@ -1,5 +1,5 @@
 @use "../../../010-settings/"as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/tool_screen-reader-only" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
 
@@ -25,7 +25,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 
 	// no display labels in metabar level 1, but make them readable by screenreaders
 	> li > .btn-bulky > .bulky-label, > li > .link-bulky > .bulky-label {
-		@include btstrp3.sr-only;
+		@include sr-only;
 	}
 
 	.glyphicon {

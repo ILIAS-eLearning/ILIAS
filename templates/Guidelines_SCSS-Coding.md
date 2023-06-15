@@ -124,24 +124,39 @@ Adding dependencies requires careful consideration whether the benefits outweigh
 * Lower layers MAY call the variables, functions and mixins of a dependency for their purposes and SHOULD include them with a namespace.
 * A dependency SHOULD NOT be called on with @forward inside the _index.scss to expose its public variables to a skin.
 
-#### Bootstrap 3
+#### Bootstrap
+
+**In 2023 for ILIAS 9, most of Bootstrap 3 code has been heavily reduced and merged into our codebase while keeping the names of classes and mixins.** In an attempt to keep delos as lightweight as possible only selected chunks have been carried over and some are heavily modified and shortened. Some obscure places in ILIAS may now require fixing because of this very selective approach.
 
 Bootstrap 3 has been used since ILIAS 5.0 to solve many common web design challenges like normalizing, column layouts and input elements.
 
-In the future, many systems in Bootstrap 3 will be replaced by our native solutions specifically customized to the needs of ILIAS. In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
+In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
 
-* If Bootstrap offers applicable classes and mixins, they SHOULD be used where possible.
-* If a variable, mixin or function is defined inside the Bootstrap dependency layer, but also has an equivalent on one of the ILIAS ITCSS layers, you MUST use or extend to the ILIAS version instead.
-* To avoid repeating CSS code, you MUST import only the variables and mixins of Bootstrap 3 on lower layers like so `@use "../some-relative-path/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-` and SHOULD use the namespace `btstrp3`.
-* You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the now redundant Bootstrap 3 partial.
-* You SHOULD NOT pull in Bootstrap 3 code into our components without reducing, optimizing and modernizing it.
+Guidelines
+
+* If the Bootstrap inspired classes, tools, layout systems and mixins in our codebase can help you to get your desired output, you SHOULD use them whenever possible.
+* Don't expect them to work exactly the same as they would in an unmodified version of Bootstrap. They may have been heavily reduced to only cover the needs specific to ILIAS.
+* You MAY add needed functionality to existing Bootstrap inspired systems making them more specific to our requirements, while cutting parts that we do not need.
+* If a need isn't covered yet that has got a well-thought out solution in Bootstrap 3 or 5 (or another framework with an appropriate license), you MAY after careful consideration merge it into an appropriate place on our ITCSS layers - but you SHOULD customize, shorten and modernize the code to be more ILIAS specific (e.g. color variations are often not needed). 
+* If you copy several lines of code from Bootstrap 3 or 5 into our stylecode you MUST give one line credit at the beginning and end of the section like this
+
+``` SCSS
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+.bootstrap-class {}
+
+// end of section based on bootstrap 3
+```
+
+Bootstrap licenses
+* Bootstrap 3 https://github.com/twbs/bootstrap/blob/v3.4.1/LICENSE
+* Bootstrap 5 https://github.com/twbs/bootstrap/blob/v5.2.3/LICENSE
 
 #### Legacy
-* Legagcy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
+* Legacy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
 
 ### Examples
-* Bootstrap
+* Bootstrap Time and Date Picker
 
 ## Tools
 
@@ -154,6 +169,8 @@ Past layouts and HTML templates heavily rely on CSS utility classes like "ilCent
 
 ### Guidelines
 
+* **Use existing tools whenever possible.** You MUST NOT write your own solution if a problem has already been solved by one of the existing tools.
+* If you write stylecode that solves a general problem, you SHOULD add it as a tool rather than as a part of a specific component.
 * **Tools MUST not generate CSS code** before being used on lower levels.
 * Tools MAY be used in various other sections in the SCSS.
 * You **SHOULD NOT create utility CSS classes.**

@@ -1,10 +1,11 @@
-@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+// @use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 @use "../050-layout/basics/" as *;
 
 // Container widths (based on Bootstrap 5)
 //
 // Set the container width, and override it for fixed navbars in media queries.
 
+$prefix: bs- !default;
 $enable-container-classes: true !default;
 
 $container-padding-x: $grid-gutter-width !default;

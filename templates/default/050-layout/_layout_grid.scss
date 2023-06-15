@@ -1,11 +1,15 @@
 @use "sass:math";
-@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 @use "../050-layout/basics/" as *;
 @use "../050-layout/layout_breakpoints" as *;
 
+// section based on bootstrap 5 - see /templates/default/Guidelines_SCSS-Coding.md
+
 //
-// Boottsrap 5: _variables.scss
+// Bootstrap 5: _variables.scss
 //
+
+$grid-columns: 12 !default;
+$prefix: bs- !default;
 
 $enable-grid-classes: true !default;
 $enable-cssgrid: false !default;
@@ -310,3 +314,5 @@ $gutters: $spacers !default;
 @if $enable-grid-classes {
     @include make-grid-columns();
 }
+
+// end of section based on bootstrap 5

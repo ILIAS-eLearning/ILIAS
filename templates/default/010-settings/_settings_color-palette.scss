@@ -8,7 +8,7 @@ $il-secondary-color: #6ea03c !default;
 //** Used to indicate some success, used to be $brand-success
 $il-success-color: #6ea03c !default;
 //** Used to indicate some success, used to be $brand-info
-$il-info-color: #dcb496 !default;
+$il-info-color: #31708f !default;
 //** Used to indicate some warning or to draw special focus to some element, used to be $brand-warning
 $il-warning-color: #B54F00 !default;
 //** Used to indicate some warning or to draw special focus to some element, used to be $brand-danger
@@ -16,6 +16,9 @@ $il-danger-color: #d00 !default;
 
 //** Neutral Color for various Backgrounds, used to be $gray-dark and $il-neutral-color
 $il-neutral-color: #2c2c2c !default;
+
+$il-text-muted: $il-neutral-color !default;
+
 //** Light version of the $il-neutral-color, used to be $gray-light
 $il-neutral-light-color: #737373 !default;
 
@@ -31,6 +34,9 @@ $il-highlight-bg: lighten($il-main-color, 50%) !default;
 
 //** Used to be $text-color. Can be used on all background colors.
 $il-text-color: #161616 !default;
+
+$il-headings-color: inherit !default;
+
 //** Used if text is hovered in components such a Dropdowns
 $il-text-hover-color: darken($il-text-color, 10%) !default;
 //** Used e.g. for Bylines in Forms. Used to be $il-light-text-color. For accessibility reasons, the $il-text-color should only be used on the $il-main-bg.
@@ -46,6 +52,23 @@ $il-link-hover-color: darken($il-link-color, 10%) !default;
 //** Used to set focus on interactive elements for keyboard navigation.
 $il-focus-color: #0078D7 !default;
 $il-focus-protection-color: #FFFFFF !default;
+
+//== Alert
+$il-alert-success-bg: lighten($il-success-color, 50%);
+$il-alert-success-border: $il-success-color;
+$il-alert-success-text: $il-text-color;
+
+$il-alert-info-bg: lighten($il-info-color, 50%);
+$il-alert-info-border: $il-info-color;
+$il-alert-info-text: $il-text-color;
+
+$il-alert-warning-bg: lighten($il-warning-color, 55%);
+$il-alert-warning-border: $il-warning-color;
+$il-alert-warning-text: $il-text-color;
+
+$il-alert-danger-bg: lighten($il-danger-color, 50%);
+$il-alert-danger-border: $il-danger-color;
+$il-alert-danger-text: $il-text-color;
 
 //== Extended Colors
 //

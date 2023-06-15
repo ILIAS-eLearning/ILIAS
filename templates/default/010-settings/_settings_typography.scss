@@ -8,6 +8,8 @@
 $il-web-font-path: "./fonts/" !default;
 $il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif !default;
 
+$il-headings-font-family: $il-font-family-sans-serif !default;
+
 //** Should only be used to indicate mainbar entries. Equivalent to 10px => 10*1/16=0.625rem.
 $il-font-size-xsmall:		0.625rem !default;
 //** Used to indicate subordinate text, such as bylines in forms, subtabs, etc. Equivalent to 12px.
@@ -28,6 +30,7 @@ $il-line-height-base:		1.428571429 !default;
 $il-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-base) * $il-line-height-base) !default;
 $il-small-line-height-computed: math.round(t-rem-px.rem-to-pixel($il-font-size-small) * $il-line-height-base) !default;
 $il-line-height-large:  1.33 !default;
+$il-headings-line-height: 1.33 !default;
 $il-line-height-small: 1.5 !default;
 
 
@@ -39,3 +42,8 @@ $il-font-weight-base:    400 !default;
 $il-font-weight-bold:    600 !default;
 //** Used to indicate e.g. dates with appointements
 $il-font-weight-xbold:    700 !default;
+
+$il-headings-font-weight: 500 !default;
+
+$il-link-decoration: none !default;
+$il-link-hover-decoration: underline !default;
