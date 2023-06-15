@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Button\Shy;
+
 class ilObjStudyProgrammeListGUI extends ilObjectListGUI
 {
+    private ILIAS\UI\Renderer $renderer;
+    protected ILIAS\UI\Factory $factory;
+
     public function __construct()
     {
         global $DIC;
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
         parent::__construct();
         $this->lng->loadLanguageModule("prg");
     }
@@ -68,6 +75,90 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $cmd);
     }
 
+    public function getAsListItem(int $ref_id, int $obj_id, string $type, string $title, string $description): ?\ILIAS\UI\Component\Item\Item
+    {
+        $this->initItem(
+            $ref_id,
+            $obj_id,
+            $type,
+            $title,
+            $description
+        );
+        $this->insertCommands(true, true);
+
+        $prg = new ilObjStudyProgramme($ref_id);
+        $assignments = $prg->getAssignments();
+        if ($this->getCheckboxStatus() && count($assignments) > 0) {
+            $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
+            $this->enableCheckbox(false);
+        } else {
+            $this->setAdditionalInformation(null);
+        }
+        /** @var ilStudyProgrammeUserTable $user_table */
+        $user_table = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserTable'];
+        $user_table->disablePermissionCheck(true);
+        $data = $user_table->fetchData($prg->getId(), [$this->user->getId()]);
+        $properties = [];
+        if (count($data) === 1) {
+            $data = $data[0];
+
+            $min = $data->getPointsRequired();
+            $max = $data->getPointsReachable();
+            $cur = $data->getPointsCurrent();
+            $required_string = $min;
+            if ((float) $max < (float) $min) {
+                $required_string .= ' ' . $this->lng->txt('prg_dash_label_unreachable') . ' (' . $max . ')';
+            }
+
+            $properties = [
+                [$this->lng->txt('prg_dash_label_minimum') => $required_string],
+                [$this->lng->txt('prg_dash_label_gain') => $cur],
+                [$this->lng->txt('prg_dash_label_status') => $data->getStatus()],
+            ];
+
+            if (in_array(
+                $data->getStatusRaw(),
+                [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED],
+                true
+            )) {
+                $validity = $data->getExpiryDate() ?: $data->getValidity();
+                $properties[] = [$this->lng->txt('prg_dash_label_valid') => $validity];
+            } else {
+                $properties[] = [$this->lng->txt('prg_dash_label_finish_until') => $data->getDeadline()];
+            }
+
+            $validator = new ilCertificateDownloadValidator();
+            if ($validator->isCertificateDownloadable($data->getUsrId(), $data->getNodeId())) {
+                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId(
+                ) . "&cmd=deliverCertificate";
+                $cert_link = $this->factory->link()->standard($this->lng->txt('download_certificate'), $cert_url);
+                $properties[] = [$this->lng->txt('certificate') => $this->renderer->render($cert_link)];
+            }
+        }
+
+
+        $commands = array_map(
+            fn (array $command): Shy => $this->factory->button()->shy(
+                $command['title'],
+                $command['link']
+            ),
+            $this->current_selection_list->getItems()
+        );
+
+        $link = $this->getCommandLink('');
+        $title_btn = $this->factory->button()->shy($title, $link);
+        $max = (int) $this->settings->get("rep_shorten_description_length");
+        if ($max !== 0 && $this->settings->get("rep_shorten_description")) {
+            $description = ilStr::shortenTextExtended($description, $max, true);
+        }
+
+        $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
+        return  $this->factory->item()->standard($title_btn)
+                       ->withProperties(array_merge(...$properties))
+                       ->withDescription($description)
+                       ->withLeadIcon($icon);
+    }
+
     /**
     * @inheritdoc
     */
@@ -81,23 +172,12 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         string $async_url = "",
         int $context = self::CONTEXT_REPOSITORY
     ): string {
-        $prg = new ilObjStudyProgramme($ref_id);
-        $assignments = $prg->getAssignments();
-        if ($this->getCheckboxStatus() && count($assignments) > 0) {
-            $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
-            $this->enableCheckbox(false);
-        } else {
-            $this->setAdditionalInformation(null);
-        }
-
-        return parent::getListItemHTML(
+        return $this->renderer->render($this->getAsListItem(
             $ref_id,
             $obj_id,
+            $this->type,
             $title,
-            $description,
-            $use_async,
-            $get_async_commands,
-            $async_url
-        );
+            $description
+        ));
     }
 }
