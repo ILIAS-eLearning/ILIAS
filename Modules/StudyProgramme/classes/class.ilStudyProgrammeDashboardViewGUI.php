@@ -24,7 +24,15 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 {
+    private ilFavouritesManager $favourites;
     protected ?string $visible_on_pd_mode = null;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->favourites = new ilFavouritesManager();
+    }
 
     public function initViewSettings(): void
     {
@@ -66,6 +74,13 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
         }
 
         $this->setData(['' => $items]);
+    }
+
+    public function addToDeskObject(): void
+    {
+        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
+        $this->returnToContext();
     }
 
     protected function isReadable(ilObjStudyProgramme $prg): bool
