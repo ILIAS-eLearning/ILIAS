@@ -65,8 +65,8 @@ class ilMailOptionsTest extends ilMailBaseTest
             [
                         ['mail_incoming_mail', '', ''],
                         ['mail_address_option', '', ''],
-                        ['show_mail_settings', null, '1'],
-                        ['usr_settings_disable_mail_incoming_mail', null, '0']
+                        ['show_mail_settings', false, '1'],
+                        ['usr_settings_disable_mail_incoming_mail', false, '0']
                     ]
         );
         $this->setGlobalVariable('ilSetting', $this->settings);
