@@ -43,7 +43,7 @@ class ilPageQuestionProcessor
         $ilLog->write($a_answer);
         $answer = json_decode($a_answer, false, 512, JSON_THROW_ON_ERROR);
         $passed = $answer->passed;
-        $choice = $answer->choice;
+        $choice = $answer->choice ?? [];
         $points = self::calculatePoints($a_type, $a_id, $choice);
         $ilLog->write("Points: " . $points);
 
@@ -231,7 +231,7 @@ class ilPageQuestionProcessor
                 $points = 0;
                 for ($i = 0; $i < $q->getMatchingPairCount(); $i++) {
                     $pair = $q->getMatchingPair($i);
-                    if (is_array($a_choice) && in_array($pair->definition->identifier . "-" . $pair->term->identifier, $a_choice)) {
+                    if (is_array($a_choice) && in_array($pair->getDefinition()->getIdentifier() . "-" . $pair->getTerm()->getIdentifier(), $a_choice)) {
                         $points += $pair->points;
                     }
                 }
