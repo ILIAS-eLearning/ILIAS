@@ -1,6 +1,6 @@
 # Language Handling in ILIAS
 
-ILIAS offers multi-language support. Guidelines and additional information about the creating language entries and the language handling in ILIAS are described in the file [language.md](docs/development/language.md)
+ILIAS offers multi-language support. Guidelines and additional information about the syntax and how to create language entries and the language handling in ILIAS are described in the file [language.md](docs/development/language.md)
 
 ## $lng Language Object
 
