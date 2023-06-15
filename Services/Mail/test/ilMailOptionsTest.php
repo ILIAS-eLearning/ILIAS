@@ -75,12 +75,13 @@ class ilMailOptionsTest extends ilMailBaseTest
 
     public function testConstructorWithUserSettings(): void
     {
-        $this->settings->expects($this->exactly(3))->method('get')->willReturnMap(
+        $this->settings->expects($this->exactly(4))->method('get')->willReturnMap(
             [
                         ['mail_incoming_mail', '', ''],
                         ['mail_address_option', '', ''],
-                        ['show_mail_settings', null, '1']
-                    ]
+                        ['show_mail_settings', null, '1'],
+                        ['usr_settings_disable_mail_incoming_mail', null, '0']
+            ]
         );
         $this->setGlobalVariable('ilSetting', $this->settings);
 
