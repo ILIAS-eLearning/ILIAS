@@ -118,7 +118,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                function (Breadcrumbs $current) : ?Breadcrumbs {
+                function (?Breadcrumbs $current) : ?Breadcrumbs {
                     return null;
                 }
             )
@@ -136,7 +136,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         // away the header here.
         return $this->globalScreen()->layout()->factory()->content()
             ->withModification(
-                function (Legacy $content) use ($html) : Legacy {
+                function (?Legacy $content) use ($html) : Legacy {
                     $ui = $this->dic->ui();
                     return $ui->factory()->legacy($html);
                 }
