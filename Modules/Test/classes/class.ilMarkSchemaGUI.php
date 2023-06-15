@@ -175,7 +175,9 @@ class ilMarkSchemaGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         }
 
-        $this->ctrl->redirect($this);
+        $this->object->getMarkSchema()->flush();
+        $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
+        $this->showMarkSchema();
     }
 
     private function objectSupportsEctsGrades(): bool
