@@ -85,7 +85,6 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->utilHelper->convertImage(
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
-            'JPEG',
             "100"
         );
     }

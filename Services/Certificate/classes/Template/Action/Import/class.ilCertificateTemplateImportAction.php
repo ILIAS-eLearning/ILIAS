@@ -172,7 +172,6 @@ class ilCertificateTemplateImportAction
                     $this->utilHelper->convertImage(
                         $originalImagePath,
                         $thumbnailImagePath,
-                        'JPEG',
                         "100"
                     );
                 } elseif (str_contains((string) $file['entry'], '.svg')) {
