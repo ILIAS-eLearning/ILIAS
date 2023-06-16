@@ -199,7 +199,7 @@ class ilBookCronNotification extends ilCronJob
             $lng->loadLanguageModule("book");
 
             $txt = "";
-            if (is_array($n["personal"])) {
+            if (is_array($n["personal"] ?? null)) {
                 $txt .= "\n" . $lng->txt("book_your_reservations") . "\n";
                 $txt .= "-----------------------------------------\n";
                 foreach ($n["personal"] as $obj_id => $reservs) {
@@ -212,7 +212,7 @@ class ilBookCronNotification extends ilCronJob
                 }
             }
 
-            if (is_array($n["admin"])) {
+            if (is_array($n["admin"] ?? null)) {
                 $txt .= "\n" . $lng->txt("book_reservation_overview") . "\n";
                 $txt .= "-----------------------------------------\n";
                 foreach ($n["admin"] as $obj_id => $reservs) {
