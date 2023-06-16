@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, imagick
           tools: composer:v2
           coverage: none
 
