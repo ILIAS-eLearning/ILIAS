@@ -347,7 +347,7 @@ class ilExport
             array(
                 "MainEntity" => $a_type,
                 "Title" => ilObject::_lookupTitle($a_id),
-                "TargetRelease" => $a_target_release,
+                /* "TargetRelease" => $a_target_release, */
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH
             )
@@ -442,7 +442,7 @@ class ilExport
             array(
                 "MainEntity" => $a_entity,
                 "Title" => $a_title,
-                "TargetRelease" => $a_target_release,
+                /* "TargetRelease" => $a_target_release, */
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH
             )
@@ -558,7 +558,7 @@ class ilExport
                          "InstallationUrl" => ILIAS_HTTP_PATH,
                          "Entity" => $a_entity,
                          "SchemaVersion" => $sv["schema_version"],
-                         "TargetRelease" => $a_target_release,
+                         /* "TargetRelease" => $a_target_release, */
                          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
                          "xmlns:exp" => "http://www.ilias.de/Services/Export/exp/4_1",
                          "xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 " . ILIAS_HTTP_PATH . "/xml/ilias_export_4_1.xsd"
