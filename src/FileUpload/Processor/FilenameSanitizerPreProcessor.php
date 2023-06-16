@@ -38,7 +38,11 @@ final class FilenameSanitizerPreProcessor implements PreProcessor
      */
     public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
-        $metadata->setFilename($this->normalizeRelativePath($metadata->getFilename()));
+        $filename = $metadata->getFilename();
+        // remove some special characters
+        $filename = \ILIAS\Filesystem\Util::sanitizeFileName($filename);
+
+        $metadata->setFilename(Util::normalizeRelativePath($filename));
 
         return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
     }
@@ -46,7 +50,7 @@ final class FilenameSanitizerPreProcessor implements PreProcessor
     private function normalizeRelativePath(string $path): string
     {
         $path = str_replace('\\', '/', $path);
-        $path =  preg_replace('#\p{C}+#u', '', $path);
+        $path = preg_replace('#\p{C}+#u', '', $path);
         $parts = [];
 
         foreach (explode('/', $path) as $part) {
