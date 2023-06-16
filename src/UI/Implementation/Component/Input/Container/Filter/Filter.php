@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
@@ -89,6 +88,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * For the implementation of NameSource.
      */
     private int $count = 0;
+    private array $used_names = [];
 
 
     /**
@@ -259,6 +259,23 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->count++;
 
         return $name;
+    }
+
+    /**
+     * Implementation of NameSource
+     * for using dedicated names in filter fields
+     */
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        if ($dedicated_name == 'filter_input') {
+            return $this->getNewName();
+        }
+        if (in_array($dedicated_name, $this->used_names)) {
+            return $dedicated_name . '_' . $this->count++;
+        } else {
+            $this->used_names[] = $dedicated_name;
+            return $dedicated_name;
+        }
     }
 
     /**
