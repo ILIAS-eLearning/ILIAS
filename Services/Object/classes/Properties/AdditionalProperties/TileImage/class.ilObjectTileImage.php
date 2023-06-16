@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -25,9 +26,12 @@ use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Util\Convert\LegacyImages;
 
 class ilObjectTileImage
 {
+    private const TILE_IMAGE_SIZE = 512;
+    private LegacyImages $image_converter;
     protected string $ext = '';
 
     public function __construct(
@@ -35,6 +39,8 @@ class ilObjectTileImage
         protected FileUpload $upload,
         protected int $object_id
     ) {
+        global $DIC;
+        $this->image_converter = $DIC->fileConverters()->legacyImages();
     }
 
     public function getExtension(): string
@@ -92,6 +98,14 @@ class ilObjectTileImage
         $this->ext = pathinfo($tempfile_name, PATHINFO_EXTENSION);
 
         rename(ilFileUtils::getDataDir() . '/temp/' . $tempfile_name, $this->getFullPath());
+
+        $this->image_converter->croppedSquare(
+            $this->getFullPath(),
+            $this->getFullPath(),
+            self::TILE_IMAGE_SIZE, // I suggest to use a constant here, in the old code it was the min length of either height or width of the original image which can be huge...
+            ImageOutputOptions::FORMAT_KEEP,
+            70
+        );
 
         $this->persistImageState();
     }
