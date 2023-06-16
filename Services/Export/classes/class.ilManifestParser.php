@@ -112,20 +112,21 @@ class ilManifestParser extends ilSaxParser
      *
      * @param	string	target release
      */
+    /*
     public function setTargetRelease($a_val)
     {
         $this->target_release = $a_val;
-    }
+    }*/
 
     /**
      * Get target release
      *
      * @return	string	target release
      */
-    public function getTargetRelease()
+    /*public function getTargetRelease()
     {
         return $this->target_release;
-    }
+    }*/
 
     /**
      * Get xml files
@@ -174,7 +175,7 @@ class ilManifestParser extends ilSaxParser
                 $this->setInstallId($a_attribs["InstallationId"]);
                 $this->setInstallUrl($a_attribs["InstallationUrl"]);
                 $this->setTitle($a_attribs["Title"]);
-                $this->setTargetRelease($a_attribs["TargetRelease"]);
+                //$this->setTargetRelease($a_attribs["TargetRelease"]);
                 $this->setMainEntity($a_attribs["MainEntity"]);
                 break;
 

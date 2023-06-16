@@ -82,7 +82,7 @@ class ilExportContainer extends ilExport
             array(
                 "MainEntity" => $a_type,
                 "Title" => ilObject::_lookupTitle($a_id),
-                "TargetRelease" => $a_target_release,
+                /* "TargetRelease" => $a_target_release, */
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH)
         );
