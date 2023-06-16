@@ -1236,7 +1236,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
 
         if ($a_parent_subobj_id == 0) {
-            $this->setTabs();
+            $this->setTabs("content");
         }
 
         if ($a_parent_subobj_id != 0) {
