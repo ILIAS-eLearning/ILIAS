@@ -61,7 +61,7 @@ class ilBlogImporter extends ilXmlImporter
     ): void {
         $blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
         foreach ($blp_map as $blp_id) {
-            $blp_id = substr($blp_id, 4);
+            $blp_id = (int) substr($blp_id, 4);
             $blog_id = ilBlogPosting::lookupBlogId($blp_id);
             ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
         }
