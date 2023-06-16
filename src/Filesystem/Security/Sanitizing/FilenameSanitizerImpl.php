@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
 use ilFileUtils;
+use ILIAS\Filesystem\Util;
 
 /**
  * Class FilenameSanitizerImpl
@@ -35,7 +36,6 @@ use ilFileUtils;
  */
 class FilenameSanitizerImpl implements FilenameSanitizer
 {
-    private const FUNKY_WHITESPACES = '#\p{C}+#u';
     /**
      * Contains the whitelisted file suffixes.
      *
@@ -72,7 +72,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
      */
     public function sanitize(string $filename): string
     {
-        $filename = preg_replace(self::FUNKY_WHITESPACES, '', $filename); // remove funky whitespaces
+        $filename = Util::sanitizeFileName($filename);
 
         if ($this->isClean($filename)) {
             return $filename;
