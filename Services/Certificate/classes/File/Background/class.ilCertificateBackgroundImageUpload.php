@@ -105,8 +105,7 @@ class ilCertificateBackgroundImageUpload
 
         $this->utilHelper->convertImage(
             $backgroundImageTempFilePath,
-            $this->rootDirectory . $backgroundImagePath,
-            'JPEG'
+            $this->rootDirectory . $backgroundImagePath
         );
 
         $backgroundImageThumbnailPath = $this->createBackgroundImageThumbPath();
@@ -114,7 +113,6 @@ class ilCertificateBackgroundImageUpload
         $this->utilHelper->convertImage(
             $backgroundImageTempFilePath,
             $backgroundImageThumbnailPath,
-            'JPEG',
             "100"
         );
 
