@@ -45,6 +45,7 @@ class ilRepositorySearchGUI
     private $search_results = array();
     
     protected $add_options = array();
+    protected $default_option = '';
     protected $object_selection = false;
 
     protected $searchable_check = true;
@@ -589,16 +590,18 @@ class ilRepositorySearchGUI
         }
     }
 
-    public function setCallback(&$class, $method, $a_add_options = array())
+    public function setCallback(&$class, $method, $a_add_options = array(), $default_option = '')
     {
         $this->callback = array('class' => $class,'method' => $method);
         $this->add_options = $a_add_options ? $a_add_options : array();
+        $this->default_option = (string) $default_option;
     }
 
-    public function setRoleCallback(&$class, $method, $a_add_options = array())
+    public function setRoleCallback(&$class, $method, $a_add_options = array(), $default_option = '')
     {
         $this->role_callback = array('class' => $class,'method' => $method);
         $this->add_options = $a_add_options ? $a_add_options : array();
+        $this->default_option = $default_option;
     }
     
     /**
@@ -687,7 +690,7 @@ class ilRepositorySearchGUI
                                 '',
                                 false,
                                 false
-                                )
+                            )
                         );
                         $ul->setDataSource($ilCtrl->getLinkTarget(
                             $this,
@@ -1167,7 +1170,8 @@ class ilRepositorySearchGUI
                 'selectedCommand',
                 $this->add_options,
                 'handleMultiCommand',
-                $this->lng->txt('execute')
+                $this->lng->txt('execute'),
+                $this->default_option
             );
         } else {
             $table->addMultiCommand('addUser', $this->lng->txt('btn_add'));
