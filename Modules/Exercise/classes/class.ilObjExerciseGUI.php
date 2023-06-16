@@ -910,7 +910,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             }
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             $ilCtrl->redirectByClass(
-                array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"),
+                array("ilExerciseHandlerGUI", "ilObjExerciseGUI"),
                 "infoScreen"
             );
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
