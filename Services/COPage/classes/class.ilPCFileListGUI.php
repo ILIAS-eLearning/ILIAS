@@ -307,7 +307,7 @@ class ilPCFileListGUI extends ilPageContentGUI
             // file
             $ne = new ilNonEditableValueGUI($lng->txt("file"), "");
 
-            $file_ref_id = $this->requested_file_ref_id;
+            $file_ref_id = (int) $this->requested_file_ref_id;
             $fl_wsp_id = $this->request->getInt("fl_wsp_id");
 
             if ($file_ref_id > 0) {
