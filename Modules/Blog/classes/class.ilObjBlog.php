@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 
 /**
  * Class ilObjBlog
@@ -54,6 +56,7 @@ class ilObjBlog extends ilObject2
     protected int $overview_postings = 5;
     protected bool $authors = true;
     protected array $order = [];
+    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_conversion;
 
     public function __construct(
         int $a_id = 0,
@@ -64,6 +67,7 @@ class ilObjBlog extends ilObject2
         $this->notes_service = $DIC->notes();
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
+        $this->image_conversion = $DIC->fileConverters()->legacyImages();
 
         $this->content_style_service = $DIC
             ->contentStyle()
@@ -345,20 +349,24 @@ class ilObjBlog extends ilObject2
             chmod($path . $original, 0770);
 
             $blga_set = new ilSetting("blga");
-            /* as banner height should overflow, we only handle width
-            $dimensions = $blga_set->get("banner_width")."x".
-                $blga_set->get("banner_height");
-            */
-            $dimensions = $blga_set->get("banner_width");
 
-            // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-            // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilShellUtil::escapeShellArg($path . $original);
-            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
-            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilShellUtil::execConvert(
-                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
+            // as banner height should overflow, we only handle width (otherwise resizeToFixedSize could be used)
+            $banner_width = (int)$blga_set->get("banner_width");
+            // $banner_height = (int)$blga_set->get("banner_height");
+
+            $this->image_conversion->croppedSquare(
+                $path . $original,
+                $path . $thumb,
+                100,
+                ImageOutputOptions::FORMAT_KEEP
+            );
+
+            $this->image_conversion->resizeByWidth(
+                $path . $original,
+                $path . $processed,
+                $banner_width,
+                ImageOutputOptions::FORMAT_KEEP,
+                100
             );
 
             $this->setImage($processed);
