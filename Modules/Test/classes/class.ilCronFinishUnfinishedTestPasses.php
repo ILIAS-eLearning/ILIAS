@@ -234,6 +234,19 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     {
         $processLocker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
 
+        $testSession = new ilTestSession();
+        $testSession->loadFromDb($active_id);
+
+        $test = new ilObjTest($obj_id, false);
+
+        assQuestion::_updateTestPassResults(
+            $active_id,
+            $testSession->getPass(),
+            $test->areObligationsEnabled(),
+            null,
+            $obj_id
+        );
+
         $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
         $pass_finisher->performFinishTasks($processLocker);
 

@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -35,8 +51,8 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) : ?MainBar {
-                    return $mainbar->withActive($mainbar::NONE_ACTIVE);
+                function (?MainBar $mainbar = null) : ?MainBar {
+                    return $mainbar !== null ? $mainbar->withActive($mainbar::NONE_ACTIVE) : null;
                 }
             )
             ->withLowPriority();

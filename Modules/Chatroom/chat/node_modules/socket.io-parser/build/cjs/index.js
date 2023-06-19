@@ -7,6 +7,17 @@ const is_binary_js_1 = require("./is-binary.js");
 const debug_1 = require("debug"); // debug()
 const debug = (0, debug_1.default)("socket.io-parser"); // debug()
 /**
+ * These strings must not be used as event names, as they have a special meaning.
+ */
+const RESERVED_EVENTS = [
+    "connect",
+    "connect_error",
+    "disconnect",
+    "disconnecting",
+    "newListener",
+    "removeListener", // used by the Node.js EventEmitter
+];
+/**
  * Protocol version.
  *
  * @public
@@ -97,6 +108,10 @@ class Encoder {
     }
 }
 exports.Encoder = Encoder;
+// see https://stackoverflow.com/questions/8511281/check-if-a-value-is-an-object-in-javascript
+function isObject(value) {
+    return Object.prototype.toString.call(value) === "[object Object]";
+}
 /**
  * A socket.io Decoder instance
  *
@@ -237,14 +252,17 @@ class Decoder extends component_emitter_1.Emitter {
     static isPayloadValid(type, payload) {
         switch (type) {
             case PacketType.CONNECT:
-                return typeof payload === "object";
+                return isObject(payload);
             case PacketType.DISCONNECT:
                 return payload === undefined;
             case PacketType.CONNECT_ERROR:
-                return typeof payload === "string" || typeof payload === "object";
+                return typeof payload === "string" || isObject(payload);
             case PacketType.EVENT:
             case PacketType.BINARY_EVENT:
-                return Array.isArray(payload) && payload.length > 0;
+                return (Array.isArray(payload) &&
+                    (typeof payload[0] === "number" ||
+                        (typeof payload[0] === "string" &&
+                            RESERVED_EVENTS.indexOf(payload[0]) === -1)));
             case PacketType.ACK:
             case PacketType.BINARY_ACK:
                 return Array.isArray(payload);

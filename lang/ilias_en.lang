@@ -6527,7 +6527,7 @@ content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_insert_page#:#Insert Page
 content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
-content#:#cont_insert_pagelayout#:#Insert Template Page
+content#:#cont_insert_pagelayout#:#Insert Page from Template
 content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_insert_resources#:#Insert Resource List
@@ -8234,6 +8234,7 @@ dateplaner#:#cal_on_the#:#On the:
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Owner
+dateplaner#:#cal_period#:#Period
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 dateplaner#:#cal_recurrences#:#Recurrences
@@ -16290,8 +16291,8 @@ user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
-user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
+user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
+user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#editing_this_role#:#Role

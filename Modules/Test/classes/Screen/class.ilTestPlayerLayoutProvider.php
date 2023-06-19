@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
@@ -43,7 +57,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $logo = $this->globalScreen()->layout()->factory()->logo();
 
-            $logo = $logo->withModification(function (Image $current) {
+            $logo = $logo->withModification(function (?Image $current) : ?Image {
                 return null;
             });
 
@@ -57,7 +71,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $logo = $this->globalScreen()->layout()->factory()->logo();
 
-            $logo = $logo->withModification(function (Image $current) {
+            $logo = $logo->withModification(function (?Image $current) : ?Image {
                 return null;
             });
 
@@ -73,7 +87,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $mainBar = $this->globalScreen()->layout()->factory()->mainbar();
 
-            $mainBar = $mainBar->withModification(function (MainBar $current) {
+            $mainBar = $mainBar->withModification(function (?MainBar $current) : ?MainBar {
                 return null;
             });
 
@@ -89,7 +103,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $metaBar = $this->globalScreen()->layout()->factory()->metabar();
 
-            $metaBar = $metaBar->withModification(function (MetaBar $current) {
+            $metaBar = $metaBar->withModification(function (?MetaBar $current) : ?MetaBar {
                 return null;
             });
 
@@ -105,7 +119,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         if ($this->isKioskModeEnabled($called_contexts)) {
             $footer = $this->globalScreen()->layout()->factory()->footer();
 
-            $footer = $footer->withModification(function (Footer $current) {
+            $footer = $footer->withModification(function (?Footer $current) : ?Footer {
                 return null;
             });
 
@@ -134,12 +148,12 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_SHORT_TITLE);
-            if($title == null) {
+            if ($title === null) {
                 $title = '';
             }
             return $this->globalScreen()->layout()->factory()->short_title()
             ->withModification(
-                function (string $content) use ($title) : string {
+                function (?string $content) use ($title) : ?string {
                     return $title;
                 }
             )
@@ -152,12 +166,12 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_TITLE);
-            if($title == null) {
+            if ($title === null) {
                 $title = '';
             }
             return $this->globalScreen()->layout()->factory()->view_title()
             ->withModification(
-                function (string $content) use ($title) : string {
+                function (?string $content) use ($title) : ?string {
                     return $title;
                 }
             )

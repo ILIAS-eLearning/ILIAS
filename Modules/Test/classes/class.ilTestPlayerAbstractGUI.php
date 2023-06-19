@@ -1557,7 +1557,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         } else {
             $template->setVariable("REDIRECT_URL", "");
         }
+        $template->setVariable("CHECK_URL", $this->ctrl->getLinkTarget($this, 'checkWorkingTime', '', true));
         $this->tpl->addOnLoadCode($template->get());
+    }
+
+    /**
+     * This is asynchronously called by tpl.workingtime.js to check for
+     * changes in the user's processing time for a test. This includes
+     * extra time added during the test, as this is checked by
+     * ilObjTest::getProcessingTimeInSeconds(). The Javascript side
+     * then updates the test timer without needing to reload the test page.
+     */
+    public function checkWorkingTimeCmd(): void
+    {
+        $active_id = $this->testSession->getActiveId();
+        echo (string) $this->object->getProcessingTimeInSeconds($active_id);
+        exit;
     }
 
     protected function showSideList($presentationMode, $currentSequenceElement)

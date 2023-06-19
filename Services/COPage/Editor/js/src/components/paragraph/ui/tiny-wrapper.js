@@ -952,7 +952,7 @@ export default class TinyWrapper {
     }
     ed.execCommand('mceToggleFormat', false, t);
     ed.focus();
-    ed.selection.collapse(false);
+    //ed.selection.collapse(false); // see #33963
     this.autoResize();
   }
 

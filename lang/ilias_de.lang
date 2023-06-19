@@ -3679,8 +3679,6 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Besitzer ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#change_sort_direction_to_asc#:#Change sort direction to ascending
-common#:#change_sort_direction_to_desc#:#Change sort direction to descending
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
@@ -6528,7 +6526,7 @@ content#:#cont_insert_mob#:#Medienobjekt
 content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_insert_page#:#Seite einfügen
 content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
-content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
+content#:#cont_insert_pagelayout#:#Seite aus Vorlage einfügen
 content#:#cont_insert_par#:#Text einfügen
 content#:#cont_insert_profile#:#Persönliche Daten veröffentlichen
 content#:#cont_insert_resources#:#Materialienliste einfügen
@@ -7064,7 +7062,7 @@ content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_remaining#:#Verbleibende Versuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
-content#:#cont_tries_reset_on_visit_info#:#Benutzer haben bei jedem Aufruf einer Seite mit einer Testfrage die maximale Anzahl an Antwortversuchen. Die Testfragen müssen jedesmal beantwortet werden.
+content#:#cont_tries_reset_on_visit_info#:#Bei jedem Aufruf einer Seite mit eingebetteter Testfrage ist die maximale Anzahl an Antwortversuchen möglich. Die Testfragen können jedes Mal erneut beantwortet werden.
 content#:#cont_tries_store#:#Speichere Antwortversuche
 content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen müssen nicht mehr beantwortet werden. Benutzer können Fragen nach Erreichen der maximalen Versuche nicht erneut beantworten.
 content#:#cont_trigger_area#:#Bereich für Auslöser
@@ -8235,6 +8233,7 @@ dateplaner#:#cal_on_the#:#Am:
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_origin#:#Herkunft
 dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_period#:#Zeitraum
 dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
 dateplaner#:#cal_recurrences#:#Wiederholungen
@@ -16291,8 +16290,8 @@ user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenabla
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
-user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
+user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
+user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#editing_this_role#:#Regel editieren

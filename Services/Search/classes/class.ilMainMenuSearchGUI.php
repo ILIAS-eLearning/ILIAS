@@ -98,6 +98,7 @@ class ilMainMenuSearchGUI
         if ($ilUser->getId() != ANONYMOUS_USER_ID && ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             $this->tpl->setCurrentBlock('usr_search');
             $this->tpl->setVariable('TXT_USR_SEARCH', $this->lng->txt('search_users'));
+            $this->tpl->setVariable('USER_SEARCH_ID', ilSearchController::TYPE_USER_SEARCH);
             $this->tpl->parseCurrentBlock();
         }
         
@@ -106,6 +107,8 @@ class ilMainMenuSearchGUI
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
         $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
+        $this->tpl->setVariable('AC_ROOT_ID', ROOT_FOLDER_ID);
+        $this->tpl->setVariable('AC_USER_SEARCH_ID', ilSearchController::TYPE_USER_SEARCH);
         
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),

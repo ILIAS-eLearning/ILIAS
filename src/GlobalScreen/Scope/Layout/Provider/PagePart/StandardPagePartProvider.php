@@ -112,7 +112,11 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMainBar() : ?MainBar
     {
+        // Collect all items which could be displayed in the main bar
         $this->gs->collector()->mainmenu()->collectOnce();
+        $this->gs->collector()->tool()->collectOnce();
+
+        // If there are no items to display, return null. By definition, no MainBar is added to the Page in this case.
         if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
             && !$this->gs->collector()->tool()->hasVisibleItems()) {
             return null;
@@ -135,7 +139,6 @@ class StandardPagePartProvider implements PagePartProvider
 
         // Tools
         $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
-        $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
