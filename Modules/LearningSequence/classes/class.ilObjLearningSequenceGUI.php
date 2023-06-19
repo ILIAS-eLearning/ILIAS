@@ -485,7 +485,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->obj_service,
             $this->post_wrapper,
             $this->refinery,
-            $this->toolbar,
             $this->ui_factory
         );
         $this->ctrl->setCmd($cmd);
