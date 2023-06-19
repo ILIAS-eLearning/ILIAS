@@ -209,8 +209,8 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 </div>
 EOT;
         $this->assertHTMLEquals(
-            $this->cleanHTML($expected_html),
-            $this->cleanHTML($html)
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
         );
     }
 
@@ -361,9 +361,7 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
-	<div class="panel-body">
-		Legacy content
-	</div>
+    <div class="panel-body">Legacy content</div>
 </div>
 EOT;
         $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($html));

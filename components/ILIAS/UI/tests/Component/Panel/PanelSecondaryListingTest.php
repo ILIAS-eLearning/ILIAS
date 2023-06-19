@@ -314,8 +314,8 @@ EOT;
 
 EOT;
         $this->assertHTMLEquals(
-            $this->cleanHTML($expected_html),
-            $this->cleanHTML($html)
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
         );
     }
 

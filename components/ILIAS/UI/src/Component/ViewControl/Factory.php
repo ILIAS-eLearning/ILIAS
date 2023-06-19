@@ -80,7 +80,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The sortation view control enables users to change the order in which
+     *      The Sortation View Control enables users to change the order in which
      *      some data is presented.
      *      This control applies to all sorts of _structured_ data, like tables and lists.
      *   composition: >
@@ -89,14 +89,25 @@ interface Factory
      *      A click on an option will change the ordering of the associated data-list
      *      by calling a page with a parameter according to the selected option or triggering a signal.
      *      The label displayed in the dropdown will be set to the selected sorting.
+     *      Also, the according entry in the dropdown will be marked as selected by an icon.
      *
      * rules:
      *   usage:
      *      1: A Sortation MUST NOT be used standalone.
      *      2: Sortations MUST BE visually close to the list or table their operation will have effect upon.
      *      3: There SHOULD NOT be more than one Sortation per view.
+     *      4: >
+     *        The current ordering SHOULD be indicated by the Sortation's label.
+     *        When space is limited, the label MAY be omitted.
+     *      5: >
+     *        The labels of the options SHOULD be formulated as short as possible;
+     *        the currently selected label will be prefixed by somthing like 'sorted by:'.
+     *
      *   accessibility:
      *      1: Sortation MUST be operable via keyboard only.
+     *
+     * background:
+     *   https://mantis.ilias.de/view.php?id=26634
      *
      * ---
      * @param array<string,string>  $options 	a dictionary with value=>title

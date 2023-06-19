@@ -17,9 +17,9 @@ function _Base()
 
     //Initializing the options
     $options = [
-        'default_option' => 'Default Ordering',
-        'latest' => 'Most Recent Ordering',
-        'oldest' => 'Oldest Ordering'
+        'default_option' => 'Default',
+        'latest' => 'Most Recent',
+        'oldest' => 'Oldest'
     ];
 
     //Note that the selected option needs to be displayed in the label

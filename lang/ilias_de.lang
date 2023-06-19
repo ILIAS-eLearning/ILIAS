@@ -17109,6 +17109,7 @@ ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_transcription#:#Abschrift
+ui#:#vc_sort#:#Sortiert nach:
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen

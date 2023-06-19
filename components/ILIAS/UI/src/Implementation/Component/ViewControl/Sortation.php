@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
@@ -33,22 +33,21 @@ class Sortation implements C\ViewControl\Sortation
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var array<string,string>
-     */
-    protected array $options = array();
-
     protected Signal $select_signal;
     protected string $label = '';
+    protected ?string $label_prefix = null;
     protected ?string $target_url = null;
     protected string $parameter_name = "sortation";
     protected ?string $active = null;
-    protected SignalGeneratorInterface $signal_generator;
+    protected ?string $selected = null;
 
-    public function __construct(array $options, SignalGeneratorInterface $signal_generator)
-    {
-        $this->options = $options;
-        $this->signal_generator = $signal_generator;
+    /**
+     * @param array<string,string> $options
+     */
+    public function __construct(
+        protected array $options,
+        protected SignalGeneratorInterface $signal_generator
+    ) {
         $this->initSignals();
     }
 
@@ -91,7 +90,22 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withTargetURL($url, $parameter_name): C\ViewControl\Sortation
+    public function withLabelPrefix(string $label_prefix): C\ViewControl\Sortation
+    {
+        $clone = clone $this;
+        $clone->label_prefix = $label_prefix;
+        return $clone;
+    }
+
+    public function getLabelPrefix(): ?string
+    {
+        return $this->label_prefix;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withTargetURL(string $url, string $parameter_name): C\ViewControl\Sortation
     {
         $this->checkStringArg("url", $url);
         $this->checkStringArg("parameter_name", $parameter_name);
@@ -139,5 +153,17 @@ class Sortation implements C\ViewControl\Sortation
     public function getSelectSignal(): Signal
     {
         return $this->select_signal;
+    }
+
+    public function withSelected(?string $selected_option): self
+    {
+        $clone = clone $this;
+        $clone->selected = $selected_option;
+        return $clone;
+    }
+
+    public function getSelected(): ?string
+    {
+        return $this->selected;
     }
 }

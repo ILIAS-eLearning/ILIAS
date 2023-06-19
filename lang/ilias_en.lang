@@ -17108,6 +17108,7 @@ ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
 ui#:#ui_table_no_records#:#No records
 ui#:#ui_transcription#:#Transcript
+ui#:#vc_sort#:#Sort by:
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#clipboard_add_btn#:#Add to Clipboard

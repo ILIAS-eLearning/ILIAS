@@ -135,26 +135,43 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
 
         $tpl = $this->getTemplate("tpl.sortation.html", true, true);
+        $label_prefix = $component->getLabelPrefix() ?? $this->txt('vc_sort');
+        $init_label = $component->getLabel();
 
         $component = $component->withResetSignals();
         $triggeredSignals = $component->getTriggeredSignals();
         if ($triggeredSignals) {
             $internal_signal = $component->getSelectSignal();
+            $internal_signal->addOption('label_prefix', $label_prefix);
             $signal = $triggeredSignals[0]->getSignal();
-
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
-                            il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
-                            return false;
-                        })");
+            $component = $component->withAdditionalOnLoadCode(
+                fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+                    il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
+                    return false;
+                 })"
+            );
         }
 
-        $this->renderId($component, $tpl, "id", "ID");
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
+        $tpl->setVariable("ID_MENU", $id . '_ctrl');
 
-        //setup entries
         $options = $component->getOptions();
-        $init_label = $component->getLabel();
         $items = array();
+
+        $selected = $component->getSelected();
+        if ($init_label) {
+            $tpl->setVariable('LABEL', $label_prefix . ' ' . $init_label . ' ');
+            $selected = array_flip($options)[$init_label];
+        }
         foreach ($options as $val => $label) {
+            $tpl->setCurrentBlock('option');
+
+            if ($val === $selected) {
+                $tpl->touchBlock('selected');
+                $tpl->setCurrentBlock('option');
+            }
+
             if ($triggeredSignals) {
                 $shy = $f->button()->shy($label, $val)->withOnClick($internal_signal);
             } else {
@@ -164,12 +181,14 @@ class Renderer extends AbstractComponentRenderer
                 $shy = $f->button()->shy($label, $url);
             }
             $items[] = $shy;
+            $tpl->setVariable('OPTION', $default_renderer->render($shy));
+            $tpl->parseCurrentBlock();
         }
-
         $dd = $f->dropdown()->standard($items)
             ->withAriaLabel($init_label);
 
         $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
+
         return $tpl->get();
     }
 
@@ -190,10 +209,10 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
             $component = $component->withOnLoadCode(
-                fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
-                            il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
-                            return false;
-                        })"
+                fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+                    il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
+                    return false;
+                })"
             );
             $id = $this->bindJavaScript($component);
             $tpl->setVariable('ID', $id);
@@ -373,8 +392,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/ViewControl/sortation.js');
-        $registry->register('./src/UI/templates/js/ViewControl/pagination.js');
+        $registry->register('./components/ILIAS/UI/src/templates/js/ViewControl/sortation.js');
+        $registry->register('./components/ILIAS/UI/src/templates/js/ViewControl/pagination.js');
     }
 
     protected function renderId(
