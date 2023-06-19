@@ -53,8 +53,6 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $string = parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
         if ($this->getField()->isMulti()) {
@@ -66,7 +64,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         if (!$has_value && $old) {
-            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $this->lng->txt("dcl_no_such_reference") . " "
                 . $old;
 
             return ['warning' => $warning];
