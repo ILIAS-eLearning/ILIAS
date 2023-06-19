@@ -86,9 +86,6 @@ abstract class Form implements C\Input\Container\Form\Form
      */
     public function withRequest(ServerRequestInterface $request)
     {
-        if (!$this->isSanePostRequest($request)) {
-            throw new LogicException("Server request is not a valid post request.");
-        }
         $post_data = $this->extractPostData($request);
 
         $clone = clone $this;
@@ -143,15 +140,6 @@ abstract class Form implements C\Input\Container\Form\Form
         }
 
         return $content->value();
-    }
-
-    /**
-     * Check the request for sanity.
-     * TODO: implement me!
-     */
-    protected function isSanePostRequest(ServerRequestInterface $request): bool
-    {
-        return true;
     }
 
     /**
