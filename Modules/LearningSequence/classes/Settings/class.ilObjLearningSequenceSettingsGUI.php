@@ -32,9 +32,6 @@ class ilObjLearningSequenceSettingsGUI
     public const CMD_SAVE = "update";
     public const CMD_CANCEL = "cancel";
 
-    public const CMD_OLD_INTRO = "viewlegacyi";
-    public const CMD_OLD_EXTRO = "viewlegacye";
-
     public function __construct(
         protected ilObjLearningSequence $obj,
         protected ilCtrl $ctrl,
@@ -43,7 +40,6 @@ class ilObjLearningSequenceSettingsGUI
         protected ilObjectService $obj_service,
         protected ArrayBasedRequestWrapper $post_wrapper,
         protected ILIAS\Refinery\Factory $refinery,
-        protected ilToolbarGUI $toolbar,
         protected ILIAS\UI\Factory $ui_factory
     ) {
         $this->settings = $obj->getLSSettings();
@@ -65,10 +61,6 @@ class ilObjLearningSequenceSettingsGUI
             case self::CMD_CANCEL:
                 $content = $this->$cmd();
                 break;
-            case self::CMD_OLD_INTRO:
-            case self::CMD_OLD_EXTRO:
-                $content = $this->showLegacyPage($cmd);
-                break;
 
             default:
                 throw new ilException("ilObjLearningSequenceSettingsGUI: Command not supported: $cmd");
@@ -78,9 +70,6 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function settings(): string
     {
-        $this->addLegacypagesToToolbar();
-        $this->tpl->setOnScreenMessage("info", $this->lng->txt("lso_intropages_deprecationhint"));
-
         $form = $this->buildForm();
         $this->fillForm($form);
         $this->addCommonFieldsToForm($form);
@@ -90,47 +79,6 @@ class ilObjLearningSequenceSettingsGUI
     protected function cancel(): void
     {
         $this->ctrl->redirectByClass(ilObjLearningSequenceGUI::class);
-    }
-
-
-    //TODO: remove in release 9
-    public function addLegacypagesToToolbar(): void
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt("lso_settings_old_extro"),
-                $this->ctrl->getLinkTarget($this, self::CMD_OLD_EXTRO)
-            )
-        );
-    }
-
-    protected function showLegacyPage(string $cmd): string
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt("back"),
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
-            )
-        );
-
-        $out = [];
-        $settings = $this->settings;
-        if ($cmd === self::CMD_OLD_INTRO) {
-            $out[] = $settings->getAbstract();
-            $img = $settings->getAbstractImage();
-            if ($img) {
-                $out[] = '<img src="' . $img . '"/>';
-            }
-        }
-        if ($cmd === self::CMD_OLD_EXTRO) {
-            $out[] = $settings->getExtro();
-            $img = $settings->getExtroImage();
-            if ($img) {
-                $out[] = '<img src="' . $img . '"/>';
-            }
-        }
-
-        return implode('<hr>', $out);
     }
 
     protected function buildForm(): ilPropertyFormGUI
