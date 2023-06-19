@@ -1716,13 +1716,13 @@ class ilPCParagraph extends ilPageContent
                     $text
                 );
                 $text = str_replace(
-                    array('<sup class="ilc_sup_Sup">', "</sup>"),
-                    array("[sup]", "[/sup]"),
+                    array('<sup class="ilc_sup_Sup">', '<sup>', "</sup>"),
+                    array("[sup]", "[sup]", "[/sup]"),
                     $text
                 );
                 $text = str_replace(
-                    array('<sub class="ilc_sub_Sub">', "</sub>"),
-                    array("[sub]", "[/sub]"),
+                    array('<sub class="ilc_sub_Sub">', '<sub>', "</sub>"),
+                    array("[sub]", "[sub]", "[/sub]"),
                     $text
                 );
 
