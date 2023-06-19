@@ -272,7 +272,7 @@ class ilPCParagraph extends ilPageContent
             $text = str_replace("<SimpleNumberedList>", "\n<SimpleNumberedList>", $text);
             $text = str_replace("<Paragraph>\n", "<Paragraph>", $text);
             $text = str_replace("</Paragraph>", "</Paragraph>\n", $text);
-            $doc = new ilDOMDocument();
+            $doc = new ilDomDocument();
             $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
             //echo htmlentities($text);
             $doc->loadXML($text);
@@ -309,7 +309,7 @@ class ilPCParagraph extends ilPageContent
         //} catch (Exception $e) {
 
         //}
-        return $error;
+        return [$error];
     }
 
     protected function fixTextArray(array $text): array
