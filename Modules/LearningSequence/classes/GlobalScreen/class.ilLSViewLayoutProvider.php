@@ -70,7 +70,8 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
             ->withModification(
                 function (?MainBar $mainbar): ?MainBar {
                     if ($mainbar === null) {
-                        return null;
+                        $ui = $this->dic->ui();
+                        $mainbar = $ui->factory()->mainControls()->mainbar();
                     }
                     $entries = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
                     $tools = $mainbar->getToolEntries();
