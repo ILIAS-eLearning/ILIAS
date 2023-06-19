@@ -1,6 +1,6 @@
-# ILIAS Coding Style
+# PHP Coding Style
 
-This is the coding style for the [ILIAS project](https://github.com/ILIAS-eLearning/ILIAS).
+This is the PHP coding style for the [ILIAS project](https://github.com/ILIAS-eLearning/ILIAS).
 
 ## PSR-12 and additions
 

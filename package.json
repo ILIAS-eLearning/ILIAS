@@ -30,7 +30,6 @@
     "ol": "^6.9.0",
     "owl.carousel": "github:OwlCarousel2/OwlCarousel2",
     "qtip2": "^3.0.3",
-    "rollup-plugin-sourcemaps": "^0.6.2",
     "tinymce": "github:ILIAS-eLearning/tinymce-dist#master",
     "webui-popover": "^1.2.18",
     "yui2": "^2.9.0"
@@ -39,16 +38,19 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.18.9",
     "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
     "chai": "^4.2.0",
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "jsdom": "19.0.0",
     "less": "^4.1.1",
     "mocha": "^10.2.0",
-    "rollup": "^2.18.0",
-    "rollup-plugin-terser": "^6.1.0"
+    "rollup": "^2.18.0"
   },
   "scripts": {
-    "test": "mocha --recursive --config tests/mocha.config.js"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -262,6 +264,27 @@
       "approved-by": "unknown",
       "developer": "unknown",
       "purpose": "Several usages accross the codebase.",
+      "last-update-for-ilias": "9.0"
+    },
+    "eslint": {
+      "introduction-date": "2023-06-12",
+      "approved-by": "Jour Fixe",
+      "developer": "tfuhrer",
+      "purpose": "Tool used for checking and fixing javascript code-style.",
+      "last-update-for-ilias": "9.0"
+    },
+    "eslint-config-airbnb-base": {
+      "introduction-date": "2023-06-12",
+      "approved-by": "Jour Fixe",
+      "developer": "tfuhrer",
+      "purpose": "Preset for the Airbnb javascript code-style for ESLint.",
+      "last-update-for-ilias": "9.0"
+    },
+    "eslint-plugin-import": {
+      "introduction-date": "2023-06-12",
+      "approved-by": "Jour Fixe",
+      "developer": "tfuhrer",
+      "purpose": "ESLint plugin to allow presets like 'eslint-config-airbnb-base'.",
       "last-update-for-ilias": "9.0"
     }
   }
