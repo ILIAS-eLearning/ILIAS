@@ -46,7 +46,7 @@ class DomUtil
         ini_set('html_errors', $old);
         restore_error_handler();
         $error_str = "";
-        if ($doc === false) {
+        if (!$success) {
             $error_arr = self::xmlError(0, "", "", 0, null, true);
             foreach ($error_arr as $error) {
                 $error = str_replace("DOMDocument::loadXML():", "", $error);
