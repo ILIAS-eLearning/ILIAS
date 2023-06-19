@@ -34,8 +34,8 @@ A general overview on our processes can be found in the [development guide](http
 
 ### Client Side (Javascript)
 
-- [Javascript Coding Guidelines](js/js-coding-style.md): Airbnb based coding style guidelines for Javascript
+- [Javascript Coding Guidelines](js-coding-style.md): Airbnb based coding style guidelines for Javascript
 - [Javascript Unit Tests](js/js-unit-test.md): How to write Javascript unit tests
 - [Javascript Modules](js/js-modules.md): How to modularise your Javascript code
 - [Javascript Bundling](js/js-bundling.md): How to bundle your Javascript code files
-- [Javascript Third-Party Libs](js/third-party-libs-npm.md): Managing Javascript/CSS third-party libs or frameworks
+- [Javascript Third-Party Libs](js-libraries.md): Managing Javascript third-party libs or frameworks

@@ -1,6 +1,59 @@
 {
+  "extends": "airbnb-base",
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "extends": "airbnb-base"
+  // allow certain globals to be used without declaration.
+  "globals": {
+    // globals from the browser environment.
+    "document": "readonly",
+    "window": "readonly",
+    "il": "writable",
+    // globals from the mocha testing framework.
+    "beforeEach": "readonly",
+    "afterEach": "readonly",
+    "describe": "readonly",
+    "before": "readonly",
+    "after": "readonly",
+    "it": "readonly"
+  },
+  // minified and bundled scripts are exempt from the
+  // code-style.
+  "ignorePatterns": [
+    "**/dist/*",
+    "*.min.js"
+  ],
+  "rules": {
+    // allow function hoisting as javascript code is
+    // compiled before execution.
+    "no-use-before-define": [
+      "error",
+      "nofunc"
+    ],
+    // enforce camelcase for classes as well.
+    "camelcase": [
+      "error",
+      {
+        "properties": "always",
+        "ignoreDestructuring": false,
+        "ignoreGlobals": false
+      }
+    ],
+    // allow anonymous functions for iife's and mocha.js.
+    "func-names": [
+      "warn",
+      "never"
+    ],
+    // allow unresolved imports due to module-bundling
+    // and third-party libraries.
+    "import/no-unresolved": 0,
+    // allow import of devDependencies in test files.
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  }
 }

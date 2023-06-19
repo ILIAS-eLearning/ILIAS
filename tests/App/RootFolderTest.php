@@ -31,6 +31,7 @@ final class RootFolderTest extends TestCase
         '.eslintrc.json',
         '.gitignore',
         '.htaccess',
+        '.mocharc.json',
         '.phpunit.result.cache',
         'captainhook.local.json',
         'phpstan.local.neon',

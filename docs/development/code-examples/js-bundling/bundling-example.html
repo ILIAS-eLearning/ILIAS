@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Example with Module Script</title>
+    <script type="application/javascript" src="./../../../../node_modules/jquery/dist/jquery.js"></script>
+    <script type="application/javascript">window.il = {};</script>
+</head>
+<body>
+<h1>Open Console</h1>
+<script type="application/javascript" src="./bundle/dist/bundle.min.js"></script>
+<script>
+  window.onload = () => {
+    il.Component1.public1();
+    il.Component2.public1();
+    il.Component2.public2();
+  }
+</script>
+</body>
+</html>

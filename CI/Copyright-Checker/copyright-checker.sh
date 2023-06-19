@@ -147,12 +147,6 @@ function perform_copyright_check() {
 
   local exit_status=0
   for file in ${files[@]}; do
-    # remove this theck once JavaScript files are properly
-    # supported as well (concept for minified scripts).
-    if [[ ${file} == *".js" ]]; then
-      continue
-    fi
-
     # skip files which don't exist to take care of deleted
     # files when provided by git.
     if ! [ -f "${file}" ]; then
