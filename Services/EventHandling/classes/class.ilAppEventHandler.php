@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Global event handler
@@ -165,12 +168,5 @@ class ilAppEventHandler
         foreach ($this->component_factory->getActivePluginsInSlot("evhk") as $plugin) {
             $plugin->handleEvent($a_component, $a_event, $a_parameter);
         }
-
-        $this->logger->debug("Finished event hook plugin handling, started event propagation for workflow engine ...");
-
-        $workflow_engine = new ilWorkflowEngine();
-        $workflow_engine->handleEvent($a_component, $a_event, $a_parameter);
-
-        $this->logger->debug("Finished workflow engine handling.");
     }
 }

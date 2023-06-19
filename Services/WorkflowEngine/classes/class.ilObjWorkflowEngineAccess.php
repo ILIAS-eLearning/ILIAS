@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjWorkflowEngineAccess
@@ -60,12 +60,5 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         }
 
         return true; // ORLY?
-    }
-
-    public static function _checkGoto(string $target): bool
-    {
-        //$workflow = substr($params, 2, strpos($params,'EVT')-2);
-        //$event = substr($params, strpos($params, 'EVT')+3);
-        return true; // TODO Validate Event Syntax
     }
 }
