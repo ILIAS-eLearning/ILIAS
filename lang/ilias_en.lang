@@ -9523,7 +9523,7 @@ file#:#preview_persisting#:#Persist Preview Images
 file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
-file#:#set_license_for_all_files#:#Set License for All Files
+file#:#set_license_for_all_files#:#Set License for all Files
 file#:#show_amount_of_downloads#:#Show number of downloads
 file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.
 file#:#storage_id#:#Storage ID
