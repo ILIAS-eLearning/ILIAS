@@ -309,7 +309,10 @@ class ilPCParagraph extends ilPageContent
         //} catch (Exception $e) {
 
         //}
-        return [$error];
+        if (is_string($error) && $error != "") {
+            $error = [$error];
+        }
+        return $error;
     }
 
     protected function fixTextArray(array $text): array
