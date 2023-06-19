@@ -3,24 +3,27 @@
 
 .c-layout-alignment {
 	display: flex;
+	flex-wrap: wrap;
 	width: 100%;
 	gap: $il-margin-large-horizontal;
-	&--horizontal {
-		flex-wrap: wrap;
-	}
-	&--nowrap.c-layout-alignment--horizontal  {
-		flex-wrap: nowrap;
-	}
-	.c-layout-alignment__group {
-		display: flex;
-		flex: 1 1 0px; // flex-basis 0px needed for equal distribution of columns
-		flex-wrap: wrap;
-		gap: $il-margin-small-horizontal;
-		@media screen and (max-width: $il-grid-float-breakpoint-max) {
-			flex-basis: 100%;
+
+	&--evenlydistributedhorizontalalignmentlayout {
+		.c-layout-alignment__block {
+			flex: 1 1 0px; // flex-basis 0px needed for equal distribution of columns
+			@media screen and (max-width: $il-grid-float-breakpoint-max) {
+				flex-basis: 100%;
+			}
 		}
+	}
+
+	&--dynamicallydistributedhorizontalalignmentlayout {
 		.c-layout-alignment__block {
 			flex-grow: 1;
 		}
+	}
+
+	&--verticalalignmentlayout {
+		flex-wrap: nowrap;
+		flex-direction: column;
 	}
 }

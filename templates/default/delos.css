@@ -10904,28 +10904,24 @@ footer {
 }
 .c-layout-alignment {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   gap: 12px;
 }
-.c-layout-alignment--horizontal {
-  flex-wrap: wrap;
-}
-.c-layout-alignment--nowrap.c-layout-alignment--horizontal {
-  flex-wrap: nowrap;
-}
-.c-layout-alignment .c-layout-alignment__group {
-  display: flex;
+.c-layout-alignment--evenlydistributedhorizontalalignmentlayout .c-layout-alignment__block {
   flex: 1 1 0px;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 @media screen and (max-width: 768px) {
-  .c-layout-alignment .c-layout-alignment__group {
+  .c-layout-alignment--evenlydistributedhorizontalalignmentlayout .c-layout-alignment__block {
     flex-basis: 100%;
   }
 }
-.c-layout-alignment .c-layout-alignment__group .c-layout-alignment__block {
+.c-layout-alignment--dynamicallydistributedhorizontalalignmentlayout .c-layout-alignment__block {
   flex-grow: 1;
+}
+.c-layout-alignment--verticalalignmentlayout {
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 
 .il-link:focus-visible {
