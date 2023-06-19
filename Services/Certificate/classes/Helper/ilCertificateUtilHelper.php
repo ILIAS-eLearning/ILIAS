@@ -59,8 +59,8 @@ class ilCertificateUtilHelper
             $from,
             $to,
             ImageOutputOptions::FORMAT_JPG,
-            $geometry === '' ? null : (int)$geometry,
-            $geometry === '' ? null : (int)$geometry,
+            $geometry === '' ? null : (int) $geometry,
+            $geometry === '' ? null : (int) $geometry,
         );
     }
 
