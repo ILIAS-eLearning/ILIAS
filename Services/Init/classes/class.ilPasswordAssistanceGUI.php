@@ -513,6 +513,7 @@ class ilPasswordAssistanceGUI
             // If we are successful so far, we update the user object.
             // ------------------
             if ($is_successful) {
+                $userObj->setLastPasswordChangeToNow();
                 $userObj->update();
             }
 
