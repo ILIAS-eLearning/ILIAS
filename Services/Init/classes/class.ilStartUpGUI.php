@@ -1328,6 +1328,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
 
+        if (!$DIC['ilAuthSession']->isExpired() &&
+            $DIC['ilAuthSession']->isAuthenticated() &&
+            !ilObjUser::_isAnonymous($DIC['ilAuthSession']->getUserId())) {
+            $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
+        }
+
         $this->help->setSubScreenId('logout');
 
         $tpl = self::initStartUpTemplate("tpl.logout.html");
