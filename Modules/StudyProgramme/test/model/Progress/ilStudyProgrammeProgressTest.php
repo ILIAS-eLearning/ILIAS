@@ -126,9 +126,9 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     {
         list($acting_usr, $now) = $this->getUserIdAndNow();
 
-        $spp = (new ilStudyProgrammeProgress(123))->withCompletion($usr_id, $now);
+        $spp = (new ilStudyProgrammeProgress(123))->withCompletion($acting_usr, $now);
         $this->assertEquals($now->format('Y-m-d'), $spp->getCompletionDate()->format('Y-m-d'));
-        $this->assertEquals($usr_id, $spp->getCompletionBy());
+        $this->assertEquals($acting_usr, $spp->getCompletionBy());
 
         $spp = (new ilStudyProgrammeProgress(123))->withCompletion(null, null);
         $this->assertNull($spp->getCompletionDate());
