@@ -56,7 +56,9 @@ class InstallCommand extends Command
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.
-        define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
+        if(!defined('ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES')) {
+            define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
+        }
 
         if ($input->hasOption('plugin') && $input->getOption('plugin') != "") {
             list($objective, $environment, $io) = $this->preparePluginInstallation($input, $output);
