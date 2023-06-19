@@ -250,6 +250,20 @@ class PCParagraphTest extends COPageTestBase
                 "id" => '1:1238',
                 "class" => 'Standard'
             ],
+            // Standard, Sup (without class, e.g. coming from word)
+            '<div id="1:1237" class="ilc_text_block_Standard">xxx a<sup>b*c</sup> xxx</div>'
+            => [
+                "text" => 'xxx a[sup]b*c[/sup] xxx',
+                "id" => '1:1237',
+                "class" => 'Standard'
+            ],
+            // Standard, Sub (without class, e.g. coming from word)
+            '<div id="1:1238" class="ilc_text_block_Standard">xxx a<sub>2</sub> xxx</div>'
+            => [
+                "text" => 'xxx a[sub]2[/sub] xxx',
+                "id" => '1:1238',
+                "class" => 'Standard'
+            ],
             // Headline2, Comment
             '<div id="1:1239" class="ilc_text_block_Headline2">xxx <span class="ilc_text_inline_Comment">xxx</span> xxx</div>'
             => [
