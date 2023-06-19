@@ -48,12 +48,14 @@ class ilDclBaseRecordModel
     protected ILIAS\Refinery\Factory $refinery;
     protected ilDBInterface $db;
     protected ilAppEventHandler $event;
+    private ilObjUser $user;
 
     public function __construct(?int $a_id = 0)
     {
         global $DIC;
         $this->db = $DIC->database();
         $this->event = $DIC->event();
+        $this->user = $DIC->user();
 
         if ($a_id && $a_id != 0) {
             $this->id = $a_id;
@@ -381,6 +383,12 @@ class ilDclBaseRecordModel
                 $col++;
                 $name_array = ilObjUser::_lookupName($this->getOwner());
                 $worksheet->setCell($row, $col, $name_array['lastname'] . ', ' . $name_array['firstname']);
+            } elseif ('last_update') {
+                $date_time = $this->getLastUpdate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
+                $worksheet->setCell($row, $col, $date_time);
+            } elseif ('create_date') {
+                $date_time = $this->getCreateDate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
+                $worksheet->setCell($row, $col, $date_time);
             } else {
                 $worksheet->setCell($row, $col, $this->getStandardFieldHTML($field_id));
             }
