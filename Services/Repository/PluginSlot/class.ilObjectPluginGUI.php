@@ -457,9 +457,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * Goto redirection
+     * @param list<string> $a_target
      */
-    public static function _goto(string $a_target): void
+    public static function _goto(array $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
