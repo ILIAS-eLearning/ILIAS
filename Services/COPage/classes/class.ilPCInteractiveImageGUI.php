@@ -218,6 +218,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $fi->setAllowDeletion(false);
         if ($a_mode == "edit") {
             $fi->setImage($this->content_obj->getBaseThumbnailTarget());
+        } else {
+            $fi->setRequired(true);
         }
         $form->addItem($fi);
         
@@ -261,7 +263,16 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+        $tpl = $this->tpl;
+
+        $form = $this->initForm("create");
+        if (!$form->checkInput()) {
+            $this->displayValidationError();
+            $form->setValuesByPost();
+            $tpl->setContent($form->getHTML());
+            return;
+        }
+
         $this->content_obj = new ilPCInteractiveImage($this->getPage());
         $this->content_obj->createMediaObject();
         $media_obj = $this->content_obj->getMediaObject();
