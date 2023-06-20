@@ -3090,8 +3090,7 @@ class ilObjectListGUI
                 ->button()
                 ->shy($action_item['title'], $action_item['link']);
 
-            // Dirty hack to remain the 'onclick' action of action items
-            if ($action_item['onclick'] != null && $action_item['onclick'] != '') {
+            if ($action_item['onclick'] !== null && $action_item['onclick'] !== '') {
                 $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item): string {
                     return "$('#$id').click(function(){" . $action_item['onclick'] . ';});';
                 });

@@ -52,7 +52,7 @@ class ilObjectPropertyIcon implements ilObjectProperty
 
     public function withDeletedFlag(): self
     {
-        $clone = $this;
+        $clone = clone $this;
         $clone->deleted_flag = true;
         return $clone;
     }

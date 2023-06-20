@@ -41,6 +41,20 @@ class ilObjectPropertyIsOnline implements ilObjectProperty
         return $this->is_online;
     }
 
+    public function withOnline(): bool
+    {
+        $clone = clone $this;
+        $clone->is_online = true;
+        return $clone;
+    }
+
+    public function withOffline(): bool
+    {
+        $clone = clone $this;
+        $clone->is_online = false;
+        return $clone;
+    }
+
     public function toForm(
         \ilLanguage $language,
         FieldFactory $field_factory,

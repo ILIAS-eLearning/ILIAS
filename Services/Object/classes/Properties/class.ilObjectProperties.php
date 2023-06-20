@@ -42,7 +42,7 @@ class ilObjectProperties
         );
     }
 
-    public function getPropertyIsOnline(): ilObjectProperty
+    public function getPropertyIsOnline(): ilObjectPropertyIsOnline
     {
         return $this->core_properties->getPropertyIsOnline();
     }
