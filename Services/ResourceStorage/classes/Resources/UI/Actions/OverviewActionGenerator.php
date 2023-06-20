@@ -106,7 +106,7 @@ class OverviewActionGenerator implements ActionGenerator
             $this->language->txt('confirm_delete'),
             $action
         )->withAffectedItems([
-            $this->ui_factory->modal()->interruptiveItem(
+            $this->ui_factory->modal()->interruptiveItem()->standard(
                 $revision->getIdentification()->serialize(),
                 $revision->getInformation()->getTitle(),
             )
