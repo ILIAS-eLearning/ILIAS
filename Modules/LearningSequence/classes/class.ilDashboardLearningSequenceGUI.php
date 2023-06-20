@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Implementation\Factory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Component\Symbol\Icon;
 use ILIAS\UI\Implementation\Component\Item;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Renderer;
 
 /**
  * Personal Desktop-Presentation for the LearningSequence
@@ -33,7 +34,7 @@ class ilDashboardLearningSequenceGUI
     protected ilObjUser $user;
     protected ilAccessHandler $access;
     protected Factory $factory;
-    protected DefaultRenderer $renderer;
+    protected Renderer $renderer;
 
     /**
      * @var array Object-Ids where user is assigned
