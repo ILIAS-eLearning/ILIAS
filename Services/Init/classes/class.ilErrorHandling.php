@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Whoops\Run;
 use Whoops\RunInterface;
 use Whoops\Handler\PrettyPageHandler;
@@ -25,17 +27,14 @@ use Whoops\Handler\HandlerInterface;
 
 /**
  * Error Handling & global info handling
- * uses PEAR error class
  * @author      Stefan Meyer <meyer@leifos.com>
  * @author      Sascha Hofmann <shofmann@databay.de>
  * @author      Richard Klees <richard.klees@concepts-and-training.de>
  * @author      Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version     $Id$
- * @extends     PEAR
  * @todo        when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
  * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
  */
-class ilErrorHandling extends PEAR
+class ilErrorHandling
 {
     protected ?RunInterface $whoops;
 
@@ -63,32 +62,18 @@ class ilErrorHandling extends PEAR
      */
     protected static bool $whoops_handlers_registered = false;
 
-    /**
-     * @var ?PEAR_Error error obj
-     */
-    protected $error_obj = null;
-
-    /**
-     * Constructor
-     * @access    public
-     */
     public function __construct()
     {
-        parent::__construct();
-
-        // init vars
         $this->DEBUG_ENV = true;
         $this->FATAL = 1;
         $this->WARNING = 2;
         $this->MESSAGE = 3;
 
-        $this->error_obj = null;
-
         $this->initWhoopsHandlers();
 
         // somehow we need to get rid of the whoops error handler
         restore_error_handler();
-        set_error_handler([$this, "handlePreWhoops"]);
+        set_error_handler([$this, 'handlePreWhoops']);
     }
 
     /**
@@ -129,55 +114,55 @@ class ilErrorHandling extends PEAR
         return $this->defaultHandler();
     }
 
-    /**
-     * Defines what has to happen in case of error
-     * @param PEAR_Error $a_error_obj PEAR Error object
-     */
-    public function errorHandler($a_error_obj): void
-    {
-        global $log;
+    public function raiseError(
+        string $message,
+        ?int $code
+    ): void {
+        $backtrace = debug_backtrace();
+        if (isset($backtrace[0], $backtrace[0]['object'])) {
+            unset($backtrace[0]['object']);
+        }
 
         // see bug 18499 (some calls to raiseError do not pass a code, which leads to security issues, if these calls
         // are done due to permission checks)
-        if ($a_error_obj->getCode() == null) {
-            $a_error_obj->code = $this->WARNING;
-        }
+        $this->errorHandler($message, $code ?? $this->WARNING, $backtrace);
+    }
 
-        $this->error_obj = &$a_error_obj;
-        //echo "-".$_SESSION["referer"]."-";
+    /**
+     * @param list<array{"function": string, "line"?: int, "file"?: string, "class"?: class-string,"type"?: "->"|"::", "object"?: object, "args"?: list<mixed>}> $backtrace
+     */
+    private function errorHandler(string $message, int $code, array $backtrace): void
+    {
+        global $log;
+
         $session_failure = ilSession::get('failure');
-        if ($session_failure && strpos($a_error_obj->getMessage(), "Cannot find this block") !== 0) {
+        if ($session_failure && strpos($message, 'Cannot find this block') !== 0) {
             $m = "Fatal Error: Called raise error two times.<br>" .
                 "First error: " . $session_failure . '<br>' .
-                "Last Error:" . $a_error_obj->getMessage();
-            //return;
+                "Last Error:" . $message;
             $log->write($m);
-            #$log->writeWarning($m);
-            #$log->logError($a_error_obj->getCode(), $m);
             ilSession::clear('failure');
             die($m);
         }
 
-        if (strpos($a_error_obj->getMessage(), "Cannot find this block") === 0) {
-            if (DEVMODE == 1) {
+        if (strpos($message, 'Cannot find this block') === 0) {
+            if (defined('DEVMODE') && DEVMODE) {
                 echo "<b>DEVMODE</b><br><br>";
                 echo "<b>Template Block not found.</b><br>";
                 echo "You used a template block in your code that is not available.<br>";
-                echo "Native Messge: <b>" . $a_error_obj->getMessage() . "</b><br>";
-                if (is_array($a_error_obj->backtrace)) {
-                    echo "Backtrace:<br>";
-                    foreach ($a_error_obj->backtrace as $b) {
-                        if ($b["function"] === "setCurrentBlock" &&
-                            basename($b["file"]) !== "class.ilTemplate.php") {
-                            echo "<b>";
-                        }
-                        echo "File: " . $b["file"] . ", ";
-                        echo "Line: " . $b["line"] . ", ";
-                        echo $b["function"] . "()<br>";
-                        if ($b["function"] === "setCurrentBlock" &&
-                            basename($b["file"]) !== "class.ilTemplate.php") {
-                            echo "</b>";
-                        }
+                echo "Native Messge: <b>" . $message . "</b><br>";
+                echo "Backtrace:<br>";
+                foreach ($backtrace as $b) {
+                    if ($b["function"] === "setCurrentBlock" &&
+                        basename($b["file"]) !== "class.ilTemplate.php") {
+                        echo "<b>";
+                    }
+                    echo "File: " . $b["file"] . ", ";
+                    echo "Line: " . $b["line"] . ", ";
+                    echo $b["function"] . "()<br>";
+                    if ($b["function"] === "setCurrentBlock" &&
+                        basename($b["file"]) !== "class.ilTemplate.php") {
+                        echo "</b>";
                     }
                 }
                 exit;
@@ -186,17 +171,15 @@ class ilErrorHandling extends PEAR
         }
 
         if ($log instanceof ilLogger) {
-            $log->write($a_error_obj->getMessage());
+            $log->write($message);
         }
-        if ($a_error_obj->getCode() == $this->FATAL) {
-            trigger_error(stripslashes($a_error_obj->getMessage()), E_USER_ERROR);
+        if ($code === $this->FATAL) {
+            trigger_error(stripslashes($message), E_USER_ERROR);
             exit();
         }
 
-        if ($a_error_obj->getCode() == $this->WARNING) {
-            if ($this->DEBUG_ENV) {
-                $message = $a_error_obj->getMessage();
-            } else {
+        if ($code === $this->WARNING) {
+            if (!$this->DEBUG_ENV) {
                 $message = "Under Construction";
             }
 
@@ -209,14 +192,14 @@ class ilErrorHandling extends PEAR
             }
         }
         $updir = '';
-        if ($a_error_obj->getCode() == $this->MESSAGE) {
-            ilSession::set('failure', $a_error_obj->getMessage());
+        if ($code === $this->MESSAGE) {
+            ilSession::set('failure', $message);
             // save post vars to session in case of error
             $_SESSION["error_post_vars"] = $_POST;
 
             if (empty($_SESSION["referer"])) {
                 $dirname = dirname($_SERVER["PHP_SELF"]);
-                $ilurl = parse_url(ILIAS_HTTP_PATH);
+                $ilurl = parse_url(ilUtil::_getHttpPath());
 
                 $subdir = '';
                 if (is_array($ilurl) && array_key_exists('path', $ilurl) && strlen($ilurl['path'])) {
