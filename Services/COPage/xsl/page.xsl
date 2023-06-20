@@ -2110,7 +2110,8 @@
 			position: relative;
 			<xsl:choose>
 				<!-- all images use table as container since they expand the table even without width/height -->
-				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">display:table;</xsl:when>
+				<!-- do same for svg, see 34557 -->
+				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/xxxsvg')">display:table;</xsl:when>
 				<!-- if we have width/height, we also use table as container, since we will expand it -->
 				<xsl:when test="$width != '' and $height != ''">display:table;</xsl:when>
 				<xsl:otherwise>
@@ -2884,7 +2885,7 @@
 
 		<!-- svg -->
 		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
-			<embed>
+			<embed style="width:100%">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:if test="$width != ''">
