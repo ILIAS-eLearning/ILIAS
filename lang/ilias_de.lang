@@ -5807,6 +5807,7 @@ common#:#userfolder_export_file_size#:#Dateigröße
 common#:#userfolder_export_files#:#Dateien
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
+common#:#username_assistance#:#Anmeldenamen-Unterstützung
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer existieren nicht. Daher können deren Mails nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
