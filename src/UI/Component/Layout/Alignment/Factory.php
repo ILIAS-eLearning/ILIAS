@@ -29,18 +29,18 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Horizontal Alignment groups some sets of Blocks and displays those
-     *     groups horizontally next to each other.
+     *     An Horizontal Alignment groups Blocks and displays those groups
+     *     horizontally next to each other.
      *   effect: >
      *     Blocks will break to a new line within the groups first;
      *     preferably, the groups will remain next to each other, however, if
-     *     space is really scarce, the groups will be vertically aligned.
+     *     space decreases, the groups will be vertically aligned.
      *   rivals:
-     *     Force Horizontal: >
-     *       Force Horizontal will keep the horizontal placement no matter what.
-     *       Try to avoid that, though, unless there is a very good reason.
+     *     Vertical: >
+     *       Not a real rival, but rather the counterpart: Vertical Alignemnts
+     *       will position the groups vertically aligned.
      *     Table: >
-     *       Tables may present potetially large sets of uniformly structured data.
+     *       Tables may present potentially large sets of uniformly structured data.
      *       While Tables are not meant to layout Components, Horizontal Alignments are
      *       nothing like a row in a table; do not use multiple Alignments to
      *       mimic a Table.
@@ -50,77 +50,26 @@ interface Factory
      */
     public function horizontal(): Horizontal\Factory;
 
-
     /**
      * ---
      * description:
      *   purpose: >
-     *     X
+     *     A Vertical Alignment groups Blocks and displays those groups
+     *     vertically aligned, i.e. below each other.
      *   effect: >
-     *     X
+     *     Blocks are diplayed below each other.
      *   rivals:
      *     Force Horizontal: >
-     *       X
+     *       Not a real rival, but rather the counterpart: Horizontal Alignemnts
+     *       will position the groups (preferably) next to each other.
      *     Table: >
-     *       X
+             Tables may present potentially large sets of uniformly structured data.
+     *       While Tables are not meant to layout Components, Vertical Alignments are
+     *       nothing to mimic a tablelike behavior.
      *
      * ----
      * @param  Block[] $blocks
      * @return  \ILIAS\UI\Component\Layout\Alignment\Vertical
      */
     public function vertical(Block ...$blocks): Vertical;
-
-
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *     An Horizontal Alignment groups some sets of Blocks and displays those
-     *     groups horizontally next to each other.
-     *   effect: >
-     *     Blocks will break to a new line within the groups first;
-     *     preferably, the groups will remain next to each other, however, if
-     *     space is really scarce, the groups will be vertically aligned.
-     *   rivals:
-     *     Force Horizontal: >
-     *       Force Horizontal will keep the horizontal placement no matter what.
-     *       Try to avoid that, though, unless there is a very good reason.
-     *     Table: >
-     *       Tables may present potetially large sets of uniformly structured data.
-     *       While Tables are not meant to layout Components, Horizontal Alignments are
-     *       nothing like a row in a table; do not use multiple Alignments to
-     *       mimic a Table.
-     *
-     * ----
-     * @param  Block[] $blocksets
-     * @return  \ILIAS\UI\Component\Layout\Alignment\PreferHorizontal
-     */
-    //public function preferHorizontal(array ...$blocksets): PreferHorizontal;
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *     An Horizontal Alignment groups some sets of Blocks and displays those
-     *     groups horizontally next to each other.
-     *   effect: >
-     *     Blocks will break to a new line within the groups; the horizontal
-     *     alignment of the groups will remain, though.
-     *   rivals:
-     *     Prefer Horizontal: >
-     *       Most of the time, Prefer Horizontal will lead to a much better
-     *       user experience on small screens.
-     *       Please consider using "prefer" over "force".
-     *     Table: >
-     *       Tables may present potentially large sets of uniformly structured data.
-     *       While Tables are not meant to layout Components, Horizontal Alignments are
-     *       nothing like a row in a table; do not use multiple Alignments to
-     *       mimic a Table.
-     *
-     * ----
-     * @param  Block[] $blocksets
-     * @return  \ILIAS\UI\Component\Layout\Alignment\ForceHorizontal
-     */
-    //public function forceHorizontal(array ...$blocksets): ForceHorizontal;
 }
