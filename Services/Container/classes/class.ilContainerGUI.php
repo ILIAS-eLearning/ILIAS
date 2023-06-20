@@ -314,8 +314,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"),
-                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit")
+            );
         }
 
         // page object
@@ -638,7 +640,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     if (!$this->isActiveAdministrationPanel() &&
                         !$this->isActiveOrdering() &&
                         $this->supportsPageEditor()) {
-                        $toolbar->addButton($lng->txt("cntr_text_media_editor"),
+                        $toolbar->addButton(
+                            $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
                         );
                     }
@@ -694,7 +697,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($_SESSION["clipboard"]) {
+        if ($_SESSION["clipboard"] && !$this->edit_order) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
@@ -2882,8 +2885,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"),
-                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit")
+            );
         }
 
         include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
