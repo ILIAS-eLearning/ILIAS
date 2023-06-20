@@ -16,31 +16,32 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 
-/**
- * Password assistance facility for users who have forgotten their password
- * or for users for whom no password has been assigned yet.
- * @author  Werner Randelshofer <wrandels@hsw.fhz.ch>
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesInit
- */
 class ilPasswordAssistanceGUI
 {
     private const PERMANENT_LINK_TARGET_PW = 'pwassist';
     private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+    private const PROP_USERNAME = 'username';
+    private const PROP_EMAIL = 'email';
+    private const PROP_PASSWORD = 'password';
+    private const PROP_KEY = 'key';
 
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilRbacReview $rbacreview;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilSetting $settings;
-    protected ilErrorHandling $ilErr;
-    protected RefineryFactory $refinery;
-    protected HTTPServices $http;
-    protected ilHelpGUI $help;
-    protected ilObjUser $actor;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilRbacReview $rbacreview;
+    private ilGlobalTemplateInterface $tpl;
+    private ilSetting $settings;
+    private ilErrorHandling $ilErr;
+    private RefineryFactory $refinery;
+    private HTTPServices $http;
+    private ilHelpGUI $help;
+    private ILIAS\UI\Factory $ui_factory;
+    private ILIAS\UI\Renderer $ui_renderer;
+    private ilObjUser $actor;
 
     public function __construct()
     {
@@ -56,19 +57,18 @@ class ilPasswordAssistanceGUI
         $this->http = $DIC->http();
         $this->actor = $DIC->user();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->help->setScreenIdComponent('init');
     }
 
-    /**
-     * as replacement for "this->ilias"
-     */
-    protected function getClientId(): string
+    private function getClientId(): string
     {
         return CLIENT_ID;
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         if (!$this->settings->get('setup_ok')) {
             $this->ilErr->raiseError('Setup is not completed. Please run setup routine again.', $this->ilErr->FATAL);
@@ -82,31 +82,23 @@ class ilPasswordAssistanceGUI
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
-        // Change the language, if necessary.
         // And load the 'pwassist' language module
-        $lang = '';
-        if ($this->http->wrapper()->query()->has('lang')) {
-            $lang = $this->http->wrapper()->query()->retrieve(
-                'lang',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        $key = '';
-        if ($this->http->wrapper()->query()->has('key')) {
-            $key = $this->http->wrapper()->query()->retrieve(
-                'key',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $key = $this->http->wrapper()->query()->retrieve(
+            'key',
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
         $this->lng->loadLanguageModule('pwassist');
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd() ?? '';
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             default:
-                if ($cmd != '' && method_exists($this, $cmd)) {
-                    return $this->$cmd();
-                } elseif (!empty($key)) { //ToDo PHP8: This will never happen. smeyer: why? $_GET['key'] != '' && $_GET['cmd'] = ''
+                if ($cmd !== '' && method_exists($this, $cmd)) {
+                    $this->$cmd();
+                    return;
+                }
+
+                if ($key !== '') {
                     $this->showAssignPasswordForm();
                 } else {
                     $this->showAssistanceForm();
@@ -115,55 +107,83 @@ class ilPasswordAssistanceGUI
         }
     }
 
-    /**
-     * Returns the ILIAS http path without a trailing /
-     */
-    protected function getBaseUrl(): string
+    private function getBaseUrl(): string
     {
-        return rtrim(ILIAS_HTTP_PATH, '/');
+        return rtrim(ilUtil::_getHttpPath(), '/');
     }
 
     /**
-     * @param string $script
-     * @param array  $queryParameters
-     * @return string
+     * @param array<string, string> $query_parameters
      */
-    protected function buildUrl(string $script, array $queryParameters): string
+    private function buildUrl(string $script, array $query_parameters): string
     {
         $url = implode('/', [
             $this->getBaseUrl(),
             ltrim($script, '/')
         ]);
 
-        $url = \ilUtil::appendUrlParameterString(
+        $url = ilUtil::appendUrlParameterString(
             $url,
-            http_build_query($queryParameters, null, '&')
+            http_build_query($query_parameters, '', '&')
         );
 
         return $url;
     }
 
-    protected function getAssistanceForm(): ilPropertyFormGUI
+    private function emailTrafo(): \ILIAS\Refinery\Transformation
     {
-        $form = new ilPropertyFormGUI();
-
-        $form->setTitle($this->lng->txt('password_assistance'));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'submitAssistanceForm'));
-        $form->setTarget('_parent');
-
-        $username = new ilTextInputGUI($this->lng->txt('username'), 'username');
-        $username->setRequired(true);
-        $form->addItem($username);
-
-        $email = new ilEMailInputGUI($this->lng->txt('email'), 'email');
-        $email->setRequired(true);
-        $form->addItem($email);
-
-        $form->addCommandButton('submitAssistanceForm', $this->lng->txt('submit'));
-        return $form;
+        return $this->refinery->custom()->constraint(
+            static function ($value): bool {
+                return is_string($value) && ilUtil::is_email($value);
+            },
+            $this->lng->txt('email_not_valid')
+        );
     }
 
-    public function showAssistanceForm(ilPropertyFormGUI $form = null): void
+    private function mergeValuesTrafo(): \ILIAS\Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(static function (array $values): array {
+            return array_merge(...$values);
+        });
+    }
+
+    private function saniziteArrayElementsTrafo(): \ILIAS\Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(static function (array $values): array {
+            return ilArrayUtil::stripSlashesRecursive($values);
+        });
+    }
+
+    private function getAssistanceForm(): ILIAS\UI\Component\Input\Container\Form\Form
+    {
+        $field_factory = $this->ui_factory->input()->field();
+
+        return $this->ui_factory->input()
+                                ->container()
+                                ->form()
+                                ->standard(
+                                    $this->ctrl->getFormAction($this, 'submitAssistanceForm'),
+                                    [
+                                        $field_factory->section(
+                                            [
+                                                self::PROP_USERNAME => $field_factory
+                                                    ->text($this->lng->txt('username'))
+                                                    ->withRequired(true),
+                                                self::PROP_EMAIL => $field_factory
+                                                    ->text($this->lng->txt('email'))
+                                                    ->withRequired(true)
+                                                    ->withAdditionalTransformation($this->emailTrafo()),
+                                            ],
+                                            $this->lng->txt('password_assistance'),
+                                            ''
+                                        ),
+                                    ]
+                                )
+                                ->withAdditionalTransformation($this->mergeValuesTrafo())
+                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+    }
+
+    private function showAssistanceForm(ILIAS\UI\Component\Input\Container\Form\Form $form = null): void
     {
         $this->help->setSubScreenId('password_assistance');
 
@@ -185,30 +205,31 @@ class ilPasswordAssistanceGUI
             )
         );
 
-        if (!$form) {
-            $form = $this->getAssistanceForm();
-        }
-        $tpl->setVariable('FORM', $form->getHTML());
+        $tpl->setVariable('FORM', $this->ui_renderer->render($form ?? $this->getAssistanceForm()));
         $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
     /**
-     * Reads the submitted data from the password assistance form.
-     * The following form fields are read as HTTP POST parameters:
-     * username
-     * email
      * If the submitted username and email address matches an entry in the user data
      * table, then ILIAS creates a password assistance session for the user, and
      * sends a password assistance mail to the email address.
      * For details about the creation of the session and the e-mail see function
      * sendPasswordAssistanceMail().
      */
-    public function submitAssistanceForm(): void
+    private function submitAssistanceForm(): void
     {
         $form = $this->getAssistanceForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        $form_valid = false;
+        $form_data = null;
+        if ($this->http->request()->getMethod() === 'POST') {
+            $form = $form->withRequest($this->http->request());
+            $form_data = $form->getData();
+            $form_valid = $form_data !== null;
+        }
+
+        if (!$form_valid) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             $this->showAssistanceForm($form);
             return;
         }
@@ -218,39 +239,42 @@ class ilPasswordAssistanceGUI
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
 
-        $assistance_callback = function () use ($form, $defaultAuth): void {
-            $username = $form->getInput('username');
-            $email = trim($form->getInput('email'));
+        $username = $form_data[self::PROP_USERNAME];
+        $email = $form_data[self::PROP_EMAIL];
 
-            $usrId = \ilObjUser::getUserIdByLogin($username);
-            if (!is_numeric($usrId) || !($usrId > 0)) {
-                \ilLoggerFactory::getLogger('usr')->info(
+        $assistance_callback = function () use ($defaultAuth, $username, $email): void {
+            $usr_id = ilObjUser::getUserIdByLogin($username);
+            if (!is_numeric($usr_id) || !($usr_id > 0)) {
+                ilLoggerFactory::getLogger('usr')->info(
                     sprintf(
                         'Could not process password assistance form (reason: no user found) %s / %s',
                         $username,
                         $email
                     )
                 );
-
                 return;
             }
 
-            $user = new \ilObjUser($usrId);
-            $emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
+            $user = new ilObjUser($usr_id);
+            $email_addresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
 
-            if (!in_array(strtolower($email), $emailAddresses)) {
-                if (0 === strlen(implode('', $emailAddresses))) {
-                    \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                        'Could not process password assistance form (reason: account without email addresses): %s / %s',
-                        $username,
-                        $email
-                    ));
+            if (!in_array(strtolower($email), $email_addresses, true)) {
+                if (implode('', $email_addresses) === '') {
+                    ilLoggerFactory::getLogger('usr')->info(
+                        sprintf(
+                            'Could not process password assistance form (reason: account without email addresses): %s / %s',
+                            $username,
+                            $email
+                        )
+                    );
                 } else {
-                    \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                        'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
-                        $username,
-                        $email
-                    ));
+                    ilLoggerFactory::getLogger('usr')->info(
+                        sprintf(
+                            'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
+                            $username,
+                            $email
+                        )
+                    );
                 }
             } elseif (
                 (
@@ -260,26 +284,28 @@ class ilPasswordAssistanceGUI
                     $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
                 )
             ) {
-                \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
-                    $username,
-                    $email
-                ));
-            } elseif (
-                $this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
-                $this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
-            ) {
-                \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
-                    $username,
-                    $email
-                ));
+                ilLoggerFactory::getLogger('usr')->info(
+                    sprintf(
+                        'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
+                        $username,
+                        $email
+                    )
+                );
+            } elseif ($this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
+                $this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)) {
+                ilLoggerFactory::getLogger('usr')->info(
+                    sprintf(
+                        'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
+                        $username,
+                        $email
+                    )
+                );
             } else {
                 $this->sendPasswordAssistanceMail($user);
             }
         };
 
-        if (null !== ($assistance_duration = $this->settings->get("account_assistance_duration"))) {
+        if (($assistance_duration = $this->settings->get('account_assistance_duration')) !== null) {
             $duration = $this->http->durations()->callbackDuration((int) $assistance_duration);
             $status = $duration->stretch($assistance_callback);
         } else {
@@ -287,7 +313,7 @@ class ilPasswordAssistanceGUI
         }
 
         $this->showMessageForm(
-            sprintf($this->lng->txt('pwassist_mail_sent'), $form->getInput('email')),
+            sprintf($this->lng->txt('pwassist_mail_sent'), $email),
             self::PERMANENT_LINK_TARGET_PW
         );
     }
@@ -302,20 +328,12 @@ class ilPasswordAssistanceGUI
      * client_id
      * key
      */
-    public function sendPasswordAssistanceMail(ilObjUser $userObj): void
+    private function sendPasswordAssistanceMail(ilObjUser $userObj): void
     {
         global $DIC;
 
         require_once 'include/inc.pwassist_session_handler.php';
-
-        // Create a new session id
-        // #9700 - this didn't do anything before?!
-        // db_set_save_handler();
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
         $pwassist_session['pwassist_id'] = db_pwassist_create_id();
-        session_destroy();
         db_pwassist_session_write(
             $pwassist_session['pwassist_id'],
             3600,
@@ -350,15 +368,15 @@ class ilPasswordAssistanceGUI
         $mm->To($userObj->getEmail());
         $mm->Body(
             str_replace(
-                array("\\n", "\\t"),
-                array("\n", "\t"),
+                ["\\n", "\\t"],
+                ["\n", "\t"],
                 sprintf(
                     $this->lng->txt('pwassist_mail_body'),
                     $pwassist_url,
                     $this->getBaseUrl() . '/',
                     $_SERVER['REMOTE_ADDR'],
                     $userObj->getLogin(),
-                    'mailto:' . $DIC->settings()->get("admin_email"),
+                    'mailto:' . $DIC->settings()->get('admin_email'),
                     $alternative_pwassist_url
                 )
             )
@@ -366,27 +384,75 @@ class ilPasswordAssistanceGUI
         $mm->Send();
     }
 
-    protected function getAssignPasswordForm(string $pwassist_id): ilPropertyFormGUI
+    private function getAssignPasswordForm(string $pwassist_id = null): ILIAS\UI\Component\Input\Container\Form\Form
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'submitAssignPasswordForm'));
-        $form->setTarget('_parent');
+        $field_factory = $this->ui_factory->input()->field();
 
-        $username = new ilTextInputGUI($this->lng->txt('username'), 'username');
-        $username->setRequired(true);
-        $form->addItem($username);
+        $key = $field_factory
+            ->hidden()
+            ->withRequired(true)
+            ->withDedicatedName(self::PROP_KEY);
+        if ($pwassist_id !== null) {
+            $key = $key->withValue($pwassist_id);
+        }
 
-        $password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
-        $password->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-        $password->setRequired(true);
-        $password->setUseStripSlashes(false);
-        $form->addItem($password);
+        return $this->ui_factory->input()
+                                ->container()
+                                ->form()
+                                ->standard(
+                                    $this->ctrl->getFormAction($this, 'submitAssignPasswordForm'),
+                                    [
+                                        $field_factory->section(
+                                            [
+                                                self::PROP_KEY => $key,
+                                                self::PROP_USERNAME => $field_factory
+                                                    ->text($this->lng->txt('username'))
+                                                    ->withRequired(true),
+                                                self::PROP_PASSWORD => $field_factory
+                                                    ->password(
+                                                        $this->lng->txt('password'),
+                                                        ilSecuritySettingsChecker::getPasswordRequirementsInfo()
+                                                    )
+                                                    ->withRequired(true)
+                                                    ->withRevelation(true)
+                                                    ->withAdditionalTransformation(
+                                                        $this->refinery->custom()->constraint(
+                                                            static function (ILIAS\Data\Password $value): bool {
+                                                                return (
+                                                                    ilSecuritySettingsChecker::isPassword(
+                                                                        $value->toString()
+                                                                    )
+                                                                );
+                                                            },
+                                                            static function (Closure $lng, ILIAS\Data\Password $value): string {
+                                                                $problem = $lng('passwd_invalid');
+                                                                $custom_problem = null;
+                                                                if (!ilSecuritySettingsChecker::isPassword(
+                                                                    $value->toString(),
+                                                                    $problem
+                                                                )) {
+                                                                    $problem = $custom_problem;
+                                                                }
 
-        $key = new ilHiddenInputGUI('key');
-        $key->setValue($pwassist_id);
-        $form->addItem($key);
-        $form->addCommandButton('submitAssignPasswordForm', $this->lng->txt('submit'));
-        return $form;
+                                                                return $problem;
+                                                            }
+                                                        )
+                                                    )
+                                                    ->withAdditionalTransformation(
+                                                        $this->refinery->custom()->transformation(
+                                                            static function (ILIAS\Data\Password $value): string {
+                                                                return $value->toString();
+                                                            }
+                                                        )
+                                                    ),
+                                            ],
+                                            $this->lng->txt('password_assistance'),
+                                            ''
+                                        ),
+                                    ]
+                                )
+                                ->withAdditionalTransformation($this->mergeValuesTrafo())
+                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
     /**
@@ -399,56 +465,42 @@ class ilPasswordAssistanceGUI
      * If the key is missing, or if the password assistance session has expired, the
      * password assistance form will be shown instead of this form.
      */
-    public function showAssignPasswordForm(ilPropertyFormGUI $form = null, string $pwassist_id = ''): void
-    {
+    private function showAssignPasswordForm(
+        ILIAS\UI\Component\Input\Container\Form\Form $form = null,
+        string $pwassist_id = ''
+    ): void {
         $this->help->setSubScreenId('password_input');
 
-        // Retrieve form data
-        if (!$pwassist_id) {
-            if ($this->http->wrapper()->query()->has('key')) {
-                $pwassist_id = $this->http->wrapper()->query()->retrieve(
-                    'key',
-                    $this->refinery->kindlyTo()->string()
-                );
-            }
+        if ($pwassist_id === '') {
+            $pwassist_id = $this->http->wrapper()->query()->retrieve(
+                'key',
+                $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+            );
         }
 
-        // Retrieve the session, and check if it is valid
         require_once 'include/inc.pwassist_session_handler.php';
         $pwassist_session = db_pwassist_session_read($pwassist_id);
-        if (
-            !is_array($pwassist_session) ||
-            count($pwassist_session) == 0 ||
-            $pwassist_session['expires'] < time()
-        ) {
+        if (!is_array($pwassist_session) || $pwassist_session['expires'] < time()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('pwassist_session_expired'));
             $this->showAssistanceForm(null);
-        } else {
-            $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
-            $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('standard/icon_auth.svg'));
-            $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-
-            $tpl->setVariable(
-                'TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
-                $this->lng->txt('pwassist_enter_username_and_new_password')
-            );
-
-            if (!$form) {
-                $form = $this->getAssignPasswordForm($pwassist_id);
-            }
-            $tpl->setVariable('FORM', $form->getHTML());
-            $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-            ilStartUpGUI::printToGlobalTemplate($tpl);
+            return;
         }
+
+        $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
+        $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('standard/icon_auth.svg'));
+        $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
+
+        $tpl->setVariable(
+            'TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
+            $this->lng->txt('pwassist_enter_username_and_new_password')
+        );
+
+        $tpl->setVariable('FORM', $this->ui_renderer->render($form ?? $this->getAssignPasswordForm($pwassist_id)));
+        $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
+        ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
     /**
-     * Reads the submitted data from the password assistance form.
-     * The following form fields are read as HTTP POST parameters:
-     * key
-     * username
-     * password1
-     * password2
      * The key is used to retrieve the password assistance session.
      * If the key is missing, or if the password assistance session has expired, the
      * password assistance form will be shown instead of this form.
@@ -458,55 +510,55 @@ class ilPasswordAssistanceGUI
      * Note: To prevent replay attacks, the session is deleted when the
      * password has been assigned successfully.
      */
-    public function submitAssignPasswordForm(): void
+    private function submitAssignPasswordForm(): void
     {
-        require_once 'include/inc.pwassist_session_handler.php';
+        $form = $this->getAssignPasswordForm();
+        $form_valid = false;
+        $form_data = null;
+        if ($this->http->request()->getMethod() === 'POST') {
+            $form = $form->withRequest($this->http->request());
+            $form_data = $form->getData();
+            $form_valid = $form_data !== null;
+        }
 
-        // We need to fetch this before form instantiation
-        $pwassist_id = ilUtil::stripSlashes($_POST['key']);
-
-        $form = $this->getAssignPasswordForm($pwassist_id);
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->showAssignPasswordForm($form, $pwassist_id);
+        if (!$form_valid) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->showAssistanceForm($form);
             return;
         }
 
-        $username = $form->getInput('username');
-        $password = $form->getInput('password');
-        $pwassist_id = $form->getInput('key');
+        $username = $form_data[self::PROP_USERNAME];
+        $password = $form_data[self::PROP_PASSWORD];
+        $pwassist_id = $form_data[self::PROP_KEY];
 
-        // Retrieve the session
+        require_once 'include/inc.pwassist_session_handler.php';
         $pwassist_session = db_pwassist_session_read($pwassist_id);
-
-        if (
-            !is_array($pwassist_session) ||
-            count($pwassist_session) == 0 ||
-            $pwassist_session['expires'] < time()
-        ) {
-            $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
-            $form->setValuesByPost();
+        if (!is_array($pwassist_session) || $pwassist_session['expires'] < time()) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                str_replace("\\n", '', $this->lng->txt('pwassist_session_expired'))
+            );
             $this->showAssistanceForm($form);
-            return;
         } else {
             $is_successful = true;
             $message = '';
 
-            $userObj = \ilObjectFactory::getInstanceByObjId($pwassist_session['user_id'], false);
-            if (!$userObj || !($userObj instanceof \ilObjUser)) {
+            $userObj = ilObjectFactory::getInstanceByObjId((int) $pwassist_session['user_id'], false);
+            if (!($userObj instanceof ilObjUser)) {
                 $message = $this->lng->txt('user_does_not_exist');
                 $is_successful = false;
             }
 
             // check if the username entered by the user matches the
             // one of the user object.
-            if ($is_successful && strcasecmp($userObj->getLogin(), $username) != 0) {
+            if ($is_successful && strcasecmp($userObj->getLogin(), $username) !== 0) {
                 $message = $this->lng->txt('pwassist_login_not_match');
                 $is_successful = false;
             }
 
             $error_lng_var = '';
-            if (!ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
+            if ($is_successful &&
+                !ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
                 $message = $this->lng->txt($error_lng_var);
                 $is_successful = false;
             }
@@ -541,37 +593,38 @@ class ilPasswordAssistanceGUI
                 );
             } else {
                 $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
-                $form->setValuesByPost();
                 $this->showAssignPasswordForm($form, $pwassist_id);
             }
         }
     }
 
-    protected function getUsernameAssistanceForm(): ilPropertyFormGUI
+    private function getUsernameAssistanceForm(): ILIAS\UI\Component\Input\Container\Form\Form
     {
-        $form = new ilPropertyFormGUI();
+        $field_factory = $this->ui_factory->input()->field();
 
-        $form->setFormAction($this->ctrl->getFormAction($this, 'submitUsernameAssistanceForm'));
-        $form->setTarget('_parent');
-
-        $email = new ilTextInputGUI($this->lng->txt('email'), 'email');
-        $email->setRequired(true);
-        $form->addItem($email);
-
-        $form->addCommandButton('submitUsernameAssistanceForm', $this->lng->txt('submit'));
-        return $form;
+        return $this->ui_factory->input()
+                                ->container()
+                                ->form()
+                                ->standard(
+                                    $this->ctrl->getFormAction($this, 'submitUsernameAssistanceForm'),
+                                    [
+                                        $field_factory->section(
+                                            [
+                                                self::PROP_EMAIL => $field_factory
+                                                    ->text($this->lng->txt('email'))
+                                                    ->withRequired(true)
+                                                    ->withAdditionalTransformation($this->emailTrafo()),
+                                            ],
+                                            $this->lng->txt('username_assistance'),
+                                            ''
+                                        ),
+                                    ]
+                                )
+                                ->withAdditionalTransformation($this->mergeValuesTrafo())
+                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
-    /**
-     * Shows the password assistance form.
-     * This form is used to request a password assistance mail from ILIAS.
-     * This form contains the following fields:
-     * username
-     * email
-     * When the user submits the form, then this script is invoked with the cmd
-     * 'submitAssistanceForm'.
-     */
-    public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null): void
+    private function showUsernameAssistanceForm(ILIAS\UI\Component\Input\Container\Form\Form $form = null): void
     {
         $this->help->setSubScreenId('username_assistance');
 
@@ -593,50 +646,46 @@ class ilPasswordAssistanceGUI
             )
         );
 
-        if (!$form) {
-            $form = $this->getUsernameAssistanceForm();
-        }
-        $tpl->setVariable('FORM', $form->getHTML());
+        $tpl->setVariable('FORM', $this->ui_renderer->render($form ?? $this->getUsernameAssistanceForm()));
         $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    /**
-     * Reads the submitted data from the password assistance form.
-     * The following form fields are read as HTTP POST parameters:
-     * username
-     * email
-     * If the submitted username and email address matches an entry in the user data
-     * table, then ILIAS creates a password assistance session for the user, and
-     * sends a password assistance mail to the email address.
-     * For details about the creation of the session and the e-mail see function
-     * sendPasswordAssistanceMail().
-     */
-    public function submitUsernameAssistanceForm(): void
+    private function submitUsernameAssistanceForm(): void
     {
         $form = $this->getUsernameAssistanceForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->showUsernameAssistanceForm($form);
+        $form_valid = false;
+        $form_data = null;
+        if ($this->http->request()->getMethod() === 'POST') {
+            $form = $form->withRequest($this->http->request());
+            $form_data = $form->getData();
+            $form_valid = $form_data !== null;
+        }
 
+        if (!$form_valid) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->showUsernameAssistanceForm($form);
             return;
         }
 
-        $assistance_callback = function () use ($form): void {
-            $email = trim($form->getInput('email'));
+        $email = trim($form_data[self::PROP_EMAIL]);
+
+        $assistance_callback = function () use ($email): void {
             $logins = ilObjUser::getUserLoginsByEmail($email);
 
             if (is_array($logins) && count($logins) > 0) {
                 $this->sendUsernameAssistanceMail($email, $logins);
             } else {
-                \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not sent username assistance emails to (reason: no user found): %s',
-                    $email
-                ));
+                ilLoggerFactory::getLogger('usr')->info(
+                    sprintf(
+                        'Could not sent username assistance emails to (reason: no user found): %s',
+                        $email
+                    )
+                );
             }
         };
 
-        if (null !== ($assistance_duration = $this->settings->get("account_assistance_duration"))) {
+        if (($assistance_duration = $this->settings->get('account_assistance_duration')) !== null) {
             $duration = $this->http->durations()->callbackDuration((int) $assistance_duration);
             $status = $duration->stretch($assistance_callback);
         } else {
@@ -647,20 +696,11 @@ class ilPasswordAssistanceGUI
     }
 
     /**
-     * Creates (or reuses) a password assistance session, and sends a password
-     * assistance mail to the specified user.
-     * Note: To prevent DOS attacks, a new session is created only, if no session
-     * exists, or if the existing session has been expired.
-     * The password assistance mail contains an URL, which points to this script
-     * and contains the following URL parameters:
-     * client_id
-     * key
+     * @param list<string> $logins
      */
-    public function sendUsernameAssistanceMail(string $email, array $logins): void
+    private function sendUsernameAssistanceMail(string $email, array $logins): void
     {
         global $DIC;
-
-        require_once 'include/inc.pwassist_session_handler.php';
 
         $login_url = $this->buildUrl(
             'pwassist.php',
@@ -679,15 +719,15 @@ class ilPasswordAssistanceGUI
         $mm->To($email);
         $mm->Body(
             str_replace(
-                array("\\n", "\\t"),
-                array("\n", "\t"),
+                ["\\n", "\\t"],
+                ["\n", "\t"],
                 sprintf(
                     $this->lng->txt('pwassist_username_mail_body'),
-                    join(",\n", $logins),
+                    implode(",\n", $logins),
                     $this->getBaseUrl() . '/',
                     $_SERVER['REMOTE_ADDR'],
                     $email,
-                    'mailto:' . $this->settings->get("admin_email"),
+                    'mailto:' . $this->settings->get('admin_email'),
                     $login_url
                 )
             )
@@ -695,10 +735,7 @@ class ilPasswordAssistanceGUI
         $mm->Send();
     }
 
-    /**
-     * This form is used to show a message to the user.
-     */
-    public function showMessageForm(string $text, string $permanent_link_context): void
+    private function showMessageForm(string $text, string $permanent_link_context): void
     {
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
@@ -709,8 +746,8 @@ class ilPasswordAssistanceGUI
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    protected function fillPermanentLink(string $context): void
+    private function fillPermanentLink(string $context): void
     {
-        $this->tpl->setPermanentLink('usr', null, $context);
+        $this->tpl->setPermanentLink('usr', 0, $context);
     }
 }

@@ -5814,6 +5814,7 @@ common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_files#:#Files
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Username
+common#:#username_assistance#:#Username Assistance
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active Users
