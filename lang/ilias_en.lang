@@ -9521,6 +9521,7 @@ file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and nu
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME Type
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.

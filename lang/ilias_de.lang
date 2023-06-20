@@ -9529,6 +9529,7 @@ file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME-Type
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
 file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.

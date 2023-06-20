@@ -39,6 +39,7 @@ use ILIAS\Modules\File\Settings\General;
 class ilObjFileGUI extends ilObject2GUI
 {
     use ilObjFileCopyrightInput;
+    use ilObjFileInfoProvider;
     use ilObjFileTransformation;
 
     public const UPLOAD_MAX_FILES = 100;
@@ -712,58 +713,13 @@ class ilObjFileGUI extends ilObject2GUI
 
         // File Info
         $info->addSection($this->lng->txt("file_info"));
-        $info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
-        $info->addProperty($this->lng->txt("type"), $this->object->getFileType());
-        $info->addProperty($this->lng->txt("resource_id"), $this->object->getResourceId());
-        $info->addProperty($this->lng->txt("storage_id"), $this->object->getStorageID());
-
-        $info->addProperty(
-            $this->lng->txt("size"),
-            ilUtil::formatSize($this->object->getFileSize(), 'long')
-        );
-        $info->addProperty($this->lng->txt("version"), $this->object->getVersion());
-
-        $version = $this->object->getVersions([$this->object->getVersion()]);
-        $version = end($version);
-        if ($version instanceof ilObjFileVersion) {
-            $info->addProperty(
-                $this->lng->txt("version_uploaded"),
-                (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME)
-            );
-        }
-
-        if ($this->general_settings->isShowAmountOfDownloads()) {
-            $info->addProperty($this->lng->txt("amount_of_downloads"), sprintf(
-                $this->lng->txt("amount_of_downloads_since"),
-                $this->object->getAmountOfDownloads(),
-                $this->object->getCreateDate(),
-            ));
-        }
-
-        if ($this->object->getPageCount() > 0) {
-            $info->addProperty($this->lng->txt("page_count"), $this->object->getPageCount());
-        }
-
-        // using getVersions function instead of ilHistory direct
-        $uploader = $this->object->getVersions();
-        $uploader = array_shift($uploader);
-        $uploader = $uploader["user_id"] ?? -1; // unknown uploader
-        $info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
-
-        // download link added in repository
-        if ($this->id_type == self::REPOSITORY_NODE_ID && $this->checkPermissionBool("read", "sendfile")) {
-            $tpl = new ilTemplate("tpl.download_link.html", true, true, "Modules/File");
-            $tpl->setVariable("LINK", ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
-            $info->addProperty($this->lng->txt("download_link"), $tpl->get());
-        }
-
-        $preview = new ilObjFilePreviewRendererGUI($this->object_id);
-
-        if (!$this->ctrl->isAsynch()
-            && $preview->has()
-            && $this->checkPermissionBool("read")
-        ) {
-            $info->addProperty($this->lng->txt("preview"), $preview->getRenderedTriggerComponents(true));
+        $file_info = $this->getAllFileInfoForCurrentUser();
+        foreach ($file_info as $file_info_block) {
+            foreach ($file_info_block as $file_info_entry_key => $file_info_entry_value) {
+                if ($file_info_entry_value !== null) {
+                    $info->addProperty($file_info_entry_key, $file_info_entry_value);
+                }
+            }
         }
 
         // forward the command
@@ -906,9 +862,36 @@ class ilObjFileGUI extends ilObject2GUI
         return $lg;
     }
 
-    protected function getUIFactory(): ILIAS\UI\Factory
+    protected function getAccessHandler(): \ilAccessHandler
     {
-        return $this->ui->factory();
+        return $this->access;
+    }
+
+    protected function getCtrl(): \ilCtrl
+    {
+        return $this->ctrl;
+    }
+
+    /**
+     * @throws ilFileException
+     */
+    protected function getFileObj(): ilObjFile
+    {
+        if (!$this->object instanceof ilObjFile) {
+            throw new ilFileException("Error: object is not of type ilObjFile or doesn't exist");
+        }
+
+        return $this->object;
+    }
+
+    protected function getFileStakeholder(): ilObjFileStakeholder
+    {
+        return $this->stakeholder;
+    }
+
+    protected function getGeneralSettings(): General
+    {
+        return $this->general_settings;
     }
 
     protected function getLanguage(): \ilLanguage
@@ -916,8 +899,23 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->lng;
     }
 
+    protected function getNodeID(): int
+    {
+        return $this->node_id;
+    }
+
     protected function getRefinery(): \ILIAS\Refinery\Factory
     {
         return $this->refinery;
+    }
+
+    protected function getUIFactory(): ILIAS\UI\Factory
+    {
+        return $this->ui->factory();
+    }
+
+    protected function getUser(): ilObjUser
+    {
+        return $this->user;
     }
 }

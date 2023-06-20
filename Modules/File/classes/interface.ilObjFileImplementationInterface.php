@@ -40,6 +40,8 @@ interface ilObjFileImplementationInterface
 
     public function getFileSize(): int;
 
+    public function getFileName(): string;
+
     /**
      * @deprecated
      */

@@ -104,7 +104,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     private function updateObjectFromRevision(Revision $r): void
     {
-        $this->setTitle($r->getTitle());
+        // Remove filename extension from title
+        $this->setTitle($this->stripTitleOfFileExtension($r->getTitle()));
         $this->setFileName($r->getInformation()->getTitle());
         $this->update();
     }
@@ -221,7 +222,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function getFileName(): string
     {
-        return $this->filename;
+        return $this->implementation->getFileName();
     }
 
     public function setFileName(string $a_name): void
@@ -367,6 +368,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function handleChangedObjectTitle(string $new_title): void
     {
+        $new_title = $this->stripTitleOfFileExtension($new_title);
         $this->setTitle($new_title);
         $this->implementation->handleChangedObjectTitle($new_title);
     }
@@ -414,7 +416,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->updateFileData();
 
         // Copy Resource
-        $cloned_title = $new_obj->getTitle();
+        $cloned_title = $this->stripTitleOfFileExtension($new_obj->getTitle());
         $new_resource_identification = $this->manager->clone($identification);
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_obj->setResourceId($new_resource_identification->serialize());
@@ -660,5 +662,15 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function getFileExtension(): string
     {
         return $this->implementation->getFileExtension();
+    }
+
+    public function stripTitleOfFileExtension(string $a_title): string
+    {
+        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $a_title));
+    }
+
+    public function getTitle(): string
+    {
+        return $this->stripTitleOfFileExtension($this->title);
     }
 }

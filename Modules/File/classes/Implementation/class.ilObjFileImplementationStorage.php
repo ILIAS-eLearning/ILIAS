@@ -65,6 +65,13 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         }
         return $stream->getStream()->getMetadata('uri');
     }
+    public function getFileName(): string
+    {
+        $current_revision = $this->resource->getCurrentRevision();
+        return $current_revision->getInformation()->getTitle();
+    }
+
+
 
     public function getFileSize(): int
     {
