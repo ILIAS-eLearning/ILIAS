@@ -1750,3 +1750,10 @@ try {
     $ilLog->warning($message);
 }
 ?>
+<#103>
+<?php
+// Add index
+if ($this->db->indexExistsByFields('tree', ['child'])) {
+    $this->db->dropIndex('tree', 'i1');
+}
+?>
