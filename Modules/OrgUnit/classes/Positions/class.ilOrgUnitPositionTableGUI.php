@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,11 +14,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
+
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitPositionTableGUI
@@ -25,13 +27,13 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionTableGUI extends ilTable2GUI
 {
-    protected \ILIAS\DI\Container $DIC;
     protected array $columns = [
             'title',
             'description',
             'authorities',
         ];
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected DropdownBuilder $dropdownbuilder;
 
     /**
      * ilOrgUnitPositionTableGUI constructor.
@@ -40,19 +42,19 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
      */
     public function __construct(BaseCommands $parent_obj, $parent_cmd)
     {
-        $this->DIC = $GLOBALS["DIC"];
+        parent::__construct($parent_obj, $parent_cmd);
 
         $dic = ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
 
         $this->setPrefix('orgu_types_table');
         $this->setId('orgu_types_table');
-        parent::__construct($parent_obj, $parent_cmd);
         $this->setRowTemplate('tpl.position_row.html', 'Modules/OrgUnit');
         $this->initColumns();
-        $this->addColumn($this->DIC->language()->txt('action'), '', '100px', false, 'text-right');
+        $this->addColumn($this->lng->txt('action'), '', '100px', false, 'text-right');
         $this->buildData();
-        $this->setFormAction($this->DIC->ctrl()->getFormAction($this->parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
     }
 
     /**
@@ -70,31 +72,26 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
         $this->tpl->setVariable('DESCRIPTION', $position->getDescription());
         $this->tpl->setVariable('AUTHORITIES', implode("<br>", $this->getAuthorityDescription($position->getAuthorities())));
 
-        $this->DIC->ctrl()
-                  ->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $a_set['id']);
-        $selection = new ilAdvancedSelectionListGUI();
-        $selection->setListTitle($this->DIC->language()->txt('actions'));
-        $selection->setId(BaseCommands::AR_ID . $a_set['id']);
-        $selection->addItem($this->DIC->language()->txt('edit'), 'edit', $this->DIC->ctrl()
-                                                                                   ->getLinkTargetByClass(
-                                                                                       ilOrgUnitPositionGUI::class,
-                                                                                       ilOrgUnitPositionGUI::CMD_EDIT
-                                                                                   ));
-        if (!$position->isCorePosition()) {
-            $selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
-                                                                                           ->getLinkTargetByClass(
-                                                                                               ilOrgUnitPositionGUI::class,
-                                                                                               ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION
-                                                                                           ));
-        }
+        $this->ctrl->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $a_set['id']);
 
-        $this->tpl->setVariable('ACTIONS', $selection->getHTML());
+        $dropdownbuilder = $this->dropdownbuilder
+            ->withItem(
+                'edit',
+                $this->ctrl->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_EDIT)
+            )
+            ->withItem(
+                'delete',
+                $this->ctrl->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION),
+                !$position->isCorePosition()
+            )
+            ->get();
+        $this->tpl->setVariable('ACTIONS', $dropdownbuilder);
     }
 
     private function initColumns(): void
     {
         foreach ($this->columns as $column) {
-            $this->addColumn($this->DIC->language()->txt($column), $column);
+            $this->addColumn($this->lng->txt($column), $column);
         }
     }
 
@@ -113,7 +110,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
      */
     private function getAuthorityDescription(array $authorities): array
     {
-        $lang = $this->DIC->language();
+        $lang = $this->lng;
         $lang->loadLanguageModule('orgu');
         $lang_keys = array(
             'in',
@@ -127,7 +124,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
             $t[$key] = $lang->txt($key);
         }
 
-        $authority_description =[];
+        $authority_description = [];
         foreach ($authorities as $authority) {
             switch ($authority->getOver()) {
                 case ilOrgUnitAuthority::OVER_EVERYONE:
