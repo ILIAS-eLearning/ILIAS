@@ -7299,6 +7299,9 @@ cron#:#cron_status_info#:#Status-Info
 crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
+crs#:#crs_course_section#:#Meine Kurse und Gruppen
+crs#:#crs_favourites_enabled#:#Favoriten aktivieren
+crs#:#crs_favourites_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Möglichkeit, Kurse als Favoriten festzulegen, aktiviert. Die Option befindet sich in der oberen rechten Ecke der Kursansicht unter Aktionen.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access#:#Zugang
