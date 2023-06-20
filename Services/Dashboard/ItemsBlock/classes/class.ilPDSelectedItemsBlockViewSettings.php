@@ -292,7 +292,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         $val = $this->settings->get('pd_active_pres_view_' . $view, '');
 
         return (!$val)
-            ? []
+            ? [self::PRESENTATION_LIST]
             : unserialize($val, ['allowed_classes' => false]);
     }
 

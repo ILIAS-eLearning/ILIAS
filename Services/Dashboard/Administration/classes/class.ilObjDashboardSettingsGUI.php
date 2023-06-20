@@ -209,6 +209,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $fields[self::DASH_ENABLE_PREFIX . "favourites"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "favourites"))
             ->withValue($this->viewSettings->enabledSelectedItems());
+        // lookup refid by type
+        $main_menu_objs = ilObject::_getObjectsByType('mme');
+        $obj_id = array_pop($main_menu_objs)['obj_id'];
+        $main_menu_refs = ilObject::_getAllReferences($obj_id);
+        $ref_id = array_pop($main_menu_refs);
+
+        $this->ctrl->setParameterByClass(ilMMSubItemGUI::class, "ref_id", $ref_id);
         $info_text = ($this->viewSettings->enabledMemberships())
             ? ""
             : $lng->txt("dash_member_main_alt") . " " . $this->ui->renderer()->render(
@@ -217,6 +224,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                     $this->ctrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjMainMenuGUI", "ilmmsubitemgui"])
                 )
             );
+        $this->ctrl->clearParametersByClass(ilMMSubItemGUI::class);
 
         $fields[self::DASH_ENABLE_PREFIX . "recommended_content"] = $field->checkbox($lng->txt(self::DASH_ENABLE_PREFIX . "recommended_content"))
                                                   ->withValue(true)
