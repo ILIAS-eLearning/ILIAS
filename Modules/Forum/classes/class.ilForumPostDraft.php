@@ -31,6 +31,7 @@ class ilForumPostDraft
     private static array $forum_statistics_cache = [];
     private static array $drafts_settings_cache = [];
 
+    public const NO_RCID = '-';
     private ilDBInterface $db;
     private int $draft_id = 0;
     private int $post_id = 0;
@@ -46,6 +47,7 @@ class ilForumPostDraft
     private int $post_display_user_id = 0;
     private bool $notify = false;
     private bool $post_notify = false;
+    private string $rcid = '';
 
     public function __construct(int $user_id = 0, int $post_id = 0, int $draft_id = 0)
     {
@@ -77,6 +79,17 @@ class ilForumPostDraft
         $draft->setPostUserAlias((string) $row['post_user_alias']);
         $draft->setNotificationStatus((bool) $row['notify']);
         $draft->setPostNotificationStatus((bool) $row['post_notify']);
+        $draft->setRCID((string)($row['rcid']));
+    }
+
+    public function getRCID(): string
+    {
+        return $this->rcid;
+    }
+
+    public function setRCID(string $rcid): void
+    {
+        $this->rcid = $rcid;
     }
 
     public function isPostNotificationEnabled(): bool
@@ -354,6 +367,11 @@ class ilForumPostDraft
         return $draft_id;
     }
 
+    public function update(): void
+    {
+        $this->updateDraft();
+    }
+
     public function updateDraft(): void
     {
         $this->db->update(
@@ -364,6 +382,7 @@ class ilForumPostDraft
                 'post_user_alias' => ['text', $this->getPostUserAlias()],
                 'post_update' => ['timestamp', date("Y-m-d H:i:s")],
                 'update_user_id' => ['integer', $this->getUpdateUserId()],
+                'rcid' => ['text', $this->getRCID()]
             ],
             ['draft_id' => ['integer', $this->getDraftId()]]
         );

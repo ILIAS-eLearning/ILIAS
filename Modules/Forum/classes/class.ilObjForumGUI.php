@@ -859,7 +859,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if ($action !== 'showdraft' && $filesOfDraft !== []) {
                 foreach ($filesOfDraft as $file) {
                     $tpl->setCurrentBlock('attachment_download_row');
-                    $this->ctrl->setParameter($this, 'draft_id', $tmp_file_obj->getDraftId());
+                    $this->ctrl->setParameter($this, 'draft_id', $draft->getDraftId());
                     $this->ctrl->setParameter($this, 'file', $file['md5']);
                     $tpl->setVariable('HREF_DOWNLOAD', $this->ctrl->getLinkTarget($this, 'viewThread'));
                     $tpl->setVariable('TXT_FILENAME', $file['name']);
@@ -2420,6 +2420,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ilObjMediaObject::_saveUsage($mob, 'frm:html', $newPost);
             }
             ilForumUtil::saveMediaObjects($post_message, 'frm:html', $newPost, $mob_direction);
+            $post_obj = new ilForumPost($newPost);
+
+            if ($draft_obj->getRCID() > 0) {
+                $post_obj->setRCID($draft_obj->getRCID());
+                $post_obj->update();
+            }
 
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'] ?? [];
@@ -2427,13 +2433,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $tmp_file_obj = new ilFileDataForum($this->object->getId(), $newPost);
                     $tmp_file_obj->storeUploadedFiles();
                 }
-
-                //move files of draft to posts directory
-                $oFDForum = new ilFileDataForum($this->object->getId(), $newPost);
-                $oFDForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draft_obj->getDraftId());
-
-                $oFDForumDrafts->moveFilesOfDraft($oFDForum->getForumPath(), $newPost);
-                $oFDForumDrafts->delete();
             }
 
             if (ilForumPostDraft::isSavePostDraftAllowed()) {
@@ -2455,7 +2454,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 [
                     'object' => $this->object,
                     'ref_id' => $this->object->getRefId(),
-                    'post' => new ilForumPost($newPost),
+                    'post' => $post_obj,
                     'notify_moderators' => $send_activation_mail
                 ]
             );
@@ -3951,6 +3950,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 );
             }
 
+            $post_obj = new ilForumPost($newPost);
+            if ($draft->getRCID() > 0) {
+                $post_obj->setRCID($draft->getRCID());
+                $post_obj->update();
+            }
+
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
@@ -3978,11 +3983,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if ($draft->getDraftId() > 0) {
                 $draftHistory = new ilForumDraftsHistory();
                 $draftHistory->deleteHistoryByDraftIds([$draft->getDraftId()]);
-                if ($this->objProperties->isFileUploadAllowed()) {
-                    $forumFileData = new ilFileDataForum($this->object->getId(), $newPost);
-                    $draftFileData = new ilFileDataForumDrafts($this->object->getId(), $draft->getDraftId());
-                    $draftFileData->moveFilesOfDraft($forumFileData->getForumPath(), $newPost);
-                }
                 $draft->deleteDraft();
             }
 
@@ -3992,7 +3992,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 [
                     'object' => $this->object,
                     'ref_id' => $this->object->getRefId(),
-                    'post' => new ilForumPost($newPost),
+                    'post' => $post_obj,
                     'notify_moderators' => !$status
                 ]
             );
@@ -4822,7 +4822,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
-                    $draftFileData->storeUploadedFile($file);
+                    $draftFileData->storeUploadedFiles();
                 }
             }
 
@@ -4896,7 +4896,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if ($this->objProperties->isFileUploadAllowed()) {
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
-                    $draftFileData->storeUploadedFile($file);
+                    if (isset($file['full_path'][0]) && !empty($file['full_path'][0])) {
+                        $draftFileData->storeUploadedFiles();
+                    }
                 }
             }
 
@@ -4999,6 +5001,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $draft_id = $draftObj->getDraftId();
                 }
 
+                // copy temporary media objects (frm~)
+                ilForumUtil::moveMediaObjects(
+                    $oReplyEditForm->getInput('message'),
+                    'frm~d:html',
+                    $draft_id,
+                    'frm~d:html',
+                    $draft_id
+                );
+
+                if ($this->objProperties->isFileUploadAllowed()) {
+                    $file = $_FILES['userfile'];
+                    if (is_array($file) && !empty($file)) {
+                        $oFDForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draftObj->getDraftId());
+                        $oFDForumDrafts->storeUploadedFiles();
+                    }
+                }
+
                 if (ilForumPostDraft::isSavePostDraftAllowed()) {
                     $GLOBALS['ilAppEventHandler']->raise(
                         'Modules/Forum',
@@ -5010,23 +5029,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         ]
                     );
                 }
-
-                if ($this->objProperties->isFileUploadAllowed()) {
-                    $file = $_FILES['userfile'];
-                    if (is_array($file) && !empty($file)) {
-                        $oFDForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draftObj->getDraftId());
-                        $oFDForumDrafts->storeUploadedFile($file);
-                    }
-                }
-
-                // copy temporary media objects (frm~)
-                ilForumUtil::moveMediaObjects(
-                    $oReplyEditForm->getInput('message'),
-                    'frm~d:html',
-                    $draft_id,
-                    'frm~d:html',
-                    $draft_id
-                );
 
                 $frm_session_values = ilSession::get('frm');
                 if (is_array($frm_session_values)) {
@@ -5161,7 +5163,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 if ($this->objProperties->isFileUploadAllowed()) {
                     $file = $_FILES['userfile'];
                     if (is_array($file) && !empty($file)) {
-                        $oFDForumDrafts->storeUploadedFile($file);
+                        $oFDForumDrafts->storeUploadedFiles();
                     }
                 }
 
@@ -5240,7 +5242,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->deleteMobsOfDraft($draft_obj->getDraftId(), $draft_obj->getPostMessage());
 
-        $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_obj->getDraftId());
+        $objFileDataForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draft_obj->getDraftId());
         $objFileDataForumDrafts->delete();
 
         if (ilForumPostDraft::isSavePostDraftAllowed()) {

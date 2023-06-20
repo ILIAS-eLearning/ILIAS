@@ -529,7 +529,7 @@ class ilForum
 
         $post = new ilForumPost((int) $p_node['pos_pk']);
         if ($raiseEvents) {
-            $is_deleted_thread = ($p_node["parent"] == 0) ? true : false;
+            $is_deleted_thread = ($post->getParentId() == 0) ? true : false;
             $num_visible_active_posts = 0;
             if ($is_deleted_thread) {
                 $query = '
@@ -537,7 +537,7 @@ class ilForum
                     FROM frm_posts
                     INNER JOIN frm_posts_tree ON pos_pk = pos_fk
                     WHERE frm_posts_tree.parent_pos != 0
-                    AND pos_thr_fk = ' . $this->db->quote($p_node['pos_thr_fk'], 'integer') . '
+                    AND pos_thr_fk = ' . $this->db->quote($post->getThreadId(), 'integer') . '
                     AND pos_status = ' . $this->db->quote(1, 'integer');
                 $res = $this->db->query($query);
                 $row = $this->db->fetchAssoc($res);
@@ -574,8 +574,8 @@ class ilForum
         $dead_pos = count($deleted_post_ids);
         $dead_thr = 0;
 
-        if ((int) $p_node['parent'] === 0) {
-            $dead_thr = (int) $p_node['tree'];
+        if ((int) $post->getParentId() === 0) {
+            $dead_thr = $post->getThreadId();
 
             $this->db->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s', ['integer'], [$dead_thr]);
             $this->db->manipulateF(
@@ -610,7 +610,7 @@ class ilForum
                 }
             }
 
-            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$p_node['tree']]);
+            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getTreeId()]);
         } else {
             for ($i = 0; $i < $dead_pos; $i++) {
                 $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_pk = %s', ['integer'], [$deleted_post_ids[$i]]);
@@ -642,13 +642,13 @@ class ilForum
             $this->db->manipulateF(
                 'UPDATE frm_threads SET thr_num_posts = thr_num_posts - %s WHERE thr_pk = %s',
                 ['integer', 'integer'],
-                [$dead_pos, $p_node['tree']]
+                [$dead_pos, $post->getTreeId()]
             );
 
             $res1 = $this->db->queryF(
                 'SELECT * FROM frm_posts WHERE pos_thr_fk = %s ORDER BY pos_date DESC',
                 ['integer'],
-                [$p_node['tree']]
+                [$post->getTreeId()]
             );
 
             $lastPost_thr = '';
@@ -668,7 +668,7 @@ class ilForum
             $this->db->manipulateF(
                 'UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s',
                 ['text', 'integer'],
-                [$lastPost_thr, $p_node['tree']]
+                [$lastPost_thr, $post->getTreeId()]
             );
         }
 

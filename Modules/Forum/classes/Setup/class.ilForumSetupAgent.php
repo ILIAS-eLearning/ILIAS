@@ -70,7 +70,8 @@ class ilForumSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-             new ilForumPostingFilesMigration()
+            new ilForumPostingFilesMigration(),
+            new ilForumDraftsFilesMigration()
         ];
     }
 }

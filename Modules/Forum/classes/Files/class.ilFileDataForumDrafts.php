@@ -18,85 +18,79 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 /**
- * This class handles all operations on files for the drafts of a forum object.
- * @author    Nadia Matuschek <nmatuschek@databay.de>
+ * This class handles all operations on files for the forum object.
+ * @author    Stefan Meyer <meyer@leifos.com>
  * @ingroup   ModulesForum
  */
-class ilFileDataForumDrafts extends ilFileData
+class ilFileDataForumDrafts implements ilFileDataForumInterface
 {
-    private string $drafts_path;
-    private ilLanguage $lng;
-    private ilErrorHandling $error;
-    private ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\ResourceStorage\Services $irss;
+    private array $posting_cache = [];
+    private ilFileDataForumInterface $legacy_implementation;
+    private ilFileDataForumInterface $rc_implementation;
 
-    public function __construct(private int $obj_id, private int $draft_id)
+    public function __construct(
+        private int $obj_id = 0,
+        private int $draft_id = 0
+    ) {
+        $this->legacy_implementation = new ilFileDataForumDraftsLegacyImplementation(
+            $this->obj_id,
+            $this->draft_id
+        );
+        $this->rc_implementation = new ilFileDataForumDraftsRCImplementation(
+            $this->obj_id,
+            $this->draft_id
+        );
+    }
+
+    private function getCurrentPosting(): ilForumPostDraft
     {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->irss = $DIC->resourceStorage();
-        $this->lng = $DIC->language();
-        $this->error = $DIC['ilErr'];
-
-        parent::__construct();
-        $this->drafts_path = $this->getPath() . '/forum/drafts';
-
-        if (!$this->checkForumDraftsPath()) {
-            $this->initDirectory();
+        if (isset($this->posting_cache[$this->draft_id])) {
+            return $this->posting_cache[$this->draft_id];
         }
+        return $this->posting_cache[$this->draft_id] = ilForumPostDraft::newInstanceByDraftId($this->draft_id);
+    }
+
+    private function getImplementation(): ilFileDataForumInterface
+    {
+        $posting = $this->getCurrentPosting();
+        if ($posting->getRCID() !== ilForumPost::NO_RCID) {
+            return $this->rc_implementation;
+        }
+
+        return $this->legacy_implementation;
     }
 
     public function getObjId(): int
     {
-        return $this->obj_id;
+        return $this->getImplementation()->getObjId();
     }
 
-    public function setObjId(int $obj_id): void
+    public function getPosId(): int
     {
-        $this->obj_id = $obj_id;
+        return $this->getImplementation()->getPosId();
     }
 
-    public function getDraftId(): int
+    public function setPosId(int $posting_id): void
     {
-        return $this->draft_id;
+        $this->getImplementation()->setPosId($posting_id);
     }
 
     public function setDraftId(int $draft_id): void
     {
-        $this->draft_id = $draft_id;
+        $this->getImplementation()->setDraftId($draft_id);
     }
 
-    public function getDraftsPath(): string
+    public function getDraftId(): int
     {
-        return $this->drafts_path;
+        $this->getImplementation()->getDraftId();
     }
 
-    /**
-     * @return array{path: string, md5: string, name: string, size: int, ctime: string}[]
-     */
-    public function getFiles(): array
+    public function getForumPath(): string
     {
-        $files = [];
-
-        foreach (new DirectoryIterator($this->getDraftsPath() . '/' . $this->getDraftId()) as $file) {
-            /** @var $file SplFileInfo */
-            if ($file->isDir()) {
-                continue;
-            }
-
-            $files[] = [
-                'path' => $file->getPathname(),
-                'md5' => md5($file->getFilename()),
-                'name' => $file->getFilename(),
-                'size' => $file->getSize(),
-                'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            ];
-        }
-
-        return $files;
+        return $this->getImplementation()->getForumPath();
     }
 
     /**
@@ -104,246 +98,65 @@ class ilFileDataForumDrafts extends ilFileData
      */
     public function getFilesOfPost(): array
     {
-        $files = [];
-
-        foreach (new DirectoryIterator($this->getDraftsPath() . '/' . $this->getDraftId()) as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
-
-            if ($file->isDir()) {
-                continue;
-            }
-
-            $files[$file->getFilename()] = [
-                'path' => $file->getPathname(),
-                'md5' => md5($file->getFilename()),
-                'name' => $file->getFilename(),
-                'size' => $file->getSize(),
-                'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            ];
-        }
-
-        return $files;
+        return $this->getImplementation()->getFilesOfPost();
     }
 
-    public function moveFilesOfDraft(string $forum_path, int $new_post_id): bool
+    public function moveFilesOfPost(int $new_frm_id = 0): bool
     {
-        // This will get a lot easier once we have a ResourceCollection for the draft files as well.
-        // You can use $this->irss->collection()->clone() then.
-        // For now we must know the files of a posting are already in IRSS by passing back
-        // ilFileDataForumRCImplementation::FORUM_PATH_RCID as the Forum path.
-        if ($forum_path === ilFileDataForumRCImplementation::FORUM_PATH_RCID) {
-            $post = new ilForumPost($new_post_id);
-            if ($post->getRCID() === ilForumPost::NO_RCID || empty($post->getRCID())) {
-                $rcid = $this->irss->collection()->id();
-                $post->setRCID($rcid->serialize());
-                $post->update();
-            } else {
-                $rcid = $this->irss->collection()->id($post->getRCID());
-            }
-            $collection = $this->irss->collection()->get($rcid);
-            $stakeholder = new ilForumPostingFileStakeholder();
-            foreach ($this->getFilesOfPost() as $file) {
-                $rid = $this->irss->manage()->stream(
-                    Streams::ofResource(fopen($file['path'], 'rb')),
-                    $stakeholder,
-                    md5($file['name'])
-                );
-                $collection->add($rid);
-            }
-            $this->irss->collection()->store($collection);
-            return true;
-        } else {
-            foreach ($this->getFilesOfPost() as $file) {
-                copy(
-                    $file['path'],
-                    $forum_path . '/' . $this->obj_id . '_' . $new_post_id . '_' . $file['name']
-                );
-            }
-
-            return true;
-        }
+        return $this->getImplementation()->moveFilesOfPost($new_frm_id);
     }
 
-    public function delete(): bool
+    public function ilClone(int $new_obj_id, int $new_posting_id): bool
     {
-        ilFileUtils::delDir($this->getDraftsPath() . '/' . $this->getDraftId());
-        return true;
+        return $this->getImplementation()->ilClone($new_obj_id, $new_posting_id);
     }
 
-    public function storeUploadedFile(array $files): bool
+    public function delete(array $posting_ids_to_delete = null): bool
     {
-        if (isset($files['name']) && is_array($files['name'])) {
-            foreach ($files['name'] as $index => $name) {
-                $name = rtrim($name, '/');
-                $filename = ilFileUtils::_sanitizeFilemame($name);
-                $temp_name = $files['tmp_name'][$index];
-                $error = $files['error'][$index];
-
-                if ($filename !== '' && $temp_name !== '' && (int) $error === 0) {
-                    $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;
-
-                    $this->rotateFiles($path);
-                    ilFileUtils::moveUploadedFile($temp_name, $filename, $path);
-                }
-            }
-
-            return true;
-        }
-
-        if (isset($files['name']) && is_string($files['name'])) {
-            $files['name'] = rtrim($files['name'], '/');
-            $filename = ilFileUtils::_sanitizeFilemame($files['name']);
-            $temp_name = $files['tmp_name'];
-
-            $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;
-
-            $this->rotateFiles($path);
-            ilFileUtils::moveUploadedFile($temp_name, $filename, $path);
-
-            return true;
-        }
-
-        return false;
+        return $this->getImplementation()->delete($posting_ids_to_delete);
     }
 
-    public function unlinkFile(string $a_filename): bool
+    public function storeUploadedFiles(): bool
     {
-        if (is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename)) {
-            return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename);
-        }
+        return $this->getImplementation()->storeUploadedFiles();
+    }
 
-        return false;
+    public function unlinkFile(string $filename): bool
+    {
+        return $this->getImplementation()->unlinkFile($filename);
     }
 
     /**
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $hashedFilename): ?array
+    public function getFileDataByMD5Filename(string $hashed_filename): ?array
     {
-        $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
-        foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilename) {
-                return [
-                    'path' => $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry'],
-                    'filename' => $file['entry'],
-                    'clean_filename' => $file['entry']
-                ];
-            }
-        }
-
-        return null;
+        return $this->getImplementation()->getFileDataByMD5Filename($hashed_filename);
     }
 
     /**
-     * @param string|string[] $hashedFilenameOrFilenames
+     * @param string|string[] $hashed_filename_or_filenames
      */
-    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames): bool
+    public function unlinkFilesByMD5Filenames($hashed_filename_or_filenames): bool
     {
-        $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
-        if (is_array($hashedFilenameOrFilenames)) {
-            foreach ($files as $file) {
-                if ($file['type'] === 'file' && in_array(md5($file['entry']), $hashedFilenameOrFilenames, true)) {
-                    unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
-                }
-            }
-
-            return true;
-        }
-
-        foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilenameOrFilenames) {
-                return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
-            }
-        }
-
-        return false;
+        return $this->getImplementation()->unlinkFilesByMD5Filenames($hashed_filename_or_filenames);
     }
 
-    public function checkForumDraftsPath(): bool
-    {
-        if (!is_dir($this->getDraftsPath() . '/' . $this->getDraftId())) {
-            return false;
-        }
-        $this->checkReadWrite();
-
-        return true;
-    }
-
-    private function checkReadWrite(): void
-    {
-        if (
-            !is_writable($this->getDraftsPath() . '/' . $this->getDraftId()) ||
-            !is_readable($this->getDraftsPath() . '/' . $this->getDraftId())
-        ) {
-            $this->error->raiseError('Forum directory is not readable/writable by webserver', $this->error->FATAL);
-        }
-    }
-
-    private function initDirectory(): void
-    {
-        if (is_writable($this->getPath()) && ilFileUtils::makeDirParents($this->getDraftsPath() . '/' . $this->getDraftId()) && chmod(
-            $this->getDraftsPath() . '/' . $this->getDraftId(),
-            0755
-        )) {
-            // Empty, whyever @nmatuschek?
-        }
-    }
-
-    private function rotateFiles(string $a_path): void
-    {
-        if (is_file($a_path)) {
-            $this->rotateFiles($a_path . '.old');
-            ilFileUtils::rename($a_path, $a_path . '.old');
-        }
-    }
 
     public function deliverFile(string $file): void
     {
-        if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
-            ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
-        } else {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error_reading_file'), true);
-        }
+        $this->getImplementation()->deliverFile($file);
     }
 
     public function deliverZipFile(): bool
     {
-        global $DIC;
-
-        $zip_file = $this->createZipFile();
-        if (!$zip_file) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error_reading_file'), true);
-            return false;
-        }
-
-        $post = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
-        ilFileDelivery::deliverFileLegacy($zip_file, $post->getPostSubject() . '.zip', '', false, true, false);
-        ilFileUtils::delDir($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
-        $DIC->http()->close();
-        return true; // never
+        return $this->getImplementation()->deliverZipFile();
     }
 
-    public function createZipFile(): ?string
+    public function importPath(string $path_to_file, int $posting_id): void
     {
-        $filesOfDraft = $this->getFilesOfPost();
-        ilFileUtils::makeDirParents($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
-        $tmp_dir = $this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId();
-
-        if ($filesOfDraft !== []) {
-            ksort($filesOfDraft);
-
-            foreach ($filesOfDraft as $file) {
-                copy($file['path'], $tmp_dir . '/' . $file['name']);
-            }
-        }
-
-        $zip_file = null;
-        if (ilFileUtils::zip($tmp_dir, $this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId() . '.zip')) {
-            $zip_file = $this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId() . '.zip';
-        }
-
-        return $zip_file;
+        // Importing is only possible for IRSS based files
+        $this->setPosId($posting_id);
+        $this->rc_implementation->importFileToCollection($path_to_file, $this->getCurrentDraft());
     }
 }
