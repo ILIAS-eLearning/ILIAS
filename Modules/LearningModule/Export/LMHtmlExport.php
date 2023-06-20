@@ -470,7 +470,7 @@ class LMHtmlExport
 
         // check, why these do not come with the gs meta collector
         $scripts[] = [
-            "source" => "src/UI/templates/js/MainControls/mainbar.js",
+            "source" => "src/UI/templates/js/MainControls/dist/mainbar.js",
             "type" => "js"
         ];
         $scripts[] = [
