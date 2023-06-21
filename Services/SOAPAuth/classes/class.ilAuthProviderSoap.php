@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
+
+declare(strict_types=1);
+
 /**
  * Class ilAuthProviderSoap
  * @author Michael Jansen <mjansen@databay.de>
@@ -84,7 +84,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             $status->setTranslatedReason($e->getMessage());
         }
 
-        if ($status->getAuthenticatedUserId() > 0) {
+        if ($status->getAuthenticatedUserId() > 0 && $status->getAuthenticatedUserId() !== ANONYMOUS_USER_ID) {
             $this->logger->info('Successfully authenticated user via SOAP: ' . $this->getCredentials()->getUsername());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             ilSession::set('used_external_auth', true);
@@ -116,7 +116,7 @@ class ilAuthProviderSoap extends ilAuthProvider
         );
 
         $isNewUser = false;
-        if ('' === $internalLogin || false === $internalLogin) {
+        if ('' === $internalLogin || null === $internalLogin) {
             $isNewUser = true;
         }
 
@@ -137,6 +137,10 @@ class ilAuthProviderSoap extends ilAuthProvider
             $this->server_nms,
             $soapAction
         );
+
+        if (!is_array($valid)) {
+            $valid = ['valid' => false];
+        }
 
         if ($valid['valid'] !== true) {
             $valid['valid'] = false;
