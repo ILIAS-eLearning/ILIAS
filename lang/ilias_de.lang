@@ -7565,8 +7565,6 @@ crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglied
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
 crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
-crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
-crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
 crs#:#crs_mail_type#:#Mail an Mitglieder
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
@@ -7589,6 +7587,8 @@ crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet bleiben.
+crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
+crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.

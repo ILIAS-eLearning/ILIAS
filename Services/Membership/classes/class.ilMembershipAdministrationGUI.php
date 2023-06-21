@@ -44,11 +44,11 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     abstract protected function getAdministrationFormId(): int;
 
-    abstract protected function addChildContentsTo(ilPropertyFormGUI $form) : ilPropertyFormGUI;
+    abstract protected function addChildContentsTo(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
-    abstract protected function saveChildSettings(ilPropertyFormGUI $form) : void;
+    abstract protected function saveChildSettings(ilPropertyFormGUI $form): void;
 
-    abstract protected function getChildSettingsInfo(int $a_form_id) : array;
+    abstract protected function getChildSettingsInfo(int $a_form_id): array;
 
     public function executeCommand(): void
     {
