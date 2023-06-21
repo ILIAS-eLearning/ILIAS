@@ -234,6 +234,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setCurrentBlock("prop_points_unchecked_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsUnchecked()));
                     $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
                 $tpl->setVariable("SIZE", $this->getSize());

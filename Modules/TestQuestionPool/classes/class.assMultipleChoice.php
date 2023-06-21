@@ -278,7 +278,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 }
                 include_once("./Services/RTE/classes/class.ilRTE.php");
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-                array_push($this->answers, new ASS_AnswerMultipleResponseImage($data["answertext"], $data["points"], $data["aorder"], $data["points_unchecked"], $data["imagefile"]));
+                array_push($this->answers, new ASS_AnswerMultipleResponseImage($data["answertext"], $data["points"], $data["aorder"], $data["points_unchecked"], $data["imagefile"], $data["answer_id"]));
             }
         }
 
@@ -435,6 +435,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @param float   $points_unchecked The points for not selecting the answer (even positive points can be used)
      * @param integer $order      		A possible display order of the answer
      * @param string  $answerimage
+     * @param int     $answer_id        The Answer id used in the database
      *
      * @see      $answers
      * @see      ASS_AnswerBinaryStateImage
@@ -444,7 +445,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $points = 0.0,
         $points_unchecked = 0.0,
         $order = 0,
-        $answerimage = ""
+        $answerimage = "",
+        $answer_id = -1
     ) {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
         $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
@@ -464,7 +466,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $this->answers = $newchoices;
         } else {
             // add answer
-            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), $points_unchecked, $answerimage);
+            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), $points_unchecked, $answerimage, $answer_id);
             array_push($this->answers, $answer);
         }
     }
@@ -724,33 +726,109 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         );
     }
 
+    /**
+     * Deletes all existing Answer data from a question and reintroduces old data and changes.
+     * Additionally, it updates the corresponding feedback.
+     * @return void
+     */
     public function saveAnswerSpecificDataToDb()
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
         $ilDB = $DIC['ilDB'];
+
+        // Get all feedback entrys
+        $result = $ilDB->queryF(
+            "SELECT * FROM qpl_fb_specific WHERE question_fi = %s",
+            array( 'integer' ),
+            array( $this->getId() )
+        );
+        $feedback = $ilDB->fetchAll($result);
+
+        // Check if feedback exists
+        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
+            // Get all existing answer data for question
+            $result = $ilDB->queryF(
+                "SELECT answer_id, aorder  FROM qpl_a_mc WHERE question_fi = %s",
+                array( 'integer' ),
+                array( $this->getId() )
+            );
+            $db_answers = $ilDB->fetchAll($result);
+
+            // Collect old and new order entries by ids and order to calculate a diff/intersection and remove/update feedback
+            $db_ids = [];
+            $post_ids = [];
+            $db_idsr = [];
+            foreach ($this->answers as $answer){
+                // Only the first appearance of an id is used
+                if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_ids))) {
+                    $post_ids[$answer->getId()] = $answer->getOrder();
+                }
+            }
+            foreach ($db_answers as $old_answer){
+                $db_ids[$old_answer["answer_id"]] = intval($old_answer["aorder"]);
+                $db_idsr[intval($old_answer["aorder"])] = $old_answer["answer_id"];
+            }
+
+            // Handle feedback
+            $id_diff = array_diff(array_keys($db_ids), array_keys($post_ids)); // should be deleted
+            // delete corresponding feedback from array
+            foreach (array_keys($id_diff) as $key){
+                unset($feedback[$key]);
+            }
+
+            // Reorder feedback in array
+            foreach ($feedback as $feedback_option){
+                $feedback[array_search($feedback_option, $feedback)]["answer"] = $post_ids[$db_idsr[$feedback_option["answer"]]];
+            }
+
+            // Delete all feedback in database
+            $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
+            // Recreate remaining feedback in database
+            foreach ($feedback as $feedback_option) {
+                $next_id = $ilDB->nextId('qpl_fb_specific');
+                $ilDB->manipulateF(
+                    "INSERT INTO qpl_fb_specific (feedback_id, question_fi, answer, tstamp, feedback, question) 
+                            VALUES (%s, %s, %s, %s, %s, %s)",
+                            ['integer', 'integer', 'integer', 'integer', 'text', 'integer'],
+                            [
+                                $next_id,
+                                $feedback_option["question_fi"],
+                                $feedback_option["answer"],
+                                time(),
+                                $feedback_option["feedback"],
+                                $feedback_option["question"]
+                            ]
+                );
+            }
+
+        }
+
+        // Delete all entries in qpl_a_mc for question
         $ilDB->manipulateF(
             "DELETE FROM qpl_a_mc WHERE question_fi = %s",
             array( 'integer' ),
             array( $this->getId() )
         );
 
+        // Recreate answers one by one
         foreach ($this->answers as $key => $value) {
             $answer_obj = $this->answers[$key];
             $next_id = $ilDB->nextId('qpl_a_mc');
             $ilDB->manipulateF(
-                "INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 array( 'integer', 'integer', 'text', 'float', 'float', 'integer', 'text', 'integer' ),
                 array(
-                                    $next_id,
-                                    $this->getId(),
-                                    ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
-                                    $answer_obj->getPoints(),
-                                    $answer_obj->getPointsUnchecked(),
-                                    $answer_obj->getOrder(),
-                                    $answer_obj->getImage(),
-                                    time()
-                                )
+                        $next_id,
+                        $this->getId(),
+                        ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
+                        $answer_obj->getPoints(),
+                        $answer_obj->getPointsUnchecked(),
+                        $answer_obj->getOrder(),
+                        $answer_obj->getImage(),
+                        time()
+                    )
             );
         }
         $this->rebuildThumbnails();
@@ -927,9 +1005,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-
         $imagepath = $this->getImagePath();
-
         $question_id = $this->getOriginalId();
         $originalObjId = parent::lookupParentObjId($this->getOriginalId());
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);

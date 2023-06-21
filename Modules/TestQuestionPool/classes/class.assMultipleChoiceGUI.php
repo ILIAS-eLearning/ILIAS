@@ -708,7 +708,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if ($this->object->isSingleline) {
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString(htmlentities($answertext));
-
                 $picturefile = $_POST['choice']['imagename'][$index];
                 $file_org_name = $_FILES['choice']['name']['image'][$index];
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
@@ -729,7 +728,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $_POST['choice']['points'][$index],
                     $_POST['choice']['points_unchecked'][$index],
                     $index,
-                    $picturefile
+                    $picturefile,
+                    $_POST['choice']['answer_id'][$index]
                 );
             }
         } else {
@@ -739,7 +739,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $answertext,
                     $_POST['choice']['points'][$index],
                     $_POST['choice']['points_unchecked'][$index],
-                    $index
+                    $index,
+                    $_POST['choice']['answer_id'][$index]
                 );
             }
         }
