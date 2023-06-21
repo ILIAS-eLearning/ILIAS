@@ -1998,7 +1998,7 @@ assessment#:#values#:#Values
 assessment#:#variable_x#:#Variable %s
 assessment#:#variables#:#Variables
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
-assessment#:#warning_question_not_complete#:#The question is not complete!
+assessment#:#warning_question_not_complete#:#Question is incomplete!
 assessment#:#width#:#Width
 assessment#:#with_solutions_participants#:#Participants with solutions
 assessment#:#without_solutions_participants#:#Participants without solutions
