@@ -298,6 +298,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
                 if ($oldQuestionSetConfig->doesQuestionSetRelatedDataExist()) {
                     if (!$isConfirmedSave) {
+                        $form->setValuesByArray($values);
                         if ($oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED) {
                             $this->showConfirmation(
                                 $form,
@@ -342,16 +343,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         $ending_time = $form->getInput('ending_time');
         $starting_time = $form->getInput('starting_time');
-        if (
-            $ending_time instanceof ilDateTime &&
-            (
-                (
-                    $starting_time instanceof ilDateTime &&
-                    (int) $ending_time->getUnixTime() < (int) $this->testOBJ->getStartingTime()
-                )
-                ||
-                (int) $ending_time->getUnixTime() < (int) $this->testOBJ->getStartingTime()
-            )
+        if (is_string($ending_time) && $ending_time !== ''
+                && is_string($starting_time) && $starting_time !== ''
+            && ($starting_time > $ending_time
+                || (new ilDateTime($ending_time, IL_CAL_DATETIME))->get(IL_CAL_UNIX) < (new ilDateTime($starting_time, IL_CAL_DATETIME))->get(IL_CAL_UNIX))
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_ending_time_before_starting_time"), true);
             $form->setValuesByArray($values);
@@ -884,8 +879,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     {
         if (!$this->testOBJ->participantDataExist()) {
             $starting_time = $form->getInput('starting_time');
-            if ($starting_time instanceof ilDateTime) {
-                $this->testOBJ->setStartingTime($starting_time->getUnixtime());
+            if (is_string($starting_time) && $starting_time !== '') {
+                $this->testOBJ->setStartingTime((new ilDateTime($starting_time, IL_CAL_DATETIME))->get(IL_CAL_UNIX));
                 $this->testOBJ->setStartingTimeEnabled(true);
             } else {
                 $this->testOBJ->setStartingTime(null);
@@ -894,8 +889,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $ending_time = $form->getInput('ending_time');
-        if ($ending_time instanceof ilDateTime) {
-            $this->testOBJ->setEndingTime($ending_time->getUnixtime());
+        if (is_string($ending_time) && $ending_time !== '') {
+            $this->testOBJ->setEndingTime((new ilDateTime($ending_time, IL_CAL_DATETIME))->get(IL_CAL_UNIX));
             $this->testOBJ->setEndingTimeEnabled(true);
         } else {
             $this->testOBJ->setEndingTime(null);
