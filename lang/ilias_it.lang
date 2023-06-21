@@ -1090,6 +1090,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Assegnazione della domanda/competenz
 assessment#:#qpl_skl_sub_tab_usages#:#Frequenza assegnazione
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#La domanda è stata inserita da un altro oggetto del repository. L’originale della domanda deve essere aggiornato con l’attuale configurazione delle assegnazioni di competenze?
 assessment#:#qpl_tab_competences#:#Competenze
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Parole già inserite:
 assessment#:#qst_essay_chars_remaining#:#Caratteri rimanenti:
 assessment#:#qst_essay_wordcounter_enabled#:#Conta parole
@@ -8256,6 +8257,7 @@ dateplaner#:#cal_on_the#:#Al:
 dateplaner#:#cal_open_calendar#:#Apri calendario
 dateplaner#:#cal_origin#:#Origine
 dateplaner#:#cal_owner#:#Proprietario
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Per favore inserisci un numero valido di appuntamenti.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Selezionare se si desidera eliminare singoli appuntamenti o l'intera serie di appuntamenti.
 dateplaner#:#cal_recurrences#:#Ripetizioni
@@ -9497,7 +9499,6 @@ file#:#general_upload_error_occured#:#Si è verificato un errore inaspettato all
 file#:#generate_sanitize_report#:#Segnala file inaccessibili
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#replace_file_info#:#Tutte le versioni del file verranno cancellate.
 file#:#resource_id#:#Resource ID###09 03 2022 new variable
 file#:#storage_id#:#Storage ID###09 03 2022 new variable

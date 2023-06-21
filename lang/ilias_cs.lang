@@ -1076,6 +1076,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Přiřazení otázky / způsobilosti
 assessment#:#qpl_skl_sub_tab_usages#:#Četnost přiřazení
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Otázka byla vložena z jiného objektu úložiště. Musí být originál otázky aktualizován o aktuální konfiguraci přiřazení způsobilosti?
 assessment#:#qpl_tab_competences#:#Způsobilosti
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Already entered words:###07 02 2020 new variable
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new variable
 assessment#:#qst_essay_wordcounter_enabled#:#Count Words###07 02 2020 new variable
@@ -8242,6 +8243,7 @@ dateplaner#:#cal_on_the#:#Na:
 dateplaner#:#cal_open_calendar#:#Otevřít kalendář
 dateplaner#:#cal_origin#:#Původ
 dateplaner#:#cal_owner#:#Vlastník
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Vložte prosím platný počet schůzek.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###28 05 2021 new variable
 dateplaner#:#cal_recurrences#:#Opakování
@@ -9483,7 +9485,6 @@ file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files###07 02 2020 new variable
 file#:#migrated#:#Status###09 03 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.###30 04 2021 new variable
 file#:#replace_file_info#:#Všechny dřívější verze souboru budou smazány.
 file#:#resource_id#:#Resource ID###24 09 2021 new variable
 file#:#storage_id#:#Storage ID###24 09 2021 new variable

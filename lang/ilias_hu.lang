@@ -1091,6 +1091,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Kérdés/kompetencia összerendelés
 assessment#:#qpl_skl_sub_tab_usages#:#Összerendelés gyakorisága
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#A kérdést egy másik objektumból illesztették be. Frissítsük a kérdés eredetijét a jelenlegi kompetencia-összerendelések beállítása alapján?
 assessment#:#qpl_tab_competences#:#Kompetenciák
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Beírt szavak száma:
 assessment#:#qst_essay_chars_remaining#:#Fennmaradó karakterek száma:
 assessment#:#qst_essay_wordcounter_enabled#:#Szavak számolása
@@ -8257,6 +8258,7 @@ dateplaner#:#cal_on_the#:#Ekkor:
 dateplaner#:#cal_open_calendar#:#Naptár megnyitása
 dateplaner#:#cal_origin#:#Származás
 dateplaner#:#cal_owner#:#Tulajdonos
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Érvényes esemény számot adjon meg!
 dateplaner#:#cal_recurrence_confirm_deletion#:#Kérem válasszon, hogy egy foglaltságot vagy egy teljes foglaltságsorozatot.
 dateplaner#:#cal_recurrences#:#Ismétlődés
@@ -9498,7 +9500,6 @@ file#:#general_upload_error_occured#:#A feltöltés alatt ismeretlen hiba lépet
 file#:#generate_sanitize_report#:#Jelentés az elérhetetlen fájlokról
 file#:#migrated#:#Állapot
 file#:#msg_unzip_success#:#A ZIP-fájlt sikeresen kibontotta.
-file#:#not_yet_migrated#:#Ezt a fájlobjektumot még nem migrálták és új verziókat sem hoztak még létre. Kérem, értesítse az üzemeltetőket.
 file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
 file#:#resource_id#:#Erőforrás-ID
 file#:#storage_id#:#Tároló-ID

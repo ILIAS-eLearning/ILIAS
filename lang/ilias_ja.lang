@@ -1076,6 +1076,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#問題/能力割り当て
 assessment#:#qpl_skl_sub_tab_usages#:#割り当て間隔
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
 assessment#:#qpl_tab_competences#:#能力
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#入力した文字数:
 assessment#:#qst_essay_chars_remaining#:#残り文字数:
 assessment#:#qst_essay_wordcounter_enabled#:#カウント文字数
@@ -8242,6 +8243,7 @@ dateplaner#:#cal_on_the#:#暦日:
 dateplaner#:#cal_open_calendar#:#カレンダーを開く
 dateplaner#:#cal_origin#:#起点
 dateplaner#:#cal_owner#:#オーナー
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#正しい予定の番号を入力してください。
 dateplaner#:#cal_recurrence_confirm_deletion#:#繰返しの予定を削除するか繰返しの予定を完了するか決定してください。
 dateplaner#:#cal_recurrences#:#繰返し
@@ -9483,7 +9485,6 @@ file#:#general_upload_error_occured#:#upload中に予期しないエラーが発
 file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
 file#:#migrated#:#ステータス
 file#:#msg_unzip_success#:#アーカイブは正しくunzipされました。
-file#:#not_yet_migrated#:#このファイルオブジェクトはまだ移行されて名く新しいバージョンを作成する事ができません。プラットフォームの管理者へ連絡してください。
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
 file#:#resource_id#:#リソースID
 file#:#storage_id#:#ストレージID

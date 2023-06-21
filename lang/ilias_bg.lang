@@ -1076,6 +1076,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Задаване на въпрос/�
 assessment#:#qpl_skl_sub_tab_usages#:#Честота на задачите
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Въпросът е вмъкнат от друг обект от хранилището. Трябва ли оригиналът на въпроса да бъде актуализиран с настоящата конфигурация на задачите за компетентност?
 assessment#:#qpl_tab_competences#:#Компетенции
+assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Въведени думи:
 assessment#:#qst_essay_chars_remaining#:#Оставащи символи:
 assessment#:#qst_essay_wordcounter_enabled#:#Считане на думи
@@ -8242,6 +8243,7 @@ dateplaner#:#cal_on_the#:#На:
 dateplaner#:#cal_open_calendar#:#Отваряне на календар
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Собственик
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Моля, въведете валиден брой срещи.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Моля, решете дали искате да изтриете отделни срещи или цялата серия от срещи.
 dateplaner#:#cal_recurrences#:#Recurrences
@@ -9483,7 +9485,6 @@ file#:#general_upload_error_occured#:#По време на качването е
 file#:#generate_sanitize_report#:#Доклад за недостъпни файлове
 file#:#migrated#:#Състояние###22 06 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
-file#:#not_yet_migrated#:#Този файлов обект все още не е мигриран и не могат да се създават нови версии. Свържете се с администраторите на платформата.###22 06 2022 new variable
 file#:#replace_file_info#:#Всички версии на файловете ще бъдат изтрити.
 file#:#resource_id#:#Идентификатор на ресурс###22 06 2022 new variable
 file#:#storage_id#:#Идентификатор на хранилището###22 06 2022 new variable
