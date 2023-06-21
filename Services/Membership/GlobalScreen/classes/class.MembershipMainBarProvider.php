@@ -26,7 +26,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
-        if (!$this->dic->settings()->get('mmbr_my_crs_grp', 0)) {
+        if (!$this->dic->settings()->get('mmbr_my_crs_grp', 1)) {
             return [];
         }
 
