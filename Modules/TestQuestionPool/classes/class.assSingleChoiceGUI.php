@@ -644,7 +644,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answertext) {
                 $answertext = htmlentities($answertext);
-
                 $picturefile = $choice['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
@@ -662,12 +661,23 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     }
                 }
                 $points = (float) str_replace(',', '.', $choice['points'][$index]);
-                $this->object->addAnswer($answertext, $points, $index, $picturefile);
+                $this->object->addAnswer(
+                    $answertext,
+                    $points,
+                    $index,
+                    $picturefile,
+                    $choice['answer_id'][$index]
+                );
             }
         } else {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
-                $this->object->addAnswer($answertext, $choice['points'][$index], $index);
+                $this->object->addAnswer(
+                    $answertext,
+                    $choice['points'][$index],
+                    $index,
+                    $choice['answer_id'][$index]
+                );
             }
         }
     }

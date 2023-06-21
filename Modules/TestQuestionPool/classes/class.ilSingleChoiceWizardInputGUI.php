@@ -58,13 +58,17 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
                     $points = (float) str_replace(",", ".", $a_value['points'][$index]);
-                    $answer = new ASS_AnswerBinaryStateImage((string) $value, $points, (int) $index, 1, "", -1);
+                    $answer = new ASS_AnswerBinaryStateImage(
+                        (string) $value,
+                        $points,
+                        (int) $index,
+                        1,
+                        "",
+                        $a_value['answer_id'][$index]
+                    );
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
-                    } else {
-                        $answer->setImage('');
                     }
                     $this->values[] = $answer;
                 }
@@ -401,6 +405,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         );
                         $tpl->parseCurrentBlock();
                     }
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
                 $tpl->setVariable("SIZE", $this->getSize());
