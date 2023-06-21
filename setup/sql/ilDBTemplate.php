@@ -47349,7 +47349,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '102')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '103')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
@@ -53590,9 +53590,6 @@ $ilDB->createTable("tree", $fields);
 
 $pk_fields = array("child");
 $ilDB->addPrimaryKey("tree", $pk_fields);
-
-$in_fields = array("child");
-$ilDB->addIndex("tree", $in_fields, "i1", false);
 
 $in_fields = array("parent");
 $ilDB->addIndex("tree", $in_fields, "i2", false);

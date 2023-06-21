@@ -19938,7 +19938,7 @@ INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
 INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','102');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','103');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5751');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
@@ -22675,7 +22675,6 @@ CREATE TABLE `tree` (
   `depth` smallint(6) NOT NULL DEFAULT 0,
   `path` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`child`),
-  KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`),
   KEY `i4_idx` (`path`(255))
@@ -25033,4 +25032,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-05-31 17:15:51
+-- Dump completed on 2023-06-21 13:36:05
