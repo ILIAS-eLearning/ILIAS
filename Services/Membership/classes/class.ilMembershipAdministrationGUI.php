@@ -44,6 +44,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     abstract protected function getAdministrationFormId(): int;
 
+    abstract protected function addChildContentsTo(ilPropertyFormGUI $form) : ilPropertyFormGUI;
+
+    abstract protected function saveChildSettings(ilPropertyFormGUI $form) : void;
+
+    abstract protected function getChildSettingsInfo(int $a_form_id) : array;
+
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -131,6 +137,8 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     (string) $form->getInput('mail_admin_notification')
                 );
 
+                $this->saveChildSettings($form);
+
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "editSettings");
             }
@@ -181,7 +189,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
         }
-        return $form;
+        return $this->addChildContentsTo($form);
     }
 
     public function addToExternalSettingsForm(int $a_form_id): array
@@ -208,7 +216,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     ]
                 ];
         }
-        return [];
+        return $this->getChildSettingsInfo($a_form_id);
     }
 
     protected function addFieldsToForm(ilPropertyFormGUI $a_form): void

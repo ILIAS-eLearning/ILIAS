@@ -30,4 +30,18 @@ class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
     {
         return ilAdministrationSettingsFormHandler::FORM_GROUP;
     }
+
+    protected function addChildContentsTo(ilPropertyFormGUI $form): ilPropertyFormGUI
+    {
+        return $form;
+    }
+
+    protected function saveChildSettings(ilPropertyFormGUI $form): void
+    {
+    }
+
+    protected function getChildSettingsInfo(int $a_form_id): array
+    {
+        return [];
+    }
 }

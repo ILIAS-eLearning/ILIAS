@@ -7566,6 +7566,8 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 crs#:#crs_mail_tutors_only#:#For Tutors and Administrators only
 crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature ‘Mail to Members’ in the ‘Members’ tab.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_mail_type#:#Mail to Members
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map

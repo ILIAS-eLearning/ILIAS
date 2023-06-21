@@ -140,8 +140,11 @@ class ilAdministrationSettingsFormHandler
                 break;
 
             case self::FORM_COURSE:
-            case self::FORM_GROUP:
                 $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
+                break;
+
+            case self::FORM_GROUP:
+                $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL, self::SETTINGS_COURSE);
                 break;
 
             case self::FORM_WSP:

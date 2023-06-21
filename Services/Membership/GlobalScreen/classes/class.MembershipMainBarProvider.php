@@ -41,6 +41,10 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems(): array
     {
+        if (!$this->dic->settings()->get('mmbr_my_crs_grp', 1)) {
+            return [];
+        }
+
         $dic = $this->dic;
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 
