@@ -23,6 +23,7 @@
 			export="1"
 			orgunit_permissions="1"
 			amet="1"
+			offline_handling="1"
 		>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

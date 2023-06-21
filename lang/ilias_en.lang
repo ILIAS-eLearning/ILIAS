@@ -10130,6 +10130,8 @@ iass#:#iass_record_template_explanation#:#Template for participant grading recor
 iass#:#iass_remove_user_qst#:#Should the participant really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
+iass#:#iass_settings_availability#:#Availability
+iass#:#iass_settings_availability_info#:#Set the Individual Assessment online to make it visible and available for members. If not, only administrators and tutors will have access to it.
 iass#:#iass_settings_saved#:#Settings saved.
 iass#:#iass_sort_changetime_asc#:#Last Change ascending
 iass#:#iass_sort_changetime_desc#:#Last Change descending
