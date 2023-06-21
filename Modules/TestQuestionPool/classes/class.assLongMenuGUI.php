@@ -76,13 +76,15 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $form = $this->buildEditForm();
         $form->setValuesByPost();
         $check = $form->checkInput();
+        if (!$check) {
+            $this->editQuestion($form);
+            return 1;
+        }
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);
         $custom_check = $this->object->checkQuestionCustomPart($form);
-        if (!$check || !$custom_check) {
-            if (!$custom_check) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
-            }
+        if (!$custom_check) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             $this->editQuestion($form);
             return 1;
         }
@@ -368,10 +370,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function getTestOutput(
         $active_id,
-                        // hey: prevPassSolutions - will be always available from now on
-                           $pass,
-                        // hey.
-                           $is_postponed = false,
+        // hey: prevPassSolutions - will be always available from now on
+        $pass,
+        // hey.
+        $is_postponed = false,
         $use_post_solutions = false,
         $show_feedback = false
     ): string {
