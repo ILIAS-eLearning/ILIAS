@@ -375,8 +375,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
-            // obligatory icon
-            return ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
+            $icon = $this->factory->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_checked.svg"),
+                $this->lng->txt('question_obligatory')
+
+            );
+            return $this->renderer->render($icon);
         }
 
         $checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
