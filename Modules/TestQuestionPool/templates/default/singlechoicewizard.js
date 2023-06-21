@@ -29,6 +29,11 @@ var ilSingleChoiceWizardInputTemplate = {
 				that.handleId(this, 'name', rowindex);
 			});
 
+			// hidden answer id
+			$(this).find('input:hidden[name*="[answer_id]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+			});
+
 			// answer
 			$(this).find('input:text[id*="[answer]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
