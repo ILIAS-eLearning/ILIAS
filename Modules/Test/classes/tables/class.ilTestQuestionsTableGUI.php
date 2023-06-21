@@ -193,11 +193,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($a_set));
 
         if (!$a_set['complete']) {
-            $warning_icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('icon_alert.svg'),
-                $this->lng->txt("warning_question_not_complete")
-            );
-            $this->tpl->setVariable("IMAGE_WARNING", $this->renderer->render($warning_icon));
+            $this->tpl->setVariable("QUESTION_INCOMPLETE_WARNING", $this->lng->txt("warning_question_not_complete"));
         }
 
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
