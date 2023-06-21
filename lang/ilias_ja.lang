@@ -8220,6 +8220,7 @@ dateplaner#:#cal_on_the#:#暦日:
 dateplaner#:#cal_open_calendar#:#カレンダーを開く
 dateplaner#:#cal_origin#:#起点
 dateplaner#:#cal_owner#:#オーナー
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#正しい予定の番号を入力してください。
 dateplaner#:#cal_recurrence_confirm_deletion#:#繰返しの予定を削除するか繰返しの予定を完了するか決定してください。
 dateplaner#:#cal_recurrences#:#繰返し

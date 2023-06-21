@@ -8221,6 +8221,7 @@ dateplaner#:#cal_on_the#:#On the:
 dateplaner#:#cal_open_calendar#:#Open Calendar###31 08 2017 new variable
 dateplaner#:#cal_origin#:#Origin###31 08 2017 new variable
 dateplaner#:#cal_owner#:#Owner###31 08 2017 new variable
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###28 05 2021 new variable
 dateplaner#:#cal_recurrences#:#Recurrences

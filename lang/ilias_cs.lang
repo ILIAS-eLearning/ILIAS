@@ -8220,6 +8220,7 @@ dateplaner#:#cal_on_the#:#Na:
 dateplaner#:#cal_open_calendar#:#Otevřít kalendář
 dateplaner#:#cal_origin#:#Původ
 dateplaner#:#cal_owner#:#Vlastník
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Vložte prosím platný počet schůzek.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###28 05 2021 new variable
 dateplaner#:#cal_recurrences#:#Opakování

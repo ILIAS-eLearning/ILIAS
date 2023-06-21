@@ -8220,6 +8220,7 @@ dateplaner#:#cal_on_the#:#На:
 dateplaner#:#cal_open_calendar#:#Отваряне на календар
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Собственик
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Моля, въведете валиден брой срещи.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Моля, решете дали искате да изтриете отделни срещи или цялата серия от срещи.
 dateplaner#:#cal_recurrences#:#Recurrences

@@ -8234,6 +8234,7 @@ dateplaner#:#cal_on_the#:#Al:
 dateplaner#:#cal_open_calendar#:#Apri calendario
 dateplaner#:#cal_origin#:#Origine
 dateplaner#:#cal_owner#:#Proprietario
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Per favore inserisci un numero valido di appuntamenti.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Selezionare se si desidera eliminare singoli appuntamenti o l'intera serie di appuntamenti.
 dateplaner#:#cal_recurrences#:#Ripetizioni

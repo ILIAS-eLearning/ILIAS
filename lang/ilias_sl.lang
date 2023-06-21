@@ -8234,6 +8234,7 @@ dateplaner#:#cal_on_the#:#Dne:
 dateplaner#:#cal_open_calendar#:#Odpri koledar
 dateplaner#:#cal_origin#:#Izvor
 dateplaner#:#cal_owner#:#Lastnik
+dateplaner#:#cal_period#:#Period###21 06 2023 new variable
 dateplaner#:#cal_rec_err_limit#:#Vnesite število terminov.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 dateplaner#:#cal_recurrences#:#Ponovitve
