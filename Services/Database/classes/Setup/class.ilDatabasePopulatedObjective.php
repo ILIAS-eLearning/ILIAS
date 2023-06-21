@@ -129,7 +129,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
                 $stack = '';
                 continue;
             }
-            if (!preg_match('/;$/', $line)) { // Break after ; character which indicates end of query
+            if (!preg_match('/;$/', trim($line))) { // Break after ; character which indicates end of query
                 $stack .= $line;
             } else {
                 $stack .= $line;
