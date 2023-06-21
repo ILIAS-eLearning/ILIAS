@@ -7227,6 +7227,10 @@ INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',2,'2023-03
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',3,'2023-03-31 13:10:08.864934','2023-03-31 13:10:08.870661');
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',4,'2023-03-31 13:10:08.871116','2023-03-31 13:10:08.876725');
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',5,'2023-03-31 13:10:08.877252','2023-03-31 13:10:08.888499');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',6,'2023-06-21 14:26:12.964852','2023-06-21 14:26:12.975161');
+INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',7,'2023-06-21 14:26:12.975621','2023-06-21 14:26:12.980100');
+INSERT INTO `il_db_steps` VALUES ('ilTreeDBUpdateSteps8',1,'2023-06-21 14:26:12.980841','2023-06-21 14:26:12.989938');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',1,'2023-06-21 14:26:12.990740','2023-06-21 14:26:13.010246');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',1,'2023-05-17 16:34:13.602077','2023-05-17 16:34:13.608141');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',1,'2023-03-31 13:10:08.936274','2023-03-31 13:10:08.941518');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-03-31 13:10:08.942181','2023-03-31 13:10:08.947666');
@@ -13042,7 +13046,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-05-17 16:34:13','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-06-21 14:26:12','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -14562,6 +14566,7 @@ CREATE TABLE `qpl_a_errortext` (
   `text_correct` varchar(150) DEFAULT NULL,
   `points` double NOT NULL DEFAULT 0,
   `sequence` smallint(6) NOT NULL DEFAULT 0,
+  `position` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
 ) ;
@@ -15127,6 +15132,7 @@ CREATE TABLE `qpl_qst_errortext` (
   `errortext` varchar(4000) NOT NULL DEFAULT '',
   `textsize` double NOT NULL DEFAULT 100,
   `points_wrong` double NOT NULL DEFAULT -1,
+  `parsed_errortext` longtext DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
 ) ;
 
@@ -20041,7 +20047,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.2.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.3.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -22651,7 +22657,6 @@ CREATE TABLE `tree` (
   `depth` smallint(6) NOT NULL DEFAULT 0,
   `path` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`child`),
-  KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`),
   KEY `i4_idx` (`path`(255))
@@ -24099,7 +24104,7 @@ CREATE TABLE `usr_search` (
 --
 
 CREATE TABLE `usr_sess_istorage` (
-  `session_id` varchar(80) NOT NULL DEFAULT '',
+  `session_id` varchar(256) NOT NULL DEFAULT '',
   `component_id` varchar(30) NOT NULL DEFAULT '',
   `vkey` varchar(50) NOT NULL DEFAULT '',
   `value` varchar(1000) DEFAULT NULL,
@@ -24116,7 +24121,7 @@ CREATE TABLE `usr_sess_istorage` (
 --
 
 CREATE TABLE `usr_session` (
-  `session_id` varchar(250) NOT NULL DEFAULT ' ',
+  `session_id` varchar(256) NOT NULL DEFAULT ' ',
   `expires` int(11) NOT NULL DEFAULT 0,
   `data` longtext DEFAULT NULL,
   `ctime` int(11) NOT NULL DEFAULT 0,
@@ -24186,7 +24191,7 @@ CREATE TABLE `usr_session_stats` (
 --
 
 CREATE TABLE `usr_session_stats_raw` (
-  `session_id` varchar(80) NOT NULL DEFAULT '',
+  `session_id` varchar(256) NOT NULL DEFAULT '',
   `type` smallint(6) NOT NULL DEFAULT 0,
   `start_time` int(11) NOT NULL DEFAULT 0,
   `end_time` int(11) DEFAULT NULL,
@@ -25012,4 +25017,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-05-17 16:34:14
+-- Dump completed on 2023-06-21 14:26:13
