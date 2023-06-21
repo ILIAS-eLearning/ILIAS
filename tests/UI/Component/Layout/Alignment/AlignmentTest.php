@@ -36,15 +36,18 @@ class AlignmentTest extends ILIAS_UI_TestBase
             new C\Legacy\Legacy('block', new C\SignalGenerator()),
             new C\Legacy\Legacy('block', new C\SignalGenerator())
         ];
-        $ph = $f->preferHorizontal($blocks);
-        $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $ph);
-        $this->assertEquals([$blocks], $ph->getBlocksets());
-        $fh = $f->forceHorizontal($blocks);
-        $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $fh);
-        $this->assertEquals([$blocks], $fh->getBlocksets());
+        $vert = $f->vertical(...$blocks);
+        $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $vert);
+        $this->assertEquals($blocks, $vert->getBlocks());
+        $ed = $f->horizontal()->dynamicallyDistributed(...$blocks);
+        $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $ed);
+        $this->assertEquals($blocks, $ed->getBlocks());
+        $dd = $f->horizontal()->dynamicallyDistributed(...$blocks);
+        $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $dd);
+        $this->assertEquals($blocks, $dd->getBlocks());
     }
 
-    public function testAlignmentRendering(): void
+    public function testAlignmentEvenlyRendering(): void
     {
         $f = new C\Layout\Alignment\Factory();
         $blocks = [
@@ -53,30 +56,55 @@ class AlignmentTest extends ILIAS_UI_TestBase
         ];
         $renderer = $this->getDefaultRenderer();
 
-        $ph = $f->preferHorizontal($blocks);
+        $ed = $f->horizontal()->evenlyDistributed(...$blocks);
 
-        $actual = $this->brutallyTrimHTML($renderer->render($ph));
+        $actual = $this->brutallyTrimHTML($renderer->render($ed));
         $expected = $this->brutallyTrimHTML('
-            <div class="c-layout-alignment c-layout-alignment--horizontal">
-                <div class=c-layout-alignment__group>
-                    <div class=c-layout-alignment__block>block</div>
-                    <div class=c-layout-alignment__block>block</div>
-                </div>
+            <div class="c-layout-alignment c-layout-alignment--evenlydistributedhorizontalalignmentlayout">
+                <div class=c-layout-alignment__block>block</div>
+                <div class=c-layout-alignment__block>block</div>
             </div>
         ');
         $this->assertEquals($expected, $actual);
+    }
 
-        $fh = $f->forceHorizontal($blocks);
-        $actual = $this->brutallyTrimHTML($renderer->render($fh));
+    public function testAlignmentDynamicalRendering(): void
+    {
+        $f = new C\Layout\Alignment\Factory();
+        $blocks = [
+            new C\Legacy\Legacy('block', new C\SignalGenerator()),
+            new C\Legacy\Legacy('block', new C\SignalGenerator())
+        ];
+        $renderer = $this->getDefaultRenderer();
+
+        $dd = $f->horizontal()->dynamicallyDistributed(...$blocks);
+        $actual = $this->brutallyTrimHTML($renderer->render($dd));
         $expected = $this->brutallyTrimHTML('
-            <div class="c-layout-alignment c-layout-alignment--horizontal  c-layout-alignment--nowrap">
-                <div class=c-layout-alignment__group>
-                    <div class=c-layout-alignment__block>block</div>
-                    <div class=c-layout-alignment__block>block</div>
-                </div>
+            <div class="c-layout-alignment c-layout-alignment--dynamicallydistributedhorizontalalignmentlayout">
+                <div class=c-layout-alignment__block>block</div>
+                <div class=c-layout-alignment__block>block</div>
             </div>
         ');
+        $this->assertEquals($expected, $actual);
+    }
 
+    public function testAlignmentVerticalRendering(): void
+    {
+        $f = new C\Layout\Alignment\Factory();
+        $blocks = [
+            new C\Legacy\Legacy('block', new C\SignalGenerator()),
+            new C\Legacy\Legacy('block', new C\SignalGenerator())
+        ];
+        $renderer = $this->getDefaultRenderer();
+
+        $vert = $f->vertical(...$blocks);
+        $actual = $this->brutallyTrimHTML($renderer->render($vert));
+        $expected = $this->brutallyTrimHTML('
+            <div class="c-layout-alignment c-layout-alignment--verticalalignmentlayout">
+                <div class=c-layout-alignment__block>block</div>
+                <div class=c-layout-alignment__block>block</div>
+            </div>
+        ');
         $this->assertEquals($expected, $actual);
     }
 }
