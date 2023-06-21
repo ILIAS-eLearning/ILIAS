@@ -362,18 +362,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     protected function showCodeForm($a_username = null, $a_form = null): void
     {
-        global $tpl;
-
         $this->help->setSubScreenId('code_input');
 
-        self::initStartUpTemplate("tpl.login_reactivate_code.html");
         $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt("time_limit_reached"));
-        if (!$a_form) {
-            $a_form = $this->initCodeForm($a_username);
-        }
 
-        $tpl->setVariable("FORM", $a_form->getHTML());
-        $tpl->printToStdout("DEFAULT", false);
+        $tpl = self::initStartUpTemplate("tpl.login_reactivate_code.html");
+        $tpl->setVariable("FORM", ($a_form ?? $this->initCodeForm($a_username))->getHTML());
+
+        self::printToGlobalTemplate($tpl);
     }
 
     protected function initCodeForm(string $a_username): ilPropertyFormGUI
