@@ -22,7 +22,7 @@ namespace ILIAS\UI\Component\Layout\Alignment;
 
 /**
  * This is the interface for Blocks.
- * Implement it in alignable Components.
+ * Implement it in alignable Components: Breakpoints will be between Blocks.
  */
 interface Block
 {

@@ -67,8 +67,6 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Layout\Alignment\Vertical::class,
-            //Component\Layout\Alignment\Horizontal\EvenlyDistributed::class
-            //Component\Layout\Alignment\Horizontal\DynamicallyDistributed::class
         ];
     }
 }

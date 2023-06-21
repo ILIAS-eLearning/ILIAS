@@ -63,7 +63,7 @@ interface Factory
      *       Not a real rival, but rather the counterpart: Horizontal Alignemnts
      *       will position the groups (preferably) next to each other.
      *     Table: >
-             Tables may present potentially large sets of uniformly structured data.
+     *       Tables may present potentially large sets of uniformly structured data.
      *       While Tables are not meant to layout Components, Vertical Alignments are
      *       nothing to mimic a tablelike behavior.
      *

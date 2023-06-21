@@ -31,15 +31,19 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     X
+     *     Evenly Distributed Horizontal Alignments are used to position Blocks
+     *     horizontally next to each other with evenly sized "columns", i.e.
+     *     giving each block the same available space.
      *   effect: >
-     *     X
+     *     All Block will have the same space available.
+     *     A Layout with 4 Blocks, e.g., will assign 25% of the available space to
+     *     each column. The Blocks' contents will break before wrapping starts in
+     *     between them.
+     *     Columns will break very late, and when they do, they _all_ will.
      *   rivals:
-     *     Force Horizontal: >
-     *       X
-     *     Table: >
-     *       X
-     *
+     *     Dynamically Distributed: >
+     *       Distributes available space according to the width of the individual Blocks.
+     *       Single columns will break their contents, while others don't.
      * ----
      * @param  Block[] $blocks
      * @return  \ILIAS\UI\Component\Layout\Alignment\Horizontal\EvenlyDistributed
@@ -50,15 +54,18 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     X
+     *     Dynamically Distributed Horizontal Alignments take care of the individual
+     *     Block's width in trying to keep as many Blocks horizontally next to each other
+     *     as possible without wrapping its contents.
      *   effect: >
-     *     X
+     *     The contents of the Alignment will wrap before the contents of the Blocks.
+     *     Not necessarily all columns will break at once: When there are three blocks,
+     *     and two of them will still fit in one line, they will, and only the third column
+     *     will be displayed underneath (taking the whole width, then).
      *   rivals:
-     *     Force Horizontal: >
-     *       X
-     *     Table: >
-     *       X
-     *
+     *     Evenly Distributed : >
+     *       All Blocks will have the same available space and will wrap their contents
+     *       before breaking in between.
      * ----
      * @param  Block[] $blocks
      * @return  \ILIAS\UI\Component\Layout\Alignment\Horizontal\DynamicallyDistributed
