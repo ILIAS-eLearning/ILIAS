@@ -7368,7 +7368,6 @@ crs#:#crs_copy#:#Kurs kopieren
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
-crs#:#crs_course_section#:#Meine Kurse und Gruppen
 crs#:#crs_course_status_of_users#:#Bestehen des Kurses
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
@@ -7383,8 +7382,6 @@ crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
 crs#:#crs_end#:#Ende
 crs#:#crs_export#:#Kursexport
-crs#:#crs_favourites_enabled#:#Favoriten aktivieren
-crs#:#crs_favourites_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Möglichkeit, Kurse als Favoriten festzulegen, aktiviert. Die Option befindet sich in der oberen rechten Ecke der Kursansicht unter Aktionen.
 crs#:#crs_file#:#Datei
 crs#:#crs_file_download#:#Dateien zum Herunterladen
 crs#:#crs_file_name#:#Dateiname
@@ -7568,6 +7565,8 @@ crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet bleiben.
+crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
+crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.

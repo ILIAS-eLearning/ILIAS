@@ -16,29 +16,15 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 {
     const SUB_TAB_GENERAL_SETTINGS = 'settings';
     const SUB_TAB_PRINT_VIEW = 'print_view';
-
-    /**
-     * @var ilSetting
-     */
-    protected $ilSettings;
-
-    /**
-     * @var ilAccess
-     */
-    protected $ilAccess;
     
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
-        global $DIC;
         $this->type = $this->getType();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->lng->loadLanguageModule("grp");
         $this->lng->loadLanguageModule('mem');
-
-        $this->ilSettings = $DIC['ilSetting'];
-        $this->ilAccess = $DIC['ilAccess'];
     }
     
     abstract protected function getType();
@@ -153,12 +139,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
-                $this->ilSettings->set(
+                $this->settings->set(
                     'mail_' . $this->getParentObjType() . '_member_notification',
                     (int) $form->getInput('mail_member_notification')
                 );
 
-                $this->ilSettings->set(
+                $this->settings->set(
                     'mail_' . $this->getParentObjType() . '_admin_notification',
                     (int) $form->getInput('mail_admin_notification')
                 );
@@ -202,16 +188,16 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         // member notification
         $cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'), 'mail_member_notification');
         $cn->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification_info'));
-        $cn->setChecked($this->ilSettings->get('mail_' . $this->getParentObjType() . '_member_notification', true));
+        $cn->setChecked($this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', true));
         $form->addItem($cn);
 
         // default admin membership notification
         $an = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'), 'mail_admin_notification');
         $an->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification_info'));
-        $an->setChecked($this->ilSettings->get('mail_' . $this->getParentObjType() . '_admin_notification', true));
+        $an->setChecked($this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', true));
         $form->addItem($an);
 
-        if ($this->ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
         }
@@ -227,8 +213,8 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                 $this->lng->loadLanguageModule("mail");
                 
                 $fields = array(
-                    'mail_enable_' . $this->getParentObjType() . '_member_notification' => array($this->ilSettings->get('mail_' . $this->getParentObjType() . '_member_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'mail_enable_' . $this->getParentObjType() . '_admin_notification' => array($this->ilSettings->get('mail_' . $this->getParentObjType() . '_admin_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'mail_enable_' . $this->getParentObjType() . '_member_notification' => array($this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+                    'mail_enable_' . $this->getParentObjType() . '_admin_notification' => array($this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL)
                 );
 
                 return array(array("editSettings", $fields));

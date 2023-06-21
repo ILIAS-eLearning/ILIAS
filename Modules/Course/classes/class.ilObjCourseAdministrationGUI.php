@@ -15,7 +15,7 @@ include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    const SETTING_FAVOURITES_ENABLED = 'rep_favourites';
+    private const SETTING_COURSES_AND_GROUPS_ENABLED = 'mmbr_my_crs_grp';
 
     protected function getType()
     {
@@ -34,20 +34,16 @@ class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
 
     protected function addChildContentsTo($form)
     {
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('crs_course_section'));
-        $form->addItem($section);
-
-        $checkBox = new ilCheckboxInputGUI($this->lng->txt('crs_favourites_enabled'), 'rep_favourites');
-        $checkBox->setInfo($this->lng->txt('crs_favourites_enabled_info'));
-        $checkBox->setChecked((bool) $this->ilSettings->get(self::SETTING_FAVOURITES_ENABLED, 0));
+        $checkBox = new ilCheckboxInputGUI($this->lng->txt('crs_my_courses_groups_enabled'), self::SETTING_COURSES_AND_GROUPS_ENABLED);
+        $checkBox->setInfo($this->lng->txt('crs_my_courses_groups_enabled_info'));
+        $checkBox->setChecked((bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 0));
         $form->addItem($checkBox);
         return $form;
     }
 
     protected function saveChildSettings($form)
     {
-        $this->ilSettings->set(self::SETTING_FAVOURITES_ENABLED, (int) $form->getInput(self::SETTING_FAVOURITES_ENABLED));
+        $this->settings->set(self::SETTING_COURSES_AND_GROUPS_ENABLED, (int) $form->getInput(self::SETTING_COURSES_AND_GROUPS_ENABLED));
     }
 
     protected function getChildSettingsInfo($a_form_id)
@@ -56,7 +52,7 @@ class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
                 $this->lng->loadLanguageModule("crs");
                 $fields = [
-                    'crs_favourites_enabled' => [ (bool) $this->ilSettings->get(self::SETTING_FAVOURITES_ENABLED, 0), ilAdministrationSettingsFormHandler::VALUE_BOOL ]
+                    'crs_my_courses_groups_enabled' => [ (bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 0), ilAdministrationSettingsFormHandler::VALUE_BOOL ]
                 ];
                 return [ [ "editSettings", $fields ] ];
         }
