@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -263,8 +263,8 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     protected function getLatestAssignment(array $assignments): ilPRGAssignment
     {
         usort($assignments, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-            $a_dat =$a->getProgressTree()->getAssignmentDate();
-            $b_dat =$b->getProgressTree()->getAssignmentDate();
+            $a_dat = $a->getProgressTree()->getAssignmentDate();
+            $b_dat = $b->getProgressTree()->getAssignmentDate();
             if ($a_dat > $b_dat) {
                 return -1;
             } elseif ($a_dat < $b_dat) {
@@ -280,15 +280,15 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     {
         $successful = array_filter(
             $assignments,
-            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+            fn($ass) => $ass->getProgressTree()->isSuccessful()
         );
         if (count($successful) === 0) {
             return null;
         }
 
         usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-            $a_dat =$a->getProgressTree()->getCompletionDate();
-            $b_dat =$b->getProgressTree()->getCompletionDate();
+            $a_dat = $a->getProgressTree()->getCompletionDate();
+            $b_dat = $b->getProgressTree()->getCompletionDate();
             if ($a_dat > $b_dat) {
                 return -1;
             } elseif ($a_dat < $b_dat) {
