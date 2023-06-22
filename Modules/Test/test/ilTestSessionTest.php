@@ -158,7 +158,9 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testPasswordChecked(): void
     {
+        $this->testObj->active_id = 20;
         $this->testObj->setPasswordChecked(true);
+        $this->assertTrue(ilSession::get('pw_checked_20'));
         $this->assertTrue($this->testObj->isPasswordChecked());
     }
 }

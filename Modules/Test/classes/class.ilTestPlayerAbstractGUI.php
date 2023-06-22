@@ -1793,7 +1793,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if (!$this->passwordChecker->isPasswordProtectionPageRedirectRequired()) {
             $this->testSession->setPasswordChecked(true);
-            $this->testSession->saveToDb();
             return;
         }
 

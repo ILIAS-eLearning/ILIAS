@@ -179,8 +179,7 @@ class ilTestSession
                     'tstamp' => ['integer', time() - 10],
                     'last_finished_pass' => ['integer', $this->getLastFinishedPass()],
                     'last_started_pass' => ['integer', $this->getPass()],
-                    'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()],
-                    'pw_checked' => ['integer', ($this->passwordChecked === true) ? 1 : 0]
+                    'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()]
                 ],
                 [
                     'active_id' => ['integer', $this->getActiveId()]
@@ -205,8 +204,7 @@ class ilTestSession
                         'tstamp' => ['integer', time() - 10],
                         'last_finished_pass' => ['integer', $this->getLastFinishedPass()],
                         'last_started_pass' => ['integer', $this->getPass()],
-                        'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()],
-                        'pw_checked' => ['integer', ($this->passwordChecked === true) ? 1 : 0]
+                        'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()]
                     ]
                 );
                 $this->active_id = $next_id;
@@ -256,7 +254,6 @@ class ilTestSession
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
-            $this->passwordChecked = ($row["pw_checked"] === 1) ? true : false;
 
             $this->setLastStartedPass($row['last_started_pass']);
             $this->setLastFinishedPass($row['last_finished_pass']);
@@ -289,7 +286,6 @@ class ilTestSession
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
-            $this->passwordChecked = ($row["pw_checked"] === 1) ? true : false;
 
             $this->setLastStartedPass($row['last_started_pass']);
             $this->setLastFinishedPass($row['last_finished_pass']);
@@ -538,20 +534,21 @@ class ilTestSession
 
     public function isPasswordChecked(): bool
     {
-        return $this->passwordChecked;
+        if (ilSession::get('pw_checked_' . $this->active_id) === null) {
+            return false;
+        }
+        return ilSession::get('pw_checked_' . $this->active_id);
     }
 
     public function setPasswordChecked(bool $value): void
     {
-        $this->passwordChecked = $value;
+        ilSession::set('pw_checked_' . $this->active_id, $value);
     }
 
     /**
      * @var null|bool
      */
     private $reportableResultsAvailable = null;
-
-    private $passwordChecked = false;
 
     /**
      * @param ilObjTest $testOBJ
