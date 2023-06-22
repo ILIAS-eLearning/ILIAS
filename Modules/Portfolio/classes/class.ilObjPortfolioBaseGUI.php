@@ -622,7 +622,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     ): string {
         $ilSetting = $this->settings;
         $ilUser = $this->user;
-
         $portfolio_id = $this->object->getId();
         $user_id = $this->object->getOwner();
 
@@ -720,24 +719,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $this->ctrl->setParameter($this, "user_page", $current_page);
 
-        if (!$a_content) {
-            // #18291
-            if ($current_page) {
-                // get current page content
-                $page_gui = $this->getPageGUIInstance($current_page);
-                $page_gui->setEmbedded(true);
-
-                $content = $this->ctrl->getHTML($page_gui);
-            }
-        } else {
-            $content = $a_content;
-        }
-
-        if ($a_return && $this->checkPermissionBool("write")) {
-            return $content;
-        }
 
         // blog posting comments are handled within the blog
+        // note: notes must be handled before the $this->ctrl->getHTML below, since
+        // this messes up the path since ILIAS 8
         $notes = "";
         if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
             $note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
@@ -756,6 +741,24 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $notes = $note_gui->getCommentsHTML();
             }
         }
+
+        if (!$a_content) {
+            // #18291
+            if ($current_page) {
+                // get current page content
+                $page_gui = $this->getPageGUIInstance($current_page);
+                $page_gui->setEmbedded(true);
+
+                $content = $this->ctrl->getHTML($page_gui);
+            }
+        } else {
+            $content = $a_content;
+        }
+
+        if ($a_return && $this->checkPermissionBool("write")) {
+            return $content;
+        }
+
 
         if (count($this->perma_link) === 0) {
             if ($this->getType() === "prtf") {
