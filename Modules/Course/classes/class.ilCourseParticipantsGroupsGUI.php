@@ -166,11 +166,11 @@ class ilCourseParticipantsGroupsGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $usr_ids = 0;
+        $usr_ids = [];
         if ($this->http->wrapper()->post()->has('usrs')) {
             $usr_ids = $this->http->wrapper()->post()->retrieve(
                 'usrs',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             );
         }
 
