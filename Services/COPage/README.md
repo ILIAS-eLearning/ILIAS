@@ -6,6 +6,11 @@ This component implements the ILIAS page editor as being used e.g. in learning m
 
 - Since ILIAS 7 the Return key created new text elements. The Backspace key at the beginning of a text element will merge the content of the current text element with the preceding one, if existing. The Delete key at the end of a text element will merge the content of the current text element with the succeeding one, if existing. See https://docu.ilias.de/goto_docu_wiki_wpage_6264_1357.html
 
+## Slate Handling
+
+- Starting with ILIAS 7 the editor and its components start to use a tool slate to provide forms and other control elements. The transition of the components to the new UI concepts will be done step by step with the upcoming major releases. During this phase, components not using the slate yet, will show a blank slate, instead of deactivating the slate completely, since this would result in unsteady layout changes. 
+
+
 ## Pasting Text
 
 - Pasting text from external sources most probably will lose format information, since ILIAS reduces formats to a basic set and uses its own span classes for styling characters. E.g. it is not advisable to paste anything from MS Word directly into the editor, since the formats will not but compatible. Most times converting to plain text first will be the most efficient procedure.
