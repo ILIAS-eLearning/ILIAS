@@ -41,7 +41,9 @@ class ObjectiveWithPreconditionsTest extends TestCase
 
     public function testGetHash() : void
     {
-        $this->assertEquals($this->objective->getHash(), $this->with_precondition->getHash());
+        $hash = $this->with_precondition->getHash();
+        $this->assertNotEquals($this->objective->getHash(), $hash);
+        $this->assertNotEquals($this->precondition->getHash(), $hash);
     }
 
     public function testGetLabel() : void
