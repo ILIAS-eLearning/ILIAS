@@ -22,7 +22,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * Portfolio view gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
@@ -123,30 +123,36 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->preview();
                 break;
 
-                /*
-            case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->enableWrite(true);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
+            case "ilcommonactiondispatchergui":
+                //$this->prepareOutput();
+                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->ctrl->forwardCommand($gui);
+                break;
 
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
+            /*
+        case "ilobjstylesheetgui":
+            $this->ctrl->setReturn($this, "editStyleProperties");
+            $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+            $style_gui->enableWrite(true);
+            $style_gui->omitLocator();
+            if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
+                $style_gui->setCreationMode(true);
+            }
 
-                $ret = $this->ctrl->forwardCommand($style_gui);
+            if ($cmd == "confirmedDelete") {
+                $this->object->setStyleSheetId(0);
+                $this->object->update();
+            }
 
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
-                break;*/
+            $ret = $this->ctrl->forwardCommand($style_gui);
+
+            if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
+                $style_id = $ret;
+                $this->object->setStyleSheetId($style_id);
+                $this->object->update();
+                $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+            }
+            break;*/
 
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
