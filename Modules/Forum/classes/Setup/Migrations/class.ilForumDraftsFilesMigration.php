@@ -18,23 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilForumDraftsFilesMigration
- *
- */
-
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
-use ILIAS\Setup\Objective;
 
 class ilForumDraftsFilesMigration implements Migration
 {
-    protected \ilResourceStorageMigrationHelper $helper;
+    protected ilResourceStorageMigrationHelper $helper;
 
     public function getLabel(): string
     {
-        return "Migration of Files in Forum Drafts to the Resource Storage Service.";
+        return 'Migration of Files in Forum Drafts to the Resource Storage Service.';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -44,21 +38,19 @@ class ilForumDraftsFilesMigration implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return \ilResourceStorageMigrationHelper::getPreconditions();
+        return ilResourceStorageMigrationHelper::getPreconditions();
     }
 
     public function prepare(Environment $environment): void
     {
-        $this->helper = new \ilResourceStorageMigrationHelper(
-            new \ilForumPostingFileStakeholder(),
+        $this->helper = new ilResourceStorageMigrationHelper(
+            new ilForumPostingFileStakeholder(),
             $environment
         );
     }
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
-
         $r = $this->helper->getDatabase()->query(
             "SELECT
     frm_posts_drafts.draft_id AS draft_id,
@@ -114,7 +106,7 @@ WHERE frm_posts_drafts.rcid IS NULL OR frm_posts_drafts.rcid = '';"
 
     public function getFileNameCallback(string $pattern): Closure
     {
-        return function (string $file_name) use ($pattern): string {
+        return static function (string $file_name) use ($pattern): string {
             if (preg_match($pattern, $file_name, $matches)) {
                 return $matches[1] ?? $file_name;
             }
@@ -124,7 +116,7 @@ WHERE frm_posts_drafts.rcid IS NULL OR frm_posts_drafts.rcid = '';"
 
     public function getRevisionNameCallback(): Closure
     {
-        return function (string $file_name): string {
+        return static function (string $file_name): string {
             return md5($file_name);
         };
     }
