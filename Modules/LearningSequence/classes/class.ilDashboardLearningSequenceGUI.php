@@ -23,6 +23,7 @@ use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Component\Symbol\Icon;
 use ILIAS\UI\Implementation\Component\Item;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Renderer;
 
 /**
  * Personal Desktop-Presentation for the LearningSequence
@@ -33,7 +34,7 @@ class ilDashboardLearningSequenceGUI
     protected ilObjUser $user;
     protected ilAccessHandler $access;
     protected Factory $factory;
-    protected DefaultRenderer $renderer;
+    protected Renderer $renderer;
 
     /**
      * @var array Object-Ids where user is assigned
