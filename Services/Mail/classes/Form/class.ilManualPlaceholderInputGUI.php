@@ -120,10 +120,10 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         foreach ($this->placeholders as $placeholder) {
             $subtpl->setCurrentBlock('man_placeholder');
             $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
-            $subtpl->setVariable('PLACEHOLDER', '[' . $placeholder['placeholder'] . ']');
+            $subtpl->setVariable('PLACEHOLDER', '&lbrace;&lbrace;' . $placeholder['placeholder'] . '&rbrace;&rbrace;');
             $subtpl->setVariable('PLACEHOLDER_INTERACTION_INFO', sprintf(
                 $this->lng->txt('mail_hint_add_placeholder_x'),
-                '[' . $placeholder['placeholder'] . ']'
+                '&lbrace;&lbrace;' . $placeholder['placeholder'] . '&rbrace;&rbrace;'
             ));
             $subtpl->setVariable('PLACEHOLDER_DESCRIPTION', $placeholder['title']);
             $subtpl->parseCurrentBlock();
