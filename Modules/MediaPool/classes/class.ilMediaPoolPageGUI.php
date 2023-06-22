@@ -46,7 +46,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
 
-        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage"])) {
+        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage", "cancelSaveNewMediaPoolPage"])) {
             $a_id = 0;
         }
 
@@ -223,7 +223,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         // save and cancel commands
         if ($a_mode === "create") {
             $form->addCommandButton("saveMediaPoolPage", $lng->txt("save"));
-            $form->addCommandButton("cancelSave", $lng->txt("cancel"));
+            $form->addCommandButton("cancelSaveNewMediaPoolPage", $lng->txt("cancel"));
             $form->setTitle($lng->txt("mep_new_content_snippet"));
         } else {
             $form->addCommandButton("updateMediaPoolPage", $lng->txt("save"));
@@ -235,7 +235,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return $form;
     }
 
-    protected function cancelSave(): void
+    protected function cancelSaveNewMediaPoolPage(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->returnToParent($this);
@@ -343,7 +343,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function getAdditionalPageActions() : array
+    public function getAdditionalPageActions(): array
     {
         $tabs = [];
 
