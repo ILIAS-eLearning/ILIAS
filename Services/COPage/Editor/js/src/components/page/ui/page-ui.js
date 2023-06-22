@@ -12,73 +12,72 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import ACTIONS from "../actions/page-action-types.js";
+import ACTIONS from '../actions/page-action-types.js';
 
 /**
  * page ui
  */
 export default class PageUI {
-
   /**
    * @type {boolean}
    */
-//  debug = true;
+  //  debug = true;
 
   /**
    * temp legacy code
    * @type {string}
    */
-    //  droparea = "<div class='il_droparea'></div>";
-  //add = "<span class='glyphicon glyphicon-plus'></span>";
+  //  droparea = "<div class='il_droparea'></div>";
+  // add = "<span class='glyphicon glyphicon-plus'></span>";
 
   /**
    * Model
    * @type {PageModel}
    */
-  //model = {};
+  // model = {};
 
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {Map<any, any>}
    */
-  //clickMap = new Map();
+  // clickMap = new Map();
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {PageModifier}
    */
-  //pageModifier;
+  // pageModifier;
 
   /**
    * @type {Map<any, any>}
    */
-  //componentUI = new Map();
+  // componentUI = new Map();
 
   /**
    * @param {Client} client
@@ -88,15 +87,20 @@ export default class PageUI {
    * @param {ToolSlate} toolSlate
    * @param {PageModifier} pageModifier
    */
-  constructor(client, dispatcher, actionFactory, model, toolSlate
-    , pageModifier) {
-
+  constructor(
+    client,
+    dispatcher,
+    actionFactory,
+    model,
+    toolSlate,
+    pageModifier,
+  ) {
     this.debug = false;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
-    this.first_add = "<span class='il-copg-add-text'> " +
-      il.Language.txt("cont_ed_click_to_add_pg") +
-      "</span>";
+    this.first_add = `<span class='il-copg-add-text'> ${
+      il.Language.txt('cont_ed_click_to_add_pg')
+    }</span>`;
     this.model = {};
     this.uiModel = {};
 
@@ -177,7 +181,7 @@ export default class PageUI {
         break;
 
       case model.STATE_COMPONENT:
-        //this.ui.showPageHelp();
+        // this.ui.showPageHelp();
         this.hideAddButtons();
         this.hideDropareas();
         this.disableDragDrop();
@@ -201,80 +205,83 @@ export default class PageUI {
     const action = this.actionFactory;
 
     if (!selector) {
-      selector = "[data-copg-ed-type='add-area']"
+      selector = "[data-copg-ed-type='add-area']";
     }
 
     // init add buttons
-    document.querySelectorAll(selector).forEach(area => {
-
+    document.querySelectorAll(selector).forEach((area) => {
       if (this.isProtectedElement(area)) {
         return;
       }
 
-      const uiModel = this.uiModel;
-      let li, li_templ, ul;
+      const { uiModel } = this;
+      let li; let li_templ; let
+        ul;
       area.innerHTML = this.droparea + uiModel.dropdown;
 
-      const model = this.model;
+      const { model } = this;
 
       // droparea
       const drop = area.firstChild;
       const hier_id = (area.dataset.hierid)
         ? area.dataset.hierid
-        : "";
-      drop.id = "TARGET" + hier_id + ":" + (area.dataset.pcid || "");
+        : '';
+      drop.id = `TARGET${hier_id}:${area.dataset.pcid || ''}`;
 
       // add dropdown
-      const addButtons = area.querySelectorAll("div.dropdown > button");
-      addButtons.forEach(b => {
-        b.classList.add("copg-add");
-        b.addEventListener("click", (event) => {
-
+      const addButtons = area.querySelectorAll('div.dropdown > button');
+      addButtons.forEach((b) => {
+        b.classList.add('copg-add');
+        b.addEventListener('click', (event) => {
           // we need that to "filter" out these events on the single clicks
           // on editareas
           event.isDropDownToggleEvent = true;
 
-          ul = b.parentNode.querySelector("ul");
-          li_templ = ul.querySelector("li").cloneNode(true);
-          ul.innerHTML = "";
+          ul = b.parentNode.querySelector('ul');
+          li_templ = ul.querySelector('li').cloneNode(true);
+          ul.innerHTML = '';
 
-          this.log("add dropdown: click");
+          this.log('add dropdown: click');
           this.log(model);
 
           const pasting = model.isPasting();
 
           if (pasting) {
             li = li_templ.cloneNode(true);
-            li.querySelector("a").innerHTML = il.Language.txt("paste");
-            li.querySelector("a").addEventListener("click", (event) => {
+            li.querySelector('a').innerHTML = il.Language.txt('paste');
+            li.querySelector('a').addEventListener('click', (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().multiPaste(
                 area.dataset.pcid,
                 hier_id,
-                model.getMultiState()));
+                model.getMultiState(),
+              ));
             });
             ul.appendChild(li);
           }
 
           // add each components
           for (const [ctype, txt] of Object.entries(uiModel.addCommands)) {
-            let cname, pluginName;
+            let cname; let
+              pluginName;
             li = li_templ.cloneNode(true);
-            li.querySelector("a").innerHTML = txt;
-            if (ctype.substr(0, 5) === "plug_") {
-              cname = "Plugged";
+            li.querySelector('a').innerHTML = txt;
+            if (ctype.substr(0, 5) === 'plug_') {
+              cname = 'Plugged';
               pluginName = ctype.substr(5);
             } else {
               cname = this.getPCNameForType(ctype);
-              pluginName = "";
+              pluginName = '';
             }
-            li.querySelector("a").addEventListener("click", (event) => {
+            li.querySelector('a').addEventListener('click', (event) => {
               event.isDropDownSelectionEvent = true;
-              dispatch.dispatch(action.page().editor().componentInsert(cname,
-                  area.dataset.pcid,
-                  hier_id,
-                  pluginName,
-                  false));
+              dispatch.dispatch(action.page().editor().componentInsert(
+                cname,
+                area.dataset.pcid,
+                hier_id,
+                pluginName,
+                false,
+              ));
             });
             ul.appendChild(li);
           }
@@ -292,61 +299,60 @@ export default class PageUI {
     const action = this.actionFactory;
 
     if (!selector) {
-      selector = "[data-copg-ed-type='edit-list-item']"
+      selector = "[data-copg-ed-type='edit-list-item']";
     }
 
     // init add buttons
-    document.querySelectorAll(selector).forEach(area => {
-
-      const uiModel = this.uiModel;
-      let li, li_templ, ul;
+    document.querySelectorAll(selector).forEach((area) => {
+      const { uiModel } = this;
+      let li; let li_templ; let
+        ul;
 
       const originalHTML = area.innerHTML;
       area.innerHTML = uiModel.dropdown;
 
       console.log(uiModel.dropdown);
 
-      const model = this.model;
+      const { model } = this;
 
       // edit dropdown
-      const addButtons = area.querySelectorAll("div.dropdown > button");
-      addButtons.forEach(b => {     // the "one" toggle button in the dropdown
-        b.classList.add("il-copg-edit-list-button");
+      const addButtons = area.querySelectorAll('div.dropdown > button');
+      addButtons.forEach((b) => { // the "one" toggle button in the dropdown
+        b.classList.add('il-copg-edit-list-button');
         b.innerHTML = originalHTML;
-        b.addEventListener("click", (event) => {
-
+        b.addEventListener('click', (event) => {
           // we need that to "filter" out these events on the single clicks
           // on editareas
           event.isDropDownToggleEvent = true;
 
-          ul = b.parentNode.querySelector("ul");
-          li_templ = ul.querySelector("li").cloneNode(true);
-          ul.innerHTML = "";
+          ul = b.parentNode.querySelector('ul');
+          li_templ = ul.querySelector('li').cloneNode(true);
+          ul.innerHTML = '';
 
-          this.log("add dropdown: click");
+          this.log('add dropdown: click');
           this.log(model);
 
           const list_commands = {
-            "newItemAfter": il.Language.txt("cont_ed_new_item_after"),
-            "newItemBefore": il.Language.txt("cont_ed_new_item_before")
+            newItemAfter: il.Language.txt('cont_ed_new_item_after'),
+            newItemBefore: il.Language.txt('cont_ed_new_item_before'),
           };
-          const li1 = b.closest("li.ilc_list_item_StandardListItem");
+          const li1 = b.closest('li.ilc_list_item_StandardListItem');
           if (li1.previousSibling || li1.nextSibling) {
-            list_commands.deleteItem = il.Language.txt("cont_ed_delete_item");
+            list_commands.deleteItem = il.Language.txt('cont_ed_delete_item');
           }
           if (li1.previousSibling) {
-            list_commands.moveItemUp = il.Language.txt("cont_ed_item_up");
+            list_commands.moveItemUp = il.Language.txt('cont_ed_item_up');
           }
           if (li1.nextSibling) {
-            list_commands.moveItemDown = il.Language.txt("cont_ed_item_down");
+            list_commands.moveItemDown = il.Language.txt('cont_ed_item_down');
           }
 
           // add each components
           for (const [listCommand, txt] of Object.entries(list_commands)) {
             let cname;
             li = li_templ.cloneNode(true);
-            li.querySelector("a").innerHTML = txt;
-            li.querySelector("a").addEventListener("click", (event) => {
+            li.querySelector('a').innerHTML = txt;
+            li.querySelector('a').addEventListener('click', (event) => {
               event.isDropDownSelectionEvent = true;
               console.log(area.dataset);
               dispatch.dispatch(action.page().editor().editListItem(listCommand, area.dataset.pcid));
@@ -372,7 +378,7 @@ export default class PageUI {
   }
 
   getCnameForPCID(pcid) {
-    const el = document.querySelector("[data-pcid='" + pcid + "']");
+    const el = document.querySelector(`[data-pcid='${pcid}']`);
     if (el) {
       return el.dataset.cname;
     }
@@ -384,86 +390,83 @@ export default class PageUI {
    * dblclick, time period for dblclick varies)
    */
   initComponentClick(selector) {
-    let areaSelector, coverSelector, area;
+    let areaSelector; let coverSelector; let
+      area;
 
     if (!selector) {
       areaSelector = "[data-copg-ed-type='pc-area']";
       coverSelector = "[data-copg-ed-type='media-cover']";
     } else {
-      areaSelector = selector + "[data-copg-ed-type='pc-area']";
-      coverSelector = selector + "[data-copg-ed-type='media-cover']";
+      areaSelector = `${selector}[data-copg-ed-type='pc-area']`;
+      coverSelector = `${selector}[data-copg-ed-type='media-cover']`;
     }
 
-
     // init area clicks
-    document.querySelectorAll(areaSelector).forEach(area => {
-      area.addEventListener("click", (event) => {
-        if (event.isDropDownToggleEvent === true ||
-          event.isDropDownSelectionEvent === true) {
+    document.querySelectorAll(areaSelector).forEach((area) => {
+      area.addEventListener('click', (event) => {
+        if (event.isDropDownToggleEvent === true
+          || event.isDropDownSelectionEvent === true) {
           return;
         }
         event.stopPropagation();
 
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
-          area.dispatchEvent(new Event("areaCmdClick"));
+          area.dispatchEvent(new Event('areaCmdClick'));
         } else {
-          console.log("*** DISPATCH areaClick");
-          area.dispatchEvent(new Event("areaClick"));
+          console.log('*** DISPATCH areaClick');
+          area.dispatchEvent(new Event('areaClick'));
         }
       });
     });
 
     // init add buttons
-    document.querySelectorAll(coverSelector).forEach(cover => {
-      cover.addEventListener("click", (event) => {
-        console.log("---COVER CLICKED---");
-        if (event.isDropDownToggleEvent === true ||
-            event.isDropDownSelectionEvent === true) {
+    document.querySelectorAll(coverSelector).forEach((cover) => {
+      cover.addEventListener('click', (event) => {
+        console.log('---COVER CLICKED---');
+        if (event.isDropDownToggleEvent === true
+            || event.isDropDownSelectionEvent === true) {
           return;
         }
         event.stopPropagation();
         area = cover.closest("[data-copg-ed-type='pc-area']");
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
-          area.dispatchEvent(new Event("areaCmdClick"));
+          area.dispatchEvent(new Event('areaCmdClick'));
         } else {
-          area.dispatchEvent(new Event("areaClick"));
+          area.dispatchEvent(new Event('areaClick'));
         }
       });
     });
-
   }
 
   initComponentEditing(selector) {
-
     if (!selector) {
       selector = "[data-copg-ed-type='pc-area']";
     }
 
     // init add buttons
-    document.querySelectorAll(selector).forEach(area => {
+    document.querySelectorAll(selector).forEach((area) => {
       const dispatch = this.dispatcher;
       const action = this.actionFactory;
 
-      area.addEventListener("areaClick", (event) => {
-        this.log("*** Component click event");
+      area.addEventListener('areaClick', (event) => {
+        this.log('*** Component click event');
         // start editing from page state
         if (this.model.getState() === this.model.STATE_PAGE) {
-          if (area.dataset.cname !== "ContentInclude" && !this.isProtectedPC(area.dataset.pcid)) {
-            dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
-                area.dataset.pcid,
-                area.dataset.hierid));
+          if (area.dataset.cname !== 'ContentInclude' && !this.isProtectedPC(area.dataset.pcid)) {
+            dispatch.dispatch(action.page().editor().componentEdit(
+              area.dataset.cname,
+              area.dataset.pcid,
+              area.dataset.hierid,
+            ));
           }
         } else if (this.model.getState() === this.model.STATE_COMPONENT) {
-
           // Invoke switch action, if click is on other component of same type
           // (and currently type must be Paragraph)
-          if (this.model.getCurrentPCName() === area.dataset.cname &&
-              this.model.getCurrentPCId() !== area.dataset.pcid &&
-              this.model.getCurrentPCName() === "Paragraph") {
-
+          if (this.model.getCurrentPCName() === area.dataset.cname
+              && this.model.getCurrentPCId() !== area.dataset.pcid
+              && this.model.getCurrentPCName() === 'Paragraph') {
             const pcModel = this.model.getPCModel(area.dataset.pcid);
-            if (pcModel.characteristic !== "Code") {
-
+            if (pcModel.characteristic !== 'Code') {
               let compPara = {};
               if (this.componentUI.has(area.dataset.cname)) {
                 const componentUI = this.componentUI.get(area.dataset.cname);
@@ -473,12 +476,13 @@ export default class PageUI {
               }
 
               dispatch.dispatch(action.page().editor().componentSwitch(
-                  area.dataset.cname,
-                  this.model.getComponentState(),
-                  this.model.getCurrentPCId(),
-                  compPara,
-                  area.dataset.pcid,
-                  area.dataset.hierid));
+                area.dataset.cname,
+                this.model.getComponentState(),
+                this.model.getCurrentPCId(),
+                compPara,
+                area.dataset.pcid,
+                area.dataset.hierid,
+              ));
             }
           }
         }
@@ -490,60 +494,55 @@ export default class PageUI {
    * Init drag and drop handling
    */
   initDragDrop(draggableSelector, droppableSelector) {
-
-    this.log("page-ui.initDragDrop");
-    this.log("- draggableSelector: " + draggableSelector);
-    this.log("- droppableSelector: " + droppableSelector);
+    this.log('page-ui.initDragDrop');
+    this.log(`- draggableSelector: ${draggableSelector}`);
+    this.log(`- droppableSelector: ${droppableSelector}`);
 
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const pageUI = this;
 
     if (!draggableSelector) {
-      draggableSelector = ".il_editarea, .il_editarea_disabled";
+      draggableSelector = '.il_editarea, .il_editarea_disabled';
     }
 
     if (!droppableSelector) {
-      droppableSelector = ".il_droparea";
+      droppableSelector = '.il_droparea';
     }
-
 
     $(draggableSelector).filter(function (index) {
       return !pageUI.isProtectedElement(this);
     }).draggable({
-        cursor: 'move',
-        revert: false,
-        scroll: true,
-        distance: 3,
-        cursorAt: { top: 5, left:20 },
-        snap: true,
-        snapMode: 'outer',
-        start: function( event, ui ) {
-          dispatch.dispatch(action.page().editor().dndDrag());
-        },
-        stop: function( event, ui ) {
-          dispatch.dispatch(action.page().editor().dndStopped());
-        },
-        helper: (() => {
-          return $("<div class='il-copg-drag'>&nbsp;</div>");
-        })		/* temp helper */
-      }
-    );
+      cursor: 'move',
+      revert: false,
+      scroll: true,
+      distance: 3,
+      cursorAt: { top: 5, left: 20 },
+      snap: true,
+      snapMode: 'outer',
+      start(event, ui) {
+        dispatch.dispatch(action.page().editor().dndDrag());
+      },
+      stop(event, ui) {
+        dispatch.dispatch(action.page().editor().dndStopped());
+      },
+      helper: (() => $("<div class='il-copg-drag'>&nbsp;</div>")),		/* temp helper */
+    });
 
     $(droppableSelector).droppable({
       drop: (event, ui) => {
-        ui.draggable.draggable( 'option', 'revert', false);
+        ui.draggable.draggable('option', 'revert', false);
 
         // @todo: remove legacy
         const target_id = event.target.id.substr(6);
         const source_id = ui.draggable[0].id.substr(7);
 
         dispatch.dispatch(action.page().editor().dndDrop(target_id, source_id));
-      }
+      },
     });
 
     // this is needed to make scrolling while dragging with helper possible
-    $("main.il-layout-page-content").css("position", "relative");
+    $('main.il-layout-page-content').css('position', 'relative');
 
     this.hideDropareas();
   }
@@ -558,18 +557,18 @@ export default class PageUI {
     if (!selector) {
       selector = "[data-copg-ed-type='pc-area']";
     }
-    this.log("init multi section");
-    document.querySelectorAll(selector).forEach(pc_area => {
-      const pcid = pc_area.dataset.pcid;
-      const hierid = pc_area.dataset.hierid;
-      const ctype = pc_area.dataset.ctype;
-      pc_area.addEventListener("areaClick", (event) => {
+    this.log('init multi section');
+    document.querySelectorAll(selector).forEach((pc_area) => {
+      const { pcid } = pc_area.dataset;
+      const { hierid } = pc_area.dataset;
+      const { ctype } = pc_area.dataset;
+      pc_area.addEventListener('areaClick', (event) => {
         if (this.model.getState() !== this.model.STATE_MULTI_ACTION) {
           return;
         }
         dispatch.dispatch(action.page().editor().multiToggle(ctype, pcid, hierid));
       });
-      pc_area.addEventListener("areaCmdClick", (event) => {
+      pc_area.addEventListener('areaCmdClick', (event) => {
         if (!([this.model.STATE_PAGE, this.model.STATE_MULTI_ACTION].includes(this.model.getState()))) {
           return;
         }
@@ -584,7 +583,7 @@ export default class PageUI {
    * @return {boolean}
    */
   isProtectedPC(pcid) {
-    return this.isProtectedElement(document.querySelector("[data-pcid='" + pcid + "']"));
+    return this.isProtectedElement(document.querySelector(`[data-pcid='${pcid}']`));
   }
 
   /**
@@ -597,8 +596,8 @@ export default class PageUI {
       return false;
     }
     do {
-      if (curElement && curElement.dataset.cname == "Section") {
-        let secModel = this.model.getPCModel(curElement.dataset.pcid);
+      if (curElement && curElement.dataset.cname == 'Section') {
+        const secModel = this.model.getPCModel(curElement.dataset.pcid);
         if (secModel && secModel.protected) {
           return true;
         }
@@ -614,10 +613,10 @@ export default class PageUI {
     const selected = this.model.getSelected();
     let buttonDisabled;
 
-    document.querySelectorAll("[data-copg-ed-type='multi']").forEach(multi_button => {
+    document.querySelectorAll("[data-copg-ed-type='multi']").forEach((multi_button) => {
       const type = multi_button.dataset.copgEdAction;
-      multi_button.addEventListener("click", (event) => {
-        if (type === "activate") {
+      multi_button.addEventListener('click', (event) => {
+        if (type === 'activate') {
           const pcids = new Set(this.model.getSelected());
           dispatch.dispatch(action.page().editor().multiActivate(pcids));
         } else {
@@ -625,13 +624,12 @@ export default class PageUI {
         }
       });
 
-      buttonDisabled = (selected.size === 0 && type !== "all");
-      if (type === "all") {
+      buttonDisabled = (selected.size === 0 && type !== 'all');
+      if (type === 'all') {
         const all_areas = document.querySelectorAll("[data-copg-ed-type='pc-area']");
         buttonDisabled = (selected.size === all_areas.length);
       }
-      multi_button.disabled = buttonDisabled
-
+      multi_button.disabled = buttonDisabled;
     });
   }
 
@@ -639,17 +637,17 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
 
-    document.querySelectorAll("[data-copg-ed-type='view-control']").forEach(button => {
+    document.querySelectorAll("[data-copg-ed-type='view-control']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener("click", (event) => {
-          switch (act) {
-            case ACTIONS.SWITCH_SINGLE:
-              dispatch.dispatch(action.page().editor().switchSingle());
-              break;
-            case ACTIONS.SWITCH_MULTI:
-              dispatch.dispatch(action.page().editor().switchMulti());
-              break;
-          }
+      button.addEventListener('click', (event) => {
+        switch (act) {
+          case ACTIONS.SWITCH_SINGLE:
+            dispatch.dispatch(action.page().editor().switchSingle());
+            break;
+          case ACTIONS.SWITCH_MULTI:
+            dispatch.dispatch(action.page().editor().switchMulti());
+            break;
+        }
       });
     });
     this.refreshModeSelector();
@@ -659,7 +657,7 @@ export default class PageUI {
   }
 
   refreshTopLoader() {
-    const model = this.model;
+    const { model } = this;
     const tl = document.querySelector("[data-copg-ed-type='top-loader']");
     if (tl) {
       tl.style.display = 'none';
@@ -670,9 +668,9 @@ export default class PageUI {
   }
 
   refreshFinishEditingButton() {
-    const model = this.model;
+    const { model } = this;
     // dropdown
-    const b = document.querySelector("#copg-top-actions .ilFloatLeft .btn-default");
+    const b = document.querySelector('#copg-top-actions .ilFloatLeft .btn-default');
     if (b) {
       b.disabled = false;
       if (model.getState() === model.STATE_SERVER_CMD) {
@@ -682,9 +680,9 @@ export default class PageUI {
   }
 
   refreshTopDropdown() {
-    const model = this.model;
+    const { model } = this;
     // dropdown
-    const dd = document.querySelector("#copg-top-actions .dropdown-toggle");
+    const dd = document.querySelector('#copg-top-actions .dropdown-toggle');
     if (dd) {
       dd.style.display = '';
       if (model.getState() === model.STATE_SERVER_CMD) {
@@ -694,21 +692,21 @@ export default class PageUI {
   }
 
   refreshModeSelector() {
-    const model = this.model;
+    const { model } = this;
     const multi = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.multi']");
     const single = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.single']");
-    multi.classList.remove("engaged");
-    single.classList.remove("engaged");
+    multi.classList.remove('engaged');
+    single.classList.remove('engaged');
     multi.disabled = false;
     single.disabled = false;
     if (model.getState() === model.STATE_PAGE) {
-      //multi.disabled = false;
-      //single.disabled = true;
-      single.classList.add("engaged");
+      // multi.disabled = false;
+      // single.disabled = true;
+      single.classList.add('engaged');
     } else {
-      //multi.disabled = true;
-      //single.disabled = false;
-      multi.classList.add("engaged");
+      // multi.disabled = true;
+      // single.disabled = false;
+      multi.classList.add('engaged');
     }
     if (model.getState() === model.STATE_SERVER_CMD) {
       multi.disabled = true;
@@ -717,80 +715,78 @@ export default class PageUI {
   }
 
   initFormatButtons() {
-
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    const model = this.model;
+    const { model } = this;
     const selected = model.getSelected();
-    let pcModel, cname;
-
+    let pcModel; let
+      cname;
 
     this.toolSlate.setContent(this.uiModel.formatSelection);
 
-    document.querySelector("#il-copg-format-paragraph").
-        style.display = "none";
-    document.querySelector("#il-copg-format-section").
-        style.display = "none";
-    document.querySelector("#il-copg-format-media").
-        style.display = "none";
-    console.log("***INIT FORMAT");
+    document.querySelector('#il-copg-format-paragraph')
+      .style.display = 'none';
+    document.querySelector('#il-copg-format-section')
+      .style.display = 'none';
+    document.querySelector('#il-copg-format-media')
+      .style.display = 'none';
+    console.log('***INIT FORMAT');
     console.log(selected);
     selected.forEach((id) => {
-      cname = this.getCnameForPCID(id.split(":")[1]);
+      cname = this.getCnameForPCID(id.split(':')[1]);
       switch (cname) {
-        case "MediaObject":
-          document.querySelector("#il-copg-format-media").
-              style.display = "";
+        case 'MediaObject':
+          document.querySelector('#il-copg-format-media')
+            .style.display = '';
           break;
-        case "Section":
-          document.querySelector("#il-copg-format-section").
-              style.display = "";
+        case 'Section':
+          document.querySelector('#il-copg-format-section')
+            .style.display = '';
           break;
-        case "Paragraph":
-          document.querySelector("#il-copg-format-paragraph").
-              style.display = "";
+        case 'Paragraph':
+          document.querySelector('#il-copg-format-paragraph')
+            .style.display = '';
           break;
       }
     });
 
-    document.querySelectorAll("[data-copg-ed-type='format']").forEach(multi_button => {
+    document.querySelectorAll("[data-copg-ed-type='format']").forEach((multi_button) => {
       const act = multi_button.dataset.copgEdAction;
       const format = multi_button.dataset.copgEdParFormat;
 
       switch (act) {
-
-        case "format.paragraph":
-          multi_button.addEventListener("click", (event) => {
+        case 'format.paragraph':
+          multi_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.page().editor().formatParagraph(format));
           });
           break;
 
-        case "format.section":
-          multi_button.addEventListener("click", (event) => {
+        case 'format.section':
+          multi_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.page().editor().formatSection(format));
           });
           break;
 
-        case "format.media":
-          multi_button.addEventListener("click", (event) => {
+        case 'format.media':
+          multi_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.page().editor().formatMedia(format));
           });
           break;
 
-        case "format.save":
-          multi_button.addEventListener("click", (event) => {
+        case 'format.save':
+          multi_button.addEventListener('click', (event) => {
             const pcids = new Set(this.model.getSelected());
             dispatch.dispatch(action.page().editor().formatSave(
               pcids,
               model.getParagraphFormat(),
               model.getSectionFormat(),
-              model.getMediaFormat()
+              model.getMediaFormat(),
             ));
           });
           break;
 
-        case "format.cancel":
-          multi_button.addEventListener("click", (event) => {
+        case 'format.cancel':
+          multi_button.addEventListener('click', (event) => {
             dispatch.dispatch(action.page().editor().formatCancel());
           });
           break;
@@ -798,17 +794,17 @@ export default class PageUI {
     });
 
     // get first values and dispatch their selection
-    const b1 = document.querySelector("#il-copg-format-paragraph div.dropdown ul li button");
+    const b1 = document.querySelector('#il-copg-format-paragraph div.dropdown ul li button');
     const f1 = b1.dataset.copgEdParFormat;
     if (f1) {
       dispatch.dispatch(action.page().editor().formatParagraph(f1));
     }
-    const b2 = document.querySelector("#il-copg-format-section div.dropdown ul li button");
+    const b2 = document.querySelector('#il-copg-format-section div.dropdown ul li button');
     const f2 = b2.dataset.copgEdParFormat;
     if (f2) {
       dispatch.dispatch(action.page().editor().formatSection(f2));
     }
-    const b3 = document.querySelector("#il-copg-format-media div.dropdown ul li button");
+    const b3 = document.querySelector('#il-copg-format-media div.dropdown ul li button');
     const f3 = b3.dataset.copgEdParFormat;
     if (f3) {
       dispatch.dispatch(action.page().editor().formatMedia(f3));
@@ -816,26 +812,25 @@ export default class PageUI {
   }
 
   setParagraphFormat(format) {
-    const b1 = document.querySelector("#il-copg-format-paragraph div.dropdown > button");
+    const b1 = document.querySelector('#il-copg-format-paragraph div.dropdown > button');
     if (b1) {
-      b1.firstChild.textContent = format + " ";
+      b1.firstChild.textContent = `${format} `;
     }
   }
 
   setSectionFormat(format) {
-    const b2 = document.querySelector("#il-copg-format-section div.dropdown > button");
+    const b2 = document.querySelector('#il-copg-format-section div.dropdown > button');
     if (b2) {
-      b2.firstChild.textContent = format + " ";
+      b2.firstChild.textContent = `${format} `;
     }
   }
 
   setMediaFormat(format) {
-    const b3 = document.querySelector("#il-copg-format-media div.dropdown > button");
+    const b3 = document.querySelector('#il-copg-format-media div.dropdown > button');
     if (b3) {
-      b3.firstChild.textContent = format + " ";
+      b3.firstChild.textContent = `${format} `;
     }
   }
-
 
   //
   // Show/Hide single elements
@@ -845,25 +840,25 @@ export default class PageUI {
     const pageUI = this;
     $('.il_editarea').filter(function (index) {
       return !pageUI.isProtectedElement(this);
-    }).draggable("enable");
+    }).draggable('enable');
   }
 
   disableDragDrop() {
     const pageUI = this;
     $('.il_editarea').filter(function (index) {
       return !pageUI.isProtectedElement(this);
-    }).draggable("disable");
+    }).draggable('disable');
   }
 
   showAddButtons() {
-    document.querySelectorAll("button.copg-add").forEach(el => {
-      el.style.display = "";
+    document.querySelectorAll('button.copg-add').forEach((el) => {
+      el.style.display = '';
     });
   }
 
   refreshAddButtonText() {
-    const addButtons = document.querySelectorAll("button.copg-add");
-    document.querySelectorAll("button.copg-add").forEach(b => {
+    const addButtons = document.querySelectorAll('button.copg-add');
+    document.querySelectorAll('button.copg-add').forEach((b) => {
       if (addButtons.length === 1) {
         b.innerHTML = this.add + this.first_add;
       } else {
@@ -873,54 +868,53 @@ export default class PageUI {
   }
 
   hideAddButtons() {
-    document.querySelectorAll("button.copg-add").forEach(el => {
-      el.style.display = "none";
+    document.querySelectorAll('button.copg-add').forEach((el) => {
+      el.style.display = 'none';
     });
   }
 
   disableListButtons() {
-    document.querySelectorAll("button.il-copg-edit-list-button").forEach(el => {
+    document.querySelectorAll('button.il-copg-edit-list-button').forEach((el) => {
       el.disabled = true;
     });
   }
 
   endableListButtons() {
-    document.querySelectorAll("button.il-copg-edit-list-button").forEach(el => {
+    document.querySelectorAll('button.il-copg-edit-list-button').forEach((el) => {
       el.disabled = false;
     });
   }
 
   showDropareas() {
-    document.querySelectorAll("#il_EditPage .il_droparea").forEach(el => {
-      el.style.display = "";
+    document.querySelectorAll('#il_EditPage .il_droparea').forEach((el) => {
+      el.style.display = '';
     });
   }
 
   hideDropareas() {
-    document.querySelectorAll("#il_EditPage .il_droparea").forEach(el => {
-      el.style.display = "none";
+    document.querySelectorAll('#il_EditPage .il_droparea').forEach((el) => {
+      el.style.display = 'none';
     });
   }
 
   showEditPage() {
-    const model = this.model;
+    const { model } = this;
     const pasteHelp = ([model.STATE_MULTI_CUT, model.STATE_MULTI_COPY].includes(model.getMultiState()))
       ? this.uiModel.pasteMessage
-      : "";
+      : '';
     this.toolSlate.setContent(this.uiModel.pageTopActions + pasteHelp + this.uiModel.pageEditHelp);
     this.initTopActions();
   }
 
   showMultiButtons() {
-    const model = this.model;
+    const { model } = this;
 
     switch (model.getMultiState()) {
-
       case model.STATE_MULTI_CHARACTERISTIC:
         break;
 
       default:
-        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiEditHelp + this.uiModel.multiActions );
+        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiEditHelp + this.uiModel.multiActions);
         this.initTopActions();
         this.initMultiButtons();
         break;
@@ -939,55 +933,52 @@ export default class PageUI {
    * @param {Set<string>} items
    */
   highlightSelected(items) {
-    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(el => {
-      const key = el.dataset.hierid + ":" + (el.dataset.pcid || "");
+    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach((el) => {
+      const key = `${el.dataset.hierid}:${el.dataset.pcid || ''}`;
       if (items.has(key)) {
-        el.classList.add("il_editarea_selected");
+        el.classList.add('il_editarea_selected');
       } else {
-        el.classList.remove("il_editarea_selected");
+        el.classList.remove('il_editarea_selected');
       }
     });
   }
 
   markCurrent() {
-    const editContainer = document.getElementById("il_EditPage");
+    const editContainer = document.getElementById('il_EditPage');
     if (editContainer) {
-      editContainer.setAttribute("class", "copg-state-" + this.model.getState());
+      editContainer.setAttribute('class', `copg-state-${this.model.getState()}`);
     }
 
-    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(el => {
-      const pcid = el.dataset.pcid;
+    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach((el) => {
+      const { pcid } = el.dataset;
       if (this.model.getCurrentPCId() === pcid && this.model.getState() === this.model.STATE_COMPONENT) {
-        el.classList.add("copg-current-edit");
+        el.classList.add('copg-current-edit');
       } else {
-        el.classList.remove("copg-current-edit");
+        el.classList.remove('copg-current-edit');
       }
     });
   }
 
   // default callback for successfull ajax request, reloads page content
-  handlePageReloadResponse(result)
-  {
+  handlePageReloadResponse(result) {
     const pl = result.getPayload();
 
     if (pl.error) {
       this.showError(pl.error);
-    } else {
-      if (pl.renderedContent !== undefined) {
-        $('#il_center_col').html(pl.renderedContent);
+    } else if (pl.renderedContent !== undefined) {
+      $('#il_center_col').html(pl.renderedContent);
 
-        this.log("PCMODEL---");
-        this.log(pl.pcModel);
-        il.COPagePres.initAudioVideo();
+      this.log('PCMODEL---');
+      this.log(pl.pcModel);
+      il.COPagePres.initAudioVideo();
 
-        for (const [key, value] of Object.entries(pl.pcModel)) {
-          this.model.addPCModelIfNotExists(key, value);
-        }
-
-        //      il.IntLink.refresh();           // missing
-        this.reInit();
-        this.refreshUIFromModelState(this.model);
+      for (const [key, value] of Object.entries(pl.pcModel)) {
+        this.model.addPCModelIfNotExists(key, value);
       }
+
+      //      il.IntLink.refresh();           // missing
+      this.reInit();
+      this.refreshUIFromModelState(this.model);
     }
   }
 
@@ -996,18 +987,19 @@ export default class PageUI {
   }
 
   showDeleteConfirmation() {
-    let content = this.pageModifier.getConfirmation(il.Language.txt("copg_confirm_el_deletion"))
+    const content = this.pageModifier.getConfirmation(il.Language.txt('copg_confirm_el_deletion'));
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
 
     this.pageModifier.showModal(
-      il.Language.txt("cont_delete_content"),
+      il.Language.txt('cont_delete_content'),
       content,
-      il.Language.txt("delete"),
+      il.Language.txt('delete'),
       () => {
         const pcids = new Set(this.model.getSelected());
         dispatch.dispatch(action.page().editor().multiDelete(pcids));
-      });
+      },
+    );
   }
 
   hideDeleteConfirmation() {
@@ -1019,13 +1011,13 @@ export default class PageUI {
   //
 
   showGenericCreationForm() {
-    const model = this.model;
+    const { model } = this;
 
     let content = this.model.getCurrentPCName();
-    if (this.uiModel.components[this.model.getCurrentPCName()] &&
-      this.uiModel.components[this.model.getCurrentPCName()].icon) {
-      content = "<div class='copg-new-content-placeholder'>" + this.uiModel.components[this.model.getCurrentPCName()].icon +
-        "<div>" +  this.getLabelForType(this.getPCTypeForName(this.model.getCurrentPCName())) + "</div></div>";
+    if (this.uiModel.components[this.model.getCurrentPCName()]
+      && this.uiModel.components[this.model.getCurrentPCName()].icon) {
+      content = `<div class='copg-new-content-placeholder'>${this.uiModel.components[this.model.getCurrentPCName()].icon
+      }<div>${this.getLabelForType(this.getPCTypeForName(this.model.getCurrentPCName()))}</div></div>`;
     }
 
     this.pageModifier.insertComponentAfter(
@@ -1033,50 +1025,49 @@ export default class PageUI {
       model.getCurrentPCId(),
       this.model.getCurrentPCName(),
       content,
-      this.model.getCurrentPCName()
+      this.model.getCurrentPCName(),
     );
-    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), "creation_form");
+    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), 'creation_form');
     this.initFormButtonsAndSettingsLink();
   }
 
   initFormButtonsAndSettingsLink() {
-    const model = this.model;
+    const { model } = this;
 
-    document.querySelectorAll("#copg-editor-slate-content [data-copg-ed-type='form-button']").forEach(form_button => {
+    document.querySelectorAll("#copg-editor-slate-content [data-copg-ed-type='form-button']").forEach((form_button) => {
       const dispatch = this.dispatcher;
       const action = this.actionFactory;
       const act = form_button.dataset.copgEdAction;
       const cname = form_button.dataset.copgEdComponent;
-      if (cname === "Page") {
-        form_button.addEventListener("click", (event) => {
+      if (cname === 'Page') {
+        form_button.addEventListener('click', (event) => {
           event.preventDefault();
           switch (act) {
-            case "component.cancel":
+            case 'component.cancel':
               dispatch.dispatch(action.page().editor().componentCancel());
               break;
 
-            case "component.save":
-              const form = form_button.closest("form");
+            case 'component.save':
+              const form = form_button.closest('form');
               const form_data = new FormData(form);
-
-              //after_pcid, pcid, component, data
+              // after_pcid, pcid, component, data
               dispatch.dispatch(action.page().editor().componentSave(
                 model.getCurrentInsertPCId(),
                 model.getCurrentPCId(),
                 model.getCurrentPCName(),
-                form_data
+                form_data,
               ));
               break;
 
-            case "component.update":
-              const uform = form_button.closest("form");
+            case 'component.update':
+              const uform = form_button.closest('form');
               const uform_data = new FormData(uform);
 
-              //after_pcid, pcid, component, data
+              // after_pcid, pcid, component, data
               dispatch.dispatch(action.page().editor().componentUpdate(
                 model.getCurrentPCId(),
                 model.getCurrentPCName(),
-                uform_data
+                uform_data,
               ));
               break;
           }
@@ -1084,24 +1075,23 @@ export default class PageUI {
       }
     });
 
-    document.querySelectorAll("#copg-editor-slate-content [data-copg-ed-type='link']").forEach(link => {
+    document.querySelectorAll("#copg-editor-slate-content [data-copg-ed-type='link']").forEach((link) => {
       const dispatch = this.dispatcher;
       const action = this.actionFactory;
       const act = link.dataset.copgEdAction;
       const cname = link.dataset.copgEdComponent;
-      if (cname === "Page") {
-        link.addEventListener("click", (event) => {
+      if (cname === 'Page') {
+        link.addEventListener('click', (event) => {
           event.preventDefault();
           switch (act) {
-            case "component.settings":
-              //after_pcid, pcid, component, data
+            case 'component.settings':
+              // after_pcid, pcid, component, data
               dispatch.dispatch(action.page().editor().componentSettings(
                 model.getCurrentPCName(),
                 model.getCurrentPCId(),
-                model.getCurrenntHierId()
+                model.getCurrenntHierId(),
               ));
               break;
-
           }
         });
       }
@@ -1112,19 +1102,22 @@ export default class PageUI {
     this.pageModifier.removeInsertedComponent(pcid);
   }
 
-  ////
-  //// Generic editing
-  ////
+  /// /
+  /// / Generic editing
+  /// /
 
   loadGenericEditingForm(cname, pcid, hierid) {
     const loadEditingFormAction = this.actionFactory.page().query().loadEditingForm(cname, pcid, hierid);
-    this.client.sendQuery(loadEditingFormAction).then(result => {
+    this.client.sendQuery(loadEditingFormAction).then((result) => {
       const p = result.getPayload();
 
       this.toolSlate.setContent(p.editForm);
       this.initFormButtonsAndSettingsLink();
     });
-
   }
 
+  showFormAfterError(form) {
+    this.toolSlate.setContent(form);
+    this.initFormButtonsAndSettingsLink();
+  }
 }
