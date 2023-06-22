@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -29,7 +30,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 /**
  * This implements the numeric input.
  */
-class Numeric extends Input implements C\Input\Field\Numeric
+class Numeric extends Field implements C\Input\Field\Numeric
 {
     private bool $complex = false;
 

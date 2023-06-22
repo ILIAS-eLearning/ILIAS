@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -30,7 +31,7 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends Input implements C\Input\Field\Radio
+class Radio extends Field implements C\Input\Field\Radio
 {
     use JavaScriptBindable;
     use Triggerer;

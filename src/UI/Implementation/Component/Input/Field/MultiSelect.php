@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect
+class MultiSelect extends Field implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}

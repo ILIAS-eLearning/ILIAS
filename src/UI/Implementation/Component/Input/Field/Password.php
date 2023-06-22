@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -32,7 +33,7 @@ use Closure;
 /**
  * This implements the password input.
  */
-class Password extends Input implements C\Input\Field\Password, Triggerable
+class Password extends Field implements C\Input\Field\Password, Triggerable
 {
     use ComponentHelper;
     use JavaScriptBindable;

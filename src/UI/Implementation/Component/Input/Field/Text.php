@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the text input.
  */
-class Text extends Input implements C\Input\Field\Text
+class Text extends Field implements C\Input\Field\Text
 {
     private ?int $max_length = null;
     private bool $complex = false;

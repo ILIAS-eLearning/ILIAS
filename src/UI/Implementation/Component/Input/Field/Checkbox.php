@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -31,7 +32,7 @@ use InvalidArgumentException;
 /**
  * This implements the checkbox input.
  */
-class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
+class Checkbox extends Field implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
 {
     use JavaScriptBindable;
 

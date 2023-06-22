@@ -23,13 +23,13 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Field as I;
 use LogicException;
 
 /**
  * This implements the optional group.
  */
-class OptionalGroup extends Group implements Field\OptionalGroup
+class OptionalGroup extends Group implements I\OptionalGroup
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -59,10 +59,10 @@ class OptionalGroup extends Group implements Field\OptionalGroup
         return parent::isClientSideValueOk($value);
     }
 
-    public function withRequired($is_required, ?Constraint $requirement_constraint = null): Field\Input
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): I\Input
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return Input::withRequired($is_required, $requirement_constraint);
+        return Field::withRequired($is_required, $requirement_constraint);
     }
 
     public function isRequired(): bool
@@ -73,7 +73,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value): Field\Input
+    public function withValue($value): I\Input
     {
         if ($value === null) {
             $clone = clone $this;
@@ -102,7 +102,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): Field\Input
+    public function withInput(InputData $input): I\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

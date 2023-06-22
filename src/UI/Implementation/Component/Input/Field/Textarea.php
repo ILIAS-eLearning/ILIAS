@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -28,7 +29,7 @@ use Closure;
 /**
  * This implements the textarea input.
  */
-class Textarea extends Input implements C\Input\Field\Textarea
+class Textarea extends Field implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
 

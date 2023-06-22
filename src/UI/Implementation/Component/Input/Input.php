@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
@@ -40,16 +40,12 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Field\Input, FormInputInternal
+abstract class Input implements C\Input\Field\Input
 {
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
 
-    protected DataFactory $data_factory;
-    protected Factory $refinery;
-    protected string $label;
-    protected ?string $byline;
     protected bool $is_required = false;
     protected ?Constraint $requirement_constraint = null;
     protected bool $is_disabled = false;
@@ -81,22 +77,17 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @var Transformation[]
      */
-    private array $operations;
+    private array $operations = [];
 
     /**
      * Input constructor.
      */
     public function __construct(
-        DataFactory $data_factory,
-        Factory $refinery,
-        string $label,
-        ?string $byline = null
+        protected DataFactory $data_factory,
+        protected Refinery $refinery,
+        protected string $label,
+        protected ?string $byline = null
     ) {
-        $this->data_factory = $data_factory;
-        $this->refinery = $refinery;
-        $this->label = $label;
-        $this->byline = $byline;
-        $this->operations = [];
     }
 
     // Observable properties of the input as it is shown to the client.

@@ -24,7 +24,7 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\Field;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
@@ -60,7 +60,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
     protected Data\Factory $data_factory;
     protected Refinery $refinery;
-    protected \ILIAS\UI\Component\Input\Field\Input $switchable_group;
+    protected \ILIAS\UI\Component\Input\Field\Group $switchable_group;
     protected SwitchableGroup $group;
 
     public function setUp(): void
@@ -160,7 +160,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->data_factory,
             $this->refinery,
             $this->lng,
-            [$this->createMock(Input::class)],
+            [$this->createMock(Field::class)],
             "LABEL",
             "BYLINE"
         );
@@ -506,7 +506,7 @@ EOT;
             "field_2" => $f->text("f2", "some other field")
         ]);
         $empty_group_title = 'empty group, the title';
-        $empty_group_byline =  'empty group, the byline';
+        $empty_group_byline = 'empty group, the byline';
         $group3 = $f->group([], $empty_group_title, $empty_group_byline);
 
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);

@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -30,7 +31,7 @@ use Throwable;
 /**
  * This implements the URL input.
  */
-class Url extends Input implements C\Input\Field\Url
+class Url extends Field implements C\Input\Field\Url
 {
     /**
      * @inheritdoc

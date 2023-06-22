@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -35,7 +36,7 @@ use InvalidArgumentException;
 /**
  * This implements the group input.
  */
-class Group extends Input implements C\Input\Field\Group
+class Group extends Field implements C\Input\Field\Group
 {
     use ComponentHelper;
 

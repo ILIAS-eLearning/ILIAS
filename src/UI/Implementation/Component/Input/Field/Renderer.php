@@ -33,6 +33,7 @@ use Closure;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\Data\DataSize;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
 /**
  * Class Renderer
@@ -325,7 +326,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("BYLINE", $group->getByline());
 
             if ($component->getValue() !== null) {
-                list($index,) = $component->getValue();
+                list($index, ) = $component->getValue();
                 if ($index == $key) {
                     $tpl->setVariable("CHECKED", 'checked="checked"');
                 }

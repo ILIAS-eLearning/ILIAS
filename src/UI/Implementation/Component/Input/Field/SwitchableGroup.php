@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -24,7 +25,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Field as I;
 use ilLanguage;
 use LogicException;
 use InvalidArgumentException;
@@ -32,7 +33,7 @@ use InvalidArgumentException;
 /**
  * This implements the switchable group.
  */
-class SwitchableGroup extends Group implements Field\SwitchableGroup
+class SwitchableGroup extends Group implements I\SwitchableGroup
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -75,18 +76,18 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return array_key_exists($value, $this->inputs);
     }
 
-    public function withRequired($is_required, ?Constraint $requirement_constraint = null): Field\Input
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): I\Input
     {
-        return Input::withRequired($is_required, $requirement_constraint);
+        return Field::withRequired($is_required, $requirement_constraint);
     }
 
     /**
      * @inheritdoc
      */
-    public function withValue($value): Field\Input
+    public function withValue($value): I\Input
     {
         if (is_string($value) || is_int($value)) {
-            return Input::withValue($value);
+            return Field::withValue($value);
         }
         if (!is_array($value) || count($value) !== 2) {
             throw new InvalidArgumentException(
@@ -95,7 +96,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
             );
         }
         list($key, $group_value) = $value;
-        $clone = Input::withValue($key);
+        $clone = Field::withValue($key);
         $clone->inputs[$key] = $clone->inputs[$key]->withValue($group_value);
         return $clone;
     }
@@ -105,7 +106,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
      */
     public function getValue()
     {
-        $key = Input::getValue();
+        $key = Field::getValue();
         if (is_null($key)) {
             return null;
         }
@@ -115,7 +116,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): Field\Input
+    public function withInput(InputData $input): I\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

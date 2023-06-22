@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the select.
  */
-class Select extends Input implements C\Input\Field\Select
+class Select extends Field implements C\Input\Field\Select
 {
     protected array $options;
     protected string $label;

@@ -34,8 +34,9 @@ use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
-abstract class ViewControl implements VCInterface\ViewControl, InputInternal
+abstract class ViewControl extends Input implements VCInterface\ViewControl, InputInternal
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -52,13 +53,6 @@ abstract class ViewControl implements VCInterface\ViewControl, InputInternal
      */
     protected array $operations = [];
 
-    public function __construct(
-        protected DataFactory $data_factory,
-        protected Refinery $refinery,
-        protected string $label
-    ) {
-    }
-
     public function withOnChange(Signal $change_signal): self
     {
         $clone = clone $this;
@@ -71,134 +65,10 @@ abstract class ViewControl implements VCInterface\ViewControl, InputInternal
         return $this->change_signal ?? null;
     }
 
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-/*
-    public function withLabel(string $label): self
-    {
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
-    }
-*/
-
-    public function isDisabled(): bool
-    {
-        return $this->is_disabled;
-    }
-
-    public function withDisabled(bool $is_disabled): self
-    {
-        $clone = clone $this;
-        $clone->is_disabled = $is_disabled;
-        return $clone;
-    }
-    /**
-     * @param mixed $value
-     */
-    abstract protected function isClientSideValueOk($value): bool;
     abstract protected function getDefaultValue(): string;
 
-    public function withValue($value): self
+    protected function getConstraintForRequirement(): ?Constraint
     {
-        $this->checkArg(
-            "value",
-            $this->isClientSideValueOk($value),
-            "Display value does not match input type: " . $this::class . ' - ' . print_r($value, true)
-        );
-        $clone = clone $this;
-        $clone->value = $value;
-        return $clone;
-    }
-
-    public function withInput(InputData $input)
-    {
-        if (is_null($this->getName())) {
-            throw new \LogicException("Can only collect if control has a name: " . $this::class);
-        }
-
-        $input_value = $input->getOr($this->getName(), '');
-        if ($input_value === '') {
-            $input_value = $this->getDefaultValue();
-        }
-
-        $clone = $this->withValue($input_value);
-
-        $clone->content = $this->applyOperationsTo($clone->getValue());
-        if ($clone->content->isError()) {
-            $error = $clone->content->error();
-            if ($error instanceof \Exception) {
-                $error = $error->getMessage();
-            }
-            throw new \InvalidArgumentException(
-                'Cannot transform ' . print_r($input_value)
-                . $error
-            );
-        }
-        return $clone;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    public function getContent(): Result\Ok
-    {
-        if (is_null($this->content)) {
-            throw new LogicException("No content of this control has been evaluated yet");
-        }
-        return $this->content;
-    }
-
-    final public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function withNameFrom(NameSource $source)
-    {
-        $clone = clone $this;
-        $clone->name = $source->getNewName();
-        return $clone;
-    }
-
-    final public function withDedicatedName(string $dedicated_name): self
-    {
-        $clone = clone $this;
-        $clone->dedicated_name = $dedicated_name;
-        return $clone;
-    }
-
-    public function withAdditionalTransformation(Transformation $trafo): self
-    {
-        $clone = clone $this;
-        $clone->operations[] = $trafo;
-        return $clone;
-    }
-
-    protected function applyOperationsTo($res): Result
-    {
-        if ($res === null) {
-            return $this->data_factory->ok($res);
-        }
-
-        $res = $this->data_factory->ok($res);
-        foreach ($this->getOperations() as $op) {
-            if ($res->isError()) {
-                return $res;
-            }
-            $res = $op->applyTo($res);
-        }
-        return $res;
-    }
-
-    private function getOperations(): \Generator
-    {
-        foreach ($this->operations as $op) {
-            yield $op;
-        }
+        return null;
     }
 }

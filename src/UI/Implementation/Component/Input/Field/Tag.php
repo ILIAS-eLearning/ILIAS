@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -37,7 +38,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
+class Tag extends Field implements FormInputInternal, C\Input\Field\Tag
 {
     use JavaScriptBindable;
     use Triggerer;
