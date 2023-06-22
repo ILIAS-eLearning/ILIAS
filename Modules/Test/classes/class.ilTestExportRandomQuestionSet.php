@@ -118,7 +118,8 @@ class ilTestExportRandomQuestionSet extends ilTestExport
                 'poolId' => $definition->getPoolId(),
                 'questAmount' => $definition->getQuestionAmount() ?? '',
                 'poolQuestCount' => $definition->getPoolQuestionCount(),
-                'position' => $definition->getSequencePosition()
+                'position' => $definition->getSequencePosition(),
+                'typeFilter' => implode(',', $definition->getTypeFilterAsTypeTags()),
             );
 
 
