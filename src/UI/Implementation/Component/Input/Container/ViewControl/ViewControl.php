@@ -27,7 +27,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\Input\Container\QueryParamsFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;

@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Implementation\Component\Input\Container\QueryParamsFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 
 /**
  * This implements commonalities between all Filters.

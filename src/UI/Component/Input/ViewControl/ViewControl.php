@@ -35,12 +35,12 @@ interface ViewControl extends Input, Triggerer
      * the Container will amend a Signal to the Component; this Signal MUST
      * be triggered when operating the Control.
      */
-    public function withOnChange(Signal $signal): self;
+    //public function withOnChange(Signal $signal): self;
 
     /**
      * Trigger this signal when the control is being operated.
      */
-    public function getOnChangeSignal(): ?Signal;
+    //public function getOnChangeSignal(): ?Signal;
 
     //public function withLabel(string $label): self;
     //public function isDisabled(): bool;
