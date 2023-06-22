@@ -309,7 +309,13 @@ class ilObjTestGUI extends ilObjectGUI
 
             case "iltestplayerfixedquestionsetgui":
                 if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt("msg_no_perm_read_item"),
+                        $this->object->getTitle()
+                    ), true);
+                    $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+                    $this->ctrl->redirectByClass('ilrepositorygui');
+                    return;
                 }
                 $this->trackTestObjectReadEvent();
                 require_once "./Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php";
@@ -323,7 +329,13 @@ class ilObjTestGUI extends ilObjectGUI
 
             case "iltestplayerrandomquestionsetgui":
                 if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt("msg_no_perm_read_item"),
+                        $this->object->getTitle()
+                    ), true);
+                    $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+                    $this->ctrl->redirectByClass('ilrepositorygui');
+                    return;
                 }
                 $this->trackTestObjectReadEvent();
                 require_once "./Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php";
@@ -337,7 +349,13 @@ class ilObjTestGUI extends ilObjectGUI
 
             case "iltestplayerdynamicquestionsetgui":
                 if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt("msg_no_perm_read_item"),
+                        $this->object->getTitle()
+                    ), true);
+                    $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+                    $this->ctrl->redirectByClass('ilrepositorygui');
+                    return;
                 }
                 $this->trackTestObjectReadEvent();
                 require_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
