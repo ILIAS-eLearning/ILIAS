@@ -61,6 +61,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
     protected function insertCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
+        $lng = $this->lng;
 
         $hier_id = "pg";
         $pc_id = "";
@@ -84,8 +85,33 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
             if (!is_null($media_item)) {
                 $pc_media->createAlias($page, $hier_id, $pc_id);
             }
+            $updated = $page->update();
+        } else {
+            if ($mob_gui->getForm()->getInput("standard_type") === "File") {
+                $edit_gui = new \ilPCMediaObjectEditorGUI();
+                $form = $edit_gui->getUploadForm($lng);
+                $form->checkInput();
+                $form->setValuesByPost();
+                $rendered_form = $edit_gui->getRenderedUploadForm(
+                    $this->ui_wrapper,
+                    $lng,
+                    $form
+                );
+                return $this->ui_wrapper->sendFormError($rendered_form);
+            } else {
+                $edit_gui = new \ilPCMediaObjectEditorGUI();
+                $form = $edit_gui->getUrlForm($lng);
+                $form->checkInput();
+                $form->setValuesByPost();
+                $rendered_form = $edit_gui->getRenderedUrlForm(
+                    $this->ui_wrapper,
+                    $lng,
+                    $form
+                );
+                return $this->ui_wrapper->sendFormError($rendered_form);
+            }
         }
-        $updated = $page->update();
+
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
