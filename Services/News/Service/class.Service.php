@@ -47,11 +47,15 @@ class Service
         return new InternalService($this->DIC);
     }
 
-    /*
     public function data(): NewsItemManager
     {
-        return new NewsItemManager();
-    }*/
+        $i = $this->internal();
+        return new NewsItemManager(
+            $i->data(),
+            $i->repo(),
+            $i->domain()
+        );
+    }
 
     /**
      * Get a new news item for a context
