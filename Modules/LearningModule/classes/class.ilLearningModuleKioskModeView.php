@@ -107,7 +107,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
                 break;
         }
 
-        $this->initLMService($this->current_page_id);
+        //$this->initLMService($this->current_page_id);
 
         return $state;
     }
