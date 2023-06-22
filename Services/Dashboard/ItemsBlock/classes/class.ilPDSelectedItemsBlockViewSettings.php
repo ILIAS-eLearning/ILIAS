@@ -211,7 +211,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function getDefaultSortingByView(int $view): string
     {
-        $sorting = $this->settings->get('pd_def_sort_view' . $view, self::SORT_BY_LOCATION);
+        $sorting = $this->settings->get('pd_def_sort_view_' . $view, self::SORT_BY_LOCATION);
         if (!in_array($sorting, $this->getAvailableSortOptionsByView($view), true)) {
             return $this->getAvailableSortOptionsByView($view)[0];
         }
@@ -242,7 +242,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
         assert(in_array($type, $this->getAvailableSortOptionsByView($view), true));
 
-        $this->settings->set('pd_def_sort_view' . $view, $type);
+        $this->settings->set('pd_def_sort_view_' . $view, $type);
         $this->settings->set('pd_active_sort_view_' . $view, serialize($active));
     }
 

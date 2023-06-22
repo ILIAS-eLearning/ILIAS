@@ -60,9 +60,16 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
         for ($view = 0; $view <= 4; $view++) {
             if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_pres_view_' . $view])) === 0) {
                 $this->db->insert('settings', [
-                    'module' => ['text' => 'common'],
-                    'keyword' => ['text' => 'pd_active_pres_view_' . $view],
+                    'module' => ['text', 'common'],
+                    'keyword' => ['text', 'pd_active_pres_view_' . $view],
                     'value' => ['text', serialize(['list', 'tile'])]
+                ]);
+            }
+            if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_def_pres_view_' . $view])) === 0) {
+                $this->db->insert('settings', [
+                    'module' => ['text', 'common'],
+                    'keyword' => ['text', 'pd_def_pres_view_' . $view],
+                    'value' => ['text', 'list']
                 ]);
             }
         }
@@ -85,6 +92,28 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
                 'module' => ['text', 'common'],
                 'keyword' => ['text', 'pd_active_sort_view_4'],
                 'value' => ['text', serialize(['location', 'alphabet'])]
+            ]);
+        }
+
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_def_sort_view_1'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_def_sort_view_1'],
+                'value' => ['text', 'location']
+            ]);
+        }
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_def_sort_view_3'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_def_sort_view_3'],
+                'value' => ['text', 'location']
+            ]);
+        }
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_def_sort_view_4'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_def_sort_view_4'],
+                'value' => ['text', 'location']
             ]);
         }
     }
