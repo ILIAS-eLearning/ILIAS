@@ -398,15 +398,20 @@ export default class PageUIActionHandler {
     }
 
     this.client.sendCommand(insert_action).then(result => {
-      this.ui.handlePageReloadResponse(result);
-
-      //after_pcid, pcid, component, data
-      dispatch.dispatch(af.page().editor().componentAfterSave(
+      const p = result.payload;
+      if (p.formError) {
+        document.querySelector(".copg-new-content-placeholder img").outerHTML = this.ui.uiModel.components[model.getCurrentPCName()].icon;
+        this.ui.showFormAfterError(p.form);
+      } else {
+        this.ui.handlePageReloadResponse(result);
+        //after_pcid, pcid, component, data
+        dispatch.dispatch(af.page().editor().componentAfterSave(
           params.afterPcid,
           params.pcid,
           params.component,
           params.data
-      ));
+        ));
+      }
 
     });
   }

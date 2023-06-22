@@ -209,6 +209,15 @@ class UIWrapper
         return new Response($data);
     }
 
+    public function sendFormError(
+        string $form
+    ): Response {
+        $data = new \stdClass();
+        $data->formError = true;
+        $data->form = $form;
+        return new Response($data);
+    }
+
     public function getRenderedViewControl(
         array $actions
     ): string {

@@ -1058,7 +1058,6 @@ export default class PageUI {
             case "component.save":
               const form = form_button.closest("form");
               const form_data = new FormData(form);
-
               //after_pcid, pcid, component, data
               dispatch.dispatch(action.page().editor().componentSave(
                 model.getCurrentInsertPCId(),
@@ -1124,7 +1123,11 @@ export default class PageUI {
       this.toolSlate.setContent(p.editForm);
       this.initFormButtonsAndSettingsLink();
     });
+  }
 
+  showFormAfterError(form) {
+    this.toolSlate.setContent(form);
+    this.initFormButtonsAndSettingsLink();
   }
 
 }
