@@ -22,11 +22,6 @@ namespace ILIAS\Dashboard\Setup;
 
 use ilDatabaseUpdateSteps;
 use ilDBInterface;
-use ilPDSelectedItemsBlockViewSettings;
-use ilObjUser;
-use ilPDSelectedItemsBlockConstants;
-use ilSetting;
-use ILIAS\Dashboard\Access\DashboardAccess;
 
 class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -45,13 +40,52 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
+        $this->db->insert('settings', [
+            'module' => ['text', 'common'],
+            'keyword' => ['text', 'disable_recommended_content'],
+            'value' => ['text', '0']
+        ]);
+        $this->db->insert('settings', [
+            'module' => ['text', 'common'],
+            'keyword' => ['text', 'disable_study_programmes'],
+            'value' => ['text', '0']
+        ]);
+        $this->db->insert('settings', [
+            'module' => ['text', 'common'],
+            'keyword' => ['text', 'disable_learning_sequences'],
+            'value' => ['text', '0']
+        ]);
+
+        $sql = "SELECT * FROM settings WHERE keyword = %s";
         for ($view = 0; $view <= 4; $view++) {
-            $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_pres_view_' . $view, serialize(['list', 'tile'])]);
+            if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_pres_view_' . $view])) === 0) {
+                $this->db->insert('settings', [
+                    'module' => ['text' => 'common'],
+                    'keyword' => ['text' => 'pd_active_pres_view_' . $view],
+                    'value' => ['text', serialize(['list', 'tile'])]
+                ]);
+            }
         }
-        $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_sort_view_0', serialize(['location', 'type', 'alphabet'])]);
-        $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_sort_view_1', serialize(['location', 'type', 'alphabet'])]);
-        $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_sort_view_2', serialize(['location', 'type', 'alphabet', 'start_date'])]);
-        $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_sort_view_3', serialize(['location', 'alphabet'])]);
-        $this->db->manipulateF('INSERT IGNORE INTO settings (module, keyword, value) VALUES (%s, %s, %s)', ['text', 'text', 'text'], ['common', 'pd_active_sort_view_4', serialize(['location', 'alphabet'])]);
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_sort_view_1'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_active_sort_view_1'],
+                'value' => ['text', serialize(['location', 'type', 'alphabet'])]
+            ]);
+        }
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_sort_view_3'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_active_sort_view_3'],
+                'value' => ['text', serialize(['location', 'alphabet'])]
+            ]);
+        }
+        if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_sort_view_4'])) === 0) {
+            $this->db->insert('settings', [
+                'module' => ['text', 'common'],
+                'keyword' => ['text', 'pd_active_sort_view_4'],
+                'value' => ['text', serialize(['location', 'alphabet'])]
+            ]);
+        }
     }
 }

@@ -259,7 +259,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         }
         return array_filter(
             $active_sortings,
-            fn (string $sorting): bool => in_array(
+            fn(string $sorting): bool => in_array(
                 $sorting,
                 $this->getAvailableSortOptionsByView($view),
                 true
@@ -468,32 +468,32 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enabledRecommendedContent(): bool
     {
-        return (int) $this->settings->get('enable_recommended_content', '1') === 0;
+        return (int) $this->settings->get('disable_recommended_content', '1') === 0;
     }
 
     public function enabledLearningSequences(): bool
     {
-        return (int) $this->settings->get('enable_learning_sequences', '1') === 0;
+        return (int) $this->settings->get('disable_learning_sequences', '1') === 0;
     }
 
     public function enabledStudyProgrammes(): bool
     {
-        return (int) $this->settings->get('enable_study_programmes', '1') === 0;
+        return (int) $this->settings->get('disable_study_programmes', '1') === 0;
     }
 
     public function enableRecommendedContent(bool $status): void
     {
-        $this->settings->set('enable_recommended_content', $status ? "0" : "1");
+        $this->settings->set('disable_recommended_content', $status ? "0" : "1");
     }
 
     public function enableLearningSequences(bool $status): void
     {
-        $this->settings->set('enable_learning_sequences', $status ? "0" : "1");
+        $this->settings->set('disable_learning_sequences', $status ? "0" : "1");
     }
 
     public function enableStudyProgrammes(bool $status): void
     {
-        $this->settings->set('enable_study_programmes', $status ? "0" : "1");
+        $this->settings->set('disable_study_programmes', $status ? "0" : "1");
     }
 
     public function getViewName(int $view): string
