@@ -29,6 +29,19 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
 {
     protected const KEY_SPACE = 25;
 
+    /** @var list<string> */
+    private array $exclusion_list = [];
+
+    /**
+     * @param list<string> $exclusion_list
+     */
+    public function withExclusionList(array $exclusion_list): self
+    {
+        $clone = clone $this;
+        $clone->exclusion_list = $exclusion_list;
+        return $clone;
+    }
+
     private function stripNullBytes(string $ret): string
     {
         return str_replace("\0", '', $ret);
@@ -52,7 +65,7 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
      */
     protected function tablesContent(): string
     {
-        $ret = "";
+        $ret = '';
         foreach ($this->tables() as $title => $content) {
             $ret .= "\n\n-- $title --\n\n";
             if (count($content) > 0) {
@@ -62,7 +75,7 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
                     // indent multiline values, first print_r, split in lines,
                     // indent all but first line, then implode again.
                     $first = true;
-                    $indentation = str_pad("", self::KEY_SPACE);
+                    $indentation = str_pad('', self::KEY_SPACE);
                     $value = implode(
                         "\n",
                         array_map(
@@ -92,14 +105,62 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
      */
     protected function tables(): array
     {
+        $post = $_POST;
+        $server = $_SERVER;
+
+        $post = $this->hideSensitiveData($post);
+        $server = $this->hideSensitiveData($server);
+        $server = $this->shortenPHPSessionId($server);
+
         return [
-            "GET Data" => $_GET,
-            "POST Data" => $_POST,
-            "Files" => $_FILES,
-            "Cookies" => $_COOKIE,
-            "Session" => $_SESSION ?? [],
-            "Server/Request Data" => $_SERVER,
-            "Environment Variables" => $_ENV,
+            'GET Data' => $_GET,
+            'POST Data' => $post,
+            'Files' => $_FILES,
+            'Cookies' => $_COOKIE,
+            'Session' => $_SESSION ?? [],
+            'Server/Request Data' => $server,
+            'Environment Variables' => $_ENV,
         ];
+    }
+
+    /**
+     * @param array<string, mixed> $super_global
+     * @return array<string, mixed>
+     */
+    private function hideSensitiveData(array $super_global): array
+    {
+        foreach ($this->exclusion_list as $parameter) {
+            if (isset($super_global[$parameter])) {
+                $super_global[$parameter] = 'REMOVED FOR SECURITY';
+            }
+
+            if (isset($super_global['post_vars'][$parameter])) {
+                $super_global['post_vars'][$parameter] = 'REMOVED FOR SECURITY';
+            }
+        }
+
+        return $super_global;
+    }
+
+    /**
+     * @param array<string, mixed> $server
+     * @return array<string, mixed>
+     */
+    private function shortenPHPSessionId(array $server): array
+    {
+        $cookie_content = $server['HTTP_COOKIE'];
+        $cookie_content = explode(';', $cookie_content);
+
+        foreach ($cookie_content as $key => $content) {
+            $content_array = explode('=', $content);
+            if (trim($content_array[0]) === session_name()) {
+                $content_array[1] = substr($content_array[1], 0, 5) . ' (SHORTENED FOR SECURITY)';
+                $cookie_content[$key] = implode('=', $content_array);
+            }
+        }
+
+        $server['HTTP_COOKIE'] = implode(';', $cookie_content);
+
+        return $server;
     }
 }
