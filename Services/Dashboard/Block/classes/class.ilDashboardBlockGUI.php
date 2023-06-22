@@ -568,8 +568,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             foreach ($item_group as $item) {
                 if ($this->rbacsystem->checkAccess('leave', $item->getRefId())) {
                     if ($item->getType() === 'crs') {
-                        $mebersObj = ilParticipants::getInstance($item->getRefId());
-                        if (!$mebersObj->checkLastAdmin([$this->user->getId()])) {
+                        $members_obj = ilParticipants::getInstance($item->getRefId());
+                        if (!$members_obj->checkLastAdmin([$this->user->getId()])) {
                             continue;
                         }
                     }
