@@ -30,6 +30,17 @@ use Whoops\Exception\Inspector;
 
 class ilErrorHandling extends PEAR
 {
+    private const SENSTIVE_PARAMETER_NAMES = [
+        'password',
+        'passwd',
+        'passwd_retype',
+        'current_password',
+        'usr_password',
+        'usr_password_retype',
+        'new_password',
+        'new_password_retype',
+    ];
+
     /**
     * Toggle debugging on/off
     * @var		boolean
@@ -357,6 +368,7 @@ class ilErrorHandling extends PEAR
             $logger = ilLoggingErrorSettings::getInstance();
             if (!empty($logger->folder())) {
                 $lwriter = new ilLoggingErrorFileStorage($inspector, $logger->folder(), $file_name);
+                $lwriter = $lwriter->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
                 $lwriter->write();
             }
 
@@ -391,9 +403,9 @@ class ilErrorHandling extends PEAR
         
         switch (ERROR_HANDLER) {
             case "TESTING":
-                return new ilTestingHandler();
+                return (new ilTestingHandler())->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
             case "PLAIN_TEXT":
-                return new ilPlainTextHandler();
+                return (new ilPlainTextHandler())->withExclusionList(self::SENSTIVE_PARAMETER_NAMES);
             case "PRETTY_PAGE":
                 // fallthrough
             default:
@@ -407,6 +419,10 @@ class ilErrorHandling extends PEAR
                 $prettyPageHandler = new PrettyPageHandler();
 
                 $this->addEditorSupport($prettyPageHandler);
+
+                foreach (self::SENSTIVE_PARAMETER_NAMES as $param) {
+                    $prettyPageHandler->blacklist('_POST', $param);
+                }
 
                 return $prettyPageHandler;
         }

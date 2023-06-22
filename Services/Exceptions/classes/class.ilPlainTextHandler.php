@@ -18,6 +18,19 @@ class ilPlainTextHandler extends Handler
 {
     const KEY_SPACE = 25;
 
+    /** @var list<string> */
+    private $exclusion_list = [];
+
+    /**
+     * @param list<string> $exclusion_list
+     */
+    public function withExclusionList(array $exclusion_list) : self
+    {
+        $clone = clone $this;
+        $clone->exclusion_list = $exclusion_list;
+        return $clone;
+    }
+
     /**
      * Last missing method from HandlerInterface.
      *
@@ -109,8 +122,8 @@ class ilPlainTextHandler extends Handler
         $post = $_POST;
         $server = $_SERVER;
 
-        $post = $this->hidePassword($post);
-        $server = $this->hidePassword($server);
+        $post = $this->hideSensitiveData($post);
+        $server = $this->hideSensitiveData($server);
         $server = $this->shortenPHPSessionId($server);
 
         return array( "GET Data" => $_GET
@@ -124,22 +137,22 @@ class ilPlainTextHandler extends Handler
     }
 
     /**
-     * Replace password from super global array with security message
-     *
-     * @param array $superGlobal
-     * @return array
+     * @param array<string, mixed> $super_global
+     * @return array<string, mixed>
      */
-    private function hidePassword(array $superGlobal) : array
+    private function hideSensitiveData(array $super_global) : array
     {
-        if (isset($superGlobal["password"])) {
-            $superGlobal["password"] = "REMOVED FOR SECURITY";
+        foreach ($this->exclusion_list as $parameter) {
+            if (isset($super_global[$parameter])) {
+                $super_global[$parameter] = 'REMOVED FOR SECURITY';
+            }
+
+            if (isset($super_global['post_vars'][$parameter])) {
+                $super_global['post_vars'][$parameter] = 'REMOVED FOR SECURITY';
+            }
         }
 
-        if (isset($superGlobal["post_vars"]) && isset($superGlobal["post_vars"]["password"])) {
-            $superGlobal["post_vars"]["password"] = "REMOVED FOR SECURITY";
-        }
-
-        return $superGlobal;
+        return $super_global;
     }
 
     /**
