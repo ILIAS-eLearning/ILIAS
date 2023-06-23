@@ -9,30 +9,7 @@ acts as a notepad for information that comes up during day to day work with the
 framework, discussions, etc. It may act as a source for new tasks. The sections
 are explained in [Usage](#usage).
 
-
 ## Short Term
-
-### All UI-Elements Step 1
-
-The UI-Framework attempts to be the source for all visual elements in ILIAS and
-thus supersede the current templating. The challenge is two-fold: on the one hand
-the required elements need to be implemented in the UI-framework, on the other
-hand the Components need to use the UI-framework for their actual rendering. 
-
-Not all Components have the same priority. Highest on our list are Components that 
-are needed on every screen to render ILIAS with an empty content section (such as Tabs). 
-Next are Components, that are needed in many use cases and therefore have a very high
-grade of re-use (such as the Toolbar). Due to major work done for ILIAS 6, such as the Standard Layout 
-Component, Meta Bar and Main Bar we are now able to promote further Components to our list of short 
-term tasks, see below. Note that the names given here, are only the names of the task and must not necessarily 
-reflect the names of the resulting Components. 
-
-Further note that we desperately search developers and UX designers willing
-to work creating those missing Components. If you are interested, drop a mail to the
-coordinators, so they can get you geared up for the work. For all Components we highly
-recommend starting with a Workshop with the UI Components coordinators to align various visions
-and concepts of the given Component. The following items have the highest priority on 
-our list of short term tasks.
 
 #### Outer Content (advanced, variable)
 This Component is basically what could be hooked into the [Standard Layout](Component/Layout/Page/Factory.php) as
@@ -67,8 +44,8 @@ only one or no Toolbar can be provided and whether there would be different type
 one with a Sidebar).
 
 #### Toolbar
-This Component will probably need to be designed as new Input Container. An important part of the work here will be to 
-devise a set of rules of what the toolbar should be used for and what not.
+The Toolbar is currently in discussion (link to paper) and it is very plausibel that we find altnerntive places for all elements currently in it.
+Therefore we are not sure, if there will ever be something like the toolbar in the UI Components.
 
 ### Simple usage of demo-page in examples  (beginner, ~4h)
 To show how a UI-Component looks like in the page context (esp. for 
@@ -103,7 +80,7 @@ data in the existing inputs. It should also show a message that says why the dat
 was not processed and that the user should check the input again. A mechanism
 like this will become even more valuable once we want to process forms asynchronously.
 
-### Propose Context Parameter for Escaping on ilTemplate::setVariable (advanced, ~8h)
+### Propose Context Parameter for Escaping on ilTemplate::setVariable (advanced, ~8h to unknown)
 
 Currently there is no generalized way to handle escaping when outputting text.
 In the long-term we would like to switch to a templating engine that is aware
@@ -114,32 +91,7 @@ The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
 feedback from other devs, we could either default to a very strict context that
 escapes a lot, or to a context that does not escape and a dicto-rule.
 
-### Add mutators to Counter (beginner, ~1h)
-
-Currently, counters (for Glyphs, e.g.) are constructed with a numeric value;
-there is a getter for this number, but in order to increase the value, one has
-to construct a new Counter.
-It would be handy to have a "withNumber"-mutator, or something like
-"withIncrease/withDecrease"
-
-### Implement `Input::getUpdateOnLoadCode`, `Input::withOnUpdate` and `Input::appendOnUpdate` for every Input (advanced, ~4h)
-
-When introducing [UI Filters](https://github.com/ILIAS-eLearning/ILIAS/pull/1735)
-some ends have been left open and need to be implemented properly. Currently
-`withOnUpdate` and `appendOnUpdate` do not work on Inputs in the general case and
-only work for `Select Field` and `Text Field` in the context of the filter. To
-let the promise of `OnUpdate` come true, the following things will need to be done:
-
-* Every Input needs to implement `Input::getUpdateOnLoadCode`.
-* Once this is done, the method `Input::getUpdateOnLoadCode` on the base class
-should be removed to force new inputs to implement this method properly.
-* The usage of the method should be moved from the (specific) `Container\Filter\Renderer`
-to the (general) `Field\Renderer` to make `OnUpdate` apply everywhere.
-* `Input::withOnUpdate` and `Input::appendOnUpdate` can then be reinstated on the
-base class and removed on `Field\Select` and `Field\Text`.
-* `Group::withOnUpdate` can use `parent::withOnUpdate` then.
-
-New inputs must already implement the methods.
+Another maybe even better solution might be to exchange to templating engine completely.
 
 ### Create a `Group`-family in `Input\Field` (beginner, ~2h)
 
@@ -148,49 +100,10 @@ are created with methods that share the "group"-suffix. This is a exemplary case
 for the introduction of a new 'Group` family within `Input\Field`, with its own
 description, factory, renderer, directory...
 
-### Improvement of Persistent Node States in `Tree` (advanced)
-
-Currently there is no centralized approach to enhance `TreeRecursion` instances or
-`Node` elements with persistence capabilities for the purpose of storing the state
-(collapsed/expanded) of a `Node`.
-With ILIAS 6 a first low-level approach was introduced in
-[`ilTreeExplorerGUI`](../../Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php#L444),
-which enables derivatives to
-[specify a `ilCtrl` route](../../Services/Mail/classes/class.ilMailExplorer.php#L87) used
-as action for node state HTTP POST requests. This requests can be processed in the
-client/consumer and delegated to the `ilTreeExplorerGUI` by calling
-[`toggleExplorerNodeState`](../..Services/Mail/classes/class.ilMailGUI.php#L288)
-on the explore instance.
-This should be moved to a centralized position, e.g. Services/UI.
-
 ### Remove Snake Cases Functions for Tests (beginner, ~2h)
 
 There are several tests still using snake cases as function names, remove it.
 See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
-
-### Slates only accept string for titles (beginner, ~2h)
-
-In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
-to also accept buttons. We should extend that.
-
-### Footer should not use an input (beginner)
-
-In the footer's template, an input-tag in cconunction with some inline-js is 
-used to display the perma-link. This should be substituted by a non-input 
-block-element, respectively an UI-Component on its own.
-
-### Turn View Controls into View Control Inputs (advanced)
-
-View Controls actually are more like Inputs and should be treated that way.
-They accordingly should be implemented as Input\ViewControl\ViewControl.
-Finally, when consumers are adapted, ViewControl can be removed from UI's root
-entirely.
-
-#### View Control Inputs to be created (moved):
-* Mode View Control Input
-* Pagination View Control Input
-* Section View Control Input
-* Sortation View Control Input
 
 ### Enforce (Aria-)Labels for Icons and Glyphs (beginner)
 In src/GlobalScreen/Scope/MainMenu/Factory/hasSymbolTrait.php, e.g., as well as in
