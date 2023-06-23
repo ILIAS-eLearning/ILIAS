@@ -524,12 +524,7 @@ class ilAttendanceList
 
         $tpl = $DIC->ui()->mainTemplate();
         $tpl->setContent($this->getHTML());
-        $tpl->addOnLoadCode(
-            "var header = document.getElementsByClassName('il_HeaderInner')[0];
-            header.classList.add('hidden-print');
-            il.Util.print();
-            header.classList.remove('hidden-print');"
-        );
+        $tpl->addOnLoadCode("il.Util.print();");
         //$tpl->setVariable("CONTENT", $this->getHTML());
         //$tpl->setContent($this->getHTML());
     }
