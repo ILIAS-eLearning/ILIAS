@@ -543,6 +543,7 @@ class ilAttendanceList
     public function getFullscreenHTML(): void
     {
         $this->tpl->setContent($this->getHTML());
+        $this->tpl->addOnLoadCode("il.Util.print();");
     }
 
     /**
