@@ -19,7 +19,7 @@ function base()
                     fn ($v) => ['vc_range' => $v]
                 )
             )
-            //->withTotalCount(312)
+            ->withTotalCount(312)
             ->withValue('0:50'),
 
         $f->input()->viewControl()->sortation([
@@ -49,11 +49,11 @@ function base()
     $vc_container = $f->input()->container()->viewControl()->standard($vcs)
          ->withAdditionalTransformation(
              $refinery->custom()->transformation(
-                 fn ($v) => array_filter($v) === [] ? null : array_merge(...array_values($v))
+                 fn ($v) => array_filter(array_values($v)) === [] ? null : array_merge(...array_values($v))
              )
          )
-        ->withRequest($request);
 
+        ->withRequest($request);
     return $r->render([$vc_container, $f->divider()->horizontal()])
         . '<pre>'
         . print_r($vc_container->getData(), true)

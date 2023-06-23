@@ -84,18 +84,8 @@ abstract class Container implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function withRequest(ServerRequestInterface $request)
-    {
-        if (!$this->isSanePostRequest($request)) {
-            throw new LogicException("Server request is not a valid post request.");
-        }
-        $post_data = $this->extractPostData($request);
+    abstract public function withRequest(ServerRequestInterface $request);
 
-        $clone = clone $this;
-        $clone->input_group = $this->getInputGroup()->withInput($post_data);
-
-        return $clone;
-    }
 
     /**
      * @inheritdoc
@@ -154,15 +144,6 @@ abstract class Container implements C\Input\Container\Form\Form
         return true;
     }
 
-    /**
-     * Extract post data from request.
-     */
-    protected function extractPostData(ServerRequestInterface $request): InputData
-    {
-        //TODO: move to Form
-        return new Form\PostDataFromServerRequest($request);
-        return new PostDataFromServerRequest($request);
-    }
 
     public function getDedicatedName(): ?string
     {

@@ -36,5 +36,28 @@ use LogicException;
  */
 abstract class Form extends Container implements C\Input\Container\Form\Form
 {
+    /**
+     * @inheritdoc
+     */
+    public function withRequest(ServerRequestInterface $request)
+    {
+        if (!$this->isSanePostRequest($request)) {
+            throw new LogicException("Server request is not a valid post request.");
+        }
+        $post_data = $this->extractPostData($request);
+
+        $clone = clone $this;
+        $clone->input_group = $this->getInputGroup()->withInput($post_data);
+
+        return $clone;
+    }
+
+    /**
+     * Extract post data from request.
+     */
+    protected function extractPostData(ServerRequestInterface $request): InputData
+    {
+        return new PostDataFromServerRequest($request);
+    }
 
 }

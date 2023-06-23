@@ -28,11 +28,12 @@ use ILIAS\UI\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\Container\Container;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 
-abstract class ViewControl implements I\ViewControl
+abstract class ViewControl extends Container implements I\ViewControl
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -49,13 +50,14 @@ abstract class ViewControl implements I\ViewControl
         Input\NameSource $name_source,
         array $controls
     ) {
-        global $DIC;
-        $this->data_factory = new \ILIAS\Data\Factory();
-
-        $this->controls = array_map(
-            fn ($input) => $input->withNameFrom($name_source),
+        global $DIC; //TODO
+        $field_factory = $DIC['ui.factory.input.field'];
+        parent::__construct(
+            $field_factory,
+            $name_source,
             $controls
         );
+        $this->data_factory = new \ILIAS\Data\Factory();
         $this->submit_signal = $signal_generator->create();
     }
 
@@ -64,16 +66,46 @@ abstract class ViewControl implements I\ViewControl
         return $this->submit_signal;
     }
 
-    public function getInputs(): array
+
+    /**
+     * @inheritdoc
+     */
+    public function withRequest(ServerRequestInterface $request)
     {
-        return $this->controls;
+        $request_data = new QueryParamsFromServerRequest($request);
+        $clone = clone $this;
+        $clone->input_group = $this->getInputGroup()->withInput($request_data);
+        return $clone;
     }
 
-    public function withAdditionalTransformation(Transformation $trafo): self
+/*
+    public function withRequest(ServerRequestInterface $request): self
     {
+        $data = new QueryParamsFromServerRequest($request);
+        $set = [];
+        foreach ($this->controls as $control) {
+            $control = $control->withInput($data);
+            $set[] = $control;
+        }
         $clone = clone $this;
-        $clone->post_operations[] = $trafo;
+        $clone->controls = $set;
         return $clone;
+    }
+    public function getData()
+    {
+        $data = array_merge(
+            ...array_map(
+                fn ($c) => [$c->getName() => $c->getContent()->value()],
+                $this->getInputs()
+            )
+        );
+
+        $content = $this->applyOperations($data, $this->post_operations);
+
+        if (!$content->isOK()) {
+            return null;
+        }
+        return $content->value();
     }
 
     protected function applyOperations($res, $ops): Result
@@ -91,34 +123,5 @@ abstract class ViewControl implements I\ViewControl
         }
         return $res;
     }
-
-    public function withRequest(ServerRequestInterface $request): self
-    {
-        $data = new QueryParamsFromServerRequest($request);
-        $set = [];
-        foreach ($this->controls as $control) {
-            $control = $control->withInput($data);
-            $set[] = $control;
-        }
-        $clone = clone $this;
-        $clone->controls = $set;
-        return $clone;
-    }
-
-    public function getData()
-    {
-        $data = array_merge(
-            ...array_map(
-                fn ($c) => [$c->getName() => $c->getContent()->value()],
-                $this->getInputs()
-            )
-        );
-
-        $content = $this->applyOperations($data, $this->post_operations);
-
-        if (!$content->isOK()) {
-            return null;
-        }
-        return $content->value();
-    }
+*/
 }

@@ -30,7 +30,7 @@ use ILIAS\Refinery\Transformation;
  */
 interface ViewControl extends Component, JavaScriptBindable
 {
-    public function withAdditionalTransformation(Transformation $trafo): self;
-    public function withRequest(ServerRequestInterface $request): self;
-    public function getData();
+    //public function withAdditionalTransformation(Transformation $trafo): self;
+    //public function withRequest(ServerRequestInterface $request): self;
+    //public function getData();
 }
