@@ -1004,13 +1004,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->parseCurrentBlock();
         }
 
-        if ($this->dic['ilIliasIniFile']->readVariable('clients', 'list')) {
-            $rtpl->setCurrentBlock('client_list');
-            $rtpl->setVariable('TXT_CLIENT_LIST', $this->lng->txt('to_client_list'));
-            $rtpl->setVariable('CMD_CLIENT_LIST', $this->ctrl->getLinkTarget($this, 'showClientList'));
-            $rtpl->parseCurrentBlock();
-        }
-
         return $this->substituteLoginPageElements(
             $tpl,
             $page_editor_html,
@@ -1269,18 +1262,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl->setVariable('CLIENT_ID', '?client_id=' . $client_id . '&lang=' . $this->lng->getLangKey());
             $tpl->setVariable('TXT_HOME', $this->lng->txt('home'));
             $tpl->parseCurrentBlock();
-        }
-
-        if ($this->dic['ilIliasIniFile']->readVariable('clients', 'list')) {
-            $tpl->setCurrentBlock('client_list');
-            $tpl->setVariable('TXT_CLIENT_LIST', $this->lng->txt('to_client_list'));
-            $this->ctrl->setParameter($this, 'client_id', $client_id);
-            $tpl->setVariable(
-                'CMD_CLIENT_LIST',
-                $this->ctrl->getLinkTarget($this, 'showClientList')
-            );
-            $tpl->parseCurrentBlock();
-            $this->ctrl->setParameter($this, 'client_id', '');
         }
 
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
