@@ -55,7 +55,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.vc_fieldselection.html", true, true);
         $ui_factory = $this->getUIFactory();
 
-        $set_values = $component->getValue() ? array_filter(explode(',', $component->getValue())) : [];
+        $set_values = $component->getValue() ?? [];
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("OPTION_ID", $this->getJavascriptBinding()->createId());
@@ -65,19 +65,34 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("CHECKED", 'checked');
             }
             $tpl->parseCurrentBlock();
+
+            if (in_array($opt_value, $set_values)) {
+                $tpl->setCurrentBlock("value");
+                $tpl->setVariable("NAME", $component->getName());
+                $tpl->setVariable("VALUE", $opt_value);
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $internal_signal = $component->getInternalSignal();
-
+        $param_name = $component->getName();
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
                 fn ($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) {
                         var container = event.target.closest('.il-viewcontrol-fieldselection'),
                             checked = container.querySelectorAll('input[type=checkbox]:checked'),
-                            value = Object.values(checked).map(o => o.value);
+                            value = Object.values(checked).map(o => o.value),
+                            value_container = container.querySelector('.il-viewcontrol-value');
 
-                        container.querySelector('.il-viewcontrol-value > input').value = value.join(',');
+                        value_container.innerHTML = '';
+                        value.forEach(function(v){
+                            let element = document.createElement('input');
+                            element.type = 'hidden';
+                            element.name = '{$param_name}[]';
+                            element.value = v;
+                            value_container.appendChild(element);
+                        });
                         $(event.target).trigger('{$container_submit_signal}');
                         return false;
                     });"
@@ -98,8 +113,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $component->getLabel());
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
-        $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("VALUE", $component->getValue());
+
 
         if ($component->isDisabled()) {
             $tpl->touchBlock("disabled");
@@ -165,7 +179,8 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        $set_value = $component->getValue() ?? '0:' . end($limit_options);
+        $set_value = is_null($component->getValue()) || $component->getValue() === '' ?
+            '0:' . reset($limit_options) : $component->getValue();
         list($offset, $limit) = array_map('intval', explode(':', $set_value));
 
 
@@ -190,7 +205,6 @@ class Renderer extends AbstractComponentRenderer
                         $current = $idx;
                     }
                 }
-
                 $first = reset($ranges);
                 $last = end($ranges);
 
@@ -209,7 +223,6 @@ class Renderer extends AbstractComponentRenderer
                     array_push($entries, $last);
                 }
             }
-
 
             foreach ($ranges as $idx => $range) {
                 if (in_array($range, $entries)) {
@@ -274,7 +287,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
                 fn ($id) => "$(document).on('{$internal_signal}',
@@ -297,6 +309,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ARIA_LABEL_LIMIT", $component->getLabelLimit());
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("VALUE", $component->getValue());
+
 
         if ($component->isDisabled()) {
             $tpl->touchBlock("disabled_limit");

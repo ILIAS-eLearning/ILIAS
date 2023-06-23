@@ -76,7 +76,7 @@ abstract class Input implements C\Input\Input
     /**
      * @var Transformation[]
      */
-    private array $operations = [];
+    protected array $operations = [];
 
     /**
      * Input constructor.
@@ -309,16 +309,11 @@ abstract class Input implements C\Input\Input
      */
     protected function applyOperationsTo($res): Result
     {
-        if ($res === null && !$this->isRequired()) {
-            return $this->data_factory->ok($res);
-        }
-
         $res = $this->data_factory->ok($res);
         foreach ($this->getOperations() as $op) {
             if ($res->isError()) {
                 return $res;
             }
-
             $res = $op->applyTo($res);
         }
 
@@ -332,13 +327,6 @@ abstract class Input implements C\Input\Input
      */
     private function getOperations(): Generator
     {
-        if ($this->isRequired()) {
-            $op = $this->getConstraintForRequirement();
-            if ($op !== null) {
-                yield $op;
-            }
-        }
-
         foreach ($this->operations as $op) {
             yield $op;
         }

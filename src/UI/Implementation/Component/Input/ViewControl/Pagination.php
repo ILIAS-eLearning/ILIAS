@@ -50,7 +50,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         parent::__construct($data_factory, $refinery, $label_offset);
         $this->internal_selection_signal = $signal_generator->create();
         $this->visible_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
-        //$this->operations[] = $this->getRangeTransform();
+        $this->operations[] = $this->getRangeTransform();
     }
 
     protected function isClientSideValueOk($value): bool
@@ -62,39 +62,15 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     {
         return $this->refinery->custom()->transformation(
             function ($v): Range {
-                $v = array_map('intval', explode(':', $v));
-                $potential_range_starts = array_map(
-                    fn ($r) => $r->getStart(),
-                    $this->getRanges($this->data_factory->range(...$v))
-                );
+                if (is_null($v) || $v === '') {
+                    $options = $this->getLimitOptions();
+                    $v = '0:' . array_shift($options);
+                }
                 return $this->data_factory->range(
-                    $this->roundToClosestOption($v[0], $potential_range_starts),
-                    $v[1]
+                    ...array_map('intval', explode(':', $v))
                 );
             }
         );
-    }
-
-    protected function roundToClosestOption(int $search, array $options): int
-    {
-        return array_reduce(
-            $options,
-            fn ($a, $b) => abs($b - $search) <= abs($a - $search) ? $b : $a
-        );
-    }
-
-    protected function getRanges(Range $range): array
-    {
-        list($offset, $limit) = $range->unpack();
-        $ret = [];
-        if ($limit + 1 > $offset) {
-            return [$this->data_factory->range(0, $limit)];
-        }
-
-        foreach (range(0, $offset, $limit + 1) as $start) {
-            $ret[] = $this->data_factory->range($start, $limit);
-        }
-        return $ret;
     }
 
     public function getInternalSignal(): Signal

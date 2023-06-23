@@ -44,19 +44,11 @@ class FieldSelection extends ViewControl implements VCInterface\FieldSelection
     ) {
         parent::__construct($data_factory, $refinery, $label);
         $this->internal_selection_signal = $signal_generator->create();
-        //$this->operations[] = $this->getArrayTransform();
     }
 
     protected function isClientSideValueOk($value): bool
     {
-        return is_null($value) || is_string($value);
-    }
-
-    protected function getArrayTransform(): Transformation
-    {
-        return $this->refinery->custom()->transformation(
-            fn ($v) => array_filter(explode(',', $v))
-        );
+        return is_null($value) || is_array($value);
     }
 
     public function getInternalSignal(): Signal

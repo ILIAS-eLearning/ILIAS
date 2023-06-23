@@ -85,4 +85,46 @@ abstract class Field extends Input implements C\Input\Field\Field, FormInputInte
      * required.
      */
     abstract protected function getConstraintForRequirement(): ?Constraint;
+
+    /**
+     * Applies the operations in this instance to the value.
+     *
+     * @param    mixed $res
+     */
+    protected function applyOperationsTo($res): Result
+    {
+        if ($res === null && !$this->isRequired()) {
+            return $this->data_factory->ok($res);
+        }
+
+        $res = $this->data_factory->ok($res);
+        foreach ($this->getOperations() as $op) {
+            if ($res->isError()) {
+                return $res;
+            }
+
+            $res = $op->applyTo($res);
+        }
+
+        return $res;
+    }
+
+    /**
+     * Get the operations that should be performed on the input.
+     *
+     * @return Generator<Transformation>
+     */
+    private function getOperations(): Generator
+    {
+        if ($this->isRequired()) {
+            $op = $this->getConstraintForRequirement();
+            if ($op !== null) {
+                yield $op;
+            }
+        }
+
+        foreach ($this->operations as $op) {
+            yield $op;
+        }
+    }
 }

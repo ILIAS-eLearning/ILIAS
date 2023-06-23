@@ -45,6 +45,7 @@ abstract class ViewControl extends Container implements I\ViewControl
      * @var Transformation[]
      */
     protected array $post_operations = [];
+    protected ?ServerRequestInterface $request = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -66,7 +67,6 @@ abstract class ViewControl extends Container implements I\ViewControl
         return $this->submit_signal;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -75,53 +75,11 @@ abstract class ViewControl extends Container implements I\ViewControl
         $request_data = new QueryParamsFromServerRequest($request);
         $clone = clone $this;
         $clone->input_group = $this->getInputGroup()->withInput($request_data);
+        $clone->request = $request;
         return $clone;
     }
-
-/*
-    public function withRequest(ServerRequestInterface $request): self
+    public function getRequest(): ?ServerRequestInterface
     {
-        $data = new QueryParamsFromServerRequest($request);
-        $set = [];
-        foreach ($this->controls as $control) {
-            $control = $control->withInput($data);
-            $set[] = $control;
-        }
-        $clone = clone $this;
-        $clone->controls = $set;
-        return $clone;
+        return $this->request;
     }
-    public function getData()
-    {
-        $data = array_merge(
-            ...array_map(
-                fn ($c) => [$c->getName() => $c->getContent()->value()],
-                $this->getInputs()
-            )
-        );
-
-        $content = $this->applyOperations($data, $this->post_operations);
-
-        if (!$content->isOK()) {
-            return null;
-        }
-        return $content->value();
-    }
-
-    protected function applyOperations($res, $ops): Result
-    {
-        if ($res === null) {
-            return $this->data_factory->ok($res);
-        }
-
-        $res = $this->data_factory->ok($res);
-        foreach ($ops as $op) {
-            if ($res->isError()) {
-                return $res;
-            }
-            $res = $op->applyTo($res);
-        }
-        return $res;
-    }
-*/
 }

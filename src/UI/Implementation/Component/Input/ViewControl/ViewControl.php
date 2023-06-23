@@ -65,9 +65,8 @@ abstract class ViewControl extends Input implements VCInterface\ViewControl, Inp
         return $this->change_signal ?? null;
     }
 
-
-    protected function getConstraintForRequirement(): ?Constraint
+    public function isRequired(): bool
     {
-        return null;
+        return false;
     }
 }

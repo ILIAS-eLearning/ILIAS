@@ -43,7 +43,7 @@ function base()
                     fn ($v) => ['vc_columns' => $v]
                 )
             )
-            ->withValue('field1,field2'),
+            ->withValue(['field1','field2']),
     ];
 
     $vc_container = $f->input()->container()->viewControl()->standard($vcs)
@@ -52,8 +52,8 @@ function base()
                  fn ($v) => array_filter(array_values($v)) === [] ? null : array_merge(...array_values($v))
              )
          )
-
         ->withRequest($request);
+
     return $r->render([$vc_container, $f->divider()->horizontal()])
         . '<pre>'
         . print_r($vc_container->getData(), true)

@@ -56,7 +56,13 @@ class Sortation extends ViewControl implements VCInterface\Sortation
     protected function getOrderTransform(): Transformation
     {
         return $this->refinery->custom()->transformation(
-            fn ($v) => $this->data_factory->order(...explode(':', $v))
+            function ($v): Order {
+                if (is_null($v) || $v === '') {
+                    $v = array_keys($this->getOptions());
+                    $v = array_shift($v);
+                }
+                return $this->data_factory->order(...explode(':', $v));
+            }
         );
     }
 

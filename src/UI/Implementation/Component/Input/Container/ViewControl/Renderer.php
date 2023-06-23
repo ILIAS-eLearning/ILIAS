@@ -46,38 +46,31 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.vc_container.html", true, true);
 
-        $current_target = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME']
-        . ':' . $_SERVER['SERVER_PORT']
-        . $_SERVER['SCRIPT_NAME'] . '?';
-
-        $current_query = $_SERVER['QUERY_STRING'];
-
         $submission_signal = $component->getSubmissionSignal();
         $component = $component->withAdditionalOnLoadCode(
             fn ($id) => "$(document).on('{$submission_signal}', 
                 function(event, signalData) { 
-                    var form = document.getElementById('{$id}'),
-                        values = form.querySelectorAll('input'),
-                        target = '{$current_target}',
-                        query = '{$current_query}'.split('&'),
-                        i, pair, params = [];
-
-                    for(i = 0; i < query.length; i = i +1) {
-                        pair = query[i].split('=');
-                        params[pair[0]] = pair[1]
-                    }
-                    for(i = 0; i < values.length; i = i +1) {
-                        params[values[i].name] = values[i].value;
-                    }
-                    target = target + Object.keys(params).map(
-                        k => k + '=' + params[k]
-                    ).join('&');
-
-                    window.location = target;
+                    document.getElementById('{$id}').submit();
                     return false;
                 });"
         );
         $id = $this->bindJavaScript($component);
+
+        $input_names = array_map(
+            fn ($c) => $c->getName(),
+            $component->getInputs()
+        );
+        $query_params = array_filter(
+            $component->getRequest()->getQueryParams(),
+            fn ($k) => ! in_array($k, $input_names),
+            ARRAY_FILTER_USE_KEY
+        );
+        foreach ($query_params as $k => $v) {
+            $tpl->setCurrentBlock('param');
+            $tpl->setVariable("PARAM_NAME", $k);
+            $tpl->setVariable("VALUE", $v);
+            $tpl->parseCurrentBlock();
+        }
 
         $inputs = array_map(
             fn ($input) => $input->withOnChange($submission_signal),
