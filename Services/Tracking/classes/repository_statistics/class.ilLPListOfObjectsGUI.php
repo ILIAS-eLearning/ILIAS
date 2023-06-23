@@ -2,7 +2,21 @@
 
 declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjUserTrackingGUI
@@ -357,7 +371,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
 
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
-        $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
+        if ($lp_table->isStatusShown()) {
+            $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
+        }
     }
 
     public function __initDetails(int $a_details_id): void
@@ -390,7 +406,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $this->getRefId(),
             false
         );
-        $this->tpl->setContent($table->getHTML());
+        $content = $table->getHTML();
+        if ($table->isStatusShown()) {
+            $content .= $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        }
+        $this->tpl->setContent($content);
     }
 
     /**
