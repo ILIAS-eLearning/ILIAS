@@ -4,22 +4,29 @@
 //== modeinfo
 $il-mode-info-color: $il-warning-color;
 $il-mode-info-border: 3px solid $il-mode-info-color;
-$il-mode-info-height: 30px;
+$il-mode-info-height: 35px;
 $il-mode-info-text-color: white;
 $il-mode-info-zindex: 1010;
-$il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
+$il-mode-info-shadow: 20px 10px 30px rgba(0, 0, 0, .15);
 
 .il-mode-info {
   border-top: $il-mode-info-border;
   border-left: $il-mode-info-border;
   border-right: $il-mode-info-border;
+  display: flex;
+  align-items: start;
+  justify-content: center;
   text-align: center;
-
   z-index: $il-mode-info-zindex;
   position: absolute;
   height: 100%;
   width: 100%;
   pointer-events: none;
+  // font size and color for all element inside
+  * {
+    color: $il-mode-info-text-color;
+    font-size: $il-font-size-large;
+  }
 }
 
 .il-mode-info + div {
@@ -31,21 +38,28 @@ $il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
   }
 }
 
-
-.il-mode-info span.il-mode-info-content {
-  margin: auto;
+.il-mode-info-content,
+.il-mode-info-close {
   background-color: $il-mode-info-color;
-  padding: $il-padding-base-vertical $il-padding-base-horizontal $il-padding-base-vertical $il-padding-base-horizontal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $il-mode-info-height;
+  pointer-events: all;
+  position: relative;
+}
+
+.il-mode-info-content {
+  border-bottom-left-radius: calc($il-border-radius-large + 10px);
   -webkit-box-shadow: $il-mode-info-shadow;
   -moz-box-shadow: $il-mode-info-shadow;
   box-shadow: $il-mode-info-shadow;
-
-   pointer-events: all;
+  padding: 0 4% 0 5%;
 }
 
-.il-mode-info span {
-  color: $il-mode-info-text-color;
-  font-size: $il-font-size-large;
+.il-mode-info-close {
+  border-bottom-right-radius: calc($il-border-radius-large + 10px);
+  padding: 0 $il-padding-base-horizontal;
 }
 
 @media only screen and (max-width: $il-grid-float-breakpoint-max) {
@@ -53,9 +67,8 @@ $il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
 	margin-bottom: 0;
   }
 
-  span.il-mode-info-content {
-	display: block;
-	width: 100%;
+  .il-mode-info-content {
+	  width: auto;
   }
 }
 

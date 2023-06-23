@@ -5784,12 +5784,19 @@ footer {
   border-top: 3px solid #B54F00;
   border-left: 3px solid #B54F00;
   border-right: 3px solid #B54F00;
+  display: flex;
+  align-items: start;
+  justify-content: center;
   text-align: center;
   z-index: 1010;
   position: absolute;
   height: 100%;
   width: 100%;
   pointer-events: none;
+}
+.il-mode-info * {
+  color: white;
+  font-size: 1rem;
 }
 
 .il-mode-info + div {
@@ -5798,32 +5805,40 @@ footer {
 }
 @media only screen and (max-width: 768px) {
   .il-mode-info + div {
-    padding-top: 30px;
+    padding-top: 35px;
   }
 }
 
-.il-mode-info span.il-mode-info-content {
-  margin: auto;
+.il-mode-info-content,
+.il-mode-info-close {
   background-color: #B54F00;
-  padding: 3px 9px 3px 9px;
-  -webkit-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  -moz-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
   pointer-events: all;
+  position: relative;
 }
 
-.il-mode-info span {
-  color: white;
-  font-size: 1rem;
+.il-mode-info-content {
+  border-bottom-left-radius: 10px;
+  -webkit-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 0 4% 0 5%;
+}
+
+.il-mode-info-close {
+  border-bottom-right-radius: 10px;
+  padding: 0 9px;
 }
 
 @media only screen and (max-width: 768px) {
   .il-mode-info {
     margin-bottom: 0;
   }
-  span.il-mode-info-content {
-    display: block;
-    width: 100%;
+  .il-mode-info-content {
+    width: auto;
   }
 }
 /*
