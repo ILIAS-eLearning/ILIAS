@@ -20,21 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-/**
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
- */
-interface HasDynamicInputs extends FormInput
-{
-    /**
-     * Returns the instance of Field which should be used to generate
-     * dynamic inputs on clientside.
-     */
-    public function getTemplateForDynamicInputs(): Field;
+use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Input\Input;
+use InvalidArgumentException;
 
-    /**
-     * Returns serverside generated dynamic Inputs, which happens when
-     * providing this withValue()
-     * @return Input[]
-     */
-    public function getDynamicInputs(): array;
+/**
+ * This describes commonalities between all Fields.
+ */
+interface Field extends Input
+{
 }

@@ -38,6 +38,51 @@ use Generator;
 use InvalidArgumentException;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
-abstract class Field extends Input implements C\Input\Field\Input, FormInputInternal
+abstract class Field extends Input implements C\Input\Field\Field, FormInputInternal
 {
+    protected bool $is_required = false;
+    protected ?Constraint $requirement_constraint = null;
+
+    /**
+     * @inheritdoc
+     */
+    public function getByline(): ?string
+    {
+        return $this->byline;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withByline(string $byline): self
+    {
+        $clone = clone $this;
+        $clone->byline = $byline;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isRequired(): bool
+    {
+        return $this->is_required;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
+    {
+        $clone = clone $this;
+        $clone->is_required = $is_required;
+        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
+        return $clone;
+    }
+
+    /**
+     * This may return a constraint that will be checked first if the field is
+     * required.
+     */
+    abstract protected function getConstraintForRequirement(): ?Constraint;
 }

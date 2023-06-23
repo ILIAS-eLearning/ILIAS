@@ -86,7 +86,7 @@ class ilStudyProgrammeAssessmentSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ): Field\Input {
+    ): Field\Field {
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
             ->withValue($this->getPoints())

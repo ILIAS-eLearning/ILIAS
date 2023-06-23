@@ -70,7 +70,7 @@ abstract class ViewControl extends Container implements I\ViewControl
     /**
      * @inheritdoc
      */
-    public function withRequest(ServerRequestInterface $request)
+    public function withRequest(ServerRequestInterface $request): self
     {
         $request_data = new QueryParamsFromServerRequest($request);
         $clone = clone $this;

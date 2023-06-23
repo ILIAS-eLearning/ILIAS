@@ -87,7 +87,7 @@ class Password extends Field implements C\Input\Field\Password, Triggerable
         bool $upper = true,
         bool $numbers = true,
         bool $special = true
-    ): C\Input\Field\Input {
+    ): self {
         $pw_validation = $this->refinery->password();
         $constraints = [
             $this->refinery->string()->hasMinLength($min_length),

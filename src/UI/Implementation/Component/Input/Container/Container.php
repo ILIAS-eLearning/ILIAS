@@ -33,7 +33,7 @@ use LogicException;
 /**
  * This implements commonalities between all forms.
  */
-abstract class Container implements C\Input\Container\Form\Form
+abstract class Container implements C\Input\Container\Container
 {
     use ComponentHelper;
 
@@ -84,13 +84,13 @@ abstract class Container implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    abstract public function withRequest(ServerRequestInterface $request);
+    abstract public function withRequest(ServerRequestInterface $request): self;
 
 
     /**
      * @inheritdoc
      */
-    public function withAdditionalTransformation(Transformation $trafo)
+    public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
         $clone->input_group = $this->getInputGroup()->withAdditionalTransformation($trafo);
@@ -109,16 +109,6 @@ abstract class Container implements C\Input\Container\Form\Form
     protected function setError(string $error): void
     {
         $this->error = $error;
-    }
-
-    public function hasRequiredInputs(): bool
-    {
-        foreach ($this->getInputs() as $input) {
-            if ($input->isRequired()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

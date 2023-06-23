@@ -39,7 +39,7 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function withRequest(ServerRequestInterface $request)
+    public function withRequest(ServerRequestInterface $request): self
     {
         if (!$this->isSanePostRequest($request)) {
             throw new LogicException("Server request is not a valid post request.");
@@ -60,4 +60,14 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
         return new PostDataFromServerRequest($request);
     }
 
+
+    public function hasRequiredInputs(): bool
+    {
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

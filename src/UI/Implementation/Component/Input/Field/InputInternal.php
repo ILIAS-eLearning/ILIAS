@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\Data\Result;
 
 /**
  * Describes the interface of inputs that is used for internal
  * processing of data from the client.
  */
-interface InputInternal extends Input
+interface InputInternal extends Field
 {
     /**
      * The name of the input as used in HTML.

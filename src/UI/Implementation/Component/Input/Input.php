@@ -40,14 +40,13 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Field\Input
+abstract class Input implements C\Input\Input
 {
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
 
-    protected bool $is_required = false;
-    protected ?Constraint $requirement_constraint = null;
+
     protected bool $is_disabled = false;
 
     /**
@@ -103,55 +102,13 @@ abstract class Input implements C\Input\Field\Input
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label)
+    public function withLabel(string $label): self
     {
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getByline(): ?string
-    {
-        return $this->byline;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withByline(string $byline)
-    {
-        $clone = clone $this;
-        $clone->byline = $byline;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isRequired(): bool
-    {
-        return $this->is_required;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
-    {
-        $clone = clone $this;
-        $clone->is_required = $is_required;
-        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
-        return $clone;
-    }
-
-    /**
-     * This may return a constraint that will be checked first if the field is
-     * required.
-     */
-    abstract protected function getConstraintForRequirement(): ?Constraint;
 
     /**
      * @inheritdoc
@@ -164,7 +121,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * @inheritdoc
      */
-    public function withDisabled(bool $is_disabled)
+    public function withDisabled(bool $is_disabled): self
     {
         $clone = clone $this;
         $clone->is_disabled = $is_disabled;
@@ -188,7 +145,7 @@ abstract class Input implements C\Input\Field\Input
      * @param   mixed $value
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value)
+    public function withValue($value): self
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -214,7 +171,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * Get an input like this one, with a different error.
      */
-    public function withError(string $error)
+    public function withError(string $error): self
     {
         $clone = clone $this;
         $clone->setError($error);
@@ -232,7 +189,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * Apply a transformation to the current or future content.
      */
-    public function withAdditionalTransformation(Transformation $trafo)
+    public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
         $clone->setAdditionalTransformation($trafo);
@@ -293,7 +250,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null)
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
         $clone = clone $this;
         if ($source instanceof DynamicInputsNameSource) {
@@ -313,7 +270,7 @@ abstract class Input implements C\Input\Field\Input
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input)
+    public function withInput(InputData $input): self
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -401,7 +358,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * @inheritdoc
      */
-    public function withOnUpdate(Signal $signal)
+    public function withOnUpdate(Signal $signal): self
     {
         return $this->withTriggeredSignal($signal, 'update');
     }
@@ -409,7 +366,7 @@ abstract class Input implements C\Input\Field\Input
     /**
      * @inheritdoc
      */
-    public function appendOnUpdate(Signal $signal)
+    public function appendOnUpdate(Signal $signal): self
     {
         return $this->appendTriggeredSignal($signal, 'update');
     }

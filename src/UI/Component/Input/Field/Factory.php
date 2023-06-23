@@ -605,7 +605,7 @@ interface Factory
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Input $metadata_input = null
+        Field $metadata_input = null
     ): File;
 
     /**

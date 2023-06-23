@@ -20,7 +20,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use ILIAS\UI\Implementation\Component\Input\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\Field;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Factory as DataFactory;
@@ -28,7 +28,7 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 
-class DefInput extends Input
+class DefInput extends Field
 {
     public bool $value_ok = true;
     public ?Constraint $requirement_constraint = null;
@@ -112,7 +112,7 @@ class DefInputData implements InputData
 }
 
 /**
- * Test on input implementation.
+ * Test on field implementation.
  */
 class InputTest extends ILIAS_UI_TestBase
 {

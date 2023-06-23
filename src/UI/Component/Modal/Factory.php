@@ -130,7 +130,7 @@ interface Factory
      * ---
      * @param string $title
      * @param Component\Component|Component\Component[]|null $content
-     * @param Component\Input\Field\Input[] $inputs
+     * @param Component\Input\Field\Field[] $inputs
      * @param string|null $post_url
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */

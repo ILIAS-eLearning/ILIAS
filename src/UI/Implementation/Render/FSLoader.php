@@ -23,7 +23,7 @@ namespace ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
 /**
  * Loads renderers for components from the file system.

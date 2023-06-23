@@ -56,7 +56,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $text = $f->text("label", "byline");
 
-        $this->assertInstanceOf(Field\Input::class, $text);
+        $this->assertInstanceOf(Field\Field::class, $text);
         $this->assertInstanceOf(Field\Text::class, $text);
     }
 

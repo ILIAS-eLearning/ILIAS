@@ -140,7 +140,7 @@ class ilIndividualAssessmentUserGrading
         bool $may_be_edited = true,
         bool $place_required = false,
         bool $amend = false
-    ): Field\Input {
+    ): Field\Field {
         $name = $input
             ->text($lng->txt('name'), '')
             ->withDisabled(true)

@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\FileUpload;
-use ILIAS\UI\Component\Input\Field\Input as InputInterface;
+use ILIAS\UI\Component\Input\Field\Field as InputInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;

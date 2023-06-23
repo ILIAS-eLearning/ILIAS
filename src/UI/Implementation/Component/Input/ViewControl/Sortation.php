@@ -45,12 +45,7 @@ class Sortation extends ViewControl implements VCInterface\Sortation
     ) {
         parent::__construct($data_factory, $refinery, $label);
         $this->internal_selection_signal = $signal_generator->create();
-        //$this->operations[] = $this->getOrderTransform();
-    }
-
-    protected function getDefaultValue(): string
-    {
-        return $this->value ?? current(array_keys($this->getOptions()));
+        $this->operations[] = $this->getOrderTransform();
     }
 
     protected function isClientSideValueOk($value): bool

@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Triggerer;
 use ILIAS\UI\Component\Signal;
 

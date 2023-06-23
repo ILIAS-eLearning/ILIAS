@@ -33,7 +33,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'pagination offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'pagination limit';
     protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
-    protected const VISIBLE_ENTRIES = 7;
+    protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
 
     protected Signal $internal_selection_signal;
     protected array $options;
@@ -49,31 +49,13 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     ) {
         parent::__construct($data_factory, $refinery, $label_offset);
         $this->internal_selection_signal = $signal_generator->create();
-        $this->visible_entries = self::VISIBLE_ENTRIES;
-        $this->operations[] = $this->getRangeTransform();
-    }
-
-    public function getValue(): string
-    {
-        return $this->value ?? $this->getDefaultValue();
-    }
-
-    protected function getDefaultValue(): string
-    {
-        $options = $this->getLimitOptions();
-        return $this->value ?? '0:' . reset($options);
+        $this->visible_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
+        //$this->operations[] = $this->getRangeTransform();
     }
 
     protected function isClientSideValueOk($value): bool
     {
-        return $value == '' ||
-            (
-                is_array(explode(':', $value))
-                && is_a(
-                    $this->getRangeTransform()->transform($value),
-                    Range::class
-                )
-            );
+        return is_null($value) || is_string($value);
     }
 
     protected function getRangeTransform(): Transformation
@@ -103,9 +85,6 @@ class Pagination extends ViewControl implements VCInterface\Pagination
 
     protected function getRanges(Range $range): array
     {
-        if (!$range) {
-            $range = $this->getRangeTransform()->transform($this->getDefaultValue());
-        }
         list($offset, $limit) = $range->unpack();
         $ret = [];
         if ($limit + 1 > $offset) {
@@ -140,14 +119,6 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $this->label_limit;
     }
 
-    /*
-    public function withLabelLimit(string $label_limit): self
-    {
-        $clone = clone $this;
-        $clone->label_limit = $label_limit;
-        return $clone;
-    }
-    */
     public function withNumberOfVisibleEntries(int $no_entries): self
     {
         $clone = clone $this;

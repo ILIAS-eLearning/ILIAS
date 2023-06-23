@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerable;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -77,7 +77,7 @@ interface Filter extends Component, JavaScriptBindable, Triggerable
     /**
      * Get the inputs contained in the Filter.
      *
-     * @return    array<mixed,Input>
+     * @return    array<mixed,Field>
      */
     public function getInputs(): array;
 

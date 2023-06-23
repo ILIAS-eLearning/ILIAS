@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeExpireDateGUI
@@ -123,7 +123,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         );
     }
 
-    protected function getValidityOfQualificationSubForm(ilObjStudyProgramme $prg): Input
+    protected function getValidityOfQualificationSubForm(ilObjStudyProgramme $prg): Field
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {

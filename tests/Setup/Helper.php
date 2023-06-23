@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
-use ILIAS\UI\Component\Input\Field\Input as Input;
+use ILIAS\UI\Component\Input\Field\Field as InputField;
 
 trait Helper
 {
@@ -63,12 +63,12 @@ trait Helper
         return $goal;
     }
 
-    protected function newInput(): Input
+    protected function newInput(): InputField
     {
         static $no = 0;
 
         $input = $this
-            ->getMockBuilder(Input::class)
+            ->getMockBuilder(InputField::class)
             ->onlyMethods([])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();

@@ -49,7 +49,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildRadio(): Field\Input
+    protected function buildRadio(): Field\Field
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -65,7 +65,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $radio = $f->radio("label", "byline");
-        $this->assertInstanceOf(Field\Input::class, $radio);
+        $this->assertInstanceOf(Field\Field::class, $radio);
         $this->assertInstanceOf(Field\Radio::class, $radio);
     }
 

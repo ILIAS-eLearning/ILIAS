@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -303,7 +303,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @return FilterInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input): \ILIAS\UI\Implementation\Component\Input\Field\Input
+    protected function setSignals(Field $input): \ILIAS\UI\Implementation\Component\Input\Field\Field
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {

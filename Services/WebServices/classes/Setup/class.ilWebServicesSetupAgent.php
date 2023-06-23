@@ -30,7 +30,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Field
     {
         throw new \LogicException("Not yet implemented.");
     }

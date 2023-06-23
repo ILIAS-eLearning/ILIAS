@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -30,5 +30,5 @@ interface ilObjectProperty
         ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery
-    ): ?Input;
+    ): ?Field;
 }

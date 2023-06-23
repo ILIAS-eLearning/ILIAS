@@ -49,7 +49,7 @@ class Group extends Field implements C\Input\Field\Group
     protected ilLanguage $lng;
 
     /**
-     * @param \ILIAS\UI\Implementation\Component\Input\Field\Input[] $inputs
+     * @param \ILIAS\UI\Implementation\Component\Input\Input[] $inputs
      */
     public function __construct(
         DataFactory $data_factory,
@@ -65,14 +65,14 @@ class Group extends Field implements C\Input\Field\Group
         $this->lng = $lng;
     }
 
-    public function withDisabled(bool $is_disabled): C\Input\Field\Input
+    public function withDisabled(bool $is_disabled): self
     {
         $clone = parent::withDisabled($is_disabled);
         $clone->inputs = array_map(fn ($i) => $i->withDisabled($is_disabled), $this->inputs);
         return $clone;
     }
 
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): C\Input\Field\Input
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
     {
         $clone = parent::withRequired($is_required, $requirement_constraint);
         $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
@@ -92,7 +92,7 @@ class Group extends Field implements C\Input\Field\Group
         return false;
     }
 
-    public function withOnUpdate(Signal $signal)
+    public function withOnUpdate(Signal $signal): self
     {
         $clone = parent::withOnUpdate($signal);
         $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
@@ -139,7 +139,7 @@ class Group extends Field implements C\Input\Field\Group
      * @param   mixed
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value): C\Input\Field\Input
+    public function withValue($value): self
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -155,7 +155,7 @@ class Group extends Field implements C\Input\Field\Group
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input): C\Input\Field\Input
+    public function withInput(InputData $input): self
     {
         if (sizeof($this->getInputs()) === 0) {
             return $this;
@@ -194,7 +194,7 @@ class Group extends Field implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): C\Input\Field\Input
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
         $clone = parent::withNameFrom($source, $parent_name);
 

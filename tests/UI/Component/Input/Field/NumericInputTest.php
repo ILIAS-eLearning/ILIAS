@@ -56,7 +56,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
 
         $numeric = $f->numeric("label", "byline");
 
-        $this->assertInstanceOf(Field\Input::class, $numeric);
+        $this->assertInstanceOf(Field\Field::class, $numeric);
         $this->assertInstanceOf(Field\Numeric::class, $numeric);
     }
 
@@ -160,7 +160,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testNullValue(): Field\Input
+    public function testNullValue(): Field\Field
     {
         $f = $this->buildFactory();
         $post_data = new DefInputData(['name_0' => null]);
@@ -179,7 +179,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
     /**
      * @depends testNullValue
      */
-    public function testEmptyValue(Field\Input $field): void
+    public function testEmptyValue(Field\Field $field): void
     {
         $post_data = new DefInputData(['name_0' => '']);
         $field_required = $field->withRequired(true);
@@ -196,7 +196,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
     /**
      * @depends testNullValue
      */
-    public function testZeroIsValidValue(Field\Input $field): void
+    public function testZeroIsValidValue(Field\Field $field): void
     {
         $post_data = new DefInputData(['name_0' => 0]);
         $field_required = $field->withRequired(true);
@@ -213,7 +213,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
     /**
      * @depends testNullValue
      */
-    public function testConstraintForRequirementForFloat(Field\Input $field): void
+    public function testConstraintForRequirementForFloat(Field\Field $field): void
     {
         $post_data = new DefInputData(['name_0' => 1.1]);
         $field_required = $field->withRequired(true);

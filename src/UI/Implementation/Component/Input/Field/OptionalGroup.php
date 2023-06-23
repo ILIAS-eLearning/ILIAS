@@ -59,7 +59,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
         return parent::isClientSideValueOk($value);
     }
 
-    public function withRequired($is_required, ?Constraint $requirement_constraint = null): I\Input
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Field::withRequired($is_required, $requirement_constraint);
@@ -73,7 +73,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value): I\Input
+    public function withValue($value): self
     {
         if ($value === null) {
             $clone = clone $this;
@@ -102,7 +102,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): I\Input
+    public function withInput(InputData $input): self
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

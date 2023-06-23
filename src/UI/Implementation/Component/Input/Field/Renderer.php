@@ -914,7 +914,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFilePreview(
         FI\File $file_input,
-        FI\Input $metadata_input,
+        FI\FormInput $metadata_input,
         RendererInterface $default_renderer,
         ?FileInfoResult $file_info,
         Template $template

@@ -110,7 +110,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
-    ): Field\Input {
+    ): Field\Field {
         $format = $data_factory->dateFormat()->germanShort();
         $grp1 = $input->group([], $lng->txt('prg_no_validity_qualification'));
         $grp2 = $input->group(

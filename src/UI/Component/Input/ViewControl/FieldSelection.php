@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\UI\Component\Signal;
 
 /**

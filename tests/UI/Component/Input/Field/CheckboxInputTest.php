@@ -59,7 +59,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $checkbox = $f->checkbox("label", "byline");
 
-        $this->assertInstanceOf(Field\Input::class, $checkbox);
+        $this->assertInstanceOf(Field\Field::class, $checkbox);
         $this->assertInstanceOf(Field\Checkbox::class, $checkbox);
     }
 

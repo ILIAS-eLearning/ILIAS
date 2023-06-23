@@ -27,7 +27,7 @@ use ILIAS\Refinery\Constraint;
 /**
  * This describes inputs that can be used in forms.
  */
-interface FormInput extends Input, JavaScriptBindable, OnUpdateable
+interface FormInput extends Field, JavaScriptBindable, OnUpdateable
 {
     /**
      * Get the label of the input.
@@ -67,7 +67,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
      *
      * @return static
      */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null);
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): Field;
 
     /**
      * Is this input disabled?

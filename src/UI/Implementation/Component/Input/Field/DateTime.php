@@ -84,7 +84,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
      *
      * Allows to pass a \DateTimeImmutable for consistencies sake.
      */
-    public function withValue($value)
+    public function withValue($value): self
     {
         // TODO: It would be a lot nicer if the value would be held as DateTimeImmutable
         // internally, but currently this is just to much. Added to the roadmap.
@@ -97,7 +97,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $clone;
     }
 
-    public function withFormat(DateFormat $format): C\Input\Field\DateTime
+    public function withFormat(DateFormat $format): self
     {
         $clone = clone $this;
         $clone->format = $format;
@@ -110,16 +110,13 @@ class DateTime extends Field implements C\Input\Field\DateTime
     }
 
 
-    public function withTimezone(string $tz): C\Input\Field\DateTime
+    public function withTimezone(string $tz): self
     {
         $timezone_trafo = $this->refinery->dateTime()->changeTimezone($tz);
         $clone = clone $this;
         $clone->timezone = $tz;
 
         $trafo = $this->getOptionalNullTransformation($timezone_trafo);
-        /**
-         * @var $clone C\Input\Field\DateTime
-         */
         $clone = $clone->withAdditionalTransformation($trafo);
         return $clone;
     }
@@ -129,7 +126,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $this->timezone;
     }
 
-    public function withMinValue(DateTimeImmutable $datetime): C\Input\Field\DateTime
+    public function withMinValue(DateTimeImmutable $datetime): self
     {
         $clone = clone $this;
         $clone->min_date = $datetime;
@@ -141,7 +138,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $this->min_date;
     }
 
-    public function withMaxValue(DateTimeImmutable $datetime): C\Input\Field\DateTime
+    public function withMaxValue(DateTimeImmutable $datetime): self
     {
         $clone = clone $this;
         $clone->max_date = $datetime;
@@ -153,7 +150,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $this->max_date;
     }
 
-    public function withUseTime(bool $with_time): C\Input\Field\DateTime
+    public function withUseTime(bool $with_time): self
     {
         $clone = clone $this;
         $clone->with_time = $with_time;
@@ -165,7 +162,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $this->with_time;
     }
 
-    public function withTimeOnly(bool $time_only): C\Input\Field\DateTime
+    public function withTimeOnly(bool $time_only): self
     {
         $clone = clone $this;
         $clone->with_time_only = $time_only;
@@ -205,7 +202,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
      * The bootstrap picker can be configured, e.g. with a minimum date.
      * @param array <string => mixed> $config
      */
-    public function withAdditionalPickerconfig(array $config): C\Input\Field\DateTime
+    public function withAdditionalPickerconfig(array $config): self
     {
         $clone = clone $this;
         $clone->additional_picker_config = array_merge($clone->additional_picker_config, $config);

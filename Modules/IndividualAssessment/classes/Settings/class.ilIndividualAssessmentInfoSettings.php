@@ -80,7 +80,7 @@ class ilIndividualAssessmentInfoSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ): Field\Input {
+    ): Field\Field {
         return $input->section(
             [
                 $input->text($lng->txt("iass_contact"))

@@ -59,7 +59,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $ms = $f->multiSelect("label", $options, "byline");
-        $this->assertInstanceOf(Field\Input::class, $ms);
+        $this->assertInstanceOf(Field\Field::class, $ms);
         $this->assertInstanceOf(Field\MultiSelect::class, $ms);
     }
 

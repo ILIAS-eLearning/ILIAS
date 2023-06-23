@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field\Input as InputInterface;
+use ILIAS\UI\Component\Input\Field\Field as InputInterface;
 use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -62,7 +62,7 @@ abstract class HasDynamicInputsBase extends Field implements HasDynamicInputs
     }
 
     /**
-     * Returns the instance of Input which should be used to generate
+     * Returns the instance of Field which should be used to generate
      * dynamic inputs on clientside.
      */
     public function getTemplateForDynamicInputs(): InputInterface

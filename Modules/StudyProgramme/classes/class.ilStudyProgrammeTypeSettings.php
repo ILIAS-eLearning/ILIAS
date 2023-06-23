@@ -47,7 +47,7 @@ class ilStudyProgrammeTypeSettings
         ilLanguage $lng,
         Refinery $refinery,
         array $sp_types
-    ): Field\Input {
+    ): Field\Field {
         $select = $input
             ->select($lng->txt('type'), $sp_types, $lng->txt('prg_type_byline'))
             ->withValue($this->getTypeId() === 0 ? "" : $this->getTypeId())

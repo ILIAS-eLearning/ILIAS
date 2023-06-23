@@ -23,63 +23,16 @@ namespace ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Component\Input\Container\Container;
+use ILIAS\UI\Component\Input\Input;
 
 /**
  * This describes commonalities between all forms.
  */
-interface Form extends Component
+interface Form extends Container
 {
     /**
-     * Get the inputs contained in the form.
-     *
-     * @return    array<mixed,FormInput>
+     * does the form contain any requied inputs?
      */
-    public function getInputs(): array;
-
-    /**
-     * Get a form like this where data from the request is attached.
-     *
-     * @return static
-     */
-    public function withRequest(ServerRequestInterface $request);
-
-    /**
-     * Apply a transformation to the data of the form.
-     *
-     * @return static
-     */
-    public function withAdditionalTransformation(Transformation $trafo);
-
-    /**
-     * Get the data in the form if all inputs are ok, where the transformation
-     * is applied if one was added. If data was not ok, this will return null.
-     *
-     * @return    mixed|null
-     */
-    public function getData();
-
-    /**
-     * TODO: there should be a further method to attach the different submit buttons
-     */
-
-    /**
-     * @return null|string
-     */
-    public function getError(): ?string;
-
-    /**
-     * Sets an optional dedicated name for this form which adds a NAME attribute
-     * to the form's HTML (otherwise no NAME attribute is set).
-     *
-     * The dedicated name is inherited by all child inputs of the form
-     * by setting it as dedicated name for the top level group that is generated
-     * for every form.
-     *
-     * Please see the description of withDedicatedName() on Field/Input for more details.
-     *
-     * @param string $dedicated_name
-     * @return $this
-     */
-    public function withDedicatedName(string $dedicated_name): self;
+    //public function hasRequiredInputs(): bool;
 }

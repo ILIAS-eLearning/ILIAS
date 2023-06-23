@@ -54,7 +54,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label", "byline");
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(Field\Field::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
@@ -62,7 +62,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label");
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(Field\Field::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
@@ -71,7 +71,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $limit = 5;
         $textarea = $f->textarea('label')->withMinLimit($limit);
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(Field\Field::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
@@ -81,7 +81,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $limit = 15;
         $textarea = $f->textarea('label')->withMaxLimit($limit);
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(Field\Field::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
         $this->assertEquals($textarea->getMaxLimit(), $limit);
     }

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsResultSummary extends TestSettings
@@ -51,7 +51,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): Field {
         $trafo = $refinery->custom()->transformation(
             function ($v) {
                 list($mode, $date) = $v;

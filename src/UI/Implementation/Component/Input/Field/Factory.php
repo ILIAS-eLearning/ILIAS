@@ -22,8 +22,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data;
-use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ilLanguage;
@@ -33,7 +33,7 @@ use ilLanguage;
  *
  * @package ILIAS\UI\Implementation\Component\Input\Field
  */
-class Factory implements Field\Factory
+class Factory implements I\Factory
 {
     protected UploadLimitResolver $upload_limit_resolver;
     protected Data\Factory $data_factory;
@@ -58,7 +58,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function text(string $label, ?string $byline = null): Field\Text
+    public function text(string $label, ?string $byline = null): I\Text
     {
         return new Text($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -66,7 +66,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function numeric(string $label, ?string $byline = null): Field\Numeric
+    public function numeric(string $label, ?string $byline = null): I\Numeric
     {
         return new Numeric($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -74,7 +74,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function group(array $inputs, string $label = '', ?string $byline = null): Field\Group
+    public function group(array $inputs, string $label = '', ?string $byline = null): I\Group
     {
         return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
@@ -82,7 +82,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function optionalGroup(array $inputs, string $label, ?string $byline = null): Field\OptionalGroup
+    public function optionalGroup(array $inputs, string $label, ?string $byline = null): I\OptionalGroup
     {
         return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
@@ -90,7 +90,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function switchableGroup(array $inputs, string $label, ?string $byline = null): Field\SwitchableGroup
+    public function switchableGroup(array $inputs, string $label, ?string $byline = null): I\SwitchableGroup
     {
         return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
@@ -98,7 +98,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function section(array $inputs, string $label, ?string $byline = null): Field\Section
+    public function section(array $inputs, string $label, ?string $byline = null): I\Section
     {
         return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
@@ -106,7 +106,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function checkbox(string $label, ?string $byline = null): Field\Checkbox
+    public function checkbox(string $label, ?string $byline = null): I\Checkbox
     {
         return new Checkbox($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -114,7 +114,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function tag(string $label, array $tags, ?string $byline = null): Field\Tag
+    public function tag(string $label, array $tags, ?string $byline = null): I\Tag
     {
         return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags);
     }
@@ -122,7 +122,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function password(string $label, ?string $byline = null): Field\Password
+    public function password(string $label, ?string $byline = null): I\Password
     {
         return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
     }
@@ -130,7 +130,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function select(string $label, array $options, ?string $byline = null): Field\Select
+    public function select(string $label, array $options, ?string $byline = null): I\Select
     {
         return new Select($this->data_factory, $this->refinery, $label, $options, $byline);
     }
@@ -138,7 +138,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function textarea(string $label, ?string $byline = null): Field\Textarea
+    public function textarea(string $label, ?string $byline = null): I\Textarea
     {
         return new Textarea($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -146,7 +146,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function radio(string $label, ?string $byline = null): Field\Radio
+    public function radio(string $label, ?string $byline = null): I\Radio
     {
         return new Radio($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -154,7 +154,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function multiSelect(string $label, array $options, ?string $byline = null): Field\MultiSelect
+    public function multiSelect(string $label, array $options, ?string $byline = null): I\MultiSelect
     {
         return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
     }
@@ -162,7 +162,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function dateTime(string $label, ?string $byline = null): Field\DateTime
+    public function dateTime(string $label, ?string $byline = null): I\DateTime
     {
         return new DateTime($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -170,7 +170,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function duration(string $label, ?string $byline = null): Field\Duration
+    public function duration(string $label, ?string $byline = null): I\Duration
     {
         return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
@@ -182,8 +182,8 @@ class Factory implements Field\Factory
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Input $metadata_input = null
-    ): Field\File {
+        Field $metadata_input = null
+    ): I\File {
         return new File(
             $this->lng,
             $this->data_factory,
@@ -199,7 +199,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function url(string $label, ?string $byline = null): Field\Url
+    public function url(string $label, ?string $byline = null): I\Url
     {
         return new Url($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -207,7 +207,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function link(string $label, ?string $byline = null): Field\Link
+    public function link(string $label, ?string $byline = null): I\Link
     {
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
@@ -215,7 +215,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function hidden(): Field\Hidden
+    public function hidden(): I\Hidden
     {
         return new Hidden($this->data_factory, $this->refinery);
     }
@@ -223,7 +223,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function colorpicker(string $label, ?string $byline = null): Field\ColorPicker
+    public function colorpicker(string $label, ?string $byline = null): I\ColorPicker
     {
         return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
     }
@@ -231,7 +231,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function markdown(Field\MarkdownRenderer $md_renderer, string $label, string $byline = null): Field\Markdown
+    public function markdown(I\MarkdownRenderer $md_renderer, string $label, string $byline = null): I\Markdown
     {
         return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
     }

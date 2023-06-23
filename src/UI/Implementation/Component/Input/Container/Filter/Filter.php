@@ -98,7 +98,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * @param string|Signal $collapse_action
      * @param string|Signal $apply_action
      * @param string|Signal $reset_action
-     * @param C\Input\Field\Input[] $inputs
+     * @param C\Input\Field\Field[] $inputs
      * @param bool[] $is_input_rendered
      */
     public function __construct(

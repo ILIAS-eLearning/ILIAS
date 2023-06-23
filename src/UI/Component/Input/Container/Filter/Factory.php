@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 
 /**
  * This is how a factory for filters looks like.
@@ -46,7 +46,7 @@ interface Factory
      * @param    string|Signal    $collapse_action
      * @param    string|Signal    $apply_action
      * @param    string|Signal    $reset_action
-     * @param    array<mixed,Input>    $inputs
+     * @param    array<mixed,Field>    $inputs
      * @param    array<bool>    $is_input_rendered
      * @param    bool    $is_activated
      * @param    bool    $is_expanded

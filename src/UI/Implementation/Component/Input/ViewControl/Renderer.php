@@ -165,7 +165,7 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        $set_value = $component->getValue() ?? '0:' . end($limit_options);//$component->getDefaultValue();
+        $set_value = $component->getValue() ?? '0:' . end($limit_options);
         list($offset, $limit) = array_map('intval', explode(':', $set_value));
 
 
@@ -257,9 +257,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
         }
 
-        $current_limit = explode(':', $component->getValue());
-        $current_limit = (int)array_pop($current_limit);
-
         foreach ($component->getLimitOptions() as $option) {
             $signal = clone $internal_signal;
             $signal->addOption('offset', $offset);
@@ -270,7 +267,7 @@ class Renderer extends AbstractComponentRenderer
                 ->withOnClick($signal);
             $tpl->setCurrentBlock("option_limit");
             $tpl->setVariable("OPTION_LIMIT", $default_renderer->render($item));
-            if ($option === $current_limit) {
+            if ($option === $limit) {
                 $tpl->touchBlock("selected");
                 $tpl->setCurrentBlock("option_limit");
             }

@@ -154,7 +154,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $text = $f->file($this->getUploadHandler(), "label", "byline");
 
-        $this->assertInstanceOf(Field\Input::class, $text);
+        $this->assertInstanceOf(Field\Field::class, $text);
         $this->assertInstanceOf(Field\File::class, $text);
     }
 
