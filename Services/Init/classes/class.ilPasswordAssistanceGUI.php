@@ -193,14 +193,18 @@ class ilPasswordAssistanceGUI
 
         $tpl->setVariable(
             'TXT_ENTER_USERNAME_AND_EMAIL',
-            str_replace(
-                "\\n",
-                '<br />',
-                sprintf(
-                    $this->lng->txt('pwassist_enter_username_and_email'),
-                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
-                        $this->settings->get('admin_email')
-                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+            $this->ui_renderer->render(
+                $this->ui_factory->messageBox()->info(
+                    str_replace(
+                        "\\n",
+                        '<br />',
+                        sprintf(
+                            $this->lng->txt('pwassist_enter_username_and_email'),
+                            '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                                $this->settings->get('admin_email')
+                            ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                        )
+                    )
                 )
             )
         );
@@ -492,7 +496,9 @@ class ilPasswordAssistanceGUI
 
         $tpl->setVariable(
             'TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
-            $this->lng->txt('pwassist_enter_username_and_new_password')
+            $this->ui_renderer->render(
+                $this->ui_factory->messageBox()->info($this->lng->txt('pwassist_enter_username_and_new_password'))
+            )
         );
 
         $tpl->setVariable('FORM', $this->ui_renderer->render($form ?? $this->getAssignPasswordForm($pwassist_id)));
@@ -588,7 +594,11 @@ class ilPasswordAssistanceGUI
             if ($is_successful) {
                 db_pwassist_session_destroy($pwassist_id);
                 $this->showMessageForm(
-                    sprintf($this->lng->txt('pwassist_password_assigned'), $username),
+                    $this->ui_renderer->render(
+                        $this->ui_factory->messageBox()->info(
+                            sprintf($this->lng->txt('pwassist_password_assigned'), $username)
+                        )
+                    ),
                     self::PERMANENT_LINK_TARGET_PW
                 );
             } else {
@@ -634,14 +644,18 @@ class ilPasswordAssistanceGUI
 
         $tpl->setVariable(
             'TXT_ENTER_USERNAME_AND_EMAIL',
-            str_replace(
-                "\\n",
-                '<br />',
-                sprintf(
-                    $this->lng->txt('pwassist_enter_email'),
-                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
-                        $this->settings->get('admin_email')
-                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+            $this->ui_renderer->render(
+                $this->ui_factory->messageBox()->info(
+                    str_replace(
+                        "\\n",
+                        '<br />',
+                        sprintf(
+                            $this->lng->txt('pwassist_enter_email'),
+                            '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                                $this->settings->get('admin_email')
+                            ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                        )
+                    )
                 )
             )
         );
