@@ -263,7 +263,7 @@ class ilNotification
         
         // create initial entries, if not existing
         // see #22773, currently only done for wiki, might be feasible for other variants
-        if ($type === self::TYPE_WIKI) {
+        if (in_array($type, [self::TYPE_WIKI, self::TYPE_BLOG])) {
             $set = $ilDB->queryF(
                 "SELECT user_id FROM notification " .
                 " WHERE type = %s AND id = %s AND " .
