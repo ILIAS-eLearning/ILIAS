@@ -88,7 +88,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
             }
             $tt = implode("<br />\n", $tt);
 
-            $this->addColumn($caption, 'event_' . $event_obj->getId(), '', false, '', $tt, true);
+            $this->addColumn((string) $caption, 'event_' . $event_obj->getId(), '', false, '', $tt, true);
         }
 
         $this->setDefaultOrderField('name');
