@@ -18,7 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-
 /**
 * Class ilSearchGUI
 *
@@ -289,10 +288,20 @@ class ilSearchGUI extends ilSearchBaseGUI
                 'term',
                 $this->refinery->kindlyTo()->string()
             );
+        } elseif ($this->http->wrapper()->query()->has('term')) {
+            $query = $this->http->wrapper()->query()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
         }
         $search_type = 0;
         if ($this->http->wrapper()->post()->has('search_type')) {
             $search_type = $this->http->wrapper()->post()->retrieve(
+                'search_type',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->http->wrapper()->query()->has('search_type')) {
+            $search_type = $this->http->wrapper()->query()->retrieve(
                 'search_type',
                 $this->refinery->kindlyTo()->int()
             );
