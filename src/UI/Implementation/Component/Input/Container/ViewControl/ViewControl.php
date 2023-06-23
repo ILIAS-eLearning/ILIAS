@@ -29,6 +29,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 use ILIAS\UI\Implementation\Component\Input\Container\Container;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
@@ -48,10 +49,9 @@ abstract class ViewControl extends Container implements I\ViewControl
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         Input\NameSource $name_source,
+        FieldFactory $field_factory,
         array $controls
     ) {
-        global $DIC; //TODO
-        $field_factory = $DIC['ui.factory.input.field'];
         parent::__construct(
             $field_factory,
             $name_source,

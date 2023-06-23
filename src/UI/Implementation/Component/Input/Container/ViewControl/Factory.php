@@ -23,16 +23,16 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as V;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * Factory for the View Control Containers
  */
 class Factory implements V\Factory
 {
-    protected SignalGeneratorInterface $signal_generator;
-
     public function __construct(
-        SignalGeneratorInterface $signal_generator
+        protected SignalGeneratorInterface $signal_generator,
+        protected FieldFactory $field_factory
     ) {
         $this->signal_generator = $signal_generator;
     }
@@ -42,6 +42,7 @@ class Factory implements V\Factory
         return new Standard(
             $this->signal_generator,
             new Input\FormInputNameSource(),
+            $this->field_factory,
             $controls
         );
     }
