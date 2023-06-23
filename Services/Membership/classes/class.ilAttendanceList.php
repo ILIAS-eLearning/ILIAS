@@ -101,7 +101,7 @@ class ilAttendanceList
                     $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
                     break;
 
-                // local
+                    // local
                 default:
                     $this->has_local_role = true;
                     $this->addRole($role_id, $title, 'local');
@@ -602,7 +602,7 @@ class ilAttendanceList
                         $valid_user_ids = array_merge($valid_user_ids, $this->participants->getTutors());
                         break;
 
-                    // member/local
+                        // member/local
                     default:
                         if (!$this->has_local_role) {
                             $valid_user_ids = array_merge($valid_user_ids, $members);
@@ -627,7 +627,6 @@ class ilAttendanceList
                 $filters[$sub_id] = (bool) ($sub_item[2] ?? false);
             }
         }
-
         $valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids), 'usr_data', 'lastname', 'usr_id');
         foreach ($valid_user_ids as $user_id) {
             if ($this->callback) {
@@ -650,14 +649,14 @@ class ilAttendanceList
                                     $value = $name["lastname"] . ", " . $name["firstname"];
                                     break;
                                 }
-                            // no break
+                                // no break
                             case "login":
                                 if (!($user_data[$id] ?? false)) {
                                     $value = ilObjUser::_lookupLogin((int) $user_id);
                                     break;
                                 }
 
-                            // no break
+                                // no break
                             default:
                                 $value = (string) ($user_data[$id] ?? '');
                                 break;
