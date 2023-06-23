@@ -39,6 +39,7 @@
 		<event type="raise" id="deleteParticipant" />
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
+		<event type="raise" id="participantHasPassedCourse" />
 	</events>
 	<crons>
 		<cron id="crs_timings_reminder" class="ilTimingsCronReminder" />
