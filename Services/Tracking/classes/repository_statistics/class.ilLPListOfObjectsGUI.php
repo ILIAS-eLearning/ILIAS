@@ -316,7 +316,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
         
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
-        $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
+        if ($lp_table->isStatusShown()) {
+            $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
+        }
     }
 
     public function __initDetails($a_details_id)
@@ -364,7 +366,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
         $table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), $print_view);
         if (!$print_view) {
-            $tpl->setContent($table->getHTML());
+            $content = $table->getHTML();
+            if ($table->isStatusShown()) {
+                $content .= $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT);
+            }
+            $tpl->setContent($content);
         } else {
             $tpl->setVariable("ADM_CONTENT", $table->getHTML());
             echo $tpl->getSpecial("DEFAULT", false, false, false, false, false, false);
