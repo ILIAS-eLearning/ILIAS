@@ -159,7 +159,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
-                if ($cmd === "save" && $this->getCreationMode()) {
+                if ($cmd === "save" || $this->getCreationMode()) {
                     $this->$cmd();
                     return;
                 }
