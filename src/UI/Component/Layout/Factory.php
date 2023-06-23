@@ -40,17 +40,37 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Alignment positions Components in relation to each other
+     *     An Alignment positions content blocks in relation to each other
      *     and defines breakpoints for changing screensizes. It therefore
      *     does not have an visual manifestation by itself, but rather
-     *     groups and arranges Components.
+     *     groups and arranges content.
+     *     Alignments do not carry any deeper semantics then those of the positioning.
+     *     Their public usage hence is restricted to situations where the UI framework
+     *     cannot feasibly know any deeper semantics for the relation of the contained
+     *     components.
+     *     Examples for these situations could be:
+     *     - content that is completely created and arranged by users, such as pages from the page editor
+     *     - content that is heavy on text, images or data presentations, such as reports, i.e. classic print layout situations
+     *     - content where legacy components need to be included for the moment
+     *
+     *     From the perspective of the UI framework it is always better to have
+     *     meaningful semantics for components.
+     *     Decisions like: How should this be arranged? How should this be styled?
+     *     How should this be treated on small screens? are a lot easier then.
+     *     This should be kept in mind when Alignments are used:
+     *     Could there be a way to use a component with richer semantics?
+     *     Could we create a component with richer semantics?
+     *
      *   composition: >
      *     Alignment will accept Components implementing the "Block"-Interface.
      *     It will not alter the appearance of the Component.
      *   effect: >
      *     When available screensize changes, the Alignment will arrange Blocks
      *     according to its rules.
-     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Alignments SHOULD only be used when there is no other component that fits the requirements (see purpose).
      * ----
      * @return  \ILIAS\UI\Component\Layout\Alignment\Factory
      */
