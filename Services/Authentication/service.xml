@@ -23,4 +23,7 @@
 		<pluginslot id="authhk" name="AuthenticationHook" />
 	</pluginslots>
 	<logging />
+	<crons>
+		<cron id="auth_destroy_expired_sessions" class="ilAuthDestroyExpiredSessionsCron" />
+	</crons>
 </service>

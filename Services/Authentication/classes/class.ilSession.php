@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -189,12 +189,14 @@ class ilSession
             }
         }
 
-        // finally delete deprecated sessions
-        $random = new \ilRandom();
-        if ($random->int(0, 50) === 2) {
-            // get time _before_ destroying expired sessions
-            self::_destroyExpiredSessions();
-            ilSessionStatistics::aggretateRaw($now);
+        if (!$DIC->cron()->manager()->isJobActive('auth_destroy_expired_sessions')) {
+            // finally delete deprecated sessions
+            $random = new ilRandom();
+            if ($random->int(0, 50) === 2) {
+                // get time _before_ destroying expired sessions
+                self::_destroyExpiredSessions();
+                ilSessionStatistics::aggretateRaw($now);
+            }
         }
 
         return true;
@@ -289,12 +291,11 @@ class ilSession
 
         $ilDB = $DIC['ilDB'];
 
-        $q = "SELECT session_id,expires FROM usr_session WHERE expires < " .
-            $ilDB->quote(time(), "integer");
+        $q = 'SELECT session_id, expires FROM usr_session WHERE expires < ' . $ilDB->quote(time(), ilDBConstants::T_INTEGER);
         $res = $ilDB->query($q);
         $ids = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $ids[$row["session_id"]] = $row["expires"];
+            $ids[$row['session_id']] = (int) $row['expires'];
         }
         if ($ids !== []) {
             self::_destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
