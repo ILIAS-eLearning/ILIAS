@@ -3096,7 +3096,7 @@ s     */
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parent_node();
                     if ($parent_node->node_name() != "TableRow") {
-                        $this->handleDeleteContent($curr_node);
+                        $this->handleDeleteContent($curr_node, $move_operation);
                         $curr_node->unlink_node($curr_node);
                     }
                 }
