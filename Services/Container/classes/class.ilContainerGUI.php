@@ -458,7 +458,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($this->clipboard->hasEntries()) {
+        if ($this->clipboard->hasEntries() && !$this->edit_order) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
