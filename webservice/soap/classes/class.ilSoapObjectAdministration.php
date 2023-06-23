@@ -461,6 +461,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         global $DIC;
 
         $tree = $DIC['tree'];
+        $access = $DIC['ilAccess'];
 
         $nodedata = $tree->getNodeData($ref_id);
         $nodearray = $tree->getSubTree($nodedata);
@@ -476,6 +477,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 !$objDefinition->isAdministrationObject($node['type']) &&
                 !$objDefinition->isSystemObject($node['type']) &&
                 !in_array($node['type'], $filter, true) &&
+                $access->checkAccess("read", "", (int) $node['ref_id']) &&
                 ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))) {
                 $nodes[] = $tmp;
             }
