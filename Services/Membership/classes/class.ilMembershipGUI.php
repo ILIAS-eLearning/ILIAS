@@ -58,6 +58,7 @@ class ilMembershipGUI
         $this->lng->loadLanguageModule($this->getParentObject()->getType());
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
+        $this->lng->loadLanguageModule('trac');
         $this->logger = $DIC->logger()->mmbr();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
