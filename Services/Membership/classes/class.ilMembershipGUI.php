@@ -60,6 +60,7 @@ class ilMembershipGUI
         $this->lng = $GLOBALS['DIC']->language();
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule($this->getParentObject()->getType());
+        $this->lng->loadLanguageModule('trac');
         $this->tpl = $GLOBALS['DIC']->ui()->mainTemplate();
         $this->ctrl = $GLOBALS['DIC']->ctrl();
         $this->logger = $DIC->logger()->mmbr();
