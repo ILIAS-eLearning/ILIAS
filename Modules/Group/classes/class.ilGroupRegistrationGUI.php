@@ -43,6 +43,10 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
 
+        if (!$this->access->checkAccess('join', '', $this->getRefId())) {
+            $this->ctrl->redirectByClass(ilObjGroupGUI::class, 'infoScreen');
+        }
+
         if ($this->getWaitingList()->isOnList($this->user->getId())) {
             $this->tabs->activateTab('leave');
         }
