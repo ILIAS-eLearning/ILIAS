@@ -653,6 +653,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
             $file_info = $form->getInput('file');
             $file_name = $form->getItemByPostVar('file')->getFilename();
+            $file_name = ilFileUtils::getValidFilename($file_name);
 
             $file_obj = new ilCourseFile();
             $file_obj->setCourseId($this->object->getId());
@@ -2576,7 +2577,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
             $custom_transformer = $this->refinery->custom()->transformation(
-                fn ($array) => $array
+                fn($array) => $array
             );
             $location = $this->http->wrapper()->post()->retrieve(
                 'location',
