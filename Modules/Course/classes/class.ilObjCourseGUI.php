@@ -736,13 +736,14 @@ class ilObjCourseGUI extends ilContainerGUI
         $ilAccess = $DIC['ilAccess'];
 
         $this->checkPermission('write');
-        
+
         include_once 'Modules/Course/classes/class.ilCourseFile.php';
         $file_obj = new ilCourseFile();
         $file_obj->setCourseId($this->object->getId());
-        $file_obj->setFileName(strlen($_POST['file_name']) ?
+        $name = (strlen($_POST['file_name']) ?
                                ilUtil::stripSlashes($_POST['file_name']) :
                                $_FILES['file']['name']);
+        $file_obj->setFileName(ilFileUtils::getValidFilename($name));
         $file_obj->setFileSize($_FILES['file']['size']);
         $file_obj->setFileType($_FILES['file']['type']);
         $file_obj->setTemporaryName($_FILES['file']['tmp_name']);
