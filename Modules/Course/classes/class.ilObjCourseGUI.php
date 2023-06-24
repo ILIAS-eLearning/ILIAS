@@ -655,6 +655,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
             $file_info = $form->getInput('file');
             $file_name = $form->getItemByPostVar('file')->getFilename();
+            $file_name = ilFileUtils::getValidFilename($file_name);
 
             $file_obj = new ilCourseFile();
             $file_obj->setCourseId($this->object->getId());
