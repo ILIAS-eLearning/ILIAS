@@ -32,6 +32,7 @@
 		<event type="listen" id="Services/Object" />
 		<event type="listen" id="Services/ContainerReference" />
 		<event type="listen" id="Services/AccessControl" />
+		<event type="listen" id="Modules/StudyProgramme" />
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Group" />
 		<event type="listen" id="Modules/OrgUnit" />

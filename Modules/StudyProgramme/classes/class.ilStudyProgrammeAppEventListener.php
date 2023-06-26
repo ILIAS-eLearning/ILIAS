@@ -36,6 +36,8 @@ class ilStudyProgrammeAppEventListener
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
+        global $DIC;
+
         switch ($component) {
             case "Services/User":
                 switch ($event) {
@@ -137,6 +139,17 @@ class ilStudyProgrammeAppEventListener
                         self::removeMemberFromProgrammes(
                             ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
                             $parameter
+                        );
+                        break;
+                }
+                break;
+
+            case 'Modules/StudyProgramme':
+                switch ($event) {
+                    case 'userSuccessful':
+                        $DIC->certificate()->userCertificates()->certificateCriteriaMet(
+                            (int) $parameter['usr_id'],
+                            (int) $parameter['prg_id']
                         );
                         break;
                 }
