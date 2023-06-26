@@ -633,7 +633,9 @@ il.TestPlayerQuestionEditControl = new function() {
         }
 
         // let the backend decide where a focus element is using the html id focus
-        $(FORM_SELECTOR).attr('action', $(FORM_SELECTOR).attr('action') + '#focus');
+        if ($(FORM_SELECTOR).attr('action').toLowerCase().indexOf("javascript:") === -1  ) {
+            $(FORM_SELECTOR).attr('action', $(FORM_SELECTOR).attr('action') + '#focus');
+        }
 
         // now the form can be submitted
         return true;
