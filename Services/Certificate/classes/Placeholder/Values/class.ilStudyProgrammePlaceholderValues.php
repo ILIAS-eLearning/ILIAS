@@ -119,7 +119,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     {
         $successful = array_filter(
             $assignments,
-            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+            fn($ass) => $ass->getProgressTree()->isSuccessful()
         );
         if (count($successful) === 0) {
             return null;
@@ -128,13 +128,13 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         //is there an unlimited validity? if so, take latest.
         $unlimited = array_filter(
             $successful,
-            fn ($ass) => is_null($ass->getProgressTree()->getValidityOfQualification())
+            fn($ass) => is_null($ass->getProgressTree()->getValidityOfQualification())
         );
         if (count($unlimited) > 0) {
             $successful = $unlimited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getCompletionDate();
-                $b_dat =$b->getProgressTree()->getCompletionDate();
+                $a_dat = $a->getProgressTree()->getCompletionDate();
+                $b_dat = $b->getProgressTree()->getCompletionDate();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {
@@ -147,12 +147,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
             //there are (only) limited validities: take the one that lasts the longest.
             $limited = array_filter(
                 $successful,
-                fn ($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
+                fn($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
             );
             $successful = $limited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getValidityOfQualification();
-                $b_dat =$b->getProgressTree()->getValidityOfQualification();
+                $a_dat = $a->getProgressTree()->getValidityOfQualification();
+                $b_dat = $b->getProgressTree()->getValidityOfQualification();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {
