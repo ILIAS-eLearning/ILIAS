@@ -201,8 +201,12 @@ abstract class ilParticipants
         return false;
     }
 
+    /**
+     * This method was introduced as a band-aid fix for #22764.
+     * Please do not use this anywhere else.
+     */
     public static function canSendMailToMembers(
-        int $obj_id,
+        int $ref_id,
         ?int $usr_id = null,
         ?int $mail_obj_ref_id = null
     ) : bool {
@@ -211,8 +215,6 @@ abstract class ilParticipants
         $access = $DIC->access();
         $rbacsystem = $DIC->rbac()->system();
 
-        $refs = ilObject::_getAllReferences($obj_id);
-        $ref_id = end($refs);
         if (is_null($usr_id)) {
             $usr_id = $DIC->user()->getId();
         }
