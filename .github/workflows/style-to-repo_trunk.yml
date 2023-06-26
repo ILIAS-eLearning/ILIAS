@@ -2,8 +2,6 @@ name: Build and deploy style files
 on:
   push:
     branches:
-      - "release_7"
-      - "release_8"
       - "trunk"
 
 jobs:
