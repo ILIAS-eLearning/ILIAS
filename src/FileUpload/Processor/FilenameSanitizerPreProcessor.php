@@ -21,6 +21,7 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Filesystem\Util;
 
 /**
  * Class FilenameSanitizerPreProcessor
@@ -40,9 +41,9 @@ final class FilenameSanitizerPreProcessor implements PreProcessor
     {
         $filename = $metadata->getFilename();
         // remove some special characters
-        $filename = \ILIAS\Filesystem\Util::sanitizeFileName($filename);
+        $filename = Util::sanitizeFileName($filename);
 
-        $metadata->setFilename(Util::normalizeRelativePath($filename));
+        $metadata->setFilename($filename);
 
         return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
     }
