@@ -118,21 +118,8 @@ class UserCertificateAPI
         }
 
         $template = $this->template_repository->fetchCurrentlyActiveCertificate($obj_id);
-        if (!$template->isCurrentlyActive()) {
-            $this->logger->debug(sprintf(
-                'Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s',
-                $usr_id,
-                $template->getObjId(),
-                $template->getObjType(),
-                $template->getId()
-            ));
-            return;
-        }
 
-        $this->processEntry(
-            $usr_id,
-            $template
-        );
+        $this->certificateCriteriaMetForGivenTemplate($usr_id, $template);
     }
 
     private function processEntry(
