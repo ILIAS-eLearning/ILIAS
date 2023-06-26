@@ -71,6 +71,16 @@ class ilArtifactComponentRepositoryTest extends TestCase
     protected Data\Version $ilias_version;
     protected ilPluginStateDB $plugin_state_db;
     protected ilArtifactComponentRepository $db;
+    protected ilComponentInfo $mod1;
+    protected ilPluginSlotInfo $slt1;
+    protected ilPluginInfo $plg1;
+    protected ilPluginSlotInfo $slt2;
+    protected ilComponentInfo $mod2;
+    protected ilComponentInfo $ser1;
+    protected ilPluginSlotInfo $slt3;
+    protected ilComponentInfo $ser2;
+    protected ilPluginSlotInfo $slt4;
+    protected ilPluginInfo $plg2;
 
     protected function setUp(): void
     {
