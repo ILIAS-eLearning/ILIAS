@@ -2018,6 +2018,8 @@ auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILI
 auth#:#auth_auth_settings#:#Settings
 auth#:#auth_cas_ldap#:#Synchronization using LDAP
 auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
+auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
+auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions. 
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).

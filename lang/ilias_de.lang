@@ -2018,6 +2018,8 @@ auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung 
 auth#:#auth_auth_settings#:#Einstellungen
 auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
+auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
+auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen 
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
