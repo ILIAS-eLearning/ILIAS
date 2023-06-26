@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Input\ViewControl as VCInterface;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * Factory for View Controls
@@ -31,6 +32,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class Factory implements VCInterface\Factory
 {
     public function __construct(
+        protected FieldFactory $field_factory,
         protected DataFactory $data_factory,
         protected Refinery $refinery,
         protected SignalGeneratorInterface $signal_generator
@@ -57,6 +59,7 @@ class Factory implements VCInterface\Factory
         string $label = Sortation::DEFAULT_DROPDOWN_LABEL
     ): VCInterface\Sortation {
         return new Sortation(
+            $this->field_factory,
             $this->data_factory,
             $this->refinery,
             $this->signal_generator,
@@ -70,6 +73,7 @@ class Factory implements VCInterface\Factory
         string $label_limit = Pagination::DEFAULT_DROPDOWN_LABEL_LIMIT
     ): VCInterface\Pagination {
         return new Pagination(
+            $this->field_factory,
             $this->data_factory,
             $this->refinery,
             $this->signal_generator,

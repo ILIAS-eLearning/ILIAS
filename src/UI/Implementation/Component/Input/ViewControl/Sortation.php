@@ -27,9 +27,13 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Order;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\InputGroup;
 
 class Sortation extends ViewControl implements VCInterface\Sortation
 {
+    use InputGroup;
+
     public const DEFAULT_DROPDOWN_LABEL = 'sortation';
 
     protected Signal $internal_selection_signal;
@@ -37,31 +41,34 @@ class Sortation extends ViewControl implements VCInterface\Sortation
     protected string $direction;
 
     public function __construct(
+        FieldFactory $field_factory,
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
         protected array $options,
         string $label
     ) {
+        $this->inputs = [
+            $field_factory->hidden(), //aspect
+            $field_factory->hidden(), //direction
+        ];
+
         parent::__construct($data_factory, $refinery, $label);
         $this->internal_selection_signal = $signal_generator->create();
         $this->operations[] = $this->getOrderTransform();
-    }
-
-    protected function isClientSideValueOk($value): bool
-    {
-        return is_null($value) || is_string($value);
     }
 
     protected function getOrderTransform(): Transformation
     {
         return $this->refinery->custom()->transformation(
             function ($v): Order {
-                if (is_null($v) || $v === '') {
-                    $v = array_keys($this->getOptions());
-                    $v = array_shift($v);
+                list($aspect, $direction) = $v;
+                if (is_null($aspect) || $aspect === '') {
+                    $options = array_keys($this->getOptions());
+                    $option = array_shift($options);
+                    list($aspect, $direction) = explode(':', $option);
                 }
-                return $this->data_factory->order(...explode(':', $v));
+                return $this->data_factory->order($aspect, $direction);
             }
         );
     }

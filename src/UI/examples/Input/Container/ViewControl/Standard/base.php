@@ -20,7 +20,7 @@ function base()
                 )
             )
             ->withTotalCount(312)
-            ->withValue('0:50'),
+            ->withValue([0, 50]),
 
         $f->input()->viewControl()->sortation([
                 'field1:ASC' => 'Field 1, ascending',
@@ -32,7 +32,7 @@ function base()
                     fn ($v) => ['vc_sortation' => $v]
                 )
             )
-            ->withValue('field2:ASC'),
+            ->withValue(['field2', 'ASC']),
 
         $f->input()->viewControl()->fieldSelection([
                 'field1' => 'Feld 1',

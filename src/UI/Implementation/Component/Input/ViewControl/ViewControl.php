@@ -43,15 +43,6 @@ abstract class ViewControl extends Input implements VCInterface\ViewControl, Inp
     use Triggerer;
 
     protected Signal $change_signal;
-    protected $value;
-    protected ?Result $content = null;
-    protected ?string $name = null;
-    protected bool $is_disabled = false;
-
-    /**
-     * @var Transformation[]
-     */
-    protected array $operations = [];
 
     public function withOnChange(Signal $change_signal): self
     {

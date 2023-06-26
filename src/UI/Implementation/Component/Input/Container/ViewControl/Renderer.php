@@ -42,6 +42,18 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
+
+    protected function getComponentInternalNames(Component\Component $component, array $names = []): array
+    {
+        if (method_exists($component, 'getInputs')) {
+            foreach ($component->getInputs() as $input) {
+                $names[] = $input->getName();
+                $names = array_merge($names, $this->getComponentInternalNames($input));
+            }
+        }
+        return $names;
+    }
+
     protected function renderStandard(ViewControl\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.vc_container.html", true, true);
@@ -56,10 +68,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
 
-        $input_names = array_map(
-            fn ($c) => $c->getName(),
-            $component->getInputs()
-        );
+        $input_names = $this->getComponentInternalNames($component);
         $query_params = array_filter(
             $component->getRequest()->getQueryParams(),
             fn ($k) => ! in_array($k, $input_names),

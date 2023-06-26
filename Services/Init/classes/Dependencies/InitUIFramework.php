@@ -232,6 +232,7 @@ class InitUIFramework
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory(
+                $c["ui.factory.input.field"],
                 $c["ui.data_factory"],
                 $c["refinery"],
                 $c["ui.signal_generator"]

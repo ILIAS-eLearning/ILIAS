@@ -27,9 +27,13 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Range;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\InputGroup;
 
 class Pagination extends ViewControl implements VCInterface\Pagination
 {
+    use InputGroup;
+
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'pagination offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'pagination limit';
     protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
@@ -40,35 +44,52 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     protected ?int $total_count = null;
     protected int $visible_entries;
 
+
+    protected Signal $change_signal;
+
     public function __construct(
+        FieldFactory $field_factory,
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
         string $label_offset,
         protected string $label_limit
     ) {
+        $this->inputs = [
+            $field_factory->hidden(), //offset
+            $field_factory->hidden()  //limit
+        ];
+
         parent::__construct($data_factory, $refinery, $label_offset);
+
         $this->internal_selection_signal = $signal_generator->create();
         $this->visible_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
         $this->operations[] = $this->getRangeTransform();
     }
 
-    protected function isClientSideValueOk($value): bool
+    public function withOnChange(Signal $change_signal): self
     {
-        return is_null($value) || is_string($value);
+        $clone = clone $this;
+        $clone->change_signal = $change_signal;
+        return $clone;
+    }
+
+    public function getOnChangeSignal(): ?Signal
+    {
+        return $this->change_signal ?? null;
     }
 
     protected function getRangeTransform(): Transformation
     {
         return $this->refinery->custom()->transformation(
             function ($v): Range {
-                if (is_null($v) || $v === '') {
+                list($offset, $limit) = array_map('intval', $v);
+                $offset = $offset ?? 0;
+                if (is_null($limit)) {
                     $options = $this->getLimitOptions();
-                    $v = '0:' . array_shift($options);
-                }
-                return $this->data_factory->range(
-                    ...array_map('intval', explode(':', $v))
-                );
+                    $limit = array_shift($options);
+                };
+                return $this->data_factory->range($offset, $limit);
             }
         );
     }

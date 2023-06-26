@@ -145,10 +145,12 @@ class Renderer extends AbstractComponentRenderer
             $component = $component->withAdditionalOnLoadCode(
                 fn ($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) { 
-                        event.target
+                        let inputs = event.target
                             .closest('.il-viewcontrol-sortation')
-                            .querySelector('.il-viewcontrol-value > input')
-                            .value = signal_data.options.value;
+                            .querySelectorAll('.il-viewcontrol-value > input');
+                        let val = signal_data.options.value.split(':');
+                        inputs[0].value = val[0];
+                        inputs[1].value = val[1];
                         $(event.target).trigger('{$container_submit_signal}');
                         return false;
                     });"
@@ -159,8 +161,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
         $tpl->setVariable("ARIA_LABEL", $component->getLabel());
-        $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("VALUE", $component->getValue());
+
+        $tpl->setVariable(
+            "VALUES",
+            $default_renderer->render(
+                $component->getInputs()
+            )
+        );
 
         if ($component->isDisabled()) {
             $tpl->touchBlock("disabled");
@@ -179,10 +186,8 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        $set_value = is_null($component->getValue()) || $component->getValue() === '' ?
-            '0:' . reset($limit_options) : $component->getValue();
-        list($offset, $limit) = array_map('intval', explode(':', $set_value));
-
+        list($offset, $limit) = array_map('intval', $component->getValue());
+        $limit = $limit > 0 ? $limit : reset($limit_options);
 
         if (! $total_count) {
             $input = $ui_factory->input()->field()->numeric('offset')
@@ -291,10 +296,12 @@ class Renderer extends AbstractComponentRenderer
             $component = $component->withAdditionalOnLoadCode(
                 fn ($id) => "$(document).on('{$internal_signal}',
                     function(event, signal_data) {
-                        event.target
+                        let inputs = event.target
                             .closest('.il-viewcontrol-pagination')
-                            .querySelector('.il-viewcontrol-value > input')
-                            .value = signal_data.options.offset + ':' + signal_data.options.limit;
+                            .querySelectorAll('.il-viewcontrol-value input');
+                        inputs[0].value = signal_data.options.offset;
+                        inputs[1].value = signal_data.options.limit;
+
                         $(event.target).trigger('{$container_submit_signal}');
                         return false;
                     });"
@@ -307,9 +314,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ARIA_LABEL_OFFSET", $component->getLabel());
         $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
         $tpl->setVariable("ARIA_LABEL_LIMIT", $component->getLabelLimit());
-        $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("VALUE", $component->getValue());
 
+        $tpl->setVariable(
+            "VALUES",
+            $default_renderer->render(
+                $component->getInputs()
+            )
+        );
 
         if ($component->isDisabled()) {
             $tpl->touchBlock("disabled_limit");
