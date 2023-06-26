@@ -44,7 +44,7 @@ interface Factory
      *     and defines breakpoints for changing screensizes. It therefore
      *     does not have an visual manifestation by itself, but rather
      *     groups and arranges content.
-     *     Alignments do not carry any deeper semantics then those of the positioning.
+     *     Alignments do not carry any deeper semantics than those of the positioning.
      *     Their public usage hence is restricted to situations where the UI framework
      *     cannot feasibly know any deeper semantics for the relation of the contained
      *     components.
@@ -70,7 +70,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *       Alignments SHOULD only be used when there is no other component that fits the requirements (see purpose).
+     *       Alignments MUST NOT be used when there is another component that fits the requirements (see purpose).
      * ----
      * @return  \ILIAS\UI\Component\Layout\Alignment\Factory
      */
