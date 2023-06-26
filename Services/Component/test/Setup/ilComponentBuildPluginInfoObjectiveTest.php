@@ -20,10 +20,10 @@ use PHPUnit\Framework\TestCase;
 class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 {
     private ?ilComponentBuildPluginInfoObjective $builder = null;
-    protected array $scanned;
-    protected array $dir;
-    protected array $read;
-    protected array $added;
+    public array $scanned;
+    public array $dir;
+    public array $read;
+    public array $added;
 
     protected function setUp(): void
     {

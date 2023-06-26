@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 
 class NullAgentTest extends TestCase
 {
-    protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected Metrics\Storage $storage;
     protected NullAgent $agent;
 

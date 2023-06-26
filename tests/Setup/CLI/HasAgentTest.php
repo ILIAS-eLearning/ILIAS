@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 class HasAgentTest extends TestCase
 {
     protected AgentFinder $agent_finder;
-    protected AgentFinder $has_agent;
+    protected $has_agent;
 
     public function setUp(): void
     {
