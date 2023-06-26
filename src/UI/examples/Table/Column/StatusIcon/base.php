@@ -26,7 +26,7 @@ function base()
         public function __construct(
             protected \ILIAS\UI\Factory $ui_factory,
             protected \ILIAS\UI\Renderer $ui_renderer,
-            protected array $dummy_records
+            protected array $records
         ) {
         }
 
