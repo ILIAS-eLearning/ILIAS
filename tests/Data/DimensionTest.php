@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
 
 class DimensionTest extends TestCase
 {
+    protected Dimension\Factory $f;
+
     protected function setUp(): void
     {
         $this->f = new Dimension\Factory();

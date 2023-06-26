@@ -184,6 +184,7 @@ namespace {
          * @var ImagePathResolver|mixed|MockObject
          */
         protected $image_path_resolver;
+        protected ILIAS\UI\HelpTextRetriever $help_text_retriever;
 
         public function setUp(): void
         {

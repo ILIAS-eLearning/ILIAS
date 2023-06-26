@@ -33,6 +33,8 @@ use ILIAS\UI\Renderer;
 
 class DefaultRendererTest extends ILIAS_UI_TestBase
 {
+    protected LoggingRegistry $resource_registry;
+
     public function test_getRenderer_successfully(): void
     {
         // There should be a renderer for Glyph...

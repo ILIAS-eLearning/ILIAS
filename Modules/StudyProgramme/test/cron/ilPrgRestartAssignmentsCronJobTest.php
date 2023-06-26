@@ -55,7 +55,10 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
     protected ilPrgRestartAssignmentsCronJobMock $job;
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
+    protected ilPrgRestart $adapter;
+    protected ilPrgRestart $real_adapter;
     protected ProgrammeEventsMock $events;
+    protected ilObjStudyProgramme $prg;
 
     protected function setUp(): void
     {
@@ -116,7 +119,7 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
             ->expects($this->once())
             ->method('getRelevantProgrammeIds')
             ->willReturn([
-                1=>3
+                1 => 3
             ]);
         $this->assignment_repo
             ->expects($this->once())
@@ -180,8 +183,8 @@ class ilPrgRestartAssignmentsCronJobTest extends TestCase
             ->expects($this->once())
             ->method('getProgrammeIdsWithReassignmentForExpiringValidity')
             ->willReturn([
-                42=>3,
-                43=>3
+                42 => 3,
+                43 => 3
             ]);
 
         $this->assignment_repo

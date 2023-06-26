@@ -40,6 +40,8 @@ class NodeMock extends Node
 
 class ilStudyProgrammeProgressTreeTest extends \PHPUnit\Framework\TestCase
 {
+    protected NodeMock $topnode;
+
     protected function build(array $data, $node_id): Node
     {
         $subnodes = [];
@@ -100,14 +102,14 @@ class ilStudyProgrammeProgressTreeTest extends \PHPUnit\Framework\TestCase
 
         $path = $this->topnode->findSubnodePath('1.2.1');
         $modified = $zipper
-            ->toPath($path)->modifyFocus(fn ($n) => $n->withScore(7))
-            ->toParent()->modifyFocus(fn ($n) => $n->withScore(6))
+            ->toPath($path)->modifyFocus(fn($n) => $n->withScore(7))
+            ->toParent()->modifyFocus(fn($n) => $n->withScore(6))
             ->getRoot();
 
         $zipper = new Zipper($modified);
         $other_path = $this->topnode->findSubnodePath('1.1');
         $modified = $zipper
-            ->toPath($other_path)->modifyFocus(fn ($n) => $n->withScore(8))
+            ->toPath($other_path)->modifyFocus(fn($n) => $n->withScore(8))
             ->getRoot();
         $this->assertEquals(7, $modified->getSubnode('1.2')->getSubnode('1.2.1')->getScore());
         $this->assertEquals(6, $modified->getSubnode('1.2')->getScore());
@@ -116,7 +118,7 @@ class ilStudyProgrammeProgressTreeTest extends \PHPUnit\Framework\TestCase
         //should not change others...
         $zipper = new Zipper($modified);
         $modified = $zipper
-            ->toPath($path)->modifyFocus(fn ($n) => $n->withScore(17))
+            ->toPath($path)->modifyFocus(fn($n) => $n->withScore(17))
             ->getRoot();
         $this->assertEquals(17, $modified->getSubnode('1.2')->getSubnode('1.2.1')->getScore());
         $this->assertEquals(6, $modified->getSubnode('1.2')->getScore());
@@ -127,7 +129,7 @@ class ilStudyProgrammeProgressTreeTest extends \PHPUnit\Framework\TestCase
     {
         $zipper = new Zipper($this->topnode);
         $modified = $zipper
-            ->modifyAll(fn ($n) => $n->withScore(count($n->getSubnodes())))
+            ->modifyAll(fn($n) => $n->withScore(count($n->getSubnodes())))
             ->getRoot();
 
         $this->assertEquals(2, $modified->getScore());

@@ -20,6 +20,11 @@ use PHPUnit\Framework\TestCase;
 
 class ilPluginSlotInfoTest extends TestCase
 {
+    protected ilComponentInfo $component;
+    protected ilPluginSlotInfo $pluginslot;
+    protected ilPluginInfo $plugin1;
+    protected ilPluginInfo $plugin2;
+
     protected function setUp(): void
     {
         $slots = [];

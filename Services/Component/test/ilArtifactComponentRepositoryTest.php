@@ -67,6 +67,11 @@ class ilArtifactComponentRepositoryTest extends TestCase
         ]
     ];
 
+    protected Data\Factory $data_factory;
+    protected Data\Version $ilias_version;
+    protected ilPluginStateDB $plugin_state_db;
+    protected ilArtifactComponentRepository $db;
+
     protected function setUp(): void
     {
         $this->data_factory = new Data\Factory();

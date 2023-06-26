@@ -28,6 +28,9 @@ use PHPUnit\Framework\TestCase;
 
 class ChainingTest extends TestCase
 {
+    protected HelpTextRetriever $retriever_a;
+    protected HelpTextRetriever $retriever_b;
+
     public function setUp(): void
     {
         $this->retriever_a = new class () implements HelpTextRetriever {
