@@ -88,9 +88,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         return $this->database->manipulate($sql);
     }
 
-    /**
-     * @throws ilException
-     */
     public function fetchTemplate(int $templateId): ilCertificateTemplate
     {
         $this->logger->debug(sprintf('START - Fetch certificate template with id: "%s"', $templateId));
@@ -107,7 +104,7 @@ ORDER BY version ASC';
             return $this->createCertificateTemplate($row);
         }
 
-        throw new ilException(sprintf('No template with id "%s" found', $templateId));
+        throw new ilCouldNotFindCertificateTemplate(sprintf('No template with id "%s" found', $templateId));
     }
 
     /**
@@ -180,7 +177,7 @@ ORDER BY id DESC
     }
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate
     {
@@ -201,7 +198,7 @@ AND currently_active = 1
             return $this->createCertificateTemplate($row);
         }
 
-        throw new ilException((sprintf('NO active certificate template found for: "%s"', $objId)));
+        throw new ilCouldNotFindCertificateTemplate((sprintf('NO active certificate template found for: "%s"', $objId)));
     }
 
     public function fetchPreviousCertificate(int $objId): ilCertificateTemplate
@@ -345,7 +342,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
     }
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate
     {
@@ -365,7 +362,7 @@ ORDER BY id ASC ';
             return $this->createCertificateTemplate($row);
         }
 
-        throw new ilException('No matching template found. MAY missing DBUpdate. Please check if the correct version is installed.');
+        throw new ilCouldNotFindCertificateTemplate('No matching template found. MAY missing DBUpdate. Please check if the correct version is installed.');
     }
 
     private function deactivatePreviousTemplates(int $objId): void
