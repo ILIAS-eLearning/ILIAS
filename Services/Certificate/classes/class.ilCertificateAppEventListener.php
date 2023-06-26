@@ -144,7 +144,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     $usr_id,
                     $object_id
                 );
-            } catch (ilCouldNotFindCertificateTemplate|ilCertificateConsumerNotSupported) {
+            } catch (ilCouldNotFindCertificateTemplate | ilCertificateConsumerNotSupported) {
                 $this->logger->debug(sprintf(
                     'Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s',
                     $usr_id,
