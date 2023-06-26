@@ -1204,6 +1204,8 @@ class ilRepositorySearchGUI
             ilSession::set('usr_search_link', $this->ctrl->getLinkTarget($this, 'show'));
         }
 
+        // String value of 'baseClass' is in lower case
+        $is_in_admin = ($base_class === strtolower(ilAdministrationGUI::class));
 
         $table = new ilRepositoryUserResultTableGUI($this, $a_parent_cmd, $is_in_admin);
         if (count($this->add_options)) {
