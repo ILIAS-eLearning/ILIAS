@@ -120,9 +120,15 @@ class ilSessionOverviewGUI
         $sortedMembers = [];
         foreach($part as $user_id) {
             $name = ilObjUser::_lookupName($user_id);
-            $sortedMembers[$name['lastname']] = [ $user_id, $name["firstname"] ];
+            $sortedMembers[] = [
+                'userid' => $user_id,
+                'firstname' => $name["firstname"],
+                'lastname' => $name['lastname']
+            ];
         }
-        ksort($sortedMembers);
+        usort($sortedMembers, function($a, $b) {
+            return $a['lastname'] <=> $b['lastname'];
+        });
 
         $events = [];
         foreach ($tree->getSubtree($tree->getNodeData($this->course_ref_id), false, ['sess']) as $event_id) {
@@ -145,10 +151,10 @@ class ilSessionOverviewGUI
 
         $this->csv->addRow();
 
-        foreach ($sortedMembers as $lastName => [ $user_id, $firstName ]) {
-            $this->csv->addColumn($lastName);
-            $this->csv->addColumn($firstName);
-            $this->csv->addColumn(ilObjUser::_lookupLogin($user_id));
+        foreach ($sortedMembers as $member) {
+            $this->csv->addColumn($member['lastname']);
+            $this->csv->addColumn($member['firstname']);
+            $this->csv->addColumn(ilObjUser::_lookupLogin($member['userid']));
 
             foreach ($events as $event_obj) {
                 $event_part = new ilEventParticipants($event_obj->getId());
