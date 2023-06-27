@@ -68,7 +68,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         $pt = $f->presentation('title', [], function (): void {
         });
         $expected = '' .
-            '<div class="il-table-presentation">' .
+            '<div class="il-table-presentation" id="">' .
             '	<h3 class="ilHeader">title</h3>' .
             '	<div class="il-table-presentation-data">		</div>' .
             '</div>';
@@ -160,7 +160,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         };
 
         $expected = <<<EXP
-<div class="il-table-presentation">
+<div class="il-table-presentation" id="">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_1">
@@ -235,7 +235,7 @@ EXP;
         };
 
         $expected = <<<EXP
-<div class="il-table-presentation">
+<div class="il-table-presentation" id="">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_1">
