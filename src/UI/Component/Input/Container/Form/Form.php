@@ -34,5 +34,5 @@ interface Form extends Container
     /**
      * does the form contain any requied inputs?
      */
-    //public function hasRequiredInputs(): bool;
+    public function hasRequiredInputs(): bool;
 }

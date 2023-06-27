@@ -20,17 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Input\Container\Container;
 
 /**
  * This describes a View Control Container.
  */
-interface ViewControl extends Component, JavaScriptBindable
+interface ViewControl extends Container, JavaScriptBindable
 {
-    //public function withAdditionalTransformation(Transformation $trafo): self;
-    //public function withRequest(ServerRequestInterface $request): self;
-    //public function getData();
 }
