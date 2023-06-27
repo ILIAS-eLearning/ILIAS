@@ -64,7 +64,7 @@ class VCFieldSelectionTest extends VCBaseTest
                 'opt2' => 'B',
                 'opt3' => 'C',
             ];
-            $v = 'opt1,opt2';
+            $v = ['opt1','opt2'];
 
             $input = $this->createMock(InputData::class);
             $input->expects($this->once())
@@ -101,7 +101,7 @@ class VCFieldSelectionTest extends VCBaseTest
 
             <button class="btn btn-default" id="id_4">refresh</button>
         </ul>
-    <div class="il-viewcontrol-value" role="none"><input type="hidden" name="" value="" /></div>
+    <div class="il-viewcontrol-value" role="none"></div>
 </div>
 ');
             $html = $this->brutallyTrimHTML($r->render($vc));

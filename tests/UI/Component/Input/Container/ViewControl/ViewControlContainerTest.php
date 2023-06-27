@@ -25,6 +25,9 @@ use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 class ViewControlContainerTest extends ILIAS_UI_TestBase
 {
@@ -42,12 +45,25 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     protected function buildContainerFactory(): VC\Factory
     {
         return new VC\Factory(
-            new I\SignalGenerator()
+            new I\SignalGenerator(),
+            $this->buildFieldFactory()
         );
     }
+    protected function buildFieldFactory(): FieldFactory
+    {
+        return new FieldFactory(
+            $this->createMock(UploadLimitResolver::class),
+            new I\SignalGenerator(),
+            $this->buildDataFactory(),
+            $this->buildRefinery(),
+            $this->getLanguage()
+        );
+    }
+
     protected function buildVCFactory(): Control\Factory
     {
         return new Control\Factory(
+            $this->buildFieldFactory(),
             $this->buildDataFactory(),
             $this->buildRefinery(),
             new I\SignalGenerator()
@@ -70,14 +86,15 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             $c_factory->pagination()
         ];
 
+        $name_source = new FormInputNameSource();
         $vc = $this->buildContainerFactory()->standard($controls);
         $this->assertSameSize($controls, $vc->getInputs());
 
-        $name_source = new FormInputNameSource();
         $named = array_map(
-            fn ($input) => $input->withNameFrom($name_source),
-            $controls
+            fn ($input) => $input->withNameFrom($name_source, 'form'),
+            $vc->getInputs()
         );
+
         $this->assertEquals($named, $vc->getInputs());
     }
 
@@ -88,16 +105,16 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getQueryParams")
             ->willReturn([
-                'input_0' => 'a1,a3',
-                'input_1' => 'a2:DESC'
+                'form/input_0' => ['a1', 'a3'],
+                'form/input_1/input_2' => 'a2',
+                'form/input_1/input_3' => 'DESC'
             ]);
 
         $c_factory = $this->buildVCFactory();
         $controls = [
-            $c_factory->fieldSelection(['a1'=>'A','a2'=>'B','a3'=>'C']),
-            $c_factory->sortation(['a2:ASC'=>'2up','a2:DESC'=>'2down']),
+            $c_factory->fieldSelection(['a1' => 'A','a2' => 'B','a3' => 'C']),
+            $c_factory->sortation(['a2:ASC' => '2up','a2:DESC' => '2down']),
         ];
-
 
         $vc = $this->buildContainerFactory()->standard($controls);
         $vc2 = $vc->withRequest($request);
@@ -113,17 +130,26 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, array_values($data));
     }
 
-
     public function testViewControlContainerTransforms(): void
     {
-        $vc = $this->buildContainerFactory()->standard([]);
         $transform = $this->buildRefinery()->custom()->transformation(
-            fn ($v) => ['modified' => $v]
+            fn ($v) => ['modified' => 'transformed']
         );
-        $vc = $this->buildContainerFactory()->standard([])
-            ->withAdditionalTransformation($transform);
 
-        $expected = ['modified' => []];
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->expects($this->once())
+                ->method("getQueryParams")
+                ->willReturn(['some' => 'data']);
+
+        $controls = [
+            $this->buildVCFactory()->fieldSelection(['a1' => 'A'])
+        ];
+        $vc = $this->buildContainerFactory()->standard($controls)
+            ->withAdditionalTransformation($transform)
+            ->withRequest($request);
+
+
+        $expected = ['modified' => 'transformed'];
         $this->assertEquals($expected, $vc->getData());
     }
 }

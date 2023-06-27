@@ -54,17 +54,18 @@ class VCPaginationTest extends VCBaseTest
         $l = 'limitlabel';
         $vc = $this->buildVCFactory()->pagination();
         $this->assertEquals($o, $vc->withLimitOptions($o)->getLimitOptions($o));
-        $this->assertEquals($l, $vc->withLabelLimit($l)->getLabelLimit($l));
     }
 
     public function testViewControlPaginationWithInput(): void
     {
-        $v = '5:25';
+        $v = [5,25];
 
         $input = $this->createMock(InputData::class);
-        $input->expects($this->once())
+        $input->expects($this->exactly(2))
             ->method("getOr")
-            ->willReturn($v);
+            ->will(
+                $this->onConsecutiveCalls($v[0], $v[1])
+            );
 
         $vc = $this->buildVCFactory()->pagination()
             ->withNameFrom($this->getNamesource())
@@ -72,7 +73,7 @@ class VCPaginationTest extends VCBaseTest
 
         $df = $this->buildDataFactory();
         $this->assertEquals(
-            $df->ok($df->range(0, 25)),
+            $df->ok($df->range(5, 25)),
             $vc->getContent()
         );
         $this->assertEquals($v, $vc->getValue());
@@ -84,7 +85,7 @@ class VCPaginationTest extends VCBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue('12:2');
+            ->withValue([12,2]);
 
         $expected = $this->brutallyTrimHTML('
 <div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="">
@@ -124,7 +125,8 @@ class VCPaginationTest extends VCBaseTest
     </div>
 
     <div class="il-viewcontrol-value hidden" role="none">
-        <input type="hidden" name="" value="12:2" />
+        <input id="id_13" type="hidden" name="" value="12" />
+        <input id="id_14" type="hidden" name="" value="2" />
     </div>
 </div>
         ');

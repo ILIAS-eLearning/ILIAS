@@ -21,9 +21,11 @@ declare(strict_types=1);
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 abstract class VCBaseTest extends ILIAS_UI_TestBase
 {
@@ -54,9 +56,21 @@ abstract class VCBaseTest extends ILIAS_UI_TestBase
         );
     }
 
+    protected function buildFieldFactory(): FieldFactory
+    {
+        return new FieldFactory(
+            $this->createMock(UploadLimitResolver::class),
+            new SignalGenerator(),
+            $this->buildDataFactory(),
+            $this->buildRefinery(),
+            $this->getLanguage()
+        );
+    }
+
     protected function buildVCFactory(): Control\Factory
     {
         return new Control\Factory(
+            $this->buildFieldFactory(),
             $this->buildDataFactory(),
             $this->buildRefinery(),
             new SignalGenerator()

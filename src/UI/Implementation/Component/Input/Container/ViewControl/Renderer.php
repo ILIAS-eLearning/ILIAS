@@ -60,7 +60,7 @@ class Renderer extends AbstractComponentRenderer
 
         $submission_signal = $component->getSubmissionSignal();
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "$(document).on('{$submission_signal}', 
+            fn ($id) => "$(document).on('{$submission_signal}',
                 function(event, signalData) { 
                     document.getElementById('{$id}').submit();
                     return false;

@@ -61,12 +61,14 @@ class VCSortationTest extends VCBaseTest
             'opt:ASC' => 'A',
             'opt:DESC' => 'B'
         ];
-        $v = 'opt:DESC';
+        $v = ['opt', 'DESC'];
 
         $input = $this->createMock(InputData::class);
-        $input->expects($this->once())
+        $input->expects($this->exactly(2))
             ->method("getOr")
-            ->willReturn($v);
+            ->will(
+                $this->onConsecutiveCalls($v[0], $v[1])
+            );
 
         $vc = $this->buildVCFactory()->sortation($options)
             ->withNameFrom($this->getNamesource())
@@ -96,7 +98,10 @@ class VCSortationTest extends VCBaseTest
         <li><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
     </ul>
-    <div class="il-viewcontrol-value" role="none"><input type="hidden" name="" value="" /></div>
+    <div class="il-viewcontrol-value" role="none">
+        <input id="id_3" type="hidden" name="" value="" />
+        <input id="id_4" type="hidden" name="" value="" />
+    </div>
 </div>
 ');
         $html = $this->brutallyTrimHTML($r->render($vc));

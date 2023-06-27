@@ -84,8 +84,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $this->refinery->custom()->transformation(
             function ($v): Range {
                 list($offset, $limit) = array_map('intval', $v);
-                $offset = $offset ?? 0;
-                if (is_null($limit)) {
+                if ($limit === 0) {
                     $options = $this->getLimitOptions();
                     $limit = array_shift($options);
                 };
