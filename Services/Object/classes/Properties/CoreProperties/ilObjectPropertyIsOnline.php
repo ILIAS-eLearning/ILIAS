@@ -66,7 +66,7 @@ class ilObjectPropertyIsOnline implements ilObjectProperty
             }
         );
         return $field_factory->checkbox($language->txt(self::INPUT_LABEL))
-            ->withByline(self::INPUT_BYLINE)
+            ->withByline($language->txt(self::INPUT_BYLINE))
             ->withAdditionalTransformation($trafo)
             ->withValue($this->getIsOnline());
     }
