@@ -120,7 +120,7 @@ class ilSessionOverviewGUI
         $sortedMembers = [];
         foreach($part as $user_id) {
             $name = ilObjUser::_lookupName($user_id);
-            $sortedMembers[$name['lastname']] = $user_id;
+            $sortedMembers[$name['lastname']] = [ $user_id, $name["firstname"] ];
         }
         ksort($sortedMembers);
 
@@ -145,11 +145,9 @@ class ilSessionOverviewGUI
 
         $this->csv->addRow();
 
-        foreach ($sortedMembers as $lastName => $user_id) {
-            $name = ilObjUser::_lookupName($user_id);
-
-            $this->csv->addColumn($name['lastname']);
-            $this->csv->addColumn($name['firstname']);
+        foreach ($sortedMembers as $lastName => [ $user_id, $firstName ]) {
+            $this->csv->addColumn($lastName);
+            $this->csv->addColumn($firstName);
             $this->csv->addColumn(ilObjUser::_lookupLogin($user_id));
 
             foreach ($events as $event_obj) {
