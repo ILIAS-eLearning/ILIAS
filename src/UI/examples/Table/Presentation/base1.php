@@ -34,33 +34,16 @@ function base1()
                 'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title']
             )
         )
-        ->withContent([
-
-                $ui_factory->listing()->descriptive([
-                    'Werte' => $environment['totals']($record['answers']),
-                ])
-            /*
-            $ui_factory->layout()->alignment()->preferHorizontal(
-                [
-                    $ui_factory->listing()->descriptive([
-                        'Werte' => $environment['totals']($record['answers']),
-                    ])
-                ],
-                [
-                    $ui_factory->listing()->descriptive([
-                        'Chart' => $environment['chart']($record['answers'])
-                    ])
-                ]
-            ),
-            $ui_factory->listing()->characteristicValue()->text([
+        ->withContent(
+            $ui_factory->listing()->descriptive([
+                'Werte' => $environment['totals']($record['answers']),
                 'Beantwortet: ' => (string)$record['stats']['total'],
                 'Übersprungen' => (string)$record['stats']['skipped'],
                 'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title'],
                 'Anzahl Häufigste: ' => (string)$record['stats']['most_common_total'],
                 'Median: ' => $record['answers'][$record['stats']['median']]['title']
             ])
-            */
-        ])
+        )
         ->withAction($ui_factory->button()->standard('zur Frage', '#'));
     };
 

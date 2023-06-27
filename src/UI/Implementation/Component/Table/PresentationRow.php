@@ -46,10 +46,7 @@ class PresentationRow implements T\PresentationRow
     private ?string $headline = null;
     private ?string $subheadline = null;
     private array $important_fields = [];
-    /**
-     * @var Block|Alignment|array<Block|Alignment>
-     */
-    private Descriptive|Alignment|array $content;
+    private Descriptive|Alignment $content;
     private ?string $further_fields_headline = null;
     private array $further_fields = [];
     private array $data;
@@ -168,21 +165,17 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withContent(Descriptive|Alignment|array $content): T\PresentationRow
+    public function withContent(Descriptive|Alignment $content): T\PresentationRow
     {
         $clone = clone $this;
         $clone->content = $content;
         return $clone;
     }
 
-    /**
-     * @return Block|Alignment|array<Block|Alignment>
-     */
-    public function getContent(): Descriptive|Alignment|array
+    public function getContent(): Descriptive|Alignment
     {
         return $this->content;
     }
-
 
     /**
      * @inheritdoc

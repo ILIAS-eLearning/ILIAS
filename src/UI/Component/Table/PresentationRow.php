@@ -55,9 +55,8 @@ interface PresentationRow extends Component, Triggerable
 
     /**
      * Get a row like this with a descriptive listing as content.
-     * @param Block|Alignment|array<Block|Alignment> $content
      */
-    public function withContent(Descriptive|Alignment|array $content): self;
+    public function withContent(Descriptive|Alignment $content): self;
 
     /**
      * Get a row like this with a headline for the field-list in the expanded row.
