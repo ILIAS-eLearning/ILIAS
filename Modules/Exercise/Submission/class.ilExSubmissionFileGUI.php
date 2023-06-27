@@ -24,7 +24,7 @@ use ILIAS\DI\UIServices;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilExSubmissionFileGUI:
+ * @ilCtrl_Calls ilExSubmissionFileGUI: ilRepoStandardUploadHandlerGUI
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {
@@ -59,6 +59,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $cmd = $ilCtrl->getCmd("submissionScreen");
 
         switch ($class) {
+            case strtolower(ilRepoStandardUploadHandlerGUI::class):
+                $form = $this->getUploadForm();
+                $gui = $form->getRepoStandardUploadHandlerGUI("deliver");
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 $this->{$cmd . "Object"}();
                 break;
@@ -184,6 +190,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         if (!$a_form) {
             $a_form = $this->initUploadForm();
+            $a_form = $this->getUploadForm();
+            $this->tpl->setContent($a_form->render());
+            return;
         }
         $this->tpl->setContent($a_form->getHTML());
     }
@@ -231,6 +240,56 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         return $form;
     }
+
+    protected function getUploadForm(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $max_file = $this->submission->getAssignment()->getMaxFile();
+        if ($max_file > 0) {
+            $max_file = $this->submission->getAssignment()->getMaxFile() - count($this->submission->getFiles());
+        } else {
+            $max_file = 0;
+        }
+
+        $form_adapter = $this->gui
+            ->form(self::class, 'addUpload')
+            ->section("props", $this->lng->txt('file_add'))
+            ->file(
+                "deliver",
+                $this->lng->txt("files"),
+                \Closure::fromCallable([$this, 'handleUploadResult']),
+                "mep_id",
+                "",
+                $max_file
+            );
+        return $form_adapter;
+    }
+
+    protected function handleUploadResult(
+        \ILIAS\FileUpload\FileUpload $upload,
+        \ILIAS\FileUpload\DTO\UploadResult $result
+    ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
+        $title = $result->getName();
+
+        $this->submission->addFileUpload($result);
+
+        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+            '',
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+            $title,
+            ''
+        );
+    }
+
+    public function addUploadObject(): void
+    {
+        $ilCtrl = $this->ctrl;
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
+        $this->handleNewUpload();
+
+        $ilCtrl->redirect($this, "submissionScreen");
+    }
+
 
     /**
      * Init upload form form.
