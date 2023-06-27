@@ -51,7 +51,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if ($value === null) {
             return true;

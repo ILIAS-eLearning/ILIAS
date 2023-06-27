@@ -119,4 +119,26 @@ class Group extends Field implements C\Input\Field\Group
         }
         return parent::getContent();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function isClientSideValueOk($value): bool
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+        if (count($this->getInputs()) !== count($value)) {
+            return false;
+        }
+        foreach ($this->getInputs() as $key => $input) {
+            if (!array_key_exists($key, $value)) {
+                return false;
+            }
+            if (!$input->isClientSideValueOk($value[$key])) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

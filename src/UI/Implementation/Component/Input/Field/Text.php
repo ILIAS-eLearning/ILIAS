@@ -70,7 +70,7 @@ class Text extends Field implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (!is_string($value)) {
             return false;

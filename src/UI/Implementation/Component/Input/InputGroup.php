@@ -39,7 +39,7 @@ trait InputGroup
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;

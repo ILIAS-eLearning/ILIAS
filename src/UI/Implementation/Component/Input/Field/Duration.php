@@ -276,7 +276,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return true;
     }

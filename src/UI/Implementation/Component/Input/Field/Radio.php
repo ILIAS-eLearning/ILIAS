@@ -49,7 +49,7 @@ class Radio extends Field implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return ($value === '' || array_key_exists($value, $this->getOptions()));
     }

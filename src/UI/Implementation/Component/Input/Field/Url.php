@@ -97,7 +97,7 @@ class Url extends Field implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_string($value) && trim($value) === "") {
             return true;

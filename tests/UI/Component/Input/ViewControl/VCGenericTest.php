@@ -37,7 +37,7 @@ class VCGenericTest extends VCBaseTest
             $this->buildRefinery(),
             ''
         ) extends Control\ViewControl {
-            protected function isClientSideValueOk($value): bool
+            public function isClientSideValueOk($value): bool
             {
                 return true;
             }

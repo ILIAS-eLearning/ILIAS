@@ -158,7 +158,7 @@ abstract class Input implements C\Input\Input
      *
      * @param mixed $value
      */
-    abstract protected function isClientSideValueOk($value): bool;
+    abstract public function isClientSideValueOk($value): bool;
 
     /**
      * The error of the input as used in HTML.

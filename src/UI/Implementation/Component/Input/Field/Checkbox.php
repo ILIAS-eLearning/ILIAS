@@ -51,7 +51,7 @@ class Checkbox extends Field implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if ($value == "checked" || $value === "" || is_bool($value)) {
             return true;

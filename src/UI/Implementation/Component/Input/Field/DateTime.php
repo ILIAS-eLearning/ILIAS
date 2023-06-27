@@ -174,7 +174,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         return $this->with_time_only;
     }
 
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }

@@ -33,7 +33,7 @@ class DefInput extends Field
     public bool $value_ok = true;
     public ?Constraint $requirement_constraint = null;
 
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return $this->value_ok;
     }

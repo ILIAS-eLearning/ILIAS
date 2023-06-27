@@ -59,7 +59,7 @@ class HasDynamicInputsBaseTest extends TestCase
                 return null;
             }
 
-            protected function isClientSideValueOk($value): bool
+            public function isClientSideValueOk($value): bool
             {
                 return true;
             }
@@ -177,7 +177,7 @@ class HasDynamicInputsBaseTest extends TestCase
                 return null;
             }
 
-            protected function isClientSideValueOk($value): bool
+            public function isClientSideValueOk($value): bool
             {
                 return true;
             }

@@ -61,7 +61,7 @@ class MultiSelect extends Field implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_null($value)) {
             return true;
