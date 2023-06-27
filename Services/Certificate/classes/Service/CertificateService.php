@@ -22,22 +22,21 @@ namespace ILIAS\Certificate\Service;
 
 use ILIAS\DI\Container;
 use ILIAS\Certificate\API\UserCertificateAPI;
+use ILIAS\Certificate\API\UserCertificateApiInterface;
 
-class CertificateService
+final class CertificateService
 {
-    public const USER_API = 'certificate.user.api';
-
     public function __construct(private Container $dic)
     {
-        if (!isset($this->dic[self::USER_API])) {
-            $this->dic[self::USER_API] = static function (Container $c): UserCertificateAPI {
+        if (!isset($this->dic[UserCertificateApiInterface::class])) {
+            $this->dic[UserCertificateApiInterface::class] = static function (Container $c): UserCertificateApiInterface {
                 return new UserCertificateAPI();
             };
         }
     }
 
-    public function userCertificates(): UserCertificateAPI
+    public function userCertificates(): UserCertificateApiInterface
     {
-        return $this->dic[self::USER_API];
+        return $this->dic[UserCertificateApiInterface::class];
     }
 }
