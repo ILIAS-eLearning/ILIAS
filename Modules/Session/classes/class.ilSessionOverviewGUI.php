@@ -126,7 +126,7 @@ class ilSessionOverviewGUI
                 'lastname' => $name['lastname']
             ];
         }
-        usort($sortedMembers, function($a, $b) {
+        usort($sortedMembers, function ($a, $b) {
             return $a['lastname'] <=> $b['lastname'];
         });
 
