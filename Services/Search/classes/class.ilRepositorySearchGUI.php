@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
@@ -1198,12 +1198,14 @@ class ilRepositorySearchGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
-        $is_in_admin = $base_class === ilAdministrationGUI::class;
+
+        // String value of 'baseClass' is in lower case
+        $is_in_admin = ($base_class === strtolower(ilAdministrationGUI::class));
+
         if ($is_in_admin) {
             // remember link target to admin search gui (this)
             ilSession::set('usr_search_link', $this->ctrl->getLinkTarget($this, 'show'));
         }
-
 
         $table = new ilRepositoryUserResultTableGUI($this, $a_parent_cmd, $is_in_admin);
         if (count($this->add_options)) {
