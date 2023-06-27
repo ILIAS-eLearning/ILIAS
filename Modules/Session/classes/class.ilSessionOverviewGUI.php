@@ -140,6 +140,7 @@ class ilSessionOverviewGUI
         $this->csv->addRow();
 
         foreach ($members as $user_id) {
+            $user_id = (int) $user_id;
             $name = ilObjUser::_lookupName($user_id);
 
             $this->csv->addColumn($name['lastname']);
