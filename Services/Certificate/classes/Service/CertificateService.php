@@ -35,7 +35,7 @@ final class CertificateService
         }
     }
 
-    public function userCertificates(): UserCertificateAPI
+    public function userCertificates(): UserCertificateApiInterface
     {
         return $this->dic[UserCertificateApiInterface::class];
     }
