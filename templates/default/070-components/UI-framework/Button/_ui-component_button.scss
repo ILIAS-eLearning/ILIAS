@@ -93,26 +93,6 @@ input.btn {
     $engaged_border-width: 1px);
 }
 
-.btn-ctrl {
-  @include btstrp3.button-variant($il-btn-ctrl-color, $il-btn-ctrl-bg, $il-btn-ctrl-border);
-  min-height: $il-btn-ctrl-outer-height;
-  min-width: $il-btn-ctrl-outer-height;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: $il-border-radius-secondary-large;
-  // flex fixes for dropdown carets
-  gap: $il-margin-base-horizontal;
-  .caret {
-    width: auto;
-    height: auto;
-  }
-  &.engaged {
-    border: 1px solid $il-btn-ctrl-engaged-border;
-    background-color: $il-main-bg;
-  }
-}
-
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
 
 // Link buttons
