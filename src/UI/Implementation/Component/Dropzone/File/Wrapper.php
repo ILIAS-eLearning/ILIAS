@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
@@ -49,7 +49,7 @@ class Wrapper extends File implements WrapperDropzone
         $content,
         string $post_url,
         FileInput $file_input,
-        ?Input $additional_input
+        ?Field $additional_input
     ) {
         parent::__construct(
             $signal_generator,

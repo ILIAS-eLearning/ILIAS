@@ -121,7 +121,7 @@ class InputTest extends ILIAS_UI_TestBase
     protected DefInput $input;
     protected DefInput $dedicated_input;
     protected DefNamesource $name_source;
-    protected Input $named_input;
+    protected Field $named_input;
 
     public function setUp(): void
     {

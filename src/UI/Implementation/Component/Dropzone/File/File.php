@@ -37,7 +37,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Closable;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Field;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -59,7 +59,7 @@ abstract class File implements FileDropzone
         string $title,
         string $post_url,
         FileInput $file_input,
-        ?Input $additional_input
+        ?Field $additional_input
     ) {
         $this->signal_generator = $signal_generator;
         $this->clear_signal = $signal_generator->create();
