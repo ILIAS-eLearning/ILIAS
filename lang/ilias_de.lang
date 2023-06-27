@@ -14062,6 +14062,8 @@ registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
 registration#:#reg_disabled#:#Keine Registrierung möglich
 registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de')
+registration#:#reg_domain_already_assigned_p#:#Die Domänen '%s' wurdem bereits für die Zuweisung einer anderen Rolle gewählt.
+registration#:#reg_domain_already_assigned_s#:#Die Domäne '%s' wurde bereits für die Zuweisung einer anderen Rolle gewählt.
 registration#:#reg_email#:#Automatische Rollenzuweisung
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
