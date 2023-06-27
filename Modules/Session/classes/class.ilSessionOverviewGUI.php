@@ -122,8 +122,8 @@ class ilSessionOverviewGUI
             $name = ilObjUser::_lookupName($user_id);
             $sortedMembers[] = [
                 'userid' => $user_id,
-                'firstname' => $name["firstname"],
-                'lastname' => $name['lastname']
+                'firstname' => (string) $name["firstname"],
+                'lastname' => (string) $name['lastname']
             ];
         }
         usort($sortedMembers, function ($a, $b) {
