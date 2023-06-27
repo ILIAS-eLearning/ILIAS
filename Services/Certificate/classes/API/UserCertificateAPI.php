@@ -35,8 +35,12 @@ use ilSetting;
 use ilObjectDataCache;
 use ilCertificateTemplate;
 use ilCertificateConsumerNotSupported;
+use ilCouldNotFindCertificateTemplate;
+use ilInvalidCertificateException;
+use ilCertificateIssuingObjectNotFound;
+use ilCertificateOwnerNotFound;
 
-class UserCertificateAPI
+class UserCertificateAPI implements UserCertificateApiInterface
 {
     private readonly UserDataRepository $user_data_repository;
     private readonly ilCertificateTemplateRepository $template_repository;
@@ -72,12 +76,6 @@ class UserCertificateAPI
         );
     }
 
-    /**
-     * @param string[] $ilCtrlStack An array of ilCtrl-enabled GUI class names that are used to create the link,
-     *                              if this is an empty array (default) no link
-     *                              will be generated
-     * @return array<int, UserCertificateDto>
-     */
     public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []): array
     {
         return $this->user_data_repository->getUserData($filter, $ilCtrlStack);
@@ -122,6 +120,12 @@ class UserCertificateAPI
         $this->certificateCriteriaMetForGivenTemplate($usr_id, $template);
     }
 
+    /**
+     * @throws ilCertificateIssuingObjectNotFound
+     * @throws ilCertificateOwnerNotFound
+     * @throws ilCouldNotFindCertificateTemplate
+     * @throws ilInvalidCertificateException
+     */
     private function processEntry(
         int $userId,
         ilCertificateTemplate $template
