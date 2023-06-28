@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, želim se vratiti na prethod
 assessment#:#tst_finish_confirmation_question#:#Završavate ovaj test i dolazite do maksimalnog broja dozvoljenih prolaza testa. Nakon toga nećete moći ponovno ući u ovaj test kako biste promijenili svoje odgovore. Želite li zaista završiti test?
 assessment#:#tst_finish_notification#:#Obavijest
 assessment#:#tst_finish_notification_advanced#:#Pošalji potpuni rezultat testa po korisniku
-assessment#:#tst_finish_notification_content#:#Sadržaj e-pošte
+assessment#:#tst_finish_notification_content_type#:#Sadržaj e-pošte
 assessment#:#tst_finish_notification_desc#:#Pošalje e-poštu vlasniku testa za svakog korisnika koji je završio test.
 assessment#:#tst_finish_notification_no#:#Nema e-pošte
 assessment#:#tst_finish_notification_simple#:#Pošalji korisničko ime i datum završetka

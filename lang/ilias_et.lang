@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ei, mine tagasi eelmise vastuse 
 assessment#:#tst_finish_confirmation_question#:#Oled lõpetamas seda testi. Pärast vastuste ära saatmist ei ole võimalik enam testi siseneda ega vastuseid muuta. Kas oled kindel, et soovid praegu testi vastuseid ära saata?
 assessment#:#tst_finish_notification#:#Kiri lõpetamise kohta
 assessment#:#tst_finish_notification_advanced#:#Saada testitulemus testi omanikule
-assessment#:#tst_finish_notification_content#:#Content of e-mail
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Saada kasutajanimi ja lõpetamise aeg testi omanikule

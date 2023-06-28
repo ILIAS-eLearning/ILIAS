@@ -43,30 +43,36 @@ class ilObjTestSettingsGeneral extends TestSettings
     ): array {
         $inputs['question_set_type'] = $f->radio(
             $lng->txt('test_question_set_type')
-        )
-            ->withOption(
-                ilObjTest::QUESTION_SET_TYPE_FIXED,
-                $lng->txt('test_question_set_type_fixed'),
-                $lng->txt('test_question_set_type_fixed_info')
-            )
-            ->withOption(
-                ilObjTest::QUESTION_SET_TYPE_RANDOM,
-                $lng->txt('test_question_set_type_random'),
-                $lng->txt('test_question_set_type_random_info')
-            )
-            ->withValue($this->getQuestionSetType());
+        )->withOption(
+            ilObjTest::QUESTION_SET_TYPE_FIXED,
+            $lng->txt('test_question_set_type_fixed'),
+            $lng->txt('test_question_set_type_fixed_info')
+        )->withOption(
+            ilObjTest::QUESTION_SET_TYPE_RANDOM,
+            $lng->txt('test_question_set_type_random'),
+            $lng->txt('test_question_set_type_random_info')
+        )->withValue($this->getQuestionSetType());
+
+        $trafo = $refinery->custom()->transformation(
+            static function (string $v): bool {
+                if ($v === '1') {
+                    return true;
+                }
+
+                return false;
+            }
+        );
+
         $inputs['anonymity'] = $f->radio(
             $lng->txt('tst_anonymity')
-        )
-            ->withOption(
-                '0',
-                $lng->txt('tst_anonymity_no_anonymization')
-            )
-            ->withOption(
-                '1',
-                $lng->txt('tst_anonymity_anonymous_test')
-            )
-            ->withValue($this->getAnonymity() ? '1' : '0');
+        )->withOption(
+            '0',
+            $lng->txt('tst_anonymity_no_anonymization')
+        )->withOption(
+            '1',
+            $lng->txt('tst_anonymity_anonymous_test')
+        )->withValue($this->getAnonymity() ? '1' : '0')
+        ->withAdditionalTransformation($trafo);
 
         if ($environment['participant_data_exists']) {
             $inputs['question_set_type'] = $inputs['question_set_type']->withDisabled(true);
@@ -80,7 +86,7 @@ class ilObjTestSettingsGeneral extends TestSettings
     {
         return [
             'question_set_type' => ['text', $this->getQuestionSetType()],
-            'anonymity' => ['integer', $this->getAnonymity()]
+            'anonymity' => ['integer', (int) $this->getAnonymity()]
         ];
     }
 

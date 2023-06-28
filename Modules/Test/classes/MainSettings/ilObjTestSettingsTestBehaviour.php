@@ -32,7 +32,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         protected bool $block_after_passed_enabled = false,
         protected ?string $pass_waiting = null,
         protected bool $processing_time_enabled = false,
-        protected ?int $processing_time = null,
+        protected ?string $processing_time = null,
         protected bool $reset_processing_time = false,
         protected int $kiosk_mode = 0,
         protected bool $examid_in_test_pass_enabled = false
@@ -85,7 +85,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         array $environment
     ): Input {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'number_of_available_attempts' => 0,
@@ -97,13 +97,17 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
             }
         );
 
-        $sub_inputs['number_of_available_attempts'] = $f->numeric($lng->txt('tst_nr_of_tries'))
-            ->withRequired(true)
-            ->withValue(0);
+        $sub_inputs['number_of_available_attempts'] = $f->numeric($lng->txt('tst_nr_of_tries'));
         $sub_inputs['block_after_passed'] = $f->checkbox(
             $lng->txt('tst_block_passes_after_passed'),
             $lng->txt('tst_block_passes_after_passed_info')
         );
+
+        if (!$environment['participant_data_exists']) {
+            $sub_inputs['number_of_available_attempts'] =
+                $sub_inputs['number_of_available_attempts']->withRequired(true)
+                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0));
+        }
 
         $limit_attempts = $f->optionalGroup(
             $sub_inputs,
@@ -122,7 +126,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         }
 
         if (!$environment['participant_data_exists']) {
-            return $limit_attempts->withAdditionalTransformation($refinery->int()->isGreaterThan(0));
+            return $limit_attempts;
         }
 
         return $limit_attempts->withDisabled(true);
@@ -135,24 +139,18 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         array $environment
     ): Input {
         $constraint = $refinery->custom()->constraint(
-            function (?array $vs): bool {
-                if ($vs === null) {
-                    return true;
+            static function (?string $vs): bool {
+                if ($vs !== null && $vs === '0:0:0:0') {
+                    return false;
                 }
 
-                foreach ($vs as $v) {
-                    if ($v > 0) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return true;
             },
             sprintf($lng->txt('not_greater_than'), $lng->txt('tst_pass_waiting_time'), 0)
         );
 
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): ?string {
+            static function (?array $vs): ?string {
                 if ($vs === null) {
                     return null;
                 }
@@ -223,7 +221,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         array $environment
     ): Input {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'processing_time_limit' => false,
@@ -233,6 +231,13 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
                 }
 
                 $vs['processing_time_limit'] = true;
+                $vs['time_limit_for_completion_value'] = sprintf(
+                    '%02d:%02d:00',
+                    floor(
+                        $vs['time_limit_for_completion_value'] / 60
+                    ),
+                    $vs['time_limit_for_completion_value'] % 60
+                );
                 return $vs;
             }
         );
@@ -279,7 +284,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         Refinery $refinery
     ): Input {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): ?int {
+            static function (?array $vs): ?int {
                 if ($vs === null) {
                     return $kiosk_mode = 0;
                 }
@@ -329,9 +334,10 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     {
         return [
             'nr_of_tries' => ['integer', $this->getNumberOfTries()],
+            'block_after_passed' => ['integer', (int) $this->getBlockAfterPassedEnabled()],
             'pass_waiting' => ['string', $this->getPassWaiting()],
             'enable_processing_time' => ['integer', (int) $this->getProcessingTimeEnabled()],
-            'processing_time' => ['integer', $this->getProcessingTime()],
+            'processing_time' => ['string', $this->getProcessingTime()],
             'reset_processing_time' => ['integer', (int) $this->getResetProcessingTime()],
             'kiosk' => ['integer', $this->getKioskMode()],
             'examid_in_test_pass' => ['integer', (int) $this->getExamIdInTestPassEnabled()]
@@ -392,11 +398,21 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         return $clone;
     }
 
-    public function getProcessingTime(): ?int
+    public function getProcessingTime(): ?string
     {
         return $this->processing_time;
     }
-    public function withProcessingTime(?int $processing_time): self
+    public function getProcessingTimeAsMinutes(): int
+    {
+        if ($this->processing_time !== null) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
+                return ((int) $matches[1] * 60) + (int) $matches[2];
+            }
+        }
+
+        return self::DEFAULT_PROCESSING_TIME_MINUTES;
+    }
+    public function withProcessingTime(?string $processing_time): self
     {
         $clone = clone $this;
         $clone->processing_time = $processing_time;
@@ -417,6 +433,14 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     public function getKioskMode(): int
     {
         return $this->kiosk_mode;
+    }
+    public function getKioskModeEnabled(): bool
+    {
+        if (($this->kiosk_mode & 1) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public function getShowTitleInKioskMode(): bool
     {

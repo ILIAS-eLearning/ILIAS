@@ -89,7 +89,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         Refinery $refinery
     ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): int {
+            static function (?array $vs): int {
                 if ($vs === null) {
                     return 0;
                 }

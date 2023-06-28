@@ -1387,7 +1387,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻�
 assessment#:#tst_finish_confirmation_question#:#このテストを終了すると最大受験可能回数に達します。解答を変更しようとしても再度入力する事はできなくなります。本当にこのテストを終了しますか?
 assessment#:#tst_finish_notification#:#通知
 assessment#:#tst_finish_notification_advanced#:#完了テスト結果を送信
-assessment#:#tst_finish_notification_content#:#e-mailの内容
+assessment#:#tst_finish_notification_content_type#:#e-mailの内容
 assessment#:#tst_finish_notification_desc#:#テスト完了のユーザごとにテストオーナーへe-mailを送付する
 assessment#:#tst_finish_notification_no#:#e-mailしない
 assessment#:#tst_finish_notification_simple#:#ユーザ名と終了日を送る

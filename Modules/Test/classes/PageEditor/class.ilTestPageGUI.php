@@ -22,7 +22,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilTestPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilTestPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilTestPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrl_IsCalledBy ilTestPageGUI: ilRepositoryGUI
  */
 class ilTestPageGUI extends ilPageObjectGUI
 {

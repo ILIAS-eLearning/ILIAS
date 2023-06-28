@@ -578,45 +578,44 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
-        $result = $ilDB->queryF(
+        $result_active = $ilDB->queryF(
             "SELECT * FROM tst_active WHERE active_id = %s",
             array("integer"),
             array($active_id)
         );
-        $row = $ilDB->fetchAssoc($result);
-        $user_id = $row["user_fi"];
-        $test_id = $row["test_fi"];
-        $importname = $row['importname'];
+        $row_active = $ilDB->fetchAssoc($result_active);
 
-        $result = $ilDB->queryF(
+        if ($row_active["user_fi"] === ANONYMOUS_USER_ID) {
+            return '';
+        }
+
+        $uname = ilObjUser::_lookupName($row_active["user_fi"]);
+
+        $test_id = $row_active["test_fi"];
+        $importname = $row_active['importname'];
+
+        $result_test = $ilDB->queryF(
             "SELECT obj_fi FROM tst_tests WHERE test_id = %s",
             array("integer"),
             array($test_id)
         );
-        $row = $ilDB->fetchAssoc($result);
-        $obj_id = $row["obj_fi"];
+        $row_test = $ilDB->fetchAssoc($result_test);
+        $obj_id = $row_test["obj_fi"];
 
-        $is_anonymous = ilObjTest::_lookupAnonymity($obj_id);
-
-        $uname = ilObjUser::_lookupName($user_id);
-
-        $name = "";
-        if ($importname === null
-            || $importname === '') {
-            $name = $importname . ' (' . $lng->txt('imported') . ')';
-        } elseif (strlen($uname["firstname"] . $uname["lastname"]) == 0) {
-            $name = $lng->txt("deleted_user");
-        } else {
-            if ($user_id == ANONYMOUS_USER_ID) {
-                $name = "";
-            } else {
-                $name = trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
-            }
-            if ($is_anonymous) {
-                $name = $lng->txt("anonymous");
-            }
+        if (ilObjTest::_lookupAnonymity($obj_id)) {
+            return $lng->txt("anonymous");
         }
-        return $name;
+
+        if ($importname !== null
+            && $importname !== '') {
+            return $importname . ' (' . $lng->txt('imported') . ')';
+        }
+
+        if (strlen($uname["firstname"] . $uname["lastname"]) === 0) {
+            return $lng->txt("deleted_user");
+        }
+
+        return trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
     }
 
     /**

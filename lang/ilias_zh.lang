@@ -1378,7 +1378,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#不，返回之前的答案
 assessment#:#tst_finish_confirmation_question#:#您将要完成这次测试并且达到了测试所允许的最大次数。您将不能再次进入这次测试去修改您的答案。您真的想完成这次测试吗？
 assessment#:#tst_finish_notification#:#邮报完成
 assessment#:#tst_finish_notification_advanced#:#发送完成的测试结果给测试者
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#发送用户名和完成日期给测试者

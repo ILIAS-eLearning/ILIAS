@@ -1140,7 +1140,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $tstdef = $this->getDidacticTemplateVar("tstdef");
         if ($tstdef) {
             $testDefaultsId = $tstdef;
-            $testDefaults = ilObjTest::_getTestDefaults($testDefaultsId);
+            $testDefaults = $this->object->getTestDefaults($testDefaultsId);
             $new_object->applyDefaults($testDefaults);
         }
 
@@ -1185,7 +1185,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $basedir = ilObjTest::_createImportDirectory();
-
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
         try {
             ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
@@ -1381,7 +1380,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
             $imp = new ilImport($this->testrequest->getRefId());
             $map = $imp->getMapping();
-            $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
+            $map->addMapping('Modules/Test', 'tst', 'new_id', (string) $newObj->getId());
             $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
         } else {
             $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
@@ -1496,9 +1495,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     public function createQuestionPool($name = "dummy", $description = ""): int
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-        $parent_ref = $tree->getParentId($this->object->getRefId());
+        $parent_ref = $this->tree->getParentId($this->object->getRefId());
         $qpl = new ilObjQuestionPool();
         $qpl->setType("qpl");
         $qpl->setTitle($name);
@@ -1510,94 +1507,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $qpl->setOnline(1); // must be online to be available
         $qpl->saveToDb();
         return $qpl->getRefId();
-    }
-
-    public function randomselectObject()
-    {
-        $this->getTabsManager()->getQuestionsSubTabs();
-        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('random_selection'));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'cancelRandomSelect'));
-
-        $form->addCommandButton('createRandomSelection', $this->lng->txt('submit'));
-        $form->addCommandButton('cancelRandomSelect', $this->lng->txt('cancel'));
-
-        $amount = new ilNumberInputGUI($this->lng->txt('tst_random_nr_of_questions'), 'nr_of_questions');
-        $amount->allowDecimals(false);
-        $amount->setSize(5);
-        $amount->setMinValue(1);
-        $amount->setValue(5);
-        $form->addItem($amount);
-
-        $poolSelection = new ilSelectInputGUI($this->lng->txt('tst_source_question_pool'), 'sel_qpl');
-        $poolSelection->setInfo($this->lng->txt('tst_random_select_questionpool'));
-        $poolSelection->setRequired(true);
-        $poolOptions = [];
-        $questionpools = $this->object->getAvailableQuestionpools(false, false, false, true);
-        foreach ($questionpools as $key => $value) {
-            $poolOptions[$key] = $value['title'];
-        }
-        $poolSelection->setOptions(
-            ['0' => $this->lng->txt('all_available_question_pools')] + $poolOptions
-        );
-        $form->addItem($poolSelection);
-
-        $questionType = new ilHiddenInputGUI('sel_question_types');
-        $questionType->setValue(ilUtil::stripSlashes($_POST['sel_question_types']));
-        $form->addItem($questionType);
-
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function cancelRandomSelectObject()
-    {
-        $this->ctrl->redirect($this, "questions");
-    }
-
-    public function createRandomSelectionObject()
-    {
-        $this->getTabsManager()->getQuestionsSubTabs();
-        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-
-        $randomQuestionSelectionTable = new ilTestRandomQuestionSelectionTableGUI($this, 'createRandomSelection', $this->getTestObject());
-
-        $this->tpl->setContent(
-            $randomQuestionSelectionTable
-                ->build((int) $_POST['nr_of_questions'], (int) $_POST['sel_qpl'])
-                ->getHtml()
-        );
-    }
-
-    /**
-    * Inserts a random selection into the test
-    *
-    * Inserts a random selection into the test
-    *
-    * @access	public
-    */
-    public function insertRandomSelectionObject()
-    {
-        $selected_array = explode(",", $_POST["chosen_questions"]);
-        if (!count($selected_array)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"));
-        } else {
-            $total = $this->object->evalTotalPersons();
-            if ($total) {
-                // the test was executed previously
-                $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_questions"));
-            }
-            foreach ($selected_array as $key => $value) {
-                $this->object->insertQuestion($this->testQuestionSetConfigFactory->getQuestionSetConfig(), $value);
-            }
-            $this->object->saveCompleteStatus($this->testQuestionSetConfigFactory->getQuestionSetConfig());
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
-            $this->ctrl->redirect($this, "questions");
-            return;
-        }
     }
 
     /*
@@ -2374,7 +2283,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 
-        $print_date = mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"));
+        $print_date = mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d"), (int) date("Y"));
         $max_points = 0;
         $counter = 1;
         $questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
@@ -2665,7 +2574,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen($this->testrequest->raw('lock'));
+        $this->infoScreen($this->testrequest->raw('lock') ?? '');
     }
 
     /**
@@ -2708,7 +2617,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $info->enablePrivateNotes();
 
-        if ($this->object->getIntroduction() !== '') {
+        if ($this->object->getMainSettings()->getIntroductionSettings()->getIntroductionEnabled()) {
             $info->addSection($this->lng->txt("tst_introduction"));
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
                 "<br />" . $info->getHiddenToggleButton());
@@ -2740,7 +2649,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $info->hideFurtherSections(false);
         $info->addSection($this->lng->txt("tst_sequence_properties"));
-        $info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE) ? "tst_sequence_fixed" : "tst_sequence_postpone"));
+        $info->addProperty(
+            $this->lng->txt("tst_sequence"),
+            $this->lng->txt(
+                $this->object->getMainSettings()->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd()
+                    ? "tst_sequence_postpone" : "tst_sequence_fixed"
+            )
+        );
 
         $info->addSection($this->lng->txt("tst_heading_scoring"));
         $info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"));
@@ -2751,16 +2666,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $info->addSection($this->lng->txt("tst_score_reporting"));
         $score_reporting_text = "";
         switch ($this->object->getScoreReporting()) {
-            case ilObjTest::SCORE_REPORTING_FINISHED:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
                 $score_reporting_text = $this->lng->txt("tst_report_after_test");
                 break;
-            case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
                 $score_reporting_text = $this->lng->txt("tst_report_after_first_question");
                 break;
-            case ilObjTest::SCORE_REPORTING_DATE:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
                 $score_reporting_text = $this->lng->txt("tst_report_after_date");
                 break;
-            case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
                 $score_reporting_text = $this->lng->txt("tst_report_after_passed");
                 break;
             default:
@@ -2770,9 +2685,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text);
         $reporting_date = $this->object->getReportingDate();
         if ($reporting_date) {
-            #preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
-            #$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-            #$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
             $info->addProperty(
                 $this->lng->txt('tst_score_reporting_date'),
                 ilDatePresentation::formatDate(new ilDateTime($reporting_date, IL_CAL_TIMESTAMP))
@@ -2780,9 +2692,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $info->addSection($this->lng->txt("tst_session_settings"));
-        $info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0) ? $this->lng->txt("unlimited") : $this->object->getNrOfTries());
+        $info->addProperty($this->lng->txt("tst_nr_of_tries"), $this->object->getNrOfTries() === 0 ? $this->lng->txt("unlimited") : (string) $this->object->getNrOfTries());
         if ($this->object->getNrOfTries() != 1) {
-            $info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($toolbar->getTestSession()->getPass() == false) ? $this->lng->txt("tst_no_tries") : $toolbar->getTestSequence()->getPass());
+            $info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($toolbar->getTestSession()->getPass() == false) ? $this->lng->txt("tst_no_tries") : (string) $toolbar->getTestSequence()->getPass());
         }
 
         if ($this->object->getEnableProcessingTime()) {
@@ -2793,7 +2705,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $starting_time = $this->object->getStartingTime();
-        if ($this->object->isStartingTimeEnabled() && $starting_time != 0) {
+        if ($this->object->isStartingTimeEnabled() && $starting_time !== 0) {
             $info->addProperty($this->lng->txt("tst_starting_time"), ilDatePresentation::formatDate(new ilDateTime($starting_time, IL_CAL_UNIX)));
         }
         $ending_time = $this->object->getEndingTime();

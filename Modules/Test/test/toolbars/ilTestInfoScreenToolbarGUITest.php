@@ -132,7 +132,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     public function testSessionLockString(): void
     {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getSessionLockString());
+        $this->assertEquals('', $this->testInfoScreenToolbarGUI->getSessionLockString());
 
         $this->testInfoScreenToolbarGUI->setSessionLockString("testString");
 

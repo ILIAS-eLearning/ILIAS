@@ -476,9 +476,8 @@ class ilTestTabsManager
                 $target,
                 [
                     'questions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
-                    'randomselect', 'filter', 'resetFilter', 'insertQuestions',
-                    'back', 'createRandomSelection', 'cancelRandomSelect',
-                    'insertRandomSelection', 'removeQuestions', 'moveQuestions',
+                    'filter', 'resetFilter', 'insertQuestions',
+                    'back', 'removeQuestions', 'moveQuestions',
                     'insertQuestionsBefore', 'insertQuestionsAfter', 'confirmRemoveQuestions',
                     'cancelRemoveQuestions', 'executeCreateQuestion', 'cancelCreateQuestion',
                     'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',

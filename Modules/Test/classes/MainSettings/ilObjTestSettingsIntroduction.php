@@ -60,7 +60,6 @@ class ilObjTestSettingsIntroduction extends TestSettings
     {
         return $this->introduction_enabled;
     }
-
     public function withIntroductionEnabled(bool $introduction_enabled): self
     {
         $clone = clone $this;
@@ -72,12 +71,17 @@ class ilObjTestSettingsIntroduction extends TestSettings
     {
         return $this->introduction_text ?? '';
     }
+    public function withIntroductionText(?string $introduction_text): self
+    {
+        $clone = clone $this;
+        $clone->introduction_text = $introduction_text;
+        return $clone;
+    }
 
     public function getIntroductionPageId(): ?int
     {
         return $this->introduction_page_id;
     }
-
     public function withIntroductionPageId(?int $introduction_page_id): self
     {
         $clone = clone $this;
