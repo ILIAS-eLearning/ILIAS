@@ -5,6 +5,7 @@ This component implements the ILIAS page editor as being used e.g. in learning m
 ## Text Editing
 
 - Since ILIAS 7 the Return key created new text elements. The Backspace key at the beginning of a text element will merge the content of the current text element with the preceding one, if existing. The Delete key at the end of a text element will merge the content of the current text element with the succeeding one, if existing. See https://docu.ilias.de/goto_docu_wiki_wpage_6264_1357.html
+- Empty Links: Empty internal or external links, which have no text between starting and ending tag will be removed when the page is saved.
 
 ## Slate Handling
 
