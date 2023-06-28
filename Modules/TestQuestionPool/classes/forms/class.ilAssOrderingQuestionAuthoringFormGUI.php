@@ -23,6 +23,9 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             ]
         );
         parent::__construct();
+        global $DIC;
+        $tpl = $DIC->ui()->mainTemplate();
+        $tpl->addJavascript('Modules/TestQuestionPool/templates/default/preventEnterSubmitOnSwitchButton.js');
     }
     
     protected function setAvailableCommandButtonIds($availableCommandButtonIds)
