@@ -63,7 +63,7 @@ class ilBlogImporter extends ilXmlImporter
         foreach ($blp_map as $blp_id) {
             $blp_id = (int) substr($blp_id, 4);
             $blog_id = ilBlogPosting::lookupBlogId($blp_id);
-            ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
+            ilBlogPosting::_writeParentId("blp", $blp_id, (int) $blog_id);
         }
 
         $sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");
