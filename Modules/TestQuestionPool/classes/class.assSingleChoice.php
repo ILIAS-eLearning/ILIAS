@@ -703,7 +703,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         /** @var $ilDB ilDBInterface */
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $ctrl = $DIC->ctrl();
 
         if (!$this->isSingleline) {
             ilUtil::delDir($this->getImagePath());
@@ -717,9 +716,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $feedback = $ilDB->fetchAll($result);
 
         // Check if feedback exists
-        if (sizeof($feedback) >= 1
-            && $this->getAdditionalContentEditingMode() == 'default'
-            && !($ctrl->getCmd() == 'importVerifiedFile')){
+        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_sc WHERE question_fi = %s",
@@ -729,51 +726,54 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $db_answers = $ilDB->fetchAll($result);
 
             // Collect old and new order entries by ids and order to calculate a diff/intersection and remove/update feedback
-            $db_ids = [];
             $post_ids = [];
-            $db_idsr = [];
             foreach ($this->answers as $answer){
                 // Only the first appearance of an id is used
                 if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_ids))) {
+                    if ($answer->getId() == -1) {
+                        continue;
+                    }
                     $post_ids[$answer->getId()] = $answer->getOrder();
                 }
             }
-            foreach ($db_answers as $old_answer){
-                $db_ids[$old_answer["answer_id"]] = intval($old_answer["aorder"]);
-                $db_idsr[intval($old_answer["aorder"])] = $old_answer["answer_id"];
-            }
 
-            // Handle feedback
-            $id_diff = array_diff(array_keys($db_ids), array_keys($post_ids)); // should be deleted
-            // delete corresponding feedback from array
-            foreach (array_keys($id_diff) as $key){
-                unset($feedback[$key]);
-            }
+            if (sizeof($post_ids) >= 1)  {
+                $db_ids = [];
+                $db_idsr = [];
+                foreach ($db_answers as $old_answer){
+                    $db_ids[$old_answer["answer_id"]] = intval($old_answer["aorder"]);
+                    $db_idsr[intval($old_answer["aorder"])] = $old_answer["answer_id"];
+                }
+                // Handle feedback
+                $id_diff = array_diff(array_keys($db_ids), array_keys($post_ids)); // should be deleted
+                // delete corresponding feedback from array
+                foreach (array_keys($id_diff) as $key) {
+                    unset($feedback[$key]);
+                }
+                // Reorder feedback in array
+                foreach ($feedback as $feedback_option) {
+                    $feedback[array_search($feedback_option, $feedback)]["answer"] = $post_ids[$db_idsr[$feedback_option["answer"]]];
+                }
 
-            // Reorder feedback in array
-            foreach ($feedback as $feedback_option){
-                $feedback[array_search($feedback_option, $feedback)]["answer"] = $post_ids[$db_idsr[$feedback_option["answer"]]];
-            }
-
-            // Delete all feedback in database
-            $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
-            // Recreate remaining feedback in database
-            foreach ($feedback as $feedback_option){
-                $next_id = $ilDB->nextId('qpl_fb_specific');
-                $ilDB->manipulateF(
-                    "INSERT INTO qpl_fb_specific (feedback_id, question_fi, answer, tstamp, feedback, question) 
+                // Delete all feedback in database
+                $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
+                // Recreate remaining feedback in database
+                foreach ($feedback as $feedback_option){
+                    $next_id = $ilDB->nextId('qpl_fb_specific');
+                    $ilDB->manipulateF(
+                        "INSERT INTO qpl_fb_specific (feedback_id, question_fi, answer, tstamp, feedback, question) 
                             VALUES (%s, %s, %s, %s, %s, %s)",
-                            [ 'integer', 'integer', 'integer', 'integer', 'text', 'integer'],
-                            [
-                                $next_id,
-                                $feedback_option["question_fi"],
-                                $feedback_option["answer"],
-                                time(),
-                                $feedback_option["feedback"],
-                                $feedback_option["question"]
-                            ]);
+                        [ 'integer', 'integer', 'integer', 'integer', 'text', 'integer'],
+                        [
+                            $next_id,
+                            $feedback_option["question_fi"],
+                            $feedback_option["answer"],
+                            time(),
+                            $feedback_option["feedback"],
+                            $feedback_option["question"]
+                        ]);
+                }
             }
-
         }
 
         // Delete all entries in qpl_a_sc for question
