@@ -174,11 +174,13 @@ class PCParagraphTest extends COPageTestBase
             "xx \n \xa0 xxxx"
             => "xx <br /> \xa0 xxxx",
 
+            'xx [xln url="http://ilias.de/my+document.pdf\xa0"]doc[/xln] xxxx'
+            => 'xx [error: xln url="http://ilias.de/my+document.pdf\xa0"]doc</ExtLink> xxxx',
 
-        /*'xx [iln cat="106"] xx'
-            => 'xx [iln cat="106"] xx',
-        'xx [/iln] xx'
-            => 'xx [/iln] xx'*/
+            /*'xx [iln cat="106"] xx'
+                => 'xx [iln cat="106"] xx',
+            'xx [/iln] xx'
+                => 'xx [/iln] xx'*/
         ];
 
         foreach ($cases as $in => $expected) {
