@@ -55,4 +55,15 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
      * See comment in withLanguageOfReferencedContent
      */
     public function getLanguageOfReferencedResource(): ?LanguageTag;
+
+    /**
+     * Relationships between the current and the referenced page are
+     * added as a rel attribute.
+     */
+    public function withAdditionalRelationshipToReferencedResource(Relationship $type): Link;
+
+    /**
+     * @return Relationship[]
+     */
+    public function getRelationshipsToReferencedResource(): array;
 }
