@@ -18,21 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Listing\CharacteristicValue;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Horizontal as I;
 use ILIAS\UI\Component\Layout\Alignment\Block;
 
-/**
- * Interface Text
- */
-interface Text extends Component, Block
+class Factory implements I\Factory
 {
     /**
-     * Gets the items as array of key value pairs for the list.
-     * Key is used as label for the value.
-     *
-     * @return array<string, string> $items
+     * @inheritdoc
      */
-    public function getItems(): array;
+    public function evenlyDistributed(Block ...$blocks): I\EvenlyDistributed
+    {
+        return new EvenlyDistributed(...$blocks);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function dynamicallyDistributed(Block ...$blocks): I\DynamicallyDistributed
+    {
+        return new DynamicallyDistributed(...$blocks);
+    }
 }

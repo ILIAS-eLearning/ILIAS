@@ -18,21 +18,33 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Listing\CharacteristicValue;
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Layout\Alignment\Block;
+use ILIAS\UI\Component\Layout\Alignment as I;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-/**
- * Interface Text
- */
-interface Text extends Component, Block
+abstract class Alignment implements I\Alignment
 {
+    use ComponentHelper;
+
     /**
-     * Gets the items as array of key value pairs for the list.
-     * Key is used as label for the value.
-     *
-     * @return array<string, string> $items
+     * @var I\Block[]
      */
-    public function getItems(): array;
+    protected $blocks = [];
+
+    /**
+     * @param  I\Block[] $blocks
+     */
+    public function __construct(I\Block ...$blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    /**
+     * @return I\Block[]
+     */
+    public function getBlocks(): array
+    {
+        return $this->blocks;
+    }
 }

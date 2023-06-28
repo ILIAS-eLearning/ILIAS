@@ -1,0 +1,29 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics/" as *;
+
+.c-layout-alignment {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	gap: $il-margin-large-horizontal;
+
+	&--horizontal-evenly {
+		.c-layout-alignment__block {
+			flex: 1 1 0px; // flex-basis 0px needed for equal distribution of columns
+			@media screen and (max-width: $il-grid-float-breakpoint-max) {
+				flex-basis: 100%;
+			}
+		}
+	}
+
+	&--horizontal-dynamically {
+		.c-layout-alignment__block {
+			flex-grow: 1;
+		}
+	}
+
+	&--vertical {
+		flex-wrap: nowrap;
+		flex-direction: column;
+	}
+}

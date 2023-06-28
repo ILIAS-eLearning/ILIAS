@@ -18,23 +18,18 @@
 
 declare(strict_types=1);
 
-require_once 'tests/UI/AbstractFactoryTest.php';
+namespace ILIAS\UI\Component\Layout\Alignment;
+
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 /**
- * Tests on factory implementation for layout
- *
- * @author Nils Haagen <nhaagen@concepts-and-training.de>
+ * This describes an Alignment.
  */
-class LayoutFactoryTest extends AbstractFactoryTest
+interface Alignment extends Component, Block
 {
-    public array $kitchensink_info_settings = [
-        "page" => [
-            "context" => false,
-            "rules" => false
-        ],
-        "alignment" => [
-            "context" => true
-        ]
-    ];
-    public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
+    /**
+     * @return Block[]
+     */
+    public function getBlocks(): array;
 }

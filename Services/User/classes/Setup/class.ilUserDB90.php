@@ -64,12 +64,24 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
                 'usr_data',
                 'passwd',
                 [
-                    'type'    => 'text',
-                    'length'  => 100,
+                    'type' => 'text',
+                    'length' => 100,
                     'notnull' => false,
                     'default' => null
                 ]
             );
         }
+    }
+
+    public function step_3(): void
+    {
+        $this->db->modifyTableColumn(
+            'usr_sess_istorage',
+            'session_id',
+            [
+                'type' => ilDBConstants::T_TEXT,
+                'length' => '256'
+            ]
+        );
     }
 }

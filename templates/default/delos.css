@@ -3591,6 +3591,9 @@ hr.il-divider-with-label {
   height: 4.56rem;
 }
 
+.il-filter .collapse.in {
+  display: flex;
+}
 .il-filter .col-md-4, .il-filter .col-md-6 {
   padding-top: 6px;
   padding-bottom: 6px;
@@ -4661,6 +4664,28 @@ footer {
     display: block;
   }
 }
+.c-layout-alignment {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 12px;
+}
+.c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
+  flex: 1 1 0px;
+}
+@media screen and (max-width: 768px) {
+  .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
+    flex-basis: 100%;
+  }
+}
+.c-layout-alignment--horizontal-dynamically .c-layout-alignment__block {
+  flex-grow: 1;
+}
+.c-layout-alignment--vertical {
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
 .il-link:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
