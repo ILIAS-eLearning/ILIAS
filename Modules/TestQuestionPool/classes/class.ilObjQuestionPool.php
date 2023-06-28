@@ -280,7 +280,7 @@ class ilObjQuestionPool extends ilObject
             $newtitle = $question->object->getTitle() . ' (' . $counter . ')';
         }
         $new_id = $question->object->duplicate(false, $newtitle);
-        $this->updateQuestionCount();
+        ilObjQuestionPool::_updateQuestionCount();
         return $new_id;
     }
 
