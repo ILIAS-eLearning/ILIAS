@@ -70,7 +70,17 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *       Alignments MUST NOT be used when there is another component that fits the requirements (see purpose).
+     *       Alignments MUST NOT be used when there is another component that
+     *       fits the requirements (see purpose).
+     *     2: >
+     *        Due to the semantic weakness of the component, we request to decide
+     *        using this UI element in new components at the Jour Fixe.
+     *        You MUST only use this component in contexts stated here.
+     * context:
+     *   1: >
+     *     The presentation of Test & Assessment results MAY use Alignments
+     *     within the contents of Presentation Table to compare the user's solution
+     *     with the anticipated best solution.
      * ----
      * @return  \ILIAS\UI\Component\Layout\Alignment\Factory
      */

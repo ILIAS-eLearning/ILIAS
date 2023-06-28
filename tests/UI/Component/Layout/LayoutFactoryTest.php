@@ -33,8 +33,8 @@ class LayoutFactoryTest extends AbstractFactoryTest
                 "rules" => false
         ],
         "alignment" => [
-                "context" => false,
-                "rules" => false
+                "context" => true,
+                "rules" => true
         ]
     ];
     public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
