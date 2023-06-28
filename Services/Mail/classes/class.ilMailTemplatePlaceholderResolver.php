@@ -36,15 +36,13 @@ class ilMailTemplatePlaceholderResolver
      * @param string $message
      * @param ilObjUser|null $user
      * @param array $contextParameters
-     * @param $replaceEmptyPlaceholders boolean
      * @return string
      */
     public function resolve(
         ilMailTemplateContext $context,
         string $message,
         ilObjUser $user = null,
-        array $contextParameters = [],
-        bool $replaceEmptyPlaceholders = true
+        array $contextParameters = []
     ): string {
         return $this->mustache_engine->render(
             $message,

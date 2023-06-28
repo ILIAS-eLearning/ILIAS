@@ -70,7 +70,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 )
             );
 
-            $mail->sendMail(
+            $mail_data = new MailData(
                 $recipients,
                 $recipientsCC,
                 $recipientsBCC,
@@ -79,6 +79,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 $mailValueObject->getAttachments(),
                 $mailValueObject->isUsingPlaceholders()
             );
+            $mail->sendMail($mail_data);
         }
 
         $output = new BooleanValue();
