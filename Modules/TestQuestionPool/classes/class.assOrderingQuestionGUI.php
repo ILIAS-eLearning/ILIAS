@@ -169,7 +169,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $list = $this->object->getOrderingElementList()->withElements($elements);
         $this->object->setOrderingElementList($list);
-        $this->editQuestion();
+        $this->buildEditFormAfterTypeChange($this->request->getParsedBody());
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
