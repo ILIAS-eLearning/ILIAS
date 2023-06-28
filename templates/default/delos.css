@@ -3591,6 +3591,9 @@ hr.il-divider-with-label {
   height: 4.56rem;
 }
 
+.il-filter .collapse.in {
+  display: flex;
+}
 .il-filter .col-md-4, .il-filter .col-md-6 {
   padding-top: 6px;
   padding-bottom: 6px;
