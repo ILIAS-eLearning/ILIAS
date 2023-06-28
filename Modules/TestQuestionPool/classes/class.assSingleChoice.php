@@ -719,7 +719,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         // Check if feedback exists
         if (sizeof($feedback) >= 1
             && $this->getAdditionalContentEditingMode() == 'default'
-            && !$ctrl->getCmd() == 'importVerifiedFile'){
+            && !($ctrl->getCmd() == 'importVerifiedFile')){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_sc WHERE question_fi = %s",
