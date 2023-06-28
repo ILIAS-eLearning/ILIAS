@@ -65,7 +65,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         (int) $index,
                         1,
                         "",
-                        $a_value['answer_id'][$index]
+                        (int) $a_value['answer_id'][$index]
                     );
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
