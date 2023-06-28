@@ -45,13 +45,24 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
                 'length' => '256'
             ]
         );
-        $this->db->modifyTableColumn(
-            'usr_sess_istorage',
-            'session_id',
-            [
-                'type' => ilDBConstants::T_TEXT,
-                'length' => '256'
-            ]
-        );
+        try {
+            $this->db->modifyTableColumn(
+                'usr_sess_istorage',
+                'session_id',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => '256'
+                ]
+            );
+        } catch (\Exception $e) {
+            $message = "DB Hotfix 102: \n\n"
+                . "We could not Update the length of the column `session_id` in the table\n"
+                . "`usr_session_istorage` as the table engine is MyIsam.\n"
+                . "This step will be finished after updating to ILIAS 8.\n"
+                . "You could also lengthen the field manually after you ran the migration\n"
+                . "to migrate to MyIsam, if you require longer session_ids.";
+            global $ilLog;
+            $ilLog->warning($message);
+        }
     }
 }
