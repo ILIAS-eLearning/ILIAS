@@ -7,19 +7,21 @@ namespace ILIAS\UI\examples\Layout\Alignment\Horizontal\EvenlyDistributed;
 function nested()
 {
     global $DIC;
-    $ui_factory = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
+    $ui_factory = $DIC['ui.factory'];
+    $renderer = $DIC['ui.renderer'];
+    $tpl = $DIC['tpl'];
+    $tpl->addCss('src/UI/examples/Layout/Alignment/alignment_examples.css');
 
     $blocks = [
-        $ui_factory->legacy('<div style="background-color: lightblue; padding: 15px; height: 100%;">D</div>'),
-        $ui_factory->legacy('<div style="background-color: lightgreen; padding: 15px; height: 100%;">E</div>'),
-        $ui_factory->legacy('<div style="background-color: lightyellow; padding: 15px; height: 100%;">F</div>')
+        $ui_factory->legacy('<div class="example_block fullheight blue">D</div>'),
+        $ui_factory->legacy('<div class="example_block fullheight green">E</div>'),
+        $ui_factory->legacy('<div class="example_block fullheight yellow">F</div>')
     ];
 
     $aligned = $ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
-        $ui_factory->legacy('<div style="background-color: blue; padding: 15px; height: 100%; width: 150px;">A</div>'),
-        $ui_factory->legacy('<div style="background-color: green; padding: 15px; height: 100%; width: 50px;">B</div>'),
-        $ui_factory->legacy('<div style="background-color: yellow; padding: 15px; height: 100%; width: 200px;">C</div>')
+        $ui_factory->legacy('<div class="example_block bluedark">A</div>'),
+        $ui_factory->legacy('<div class="example_block greendark">B</div>'),
+        $ui_factory->legacy('<div class="example_block yellowdark">C</div>')
     );
 
     return $renderer->render(

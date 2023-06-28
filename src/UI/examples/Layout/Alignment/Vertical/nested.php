@@ -7,17 +7,18 @@ namespace ILIAS\UI\examples\Layout\Alignment\Vertical;
 function nested()
 {
     global $DIC;
-    $ui_factory = $DIC->ui()->factory();
-    $renderer = $DIC->ui()->renderer();
+    $ui_factory = $DIC['ui.factory'];
+    $renderer = $DIC['ui.renderer'];
+    $tpl = $DIC['tpl'];
+    $tpl->addCss('src/UI/examples/Layout/Alignment/alignment_examples.css');
 
     $icon = $ui_factory->image()->standard("templates/default/images/HeaderIconResponsive.svg", "ilias");
-
     $blocks = [
-        $ui_factory->legacy('<div style="background-color: lightblue; padding: 15px; height: 100%;">Example Block</div>'),
+        $ui_factory->legacy('<div class="example_block fullheight blue">Example Block</div>'),
         $icon,
-        $ui_factory->legacy('<div style="background-color: lightgreen; padding: 15px; height: 100%;">Another Example Block</div>'),
+        $ui_factory->legacy('<div class="example_block fullheight green">Another Example Block</div>'),
         $icon,
-        $ui_factory->legacy('<div style="background-color: lightyellow; padding: 15px; height: 100%; width: 100%">And a third block is also part of this group</div>')
+        $ui_factory->legacy('<div class="example_block fullheight yellow">And a third block is also part of this group</div>')
     ];
 
     $dynamic = $ui_factory->layout()->alignment()->horizontal()->dynamicallyDistributed(...$blocks);
@@ -29,9 +30,9 @@ function nested()
 
 
     $vertical = $ui_factory->layout()->alignment()->vertical(
-        $ui_factory->legacy('<div style="background-color: red; padding: 15px; height: 100%;">The block above.</div>'),
+        $ui_factory->legacy('<div class="example_block fullheight red">The block above.</div>'),
         $evenly,
-        $ui_factory->legacy('<div style="background-color: red; padding: 15px; height: 100%;">The block below.</div>')
+        $ui_factory->legacy('<div class="example_block fullheight red">The block below.</div>')
     );
 
 
