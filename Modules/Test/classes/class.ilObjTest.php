@@ -33,7 +33,7 @@ require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
  * @defgroup ModulesTest Modules/Test
  * @extends ilObject
  */
-class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabled
+class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
@@ -100,18 +100,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected $ending_time_enabled = false;
 
     protected int $ending_time = 0;
-
-    /**
-     * Indicates if ECTS grades will be used
-     * @var int|boolean
-     */
-    protected $ects_output = false;
-
-    /**
-     * Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
-     */
-    protected ?float $ects_fx = null;
-    protected array $ects_grades = array();
 
     protected $enabled_view_mode;
     public bool $shuffle_questions = false;
@@ -297,8 +285,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->processing_time = "";
         $this->enable_processing_time = "0";
         $this->reset_processing_time = 0;
-        $this->ects_output = false;
-        $this->ects_fx = null;
         $this->shuffle_questions = false;
         $this->mailnottype = 0;
         $this->show_summary = 8;
@@ -317,14 +303,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->testSession = false;
         $this->testSequence = false;
         $this->mailnotification = 0;
-
-        $this->ects_grades = array(
-            'A' => 90,
-            'B' => 65,
-            'C' => 35,
-            'D' => 10,
-            'E' => 0
-        );
 
         $this->autosave = false;
         $this->autosave_ival = 30000;
@@ -1435,36 +1413,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getTestId(): int
     {
         return $this->test_id;
-    }
-
-    public function getECTSOutput(): int
-    {
-        return ($this->ects_output) ? 1 : 0;
-    }
-
-    public function setECTSOutput($a_ects_output): void
-    {
-        $this->ects_output = $a_ects_output ? 1 : 0;
-    }
-
-    public function getECTSFX(): ?float
-    {
-        return $this->ects_fx;
-    }
-
-    public function setECTSFX($a_ects_fx): void
-    {
-        $this->ects_fx = (float) str_replace(",", ".", (string) ($a_ects_fx ?? ''));
-    }
-
-    public function getECTSGrades(): array
-    {
-        return $this->ects_grades;
-    }
-
-    public function setECTSGrades(array $a_ects_grades): void
-    {
-        $this->ects_grades = $a_ects_grades;
     }
 
     /**
@@ -4050,16 +3998,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 );
             }
 
-            if ($this->getECTSOutput()) {
-                $ects_mark = $this->getECTSGrade(
-                    $passed_array,
-                    $tstUserData->getReached(),
-                    $tstUserData->getMaxPoints()
-                );
-
-                $tstUserData->setECTSMark($ects_mark);
-            }
-
             $visitingTime = $this->getVisitTimeOfParticipant($active_id);
 
             $tstUserData->setFirstVisit($visitingTime["firstvisit"]);
@@ -5695,74 +5633,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getImportMapping(): array
     {
         return array();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function canEditEctsGrades(): bool
-    {
-        return $this->canShowEctsGrades() && $this->canEditMarks();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function canShowEctsGrades(): bool
-    {
-        return (bool) $this->getReportingDate();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getECTSGrade($passed_array, $reached_points, $max_points): string
-    {
-        return self::_getECTSGrade($passed_array, $reached_points, $max_points, $this->ects_grades["A"], $this->ects_grades["B"], $this->ects_grades["C"], $this->ects_grades["D"], $this->ects_grades["E"], $this->ects_fx);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx): string
-    {
-        // calculate the median
-        $passed_statistics = new ilStatistics();
-        $passed_statistics->setData($points_passed);
-        $ects_percentiles = array(
-            "A" => $passed_statistics->quantile($a),
-            "B" => $passed_statistics->quantile($b),
-            "C" => $passed_statistics->quantile($c),
-            "D" => $passed_statistics->quantile($d),
-            "E" => $passed_statistics->quantile($e)
-        );
-        if (count($points_passed) && ($reached_points >= $ects_percentiles["A"])) {
-            return "A";
-        } elseif (count($points_passed) && ($reached_points >= $ects_percentiles["B"])) {
-            return "B";
-        } elseif (count($points_passed) && ($reached_points >= $ects_percentiles["C"])) {
-            return "C";
-        } elseif (count($points_passed) && ($reached_points >= $ects_percentiles["D"])) {
-            return "D";
-        } elseif (count($points_passed) && ($reached_points >= $ects_percentiles["E"])) {
-            return "E";
-        } elseif (strcmp($fx, "") != 0) {
-            if ($max_points > 0) {
-                $percentage = ($reached_points / $max_points) * 100.0;
-                if ($percentage < 0) {
-                    $percentage = 0.0;
-                }
-            } else {
-                $percentage = 0.0;
-            }
-            if ($percentage >= $fx) {
-                return "FX";
-            } else {
-                return "F";
-            }
-        } else {
-            return "F";
-        }
     }
 
     /**
