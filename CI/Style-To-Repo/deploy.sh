@@ -25,8 +25,8 @@ function deploy() {
   HASH=${2}
   URL=${3}
   BRANCH=${4}
-  USER_NAME=${5}
   REPO_TOKEN="https://${5}@github.com/${STYLE_REPO_NAME_SHORT}"
+  USER_NAME=${6}
 
   if [ -d ${DEPLOY_BASE_FOLDER} ]
   then
