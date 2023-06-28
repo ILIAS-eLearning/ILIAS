@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
 
 /**
@@ -80,7 +79,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         parent::__construct(array(), $this->ref_id, true, false);
 
-        $this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
         $this->lng = $dic['lng'];
         $this->lng->loadLanguageModule("orgu");
 
@@ -244,7 +242,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     $this->ctrl->redirect($this);
                 }
                 $this->tabs_gui->activateTab(self::TAB_EXPORT);
-                ;
                 $ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
                 $ilOrgUnitExportGUI->addFormat('xml');
                 $this->ctrl->forwardCommand($ilOrgUnitExportGUI);
