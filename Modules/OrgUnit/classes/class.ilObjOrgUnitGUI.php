@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
 
@@ -77,7 +76,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $lng = $DIC->language();
         $lng->loadLanguageModule("orgu");
-        $this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
 
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
             OrgUnitToolProvider::SHOW_ORGU_TREE,
@@ -244,7 +242,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this);
                 }
-                $this->tabs_gui->activateTab(self::TAB_EXPORT);;
+                $this->tabs_gui->activateTab(self::TAB_EXPORT);
                 $ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
                 $ilOrgUnitExportGUI->addFormat('xml');
                 $this->ctrl->forwardCommand($ilOrgUnitExportGUI);
@@ -710,7 +708,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             foreach ($this->toolbar->items as $key => $item) {
                 if ($item["cmd"] == "link" || $item["cmd"] == "copy"
                      || $item["cmd"] == "download"
-                 ) {
+                ) {
                     unset($this->toolbar->items[$key]);
                 }
             }
