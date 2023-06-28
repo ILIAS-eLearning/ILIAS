@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Listing;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
-interface Listing extends Component
+interface Listing extends Component, Block
 {
     /**
      * Sets the items to be listed

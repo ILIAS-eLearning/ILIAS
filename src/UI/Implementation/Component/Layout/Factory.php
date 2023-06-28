@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Layout;
 
 use ILIAS\UI\Component\Layout;
@@ -30,5 +30,13 @@ class Factory implements Layout\Factory
     public function page(): Layout\Page\Factory
     {
         return new Page\Factory();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function alignment(): Layout\Alignment\Factory
+    {
+        return new Alignment\Factory();
     }
 }

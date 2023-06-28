@@ -18,23 +18,11 @@
 
 declare(strict_types=1);
 
-require_once 'tests/UI/AbstractFactoryTest.php';
+namespace ILIAS\UI\Implementation\Component\Layout\Alignment\Horizontal;
 
-/**
- * Tests on factory implementation for layout
- *
- * @author Nils Haagen <nhaagen@concepts-and-training.de>
- */
-class LayoutFactoryTest extends AbstractFactoryTest
+use ILIAS\UI\Component\Layout\Alignment\Horizontal as I;
+use ILIAS\UI\Implementation\Component\Layout\Alignment\Alignment;
+
+class EvenlyDistributed extends Alignment implements I\EvenlyDistributed
 {
-    public array $kitchensink_info_settings = [
-        "page" => [
-            "context" => false,
-            "rules" => false
-        ],
-        "alignment" => [
-            "context" => true
-        ]
-    ];
-    public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
 }
