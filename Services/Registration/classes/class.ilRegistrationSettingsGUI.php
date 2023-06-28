@@ -717,7 +717,7 @@ class ilRegistrationSettingsGUI
             switch ($this->access_limitations_obj->getMode($role['id'])) {
                 case 'absolute':
                     $txt_access_value = $this->lng->txt('reg_access_limitation_limited_until');
-                    $txt_access_value .= " " . ilDatePresentation::formatDate(new ilDateTime($this->access_limitations_obj->getAbsolute($role['id'], IL_CAL_UNIX)));
+                    $txt_access_value .= " " . ilDatePresentation::formatDate(new ilDateTime($this->access_limitations_obj->getAbsolute($role['id']), IL_CAL_UNIX));
                     break;
                 
                 case 'relative':
