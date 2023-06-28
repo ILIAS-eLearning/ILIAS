@@ -121,7 +121,7 @@ class ilSessionOverviewGUI
         foreach($part as $user_id) {
             $name = ilObjUser::_lookupName($user_id);
             $sortedMembers[] = [
-                'userid' => $user_id,
+                'userid' => (int) $user_id,
                 'firstname' => (string) $name["firstname"],
                 'lastname' => (string) $name['lastname']
             ];
@@ -150,7 +150,7 @@ class ilSessionOverviewGUI
         }
 
         $this->csv->addRow();
-
+      
         foreach ($sortedMembers as $member) {
             $this->csv->addColumn($member['lastname']);
             $this->csv->addColumn($member['firstname']);
