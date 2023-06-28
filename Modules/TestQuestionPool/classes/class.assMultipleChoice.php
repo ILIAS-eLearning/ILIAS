@@ -467,7 +467,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             }
             $this->answers = $newchoices;
         } else {
-            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), $answer_id, 0);
+            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), (int) $answer_id, 0);
             $answer->setPointsUnchecked($points_unchecked);
             $answer->setImage($answerimage);
             $this->answers[] = $answer;
@@ -812,7 +812,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                             ]
                 );
             }
-
         }
 
         // Delete all entries in qpl_a_mc for question
