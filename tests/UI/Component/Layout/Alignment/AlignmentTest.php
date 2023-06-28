@@ -60,7 +60,7 @@ class AlignmentTest extends ILIAS_UI_TestBase
 
         $actual = $this->brutallyTrimHTML($renderer->render($ed));
         $expected = $this->brutallyTrimHTML('
-            <div class="c-layout-alignment c-layout-alignment--evenlydistributedhorizontalalignmentlayout">
+            <div class="c-layout-alignment c-layout-alignment--horizontal-evenly">
                 <div class=c-layout-alignment__block>block</div>
                 <div class=c-layout-alignment__block>block</div>
             </div>
@@ -80,7 +80,7 @@ class AlignmentTest extends ILIAS_UI_TestBase
         $dd = $f->horizontal()->dynamicallyDistributed(...$blocks);
         $actual = $this->brutallyTrimHTML($renderer->render($dd));
         $expected = $this->brutallyTrimHTML('
-            <div class="c-layout-alignment c-layout-alignment--dynamicallydistributedhorizontalalignmentlayout">
+            <div class="c-layout-alignment c-layout-alignment--horizontal-dynamically">
                 <div class=c-layout-alignment__block>block</div>
                 <div class=c-layout-alignment__block>block</div>
             </div>
@@ -100,7 +100,7 @@ class AlignmentTest extends ILIAS_UI_TestBase
         $vert = $f->vertical(...$blocks);
         $actual = $this->brutallyTrimHTML($renderer->render($vert));
         $expected = $this->brutallyTrimHTML('
-            <div class="c-layout-alignment c-layout-alignment--verticalalignmentlayout">
+            <div class="c-layout-alignment c-layout-alignment--vertical">
                 <div class=c-layout-alignment__block>block</div>
                 <div class=c-layout-alignment__block>block</div>
             </div>

@@ -37,9 +37,9 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         switch(true) {
             case ($component instanceof Component\Layout\Alignment\Horizontal\EvenlyDistributed):
+                return $this->renderAlignment($component, 'alignment_horizontal_evenly', $default_renderer);
             case ($component instanceof Component\Layout\Alignment\Horizontal\DynamicallyDistributed):
-                return $this->renderAlignment($component, $default_renderer);
-                break;
+                return $this->renderAlignment($component, 'alignment_horizontal_dynamic', $default_renderer);
 
             default:
                 throw new \LogicException("Cannot render: " . get_class($component));
@@ -48,6 +48,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderAlignment(
         I\Alignment $component,
+        string $alignment_type,
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate('tpl.alignment.html', true, true);
@@ -56,8 +57,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('CONTENT', $default_renderer->render($block));
             $tpl->parseCurrentBlock();
         }
-        $type = strtolower(str_replace(' ', '', $component->getCanonicalName()));
-        $tpl->setVariable('ALGINMENTTYPE', $type);
+        $tpl->touchBlock($alignment_type);
         return $tpl->get();
     }
 

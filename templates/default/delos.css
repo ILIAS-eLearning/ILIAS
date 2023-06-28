@@ -10908,18 +10908,18 @@ footer {
   width: 100%;
   gap: 12px;
 }
-.c-layout-alignment--evenlydistributedhorizontalalignmentlayout .c-layout-alignment__block {
+.c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
   flex: 1 1 0px;
 }
 @media screen and (max-width: 768px) {
-  .c-layout-alignment--evenlydistributedhorizontalalignmentlayout .c-layout-alignment__block {
+  .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
     flex-basis: 100%;
   }
 }
-.c-layout-alignment--dynamicallydistributedhorizontalalignmentlayout .c-layout-alignment__block {
+.c-layout-alignment--horizontal-dynamically .c-layout-alignment__block {
   flex-grow: 1;
 }
-.c-layout-alignment--verticalalignmentlayout {
+.c-layout-alignment--vertical {
   flex-wrap: nowrap;
   flex-direction: column;
 }

@@ -38,7 +38,6 @@ class Renderer extends AbstractComponentRenderer
         switch(true) {
             case ($component instanceof Component\Layout\Alignment\Vertical):
                 return $this->renderAlignment($component, $default_renderer);
-                break;
 
             default:
                 throw new \LogicException("Cannot render: " . get_class($component));
@@ -46,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function renderAlignment(
-        I\Alignment $component,
+        I\Vertical $component,
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate('tpl.alignment.html', true, true);
@@ -55,8 +54,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('CONTENT', $default_renderer->render($block));
             $tpl->parseCurrentBlock();
         }
-        $type = strtolower(str_replace(' ', '', $component->getCanonicalName()));
-        $tpl->setVariable('ALGINMENTTYPE', $type);
+        $tpl->touchBlock('alignment_vertical');
         return $tpl->get();
     }
 
