@@ -747,7 +747,7 @@ class ilPCParagraph extends ilPageContent
             ? "/"
             : "";
 
-        $slash_chars = '/[]?';
+        $slash_chars = '/[]?()$*';
 
         if ($ok) {
             $replace_str = addcslashes($start_tag, $slash_chars);
