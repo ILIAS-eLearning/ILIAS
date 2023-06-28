@@ -200,7 +200,9 @@ export default class TableUI {
               if (!last) {
                 this.addDropdownAction(li_templ, ul, "cont_ed_col_right", af.colRight(nr, cellPcid, tablePcid));
               }
-              this.addDropdownAction(li_templ, ul, "cont_ed_delete_col", af.colDelete(nr, cellPcid, tablePcid));
+              if (!first || !last) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_delete_col", af.colDelete(nr, cellPcid, tablePcid));
+              }
             } else {
               const tr = b.closest("tr");
               const first = !(tr.previousElementSibling.previousElementSibling);
@@ -213,7 +215,9 @@ export default class TableUI {
               if (!last) {
                 this.addDropdownAction(li_templ, ul, "cont_ed_row_down", af.rowDown(nr, cellPcid, tablePcid));
               }
-              this.addDropdownAction(li_templ, ul, "cont_ed_delete_row", af.rowDelete(nr, cellPcid, tablePcid));
+              if (!first || !last) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_delete_row", af.rowDelete(nr, cellPcid, tablePcid));
+              }
             }
         });
       });
