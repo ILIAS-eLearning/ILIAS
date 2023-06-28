@@ -188,7 +188,7 @@ class ilMailTest extends ilMailBaseTest
         $mailService->setUserInstanceById($userInstanceById);
         $mailService->setMailOptionsByUserIdMap($mailOptionsById);
 
-        $mailService->sendMail(
+        $mail_data = new MailData(
             implode(',', array_slice(array_keys($loginToIdMap), 0, 3)),
             implode(',', array_slice(array_keys($loginToIdMap), 3, 2)),
             implode(',', array_slice(array_keys($loginToIdMap), 5, 2)),
@@ -197,6 +197,7 @@ class ilMailTest extends ilMailBaseTest
             [],
             false
         );
+        $mailService->sendMail($mail_data);
 
         ilMimeMail::setDefaultTransport($oldTransport);
     }

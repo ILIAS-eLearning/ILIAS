@@ -554,8 +554,7 @@ class ilMail
 
     protected function replacePlaceholders(
         string $message,
-        int $usrId = 0,
-        bool $replaceEmptyPlaceholders = true
+        int $usrId = 0
     ): string {
         try {
             if ($this->contextId) {
@@ -569,8 +568,7 @@ class ilMail
                 $context,
                 $message,
                 $user,
-                $this->contextParameters,
-                $replaceEmptyPlaceholders
+                $this->contextParameters
             );
         } catch (Exception) {
             $this->logger->error(__METHOD__ . ' has been called with invalid context.');
@@ -579,141 +577,123 @@ class ilMail
         return $message;
     }
 
-    /**
-     * @param string[] $attachments
-     */
-    protected function distributeMail(
-        string $to,
-        string $cc,
-        string $bcc,
-        string $subject,
-        string $message,
-        array $attachments,
-        int $sentMailId,
-        bool $usePlaceholders = false
-    ): bool {
+    protected function distributeMail(MailData $mail_data): bool
+    {
         $this->auto_responder_service->emptyAutoresponderData();
-        if ($usePlaceholders) {
-            $toUsrIds = $this->getUserIds([$to]);
-            $this->logger->debug(sprintf(
-                "Parsed TO user ids from given recipients for serial letter notification: %s",
-                implode(', ', $toUsrIds)
-            ));
+        $to_usr_ids = $this->getUserIds([$mail_data->getTo()]);
+        $this->logger->debug(sprintf(
+            "Parsed TO user ids from given recipients for serial letter notification: %s",
+            implode(', ', $to_usr_ids)
+        ));
 
-            $this->sendChanneledMails(
-                $to,
-                $cc,
-                $bcc,
-                $toUsrIds,
-                $subject,
-                $message,
-                $attachments,
-                $sentMailId,
-                true
-            );
+        $other_usr_ids = $this->getUserIds([$mail_data->getCc(), $mail_data->getBcc()]);
+        $cc_bcc_recipients = array_map(
+            fn(int $user_id) => new Recipient(
+                $user_id,
+                $this->getUserInstanceById($user_id),
+                $this->getMailOptionsByUserId($user_id)
+            ),
+            $other_usr_ids
+        );
+        $this->logger->debug(sprintf(
+            "Parsed CC/BCC user ids from given recipients for serial letter notification: %s",
+            implode(', ', $other_usr_ids)
+        ));
 
-            $otherUsrIds = $this->getUserIds([$cc, $bcc]);
-            $this->logger->debug(sprintf(
-                "Parsed CC/BCC user ids from given recipients for serial letter notification: %s",
-                implode(', ', $otherUsrIds)
-            ));
-
-            $this->sendChanneledMails(
-                $to,
-                $cc,
-                $bcc,
-                $otherUsrIds,
-                $subject,
-                $this->replacePlaceholders($message, 0, false),
-                $attachments,
-                $sentMailId
-            );
+        if ($mail_data->isUsePlaceholder()) {
+            $this->sendMailWithReplacedPlaceholder($mail_data, $to_usr_ids, $cc_bcc_recipients);
         } else {
-            $usrIds = $this->getUserIds([$to, $cc, $bcc]);
-            $this->logger->debug(sprintf(
-                "Parsed TO/CC/BCC user ids from given recipients: %s",
-                implode(', ', $usrIds)
-            ));
-
-            $this->sendChanneledMails(
-                $to,
-                $cc,
-                $bcc,
-                $usrIds,
-                $subject,
-                $message,
-                $attachments,
-                $sentMailId
-            );
+            $this->sendMailWithoutReplacedPlaceholder($mail_data, $to_usr_ids, $cc_bcc_recipients);
         }
+
         $this->auto_responder_service->disableAutoresponder();
         $this->auto_responder_service->handleAutoresponderMails($this->user_id);
 
         return true;
     }
 
+    protected function sendMailWithReplacedPlaceholder(
+        MailData $mail_data,
+        array $to_usr_ids,
+        array $cc_bcc_recipients
+    ): void {
+        foreach ($to_usr_ids as $user_id) {
+            $recipient = new Recipient(
+                $user_id,
+                $this->getUserInstanceById($user_id),
+                $this->getMailOptionsByUserId($user_id)
+            );
+            $recipients = $cc_bcc_recipients;
+            array_unshift($recipients, $recipient);
+
+            $this->sendChanneledMails(
+                $mail_data,
+                $recipients,
+                $this->replacePlaceholders($mail_data->getMessage(), $user_id),
+            );
+        }
+    }
+
+    protected function sendMailWithoutReplacedPlaceholder(
+        MailData $mail_data,
+        array $to_usr_ids,
+        array $cc_bcc_recipients
+    ): void {
+        $to_recipients = array_map(
+            fn(int $user_id) => new Recipient(
+                $user_id,
+                $this->getUserInstanceById($user_id),
+                $this->getMailOptionsByUserId($user_id)
+            ),
+            $to_usr_ids
+        );
+
+        $this->sendChanneledMails(
+            $mail_data,
+            array_merge($to_recipients, $cc_bcc_recipients),
+            $mail_data->getMessage()
+        );
+    }
+
     /**
-     * @param int[] $usrIds
-     * @param string[] $attachments
+     * @param Recipient[] $recipients
+     * @throws JsonException
      */
     protected function sendChanneledMails(
-        string $to,
-        string $cc,
-        string $bcc,
-        array $usrIds,
-        string $subject,
-        string $message,
-        array $attachments,
-        int $sentMailId,
-        bool $usePlaceholders = false
+        MailData $mail_data,
+        array $recipients,
+        string $message
     ): void {
         $usrIdToExternalEmailAddressesMap = [];
-        $usrIdToMessageMap = [];
 
-        foreach ($usrIds as $usrId) {
-            $user = $this->getUserInstanceById($usrId);
-            if (!($user instanceof ilObjUser)) {
+        foreach ($recipients as $recipient) {
+            if (!$recipient->isUser()) {
                 $this->logger->critical(sprintf(
                     "Skipped recipient with id %s (User not found)",
-                    $usrId
+                    $recipient->getUserId()
                 ));
                 continue;
             }
 
-            $mailOptions = $this->getMailOptionsByUserId($user->getId());
-
-            $canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
-
-            if ($this->isSystemMail() && !$canReadInternalMails) {
+            if ($this->isSystemMail() && !$recipient->isUserAbleToReadInternalMails()) {
                 $this->logger->debug(sprintf(
                     "Skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
-                    $usrId,
-                    var_export(!$user->hasToAcceptTermsOfService(), true),
-                    var_export(!$user->checkTimeLimit(), true)
+                    $recipient->getUserId(),
+                    var_export(!$recipient->hasToAcceptTermsOfService(), true),
+                    var_export(!$recipient->checkTimeLimit(), true)
                 ));
                 continue;
             }
 
-            $individualMessage = $message;
-            if ($usePlaceholders) {
-                $individualMessage = $this->replacePlaceholders($message, $user->getId());
-                $usrIdToMessageMap[$user->getId()] = $individualMessage;
-            }
+            if ($recipient->isUserActive()) {
+                if (!$recipient->isUserAbleToReadInternalMails() || $recipient->userWantsToReceiveExternalMails()) {
+                    $emailAddresses = $recipient->getExternalMailAddress();
+                    $usrIdToExternalEmailAddressesMap[$recipient->getUserId()] = $emailAddresses;
 
-            if ($user->getActive()) {
-                $wantsToReceiveExternalEmail = (
-                    $mailOptions->getIncomingType() === ilMailOptions::INCOMING_EMAIL ||
-                    $mailOptions->getIncomingType() === ilMailOptions::INCOMING_BOTH
-                );
-
-                if (!$canReadInternalMails || $wantsToReceiveExternalEmail) {
-                    $emailAddresses = $mailOptions->getExternalEmailAddresses();
-                    $usrIdToExternalEmailAddressesMap[$user->getId()] = $emailAddresses;
-
-                    if ($mailOptions->getIncomingType() === ilMailOptions::INCOMING_EMAIL) {
+                    if ($recipient->onlyToExternalMailAddress()) {
                         $this->logger->debug(sprintf(
                             "Recipient with id %s will only receive external emails sent to: %s",
-                            $user->getId(),
+                            $recipient->getUserId(),
                             implode(', ', $emailAddresses)
                         ));
                         continue;
@@ -723,80 +703,71 @@ class ilMail
                         "Recipient with id %s will additionally receive external emails " .
                         "(because the user wants to receive it externally, or the user cannot access " .
                         "the internal mail system) sent to: %s",
-                        $user->getId(),
+                        $recipient->getUserId(),
                         implode(', ', $emailAddresses)
                     ));
                 } else {
                     $this->logger->debug(sprintf(
                         "Recipient with id %s is does not want to receive external emails",
-                        $user->getId()
+                        $recipient->getUserId()
                     ));
                 }
             } else {
                 $this->logger->debug(sprintf(
                     "Recipient with id %s is inactive and will not receive external emails",
-                    $user->getId()
+                    $recipient->getUserId()
                 ));
             }
 
             $mbox = clone $this->mailbox;
-            $mbox->setUsrId($user->getId());
+            $mbox->setUsrId($recipient->getUserId());
             $recipientInboxId = $mbox->getInboxFolder();
 
             $internalMailId = $this->sendInternalMail(
                 $recipientInboxId,
                 $this->user_id,
-                $attachments,
-                $to,
-                $cc,
+                $mail_data->getAttachments(),
+                $mail_data->getTo(),
+                $mail_data->getCc(),
                 '',
                 'unread',
-                $subject,
-                $individualMessage,
-                $user->getId()
+                $mail_data->getSubject(),
+                $message,
+                $recipient->getUserId()
             );
 
             $mail_receiver_options = $this->getMailOptionsByUserId($this->user_id);
 
             $this->auto_responder_service->enqueueAutoresponderIfEnabled(
-                $mailOptions->getUsrId(),
-                $mailOptions,
+                $recipient->getUserId(),
+                $recipient->getMailOptions(),
                 $mail_receiver_options,
             );
 
-            if ($attachments !== []) {
-                $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
+            if ($mail_data->getAttachments() !== []) {
+                $this->mfile->assignAttachmentsToDirectory($internalMailId, $mail_data->getInternalMailId());
             }
         }
 
         $this->delegateExternalEmails(
-            $subject,
+            $mail_data->getSubject(),
+            $mail_data->getAttachments(),
             $message,
-            $attachments,
-            $usePlaceholders,
-            $usrIdToExternalEmailAddressesMap,
-            $usrIdToMessageMap
+            $usrIdToExternalEmailAddressesMap
         );
     }
 
     /**
      * @param string[] $attachments
      * @param array<int, string[]> $usrIdToExternalEmailAddressesMap
-     * @param array<int, string> $usrIdToMessageMap
      */
     protected function delegateExternalEmails(
         string $subject,
-        string $message,
         array $attachments,
-        bool $usePlaceholders,
-        array $usrIdToExternalEmailAddressesMap,
-        array $usrIdToMessageMap
+        string $message,
+        array $usrIdToExternalEmailAddressesMap
     ): void {
         if (1 === count($usrIdToExternalEmailAddressesMap)) {
-            if ($usePlaceholders) {
-                $message = array_values($usrIdToMessageMap)[0];
-            }
-
             $usrIdToExternalEmailAddressesMap = array_values($usrIdToExternalEmailAddressesMap);
             $firstAddresses = current($usrIdToExternalEmailAddressesMap);
 
@@ -809,56 +780,23 @@ class ilMail
                 $attachments
             );
         } elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
-            if ($usePlaceholders) {
-                foreach ($usrIdToExternalEmailAddressesMap as $usrId => $addresses) {
-                    if ([] === $addresses) {
-                        continue;
-                    }
+            $flattenEmailAddresses = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(
+                $usrIdToExternalEmailAddressesMap
+            )), false);
 
-                    $this->sendMimeMail(
-                        implode(',', $addresses),
-                        '',
-                        '',
-                        $subject,
-                        $usrIdToMessageMap[$usrId],
-                        $attachments
-                    );
-                }
-            } else {
-                $flattenEmailAddresses = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(
-                    $usrIdToExternalEmailAddressesMap
-                )), false);
+            $flattenEmailAddresses = array_unique($flattenEmailAddresses);
 
-                $flattenEmailAddresses = array_unique($flattenEmailAddresses);
-
-                // https://mantis.ilias.de/view.php?id=23981 and https://www.ietf.org/rfc/rfc2822.txt
-                $remainingAddresses = '';
-                foreach ($flattenEmailAddresses as $emailAddress) {
-                    $sep = '';
-                    if ($remainingAddresses !== '') {
-                        $sep = ',';
-                    }
-
-                    $recipientsLineLength = ilStr::strLen($remainingAddresses) +
-                        ilStr::strLen($sep . $emailAddress);
-                    if ($recipientsLineLength >= $this->maxRecipientCharacterLength) {
-                        $this->sendMimeMail(
-                            '',
-                            '',
-                            $remainingAddresses,
-                            $subject,
-                            $message,
-                            $attachments
-                        );
-
-                        $remainingAddresses = '';
-                        $sep = '';
-                    }
-
-                    $remainingAddresses .= ($sep . $emailAddress);
+            // https://mantis.ilias.de/view.php?id=23981 and https://www.ietf.org/rfc/rfc2822.txt
+            $remainingAddresses = '';
+            foreach ($flattenEmailAddresses as $emailAddress) {
+                $sep = '';
+                if ($remainingAddresses !== '') {
+                    $sep = ',';
                 }
 
-                if ('' !== $remainingAddresses) {
+                $recipientsLineLength = ilStr::strLen($remainingAddresses) +
+                    ilStr::strLen($sep . $emailAddress);
+                if ($recipientsLineLength >= $this->maxRecipientCharacterLength) {
                     $this->sendMimeMail(
                         '',
                         '',
@@ -867,7 +805,23 @@ class ilMail
                         $message,
                         $attachments
                     );
+
+                    $remainingAddresses = '';
+                    $sep = '';
                 }
+
+                $remainingAddresses .= ($sep . $emailAddress);
+            }
+
+            if ('' !== $remainingAddresses) {
+                $this->sendMimeMail(
+                    '',
+                    '',
+                    $remainingAddresses,
+                    $subject,
+                    $message,
+                    $attachments
+                );
             }
         }
     }
@@ -1054,7 +1008,7 @@ class ilMail
         }
 
         if (ilContext::getType() === ilContext::CONTEXT_CRON) {
-            return $this->sendMail(
+            $mail_data = new MailData(
                 $rcp_to,
                 $rcp_cc,
                 $rcp_bcc,
@@ -1063,6 +1017,7 @@ class ilMail
                 $a_attachment,
                 $a_use_placeholders
             );
+            return $this->sendMail($mail_data);
         }
 
         $taskFactory = $DIC->backgroundTasks()->taskFactory();
@@ -1113,52 +1068,47 @@ class ilMail
      * @internal
      */
     public function sendMail(
-        string $to,
-        string $cc,
-        string $bcc,
-        string $subject,
-        string $message,
-        array $attachments,
-        bool $usePlaceholders
+        MailData $mail_data
     ): array {
         $internalMessageId = $this->saveInSentbox(
-            $attachments,
-            $to,
-            $cc,
-            $bcc,
-            $subject,
-            $message
+            $mail_data->getAttachments(),
+            $mail_data->getTo(),
+            $mail_data->getCc(),
+            $mail_data->getBcc(),
+            $mail_data->getSubject(),
+            $mail_data->getMessage()
         );
+        $mail_data = $mail_data->withInternalMailId($internalMessageId);
 
-        if ($attachments !== []) {
+        if ($mail_data->getAttachments() !== []) {
             $this->mfile->assignAttachmentsToDirectory($internalMessageId, $internalMessageId);
-            $this->mfile->saveFiles($internalMessageId, $attachments);
+            $this->mfile->saveFiles($internalMessageId, $mail_data->getAttachments());
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc);
+        $numberOfExternalAddresses = $this->getCountRecipients($mail_data->getTo(), $mail_data->getCc(), $mail_data->getBcc());
 
         if ($numberOfExternalAddresses > 0) {
-            $externalMailRecipientsTo = $this->getEmailRecipients($to);
-            $externalMailRecipientsCc = $this->getEmailRecipients($cc);
-            $externalMailRecipientsBcc = $this->getEmailRecipients($bcc);
+            $externalMailRecipientsTo = $this->getEmailRecipients($mail_data->getTo());
+            $externalMailRecipientsCc = $this->getEmailRecipients($mail_data->getCc());
+            $externalMailRecipientsBcc = $this->getEmailRecipients($mail_data->getBcc());
 
             $this->logger->debug(
                 "Parsed external email addresses from given recipients /" .
                 " To: " . $externalMailRecipientsTo .
                 " | CC: " . $externalMailRecipientsCc .
                 " | BCC: " . $externalMailRecipientsBcc .
-                " | Subject: " . $subject
+                " | Subject: " . $mail_data->getSubject()
             );
 
             $this->sendMimeMail(
                 $externalMailRecipientsTo,
                 $externalMailRecipientsCc,
                 $externalMailRecipientsBcc,
-                $subject,
-                $usePlaceholders ?
-                            $this->replacePlaceholders($message, 0, false) :
-                            $message,
-                $attachments
+                $mail_data->getSubject(),
+                $mail_data->isUsePlaceholder() ?
+                            $this->replacePlaceholders($mail_data->getMessage(), 0) :
+                    $mail_data->getMessage(),
+                $mail_data->getAttachments()
             );
         } else {
             $this->logger->debug('No external email addresses given in recipient string');
@@ -1166,16 +1116,7 @@ class ilMail
 
         $errors = [];
 
-        if (!$this->distributeMail(
-            $to,
-            $cc,
-            $bcc,
-            $subject,
-            $message,
-            $attachments,
-            $internalMessageId,
-            $usePlaceholders
-        )) {
+        if (!$this->distributeMail($mail_data)) {
             $errors['mail_send_error'] = new ilMailError('mail_send_error');
         }
 
