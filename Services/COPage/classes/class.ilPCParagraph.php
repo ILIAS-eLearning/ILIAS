@@ -633,6 +633,7 @@ class ilPCParagraph extends ilPageContent
         }
         // external links
         while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i", $a_text, $found)) {
+            $old_text = $a_text;
             $attribs = ilUtil::attribsToArray($found[2]);
             if (isset($attribs["url"])) {
                 $a_text = self::replaceBBTagByMatching(
@@ -644,8 +645,9 @@ class ilPCParagraph extends ilPageContent
                         "Href" => $attribs["url"]
                     ]
                 );
-            } else {
-                $a_text = str_replace("[" . $found[1] . "]", "[error: xln" . $found[1] . "]", $a_text);
+            }
+            if ($old_text === $a_text) {
+                $a_text = str_replace("[" . $found[1] . "]", "[error: " . $found[1] . "]", $a_text);
             }
         }
 
