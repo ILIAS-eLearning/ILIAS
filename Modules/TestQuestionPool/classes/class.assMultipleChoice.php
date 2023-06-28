@@ -736,6 +736,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         /** @var $ilDB ilDBInterface */
         global $DIC;
         $ilDB = $DIC['ilDB'];
+        $ctrl = $DIC->ctrl();
 
         // Get all feedback entrys
         $result = $ilDB->queryF(
@@ -746,7 +747,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $feedback = $ilDB->fetchAll($result);
 
         // Check if feedback exists
-        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
+        if (sizeof($feedback) >= 1
+            && $this->getAdditionalContentEditingMode() == 'default'
+            && !$ctrl->getCmd() == 'importVerifiedFile'){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_mc WHERE question_fi = %s",

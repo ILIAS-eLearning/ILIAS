@@ -703,6 +703,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         /** @var $ilDB ilDBInterface */
         global $DIC;
         $ilDB = $DIC['ilDB'];
+        $ctrl = $DIC->ctrl();
 
         if (!$this->isSingleline) {
             ilUtil::delDir($this->getImagePath());
@@ -716,7 +717,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $feedback = $ilDB->fetchAll($result);
 
         // Check if feedback exists
-        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
+        if (sizeof($feedback) >= 1
+            && $this->getAdditionalContentEditingMode() == 'default'
+            && !$ctrl->getCmd() == 'importVerifiedFile'){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_sc WHERE question_fi = %s",
