@@ -63,7 +63,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
     public function getChapters(): void
     {
         $hc = ilSession::get("help_chap");
-        $lm_tree = $this->parent_obj->object->getTree();
+        $lm_tree = $this->parent_obj->getObject()->getTree();
 
         if ($hc > 0 && $lm_tree->isInTree($hc)) {
             //$node = $lm_tree->getNodeData($hc);
