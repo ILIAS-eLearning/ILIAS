@@ -92,9 +92,6 @@ abstract class ilTestExportAbstract
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getReached();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getMaxpoints();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getMark();
-            if ($test_obj->getECTSOutput()) {
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getECTSMark();
-            }
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getNumberOfQuestions();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0;
@@ -210,9 +207,6 @@ abstract class ilTestExportAbstract
         $datarow[] = $this->lng->txt("tst_stat_result_resultspoints");
         $datarow[] = $lng->txt("maximum_points");
         $datarow[] = $lng->txt("tst_stat_result_resultsmarks");
-        if ($test_obj->getECTSOutput()) {
-            $datarow[] = $lng->txt("ects_grade");
-        }
         $datarow[] = $lng->txt("tst_stat_result_qworkedthrough");
         $datarow[] = $lng->txt("tst_stat_result_qmax");
         $datarow[] = $lng->txt("tst_stat_result_pworkedthrough");

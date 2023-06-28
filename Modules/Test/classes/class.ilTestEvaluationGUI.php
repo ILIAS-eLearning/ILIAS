@@ -127,9 +127,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headernames, $this->lng->txt("tst_reached_points"));
         array_push($headernames, $this->lng->txt("tst_mark"));
-        if ($this->object->getECTSOutput()) {
-            array_push($headernames, $this->lng->txt("ects_grade"));
-        }
         array_push($headernames, $this->lng->txt("tst_answered_questions"));
         array_push($headernames, $this->lng->txt("working_time"));
         array_push($headernames, $this->lng->txt("detailed_evaluation"));
@@ -147,9 +144,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headervars, "resultspoints");
         array_push($headervars, "resultsmarks");
-        if ($this->object->getECTSOutput()) {
-            array_push($headervars, "ects_grade");
-        }
         array_push($headervars, "qworkedthrough");
         array_push($headervars, "timeofwork");
         array_push($headervars, "");
@@ -234,9 +228,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
-            if ($this->object->getECTSOutput()) {
-                $passed_array = $this->object->getTotalPointsPassedArray();
-            }
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData)) {
                     continue;
@@ -276,10 +267,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
                     if (is_object($mark)) {
                         $evaluationrow['mark'] = $mark->getShortName();
-                    }
-                    if ($this->object->getECTSOutput()) {
-                        $ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
-                        $evaluationrow['ects_grade'] = $ects_mark;
                     }
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
                     $evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
@@ -405,11 +392,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $resultMarks = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_resultsmarks'));
             $resultMarks->setValue($data->getParticipant($active_id)->getMark());
             $form->addItem($resultMarks);
-            if (strlen($data->getParticipant($active_id)->getECTSMark())) {
-                $ectsGrade = new ilNonEditableValueGUI($this->lng->txt('ects_grade'));
-                $ectsGrade->setValue($data->getParticipant($active_id)->getECTSMark());
-                $form->addItem($ectsGrade);
-            }
         }
 
         if ($this->object->isOfferingQuestionHintsEnabled()) {
