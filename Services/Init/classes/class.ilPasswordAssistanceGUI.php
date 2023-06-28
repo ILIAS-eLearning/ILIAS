@@ -157,7 +157,6 @@ class ilPasswordAssistanceGUI
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
 
-        $form->setTitle($this->lng->txt('password_assistance'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'submitAssistanceForm'));
         $form->setTarget('_parent');
 
@@ -182,8 +181,8 @@ class ilPasswordAssistanceGUI
         $this->help->setSubScreenId('password_assistance');
 
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
-        $this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
-        $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
+        $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
+        $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
         $tpl->setVariable(
             'TXT_ENTER_USERNAME_AND_EMAIL',
