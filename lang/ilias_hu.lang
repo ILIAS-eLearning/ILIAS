@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző k�
 assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
-assessment#:#tst_finish_notification_content#:#E-mail tartalma
+assessment#:#tst_finish_notification_content_type#:#E-mail tartalma
 assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum küldése

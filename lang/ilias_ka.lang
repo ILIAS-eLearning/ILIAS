@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#არა, დავბრუნ
 assessment#:#tst_finish_confirmation_question#:#თქვენ აპირებთ ტესტის დასრულებას და დაშვებული ჩაბარებების მაქსიმალური რაოდენობის მიღწევას. თქვენ ვერ შეძლებთ ამ ტესტში ხელახლა შესვას პასუხების შესაცვლელად. Nამდვილად გსურთ ტესტის დასრულება?
 assessment#:#tst_finish_notification#:#ემაილი დამთავრებასთან დაკავშირებით
 assessment#:#tst_finish_notification_advanced#:#გადავაგზავნოთ დასრულებული ტესტის შედეგი მფლობელთან
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#გადავაგზავნოთ მომხმარებლის სახელი და დასრულების თარიღი ტესტის მფლობელთან

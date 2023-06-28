@@ -549,9 +549,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $post_array = $request->getParsedBody();
         }
 
-        $tst_javascript = array_key_exists("chb_javascript", $post_array) ? 1 : 0;
-        $ilUser->writePref("tst_javascript", $tst_javascript);
-
         if ($this->object->getNrOfTries() != 1
             && $this->object->getUsePreviousAnswers() == 1
         ) {
@@ -827,7 +824,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // Non-last try finish
         if (ilSession::get('tst_pass_finish') == null) {
             ilSession::set('tst_pass_finish', 1);
-            if ($this->object->getMailNotificationType() == 1) {
+            if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
                 switch ($this->object->getMailNotification()) {
                     case 1:
                         $this->object->sendSimpleNotification($active_id);
@@ -864,7 +861,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // show final statement
         if (!$this->testrequest->isset('skipfinalstatement')) {
-            if ($this->object->getShowFinalStatement()) {
+            if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
                 $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
             }
         }
@@ -1098,7 +1095,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-        // fau.
+            // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -1796,11 +1793,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        $this->ctrl->setParameter($this, 'lock', $this->getLockParameter());
+        $this->ctrl->setParameterByClass(self::class, 'lock', $this->getLockParameter());
 
         $nextCommand = $this->ctrl->getCmdClass() . '::' . $this->ctrl->getCmd();
-        $this->ctrl->setParameterByClass('ilTestPasswordProtectionGUI', 'nextCommand', $nextCommand);
-        $this->ctrl->redirectByClass('ilTestPasswordProtectionGUI', 'showPasswordForm');
+        $this->ctrl->setParameterByClass(ilTestPasswordProtectionGUI::class, 'nextCommand', $nextCommand);
+        $this->ctrl->redirectByClass(ilTestPasswordProtectionGUI::class, 'showPasswordForm');
     }
 
     protected function isParticipantsAnswerFixed($questionId): bool
@@ -2642,7 +2639,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // the autosave url is asynch because it will be used by an ajax request
         if ($questionGUI->isAutosaveable() && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
-            $config['autosaveInterval'] = $this->object->getAutosaveIval();
+            $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
         } else {
             $config['autosaveUrl'] = '';
             $config['autosaveInterval'] = 0;

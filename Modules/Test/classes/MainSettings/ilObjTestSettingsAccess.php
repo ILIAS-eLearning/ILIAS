@@ -32,15 +32,15 @@ class ilObjTestSettingsAccess extends TestSettings
     public function __construct(
         int $test_id,
         protected bool $start_time_enabled = false,
-        protected int $start_time = 0,
+        protected ?DateTimeImmutable $start_time = null,
         protected bool $end_time_enabled = false,
-        protected int $end_time = 0,
+        protected ?DateTimeImmutable $end_time = null,
         protected bool $password_enabled = false,
         protected ?string $password = null,
         protected bool $fixed_participants = false,
         protected bool $limited_users_enabled = false,
-        protected int $limited_users_amount = 0,
-        protected int $limited_users_time_gap = 0
+        protected ?int $limited_users_amount = null,
+        protected ?int $limited_users_time_gap = null
     ) {
         parent::__construct($test_id);
     }
@@ -79,7 +79,7 @@ class ilObjTestSettingsAccess extends TestSettings
         array $environment = null
     ): Group {
         $constraint = $refinery->custom()->constraint(
-            function (array $vs): bool {
+            static function (array $vs): bool {
                 if ($vs['start_time'] === null
                     || $vs['end_time'] === null) {
                     return true;
@@ -90,23 +90,20 @@ class ilObjTestSettingsAccess extends TestSettings
         );
 
         $trafo = $refinery->custom()->transformation(
-            function (array $vs): array {
+            static function (array $vs): array {
                 if ($vs['start_time'] === null) {
                     $vs['start_time_enabled'] = false;
-                    $vs['start_time'] = 0;
                 } else {
                     $vs['start_time_enabled'] = true;
-                    $vs['start_time'] = $vs['start_time']->getTimestamp();
+                    $vs['start_time'] = $vs['start_time'];
                 }
 
                 if ($vs['end_time'] === null) {
                     $vs['end_time_enabled'] = false;
-                    $vs['end_time'] = 0;
                     return $vs;
                 }
 
                 $vs['end_time_enabled'] = true;
-                $vs['end_time'] = $vs['end_time']->getTimestamp();
                 return $vs;
             }
         );
@@ -129,7 +126,7 @@ class ilObjTestSettingsAccess extends TestSettings
         if ($this->getStartTime() !== null
             && $this->getStartTime() !== 0) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']
-                ->withValue(DateTimeImmutable::createFromFormat('U', (string) $this->getStartTime()));
+                ->withValue($this->getStartTime());
         }
         if ($environment['participant_data_exists']) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']->withDisabled(true);
@@ -143,7 +140,7 @@ class ilObjTestSettingsAccess extends TestSettings
         if ($this->getEndTime() !== null
             && $this->getEndTime() !== 0) {
             $sub_inputs_access_window['end_time'] = $sub_inputs_access_window['end_time']
-                ->withValue(DateTimeImmutable::createFromFormat('U', (string) $this->getEndTime()));
+                ->withValue($this->getEndTime());
         }
 
         return $sub_inputs_access_window;
@@ -155,7 +152,7 @@ class ilObjTestSettingsAccess extends TestSettings
         Refinery $refinery
     ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'password_enabled' => false,
@@ -163,11 +160,12 @@ class ilObjTestSettingsAccess extends TestSettings
                     ];
                 }
 
+                $vs['password_enabled'] = true;
                 return $vs;
             }
         );
 
-        $sub_inputs_password['test_password_value'] = $f->text($lng->txt('tst_password_enter'))
+        $sub_inputs_password['password_value'] = $f->text($lng->txt('tst_password_enter'))
             ->withRequired(true)->withMaxLength(self::MAX_PASSWORD_LENGTH);
 
         $password_input = $f->optionalGroup(
@@ -177,12 +175,12 @@ class ilObjTestSettingsAccess extends TestSettings
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
-        if (!$this->getPasswodEnabled()) {
+        if (!$this->getPasswordEnabled()) {
             return $password_input;
         }
 
         return $password_input->withValue(
-            ['test_password_value' => $this->getPassword()]
+            ['password_value' => $this->getPassword()]
         );
     }
 
@@ -204,11 +202,10 @@ class ilObjTestSettingsAccess extends TestSettings
 
         return $limit_simultaneous_users->withValue(
             [
-                'max_allowed_simultaneous_users' => $this->getLimitedUsersAmount(),
+                'max_allowed_simultaneous_users' => $this->getLimitedUsersAmount() ?? 0,
                 'allowed_simultaneous_users_time_gap' => $this->getLimitedUsersTimeGap()
             ]
         );
-
     }
 
     private function getSubInputsSimultaneousLogins(
@@ -233,7 +230,7 @@ class ilObjTestSettingsAccess extends TestSettings
         Refinery $refinery
     ): TransformationInterface {
         return $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'limit_simultaneous_users' => false,
@@ -245,7 +242,7 @@ class ilObjTestSettingsAccess extends TestSettings
                 return [
                         'limit_simultaneous_users' => true,
                         'max_allowed_simultaneous_users' => $vs['max_allowed_simultaneous_users'],
-                        'allowed_simultaneous_users_time_gap' => $vs['allowed_simultaneous_users_time_gap'] ?? 0
+                        'allowed_simultaneous_users_time_gap' => $vs['allowed_simultaneous_users_time_gap']
                     ];
             }
         );
@@ -255,10 +252,10 @@ class ilObjTestSettingsAccess extends TestSettings
     {
         return [
             'starting_time_enabled' => ['integer', (int) $this->getStartTimeEnabled()],
-            'starting_time' => ['integer', $this->getStartTime()],
+            'starting_time' => ['integer', $this->getStartTime() !== null ? $this->getStartTime()->getTimestamp() : 0],
             'ending_time_enabled' => ['integer', (int) $this->getEndTimeEnabled()],
-            'ending_time' => ['integer', $this->getEndTime()],
-            'password_enabled' => ['integer', (int) $this->getPasswodEnabled()],
+            'ending_time' => ['integer', $this->getEndTime() !== null ? $this->getEndTime()->getTimestamp() : 0],
+            'password_enabled' => ['integer', (int) $this->getPasswordEnabled()],
             'password' => ['text', $this->getPassword()],
             'fixed_participants' => ['integer', (int) $this->getFixedParticipants()],
             'limit_users_enabled' => ['integer', (int) $this->getLimitedUsersEnabled()],
@@ -278,11 +275,11 @@ class ilObjTestSettingsAccess extends TestSettings
         return $clone;
     }
 
-    public function getStartTime(): int
+    public function getStartTime(): ?DateTimeImmutable
     {
         return $this->start_time;
     }
-    public function withStartTime(int $start_time): self
+    public function withStartTime(?DateTimeImmutable $start_time): self
     {
         $clone = clone $this;
         $clone->start_time = $start_time;
@@ -300,18 +297,18 @@ class ilObjTestSettingsAccess extends TestSettings
         return $clone;
     }
 
-    public function getEndTime(): int
+    public function getEndTime(): ?DateTimeImmutable
     {
         return $this->end_time;
     }
-    public function withEndTime(int $end_time): self
+    public function withEndTime(?DateTimeImmutable $end_time): self
     {
         $clone = clone $this;
         $clone->end_time = $end_time;
         return $clone;
     }
 
-    public function getPasswodEnabled(): bool
+    public function getPasswordEnabled(): bool
     {
         return $this->password_enabled;
     }
@@ -355,22 +352,22 @@ class ilObjTestSettingsAccess extends TestSettings
         return $clone;
     }
 
-    public function getLimitedUsersAmount(): int
+    public function getLimitedUsersAmount(): ?int
     {
         return $this->limited_users_amount;
     }
-    public function withLimitedUsersAmount(int $limited_users_amount): self
+    public function withLimitedUsersAmount(?int $limited_users_amount): self
     {
         $clone = clone $this;
-        $clone->start_time = $limited_users_amount;
+        $clone->limited_users_amount = $limited_users_amount;
         return $clone;
     }
 
-    public function getLimitedUsersTimeGap(): int
+    public function getLimitedUsersTimeGap(): ?int
     {
         return $this->limited_users_time_gap;
     }
-    public function withLimitedUsersTimeGap(int $limited_users_time_gap): self
+    public function withLimitedUsersTimeGap(?int $limited_users_time_gap): self
     {
         $clone = clone $this;
         $clone->limited_users_time_gap = $limited_users_time_gap;

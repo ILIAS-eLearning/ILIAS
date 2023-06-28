@@ -44,7 +44,12 @@ class ilTestServiceGUI
     public ?ilTestService $service = null;
     protected ilDBInterface $db;
     public ilLanguage $lng;
-    public ilGlobalTemplateInterface $tpl;
+    /**
+     * sk 2023-08-01: We need this union type, even if it is wrong! To change this
+     * @todo we have to fix the rendering of the feedback modal in
+     * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
+     */
+    public ilGlobalTemplateInterface|ilTemplate $tpl;
     public ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $objCache;

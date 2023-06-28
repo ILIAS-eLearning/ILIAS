@@ -128,9 +128,13 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             new ilObjTestSettingsAccess(
                 $test_id,
                 (bool) $row['starting_time_enabled'],
-                $row['starting_time'],
+                $row['starting_time'] !== 0
+                    ? DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
+                    : null,
                 (bool) $row['ending_time_enabled'],
-                $row['ending_time'],
+                $row['ending_time'] !== 0
+                    ? DateTimeImmutable::createFromFormat('U', (string) $row['ending_time'])
+                    : null,
                 (bool) $row['password_enabled'],
                 $row['password'],
                 (bool) $row['fixed_participants'],
@@ -197,6 +201,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
     public function store(ilObjTestMainSettings $settings): void
     {
         $values = array_merge(
+            $settings->getGeneralSettings()->toStorage(),
             $settings->getIntroductionSettings()->toStorage(),
             $settings->getAccessSettings()->toStorage(),
             $settings->getTestBehaviourSettings()->toStorage(),

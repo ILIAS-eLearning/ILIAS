@@ -45,10 +45,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
      */
     protected $testSequence;
 
-    /**
-     * @var string
-     */
-    private $sessionLockString;
+    private string $sessionLockString = '';
     private array $infoMessages = array();
     private array $failureMessages = array();
 
@@ -265,7 +262,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function ensureInitialisedSessionLockString(): void
     {
-        if (!strlen($this->getSessionLockString())) {
+        if ($this->getSessionLockString() === '') {
             $this->setSessionLockString($this->buildSessionLockString());
         }
     }
@@ -450,7 +447,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
 
             if ($qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered()) {
-                $importFailsMsg = array();
+                $importFailsMsg = [];
 
                 if ($qsaImportFails->failedImportsRegistered()) {
                     $importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);

@@ -22,7 +22,6 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation as TransformationInterface;
 
 class ilObjTestSettingsFinishing extends TestSettings
 {
@@ -33,9 +32,9 @@ class ilObjTestSettingsFinishing extends TestSettings
         protected ?string $concluding_remarks_text = '',
         protected ?int $concluding_remarks_page_id = null,
         protected int $redirection_mode = ilObjTest::REDIRECT_NONE,
-        protected string $redirection_url = '',
+        protected ?string $redirection_url = null,
         protected bool $sign_submission = false,
-        protected int $mail_notification_type = 0,
+        protected int $mail_notification_content_type = 0,
         protected bool $always_send_mail_notification = false
     ) {
         parent::__construct($test_id);
@@ -75,7 +74,7 @@ class ilObjTestSettingsFinishing extends TestSettings
         Refinery $refinery
     ): OptionalGroup {
         $redirection_trafo = $refinery->custom()->transformation(
-            function (?array $v): array {
+            static function (?array $v): array {
                 if ($v === null) {
                     return [
                         'redirect_mode' => ilObjTest::REDIRECT_NONE,
@@ -96,7 +95,8 @@ class ilObjTestSettingsFinishing extends TestSettings
             )->withOption(
                 (string) ilObjTest::REDIRECT_KIOSK,
                 $lng->txt('redirect_in_kiosk_mode')
-            )->withRequired(true),
+            )->withRequired(true)
+            ->withAdditionalTransformation($refinery->kindlyTo()->int()),
             'redirect_url' => $f->text(
                 $lng->txt('redirection_url')
             )->withRequired(true)
@@ -127,10 +127,10 @@ class ilObjTestSettingsFinishing extends TestSettings
         Refinery $refinery
     ): OptionalGroup {
         $notification_trafo = $refinery->custom()->transformation(
-            function (?array $v): array {
+            static function (?array $v): array {
                 if ($v === null) {
                     return [
-                        'notification_type' => 0,
+                        'notification_content_type' => 0,
                         'always_notify' => false
                     ];
                 }
@@ -140,15 +140,17 @@ class ilObjTestSettingsFinishing extends TestSettings
         );
 
         $sub_inputs_finish_notification = [
-            'notification_content' => $f->radio(
-                $lng->txt('tst_finish_notification_content')
+            'notification_content_type' => $f->radio(
+                $lng->txt('tst_finish_notification_content_type')
             )->withOption(
                 '1',
                 $lng->txt('tst_finish_notification_simple')
             )->withOption(
                 '2',
                 $lng->txt('tst_finish_notification_advanced')
-            )->withRequired(true),
+            )->withRequired(true)
+            ->withValue('1')
+            ->withAdditionalTransformation($refinery->kindlyTo()->int()),
             'always_notify' => $f->checkbox(
                 $lng->txt('mailnottype'),
                 $lng->txt('mailnottype_desc')
@@ -162,13 +164,13 @@ class ilObjTestSettingsFinishing extends TestSettings
         )->withValue(null)
             ->withAdditionalTransformation($notification_trafo);
 
-        if ($this->getMailNotificationType() === 0) {
+        if ($this->getMailNotificationContentType() === 0) {
             return $mail_notification_inputs;
         }
 
         return $mail_notification_inputs->withValue(
             [
-                'notification_type' => (string) $this->getMailNotificationType(),
+                'notification_content_type' => (string) $this->getMailNotificationContentType(),
                 'always_notify' => (bool) $this->getAlwaysSendMailNotification()
             ]
         );
@@ -184,7 +186,7 @@ class ilObjTestSettingsFinishing extends TestSettings
             'redirection_mode' => ['integer', $this->getRedirectionMode()],
             'redirection_url' => ['text', $this->getRedirectionUrl()],
             'sign_submission' => ['integer', (int) $this->getSignSubmission()],
-            'mailnotification' => ['integer', $this->getMailNotificationType()],
+            'mailnotification' => ['integer', $this->getMailNotificationContentType()],
             'mailnottype' => ['integer', (int) $this->getAlwaysSendMailNotification()]
         ];
     }
@@ -203,7 +205,7 @@ class ilObjTestSettingsFinishing extends TestSettings
 
     public function getConcludingRemarksEnabled(): bool
     {
-        return $this->show_concluding_remarks;
+        return $this->concluding_remarks_enabled;
     }
 
     public function withConcludingRemarksEnabled(bool $concluding_remarks_enabled): self
@@ -242,12 +244,12 @@ class ilObjTestSettingsFinishing extends TestSettings
         return $clone;
     }
 
-    public function getRedirectionUrl(): string
+    public function getRedirectionUrl(): ?string
     {
         return $this->redirection_url;
     }
 
-    public function withRedirectionUrl(string $redirection_url): self
+    public function withRedirectionUrl(?string $redirection_url): self
     {
         $clone = clone $this;
         $clone->redirection_url = $redirection_url;
@@ -266,15 +268,15 @@ class ilObjTestSettingsFinishing extends TestSettings
         return $clone;
     }
 
-    public function getMailNotificationType(): int
+    public function getMailNotificationContentType(): int
     {
-        return $this->mail_notification_type;
+        return $this->mail_notification_content_type;
     }
 
-    public function withMailNotificationType(int $mail_notification_type): self
+    public function withMailNotificationContentType(int $mail_notification_content_type): self
     {
         $clone = clone $this;
-        $clone->mail_notification_type = $mail_notification_type;
+        $clone->mail_notification_content_type = $mail_notification_content_type;
         return $clone;
     }
 

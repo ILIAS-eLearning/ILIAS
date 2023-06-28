@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nee, ga terug naar de vorige vra
 assessment#:#tst_finish_confirmation_question#:#Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen
 assessment#:#tst_finish_notification#:#Mail bij beëindiging
 assessment#:#tst_finish_notification_advanced#:#Stuur volledige toets resultaten naar de toets eigenaar
-assessment#:#tst_finish_notification_content#:#Content of e-mail###06 02 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###06 02 2015 new variable
 assessment#:#tst_finish_notification_no#:#Verzend geen mailbericht als een gebruiker een toets afmaakt
 assessment#:#tst_finish_notification_simple#:#Stuur gebruikersnaam en einddatum naar de toets eigenaar

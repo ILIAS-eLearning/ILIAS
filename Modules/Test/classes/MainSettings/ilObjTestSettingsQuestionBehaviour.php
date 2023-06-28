@@ -99,13 +99,12 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             $inputs['enable_compulsory_questions'] = $inputs['enable_compulsory_questions']->withDisabled(true);
         }
 
-        return $f->section($inputs, $lng->txt('tst_presentation_properties'))
-            ->withAdditionalTransformation(
-                $this->getConstraintSectionQuestionBehaviour(
-                    $lng,
-                    $refinery
-                )
-            );
+        $section = $f->section($inputs, $lng->txt('tst_presentation_properties'));
+        foreach ($this->getConstraintsSectionQuestionBehaviour($lng, $refinery) as $constraint) {
+            $section = $section->withAdditionalTransformation($constraint);
+        }
+
+        return $section;
     }
 
     private function getInputAutosave(
@@ -114,7 +113,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         Refinery $refinery
     ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'autosave_enabled' => false,
@@ -158,7 +157,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         array $environment
     ): OptionalGroup {
         $trafo = $refinery->custom()->transformation(
-            function (?array $vs): array {
+            static function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'enabled_feedback_types' => [
@@ -237,7 +236,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             $lng->txt('tst_instant_feedback_trigger')
         )->withOption(
             '0',
-            $lng->txt('tst_instant_feedback_trigger'),
+            $lng->txt('tst_instant_feedback_trigger_manual'),
             $lng->txt('tst_instant_feedback_trigger_manual_desc')
         )->withOption(
             '1',
@@ -286,7 +285,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
     private function getTransformationLockAnswers(Refinery $refinery): Transformation
     {
         return $refinery->custom()->transformation(
-            function (?string $v): array {
+            static function (?string $v): array {
                 if ($v === null || $v === self::ANSWER_FIXATION_NONE) {
                     return [
                         'lock_answer_on_instant_feedback' => false,
@@ -315,26 +314,36 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         );
     }
 
-    private function getConstraintSectionQuestionBehaviour(
+    private function getConstraintsSectionQuestionBehaviour(
         \ilLanguage $lng,
         Refinery $refinery
-    ): Constraint {
-        return $refinery->custom()->constraint(
-            function ($vs): bool {
-                if ($vs['enable_compulsory_questions'] === true &&
-                    $vs['lock_answers'] !== self::ANSWER_FIXATION_NONE) {
-                    return false;
-                }
-
-                $modes_with_conflicts = [self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION, self::ANSWER_FIXATION_ON_IFB_OR_FUQST];
-                if ($vs['shuffle_questions'] === true
-                    && in_array($vs['lock_answers'], $modes_with_conflicts)) {
-                    return false;
-                }
-                return true;
-            },
-            $lng->txt('tst_settings_conflict_message')
-        );
+    ): Generator {
+        yield from [
+            $refinery->custom()->constraint(
+                function ($vs): bool {
+                    if ($vs['enable_compulsory_questions'] === true
+                        && (
+                            $vs['lock_answers']['lock_answer_on_instant_feedback']
+                            || $vs['lock_answers']['lock_answer_on_next_question']
+                        )
+                    ) {
+                        return false;
+                    }
+                    return true;
+                },
+                $lng->txt('tst_settings_conflict_compulsory_and_lock')
+            ),
+             $refinery->custom()->constraint(
+                 function ($vs): bool {
+                     if ($vs['shuffle_questions'] === true
+                         && $vs['lock_answers']['lock_answer_on_next_question']) {
+                         return false;
+                     }
+                     return true;
+                 },
+                 $lng->txt('tst_settings_conflict_shuffle_and_lock')
+             )
+        ];
     }
 
     public function toStorage(): array

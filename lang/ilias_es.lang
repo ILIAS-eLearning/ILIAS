@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterio
 assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzarás el máximo número de intentos permitidos. No podrás volver a realizar este test para cambiar tus respuestas. ¿Quieres realmente finalizar el test?
 assessment#:#tst_finish_notification#:#Correo al terminar
 assessment#:#tst_finish_notification_advanced#:#Enviar resultado completo del test al propietario del test
-assessment#:#tst_finish_notification_content#:#Contenido del e-mail
+assessment#:#tst_finish_notification_content_type#:#Contenido del e-mail
 assessment#:#tst_finish_notification_desc#:#Envía un e-mail al propietario del test para cada usuario que se ha completado el test.
 assessment#:#tst_finish_notification_no#:#No enviar correo electrónico
 assessment#:#tst_finish_notification_simple#:#Enviar nombre de usuario y fecha de finalización para poner al propietario del test

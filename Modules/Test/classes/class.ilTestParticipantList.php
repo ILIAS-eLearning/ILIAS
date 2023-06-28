@@ -324,21 +324,21 @@ class ilTestParticipantList implements Iterator
 
     public function getScoringsTableRows(): array
     {
-        $rows = array();
+        $rows = [];
 
         foreach ($this as $participant) {
             if (!$participant->hasScoring()) {
                 continue;
             }
 
-            $row = array(
+            $row = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
                 'firstname' => $participant->getFirstname(),
                 'lastname' => $participant->getLastname(),
                 'name' => $this->buildFullname($participant)
-            );
+            ];
 
             if ($participant->getScoring()) {
                 $row['scored_pass'] = $participant->getScoring()->getScoredPass();
@@ -398,7 +398,7 @@ class ilTestParticipantList implements Iterator
      */
     protected function buildFullname(ilTestParticipant $participant): string
     {
-        if ($this->getTestObj()->getFixedParticipants() && !$participant->getActiveId()) {
+        if ($this->getTestObj()->getMainSettings()->getAccessSettings()->getFixedParticipants() && !$participant->getActiveId()) {
             return $this->buildInviteeFullname($participant);
         }
 

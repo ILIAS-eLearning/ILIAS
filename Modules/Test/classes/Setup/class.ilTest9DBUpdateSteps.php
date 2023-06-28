@@ -90,7 +90,7 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4(): void
+    public function step_5(): void
     {
         if ($this->db->tableColumnExists('tst_tests', 'show_examview_html')) {
             $this->db->dropTableColumn(
@@ -116,10 +116,16 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
                 'enable_archiving'
             );
         }
-        if ($this->db->tableColumnExists('tst_tests', 'customstyl')) {
+        if ($this->db->tableColumnExists('tst_tests', 'customstyle')) {
             $this->db->dropTableColumn(
                 'tst_tests',
                 'customstyle'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'enabled_view_mode')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'enabled_view_mode'
             );
         }
     }

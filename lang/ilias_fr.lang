@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question pré
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
 assessment#:#tst_finish_notification#:#Notification par Email en fin de test
 assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
-assessment#:#tst_finish_notification_content#:#Contenu du mail
+assessment#:#tst_finish_notification_content_type#:#Contenu du mail
 assessment#:#tst_finish_notification_desc#:#Envoie un mail au propriétaire du test pour chaque utilisateur qui a terminé le test.
 assessment#:#tst_finish_notification_no#:#Ne pas envoyer de notification par email lorsqu'un utilisateur achève un test
 assessment#:#tst_finish_notification_simple#:#Envoyer nom de l'utilisateur et date d'achèvement au propriétaire du test

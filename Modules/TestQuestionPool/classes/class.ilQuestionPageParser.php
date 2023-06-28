@@ -832,7 +832,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             && !$this->in_meta_data && !$this->in_media_object) {
             if ($a_name == "Definition") {
                 $app_name = "PageObject";
-                $app_attribs = array();
+                $app_attribs = [];
             } else {
                 $app_name = $a_name;
                 $app_attribs = $a_attribs;
@@ -841,11 +841,9 @@ class ilQuestionPageParser extends ilMDSaxParser
             // change identifier entry of file items to new local file id
             if ($this->in_file_item && $app_name == "Identifier") {
                 $app_attribs["Entry"] = "il__file_" . $this->file_item_mapping[$a_attribs["Entry"]];
-                //$app_attribs["Entry"] = "il__file_".$this->file_item->getId();
             }
 
             $this->page_object->appendXMLContent($this->buildTag("start", $app_name, $app_attribs));
-            //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
         }
 
 
@@ -953,7 +951,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     if ($this->page_object->getContainsQuestion()) {
                         $this->pages_to_parse["lm:" . $this->page_object->getId()] = "lm:" . $this->page_object->getId();
                     }
-                //}
+                    //}
                 } else {
                     $xml = $this->page_object->getXMLContent();
                     if ($this->cur_qid != "") {

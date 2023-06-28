@@ -95,12 +95,6 @@ const OQ_NESTED_TERMS = 3;
 /**
 * Test constants
 */
-const TEST_FIXED_SEQUENCE = 0;
-const TEST_POSTPONE = 1;
-
-const TYPE_ASSESSMENT = "1";
-const TYPE_SELF_ASSESSMENT = "2";
-const TYPE_ONLINE_TEST = "4";
 const TYPE_VARYING_RANDOMTEST = "5";
 
 const INVITATION_OFF = 0;

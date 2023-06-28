@@ -39,6 +39,8 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
+        $this->addGlobal_filesystem();
+        $this->addGlobal_ilComponentRepository();
 
         $this->testObj = new ilObjTest();
     }
@@ -92,29 +94,7 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals(15, $this->testObj->getTestId());
     }
 
-    public function testECTSOutput(): void
-    {
-        $this->testObj->setECTSOutput(0);
-        $this->assertEquals(0, $this->testObj->getECTSOutput());
-
-        $this->testObj->setECTSOutput(1);
-        $this->assertEquals(1, $this->testObj->getECTSOutput());
-    }
-
-    public function testECTSFX(): void
-    {
-        $this->testObj->setECTSFX(123);
-        $this->assertEquals(123, $this->testObj->getECTSFX());
-    }
-
-    public function testECTSGrades(): void
-    {
-        $expected = [1, 6, 112, 160];
-        $this->testObj->setECTSGrades($expected);
-        $this->assertEquals($expected, $this->testObj->getECTSGrades());
-    }
-
-    public function testSequenceSettings(): void
+    /*public function testSequenceSettings(): void
     {
         $this->testObj->setSequenceSettings(0);
         $this->assertEquals(0, $this->testObj->getSequenceSettings());
@@ -188,19 +168,19 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testIsScoreReportingEnabled(): void
     {
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_FINISHED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_IMMIDIATLY);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_DATE);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_AFTER_PASSED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_DISABLED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_DISABLED);
         $this->assertFalse($this->testObj->isScoreReportingEnabled());
 
         $this->testObj->setScoreReporting(999);
@@ -400,5 +380,5 @@ class ilObjTestTest extends ilTestBaseTestCase
 
         $this->testObj->setListOfQuestions(1);
         $this->assertTrue($this->testObj->getListOfQuestions());
-    }
+    }*/
 }

@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Hayır, önceki soruya geri dön
 assessment#:#tst_finish_confirmation_question#:#Testi sonlandırmak üzeresiniz. Cevaplarınızı değiştirmek için bu teste tekrar giremeyeceksiniz. Gerçekten testi bitirmek istiyor musunuz?
 assessment#:#tst_finish_notification#:#Tamamlandığında E-Posta
 assessment#:#tst_finish_notification_advanced#:#Test sahibine test sonucunu gönder
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Test sahibine kullanıcı adını ve bitirme tarihini gönder

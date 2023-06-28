@@ -104,13 +104,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
         $this->addColumn($lng->txt("tst_mark"), "mark", "");
 
-        if ($this->parent_obj->getObject()->getECTSOutput()) {
-            foreach ($this->getSelectedColumns() as $c) {
-                if (strcmp($c, 'ects_grade') == 0) {
-                    $this->addColumn($this->lng->txt("ects_grade"), 'ects_grade', '');
-                }
-            }
-        }
         $this->addColumn($lng->txt("tst_answered_questions"), "answered", "");
         $this->addColumn($lng->txt("working_time"), "working_time", "");
         $this->addColumn($lng->txt("detailed_evaluation"), "", "");
@@ -213,12 +206,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     "default" => false
                 );
             }
-        }
-        if ($this->parent_obj->getObject()->getECTSOutput()) {
-            $cols["ects_grade"] = array(
-                "txt" => $lng->txt("ects_grade"),
-                "default" => false
-            );
         }
         return $cols;
     }
@@ -326,13 +313,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('exam_id');
                     $examId = is_string($a_set['exam_id']) && strlen($a_set['exam_id']) ? $a_set['exam_id'] : '&nbsp;';
                     $this->tpl->setVariable('EXAM_ID', $examId);
-                    $this->tpl->parseCurrentBlock();
-                }
-            }
-            if ($this->parent_obj->object->getECTSOutput()) {
-                if (strcmp($c, 'ects_grade') == 0) {
-                    $this->tpl->setCurrentBlock('ects_grade');
-                    $this->tpl->setVariable("ECTS_GRADE", $a_set['ects_grade']);
                     $this->tpl->parseCurrentBlock();
                 }
             }

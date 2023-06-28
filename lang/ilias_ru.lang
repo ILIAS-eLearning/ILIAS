@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Нет, вернуться к п
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Уведомление о прохождении теста
 assessment#:#tst_finish_notification_advanced#:#Отослать подробные результаты теста владельцу
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Отсылать имя пользователя и дату завершения владельцу теста

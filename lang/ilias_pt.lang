@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Notificação
 assessment#:#tst_finish_confirmation_question#:#Não, voltar à resposta anterior
 assessment#:#tst_finish_notification#:#Enviar resultado de teste completo
 assessment#:#tst_finish_notification_advanced#:#Enviar nome de utilizador e data de fim
-assessment#:#tst_finish_notification_content#:#Conteúdo do e-mail
+assessment#:#tst_finish_notification_content_type#:#Conteúdo do e-mail
 assessment#:#tst_finish_notification_desc#:#Envia um e-mail para o proprietário do teste relativamente a cada utilizador que completou o teste.
 assessment#:#tst_finish_notification_no#:#Nenhum e-mail
 assessment#:#tst_finish_notification_simple#:#Definições gerais

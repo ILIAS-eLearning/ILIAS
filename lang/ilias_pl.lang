@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpo
 assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
 assessment#:#tst_finish_notification#:#Mail po zakończeniu
 assessment#:#tst_finish_notification_advanced#:#Wyślij wynik testu do uczestnika testu
-assessment#:#tst_finish_notification_content#:#Treść wiadomości
+assessment#:#tst_finish_notification_content_type#:#Treść wiadomości
 assessment#:#tst_finish_notification_desc#:#Właściciel testu otrzyma dla każdego uczestnika, który ukończył test, wiadomość mailową zawierającą następujące informacje.
 assessment#:#tst_finish_notification_no#:#Brak wiadomości
 assessment#:#tst_finish_notification_simple#:#Tylko nazwa użytkownika oraz data ukończenia

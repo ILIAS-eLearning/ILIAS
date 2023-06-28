@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, grižti į ankstesnį atsaky
 assessment#:#tst_finish_confirmation_question#:#Baigdami šį testą jūs būsite išnaudoję maksimalų šiam testui skirtų bandymų skaičių. Jūs nebegalėsite pakeisti savo pateiktų atsakymų. Ar tikrai norite baigti šį testą?
 assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
