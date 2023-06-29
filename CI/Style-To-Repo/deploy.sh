@@ -63,16 +63,20 @@ function deploy() {
   fi
 
   git -C ${DEPLOY_BASE_FOLDER} update-index --really-refresh >/dev/null 2>&1
-  git -C ${DEPLOY_BASE_FOLDER} diff-index --quiet HEAD
+  git -C ${DEPLOY_BASE_FOLDER} diff-index --exit-code HEAD
+  CHECK1=$?
+  test -z "$(git ls-files --others)"
+  CHECK2=$?
 
-  CHECK=$?
-  if [[ "${CHECK}" == "0" ]]
+  if [[ "${CHECK1}" == "0" && "${CHECK2}" == "0" ]]
   then
     echo "[${NOW}] No changes detected on style files."
   else
     echo "[${NOW}] Detected changes on style files, which will be committed to ${STYLE_REPO}"
-    git -C ${DEPLOY_BASE_FOLDER} add . >/dev/null 2>&1
-    git -C ${DEPLOY_BASE_FOLDER} commit -m "Style changes from '${HASH}'" -m "Original message: '${MSG}'" -m "${URL}" >/dev/null 2>&1
-    git -C ${DEPLOY_BASE_FOLDER} push origin ${BRANCH} >/dev/null 2>&1
+    git  -C ${DEPLOY_BASE_FOLDER} status
+    git -C ${DEPLOY_BASE_FOLDER} add .
+    git  -C ${DEPLOY_BASE_FOLDER} status
+    git -C ${DEPLOY_BASE_FOLDER} commit -m "Style changes from '${HASH}'" -m "Original message: '${MSG}'" -m "${URL}"
+    git -C ${DEPLOY_BASE_FOLDER} push origin ${BRANCH}
   fi
 }
