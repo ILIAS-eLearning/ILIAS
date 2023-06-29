@@ -1372,7 +1372,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $table = new ilObjectTranslationTableGUI($this, "showHeaderTitle", false);
         if ($a_get_post_values) {
             $vals = array();
-            foreach ($_POST["title"] as $k => $v) {
+            foreach (($_POST["title"] ?? []) as $k => $v) {
                 $def = $_POST["default"] ?? "";
                 $vals[] = array("title" => $v,
                     "desc" => ($_POST["desc"][$k] ?? ""),
