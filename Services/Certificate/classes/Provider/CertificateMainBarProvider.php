@@ -22,8 +22,8 @@ namespace ILIAS\Certificate\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ilCertificateActiveValidator;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 
 /**
  * Class CertificateMainBarProvider
@@ -61,7 +61,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withVisibilityCallable(
                     static function (): bool {
                         return (
-                            BasicAccessCheckClosures::getInstance()->isUserLoggedIn() &&
+                            BasicAccessCheckClosuresSingleton::getInstance()->isUserLoggedIn() &&
                             (new ilCertificateActiveValidator())->validate()
                         );
                     }
