@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Certificate\Provider;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ilCertificateActiveValidator;
 
 /**
  * Class CertificateMainBarProvider
@@ -42,8 +43,6 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_certificates");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cert", $title);
 
-        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
-
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu
@@ -59,7 +58,14 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                     )
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-                ->withVisibilityCallable($access_helper->isUserLoggedIn())
+                ->withVisibilityCallable(
+                    static function (): bool {
+                        return (
+                            BasicAccessCheckClosures::getInstance()->isUserLoggedIn() &&
+                            (new ilCertificateActiveValidator())->validate()
+                        );
+                    }
+                )
                 ->withSymbol($icon)
                 ->withPosition(50),
         ];
