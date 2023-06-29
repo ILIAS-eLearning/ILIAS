@@ -8817,51 +8817,51 @@ div#agreement {
 }
 
 .alert-success {
-  color: #161616;
-  background-color: #eef5e6;
-  border-color: #6ea03c;
+  color: #6ea03c;
+  background-color: #fafcf8;
+  border-color: #e1efd3;
 }
 .alert-success hr {
-  border-top-color: #618d35;
+  border-top-color: #d4e8c0;
 }
 .alert-success .alert-link {
-  color: black;
+  color: #557b2e;
 }
 
 .alert-info {
-  color: #161616;
-  background-color: #d0e5ef;
-  border-color: #31708f;
+  color: #31708f;
+  background-color: #e3eff5;
+  border-color: #bddae8;
 }
 .alert-info hr {
-  border-top-color: #2a617c;
+  border-top-color: #aad0e2;
 }
 .alert-info .alert-link {
-  color: black;
+  color: #245269;
 }
 
 .alert-warning {
-  color: #161616;
+  color: #B54F00;
   background-color: #ffe4cf;
-  border-color: #B54F00;
+  border-color: #ffc79c;
 }
 .alert-warning hr {
-  border-top-color: #9c4400;
+  border-top-color: #ffb982;
 }
 .alert-warning .alert-link {
-  color: black;
+  color: #823900;
 }
 
 .alert-danger {
-  color: #161616;
-  background-color: #ffdddd;
-  border-color: #d00;
+  color: #d00;
+  background-color: #fff7f7;
+  border-color: #ffc4c4;
 }
 .alert-danger hr {
-  border-top-color: #c40000;
+  border-top-color: #ffaaaa;
 }
 .alert-danger .alert-link {
-  color: black;
+  color: #aa0000;
 }
 
 span.ilAlert {
@@ -14270,9 +14270,9 @@ fieldset[disabled] .checkbox label {
 .help-block.alert-danger {
   margin: 3px 0 0;
   padding: 0 3px 0 3px;
-  color: #161616;
-  background-color: #ffdddd;
-  border-color: #d00;
+  color: #d00;
+  background-color: #fff7f7;
+  border-color: #ffc4c4;
 }
 
 @media (min-width: 768px) {
