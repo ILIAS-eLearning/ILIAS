@@ -17,19 +17,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Link;
 
-/**
- * Note that not all valid values of the rel-attribute of anchor tags
- * are included here (see https://html.spec.whatwg.org/multipage/links.html#linkTypes),
- * as some of them are reserved for internal use by the KS.
- */
-enum Relationship: string
+enum RelationshipForInternalUse: string
 {
-    case ALTERNATE = 'alternate';
-    case AUTHOR = 'author';
-    case BOOKMARK = 'bookmark';
-    case EXTERNAL = 'external';
-    case LICENSE = 'license';
-    case NOFOLLOW = 'nofollow';
-    case NOOPENER = 'noopener';
-    case NOREFERRER = 'noreferrer';
+    case HELP = 'help';
+    case NEXT = 'next';
+    case PREV = 'prev';
+    case SEARCH = 'search';
+    case TAG = 'tag';
 }
