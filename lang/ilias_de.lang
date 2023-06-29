@@ -119,7 +119,7 @@ administration#:#adm_rep_shorten_description_info#:#Wenn aktiviert, werden alle 
 administration#:#adm_rep_shorten_description_length#:#Maximale Anzahl an Zeichen
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
 administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
-administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
+administration#:#adm_rep_tree_limit_grp_crs#:#Nur in Kursen und Gruppen alle Objekte anzeigen.
 administration#:#adm_rep_tree_limit_grp_crs_info#:#Diese Ansicht beruht und aktiviert automatisch die synchronisierte Baumansicht.
 administration#:#adm_rep_tree_only_cntr#:#Nur Container
 administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
