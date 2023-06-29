@@ -117,12 +117,12 @@ administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anony
 administration#:#adm_rep_shorten_description#:#Maximale Länge für Beschreibungen
 administration#:#adm_rep_shorten_description_info#:#Wenn aktiviert, werden alle Beschreibungen in Objektlisten nur bis zu einer definierten Länge angezeigt.
 administration#:#adm_rep_shorten_description_length#:#Maximale Anzahl an Zeichen
-administration#:#adm_rep_tree_all_types#:#Alle Objekte
-administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
-administration#:#adm_rep_tree_limit_grp_crs#:#Nur in Kursen und Gruppen alle Objekte anzeigen.
-administration#:#adm_rep_tree_limit_grp_crs_info#:#Diese Ansicht beruht und aktiviert automatisch die synchronisierte Baumansicht.
-administration#:#adm_rep_tree_only_cntr#:#Nur Container
-administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
+administration#:#adm_rep_tree_all_types#:#Alle Objekttypen
+administration#:#adm_rep_tree_all_types_info#:#In der Baumansicht werden alle Objekttypen angezeigt.
+administration#:#adm_rep_tree_limit_grp_crs#:#Auf Kurse und Gruppen beschränken
+administration#:#adm_rep_tree_limit_grp_crs_info#:#Nur in Kursen und Gruppen werden alle Objekttypen in der Baumansicht angezeigt. Außerhalb zeigt die Baumansicht nur Container-Objekte.
+administration#:#adm_rep_tree_only_cntr#:#Nur Container-Objekte
+administration#:#adm_rep_tree_only_cntr_info#:#Die Baumansicht zeigt nur Studienprogramme, Kategorien, Kurse, Gruppen und Lernsequenzen an.
 administration#:#adm_rep_tree_presentation#:#Präsentation der Baumansicht
 administration#:#adm_repository_and_objects#:#Magazin und Objekte
 administration#:#adm_search_and_find#:#Suchen und finden
