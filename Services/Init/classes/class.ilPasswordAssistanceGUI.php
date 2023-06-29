@@ -25,6 +25,7 @@ class ilPasswordAssistanceGUI
 {
     private const PERMANENT_LINK_TARGET_PW = 'pwassist';
     private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+
     private const PROP_USERNAME = 'username';
     private const PROP_EMAIL = 'email';
     private const PROP_PASSWORD = 'password';
@@ -55,10 +56,10 @@ class ilPasswordAssistanceGUI
         $this->ilErr = $DIC['ilErr'];
         $this->help = $DIC->help();
         $this->http = $DIC->http();
-        $this->actor = $DIC->user();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->actor = $DIC->user();
 
         $this->help->setScreenIdComponent('init');
     }
@@ -70,10 +71,12 @@ class ilPasswordAssistanceGUI
 
     public function executeCommand(): void
     {
+        // check correct setup
         if (!$this->settings->get('setup_ok')) {
             $this->ilErr->raiseError('Setup is not completed. Please run setup routine again.', $this->ilErr->FATAL);
         }
 
+        // check hack attempts
         if (!$this->settings->get('password_assistance')) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
@@ -316,10 +319,7 @@ class ilPasswordAssistanceGUI
             $status = $assistance_callback();
         }
 
-        $this->showMessageForm(
-            sprintf($this->lng->txt('pwassist_mail_sent'), $email),
-            self::PERMANENT_LINK_TARGET_PW
-        );
+        $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email), self::PERMANENT_LINK_TARGET_PW);
     }
 
     /**
@@ -762,6 +762,6 @@ class ilPasswordAssistanceGUI
 
     private function fillPermanentLink(string $context): void
     {
-        $this->tpl->setPermanentLink('usr', 0, $context);
+        $this->tpl->setPermanentLink('usr', null, $context);
     }
 }
