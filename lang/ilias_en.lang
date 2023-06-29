@@ -119,13 +119,13 @@ administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting an
 administration#:#adm_rep_shorten_description#:#Limited Length of Descriptions
 administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists are presented with a maximum number of characters.
 administration#:#adm_rep_shorten_description_length#:#Maximum number of characters
-administration#:#adm_rep_tree_all_types#:#All Resource Types
-administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.
-administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.
-administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the ‘Synchronize Tree Frame’ feature.
-administration#:#adm_rep_tree_only_cntr#:#Container Only
-administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.
-administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
+administration#:#adm_rep_tree_all_types#:#All Object Types
+administration#:#adm_rep_tree_all_types_info#:#All object types are presented in the Tree View (Slate).
+administration#:#adm_rep_tree_limit_grp_crs#:#Show only in courses and groups.
+administration#:#adm_rep_tree_limit_grp_crs_info#:#The Tree View shows all objects only within courses and groups. Outside courses and groups, only container objects are presented.
+administration#:#adm_rep_tree_only_cntr#:#Container Objects Only
+administration#:#adm_rep_tree_only_cntr_info#:#Only objects of type Study Programme, Category, Course, Group and Learning Sequence are presented in the Tree View.
+administration#:#adm_rep_tree_presentation#:#Tree View of Repository
 administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_settings_templates#:#Settings Templates
