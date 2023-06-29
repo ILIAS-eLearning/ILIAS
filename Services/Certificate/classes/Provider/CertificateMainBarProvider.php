@@ -42,7 +42,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withVisibilityCallable(
                     static function () : bool {
                         return (
-                            BasicAccessCheckClosures::getInstance()->isUserLoggedIn() &&
+                            (BasicAccessCheckClosures::getInstance()->isUserLoggedIn())() &&
                             (new ilCertificateActiveValidator())->validate()
                         );
                     }
