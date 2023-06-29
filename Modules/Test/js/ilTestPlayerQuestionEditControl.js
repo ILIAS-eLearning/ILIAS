@@ -393,8 +393,13 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // keep default behavior for links that open in another window
         // (fullscreen view of media objects)
-        if (target && target != '_self' && target != '_parent' && target != '_top')
+        if (target && target !== '_self' && target !== '_parent' && target !== '_top')
         {
+           return true;
+        }
+
+        // ignore JavaScript links
+        if (href.indexOf("javascript:") === 0) {
            return true;
         }
 
