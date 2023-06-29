@@ -398,7 +398,7 @@ class ilObjUserGUI extends ilObjectGUI
             $user_object->setTitle($user_object->getFullname());
             $user_object->setDescription($user_object->getEmail());
 
-            $this->loadUserDefinedDataFromForm($userObj);
+            $this->loadUserDefinedDataFromForm($user_object);
 
             $user_object->create();
 
