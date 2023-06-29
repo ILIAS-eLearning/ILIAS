@@ -158,6 +158,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                         break;
 
                     case "cont":
+                    case "copa":
                         $item["obj_type_txt"] = $this->lng->txt("obj_" . $cont_type);
                         $item["obj_title"] = ilObject::_lookupTitle($page_obj->getId());
                         $ref_id = $this->getFirstWritableRefId($page_obj->getId());
@@ -217,7 +218,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($item["obj_type_txt"] != "") {
+        if (($item["obj_type_txt"] ?? "") != "") {
             $this->tpl->setCurrentBlock("type");
             $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("type"));
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
@@ -225,13 +226,13 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         }
 
         if ($usage["type"] !== "clip") {
-            if ($item["obj_link"]) {
+            if ($item["obj_link"] ?? false) {
                 $this->tpl->setCurrentBlock("linked_item");
-                $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);
-                $this->tpl->setVariable("HREF_LINK", $item["obj_link"]);
+                $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"] ?? "");
+                $this->tpl->setVariable("HREF_LINK", $item["obj_link"] ?? "");
                 $this->tpl->parseCurrentBlock();
             } else {
-                $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
+                $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"] ?? "");
             }
 
             if (($item["sub_txt"] ?? "") != "") {
