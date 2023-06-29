@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -1846,7 +1847,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $res = array();
 
         $before = new ilDateTime(time(), IL_CAL_UNIX);
-        $before->increment(IL_CAL_DAY, -1);
         $now = $before->get(IL_CAL_UNIX);
         $now_dt = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
 

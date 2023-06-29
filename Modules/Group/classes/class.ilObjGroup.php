@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjGroup
@@ -1545,7 +1545,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         $res = array();
         $before = new ilDateTime(time(), IL_CAL_UNIX);
-        $before->increment(IL_CAL_DAY, -1);
         $now_date = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
         $now = $before->get(IL_CAL_UNIX);
 
