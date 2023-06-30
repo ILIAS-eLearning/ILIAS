@@ -78,7 +78,7 @@ class Renderer extends AbstractComponentRenderer
         $param_name = $component->getName();
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "$(document).on('{$internal_signal}', 
+                fn($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) {
                         var container = event.target.closest('.il-viewcontrol-fieldselection'),
                             checked = container.querySelectorAll('input[type=checkbox]:checked'),
@@ -100,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "$('#{$id} > .dropdown-menu')
+            fn($id) => "$('#{$id} > .dropdown-menu')
                 .on('click', (event) =>  event.stopPropagation());"
         );
 
@@ -143,7 +143,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "$(document).on('{$internal_signal}', 
+                fn($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) { 
                         let inputs = event.target
                             .closest('.il-viewcontrol-sortation')
@@ -176,12 +176,64 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    /**
+     * @return ILIAS\Data\Range[]
+     */
+    protected function buildRanges(
+        int $total_count,
+        int $page_limit
+    ): array {
+        $data_factory = $this->getDataFactory();
+        foreach (range(0, $total_count, $page_limit + 1) as $idx => $start) {
+            $ranges[] = $data_factory->range($start, $page_limit);
+        }
+        return $ranges;
+    }
+
+    /**
+     * @param ILIAS\Data\Range[] $ranges
+     */
+    protected function findCurrentPage(array $ranges, int $offset): int
+    {
+        foreach ($ranges as $idx => $range) {
+            if ($offset >= $range->getStart() && $offset < $range->getEnd()) {
+                return $idx;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param ILIAS\Data\Range[] $ranges
+     * @return ILIAS\Data\Range[]
+     */
+    protected function sliceRangesToVisibleEntries(array $ranges, int $current, int $number_of_visible_entries): array
+    {
+        $first = reset($ranges);
+        $last = end($ranges);
+
+        $start = max(0, $current - floor(($number_of_visible_entries - 1) / 2));
+        if ($start + $number_of_visible_entries >= count($ranges)) {
+            $start = max(0, count($ranges) - $number_of_visible_entries);
+        }
+
+        $entries = array_slice($ranges, (int)$start, $number_of_visible_entries);
+
+        if (! in_array($first, $entries)) {
+            array_shift($entries);
+            array_unshift($entries, $first);
+        }
+        if (! in_array($last, $entries)) {
+            array_pop($entries);
+            array_push($entries, $last);
+        }
+        return $entries;
+    }
 
     protected function renderPagination(Pagination $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.vc_pagination.html", true, true);
         $ui_factory = $this->getUIFactory();
-        $data_factory = $this->getDataFactory();
         $internal_signal = $component->getInternalSignal();
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
@@ -190,43 +242,18 @@ class Renderer extends AbstractComponentRenderer
         $limit = $limit > 0 ? $limit : reset($limit_options);
 
         if (! $total_count) {
-            $input = $ui_factory->input()->field()->numeric('offset')
-                ->withValue($offset);
+            $input = $ui_factory->input()->field()->numeric('offset')->withValue($offset);
             $apply = $ui_factory->button()->standard('apply', '');
             $tpl->setVariable("INPUT", $default_renderer->render($input));
             $tpl->setVariable("BUTTON", $default_renderer->render($apply));
         } else {
-            $no_entries = $component->getNumberOfVisibleEntries();
+            $ranges = $this->buildRanges($total_count, $limit);
+            $current = $this->findCurrentPage($ranges, $offset);
 
-            $ranges = [];
-            $current = 0;
             if ($limit > $total_count) {
-                $ranges[] = $data_factory->range(0, $limit);
                 $entries = $ranges;
             } else {
-                foreach (range(0, $total_count, $limit + 1) as $idx => $start) {
-                    $ranges[] = $data_factory->range($start, $limit);
-                    if ($offset >= $start && $offset < $start + $limit) {
-                        $current = $idx;
-                    }
-                }
-                $first = reset($ranges);
-                $last = end($ranges);
-
-                $start = max(0, $current - floor(($no_entries - 1) / 2));
-                if ($start + $no_entries >= count($ranges)) {
-                    $start = max(0, count($ranges) - $no_entries);
-                }
-
-                $entries = array_slice($ranges, (int)$start, $no_entries);
-                if (! in_array($first, $entries)) {
-                    array_shift($entries);
-                    array_unshift($entries, $first);
-                }
-                if (! in_array($last, $entries)) {
-                    array_pop($entries);
-                    array_push($entries, $last);
-                }
+                $entries = $this->sliceRangesToVisibleEntries($ranges, $current, $component->getNumberOfVisibleEntries());
             }
 
             foreach ($ranges as $idx => $range) {
@@ -294,7 +321,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn ($id) => "$(document).on('{$internal_signal}',
+                fn($id) => "$(document).on('{$internal_signal}',
                     function(event, signal_data) {
                         let inputs = event.target
                             .closest('.il-viewcontrol-pagination')
