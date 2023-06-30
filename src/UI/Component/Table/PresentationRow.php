@@ -23,10 +23,9 @@ namespace ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Triggerable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Listing\Descriptive;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Dropdown\Dropdown;
-use ILIAS\UI\Component\Layout\Alignment\Alignment;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -55,9 +54,9 @@ interface PresentationRow extends Component, Triggerable
     public function withImportantFields(array $fields): self;
 
     /**
-     * Get a row like this with a descriptive listing as content.
+     * Get a row like this with content.
      */
-    public function withContent(Descriptive|Alignment $content): self;
+    public function withContent(Block $content): self;
 
     /**
      * Get a row like this with a headline for the field-list in the expanded row.

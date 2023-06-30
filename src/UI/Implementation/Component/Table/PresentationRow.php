@@ -27,8 +27,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Dropdown\Dropdown;
-use ILIAS\UI\Component\Listing\Descriptive;
-use ILIAS\UI\Component\Layout\Alignment\Alignment;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 class PresentationRow implements T\PresentationRow
@@ -47,7 +46,7 @@ class PresentationRow implements T\PresentationRow
     private ?string $headline = null;
     private ?string $subheadline = null;
     private array $important_fields = [];
-    private Descriptive|Alignment $content;
+    private Block $content;
     private ?string $further_fields_headline = null;
     private array $further_fields = [];
     private array $data;
@@ -166,14 +165,14 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withContent(Descriptive|Alignment $content): T\PresentationRow
+    public function withContent(Block $content): T\PresentationRow
     {
         $clone = clone $this;
         $clone->content = $content;
         return $clone;
     }
 
-    public function getContent(): Descriptive|Alignment
+    public function getContent(): Block
     {
         return $this->content;
     }
