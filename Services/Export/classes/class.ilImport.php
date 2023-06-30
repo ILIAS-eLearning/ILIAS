@@ -118,7 +118,7 @@ class ilImport
         string $a_type,
         string $a_comp = "",
         bool $a_copy_file = false
-    ): int {
+    ): ?int {
 
         // create temporary directory
         $tmpdir = ilFileUtils::ilTempnam();
