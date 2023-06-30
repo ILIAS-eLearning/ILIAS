@@ -2578,7 +2578,7 @@ book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da d
 book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
 book#:#book_reservation_filter_period_info#:#Im Reiter Reservierungen wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
-book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
+book#:#book_reservation_overview#:#Reservierungen aller Benutzer
 book#:#book_reservation_status_5#:#Storniert
 book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_reservations_list#:#Reservierungen
