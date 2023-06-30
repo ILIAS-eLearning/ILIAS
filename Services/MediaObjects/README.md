@@ -3,6 +3,7 @@
 ## Business Rules
 
 Access Handling
+
 - Media objects can be re-used, e.g. when pages are copied or media objects are inserted from a media pool in a learning module.
 - All references "are equal". The container handles write access to the media object. This mostly means that write access to a container like a learning module gives write access to the media object.
 
@@ -17,3 +18,7 @@ Media Types
   - in px
   - relative to the viewport (e.g. setting "height: 80vh" as custom parameter)
   - with an aspect ratio (e.g. setting "aspect-ratio: 16/9" as custom parameter)
+
+Video
+
+- ILIAS renders the video tag with preload="auto" to tell the browser to load the basic video data like the length into the player. This enables in almost all browsers a preview image of the video, but not in all, e.g. Safari decides to save even more bandwidth here.
