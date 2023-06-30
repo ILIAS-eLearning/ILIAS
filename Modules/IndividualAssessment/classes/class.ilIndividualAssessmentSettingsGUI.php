@@ -153,7 +153,7 @@ class ilIndividualAssessmentSettingsGUI
             $this->lng,
             $this->input_factory->field(),
             $this->refinery
-        )->withByline($this->lng->txt('iass_settings_availability_info'));
+        );
         $availability = $this->input_factory->field()->section(
             [$online],
             $this->lng->txt('iass_settings_availability')

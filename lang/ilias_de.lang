@@ -10135,7 +10135,6 @@ iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 iass#:#iass_settings_availability#:#Verfügbarkeit
-iass#:#iass_settings_availability_info#:#Nur wenn die Individuelle Bewertung online geschaltet ist, können Benutzer beitreten und Mitglieder darauf zugreifen. Wenn nicht, ist die Individuelle Bewertung nur für Administratoren und Tutoren verfügbar.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
 iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
