@@ -95,9 +95,4 @@ interface Presentation extends Table, HasViewControls, JavaScriptBindable
      * adds a toggle-VC to expand/collapse all rows.
      */
     public function withToggleAll(bool $flag = true): self;
-
-    /**
-     * renders rows expanded
-     */
-    public function withInitiallyExpanded(bool $flag = true): self;
 }

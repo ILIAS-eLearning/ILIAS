@@ -127,16 +127,4 @@ class Presentation extends Table implements T\Presentation
     {
         return $this->signal_toggle_all;
     }
-
-    public function withInitiallyExpanded(bool $flag = true): self
-    {
-        $clone = clone $this;
-        $clone->initially_expanded = $flag;
-        return $clone;
-    }
-
-    public function getInitiallyExpanded(): bool
-    {
-        return $this->initially_expanded;
-    }
 }

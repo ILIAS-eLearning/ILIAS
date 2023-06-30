@@ -94,12 +94,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        if ($component->getInitiallyExpanded()) {
-            $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "il.UI.table.presentation.expandAll('$id', {options:{expand:true}});"
-            );
-        }
-
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);
 
