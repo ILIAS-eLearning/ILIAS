@@ -2575,7 +2575,7 @@ book#:#book_reservation_failed_overbooked#:#The booking failed because the objec
 book#:#book_reservation_filter_period#:#Period for the reservation list
 book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
 book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
-book#:#book_reservation_overview#:#Reservation Overviews
+book#:#book_reservation_overview#:#Reservation Overview
 book#:#book_reservation_status_5#:#Cancelled
 book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_reservations_list#:#Reservations
