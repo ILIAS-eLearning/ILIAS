@@ -53,7 +53,7 @@ function base1()
         $mapping_closure
     )
     ->withEnvironment(environment())
-    ->withToggleAll(true);
+    ->withExpandCollapseAllToggle(true);
 
     //example data
     $data = included_data1();

@@ -116,14 +116,14 @@ class Presentation extends Table implements T\Presentation
         return $this->records;
     }
 
-    public function withToggleAll(bool $flag = true): self
+    public function withExpandCollapseAllToggle(bool $flag = true): self
     {
         $clone = clone $this;
         $clone->signal_toggle_all = $flag ? $this->signal_generator->create() : null;
         return $clone;
     }
 
-    public function getToggleAllSignal(): ?Signal
+    public function getExpandCollapseAllSignal(): ?Signal
     {
         return $this->signal_toggle_all;
     }

@@ -69,7 +69,7 @@ class Renderer extends AbstractComponentRenderer
 
 
         $vcs = [];
-        if ($sig_ta = $component->getToggleAllSignal()) {
+        if ($sig_ta = $component->getExpandCollapseAllSignal()) {
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
             $vcs[] = $this->getUIFactory()->symbol()->glyph()
