@@ -69,7 +69,7 @@ class ilMailDeliveryJob extends AbstractJob
             ->withContextId((string) $input[9]->getValue())
             ->withContextParameters($context_parameters);
 
-        $mail_data = new MailData(
+        $mail_data = new MailDeliveryData(
             (string) $input[1]->getValue(), // To
             (string) $input[2]->getValue(),  // Cc
             (string) $input[3]->getValue(),  // Bcc
