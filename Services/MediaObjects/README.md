@@ -19,4 +19,4 @@
 
 ## Video
 
-- ILIAS renders the video tag with preload="auto" to tell the browser to load the basic video data like the length into the player. This enables in almost all browsers a preview image of the video, but not in all, e.g. Safari decides to save even more bandwidth here.
+- ILIAS renders the video tag with the attribute `preload="auto"` to tell the browser to load the basic video data like the duration into the player. In almost all browsers this enables a preview image of the video, but not in all, e.g. Safari decides to save bandwidth instead.
