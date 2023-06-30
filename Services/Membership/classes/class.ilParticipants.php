@@ -192,6 +192,52 @@ abstract class ilParticipants
     }
 
     /**
+     * This method was introduced as a band-aid fix for #22764.
+     * Please do not use this anywhere else.
+     */
+    public static function canSendMailToMembers(
+        int $ref_id,
+        ?int $usr_id = null,
+        ?int $mail_obj_ref_id = null
+    ): bool {
+        global $DIC;
+
+        $access = $DIC->access();
+        $rbacsystem = $DIC->rbac()->system();
+
+        if (is_null($usr_id)) {
+            $usr_id = $DIC->user()->getId();
+        }
+        if (is_null($mail_obj_ref_id)) {
+            $mail_obj_ref_id = (new ilMail($usr_id))->getMailObjectReferenceId();
+        }
+
+        if (
+            $access->checkAccess('manage_members', '', $ref_id) &&
+            $rbacsystem->checkAccess('internal_mail', $mail_obj_ref_id)
+        ) {
+            return true;
+        }
+
+        $part = self::getInstance($ref_id);
+        if (!$part->isAssigned($usr_id)) {
+            return false;
+        }
+
+        $object = ilObjectFactory::getInstanceByObjId($obj_id);
+        if ($object instanceof ilObjCourse) {
+            return $object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL;
+        } elseif ($object instanceof ilObjGroup) {
+            return $object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL;
+        } elseif ($object instanceof ilObjSession) {
+            return $object->getMailToMembersType() == ilObjSession::MAIL_ALLOWED_ALL;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Get user membership assignments by type
      */
     public static function getUserMembershipAssignmentsByType(
