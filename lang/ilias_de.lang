@@ -4134,7 +4134,6 @@ common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte 
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forgot_password#:#Passwort vergessen?
 common#:#forgot_username#:#Benutzernamen vergessen?
-common#:#form_input_concern_existing_data#:#Hierbei kann es sich auch um bereits vorhandene Einträge handeln.
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Benachrichtigung
@@ -8497,6 +8496,7 @@ dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_may_concern_existing_entries#:#Es kann sich auch um bereits vorhandene Einträge handeln.
 dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert

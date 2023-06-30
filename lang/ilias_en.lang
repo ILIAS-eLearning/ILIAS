@@ -4135,7 +4135,6 @@ common#:#follow_link_to_read_mails#:#click the following link to read these mail
 common#:#force_accept_usr_agreement#:#You must accept the terms of service!
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
-common#:#form_input_concern_existing_data#:#This can also concern one of the already existing records.
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Notification
@@ -8498,6 +8497,7 @@ dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_may_concern_existing_entries#:#This may also concern existing records.
 dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
