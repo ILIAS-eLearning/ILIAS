@@ -88,7 +88,8 @@ $il-card-border-radius: 0;
 	}
 
 	.caption{
-		padding-top: $il-padding-large-vertical;
+		padding: $il-padding-large-vertical $il-padding-base-horizontal;
+
 		//See #28508
 		overflow-wrap: break-word;
 		word-break: break-word;

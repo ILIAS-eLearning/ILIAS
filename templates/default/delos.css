@@ -3153,7 +3153,7 @@ button .minimize, button .close {
   width: 100%;
 }
 .il-card .caption {
-  padding-top: 6px;
+  padding: 6px 9px;
   overflow-wrap: break-word;
   word-break: break-word;
 }
