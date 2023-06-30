@@ -31,8 +31,4 @@ use ILIAS\UI\Component\Input\Input;
  */
 interface Form extends Container
 {
-    /**
-     * does the form contain any requied inputs?
-     */
-    public function hasRequiredInputs(): bool;
 }

@@ -249,14 +249,4 @@ class RoundTrip extends Modal implements M\RoundTrip
     {
         return $this;
     }
-
-    public function hasRequiredInputs(): bool
-    {
-        foreach ($this->getInputs() as $input) {
-            if ($input->isRequired()) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
