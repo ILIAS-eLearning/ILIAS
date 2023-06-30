@@ -22,22 +22,10 @@ namespace ILIAS\UI\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Triggerer;
-use ILIAS\UI\Component\Signal;
 
 /**
  * This describes the basis of all View Control Inputs.
  */
 interface ViewControl extends Input, Triggerer
 {
-    /**
-     * When a View Control becomes part of a View Control Input Container,
-     * the Container will amend a Signal to the Component; this Signal MUST
-     * be triggered when operating the Control.
-     */
-    public function withOnChange(Signal $signal): self;
-
-    /**
-     * Trigger this signal when the control is being operated.
-     */
-    public function getOnChangeSignal(): ?Signal;
 }

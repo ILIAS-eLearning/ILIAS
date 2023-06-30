@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use ILIAS\UI\Component\Signal;
 
 /**
  * This describes a Field Selection View Control
  */
-interface FieldSelection extends IViewControl
+interface FieldSelection extends ViewControl
 {
 }
