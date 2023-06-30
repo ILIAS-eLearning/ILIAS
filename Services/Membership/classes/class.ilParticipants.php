@@ -196,7 +196,7 @@ abstract class ilParticipants
      * Please do not use this anywhere else.
      */
     public static function canSendMailToMembers(
-        int $ref_id,
+        int|ilObject $ref_id_or_instance,
         ?int $usr_id = null,
         ?int $mail_obj_ref_id = null
     ): bool {
@@ -211,6 +211,13 @@ abstract class ilParticipants
         if (is_null($mail_obj_ref_id)) {
             $mail_obj_ref_id = (new ilMail($usr_id))->getMailObjectReferenceId();
         }
+        if (is_int($ref_id_or_instance)) {
+            $ref_id = $ref_id_or_instance;
+        } elseif ($ref_id_or_instance instanceof ilObject) {
+            $ref_id = array_keys(ilObject::_getAllReferences($ref_id_or_instance->getId()))[0];
+        } else {
+            return false;
+        }
 
         if (
             $access->checkAccess('manage_members', '', $ref_id) &&
@@ -224,7 +231,11 @@ abstract class ilParticipants
             return false;
         }
 
-        $object = ilObjectFactory::getInstanceByObjId($obj_id);
+        $object = $ref_id_or_instance;
+        if (is_int($ref_id_or_instance)) {
+            $object = ilObjectFactory::getInstanceByRefId($ref_id_or_instance);
+        }
+
         if ($object instanceof ilObjCourse) {
             return $object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL;
         } elseif ($object instanceof ilObjGroup) {
