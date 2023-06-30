@@ -72,19 +72,36 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $this->object->setContentType($this->object::OQ_CT_PICTURES);
         $this->object->saveToDb();
-        $this->editQuestion();
+
+        $values = $this->request->getParsedBody();
+        $this->buildEditFormAfterTypeChange($values);
     }
 
     public function changeToText()
     {
-        if ($this->object->isImageOrderingType()) {
-            //perhaps clear something?
+        $ordering_element_list = $this->object->getOrderingElementList();
+        foreach ($ordering_element_list as $element) {
+            $this->object->dropImageFile($element->getContent());
         }
 
         $this->object->setContentType($this->object::OQ_CT_TERMS);
         $this->object->saveToDb();
 
-        $this->editQuestion();
+        $this->buildEditFormAfterTypeChange($this->request->getParsedBody());
+    }
+
+    private function buildEditFormAfterTypeChange(array $values) : void
+    {
+        $form = $this->buildEditForm();
+
+        $ordering_element_list = $this->object->getOrderingElementList();
+        $ordering_element_list->resetElements();
+
+        $values[assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR] = [];
+        $form->setValuesByArray($values);
+        $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)->setElementList($ordering_element_list);
+        $this->renderEditForm($form);
+        $this->addEditSubtabs();
     }
 
     public function saveNesting()
@@ -152,7 +169,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $list = $this->object->getOrderingElementList()->withElements($elements);
         $this->object->setOrderingElementList($list);
-        $this->editQuestion();
+        $this->buildEditFormAfterTypeChange($this->request->getParsedBody());
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
