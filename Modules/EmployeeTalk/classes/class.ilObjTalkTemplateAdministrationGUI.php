@@ -100,8 +100,6 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
                 break;
             default:
                 parent::executeCommand();
-                $this->tabs_gui->removeSubTab("page_editor");
-                $this->tabs_gui->activateTab('view_content');
         }
     }
 
@@ -129,6 +127,8 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     public function viewObject(): void
     {
+        $this->tabs_gui->activateTab('view_content');
+
         if (!$this->rbacsystem->checkAccess("read", $this->getRefId())) {
             if ($this->rbacsystem->checkAccess("visible", $this->getRefId())) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_read"));
