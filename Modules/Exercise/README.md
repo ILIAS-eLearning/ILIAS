@@ -149,7 +149,7 @@ Tasks are created for handing-in and for providing a peer feedback..
 
 ### Business Rules
 
-- Task for handing-in will only be visible during **Submission Period**.
+- Task for handing-in will only be visible during **Submission Period**. Since ILIAS 8 these tasks will not be presented anymore, if the user has submitted anything.
 - Task for peer-review will only be visible during **Peer Review Period**.
 
 ## File System
