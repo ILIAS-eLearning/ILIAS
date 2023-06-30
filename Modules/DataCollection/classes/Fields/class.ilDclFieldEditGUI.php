@@ -370,7 +370,7 @@ class ilDclFieldEditGUI
                 } catch (ilDclInputException $e) {
                     $item = $this->form->getItemByPostVar('unique');
                     //make the user aware of the violation of the unique property
-                    $item->setAlert($e . " " . $lng->txt("form_input_concern_existing_data"));
+                    $item->setAlert($e . " " . $lng->txt("dcl_may_concern_existing_entries"));
                     //saving will not be possible until the user unchecks the 'unique' checkbox
                     $return = false;
                     break;
@@ -386,7 +386,7 @@ class ilDclFieldEditGUI
                 } catch (ilDclInputException $e) {
                     $item = $this->form->getItemByPostVar('unique');
                     //make the user aware of the violation of the unique property
-                    $item->setAlert($e . " " . $lng->txt("form_input_concern_existing_data"));
+                    $item->setAlert($e . " " . $lng->txt("dcl_may_concern_existing_entries"));
                     //saving will not be possible until the user unchecks the 'unique' checkbox
                     $return = false;
                     break;
