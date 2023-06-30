@@ -51,4 +51,18 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("manscoring_done", ["active_id"]);
         }
     }
+
+    /**
+     * Drop the test settings for the special character seletor
+     */
+    public function step_3(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'char_selector_availability')) {
+            $this->db->dropTableColumn('tst_tests', 'char_selector_availability');
+        }
+
+        if ($this->db->tableColumnExists('tst_tests', 'char_selector_definition')) {
+            $this->db->dropTableColumn('tst_tests', 'char_selector_definition');
+        }
+    }
 }

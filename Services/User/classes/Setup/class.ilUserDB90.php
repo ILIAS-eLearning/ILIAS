@@ -84,4 +84,12 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    /**
+     * Remove the special charactor selector settings from the user preferences
+     */
+    public function step_4(): void
+    {
+        $this->db->manipulate("DELETE FROM usr_pref WHERE keyword LIKE 'char_selector%'");
+    }
 }

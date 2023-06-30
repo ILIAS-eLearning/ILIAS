@@ -67,4 +67,12 @@ class ilAdministrationDBUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->dropTableColumn('settings', 'value');
         $this->db->renameTableColumn('settings', 'value2', 'value');
     }
+
+    /**
+     * Remove the global special charactor selector settings
+     */
+    public function step_4(): void
+    {
+        $this->db->manipulate("DELETE FROM settings WHERE keyword LIKE 'char_selector%'");
+    }
 }
