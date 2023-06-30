@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Uzamčení editace
-adve#:#adve_char_selector_settings#:#Výběr znaků
 adve#:#adve_excass_settings#:#Úkoly cvičení
 adve#:#adve_grp_copa#:#Stránky obsahu
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Nabídka textového obsahu
 adve#:#adve_use_physical#:#Použít b/i/u namísto str/emp/imp
 adve#:#adve_use_physical_info#:#Toto nastavení nahrazuje tlačítka sémantické třídy stylu pro silné (strong),  zdůrazněné (emphatic) a důležité (important) tlačítky fyzikálních atributů b (bold-tučné), i (italic-kurzíva) a u (underline-podtržené). Povšimněte si prosím, že to může mít za následek nekonzistence, pokud je použit tento editor stylu a jiné fyzické atributy jsou přiřazeny třídám stylu strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Zapnout TinyMCE pro editaci WYSIWYG
-adve#:#char_selector_admin#:#Přepínač pro znaky Unicode (TODO)
-adve#:#char_selector_blocks#:#Dostupné bloky Unicode
-adve#:#char_selector_blocks_info#:#Všechny znaky vybraných bloků budou uvedeny, avšak ne všechny musí být podporovány aktuálním fontem prohlížeče.
-adve#:#char_selector_custom_items#:#Uživatelský výběr
-adve#:#char_selector_custom_items_info1#:#Uživatelský výběr bude uveden před vybranými bloky. Přidejte prosím své znaky v následujícím stylu:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Znaky jsou odděleny mezerami, generující jednotlivá výběrová tlačítka.
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Takto je možné vložit více znaků jedním tlačítkem. (Spřežky)
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Rozsah znaků může být definován pomocí "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Znak může být také definován v notaci Unicode (necitlivé na velká / malá písmena)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Rozsah znaků může být také definován v notaci Unicode
-adve#:#char_selector_disabled_admin#:#Vypnuto (TODO)
-adve#:#char_selector_disabled_info_admin#:#Vypíná výběr. Uživatelé a testy mohou mít individuální nastavení.
-adve#:#char_selector_disabled_info_test#:#Vypíná výběr během průběhu testů.
-adve#:#char_selector_disabled_info_user#:#Vypíná výběr. Testy mohou mít individuální nastavení.
-adve#:#char_selector_disabled_test#:#Vypnuto (TODO)
-adve#:#char_selector_disabled_user#:#Vypnuto (TODO)
-adve#:#char_selector_enabled_admin#:#Zapnuto (TODO)
-adve#:#char_selector_enabled_info_admin#:#Zapíná výběr, volený tlačítkem v hlavním menu. Uživatelé a testy mohou mít individuální nastavení.
-adve#:#char_selector_enabled_info_test#:#Zapíná výběr během průběhu testů.
-adve#:#char_selector_enabled_info_user#:#Zapíná výběr, volený tlačítkem v hlavním menu.
-adve#:#char_selector_enabled_test#:#Zapnuto (TODO)
-adve#:#char_selector_enabled_user#:#Zapnuto (TODO)
-adve#:#char_selector_inactive_admin#:#Neaktivní (TODO)
-adve#:#char_selector_inactive_info_admin#:#Deaktivuje výběr. Uživatelé a testy nemohou přepsat toto nastavení.
-adve#:#char_selector_inherit_info_test#:#Převzít platformu nebo uživatelské nastavení.
-adve#:#char_selector_inherit_info_user#:#Převzít nastavení platformy
-adve#:#char_selector_inherit_test#:#Převzít (TODO)
-adve#:#char_selector_inherit_user#:#Převzít (TODO)
-adve#:#char_selector_menu_close#:#Zavřít přepínač speciálních znaků
-adve#:#char_selector_menu_open#:#Otevřít přepínač speciálních znaků
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Když aktivujete přepínač, vyberte blok znaků nebo zadejte speciální výběr!
-adve#:#char_selector_test#:#Přepínač pro znaky Unicode (TODO)
-adve#:#char_selector_unicode_all#:#Všechny bloky Unicode
-adve#:#char_selector_user#:#Přepínač pro znaky Unicode (TODO)
 assessment#:#action#:#Akce
 assessment#:#addSuggestedSolution#:#Přidat doporučené řešení
 assessment#:#add_answers#:#Přidat odpovědi
@@ -598,7 +558,6 @@ assessment#:#categories#:#Kategorie
 assessment#:#category#:#Kategorie
 assessment#:#changeSuggestedSolution#:#Změnit navrhované řešení
 assessment#:#change_adm_categories_not_allowed#:#Nemáte oprávnění týkající se této kategorie.
-assessment#:#char_selector_btn_label#:# Ω 
 assessment#:#checkbox_checked#:#Zaškrtnuto
 assessment#:#checkbox_unchecked#:#Nezaškrtnuto
 assessment#:#circle#:#Kruh

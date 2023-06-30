@@ -147,13 +147,4 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
         $this->testObj->setAnythingRendered();
         $this->assertTrue($this->testObj->isAnythingRendered());
     }
-
-    public function testCharSelectorEnabled(): void
-    {
-        $this->testObj->setCharSelectorEnabled(false);
-        $this->assertFalse($this->testObj->isCharSelectorEnabled());
-
-        $this->testObj->setCharSelectorEnabled(true);
-        $this->assertTrue($this->testObj->isCharSelectorEnabled());
-    }
 }

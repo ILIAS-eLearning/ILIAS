@@ -535,18 +535,6 @@ class ilPropertyFormGUI extends ilFormGUI
                 $this->tpl->parseCurrentBlock();
             }
 
-            if (is_object($ilSetting)) {
-                if ($ilSetting->get('char_selector_availability') > 0) {
-                    if (ilCharSelectorGUI::_isAllowed()) {
-                        $char_selector = ilCharSelectorGUI::_getCurrentGUI();
-                        if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED) {
-                            $char_selector->addToPage();
-                            $this->tpl->touchBlock('char_selector');
-                        }
-                    }
-                }
-            }
-
             $this->tpl->setCurrentBlock("header");
             $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
             //$this->tpl->setVariable("LABEL", $this->getTopAnchor());
@@ -837,11 +825,11 @@ class ilPropertyFormGUI extends ilFormGUI
     protected function appendOnloadCode(string $html): string
     {
         if (count($this->onload_code) > 0) {
-            $html.= "<script>";
+            $html .= "<script>";
             foreach ($this->onload_code as $code) {
-                $html.= $code . "\n";
+                $html .= $code . "\n";
             }
-            $html.= "</script>";
+            $html .= "</script>";
         }
         return $html;
     }

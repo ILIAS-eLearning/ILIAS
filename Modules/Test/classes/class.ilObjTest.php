@@ -236,10 +236,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected bool $sign_submission;
 
-    /** @var mixed availability of selector for special characters  */
-    protected $char_selector_availability;
-    protected ?string $char_selector_definition;
-
     protected bool $showGradingStatusEnabled;
     protected bool $showGradingMarkEnabled;
 
@@ -357,8 +353,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->redirection_url = null;
         $this->show_exam_id_in_test_pass_enabled = false;
         $this->sign_submission = false;
-        $this->char_selector_availability = 0;
-        $this->char_selector_definition = null;
 
         $this->showGradingStatusEnabled = true;
         $this->showGradingMarkEnabled = true;
@@ -863,8 +857,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'examid_in_test_pass' => array('integer', (int) $this->isShowExamIdInTestPassEnabled()),
                 'sign_submission' => array('integer', (int) $this->getSignSubmission()),
                 'question_set_type' => array('text', $this->getQuestionSetType()),
-                'char_selector_availability' => array('integer', $this->getCharSelectorAvailability()),
-                'char_selector_definition' => array('text', (string) $this->getCharSelectorDefinition()),
                 'skill_service' => array('integer', (int) $this->isSkillServiceEnabled()),
                 'result_tax_filters' => array('text', serialize($this->getResultFilterTaxIds())),
                 'follow_qst_answer_fixation' => array('integer', (int) $this->isFollowupQuestionAnswerFixationEnabled()),
@@ -959,8 +951,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'examid_in_test_pass' => array('integer', (int) $this->isShowExamIdInTestPassEnabled()),
                     'sign_submission' => array('integer', (int) $this->getSignSubmission()),
                     'question_set_type' => array('text', $this->getQuestionSetType()),
-                    'char_selector_availability' => array('integer', $this->getCharSelectorAvailability()),
-                    'char_selector_definition' => array('text', (string) $this->getCharSelectorDefinition()),
                     'skill_service' => array('integer', (int) $this->isSkillServiceEnabled()),
                     'result_tax_filters' => array('text', serialize($this->getResultFilterTaxIds())),
                     'show_grading_status' => array('integer', (int) $this->isShowGradingStatusEnabled()),
@@ -1403,8 +1393,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setShowExamIdInTestPassEnabled((bool) $data->examid_in_test_pass);
             $this->setSignSubmission((bool) $data->sign_submission);
             $this->setQuestionSetType($data->question_set_type);
-            $this->setCharSelectorAvailability((int) $data->char_selector_availability);
-            $this->setCharSelectorDefinition($data->char_selector_definition);
             $this->setSkillServiceEnabled((bool) $data->skill_service);
             $this->setShowGradingStatusEnabled((bool) $data->show_grading_status);
             $this->setShowGradingMarkEnabled((bool) $data->show_grading_mark);
@@ -5176,12 +5164,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case 'sign_submission':
                     $this->setSignSubmission($metadata['entry']);
                     break;
-                case 'char_selector_availability':
-                    $this->setCharSelectorAvailability($metadata['entry']);
-                    break;
-                case 'char_selector_definition':
-                    $this->setCharSelectorDefinition($metadata['entry']);
-                    break;
                 case 'skill_service':
                     $this->setSkillServiceEnabled((bool) $metadata['entry']);
                     break;
@@ -5618,18 +5600,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "sign_submission");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getSignSubmission());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // char_selector_availability
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "char_selector_availability");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getCharSelectorAvailability()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // char_selector_definition
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "char_selector_definition");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getCharSelectorDefinition());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // skill_service
@@ -6332,8 +6302,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setShowExamViewHtml($this->getShowExamviewHtml());
         $newObj->setEnableArchiving($this->getEnableArchiving());
         $newObj->setSignSubmission($this->getSignSubmission());
-        $newObj->setCharSelectorAvailability($this->getCharSelectorAvailability());
-        $newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
         $newObj->setFollowupQuestionAnswerFixationEnabled($this->isFollowupQuestionAnswerFixationEnabled());
         $newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
@@ -8579,8 +8547,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'pass_deletion_allowed' => (int) $this->isPassDeletionAllowed(),
             'enable_examview' => $this->getEnableExamview(),
             'show_examview_html' => $this->getShowExamviewHtml(),
-            'char_selector_availability' => $this->getCharSelectorAvailability(),
-            'char_selector_definition' => $this->getCharSelectorDefinition(),
             'skill_service' => (int) $this->isSkillServiceEnabled(),
             'result_tax_filters' => $this->getResultFilterTaxIds(),
             'show_grading_status' => (int) $this->isShowGradingStatusEnabled(),
@@ -8710,8 +8676,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setShowExamviewHtml($testsettings['show_examview_html']);
         $this->setEnableArchiving($testsettings['enable_archiving']);
         $this->setSignSubmission($testsettings['sign_submission']);
-        $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
-        $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
         $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
         $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
         $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
@@ -10320,36 +10284,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         return $this->sign_submission;
     }
-
-    public function setCharSelectorAvailability($availability)
-    {
-        $this->char_selector_availability = (int) $availability;
-    }
-
-    /**
-     * @return int	availability of the special character selector
-     */
-    public function getCharSelectorAvailability(): int
-    {
-        return (int) $this->char_selector_availability;
-    }
-
-    /**
-     * @param string	definition of the special character selector
-     */
-    public function setCharSelectorDefinition($definition = '')
-    {
-        $this->char_selector_definition = $definition;
-    }
-
-    /**
-     * @return string	definition of the special character selector
-     */
-    public function getCharSelectorDefinition(): ?string
-    {
-        return $this->char_selector_definition;
-    }
-
 
     /**
      * setter for question set type
