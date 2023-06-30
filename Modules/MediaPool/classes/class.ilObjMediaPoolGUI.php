@@ -327,6 +327,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
+                $ilTabs->activateTab("perm_settings");
                 $this->ctrl->forwardCommand($perm_gui);
                 $this->tpl->printToStdout();
                 break;
