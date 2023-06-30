@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class MailData
+final class MailDeliveryData
 {
     public function __construct(
         private readonly string $to,
@@ -72,7 +72,7 @@ class MailData
         return $this->use_placeholder;
     }
 
-    public function withInternalMailId(int $internal_mail_id): MailData
+    public function withInternalMailId(int $internal_mail_id): MailDeliveryData
     {
         $clone = clone $this;
         $clone->internal_mail_id = $internal_mail_id;

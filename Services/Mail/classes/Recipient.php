@@ -18,17 +18,13 @@
 
 declare(strict_types=1);
 
-class Recipient
+final class Recipient
 {
-    protected int $user_id;
-    protected ?ilObjUser $user;
-    protected ilMailOptions $mail_options;
-
-    public function __construct(int $user_id, ?ilObjUser $user, ilMailOptions $mail_options)
-    {
-        $this->user_id = $user_id;
-        $this->user = $user;
-        $this->mail_options = $mail_options;
+    public function __construct(
+        private readonly int $user_id,
+        private readonly ?ilObjUser $user,
+        private readonly ilMailOptions $mail_options
+    ) {
     }
 
     public function getUserId(): int

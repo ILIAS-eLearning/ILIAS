@@ -70,7 +70,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 )
             );
 
-            $mail_data = new MailData(
+            $mail_data = new MailDeliveryData(
                 $recipients,
                 $recipientsCC,
                 $recipientsBCC,
