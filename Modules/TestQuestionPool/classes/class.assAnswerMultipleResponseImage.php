@@ -1,8 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php';
+include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * ASS_AnswerBinaryStateImage is a class for answers with a binary state
@@ -37,16 +37,17 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @param integer $order A nonnegative value representing a possible display or sort order
     * @param double $points_unchecked The points when the answer is not checked
     * @param string $a_image The image filename
+    * @param integer $id The database id of the answer
     * @access public
     */
     public function __construct(
-        $answertext = "",
+        $answertext = '',
         $points_checked = 0.0,
         $order = 0,
         $points_unchecked = 0,
-        $a_image = "",
+        $a_image = '',
         $id = -1
-  ) {
+    ) {
         parent::__construct($answertext, $points_checked, $order, $points_unchecked, $id);
         $this->image = $a_image;
     }

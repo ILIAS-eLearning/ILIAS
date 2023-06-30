@@ -13,7 +13,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
     /** @var string */
-    protected const ALLOWED_PAGE_HTML_TAGS = "<em>, <strong>";
+    protected const ALLOWED_PAGE_HTML_TAGS = '<em>, <strong>';
 
     protected $values = [];
     protected $allowMove = false;
@@ -29,12 +29,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     * @param	string	$a_title	Title
     * @param	string	$a_postvar	Post Variable
     */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct($a_title = '', $a_postvar = '')
     {
         parent::__construct($a_title, $a_postvar);
-        $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
+        $this->setSuffixes(['jpg', 'jpeg', 'png', 'gif']);
         $this->setSize('25');
-        $this->validationRegexp = "";
+        $this->validationRegexp = '';
     }
 
     /**
@@ -48,7 +48,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
+                    include_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
                     $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, $a_value['imagename'][$index], $a_value['answer_id'][$index]);
                     array_push($this->values, $answer);
                 }
