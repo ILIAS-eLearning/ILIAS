@@ -36,7 +36,6 @@ use ILIAS\HTTP\GlobalHttpState;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilLearningProgressGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
@@ -344,20 +343,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case strtolower(ilObjectCustomIconConfigurationGUI::class):
-                if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons', '0')) {
-                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-                }
-
-                $this->prepareOutput();
-                $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
-                $this->setSettingsSubTabs(self::UI_TAB_ID_ICON);
-
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-                $gui = new ilObjectCustomIconConfigurationGUI($this->dic, $this, $this->object);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case strtolower(ilObjectCopyGUI::class):
                 $this->tpl->loadStandardTemplate();
 
@@ -429,14 +414,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->lng->txt('settings'),
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_EDIT)
             );
-
-            if ($this->settings->get('custom_icons', '0')) {
-                $this->tabs_gui->addSubTab(
-                    self::UI_TAB_ID_ICON,
-                    $this->lng->txt('icon_settings'),
-                    $this->ctrl->getLinkTargetByClass(ilObjectCustomIconConfigurationGUI::class)
-                );
-            }
 
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_STYLE,
@@ -569,6 +546,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
+        $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->addIcon();
         $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
         $sh = new ilFormSectionHeaderGUI();
@@ -613,6 +591,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
+        $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
         $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
     }
 

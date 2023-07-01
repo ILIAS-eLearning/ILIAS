@@ -42,7 +42,6 @@ interface ilContentPageObjectConstants
     public const UI_TAB_ID_CONTENT = 'content';
     public const UI_TAB_ID_INFO = 'info_short';
     public const UI_TAB_ID_SETTINGS = 'settings';
-    public const UI_TAB_ID_ICON = 'icon';
     public const UI_TAB_ID_STYLE = 'style';
     public const UI_TAB_ID_I18N = 'i18n';
     public const UI_TAB_ID_LP = 'learning_progress';
