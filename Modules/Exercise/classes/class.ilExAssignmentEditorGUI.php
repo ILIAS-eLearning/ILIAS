@@ -577,6 +577,7 @@ class ilExAssignmentEditorGUI
         $r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
         $r_group->setRequired(true);
         $r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+        $r_group->setValue(0);
 
         switch ($a_reminder_type) {
             case ilExAssignmentReminder::SUBMIT_REMINDER:
@@ -596,6 +597,9 @@ class ilExAssignmentEditorGUI
         $templateService = $DIC['mail.texttemplates.service'];
         foreach ($templateService->loadTemplatesForContextId((string) $context->getId()) as $template) {
             $r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
+            if ($template->isDefault()) {
+                $r_group->setValue($template->getTplId());
+            }
         }
 
         return $r_group;
