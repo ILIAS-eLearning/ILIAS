@@ -1791,6 +1791,7 @@ class ilSurveyEvaluationGUI
         if ($filename == "") {
             $filename = $this->object->getTitle() . ".pdf";
         }
+        $filename = str_replace('/','_', $filename);
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
     }
