@@ -716,8 +716,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $ana->analyzeFile();
             $dur = $ana->getPlaytimeString();
             $dur = explode(":", $dur);
-            $duration["mm"] = $dur[0];
-            $duration["ss"] = $dur[1];
+            $cnt = count($dur);
+            $duration["hh"] = $dur[$cnt - 3] ?? 0;
+            $duration["mm"] = $dur[$cnt - 2] ?? 0;
+            $duration["ss"] = $dur[$cnt - 1];
         }
         $duration = str_pad($duration["hh"], 2, "0", STR_PAD_LEFT) . ":" .
                     str_pad($duration["mm"], 2, "0", STR_PAD_LEFT) . ":" .
