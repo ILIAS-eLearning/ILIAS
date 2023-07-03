@@ -783,8 +783,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         if (is_string(ilSession::get("qpl_import_dir")) && is_string(ilSession::get("qpl_import_subdir")) && is_file(
-                ilSession::get("qpl_import_dir") . '/' . ilSession::get("qpl_import_subdir") . "/manifest.xml"
-            )) {
+            ilSession::get("qpl_import_dir") . '/' . ilSession::get("qpl_import_subdir") . "/manifest.xml"
+        )) {
             ilSession::set("qpl_import_idents", $this->qplrequest->raw("ident"));
 
             $fileName = ilSession::get("qpl_import_subdir") . '.zip';
@@ -1413,7 +1413,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * form for new questionpool object import
     */
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if ($_REQUEST['new_type'] === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);

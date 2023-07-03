@@ -135,7 +135,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->tabs_gui->setTabActive('learning_progress');
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
@@ -229,11 +229,11 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->folder_tree = $a_tree;
     }
 
-    protected function importFileObject(?int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(?int $parent_id = null): void
     {
         $lng = $this->lng;
 
-        parent::importFileObject($parent_id, $catch_errors);
+        parent::importFileObject($parent_id);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);

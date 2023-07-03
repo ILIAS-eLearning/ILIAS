@@ -308,7 +308,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            // infoscreen
+                // infoscreen
             case 'ilinfoscreengui':
                 $this->addHeaderAction();
                 $this->addLocations(true);
@@ -925,7 +925,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         $tpl = $this->tpl;
 
@@ -933,7 +933,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         try {
             // the new import
-            parent::importFileObject(null, false);
+            parent::importFileObject(null);
             return;
         } catch (ilManifestFileNotFoundImportException $e) {
             // we just run through in this case.
