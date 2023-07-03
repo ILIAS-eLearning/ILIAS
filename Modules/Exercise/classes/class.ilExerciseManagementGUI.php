@@ -1348,7 +1348,7 @@ class ilExerciseManagementGUI
             }
 
             $data[-1][$user_id] = array(
-                "status" => $status[$user_id]
+                "status" => $status[$user_id] ?? null
             );
 
             if (isset($marks[$user_id])) {
