@@ -127,8 +127,9 @@ abstract class ilECSObjectSettings
     {
         $export_manager = ilECSExportManager::getInstance();
         $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
+        $obj_id = $this->content_obj->getId();
 
-        if (!$this->ecsIsActivatableForObject($export_manager, $exportable_participants)) {
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
             return false;
         }
 
@@ -143,7 +144,7 @@ abstract class ilECSObjectSettings
         // release or not
         $exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_' . $a_type . '_export_obj_settings'), 'ecs_export');
         $exp->setRequired(true);
-        $exp->setValue($exportManager->_isExported($obj_id) ? "1" : "0");
+        $exp->setValue($export_manager->_isExported($obj_id) ? "1" : "0");
         $off = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_disabled'), "0");
         $exp->addOption($off);
         $on = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_enabled'), "1");
@@ -158,7 +159,7 @@ abstract class ilECSObjectSettings
 
         // Read receivers
         $receivers = array();
-        foreach ($exportManager->getExportServerIds($obj_id) as $sid) {
+        foreach ($export_manager->getExportServerIds($obj_id) as $sid) {
             $exp = new ilECSExport($sid, $obj_id);
 
             $participants = null;
@@ -178,7 +179,7 @@ abstract class ilECSObjectSettings
         }
         $publish_for->setValue($receivers);
 
-        foreach ($exportableParticipants as $pInfo) {
+        foreach ($exportable_participants as $pInfo) {
             $partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
 
             $com = new ilCheckboxOption(
@@ -200,7 +201,7 @@ abstract class ilECSObjectSettings
         $export_manager = ilECSExportManager::getInstance();
         $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($type);
 
-        if (!$this->ecsIsActivatableForObject($export_manager, $exportable_participants)) {
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
             return null;
         }
 
@@ -231,7 +232,7 @@ abstract class ilECSObjectSettings
             ->withAdditionalTransformation($trafo);
     }
 
-    protected function ecsIsActivatableForObject(
+    protected function ecsCanBeActivatedForObject(
         ilECSExportManager $export_manager,
         array $exportable_participants
     ): bool {
