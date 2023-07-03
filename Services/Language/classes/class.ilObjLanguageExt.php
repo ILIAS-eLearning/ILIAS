@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 require_once "./Services/Language/classes/class.ilObjLanguage.php";
 
@@ -443,7 +442,7 @@ class ilObjLanguageExt extends ilObjLanguage
                     $a_lang_key,
                     $value,
                     $local_change,
-                    $a_remarks[$key]
+                    $a_remarks[$key] ?? null
                 );
             }
         }
