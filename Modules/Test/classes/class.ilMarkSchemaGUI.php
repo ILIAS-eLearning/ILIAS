@@ -87,13 +87,17 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        $this->saveMarkSchemaFormData();
-        $this->object->getMarkSchema()->addMarkStep();
+        if ($this->saveMarkSchemaFormData()) {
+            $this->object->getMarkSchema()->addMarkStep();
+        } else {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mark_schema_invalid'), true);
+        }
         $this->showMarkSchema();
     }
 
-    protected function saveMarkSchemaFormData(): void
+    protected function saveMarkSchemaFormData(): bool
     {
+        $no_save_error = true;
         $this->object->getMarkSchema()->flush();
         $postdata = $this->request->getParsedBody();
         foreach ($postdata as $key => $value) {
@@ -106,14 +110,22 @@ class ilMarkSchemaGUI
                 //replace , with . for float values
                 $value = str_replace(',', '.', $value);
 
+                $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
+                if (!is_numeric($percentage)) {
+                    $percentage = 0;
+                    $no_save_error = false;
+                }
+
                 $this->object->getMarkSchema()->addMarkStep(
                     ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
                     ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
-                    str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"])),
-                    ilUtil::stripSlashes($passed)
+                    (float) $percentage,
+                    (int) ilUtil::stripSlashes($passed)
                 );
             }
         }
+
+        return $no_save_error;
     }
 
     protected function addSimpleMarkSchema(): void
@@ -183,11 +195,10 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        try {
-            $this->saveMarkSchemaFormData();
+        if ($this->saveMarkSchemaFormData()) {
             $result = $this->object->checkMarks();
-        } catch (Exception $e) {
-            $result = $this->lng->txt('mark_schema_invalid');
+        } else {
+            $result = 'mark_schema_invalid';
         }
 
         if (is_string($result)) {
@@ -196,9 +207,11 @@ class ilMarkSchemaGUI
             $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
             $this->object->onMarkSchemaSaved();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->object->getMarkSchema()->flush();
+            $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
         }
 
-        $this->ctrl->redirect($this);
+        $this->showMarkSchema();
     }
 
     private function objectSupportsEctsGrades(): bool
