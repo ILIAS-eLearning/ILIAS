@@ -48,6 +48,7 @@ class ilObjGroupGUI extends ilContainerGUI
     private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
+    protected ilNewsService $news;
 
     /**
      * @inheritDoc
@@ -64,6 +65,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->news = $DIC->news();
     }
 
     protected function initRefIdFromQuery(): int
@@ -669,17 +671,7 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                    ilObjectServiceSettingsGUI::USE_NEWS,
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                    ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                    ilObjectServiceSettingsGUI::TAG_CLOUD,
-                    ilObjectServiceSettingsGUI::BADGES,
-                    ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                )
+                $this->getSubServices()
             );
 
             // Save sorting
@@ -736,6 +728,25 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, 'edit');
         }
+    }
+
+    protected function getSubServices() : array
+    {
+        $subs = array(
+            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+            ilObjectServiceSettingsGUI::TAG_CLOUD,
+            ilObjectServiceSettingsGUI::BADGES,
+            ilObjectServiceSettingsGUI::SKILLS,
+            ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+            ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
+        );
+        if ($this->news->isGloballyActivated()) {
+            $subs[] = ilObjectServiceSettingsGUI::USE_NEWS;
+        }
+
+        return $subs;
     }
 
     /**
@@ -1707,18 +1718,8 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::initServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                        ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                        ilObjectServiceSettingsGUI::USE_NEWS,
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                        ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                        ilObjectServiceSettingsGUI::TAG_CLOUD,
-                        ilObjectServiceSettingsGUI::BADGES,
-                        ilObjectServiceSettingsGUI::SKILLS,
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                        ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                    )
-            );
+                $this->getSubServices()
+                );
 
 
             $mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'), 'show_members');
