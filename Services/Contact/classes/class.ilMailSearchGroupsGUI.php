@@ -64,6 +64,8 @@ class ilMailSearchGroupsGUI
      * @var ilFormatMail
      */
     protected $umail;
+    /** @var ILIAS\Refinery\Factory */
+    protected $rerfinery;
 
     /**
      * @var bool
@@ -83,6 +85,7 @@ class ilMailSearchGroupsGUI
         $this->rbacreview = $DIC['rbacreview'];
         $this->tree = $DIC['tree'];
         $this->cache = $DIC['ilObjDataCache'];
+        $this->refinery = $DIC->refinery();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -96,6 +99,22 @@ class ilMailSearchGroupsGUI
         $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         $this->umail = new ilFormatMail($this->user->getId());
+    }
+
+    private function getContext() : string
+    {
+        $context = 'mail';
+        if (isset($_GET['ref'])) {
+            $always = $context;
+            $context = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->custom()->transformation(static function ($value) use ($always) {
+                    return $always;
+                }),
+            ])->transform($_GET['ref']);
+        }
+
+        return $context;
     }
 
     public function executeCommand()
@@ -289,7 +308,7 @@ class ilMailSearchGroupsGUI
         $this->ctrl->setParameter($this, 'view', 'mygroups');
         
         include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $_GET["ref"]);
+        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $this->getContext());
         $table->setId('search_grps_tbl');
         $grp_ids = ilGroupParticipants::_getMembershipByType($this->user->getId(), 'grp');
         

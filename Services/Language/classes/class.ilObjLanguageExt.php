@@ -446,7 +446,7 @@ class ilObjLanguageExt extends ilObjLanguage
                     $a_lang_key,
                     $value,
                     $local_change,
-                    $a_remarks[$key]
+                    $a_remarks[$key] ?? null
                 );
             }
         }
