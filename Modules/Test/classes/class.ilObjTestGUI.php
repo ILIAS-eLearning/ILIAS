@@ -1055,7 +1055,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     /**
     * form for new test object import
     */
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
             $this->error->raiseError($this->lng->txt("no_create_permission"));

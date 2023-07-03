@@ -1094,7 +1094,7 @@ class ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if (!$parent_id) {
             $parent_id = $this->requested_ref_id;
@@ -1146,13 +1146,8 @@ class ilObjectGUI
                     );
                 }
             } catch (ilException $e) {
-                if (DEVMODE) {
-                    throw $e;
-                }
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
-                if (!$catch_errors) {
-                    throw $e;
-                }
+
                 // display message and form again
                 $this->tpl->setOnScreenMessage(
                     "failure",
