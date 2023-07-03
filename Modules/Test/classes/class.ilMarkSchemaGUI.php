@@ -78,13 +78,17 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        $this->saveMarkSchemaFormData();
-        $this->object->getMarkSchema()->addMarkStep();
+        if ($this->saveMarkSchemaFormData()) {
+            $this->object->getMarkSchema()->addMarkStep();
+        } else {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mark_schema_invalid'), true);
+        }
         $this->showMarkSchema();
     }
 
-    protected function saveMarkSchemaFormData(): void
+    protected function saveMarkSchemaFormData(): bool
     {
+        $no_save_error = true;
         $this->object->getMarkSchema()->flush();
         $postdata = $this->testrequest->getParsedBody();
         foreach ($postdata as $key => $value) {
@@ -99,7 +103,8 @@ class ilMarkSchemaGUI
 
                 $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
                 if (!is_numeric($percentage)) {
-                    throw new ilException('mark_percentage_invalid');
+                    $percentage = 0;
+                    $no_save_error = false;
                 }
 
                 $this->object->getMarkSchema()->addMarkStep(
@@ -110,6 +115,8 @@ class ilMarkSchemaGUI
                 );
             }
         }
+
+        return $no_save_error;
     }
 
     protected function addSimpleMarkSchema(): void
@@ -160,10 +167,9 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        try {
-            $this->saveMarkSchemaFormData();
+        if ($this->saveMarkSchemaFormData()) {
             $result = $this->object->checkMarks();
-        } catch (Exception $e) {
+        } else {
             $result = 'mark_schema_invalid';
         }
 
@@ -173,10 +179,10 @@ class ilMarkSchemaGUI
             $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
             $this->object->onMarkSchemaSaved();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->object->getMarkSchema()->flush();
+            $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
         }
 
-        $this->object->getMarkSchema()->flush();
-        $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
         $this->showMarkSchema();
     }
 

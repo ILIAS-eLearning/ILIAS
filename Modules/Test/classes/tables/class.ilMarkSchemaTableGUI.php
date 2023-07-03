@@ -24,8 +24,6 @@
 class ilMarkSchemaTableGUI extends ilTable2GUI
 {
     private ?ilMarkSchemaAware $object;
-    private ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
-    private ILIAS\Refinery\Factory $refinery;
 
     protected bool $is_editable = true;
 
@@ -39,9 +37,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->refinery = $DIC->refinery();
-
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -82,29 +77,17 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
     {
         $this->object->getMarkSchema()->sort();
 
-        $data = array();
+        $data = [];
 
         $marks = $this->object->getMarkSchema()->getMarkSteps();
         foreach ($marks as $key => $value) {
-            $precentage = $this->post_wrapper->has('mark_percentage_' . $key) ?
-                $this->post_wrapper->retrieve('mark_percentage_' . $key, $this->refinery->kindlyTo()->string()) :
-                $value->getMinimumLevel();
-            if (!is_numeric($precentage)) {
-                $precentage = 0;
-            }
-            $data[] = array(
+            $data[] = [
                 'mark_id' => $key,
-                'mark_short' => $this->post_wrapper->has('mark_short_' . $key) ?
-                    $this->post_wrapper->retrieve('mark_short_' . $key, $this->refinery->kindlyTo()->string()) :
-                    $value->getShortName(),
-                'mark_official' => $this->post_wrapper->has('mark_official_' . $key) ?
-                    $this->post_wrapper->retrieve('mark_official_' . $key, $this->refinery->kindlyTo()->string()) :
-                    $value->getOfficialName(),
-                'mark_percentage' => $precentage,
-                'mark_passed' => $this->post_wrapper->has('passed_' . $key) ?
-                    $this->post_wrapper->retrieve('passed_' . $key, $this->refinery->kindlyTo()->int()) :
-                    $value->getPassed()
-            );
+                'mark_short' => $value->getShortName(),
+                'mark_official' => $value->getOfficialName(),
+                'mark_percentage' => $value->getMinimumLevel(),
+                'mark_passed' => $value->getPassed()
+            ];
         }
 
         $this->setData($data);
