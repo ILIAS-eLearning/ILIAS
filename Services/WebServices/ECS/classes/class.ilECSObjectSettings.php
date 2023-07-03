@@ -13,9 +13,15 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 /**
 * Handles object exports to ECS
@@ -119,31 +125,12 @@ abstract class ilECSObjectSettings
      */
     public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type): bool
     {
-        $this->logger->debug('Show ecs settings.');
-        if (!$this->isActive()) {
-            $this->logger->debug('Object type is not active. => no settings.');
-            return false;
-        }
-
+        $export_manager = ilECSExportManager::getInstance();
+        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
         $obj_id = $this->content_obj->getId();
 
-        // Return if no participant is enabled for export and the current object is not released
-        if (!$this->getContentObject()->withReferences()) {
-            $this->logger->debug('Called withot references. => no settings.');
-            return true;
-        }
-        $exportManager = ilECSExportManager::getInstance();
-        $exportableParticipants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
-        if (!$exportableParticipants && !$exportManager->_isExported($obj_id)) {
-            $this->logger->debug('Object type is not exportable. => no settings.');
-            return true;
-        }
-        if (
-            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'crs', false) ||
-            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'grp', false)
-        ) {
-            $this->logger->debug('Parent crs/grp in path. => no settings.');
-            return true;
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
+            return false;
         }
 
         $this->lng->loadLanguageModule('ecs');
@@ -157,7 +144,7 @@ abstract class ilECSObjectSettings
         // release or not
         $exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_' . $a_type . '_export_obj_settings'), 'ecs_export');
         $exp->setRequired(true);
-        $exp->setValue($exportManager->_isExported($obj_id) ? "1" : "0");
+        $exp->setValue($export_manager->_isExported($obj_id) ? "1" : "0");
         $off = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_disabled'), "0");
         $exp->addOption($off);
         $on = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_enabled'), "1");
@@ -172,7 +159,7 @@ abstract class ilECSObjectSettings
 
         // Read receivers
         $receivers = array();
-        foreach ($exportManager->getExportServerIds($obj_id) as $sid) {
+        foreach ($export_manager->getExportServerIds($obj_id) as $sid) {
             $exp = new ilECSExport($sid, $obj_id);
 
             $participants = null;
@@ -192,7 +179,7 @@ abstract class ilECSObjectSettings
         }
         $publish_for->setValue($receivers);
 
-        foreach ($exportableParticipants as $pInfo) {
+        foreach ($exportable_participants as $pInfo) {
             $partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
 
             $com = new ilCheckboxOption(
@@ -206,6 +193,139 @@ abstract class ilECSObjectSettings
         return true;
     }
 
+    public function getSettingsSection(
+        FieldFactory $field_factory,
+        Refinery $refinery
+    ): ?Section {
+        $type = $this->content_obj->getType();
+        $export_manager = ilECSExportManager::getInstance();
+        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($type);
+
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
+            return null;
+        }
+
+        $this->lng->loadLanguageModule('ecs');
+        $trafo = $this->getTrafoForECSExportSection($refinery);
+
+        $potential_receivers = [];
+
+        foreach ($exportable_participants as $participant) {
+            $participant_setting = new ilECSParticipantSetting($participant['sid'], $participant['mid']);
+            $potential_receivers[$participant['sid'] . '_' . $participant['mid']] = $field_factory->checkbox(
+                $participant_setting->getCommunityName() . ': ' . $participant_setting->getTitle()
+            );
+        }
+
+        $value = $this->getValueForECSExportOptionalGroup(
+            $export_manager,
+            array_keys($potential_receivers)
+        );
+
+        $inputs['ecs_export'] = $field_factory->optionalGroup(
+            $potential_receivers,
+            $this->lng->txt('ecs_' . $type . '_export_obj_settings')
+        )
+            ->withValue($value);
+
+        return $field_factory->section($inputs, $this->lng->txt('ecs_' . $type . '_export'))
+            ->withAdditionalTransformation($trafo);
+    }
+
+    protected function ecsCanBeActivatedForObject(
+        ilECSExportManager $export_manager,
+        array $exportable_participants
+    ): bool {
+        $this->logger->debug('Show ecs settings.');
+        if (!$this->isActive()) {
+            $this->logger->debug('Object type is not active. => no settings.');
+            return false;
+        }
+
+        $obj_id = $this->content_obj->getId();
+
+        // Return if no participant is enabled for export and the current object is not released
+        if (!$this->getContentObject()->withReferences()) {
+            $this->logger->debug('Called without references. => no settings.');
+            return false;
+        }
+
+        if (!$exportable_participants && !$export_manager->_isExported($obj_id)) {
+            $this->logger->debug('Object type is not exportable. => no settings.');
+            return false;
+        }
+        if (
+            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'crs', false) ||
+            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'grp', false)
+        ) {
+            $this->logger->debug('Parent crs/grp in path. => no settings.');
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getTrafoForECSExportSection(Refinery $refinery): Transformation
+    {
+        return $refinery->custom()->transformation(
+            function (?array $vs): array {
+                if ($vs['ecs_export'] === null) {
+                    return [
+                        'is_exported' => false
+                    ];
+                }
+
+                return [
+                    'is_exported' => true,
+                    'values' => array_keys($vs['ecs_export'])
+                ];
+            }
+        );
+    }
+
+    protected function getValueForECSExportOptionalGroup(
+        ilECSExportManager $export_manager,
+        array $potential_receivers
+    ): ?array {
+        $obj_id = $this->content_obj->getId();
+        $active_receivers = null;
+        foreach ($export_manager->getExportServerIds($obj_id) as $sid) {
+            $exp = new ilECSExport($sid, $obj_id);
+
+            $participants = null;
+            $details = ilECSEContentDetails::getInstanceFromServer(
+                $sid,
+                $exp->getEContentId(),
+                $this->getECSObjectType()
+            );
+            if ($details instanceof ilECSEContentDetails) {
+                $participants = $details->getReceivers();
+            }
+            if ($participants === null) {
+                continue;
+            }
+            foreach ($participants as $mid) {
+                $active_receivers[$sid . '_' . $mid] = true;
+            }
+        }
+
+        if ($active_receivers === null) {
+            return null;
+        }
+
+        $missing_keys = (array_diff($potential_receivers, array_keys($active_receivers)));
+        foreach ($missing_keys as $key) {
+            $active_receivers[$key] = false;
+        }
+
+        return $active_receivers;
+    }
+
+    public function saveSettingsSection(array $section): bool
+    {
+        return $this->handleSettings($section['is_exported'], $section['values']);
+    }
+
     /**
      * Update ECS Export Settings
      *
@@ -216,13 +336,23 @@ abstract class ilECSObjectSettings
      */
     public function handleSettingsUpdate(): bool
     {
+        $ecs_export = (bool) $_POST['ecs_export'];
+        $selected_receivers = (array) $_POST['ecs_sid'];
+        return $this->handleSettings($ecs_export, $selected_receivers);
+    }
+
+
+    protected function handleSettings(
+        bool $ecs_export,
+        array $selected_receivers
+    ): bool {
         if (!$this->isActive()) {
             return true;
         }
 
         // Parse post data
         $mids = array();
-        foreach ((array) $_POST['ecs_sid'] as $sid_mid) {
+        foreach ((array) $selected_receivers as $sid_mid) {
             $tmp = explode('_', $sid_mid);
             $mids[$tmp[0]][] = $tmp[1];
         }
@@ -234,7 +364,7 @@ abstract class ilECSObjectSettings
                 if ($server->isEnabled()) {
                     // Export
                     $export = true;
-                    if (!$_POST['ecs_export']) {
+                    if (!$ecs_export) {
                         $export = false;
                     }
                     if (
