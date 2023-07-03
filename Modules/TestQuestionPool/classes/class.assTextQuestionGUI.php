@@ -22,6 +22,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    protected bool $tiny_mce_enabled;
     /**
      * assTextQuestionGUI constructor
      *
@@ -31,6 +32,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function __construct($id = -1)
     {
+        $this->tiny_mce_enabled = (new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor')
+            === 'tinymce' ? true : false;
         parent::__construct();
         include_once "./Modules/TestQuestionPool/classes/class.assTextQuestion.php";
         $this->object = new assTextQuestion();
@@ -400,6 +403,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $user_solution = $solution_value["value1"];
             }
         }
+        if ($this->tiny_mce_enabled) {
+            $user_solution = htmlentities($user_solution);
+        }
 
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -427,7 +433,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         $template->setVariable("QID", $this->object->getId());
-        $template->setVariable("ESSAY", ilUtil::prepareFormOutput(html_entity_decode($user_solution)));
+        $template->setVariable("ESSAY", $user_solution);
         $questiontext = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
