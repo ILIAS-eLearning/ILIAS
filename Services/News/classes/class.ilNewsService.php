@@ -64,4 +64,10 @@ class ilNewsService
         $obj_type = $this->_deps->obj()->getTypeForObjId($obj_id);
         return new ilNewsContext($obj_id, $obj_type, $subid, $subtype);
     }
+
+    public function isGloballyActivated(): bool
+    {
+        return (bool) $this->_deps->settings()->get("block_activated_news");
+    }
+
 }
