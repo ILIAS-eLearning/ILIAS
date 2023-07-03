@@ -22,7 +22,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    protected bool $tiny_mce_enabled;
+    protected $tiny_mce_enabled;
     /**
      * assTextQuestionGUI constructor
      *
