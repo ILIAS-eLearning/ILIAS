@@ -1,7 +1,7 @@
 # User Data
 ## Access Data of the User Currently Logged in
 
-An instance of class `ilObjUser` for the user currently logged in ILIAS is available in the global variable `$ilUser`. You can use the public methods of this class to access the data of the current user (see `Services/User/classes/class.ilObjUser.php`):
+An instance of class `ilObjUser` for the user currently logged in ILIAS is available through the DI-Container. You can use the public methods of this class to access the data of the current user (see `Services/User/classes/class.ilObjUser.php`):
 
 ```php
 function foo()
@@ -25,8 +25,6 @@ The class `ilUserUtil` provides a static method called `getNamePresentation(...)
 - Optionally a link to the public profile of the user can be included
 
 ```php
-// embed user name in GUI
-include_once("./Services/User/classes/class.ilUserUtil.php");
 $this->tpl->setVariable("TXT_USER",
 	ilUserUtil::getNamePresentation($user_id, true, true, $back_link));
 ```

@@ -15,7 +15,7 @@ All objects within the ILIAS repository are protected by the role-based access c
 
 ### How to check the access permission of a user
 
-The access checking is provided by the class `ilAccessHandler`. An instance of this class is globally available with the variable `$ilAccess`. The most important method of this class is:
+The access checking is provided by the class `ilAccessHandler`. An instance of this class is globally available through the DI-Container. The most important method of this class is:
 
 ```php
 checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "")
