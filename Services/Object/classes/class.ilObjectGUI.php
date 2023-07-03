@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\Object\CreationCallbackTrait;
 
 /**
 * Class ilObjectGUI
@@ -1096,26 +1098,7 @@ class ilObjectGUI
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
 
         // use forced callback after object creation
-        $this->callCreationCallback($a_obj);
-    }
-
-    public function callCreationCallback(ilObject $a_obj) : void
-    {
-        $objDefinition = $this->objDefinition;
-        // use forced callback after object creation
-        if ($_REQUEST["crtcb"]) {
-            $callback_type = ilObject::_lookupType((int) $_REQUEST["crtcb"], true);
-            $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            $location = $objDefinition->getLocation($callback_type);
-            include_once($location . "/class." . $class_name . ".php");
-            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
-                $callback_obj = new $class_name((int) $_REQUEST["crtcb"]);
-            } else {
-                // #10368
-                $callback_obj = new $class_name(null, (int) $_REQUEST["crtcb"], true, false);
-            }
-            $callback_obj->afterSaveCallback($a_obj);
-        }
+        $this->callCreationCallback($obj, $this->obj_definition, $this->requested_crtcb);
     }
 
     /**
@@ -1447,7 +1430,7 @@ class ilObjectGUI
                     if (count($ref_ids) === 1) {
                         $newObj->setRefId((int) current($ref_ids));
                     }
-                    $this->callCreationCallback($newObj);   // see #24244
+                    $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);   // see #24244
                 }
 
                 $this->afterImport($newObj);
