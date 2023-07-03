@@ -81,4 +81,9 @@ class Service
         $obj_type = $this->obj_adapter->getTypeForObjId($obj_id);
         return new \ilNewsContext($obj_id, $obj_type, $subid, $subtype);
     }
+
+    public function isGloballyActivated(): bool
+    {
+        return (bool) $this->DIC->settings()->get("block_activated_news");
+    }
 }
