@@ -41,7 +41,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-        
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -88,17 +87,17 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
     {
         $this->object->getMarkSchema()->sort();
 
-        $data = array();
+        $data = [];
 
         $marks = $this->object->getMarkSchema()->getMarkSteps();
         foreach ($marks as $key => $value) {
-            $data[] = array(
+            $data[] = [
                 'mark_id' => $key,
                 'mark_short' => $value->getShortName(),
                 'mark_official' => $value->getOfficialName(),
                 'mark_percentage' => $value->getMinimumLevel(),
-                'mark_passed' => $value->getPassed() ? 1 : 0
-            );
+                'mark_passed' => $value->getPassed()
+            ];
         }
 
         $this->setData($data);
