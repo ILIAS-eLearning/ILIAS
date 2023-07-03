@@ -69,6 +69,8 @@ class ilMailSearchCoursesGUI
      * @var bool
      */
     protected $mailing_allowed;
+    /** @var ILIAS\Refinery\Factory */
+    protected $rerfinery;
 
     public function __construct($wsp_access_handler = null, $wsp_node_id = null)
     {
@@ -83,6 +85,7 @@ class ilMailSearchCoursesGUI
         $this->rbacreview = $DIC['rbacreview'];
         $this->tree = $DIC['tree'];
         $this->cache = $DIC['ilObjDataCache'];
+        $this->refinery = $DIC->refinery();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -97,6 +100,22 @@ class ilMailSearchCoursesGUI
         $this->ctrl->saveParameter($this, "ref");
 
         $this->umail = new ilFormatMail($this->user->getId());
+    }
+
+    private function getContext() : string
+    {
+        $context = 'mail';
+        if (isset($_GET['ref'])) {
+            $always = $context;
+            $context = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->custom()->transformation(static function ($value) use ($always) {
+                    return $always;
+                }),
+            ])->transform($_GET['ref']);
+        }
+
+        return $context;
     }
 
     public function executeCommand()
@@ -293,7 +312,7 @@ class ilMailSearchCoursesGUI
         $this->lng->loadLanguageModule('crs');
 
         include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-        $table = new ilMailSearchCoursesTableGUI($this, "crs", $_GET["ref"]);
+        $table = new ilMailSearchCoursesTableGUI($this, "crs", $this->getContext());
         $table->setId('search_crs_tbl');
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         $crs_ids = ilCourseParticipants::_getMembershipByType($this->user->getId(), 'crs');
