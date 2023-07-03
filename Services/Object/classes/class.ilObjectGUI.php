@@ -291,10 +291,10 @@ class ilObjectGUI
                 $class_path = $this->ctrl->lookupClassPath($class);
                 $class_name = $this->ctrl->getClassForClasspath($class_path);
 
-//                $parent_gui_obj = new $class_name($this->requested_ref_id, true, false); // TODO: this fails in many cases since the parameters of the constructor are not known
+                //                $parent_gui_obj = new $class_name($this->requested_ref_id, true, false); // TODO: this fails in many cases since the parameters of the constructor are not known
                 // the next line prevents the header action menu being shown
-//                $parent_gui_obj->setCreationMode(true);
-//                $parent_gui_obj->setTitleAndDescription();
+                //                $parent_gui_obj->setCreationMode(true);
+                //                $parent_gui_obj->setTitleAndDescription();
             }
         } else {
             $this->setTitleAndDescription();
@@ -1102,7 +1102,7 @@ class ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if (!$parent_id) {
             $parent_id = $this->requested_ref_id;
@@ -1154,13 +1154,8 @@ class ilObjectGUI
                     );
                 }
             } catch (ilException $e) {
-                if (DEVMODE) {
-                    throw $e;
-                }
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
-                if (!$catch_errors) {
-                    throw $e;
-                }
+
                 // display message and form again
                 $this->tpl->setOnScreenMessage(
                     "failure",
