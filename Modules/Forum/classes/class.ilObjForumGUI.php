@@ -874,7 +874,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD', $this->lng->txt('forums_attachments'));
                 $tpl->setVariable(
                     'DOWNLOAD_IMG',
-                    ilGlyphGUI::get(ilGlyphGUI::ATTACHMENT, $this->lng->txt('forums_download_attachment'))
+                    $this->uiRenderer->render(
+                        $this->uiFactory->symbol()->glyph()->attachment($this->lng->txt('forums_download_attachment'))
+                    )
                 );
                 if (count($filesOfDraft) > 1) {
                     $download_zip_button = ilLinkButton::getInstance();
@@ -1063,7 +1065,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD', $this->lng->txt('forums_attachments'));
             $tpl->setVariable(
                 'DOWNLOAD_IMG',
-                ilGlyphGUI::get(ilGlyphGUI::ATTACHMENT, $this->lng->txt('forums_download_attachment'))
+                $this->uiRenderer->render(
+                    $this->uiFactory->symbol()->glyph()->attachment($this->lng->txt('forums_download_attachment'))
+                )
             );
             if (count($filesOfPost) > 1) {
                 $download_zip_button = ilLinkButton::getInstance();
