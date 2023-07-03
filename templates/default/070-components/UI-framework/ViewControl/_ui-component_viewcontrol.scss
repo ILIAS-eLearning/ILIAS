@@ -6,7 +6,6 @@
 //== View Control
 //
 //##
-$il-vc-glyph-padding-vertical: $il-padding-base-vertical+2;
 $il-vc-glyph-padding-horizontal: $il-padding-base-horizontal;
 $il-vc-glyph-hover-bg: lighten($il-main-color, 5%);
 $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
@@ -61,6 +60,35 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	.btn-default.btn {
 		@extend .btn-ctrl;
 		border-radius: $il-border-radius-secondary-large;
+	}
+}
+
+// centering browse next/previous arrows
+.il-viewcontrol-pagination__sectioncontrol,
+.il-viewcontrol-pagination,
+.il-viewcontrol-section {
+	.browse {
+		display: inline-block;
+	}
+}
+.il-viewcontrol-section {
+	.glyphicon {
+		vertical-align: middle;
+		&::before {
+			top: 0;
+			vertical-align: middle;
+		}
+	}
+}
+.il-viewcontrol-pagination {
+	.glyph {
+		.glyphicon {
+			vertical-align: middle;
+			&::before {
+				top: 0;
+				vertical-align: middle;
+			}
+		}
 	}
 }
 
