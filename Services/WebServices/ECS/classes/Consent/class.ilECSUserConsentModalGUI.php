@@ -321,6 +321,9 @@ class ilECSUserConsentModalGUI
     protected function getOrganisation(): ?ilECSOrganisation
     {
         $server_id = $this->importManager->lookupServerId($this->obj_id);
+        if (0 === $server_id) {
+            return null;
+        }
         $community_reader = ilECSCommunityReader::getInstanceByServerId(
             $server_id
         );
