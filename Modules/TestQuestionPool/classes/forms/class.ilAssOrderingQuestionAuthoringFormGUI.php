@@ -13,9 +13,11 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
     const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
 
     protected $availableCommandButtonIds = null;
-    
+
     public function __construct()
     {
+        global $DIC;
+        $tpl = $DIC->ui()->mainTemplate();
         $this->setAvailableCommandButtonIds(
             [
                 $this->buildCommandButtonId(assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS),
@@ -23,21 +25,30 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             ]
         );
         parent::__construct();
-        global $DIC;
-        $tpl = $DIC->ui()->mainTemplate();
-        $tpl->addJavascript('Modules/TestQuestionPool/templates/default/preventEnterSubmitOnSwitchButton.js');
+        $tpl->addOnloadCode("
+            let form = document.getElementById('form_ordering');
+            let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
     }
-    
+
     protected function setAvailableCommandButtonIds($availableCommandButtonIds)
     {
         $this->availableCommandButtonIds = $availableCommandButtonIds;
     }
-    
+
     protected function getAvailableCommandButtonIds()
     {
         return $this->availableCommandButtonIds;
     }
-    
+
     public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ)
     {
         if ($questionOBJ->isImageOrderingType()) {
@@ -51,7 +62,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         $id = $this->buildCommandButtonId($cmd);
         $this->addCommandButton($cmd, $label, $id);
     }
-    
+
     /**
      * @return ilIdentifiedMultiValuesInputGUI
      */
@@ -61,18 +72,18 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
         );
     }
-    
+
     public function prepareValuesReprintable(assOrderingQuestion $questionOBJ)
     {
         $this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
     }
-    
+
     public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ)
     {
         $this->renewOrderingElementInput($questionOBJ);
         $this->renewOrderingCommandButtons($questionOBJ);
     }
-    
+
     /**
      * @param assOrderingQuestion $questionOBJ
      * @throws ilTestQuestionPoolException
