@@ -1488,8 +1488,7 @@ class ilObjTestGUI extends ilObjectGUI
             $newObj->saveToDb();
 
             // import page data
-            include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
-            $contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
+            $contParser = new ilQuestionPageParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
             $contParser->setQuestionMapping($qtiParser->getImportMapping());
             $contParser->startParsing();
 

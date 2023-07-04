@@ -16,7 +16,7 @@ class ilTestImporter extends ilXmlImporter
      * @var array
      */
     public static $finallyProcessedTestsRegistry = array();
-    
+
     /**
      * Import XML
      *
@@ -39,7 +39,7 @@ class ilTestImporter extends ilXmlImporter
             // single object
             $new_id = $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            
+
             if (isset($_SESSION['tst_import_qst_parent'])) {
                 $questionParentObjId = $_SESSION['tst_import_qst_parent'];
             } else {
@@ -50,7 +50,7 @@ class ilTestImporter extends ilXmlImporter
         $newObj->loadFromDb();
 
         list($xml_file, $qti_file) = $this->parseXmlFileNames();
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if (!@file_exists($xml_file)) {
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
@@ -60,14 +60,14 @@ class ilTestImporter extends ilXmlImporter
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $qti_file);
             return false;
         }
-        
+
         /* @var ilObjTest $newObj */
-        
+
         // FIXME: Copied from ilObjTestGUI::importVerifiedFileObject
         // TODO: move all logic to ilObjTest::importVerifiedFile and call
         // this method from ilObjTestGUI and ilTestImporter
         $newObj->mark_schema->flush();
-        
+
 
         if (isset($_SESSION['tst_import_idents'])) {
             $idents = $_SESSION['tst_import_idents'];
@@ -82,8 +82,7 @@ class ilTestImporter extends ilXmlImporter
         $result = $qtiParser->startParsing();
 
         // import page data
-        include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
-        $contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
+        $contParser = new ilQuestionPageParser($newObj, $xml_file, basename($this->getImportDirectory()));
         $contParser->setQuestionMapping($qtiParser->getImportMapping());
         $contParser->startParsing();
 
@@ -109,7 +108,7 @@ class ilTestImporter extends ilXmlImporter
                 $newQuestionId
             );
         }
-        
+
         if ($newObj->isRandomTest()) {
             $newObj->questions = array();
             $this->importRandomQuestionSetConfig($newObj, $xml_file, $a_mapping);
@@ -123,14 +122,14 @@ class ilTestImporter extends ilXmlImporter
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
             $results->startParsing();
         }
-        
+
         $newObj->saveToDb(); // this creates test_fi
         $newObj->update(); // this saves ilObject data
-        
+
         // import skill assignments
         $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $newObj, $xml_file);
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
-            
+
         $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
         ilObjTest::_setImportDirectory();
@@ -145,12 +144,12 @@ class ilTestImporter extends ilXmlImporter
     public function finalProcessing($a_mapping)
     {
         $maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
-        
+
         foreach ($maps as $old => $new) {
             if ($old == "new_id" || (int) $old <= 0) {
                 continue;
             }
-            
+
             if (isset(self::$finallyProcessedTestsRegistry[$new])) {
                 continue;
             }
@@ -160,26 +159,26 @@ class ilTestImporter extends ilXmlImporter
             if ($testOBJ->isRandomTest()) {
                 $this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new, $testOBJ);
             }
-            
+
             self::$finallyProcessedTestsRegistry[$new] = true;
         }
     }
-    
+
     protected function finalRandomTestTaxonomyProcessing(ilImportMapping $mapping, $oldTstObjId, $newTstObjId, ilObjTest $testOBJ)
     {
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-        
+
         // get all new taxonomies of this object and store usage for test object
-        
+
         $new_tax_ids = $mapping->getMapping(
             'Services/Taxonomy',
             'tax_usage_of_obj',
             $oldTstObjId
         );
-        
+
         if ($new_tax_ids !== false) {
             $tax_ids = explode(":", $new_tax_ids);
-            
+
             foreach ($tax_ids as $tid) {
                 ilObjTaxonomy::saveUsage($tid, $newTstObjId);
             }
@@ -268,12 +267,12 @@ class ilTestImporter extends ilXmlImporter
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-        
+
         $basename = basename($this->getImportDirectory());
 
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
         $qti = $this->getImportDirectory() . '/' . preg_replace('/test|tst/', 'qti', $basename) . '.xml';
-        
+
         return array($xml,$qti);
     }
 
@@ -299,7 +298,7 @@ class ilTestImporter extends ilXmlImporter
         $parser->setImportMapping($a_mapping);
         $parser->startParsing();
     }
-    
+
     /**
      * @param ilImportMapping $mappingRegistry
      * @param ilObjTest $testOBJ
@@ -311,7 +310,7 @@ class ilTestImporter extends ilXmlImporter
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
         $parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);
         $parser->startParsing();
-        
+
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImporter.php';
         $importer = new ilAssQuestionSkillAssignmentImporter();
         $importer->setTargetParentObjId($testOBJ->getId());
@@ -319,20 +318,20 @@ class ilTestImporter extends ilXmlImporter
         $importer->setImportMappingRegistry($mapping);
         $importer->setImportMappingComponent('Modules/Test');
         $importer->setImportAssignmentList($parser->getAssignmentList());
-        
+
         $importer->import();
-        
+
         if ($importer->getFailedImportAssignmentList()->assignmentsExist()) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
             $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($testOBJ->getId());
             $qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
-            
+
             $testOBJ->setOnline(false);
         }
-        
+
         return $importer->getSuccessImportAssignmentList();
     }
-    
+
     /**
      * @param ilImportMapping $mapping
      * @param ilAssQuestionSkillAssignmentList $assignmentList
@@ -344,7 +343,7 @@ class ilTestImporter extends ilXmlImporter
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdXmlParser.php';
         $parser = new ilTestSkillLevelThresholdXmlParser($xmlFile);
         $parser->startParsing();
-        
+
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImporter.php';
         $importer = new ilTestSkillLevelThresholdImporter();
         $importer->setTargetTestId($testOBJ->getTestId());
@@ -353,7 +352,7 @@ class ilTestImporter extends ilXmlImporter
         $importer->setImportedQuestionSkillAssignmentList($assignmentList);
         $importer->setImportThresholdList($parser->getSkillLevelThresholdImportList());
         $importer->import();
-        
+
         if ($importer->getFailedThresholdImportSkillList()->skillsExist()) {
             require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
             $sltImportFails = new ilTestSkillLevelThresholdImportFails($testOBJ->getId());

@@ -521,44 +521,6 @@ class assClozeTestExport extends assQuestionExport
                 case CLOZE_NUMERIC:
                     break;
             }
-            /*foreach ($gap->getItems() as $answer)
-            {
-                $linkrefid = "$i" . "_Response_" . $answer->getOrder();
-                $attrs = array(
-                    "ident" => $linkrefid,
-                    "view" => "All"
-                );
-                $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-                // qti flow_mat
-                $a_xml_writer->xmlStartTag("flow_mat");
-//				$a_xml_writer->xmlStartTag("material");
-//				$a_xml_writer->xmlElement("mattext");
-//				$a_xml_writer->xmlEndTag("material");
-                $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-                    $this->object->getId(), $index
-                );
-                $this->object->addQTIMaterial($a_xml_writer, $fb);
-                $a_xml_writer->xmlEndTag("flow_mat");
-                $a_xml_writer->xmlEndTag("itemfeedback");
-            }*/
-            /*
-            $attrs = array(
-                "ident" => $i,
-                "view" => "All"
-            );
-            $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-            // qti flow_mat
-            $a_xml_writer->xmlStartTag("flow_mat");
-            //				$a_xml_writer->xmlStartTag("material");
-            //				$a_xml_writer->xmlElement("mattext");
-            //				$a_xml_writer->xmlEndTag("material");
-            $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-                $this->object->getId(), $i, 0
-            );
-            $this->object->addQTIMaterial($a_xml_writer, $fb);
-            $a_xml_writer->xmlEndTag("flow_mat");
-            $a_xml_writer->xmlEndTag("itemfeedback");
-            */
         }
         $this->exportAnswerSpecificFeedbacks($a_xml_writer);
 
