@@ -160,7 +160,15 @@ class ilSurveySkill
         int $a_question_id,
         int $a_obj_id
     ): void {
-        if (ilObject::_lookupType($a_obj_id) === "svy") {
+
+        $svy_log = ilLoggerFactory::getLogger("svy");
+
+        $svy_log->debug("delete skill assignment, obj id " . $a_obj_id .
+            ", obj type: " . ilObject::_lookupType($a_obj_id));
+
+        if (ilObject::_lookupType($a_obj_id) === "svy" &&
+            ilObject::_exists($a_obj_id)) {
+            $svy_log->debug("call removeQuestionSkillAssignment.");
             // mantis 11691
             $svy = new ilObjSurvey($a_obj_id, false);
             $svy_skill = new ilSurveySkill($svy);
