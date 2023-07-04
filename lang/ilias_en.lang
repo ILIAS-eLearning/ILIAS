@@ -12361,8 +12361,6 @@ orgu#:#employee#:#Employee
 orgu#:#ext_id#:#External ID
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
-orgu#:#il_orgu_employee#:#Employee
-orgu#:#il_orgu_superior#:#Superior
 orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and has a valid structure.
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
 orgu#:#import_terminated_with_errors#:#The import terminated with errors.
