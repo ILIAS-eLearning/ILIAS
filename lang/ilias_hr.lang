@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#Vidi informacije o napretku učenja iz poje
 rbac#:#iass_visible#:#Pojedinačna procjena je vidljiva
 rbac#:#iass_write#:#Uredi pojedinačnu procjenu
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Djelatnik organizacijske jedinice
-rbac#:#il_orgu_superior#:#Nadređeni organizacijske jedinice
 rbac#:#il_sess_participant#:#Sudionik sesije
 rbac#:#il_sess_status_closed#:#Zatvorena sesija bez sudionika
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#Korisnik može stvoriti i administrirati lo
 rbac#:#orgu_copy#:#Kopiraj organizacijsku jedinicu
 rbac#:#orgu_delete#:#Korisnik može premjestiti ili izbrisati organizacijsku jedinicu
 rbac#:#orgu_edit_permission#:#Korisnik može promijeniti postavke dozvole
+rbac#:#orgu_employee#:#Djelatnik organizacijske jedinice
 rbac#:#orgu_read#:#Korisnik ima pristup za čitanje organizacijskoj jedinici
 rbac#:#orgu_read_users#:#Korisnik može čitati lokalne korisničke račune stvorene u ovoj organizacijskoj jedinici
+rbac#:#orgu_superior#:#Nadređeni organizacijske jedinice
 rbac#:#orgu_view_learning_progress#:#Vidi napredak u učenju
 rbac#:#orgu_view_learning_progress_rec#:#Vidi napredak u učenju jedinice, uključujući podjedinice
 rbac#:#orgu_visible#:#Organizacijska jedinica je vidljiva

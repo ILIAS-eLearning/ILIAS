@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of a Ind
 rbac#:#iass_visible#:#L’évaluation individuelle est visible
 rbac#:#iass_write#:#Edit a Individual Assessment
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Employé d'Unité Organisationnelle
-rbac#:#il_orgu_superior#:#Supérieur d'Unité Organisationnelle
 rbac#:#il_sess_participant#:#Participant à la session
 rbac#:#il_sess_status_closed#:#Session fermée pour les non-participants
 rbac#:#ilias_id#:#ID ILIAS
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#L’utilisateur peut créer et administrer 
 rbac#:#orgu_copy#:#Copier Unité organisationnelle
 rbac#:#orgu_delete#:#L’utilisateur peut déplacer ou supprimer l’unité organisationnelle
 rbac#:#orgu_edit_permission#:#L’utilisateur peut modifier les paramètres de permission
+rbac#:#orgu_employee#:#Employé d'Unité Organisationnelle
 rbac#:#orgu_read#:#L'utilisateur a un accès de lecture pour l’unité organisationnelle
 rbac#:#orgu_read_users#:#L’utilisateur peut lire les comptes d’utilisateur locaux créés dans cette unité organisationnelle
+rbac#:#orgu_superior#:#Supérieur d'Unité Organisationnelle
 rbac#:#orgu_view_learning_progress#:#Voir la progression d’apprentissage
 rbac#:#orgu_view_learning_progress_rec#:#Voir la progression d’apprentissage de l’unité, y compris des sous-unités
 rbac#:#orgu_visible#:#L’unité organisationnelle est visible

@@ -13214,8 +13214,6 @@ rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung 
 rbac#:#iass_visible#:#Individuelle Bewertung ist sichtbar
 rbac#:#iass_write#:#Einstellungen der Individuelle Bewertung bearbeiten
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organisationseinheit Mitarbeiter
-rbac#:#il_orgu_superior#:#Organisationseinheit Vorgesetzter
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13346,8 +13344,10 @@ rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und 
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#orgu_employee#:#Organisationseinheit Mitarbeiter
 rbac#:#orgu_read#:#Lesezugriff auf Organisationseinheit
 rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit können eingesehen werden
+rbac#:#orgu_superior#:#Organisationseinheit Vorgesetzter
 rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.

@@ -13215,8 +13215,6 @@ rbac#:#iass_read_learning_progress#:#Poglej učni napredek v individualnem ocenj
 rbac#:#iass_visible#:#Individualna ocena je vidna
 rbac#:#iass_write#:#Uredi nastavitve individualnega ocenjevanja
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organizacijska enota sodelavci
-rbac#:#il_orgu_superior#:#Organizacijska enota nadrejeni
 rbac#:#il_sess_participant#:#Udeleženec seje
 rbac#:#il_sess_status_closed#:#Seja, zaprta za neudeležence
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13347,8 +13345,10 @@ rbac#:#orgu_cat_administrate_users#:#Lokalni uporabniški računi se lahko ustva
 rbac#:#orgu_copy#:#Kopiraj organizacijsko enoto
 rbac#:#orgu_delete#:#Izbriši ali premakni organizacijsko enoto
 rbac#:#orgu_edit_permission#:#Spremeni nastavitve pravic
+rbac#:#orgu_employee#:#Organizacijska enota sodelavci
 rbac#:#orgu_read#:#Bralni dostop do organizacijske enote
 rbac#:#orgu_read_users#:#Možen je vpogled v lokalne uporabniške račune v tej organizacijski enoti
+rbac#:#orgu_superior#:#Organizacijska enota nadrejeni
 rbac#:#orgu_view_learning_progress#:#Poglej učni napredek
 rbac#:#orgu_view_learning_progress_rec#:#Poglej učni napredek za nazaj
 rbac#:#orgu_visible#:#Organizacijska enota je vidna.

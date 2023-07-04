@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#Ativar dados expandidos
 rbac#:#iass_visible#:#A avaliação individual adicionada
 rbac#:#iass_write#:#Itens que determinam o progresso de aprendizagem
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Funcionário unidade organizacional
-rbac#:#il_orgu_superior#:#Superior hierárquico unidade organizacional
 rbac#:#il_sess_participant#:#Sessão participante
 rbac#:#il_sess_status_closed#:#Sessão fechada não participante
 rbac#:#ilias_id#:#ID ILIAS
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#O utilizador pode criar e administrar conta
 rbac#:#orgu_copy#:#Copiar unidade organizacional
 rbac#:#orgu_delete#:#O utilizador pode mover ou apagar unidade organizacional
 rbac#:#orgu_edit_permission#:#O utilizador pode mudar as definições de permissões
+rbac#:#orgu_employee#:#Funcionário unidade organizacional
 rbac#:#orgu_read#:#O utilizador tem acesso de leitura à unidade organizacional
 rbac#:#orgu_read_users#:#O utilizador pode ler contas de utilizador locais criadas nesta unidade organizacional
+rbac#:#orgu_superior#:#Superior hierárquico unidade organizacional
 rbac#:#orgu_view_learning_progress#:#Ver progresso de aprendizagem
 rbac#:#orgu_view_learning_progress_rec#:#Ver progresso de aprendizagem da unidade incl. subunidades
 rbac#:#orgu_visible#:#A unidade organizacional está visível

@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of a Ind
 rbac#:#iass_visible#:#Individual Assessment is visible###25 10 2016 new variable
 rbac#:#iass_write#:#Edit a Individual Assessment###25 10 2016 new variable
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Organisational Unit Employee
-rbac#:#il_orgu_superior#:#Organisational Unit Superior
 rbac#:#il_sess_participant#:#Session Participant###31 08 2017 new variable
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session###31 08 2017 new variable
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user
 rbac#:#orgu_copy#:#Copy Organisational Unit
 rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
+rbac#:#orgu_employee#:#Organisational Unit Employee
 rbac#:#orgu_read#:#User has read access to Organisational Unit
 rbac#:#orgu_read_users#:#User can read local user accounts created in this Organisational Unit
+rbac#:#orgu_superior#:#Organisational Unit Superior
 rbac#:#orgu_view_learning_progress#:#View Learning Progress
 rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 rbac#:#orgu_visible#:#Organisational Unit is visible

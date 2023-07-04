@@ -13215,8 +13215,6 @@ rbac#:#iass_read_learning_progress#:#Személyes értékelés tanulási haladási
 rbac#:#iass_visible#:#Személyes értékelés látható
 rbac#:#iass_write#:#Személyes értékelés módosítása
 rbac#:#il_lti_global_role#:#LTI-Felhasználó
-rbac#:#il_orgu_employee#:#Szervezeti egység beosztottja
-rbac#:#il_orgu_superior#:#Szervezeti egység felettese
 rbac#:#il_sess_participant#:#Munkamenet résztvevők
 rbac#:#il_sess_status_closed#:#Résztvevő nélküli zárt esemény
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13347,8 +13345,10 @@ rbac#:#orgu_cat_administrate_users#:#A felhasználó létrehozhat és helyi ILIA
 rbac#:#orgu_copy#:#Szervezeti egység másolása
 rbac#:#orgu_delete#:#A felhasználó mozgathatja és törölheti a Szervezeti egységet
 rbac#:#orgu_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
+rbac#:#orgu_employee#:#Szervezeti egység beosztottja
 rbac#:#orgu_read#:#A felhasználónak olvasási hozzáférése van a Szervezeti egységhez
 rbac#:#orgu_read_users#:#A felhasználó láthatja a helyi ILIAS-fiókokat ebben a Szervezeti egységben
+rbac#:#orgu_superior#:#Szervezeti egység felettese
 rbac#:#orgu_view_learning_progress#:#Tanulási haladás megjelenítése
 rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 rbac#:#orgu_visible#:#Szervezeti egység látható

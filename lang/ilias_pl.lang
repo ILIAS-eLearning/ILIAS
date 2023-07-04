@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#Obejrzyj postęp w nauce dla indywidualnych
 rbac#:#iass_visible#:#Indywidualna ocena jest widoczna
 rbac#:#iass_write#:#Edytuj ustawienia dotyczące indywidualnych ocen
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Jednostka organizacyjna Pracownik
-rbac#:#il_orgu_superior#:#Jednostka organizacyjna Przełożony
 rbac#:#il_sess_participant#:#Uczestnicy sesji
 rbac#:#il_sess_status_closed#:#Sesja dostępna tylko dla członków
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#Administracja kontami lokalnych użytkownik
 rbac#:#orgu_copy#:#Skopiuj jednostkę organizacyjną
 rbac#:#orgu_delete#:#Usuń lub przesuń jednostkę organizacyjną
 rbac#:#orgu_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#orgu_employee#:#Jednostka organizacyjna Pracownik
 rbac#:#orgu_read#:#Prawo czytania dotyczące jednostki organizacyjnej
 rbac#:#orgu_read_users#:#Istnieje możliwość obejrzenia lokalnych użytkowników tej jednostki organizacyjnej
+rbac#:#orgu_superior#:#Jednostka organizacyjna Przełożony
 rbac#:#orgu_view_learning_progress#:#Obejrzyj postęp w nauce
 rbac#:#orgu_view_learning_progress_rec#:#Wgląd w postęp w nauce w trybie powtarzającym się
 rbac#:#orgu_visible#:#Jednostka organizacyjna jest widoczna.

@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#Zobrazit informace o postupu výuky individ
 rbac#:#iass_visible#:#Individuální hodnocení je viditelné
 rbac#:#iass_write#:#Upravit individuální hodnocení
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Zaměstnanec organizační jednotky
-rbac#:#il_orgu_superior#:#Nadřízený organizační jednotky
 rbac#:#il_sess_participant#:#Účastník relace
 rbac#:#il_sess_status_closed#:#Relace uzavřena pro ty, kteří nejsou účastníky
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#Uživatel může v této organizační jedn
 rbac#:#orgu_copy#:#Kopírovat organizační jednotku
 rbac#:#orgu_delete#:#Uživatel může přesunout nebo odstranit organizační jednotku
 rbac#:#orgu_edit_permission#:#Uživatel může změnit nastavení oprávnění
+rbac#:#orgu_employee#:#Zaměstnanec organizační jednotky
 rbac#:#orgu_read#:#Uživatel má přístup k organizační jednotce jen pro čtení
 rbac#:#orgu_read_users#:#Uživatel může číst lokální uživatelské účty vytvořené v této organizační jednotce
+rbac#:#orgu_superior#:#Nadřízený organizační jednotky
 rbac#:#orgu_view_learning_progress#:#Zobrazit potup výuky
 rbac#:#orgu_view_learning_progress_rec#:#Zobrazit postup výuky jednotky vč. podjednotek
 rbac#:#orgu_visible#:#Organizační jednotka je viditelná

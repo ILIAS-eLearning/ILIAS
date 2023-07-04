@@ -13201,8 +13201,6 @@ rbac#:#iass_read_learning_progress#:#個別アセスメントの学習進捗情�
 rbac#:#iass_visible#:#個別アセスメントを表示します
 rbac#:#iass_write#:#個別アセスメントを編集
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#組織のユニット従業員
-rbac#:#il_orgu_superior#:#組織のユニット上司
 rbac#:#il_sess_participant#:#セッション参加者
 rbac#:#il_sess_status_closed#:#非参加者限定セッション
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13333,8 +13331,10 @@ rbac#:#orgu_cat_administrate_users#:#ユーザはこの組織ユニットのロ�
 rbac#:#orgu_copy#:#組織ユニットをコピー
 rbac#:#orgu_delete#:#ユーザは組織ユニットの移動または削除ができます
 rbac#:#orgu_edit_permission#:#ユーザはアクセス権設定を変更できます。
+rbac#:#orgu_employee#:#組織のユニット従業員
 rbac#:#orgu_read#:#ユーザは組織ユニットの読み込みアクセス権があります
 rbac#:#orgu_read_users#:#ユーザはこの組織ユニットに作成されたローカルユーザアカウントの読み込みができます。
+rbac#:#orgu_superior#:#組織のユニット上司
 rbac#:#orgu_view_learning_progress#:#学習履歴を表示
 rbac#:#orgu_view_learning_progress_rec#:#Unit incl. Subunitsの学習進捗を表示する
 rbac#:#orgu_visible#:#組織ユニットを表示
