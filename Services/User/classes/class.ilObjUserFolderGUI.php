@@ -321,14 +321,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
-        if ($rbacsystem->checkAccess(
-            'view',
-            $this->object->getRefId()
-        ) ||
-            $rbacsystem->checkAccess(
-                'cat_administrate_users',
-                $this->object->getRefId()
-            )) {
+        if ($rbacsystem->checkAccess('create_usr', $this->object->getRefId())
+            || $rbacsystem->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $button = ilLinkButton::getInstance();
             $button->setCaption("usr_add");
             $button->setUrl(
