@@ -1794,14 +1794,15 @@ class ilObjUserGUI extends ilObjectGUI
         $mmail->To($mailOptions->getExternalEmailAddresses());
 
         $subject = $usr_lang->txt('profile_changed');
-        $body = ($usr_lang->txt('reg_mail_body_salutation') . ' ' . $this->object->getFullname() . ",\n\n");
+        $body = $usr_lang->txt('reg_mail_body_salutation')
+            . ' ' . $this->object->getFullname() . ",\n\n";
 
         $date = $this->object->getApproveDate();
 
         if ($date !== null && (time() - strtotime($date)) < 10) {
-            $body .= ($usr_lang->txt('reg_mail_body_approve') . "\n\n");
+            $body .= $usr_lang->txt('reg_mail_body_approve') . "\n\n";
         } else {
-            $body .= ($usr_lang->txt('reg_mail_body_profile_changed') . "\n\n");
+            $body .= $usr_lang->txt('reg_mail_body_profile_changed') . "\n\n";
         }
 
         // Append login info only if password has been changed
@@ -1811,8 +1812,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $usr_lang->txt('login') . ': ' . $this->object->getLogin() . "\n" .
                 $usr_lang->txt('passwd') . ': ' . $this->user_request->getPassword() . "\n\n";
         }
-        $body .= ($usr_lang->txt('reg_mail_body_text3') . "\n");
+        $body .= $usr_lang->txt('reg_mail_body_text3') . "\n";
         $body .= $this->object->getProfileAsString($usr_lang);
+        $body .= ilMail::_getInstallationSignature();
+
 
         $mmail->Subject($subject, true);
         $mmail->Body($body);
