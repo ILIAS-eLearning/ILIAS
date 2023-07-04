@@ -361,7 +361,7 @@ class ilUserStartingPointGUI
                     if ($this->user_request->getRoleId() > 0) {
                         $role_id = $this->user_request->getRoleId();     // id from role selection
                     } else {
-                        $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
+                        $parser = new ilQueryParser($form->getInput('role_search'));
 
                         // TODO: Handle minWordLength
                         $parser->setMinWordLength(1);
