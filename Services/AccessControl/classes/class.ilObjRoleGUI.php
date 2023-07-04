@@ -337,7 +337,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $rbacreview = $DIC['rbacreview'];
 
-        $data['title'] = ilObjRole::_getTranslation($role->getTitle());
+        $data['title'] = $role->getPresentationTitle();
         $data['desc'] = $role->getDescription();
         $data['ilias_id'] = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($role->getId()) . '_' . $role->getId();
         $data['reg'] = $role->getAllowRegister();
