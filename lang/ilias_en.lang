@@ -7582,7 +7582,7 @@ crs#:#crs_member#:#Member
 crs#:#crs_member_administration#:#Edit Participants
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed
 crs#:#crs_members#:#Members
-crs#:#crs_members_deleted#:#Deleted members
+crs#:#crs_members_deleted#:#Selected members were successfully removed from course.
 crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Course members
@@ -9915,7 +9915,7 @@ grp#:#grp_mem_contacts#:#Tutorial Support
 grp#:#grp_mem_tbl_header#:#Group Participants
 grp#:#grp_member_administration#:#Edit Participants
 grp#:#grp_members#:#Members
-grp#:#grp_members_deleted#:#Deleted members
+grp#:#grp_members_deleted#:#Selected members were successfully removed from group.
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
 grp#:#grp_missing_grp_type#:#Please choose a group type.
@@ -10435,7 +10435,7 @@ lso#:#lso_mainbar_button_label_curriculum#:#Learning Sequence
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
-lso#:#lso_members_deleted#:#Deleted members
+lso#:#lso_members_deleted#:#Selected members were successfully removed from learning sequence.
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
