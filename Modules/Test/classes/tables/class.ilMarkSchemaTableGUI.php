@@ -62,6 +62,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->initColumns();
         $this->initData();
+
+        $this->initJS($DIC->ui()->mainTemplate());
     }
 
     protected function initColumns(): void
@@ -93,7 +95,26 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow(array $a_set): void
+    private function initJS(ilGlobalTemplateInterface $tpl)
+    {
+        $tpl->addOnloadCode("
+            let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');
+            let button = form.querySelector('input[name=\"cmd[saveMarks]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
+    }
+
+    /**
+     * @param array $row
+     */
+    public function fillRow(array $row): void
     {
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
         $short_name->setValue($a_set['mark_short']);
