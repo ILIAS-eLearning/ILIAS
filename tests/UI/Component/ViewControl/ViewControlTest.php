@@ -173,9 +173,9 @@ class ViewControlTest extends ILIAS_UI_TestBase
     {
         return <<<EOT
 <div class="il-viewcontrol-section l-bar__element">
-    <a class="btn btn-ctrl" href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="btn btn-ctrl browse previous" href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1"><span class="glyphicon glyphicon-chevron-left"></span></a>
     <button class="btn btn-default" data-action="">Today</button>
-    <a class="btn btn-ctrl " href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    <a class="btn btn-ctrl browse next" href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
     }

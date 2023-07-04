@@ -92,7 +92,7 @@ class VCSortationTest extends VCBaseTest
         $vc = $this->buildVCFactory()->sortation($options);
 
         $expected = $this->brutallyTrimHTML('
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="">
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
     <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" id="id_1">A</button></li>

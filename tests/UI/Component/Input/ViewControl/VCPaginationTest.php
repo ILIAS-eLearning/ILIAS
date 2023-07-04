@@ -105,9 +105,9 @@ class VCPaginationTest extends VCBaseTest
             ->withValue([12,2]);
 
         $expected = $this->brutallyTrimHTML('
-<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="">
+<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element">
     <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
-            <div class="btn btn-ctrl">
+            <div class="btn btn-ctrl browse previous">
                 <a tabindex="0" class="glyph" aria-label="back" id="id_8">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                 </a>
@@ -123,7 +123,7 @@ class VCPaginationTest extends VCBaseTest
         <span class="il-viewcontrol-pagination__spacer">...</span>
         <button class="btn btn-link" id="id_7">15</button>
 
-        <div class="btn btn-ctrl">
+        <div class="btn btn-ctrl browse next">
             <a tabindex="0" class="glyph" aria-label="next" id="id_9">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </a>
