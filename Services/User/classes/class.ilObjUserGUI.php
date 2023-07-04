@@ -2039,14 +2039,15 @@ class ilObjUserGUI extends ilObjectGUI
 
 
         // mail body
-        $body = ($usr_lang->txt("reg_mail_body_salutation") . " " . $this->object->getFullname() . ",\n\n");
+        $body = $usr_lang->txt("reg_mail_body_salutation")
+            . " " . $this->object->getFullname() . ",\n\n";
 
         $date = $this->object->getApproveDate();
         // Approve
         if ((time() - strtotime($date)) < 10) {
-            $body .= ($usr_lang->txt('reg_mail_body_approve') . "\n\n");
+            $body .= $usr_lang->txt('reg_mail_body_approve') . "\n\n";
         } else {
-            $body .= ($usr_lang->txt('reg_mail_body_profile_changed') . "\n\n");
+            $body .= $usr_lang->txt('reg_mail_body_profile_changed') . "\n\n";
         }
 
         // Append login info only if password has been chacnged
@@ -2056,8 +2057,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $usr_lang->txt("login") . ": " . $this->object->getLogin() . "\n" .
                 $usr_lang->txt("passwd") . ": " . $_POST['passwd'] . "\n\n";
         }
-        $body .= ($usr_lang->txt("reg_mail_body_text3") . "\n");
+        $body .= $usr_lang->txt("reg_mail_body_text3") . "\n";
         $body .= $this->object->getProfileAsString($usr_lang);
+        $body .= ilMail::_getInstallationSignature();
+
 
         $mmail->Subject($subject, true);
         $mmail->Body($body);
