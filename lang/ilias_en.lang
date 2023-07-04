@@ -2043,7 +2043,7 @@ auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
-auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Mapping ILIAS User Information to OpenID Connect Attributes
@@ -2080,13 +2080,13 @@ auth#:#auth_oidc_settings_provider#:#Provider URL
 auth#:#auth_oidc_settings_secret#:#Client Key
 auth#:#auth_oidc_settings_section_user_sync#:#User Synchronisation Settings
 auth#:#auth_oidc_settings_session_duration#:#Duration
-auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentification
+auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentication
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Enter a text to be displayed on the login page. The text will link automatically to the OpenID Connect login script.
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
 auth#:#auth_oidc_settings_user_sync#:#Synchronise Automatically
 auth#:#auth_oidc_settings_user_sync_info#:#Users who do not have an ILIAS account, but have successfully authenticated themselves using OpenID Connect, will have an ILIAS account created for them automatically.
-auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery url
+auth#:#auth_oidc_settings_validate_scope_custom#:#Use custom OpenID Connect Discovery URL
 auth#:#auth_oidc_settings_validate_scope_default#:#Use :Provider-URL:/.well-known/openid-configuration
 auth#:#auth_oidc_settings_validate_scope_none#:#Do not validate Scopes on saving
 auth#:#auth_oidc_settings_validate_scopes#:#Validate Scopes upon saving
