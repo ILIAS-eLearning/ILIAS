@@ -620,13 +620,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         $query = $this->buildQuery();
 
-        #vd($query);
-
         $res = $this->db->query($query);
-
-        //echo $this->db->db->last_query;
-
-        #vd($this->db->db->last_query);
 
         while ($row = $this->db->fetchAssoc($res)) {
             $row = ilAssQuestionType::completeMissingPluginName($row);
