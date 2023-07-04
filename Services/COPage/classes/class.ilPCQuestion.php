@@ -165,11 +165,13 @@ class ilPCQuestion extends ilPageContent
 
         $ilDB = $DIC->database();
 
+        $parent_type_array = explode(':', $a_parent_type);
+
         $res = $ilDB->queryF(
             "SELECT * FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
             array("text", "integer", "text"),
-            array($a_parent_type, $a_page_id, $a_lang)
+            array($parent_type_array[0], $a_page_id, $a_lang)
         );
         $q_ids = array();
         while ($rec = $ilDB->fetchAssoc($res)) {
