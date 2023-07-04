@@ -55,9 +55,8 @@ class ActionTest extends ILIAS_UI_TestBase
 
         $label = 'label2';
         $param = 'param2';
-        $target = new Signal('sig-id');
-        $this->signal_target = $target;
-        $this->signal_action = $f->standard($label, $param, $target);
+        $this->signal_target = new Signal('sig-id');
+        $this->signal_action = $f->standard($label, $param, $target, true);
     }
 
     public function testDataTableActionAttributes(): void
@@ -66,11 +65,13 @@ class ActionTest extends ILIAS_UI_TestBase
         $this->assertEquals('label', $act->getLabel());
         $this->assertEquals('param', $act->getParameterName());
         $this->assertEquals($this->link_target, $act->getTarget());
+        $this->assertFalse($this->link_action->isAsync());
+        $this->assertTrue($this->signal_action->isAsync());
     }
 
     public function testDataTableActionSignalTarget(): void
     {
-        $act = $this->signal_action;
+        $act = $this->signal_action->withSignalTarget($this->signal_target);
         $this->assertEquals($this->signal_target, $act->getTarget());
     }
 
@@ -85,15 +86,17 @@ class ActionTest extends ILIAS_UI_TestBase
     {
         $act = $this->link_action->withRowId('test-id');
         $this->assertEquals(
-            'ref_id=1&param=test-id',
-            $act->getTarget()->getQuery()
+            'ref_id=1&param[0]=test-id',
+            urldecode($act->getTarget()->getQuery())
         );
     }
 
     public function testDataTableActionRowIdOnSignal(): void
     {
-        $act = $this->signal_action->withRowId('test-id');
-        $act = $act->withRowId('test-id2');
+        $act = $this->signal_action
+            ->withSignalTarget($this->signal_target)
+            ->withRowId('test-id2');
+
         $this->assertEquals(
             'test-id2',
             $act->getTarget()->getOptions()['param2']

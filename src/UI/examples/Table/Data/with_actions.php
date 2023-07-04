@@ -30,22 +30,18 @@ function with_actions()
 
     /**
      * Define actions:
-     * An Action is a Signal or URL carrying a parameter that references
-     * the targeted record(s).
+     * An Action is a URL carrying a parameter that references the targeted record(s).
      * Standard Actions apply to both a collection of records as well as
      * a single entry, while Single- and Multiactions will only work for
      * one of them.
     */
-    $modal = getSomeExampleModal($f, $ctrl);
-    $signal = $modal->getShowSignal();
-
     $actions = [
         //never in multi actions
         'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL($request, 'table_action=edit')),
         //never in single row
         'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL($request, 'table_action=compare')),
         //in both
-        'delete' => $f->table()->action()->standard('delete', 'ids', $signal)
+        'delete' => $f->table()->action()->standard('delete', 'ids', buildDemoURL($request, 'table_action=delete'), true)
     ];
 
     // retrieve data and map records to table rows
@@ -101,7 +97,6 @@ function with_actions()
 
     //apply request and render
     $out = [
-        $modal,
         $table->withRequest($request)
     ];
 
@@ -113,9 +108,19 @@ function with_actions()
             'table_action' => $params['table_action'],
             'ids' => print_r($params['ids'], true)
         ];
+        $listing = $f->listing()->characteristicValue()->text($items);
+
+        if ($params['table_action'] === 'delete') {
+            echo($r->render([
+                $f->messageBox()->confirmation('You are about to delete items!'),
+                $f->divider()->horizontal(),
+                $listing
+            ]));
+            exit();
+        }
 
         $out[] = $f->divider()->horizontal();
-        $out[] = $f->listing()->characteristicValue()->text($items);
+        $out[] = $listing;
     }
 
     return $r->render($out);
@@ -125,11 +130,4 @@ function buildDemoURL(ServerRequestInterface $request, string $param): URI
 {
     $df = new \ILIAS\Data\Factory();
     return $df->uri($request->getUri()->__toString() . '&' . $param);
-}
-
-function getSomeExampleModal($factory, $ctrl)
-{
-    $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
-    $modal = $factory->modal()->interruptive('Delete', 'really delete?', $form_action);
-    return $modal;
 }

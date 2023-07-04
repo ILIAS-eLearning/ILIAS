@@ -7,45 +7,31 @@ export default class DataTableFactory {
   #jquery;
 
   /**
-   * @type {Params}
-   */
-  #params;
-
-  /**
    * @type {Array<string, DataTable>}
    */
   #instances = [];
 
   /**
    * @param {jQuery} jquery
-   * @param {Params} params
    */
-  constructor(jquery, params) {
+  constructor(jquery) {
     this.#jquery = jquery;
-    this.#params = params;
   }
 
   /**
    * @param {string} tableId
-   * @param {string} typeURL
-   * @param {string} typeSignal
-   * @param {string} optOptions
-   * @param {string} optId
+   * @param {string} optActionId
    * @return {void}
-   * @throws {Error} if the input was already initialized.
+   * @throws {Error} if the table was already initialized.
    */
-  init(tableId, typeURL, typeSignal, optOptions, optId) {
+  init(tableId, optActionId) {
     if (this.#instances[tableId] !== undefined) {
-      throw new Error(`DataTable with input-id '${tableId}' has already been initialized.`);
+      throw new Error(`DataTable with id '${tableId}' has already been initialized.`);
     }
 
     this.#instances[tableId] = new DataTable(
       this.#jquery,
-      this.#params,
-      typeURL,
-      typeSignal,
-      optOptions,
-      optId,
+      optActionId,
       tableId,
     );
   }

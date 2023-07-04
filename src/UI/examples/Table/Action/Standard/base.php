@@ -28,7 +28,8 @@ function base()
         'some_other_action' => $f->table()->action()->standard(
             'do something else',
             'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something_else')
+            $here_uri->withParameter('demo_table_action', 'do_something_else'),
+            true
         ),
     ];
 
@@ -47,7 +48,14 @@ function base()
             'id' => print_r($params['relay_param'] ?? '', true),
         ];
         $result[] = $f->divider()->horizontal();
-        $result[] = $f->listing()->characteristicValue()->text($items);
+        if ($params['demo_table_action'] === 'do_something_else') {
+            echo(
+                $r->render($f->listing()->characteristicValue()->text($items))
+            );
+            exit();
+        } else {
+            $result[] = $f->listing()->characteristicValue()->text($items);
+        }
     }
     return $r->render($result);
 }

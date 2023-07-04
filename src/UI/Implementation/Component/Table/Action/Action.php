@@ -31,23 +31,18 @@ abstract class Action implements I\Action
     /**
      * JS needs to know about the type of an action
      * and where to find the options (in case of signal)
-     * Theses constants are passed to il.UI.table.data.initActionConstant
+     * Theses constants are passed to il.UI.table.data.init
      */
-    public const TYPE_URL = 'URL';
-    public const TYPE_SIGNAL = 'SIGNAL';
-    public const OPT_OPTIONS = 'options';
-    public const OPT_ID = 'id';
+    public const OPT_ACTIONID = 'actId';
 
     protected Signal|URI $target;
 
     public function __construct(
         protected string $label,
         protected string $parameter_name,
-        Signal|URI $target
+        URI $target,
+        protected bool $async
     ) {
-        $check = [$target];
-        $valid = [Signal::class, URI::class];
-        $this->checkArgListElements("target", $check, $valid);
         $this->target = $target;
     }
 
@@ -66,10 +61,21 @@ abstract class Action implements I\Action
         return $this->target;
     }
 
+    public function withSignalTarget(Signal $target): self
+    {
+        $clone = clone $this;
+        $clone->target = $target;
+        return $clone;
+    }
+
+    public function isAsync(): bool
+    {
+        return $this->async;
+    }
+
     public function withRowId(string $value): self
     {
         $clone = clone $this;
-
         $target = $clone->getTarget();
         $param = $clone->getParameterName();
 
@@ -77,7 +83,7 @@ abstract class Action implements I\Action
             $target->addOption($param, $value);
         }
         if ($target instanceof URI) {
-            $target = $target->withParameter($param, $value);
+            $target = $target->withParameter($param, [$value]);
         }
         $clone->target = $target;
         return $clone;

@@ -147,22 +147,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testDataTableGetActionRegistrationSignal()
-    {
-        $renderer = $this->getRenderer();
-        $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
-        $action = $f->standard('label', 'param', $signal);
-        $closure = $renderer->p_getActionRegistration('action_id', $action);
-
-        $actual = $this->brutallyTrimHTML($closure('component_id'));
-        $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'SIGNAL', '{\"id\":\"signal_id\",\"options\":[]}', 'param');"
-        );
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testDataTableGetActionRegistrationURL()
+    public function testDataTableGetActionRegistration()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
@@ -171,8 +156,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $closure = $renderer->p_getActionRegistration('action_id', $action);
 
         $actual = $this->brutallyTrimHTML($closure('component_id'));
+        $url = $url->__toString();
         $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'URL', '$url', 'param');"
+            "il.UI.table.data.get('component_id').registerAction('action_id', '$url', 'param', false);"
         );
         $this->assertEquals($expected, $actual);
     }
@@ -185,7 +171,7 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $signal2 = new I\Signal('signal_id2');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
-            $f->standard('label1', 'param', $signal1),
+            $f->standard('label1', 'param', $url),
             $f->standard('label2', 'param', $url)
         ];
         $this->assertNull(
@@ -200,10 +186,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
+            'a1' => $f->standard('label1', 'param', $url, true),
             'a2' => $f->standard('label2', 'param', $url)
         ];
         $this->assertEquals(
@@ -282,6 +267,18 @@ class DataRendererTest extends ILIAS_UI_TestBase
         </thead>
         <tbody class="c-table-data__body" role="rowgroup"></tbody>
     </table>
+
+    <div class="c-table-data__async modal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__response modal-body"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -297,10 +294,9 @@ EOT;
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
+            'a1' => $f->standard('label1', 'param', $url, true),
             'a2' => $f->standard('label2', 'param', $url)
         ];
 
@@ -358,8 +354,11 @@ EOT;
 <td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
 <td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
-    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-        <ul id="id_2_menu" class="dropdown-menu"><li><button class="btn btn-link" id="id_1">label1</button></li><li><button class="btn btn-link" data-action="">label2</button></li></ul>
+    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_1" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_menu"><span class="caret"></span></button>
+        <ul id="id_1_menu" class="dropdown-menu">
+            <li><button class="btn btn-link" data-action="">label1</button></li>
+            <li><button class="btn btn-link" data-action="">label2</button></li>
+        </ul>
     </div>
 </td>
 EOT;

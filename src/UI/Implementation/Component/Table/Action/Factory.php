@@ -20,24 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Action;
 
-use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Table\Action as I;
 
 class Factory implements I\Factory
 {
-    public function standard(string $label, string $parameter_name, Signal|URI $target): I\Standard
+    public function standard(string $label, string $parameter_name, URI $target, bool $async = false): I\Standard
     {
-        return new Standard($label, $parameter_name, $target);
+        return new Standard($label, $parameter_name, $target, $async);
     }
 
-    public function single(string $label, string $parameter_name, Signal|URI $target): I\Single
+    public function single(string $label, string $parameter_name, URI $target, bool $async = false): I\Single
     {
-        return new Single($label, $parameter_name, $target);
+        return new Single($label, $parameter_name, $target, $async);
     }
 
-    public function multi(string $label, string $parameter_name, Signal|URI $target): I\Multi
+    public function multi(string $label, string $parameter_name, URI $target, bool $async = false): I\Multi
     {
-        return new Multi($label, $parameter_name, $target);
+        return new Multi($label, $parameter_name, $target, $async);
     }
 }

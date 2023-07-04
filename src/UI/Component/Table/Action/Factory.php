@@ -38,7 +38,8 @@ interface Factory
     public function standard(
         string $label,
         string $parameter_name,
-        Signal|URI $target
+        URI $target,
+        bool $async = false
     ): Standard;
 
     /**
@@ -54,7 +55,8 @@ interface Factory
     public function single(
         string $label,
         string $parameter_name,
-        Signal|URI $target
+        URI $target,
+        bool $async = false
     ): Single;
 
     /**
@@ -70,6 +72,7 @@ interface Factory
     public function multi(
         string $label,
         string $parameter_name,
-        Signal|URI $target
+        URI $target,
+        bool $async = false
     ): Multi;
 }

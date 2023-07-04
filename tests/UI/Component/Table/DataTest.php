@@ -74,7 +74,8 @@ class DataTest extends ILIAS_UI_TestBase
         $this->assertEquals(800, $table->getNumberOfRows());
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
-        $this->assertInstanceOf(I\Signal::class, $table->getActionSignal());
+        $this->assertInstanceOf(I\Signal::class, $table->getAsyncActionSignal());
+        $this->assertInstanceOf(I\Signal::class, $table->getMultiActionSignal());
         $this->assertInstanceOf(I\Signal::class, $table->getSelectionSignal());
         $this->assertFalse($table->hasSingleActions());
         $this->assertFalse($table->hasMultiActions());

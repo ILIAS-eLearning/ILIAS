@@ -25,14 +25,9 @@ class DataTable {
   #jquery;
 
   /**
-   * @type {Params}
+   * @type {actionId: string}
    */
-  #params;
-
-  /**
-   * @type {{type: {url: string, signal: string}, opt: {mainkey: string, id: string}}
-   */
-  #actionsConstants;
+  #signalConstants;
 
   /**
    * @type {HTMLDivElement}
@@ -51,34 +46,22 @@ class DataTable {
 
   /**
    * @param {jQuery} jquery
-   * @param {Params} params
-   * @param {string} typeURL
-   * @param {string} typeSignal
-   * @param {string} optOptions
-   * @param {string} optId
+   * @param {string} optActionId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, params, typeURL, typeSignal, optOptions, optId, componentId) {
+  constructor(jquery, optActionId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
     }
     this.#table = this.#component.getElementsByTagName('table').item(0);
     if (this.#table === null) {
-      throw new Error(`There is no <table> in the component's HTML.`);
+      throw new Error('There is no <table> in the component\'s HTML.');
     }
     this.#jquery = jquery;
-    this.#params = params;
-    this.#actionsConstants = {
-      type: {
-        url: typeURL,
-        signal: typeSignal,
-      },
-      opt: {
-        mainkey: optOptions,
-        id: optId,
-      },
+    this.#signalConstants = {
+      actionId: optActionId,
     };
     this.#actionsRegistry = {};
 
@@ -87,20 +70,16 @@ class DataTable {
 
   /**
    * @param {string} actionId
-   * @param {string} type 'SIGNAL' | 'URL'
    * @param {mixed} target
    * @param {string} parameterName
+   * @param {bool} async
    * @return {void}
    */
-  registerAction(actionId, type, target, parameterName) {
-    if (type !== this.#actionsConstants.type.url
-        && type !== this.#actionsConstants.type.signal) {
-      throw new Error('Action must be of type {this.#actionsConstants.type.url} or {this.#actionsConstants.type.signal}.');
-    }
+  registerAction(actionId, target, parameterName, async) {
     this.#actionsRegistry[actionId] = {
-      type,
       target,
       param: parameterName,
+      async,
     };
   }
 
@@ -113,9 +92,10 @@ class DataTable {
     const selectorAll = this.#table.getElementsByClassName('c-table-data__selection_all').item(0);
     const selectorNone = this.#table.getElementsByClassName('c-table-data__selection_none').item(0);
 
-    cols.forEach(
-      (col) => { col.checked = state; },
-    );
+    for (let i = 0; i < cols.length; i += 1) {
+      const col = cols[i];
+      col.checked = state;
+    }
 
     if (state) {
       selectorAll.style.display = 'none';
@@ -153,6 +133,17 @@ class DataTable {
   }
 
   /**
+   * @param {array} signalData
+   * @return {void}
+   */
+  doSingleAction(signalData) {
+    const actId = signalData.options[this.#signalConstants.actionId];
+    const action = this.#actionsRegistry[actId];
+    const rowId = signalData.options[action.param];
+    this.doAction(signalData, [rowId]);
+  }
+
+  /**
    * @param {HTMLElement} originator
    * @return {void}
    */
@@ -176,21 +167,48 @@ class DataTable {
    * @return {void}
    */
   doAction(signalData, rowIds) {
-    const actId = signalData.options.action;
+    const actId = signalData.options[this.#signalConstants.actionId];
     const action = this.#actionsRegistry[actId];
-    let target;
+    const parts = action.target.split('?');
+    const base = parts[0];
+    const search = parts[1];
+    const params = new URLSearchParams(search);
+    const k = `${action.param}[]`;
+    params.delete(action.param);
+    params.delete(k);
+    rowIds.forEach(
+      (v) => params.append(k, v),
+    );
+    const target = `${base}?${params.toString()}`;
 
-    if (action.type === this.#actionsConstants.type.url) {
-      target = this.#params.amendParameterToUrl(action.target, action.param, rowIds);
+    if (!action.async) {
       window.location.href = target;
+    } else {
+      this.asyncAction(decodeURI(target));
     }
-    if (action.type === this.#actionsConstants.type.signal) {
-      target = this.#params.amendParameterToSignal(action.target, action.param, rowIds);
-      const opts = {};
-      opts[this.#actionsConstants.opt.id] = target.id;
-      opts[this.#actionsConstants.opt.mainkey] = target.options;
-      this.#jquery(`#${this.#component.getAttr('id')}`).trigger(target.id, opts);
-    }
+  }
+
+  /**
+   * @param {string} url
+   * @return void
+   */
+  asyncAction(target) {
+    const responseContainer = this.#component.getElementsByClassName('c-table-data__async').item(0);
+    const responseContent = responseContainer.getElementsByClassName('c-table-data__response').item(0);
+    this.#jquery.ajax({
+      url: target,
+      dataType: 'html',
+    }).done(
+      (html) => {
+        responseContainer.style.display = 'block';
+        responseContainer.querySelector('.modal-header > button').addEventListener('click',
+          function() {
+            responseContainer.style.display = 'none';
+          }
+        );
+        responseContent.innerHTML = html;
+      },
+    );
   }
 
   /**
@@ -257,45 +275,31 @@ class DataTableFactory {
   #jquery;
 
   /**
-   * @type {Params}
-   */
-  #params;
-
-  /**
    * @type {Array<string, DataTable>}
    */
   #instances = [];
 
   /**
    * @param {jQuery} jquery
-   * @param {Params} params
    */
-  constructor(jquery, params) {
+  constructor(jquery) {
     this.#jquery = jquery;
-    this.#params = params;
   }
 
   /**
    * @param {string} tableId
-   * @param {string} typeURL
-   * @param {string} typeSignal
-   * @param {string} optOptions
-   * @param {string} optId
+   * @param {string} optActionId
    * @return {void}
-   * @throws {Error} if the input was already initialized.
+   * @throws {Error} if the table was already initialized.
    */
-  init(tableId, typeURL, typeSignal, optOptions, optId) {
+  init(tableId, optActionId) {
     if (this.#instances[tableId] !== undefined) {
-      throw new Error(`DataTable with input-id '${tableId}' has already been initialized.`);
+      throw new Error(`DataTable with id '${tableId}' has already been initialized.`);
     }
 
     this.#instances[tableId] = new DataTable(
       this.#jquery,
-      this.#params,
-      typeURL,
-      typeSignal,
-      optOptions,
-      optId,
+      optActionId,
       tableId,
     );
   }
@@ -309,52 +313,7 @@ class DataTableFactory {
   }
 }
 
-class Params {
-  /**
-   * @param {string} target
-   * @param {string} parameterName
-   * @param {string[]} values
-   * @return {object}
-   */
-  amendParameterToSignal(target, parameterName, values) {
-    const sig = JSON.parse(target);
-    sig.options[parameterName] = values;
-    return sig;
-  }
-
-  /**
-   * @param {string} target
-   * @param {string} parameterName
-   * @param {string[]} values
-   * @return {string}
-   */
-  amendParameterToUrl(target, parameterName, values) {
-    const base = target.split('?')[0];
-    const params = this.getParametersFromUrl(decodeURI(target));
-    let search = '';
-
-    params[parameterName] = encodeURI(JSON.stringify(values));
-    Object.keys(params).forEach(
-      (k) => {
-        search = `${search}&${k}=${params[k]}`;
-      },
-    );
-    return `${base}?${search.substr(1)}`;
-  }
-
-  /**
-   * @param {string} url
-   * @return {array<string,string>}
-   */
-  getParametersFromUrl(url) {
-    const params = {};
-    url.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
-      params[key] = value;
-    });
-    return params;
-  }
-}
-
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
-il.UI.table.data = new DataTableFactory($, new Params());
+/* eslint  no-undef:0 */
+il.UI.table.data = new DataTableFactory($);

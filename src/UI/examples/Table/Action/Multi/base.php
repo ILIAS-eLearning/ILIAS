@@ -27,7 +27,8 @@ function base()
         'some_other_action' => $f->table()->action()->multi(
             'do something else',
             'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something_else')
+            $here_uri->withParameter('demo_table_action', 'do_something_else'),
+            true
         ),
     ];
 
