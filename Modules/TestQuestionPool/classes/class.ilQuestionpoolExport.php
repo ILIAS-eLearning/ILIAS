@@ -174,15 +174,6 @@ class ilQuestionpoolExport
             $this->questions
         );
         $ilBench->stop("QuestionpoolExport", "buildExportFile_getXML");
-
-        // dump xml document to screen (only for debugging reasons)
-        /*
-        echo "<PRE>";
-        echo htmlentities($this->xml->xmlDumpMem($format));
-        echo "</PRE>";
-        */
-
-        // dump xml document to file
         $ilBench->start("QuestionpoolExport", "buildExportFile_dumpToFile");
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
         $ilBench->stop("QuestionpoolExport", "buildExportFile_dumpToFile");
@@ -195,15 +186,8 @@ class ilQuestionpoolExport
         // zip the file
         $ilBench->start("QuestionpoolExport", "buildExportFile_zipFile");
         ilFileUtils::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
-        if (@is_dir($this->export_dir . "/" . $this->subdir)) {
-            // Do not delete this dir, since it is required for container exports
-            #ilUtil::delDir($this->export_dir."/".$this->subdir);
-        }
 
         $ilBench->stop("QuestionpoolExport", "buildExportFile_zipFile");
-
-        // destroy writer object
-        //$this->xml->_XmlWriter;
 
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("QuestionpoolExport", "buildExportFile");

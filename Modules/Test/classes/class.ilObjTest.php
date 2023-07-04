@@ -5961,12 +5961,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * export files of file itmes
     *
     */
-    public function exportFileItems($a_target_dir, &$expLog)
+    public function exportFileItems($target_dir, &$expLog)
     {
         foreach ($this->file_ids as $file_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
+            $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
+            ilFileUtils::makeDir($file_dir);
             $file_obj = new ilObjFile($file_id, false);
-            $file_obj->export($a_target_dir);
+            $source_file = $file_obj->getFile($file_obj->getVersion());
+            if (!is_file($source_file)) {
+                $source_file = $file_obj->getFile();
+            }
+            if (is_file($source_file)) {
+                copy($source_file, $file_dir . '/' . $file_obj->getFileName());
+            }
             unset($file_obj);
         }
     }

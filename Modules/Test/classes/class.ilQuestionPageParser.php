@@ -15,6 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Legacy Content Object Parser
  *
@@ -328,12 +331,12 @@ class ilQuestionPageParser extends ilMDSaxParser
             $source_dir = $imp_dir . "/" . $this->subdir . "/objects/" . $obj_dir;
 
             $file_obj = new ilObjFile($file_id, false);
-            $target_dir = $file_obj->getDirectory();
             if (is_dir($source_dir)) {
-                ilFileUtils::makeDir($target_dir);
-
-                if (is_dir($target_dir)) {
-                    ilFileUtils::rCopy(realpath($source_dir), realpath($target_dir));
+                $files = scandir($source_dir, SCANDIR_SORT_DESCENDING);
+                if ($files !== false && $files !== [] && is_file($source_dir . '/' . $files[0])) {
+                    $file = fopen($source_dir . '/' . $files[0], 'rb');
+                    $file_stream = Streams::ofResource($file);
+                    $file_obj->appendStream($file_stream, $files[0]);
                 }
             }
             $file_obj->update();
@@ -668,9 +671,9 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            ////////////////////////////////////////////////
-            /// Meta Data Section
-            ////////////////////////////////////////////////
+                ////////////////////////////////////////////////
+                /// Meta Data Section
+                ////////////////////////////////////////////////
             case "MetaData":
                 $this->in_meta_data = true;
                 // media obejct meta data handling
@@ -724,7 +727,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            // Identifier
+                // Identifier
             case "Identifier":
 
                 // begin-patch optes_lok_export
@@ -752,7 +755,8 @@ class ilQuestionPageParser extends ilMDSaxParser
                         $this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
                     }
                     if ($this->in_file_item) {
-                        if ($this->file_item_mapping[$a_attribs["Entry"]] == "") {
+                        if (!isset($this->file_item_mapping[$a_attribs["Entry"]])
+                            || $this->file_item_mapping[$a_attribs["Entry"]] === "") {
                             $this->file_item->create();
                             $this->file_item->setImportId($a_attribs["Entry"]);
                             $this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
@@ -789,7 +793,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 $this->in_meta_meta_data = true;
                 break;
 
-            // Internal Link
+                // Internal Link
             case "IntLink":
                 if (is_object($this->page_object)) {
                     $this->page_object->setContainsIntLink(true);
@@ -807,7 +811,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            // External Link
+                // External Link
             case "ExtLink":
                 if ($this->in_map_area) {
                     $this->map_area->setLinkType(IL_EXT_LINK);
@@ -816,7 +820,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            // Question
+                // Question
             case "Question":
                 $this->cur_qid = $a_attribs["QRef"];
                 $this->page_object->setContainsQuestion(true);
@@ -1235,9 +1239,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                 if ($this->in_media_item) {
                     $this->media_item->setFormat(trim($this->chr_data));
                 }
-                if ($this->in_file_item) {
-                    $this->file_item->setFileType(trim($this->chr_data));
-                }
                 break;
 
             case "Title":
@@ -1264,7 +1265,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            // Location
+                // Location
             case "Location":
                 // TODO: adapt for files in "real" subdirectories
                 if ($this->in_media_item) {
