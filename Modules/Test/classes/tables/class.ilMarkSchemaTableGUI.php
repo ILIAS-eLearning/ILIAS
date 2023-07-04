@@ -66,6 +66,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->initColumns();
         $this->initData();
+
+        $this->initJS($DIC->ui()->mainTemplate());
     }
 
     /**
@@ -101,6 +103,22 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         }
 
         $this->setData($data);
+    }
+
+    private function initJS(ilGlobalTemplateInterface $tpl)
+    {
+        $tpl->addOnloadCode("
+            let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');
+            let button = form.querySelector('input[name=\"cmd[saveMarks]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
     }
 
     /**
