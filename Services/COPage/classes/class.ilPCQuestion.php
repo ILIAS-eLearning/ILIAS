@@ -34,9 +34,9 @@ class ilPCQuestion extends ilPageContent
 
     public $dom;
     public $q_node;			// node of Paragraph element
-    
+
     protected static $initial_done; // [bool]
-    
+
     /**
     * Init page content component.
     */
@@ -95,7 +95,7 @@ class ilPCQuestion extends ilPageContent
         $this->q_node = $this->node->append_child($this->q_node);
         $this->q_node->set_attribute("QRef", "");
     }
-    
+
     /**
      * Copy question from pool into page
      *
@@ -110,7 +110,7 @@ class ilPCQuestion extends ilPageContent
         $duplicate_id = $question->copyObject(0, $question->getTitle());
         $duplicate = assQuestion::_instanciateQuestion($duplicate_id);
         $duplicate->setObjId(0);
-        
+
         /* PATCH-BEGIN: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
         /*
         // we remove everything not supported by the non-tiny self
@@ -160,12 +160,12 @@ class ilPCQuestion extends ilPageContent
 
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
         ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
-        
+
         /* PATCH-END: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
-        
+
         $this->q_node->set_attribute("QRef", "il__qst_" . $duplicate_id);
     }
-    
+
     /**
      * Get lang vars needed for editing
      * @return array array of lang var keys
@@ -188,9 +188,9 @@ class ilPCQuestion extends ilPageContent
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         include_once("./Services/Link/classes/class.ilInternalLink.php");
-        
+
         $ilDB->manipulateF(
             "DELETE FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
@@ -221,7 +221,7 @@ class ilPCQuestion extends ilPageContent
             );
         }
     }
-    
+
     /**
      * Before page is being deleted
      *
@@ -232,7 +232,7 @@ class ilPCQuestion extends ilPageContent
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulateF(
             "DELETE FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
@@ -240,7 +240,7 @@ class ilPCQuestion extends ilPageContent
             array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage())
         );
     }
-    
+
     /**
      * Get all questions of a page
      */
@@ -250,11 +250,13 @@ class ilPCQuestion extends ilPageContent
 
         $ilDB = $DIC->database();
 
+        $parent_type_array = explode(':', $a_parent_type);
+
         $res = $ilDB->queryF(
             "SELECT * FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
             array("text", "integer", "text"),
-            array($a_parent_type, $a_page_id, $a_lang)
+            array($parent_type_array[0], $a_page_id, $a_lang)
         );
         $q_ids = array();
         while ($rec = $ilDB->fetchAssoc($res)) {
@@ -313,10 +315,10 @@ class ilPCQuestion extends ilPageContent
                         );
                     }
                 }
-                
+
                 // this exports the questions which is needed below
                 $qhtml = $this->getQuestionJsOfPage(($a_mode == "edit") ? true : false, $a_mode);
-                                                            
+
                 require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
                 $a_output = "<script>" . ilQuestionExporter::questionsJS($q_ids) . "</script>" . $a_output;
                 if (!self::$initial_done) {
@@ -369,7 +371,7 @@ class ilPCQuestion extends ilPageContent
             $js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
             $js_files[] = 'Modules/TestQuestionPool/js/ilAssMultipleChoice.js';
             $js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
-            
+
             foreach ($this->getPage()->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
                 $js_files = array_merge($js_files, $qstGui->getPresentationJavascripts());
@@ -417,7 +419,7 @@ class ilPCQuestion extends ilPageContent
             if ($this->getPage()->getPageConfig()->getDisableDefaultQuestionFeedback()) {
                 $code[] = "ilias.questions.default_feedback = false;";
             }
-                        
+
             $code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()) . ' il.COPagePres.updateQuestionOverviews();';
         }
 
