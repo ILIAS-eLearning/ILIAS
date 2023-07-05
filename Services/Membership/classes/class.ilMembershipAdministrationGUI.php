@@ -1,8 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Membership Administration Settings
@@ -43,6 +42,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
     abstract protected function getParentObjType(): string;
 
     abstract protected function getAdministrationFormId(): int;
+
+    abstract protected function addChildContentsTo(ilPropertyFormGUI $form): ilPropertyFormGUI;
+
+    abstract protected function saveChildSettings(ilPropertyFormGUI $form): void;
+
+    abstract protected function getChildSettingsInfo(int $a_form_id): array;
 
     public function executeCommand(): void
     {
@@ -131,6 +136,8 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     (string) $form->getInput('mail_admin_notification')
                 );
 
+                $this->saveChildSettings($form);
+
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "editSettings");
             }
@@ -181,7 +188,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
         }
-        return $form;
+        return $this->addChildContentsTo($form);
     }
 
     public function addToExternalSettingsForm(int $a_form_id): array
@@ -208,7 +215,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     ]
                 ];
         }
-        return [];
+        return $this->getChildSettingsInfo($a_form_id);
     }
 
     protected function addFieldsToForm(ilPropertyFormGUI $a_form): void
