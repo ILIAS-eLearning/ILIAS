@@ -17,22 +17,7 @@
  */
 declare(strict_types=1);
 
-/*use Closure;
-use ilAdvancedSelectionListGUI;
-use ilCSVWriter;
-use ilExcel;*/
 use ILIAS\MyStaff\ilMyStaffAccess;
-
-/*use ilLPStatus;
-use ilMStListCoursesGUI;
-use ilMyStaffGUI;
-use ilObjUserTracking;
-use ilOrgUnitPathStorage;
-use ilRepositorySelectorInputGUI;
-use ilSelectInputGUI;
-use ilTable2GUI;
-use ilTextInputGUI;
-use ilUserSearchOptions;*/
 
 /**
  * Class ilMStListCoursesTableGUI
@@ -43,6 +28,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 {
     protected array $filter = array();
     protected ilMyStaffAccess $access;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     /**
      * @param ilMStListCoursesGUI $parent_obj
@@ -53,6 +40,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->setPrefix('myst_lc');
         $this->setFormName('myst_lc');
@@ -345,22 +334,40 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             }
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(true);
-        $actions->setId($set->getUsrId() . "-" . $set->getCrsRefId());
+        $mst_lco_usr_id = $set->getUsrId();
+        $mst_lco_crs_ref_id = $set->getCrsRefId();
 
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $set->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $set->getCrsRefId());
+        $actions = [];
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStListCoursesGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
-        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+            $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
+            $actions[] = $this->ui_fac->link()->standard(
+                ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                $link
+            );
+        };
+
+        $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits(true);
+        foreach (array_unique(ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($mst_lco_usr_id)) as $orgu_id) {
+            if ($DIC->access()->checkAccess("read", "", $orgu_id) && !ilObject::_isInTrash($orgu_id)) {
+                $link = ilLink::_getStaticLink($orgu_id, 'orgu');
+                $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
+            }
+        }
+
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $mst_lco_usr_id);
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $mst_lco_crs_ref_id);
+
+        $actions[] = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $mst_lco_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass(
+                "ilMStListCoursesGUI",
+                ilMStListCoursesGUI::CMD_INDEX
+            ))
+        );
+
+        $dropdown = $this->ui_fac->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $this->tpl->setVariable("ACTIONS", $this->ui_ren->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
 
