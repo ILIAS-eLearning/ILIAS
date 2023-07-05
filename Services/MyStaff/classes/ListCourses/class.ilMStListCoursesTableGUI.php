@@ -96,16 +96,20 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
+        $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
+            $DIC->user()->getId(),
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
+        );
 
         $list_courses_fetcher = new ilMStListCourses($DIC);
-        $count = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $count = $list_courses_fetcher->getData($arr_usr_id, $options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
             'end' => intval($this->getLimit()),
         );
         $options['count'] = false;
-        $data = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $data = $list_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($count);
         $this->setData($data);
     }
