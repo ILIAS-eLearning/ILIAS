@@ -169,9 +169,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             $this->addFilterItem($item);
             $item->readFromSession();
             $this->filter["lp_status"] = $item->getValue();
-            if ($this->filter["lp_status"]) {
-                $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
-            }
+            $this->filter["lp_status"] = (int) $this->filter["lp_status"] - 1;
         }
     }
 
