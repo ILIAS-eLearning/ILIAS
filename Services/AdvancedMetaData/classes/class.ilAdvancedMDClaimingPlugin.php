@@ -227,7 +227,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             "field_type" => array("integer", $a_type),
             "position" => array("integer", $pos),
             "title" => array("text", trim($a_title)),
-            "description" => array("text", trim($a_description)),
+            "description" => array("text", trim((string) $a_description)),
             "searchable" => array("integer", (int) $a_searchable)
         );
         if ($a_definition) {
