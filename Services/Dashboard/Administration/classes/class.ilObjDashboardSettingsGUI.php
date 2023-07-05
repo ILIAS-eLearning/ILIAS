@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\FormInput;
 
@@ -112,10 +117,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function editSettings(): void
     {
-        $this->setSettingsSubTabs("general");
-        $ui = $this->ui;
-        $form = $this->initForm();
-        $this->tpl->setContent($ui->renderer()->renderAsync($form));
+        if ($this->settings->get('rep_favourites', '0') !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('favourites_disabled_info'));
+        }
+
+        if ($this->settings->get('mmbr_my_crs_grp', '0') !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('memberships_disabled_info'));
+        }
+        $this->setSettingsSubTabs('general');
+        $content[] = $this->initForm();
+        $this->tpl->setContent($this->ui->renderer()->renderAsync($content));
     }
 
     public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
@@ -226,16 +237,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     protected function editViewCoursesGroups(): void
     {
-        $main_tpl = $this->tpl;
-        $tabs = $this->tabs_gui;
-        $ui_renderer = $this->ui_renderer;
-
-        $tabs->activateTab("settings");
+        if ($this->settings->get('mmbr_my_crs_grp', '0') !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('memberships_disabled_info'));
+        }
+        $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("view_courses_groups");
 
-        $form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
-
-        $main_tpl->setContent($ui_renderer->render($form));
+        $content[] = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
+        $this->tpl->setContent($this->ui_renderer->render($content));
     }
 
     protected function getViewSettingsForm(int $view): \ILIAS\UI\Component\Input\Container\Form\Standard
@@ -302,18 +311,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     protected function editViewFavourites(): void
     {
-        $main_tpl = $this->tpl;
-        $tabs = $this->tabs_gui;
-        $ui_renderer = $this->ui_renderer;
-
-        $tabs->activateTab("settings");
+        if ($this->settings->get('rep_favourites', "0") !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('favourites_disabled_info'));
+        }
+        $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("view_favourites");
 
-        $view = $this->viewSettings->getSelectedItemsView();
-
-        $form = $this->getViewSettingsForm($view);
-
-        $main_tpl->setContent($ui_renderer->render($form));
+        $content[] = $this->getViewSettingsForm($this->viewSettings->getSelectedItemsView());
+        $this->tpl->setContent($this->ui_renderer->render($content));
     }
 
     protected function saveViewFavourites(): void
