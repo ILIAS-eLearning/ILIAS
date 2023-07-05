@@ -120,10 +120,13 @@ class ilAdministrationSettingsFormHandler
                 break;
             
             case self::FORM_COURSE:
-            case self::FORM_GROUP:
                 $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
                 break;
-            
+
+            case self::FORM_GROUP:
+                $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL, self::SETTINGS_COURSE);
+                break;
+
             case self::FORM_WSP:
                 $types = array(self::SETTINGS_PORTFOLIO);
                 break;
@@ -171,7 +174,7 @@ class ilAdministrationSettingsFormHandler
         }
     }
     
-    protected static function parseFieldValue($a_field_type, &$a_field_value)
+    protected static function parseFieldValue($a_field_type, & $a_field_value)
     {
         global $DIC;
 

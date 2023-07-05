@@ -7566,6 +7566,8 @@ crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Course members
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription#:#User registered for course "%s"
 crs#:#crs_new_subscription_body#:#%s has registered for course "%s".
