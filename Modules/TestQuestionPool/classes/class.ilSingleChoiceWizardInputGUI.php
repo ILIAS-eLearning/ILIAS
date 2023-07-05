@@ -27,11 +27,11 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
 */
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $allowMove = false;
     protected $singleline = true;
     protected $qstObject = null;
-    protected $suffixes = array();
+    protected $suffixes = [];
     protected $showPoints = true;
     protected $hideImages = false;
     protected ArrayBasedRequestWrapper $post_wrapper;
@@ -202,6 +202,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     public function getAllowMove(): bool
     {
         return $this->allowMove;
+    }
+
+
+    // Set pending filename value
+    public function setPending(string $val): void
+    {
+        /**
+         * 2023-07-05 sk: This is not how it should be, but there is no got way
+         * around it right now. We need KS-Forms. Now!
+         */
     }
 
     /**
