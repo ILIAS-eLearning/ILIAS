@@ -67,8 +67,6 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->ui = $container->ui();
         $this->refinery = $container->refinery();
         $this->controlFlow = $container->ctrl();
-        $this->ui->mainTemplate()->setTitle($container->language()->txt('mm_org_etal'));
-        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
         $this->currentUser = $container->user();
         $this->repository = new IliasDBEmployeeTalkRepository($container->database());
     }
@@ -173,6 +171,8 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
     {
         $this->loadActionBar();
         $this->loadTabs();
+        $this->ui->mainTemplate()->setTitle($this->language->txt('mm_org_etal'));
+        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
         $this->ui->mainTemplate()->setContent($this->loadTable()->getHTML());
         return true;
     }

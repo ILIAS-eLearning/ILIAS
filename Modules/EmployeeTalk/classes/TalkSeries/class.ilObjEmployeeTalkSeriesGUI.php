@@ -72,7 +72,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $this->omitLocator();
-        $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
 
     private function checkAccessOrFail(): void
@@ -122,6 +121,15 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
+    }
+
+    /**
+     * This GUI is only called when creating a talk (series). In the creation dialog,
+     * there should not be a header.
+     */
+    protected function setTitleAndDescription(): void
+    {
+        $this->tpl->resetHeaderBlock();
     }
 
     /**
