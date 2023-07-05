@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Repository\Form;
 
@@ -364,7 +364,7 @@ class FormAdapterGUI
         );
 
         if (count($mime_types) > 0) {
-            $description.= $this->lng->txt("rep_allowed_types") . ": " .
+            $description .= $this->lng->txt("rep_allowed_types") . ": " .
                 implode(", ", $mime_types);
         }
 
@@ -478,15 +478,15 @@ class FormAdapterGUI
                 $inputs
             );
             if ($this->submit_caption !== "") {
-                $this->form = $this->form->withSubmitCaption($this->submit_caption);
+                $this->form = $this->form->withSubmitLabel($this->submit_caption);
             }
         }
         return $this->form;
     }
 
-    public function getSubmitCaption(): string
+    public function getSubmitLabel(): string
     {
-        return $this->getForm()->getSubmitCaption() ?? $this->lng->txt("save");
+        return $this->getForm()->getSubmitLabel() ?? $this->lng->txt("save");
     }
 
     protected function _getData(): void

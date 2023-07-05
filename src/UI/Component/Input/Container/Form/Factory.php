@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
@@ -56,7 +56,7 @@ interface Factory
      *     4: >
      *        On top and bottom of a standard form there SHOULD be the “Save” button for the form.
      *     5: >
-     *        In some rare exceptions the Buttons MAY be named differently: if “Save” is
+     *        In some rare exceptions the Buttons MAY be labeled differently: if “Save” is
      *        clearly a misleading since the action is more than storing
      *        the data into the database. “Send Mail” would be an example of this.
      * ---
