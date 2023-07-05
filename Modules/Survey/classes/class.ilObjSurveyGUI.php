@@ -127,7 +127,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilTabs = $this->tabs;
         $access_manager = $this->access_manager;
         $survey = $this->survey;
-        if ($survey && !$access_manager->canAccessInfoScreen()) {
+        if ($survey) {
             if (!$access_manager->canAccessInfoScreen()) {
                 $this->noPermission();
             }
@@ -311,7 +311,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (!$external_rater && !$this->getCreationMode() &&
             $this->checkPermissionBool("read")) {
             $this->ctrl->setParameterByClass("ilobjsurveygui", "ref_id", $this->ref_id);
-            $link = $this->ctrl->getLinkTargetByClass("ilobjsurveygui", "");
+            $link = $this->ctrl->getLinkTargetByClass("ilobjsurveygui", "infoScreen");
             $this->nav_history->addItem($this->ref_id, $link, "svy");
         }
     }
