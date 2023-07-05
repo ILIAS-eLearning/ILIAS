@@ -106,6 +106,13 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+    protected function initEditForm(): ilPropertyFormGUI
+    {
+        $form = parent::initEditForm();
+        $form->addCommandButton("view", $this->lng->txt("cancel"));
+        return $form;
+    }
+
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
     {
         $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
