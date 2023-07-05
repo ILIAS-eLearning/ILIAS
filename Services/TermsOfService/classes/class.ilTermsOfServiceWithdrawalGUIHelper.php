@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Factory;
@@ -61,7 +61,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $template->setVariable(
             'BTN_TOS_WITHDRAWAL',
             $this->uiRenderer->render(
-                $this->uiFactory->button()->standard($this->lng->txt('withdraw_consent'), 'logout.php?withdraw_consent')
+                $this->uiFactory->button()->standard($this->lng->txt('withdraw_consent'), ilStartUpGUI::logoutUrl(['withdraw_consent' => '']))
             )
         );
 

@@ -1468,7 +1468,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
                 if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
                     $helper->deleteAcceptanceHistoryByUser($this->user->getId());
-                    $this->ctrl->redirectToUrl('logout.php');
+                    $this->ctrl->redirectToUrl(self::logoutUrl());
                 }
             }
 
@@ -1546,7 +1546,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $this->dic->ui()->renderer()->render(
                         $this->dic->ui()->factory()->button()->standard(
                             $this->dic->language()->txt('deny_usr_agreement_btn'),
-                            'logout.php?withdraw_consent'
+                            self::logoutUrl(['withdraw_consent' => ''])
                         )
                     )
                 );
@@ -1883,7 +1883,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $view_title = $lng->txt('logout');
             $tpl->setCurrentBlock('link_item_bl');
             $tpl->setVariable('LINK_TXT', $view_title);
-            $tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH . '/logout.php');
+            $tpl->setVariable('LINK_URL', self::logoutUrl());
             $tpl->parseCurrentBlock();
         }
 
@@ -2200,5 +2200,24 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $table->setData($items);
         $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
         $this->mainTemplate->printToStdout('DEFAULT', false);
+    }
+
+    /**
+     * Return the logout URL with a valid CSRF token. Without the token the logout won't be successful.
+     *
+     * @param array<string, string> $parameters
+     */
+    public static function logoutUrl(array $parameters = []): string
+    {
+        global $DIC;
+
+        $defaults = ['lang' => $DIC->user()->getCurrentLanguage()];
+        $parameters = '&' . http_build_query(array_merge($defaults, $parameters));
+
+        $DIC->ctrl()->setTargetScript('logout.php');
+        $url = $DIC->ctrl()->getLinkTargetByClass([self::class], 'doLogout') . $parameters;
+        $DIC->ctrl()->setTargetScript('ilias.php');
+
+        return $url;
     }
 }
