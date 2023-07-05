@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Administration settings form handler
@@ -140,8 +140,11 @@ class ilAdministrationSettingsFormHandler
                 break;
 
             case self::FORM_COURSE:
-            case self::FORM_GROUP:
                 $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
+                break;
+
+            case self::FORM_GROUP:
+                $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL, self::SETTINGS_COURSE);
                 break;
 
             case self::FORM_WSP:
