@@ -41,7 +41,6 @@ class ilMyStaffGUI
 
         // get the standard template
         $DIC->ui()->mainTemplate()->loadStandardTemplate();
-        $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
     }
 
     final public function executeCommand(): void
@@ -63,10 +62,10 @@ class ilMyStaffGUI
                 $list_gui = new ilMStListCompetencesGUI($DIC);
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
-//            case strtolower(ilMStListStudyProgrammesGUI::class):
-//                $list_gui = new ilMStListStudyProgrammesGUI();
-//                $DIC->ctrl()->forwardCommand($list_gui);
-//                break;
+                //            case strtolower(ilMStListStudyProgrammesGUI::class):
+                //                $list_gui = new ilMStListStudyProgrammesGUI();
+                //                $DIC->ctrl()->forwardCommand($list_gui);
+                //                break;
             case strtolower(ilMStShowUserGUI::class):
                 $user_gui = new ilMStShowUserGUI();
                 $DIC->ctrl()->forwardCommand($user_gui);
