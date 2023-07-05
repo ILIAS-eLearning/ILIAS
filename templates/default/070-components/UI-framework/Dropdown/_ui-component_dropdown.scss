@@ -96,23 +96,8 @@ $cursor-disabled: not-allowed !default;
 	.divider {
 	  @include t-ndiv.nav-divider($dropdown-divider-bg);
 	}
-  
-	// Links within the dropdown menu
-	> li > a {
-	  display: block;
-	  padding: 3px 20px;
-	  clear: both;
-	  font-weight: 400;
-	  line-height: s.$il-line-height-base;
-	  color: $dropdown-link-color;
-	  white-space: nowrap; // prevent links from randomly breaking onto new lines
-  
-	  &:hover,
-	  &:focus {
-		color: $dropdown-link-hover-color;
-		text-decoration: none;
-		background-color: $dropdown-link-hover-bg;
-	  }
+	hr {
+		margin: l.$il-margin-large-vertical 0;
 	}
   }
   
@@ -245,12 +230,15 @@ $cursor-disabled: not-allowed !default;
 	background-color: $dropdown-bg;
 	font-weight: s.$il-font-weight-base;
 	border: 0 none;
-    @include t-ven.box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
+	@include t-ven.box-shadow(t-menu.$il-dropdown-shadow);
 	// Links within the dropdown menu
-	li > a {
+	li > a,
+	li > .btn-link {
 		display: block;
+		width: 100%;
 		clear: both;
-		padding: 3px 10px;
+		border: none;
+		padding: l.$il-padding-small-vertical l.$il-padding-xlarge-horizontal;
 		font-weight: s.$il-font-weight-base;
 		font-size: t-menu.$il-font-size-dropdown;
 		line-height: s.$il-line-height-base;
@@ -294,47 +282,8 @@ $cursor-disabled: not-allowed !default;
 //
 //##
 
-.dropdown .btn {
-	text-align: left;
-}
-
-.dropdown hr {
-	margin: l.$il-margin-large-vertical 0;
-}
-
 .dropdown h4 {
 	margin: l.$il-margin-base-vertical 0;
-}
-
-ul.dropdown-menu {
-	background-color: s.$il-main-bg;
-	font-weight: s.$il-font-weight-base;
-	border: 0 none;
-	@include t-ven.box-shadow(t-menu.$il-dropdown-shadow);
-	// Links within the dropdown menu
-	> li {
-		padding-top: l.$il-padding-xs-vertical;
-		padding-bottom: l.$il-padding-xs-vertical;
-
-		> .btn {
-			display: block;
-			width: 100%;
-			clear: both;
-			padding: l.$il-padding-small-vertical l.$il-padding-xlarge-horizontal;
-			font-weight: s.$il-font-weight-base;
-			font-size: t-menu.$il-font-size-dropdown;
-			line-height: s.$il-line-height-base;
-			background-color: t-menu.$dropdown-link-bg;
-			color: $dropdown-link-color;
-			white-space: nowrap; // prevent links from randomly breaking onto new lines
-			&:hover,
-			&:focus {
-				text-decoration: none;
-				color: $dropdown-link-hover-color;
-				background-color: $dropdown-link-hover-bg;
-			}
-		}
-	}
 }
 
 //Note, this is a rather nasty fix for #27751
