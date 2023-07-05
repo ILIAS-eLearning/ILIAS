@@ -7990,6 +7990,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Monday
