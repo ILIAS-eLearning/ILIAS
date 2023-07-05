@@ -94,9 +94,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         );
 
         $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
+        $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
+            $DIC->user()->getId(),
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
+        );
 
         $list_courses_fetcher = new \ILIAS\MyStaff\ListCourses\ilMStListCourses($DIC);
-        $result = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $result = $list_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
 
