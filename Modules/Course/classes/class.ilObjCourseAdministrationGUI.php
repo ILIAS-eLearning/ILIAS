@@ -36,7 +36,7 @@ class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
     {
         $checkBox = new ilCheckboxInputGUI($this->lng->txt('crs_my_courses_groups_enabled'), self::SETTING_COURSES_AND_GROUPS_ENABLED);
         $checkBox->setInfo($this->lng->txt('crs_my_courses_groups_enabled_info'));
-        $checkBox->setChecked((bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 0));
+        $checkBox->setChecked((bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 1));
         $form->addItem($checkBox);
         return $form;
     }
@@ -52,7 +52,7 @@ class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
                 $this->lng->loadLanguageModule("crs");
                 $fields = [
-                    'crs_my_courses_groups_enabled' => [ (bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 0), ilAdministrationSettingsFormHandler::VALUE_BOOL ]
+                    'crs_my_courses_groups_enabled' => [ (bool) $this->settings->get(self::SETTING_COURSES_AND_GROUPS_ENABLED, 1), ilAdministrationSettingsFormHandler::VALUE_BOOL ]
                 ];
                 return [ [ "editSettings", $fields ] ];
         }
