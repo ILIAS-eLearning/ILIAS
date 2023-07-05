@@ -93,7 +93,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
         $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
             $DIC->user()->getId(),
             ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
