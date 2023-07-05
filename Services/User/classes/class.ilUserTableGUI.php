@@ -45,7 +45,7 @@ class ilUserTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->getRefId())) {
+        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->getObject()->getRefId())) {
             $this->with_write_access = true;
         }
 
