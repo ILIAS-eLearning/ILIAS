@@ -206,13 +206,14 @@ class ilHTTPS
                 define('IL_COOKIE_SECURE', true);
             }
 
-            session_set_cookie_params(
-                IL_COOKIE_EXPIRE,
-                IL_COOKIE_PATH,
-                IL_COOKIE_DOMAIN,
-                true,
-                IL_COOKIE_HTTPONLY
-            );
+            session_set_cookie_params([
+                'lifetime' => IL_COOKIE_EXPIRE,
+                'path' => IL_COOKIE_PATH,
+                'domain' => IL_COOKIE_DOMAIN,
+                'secure' => IL_COOKIE_SECURE,
+                'httponly' => true,
+                'samesite' => (strtolower(session_get_cookie_params()['samesite'] ?? '')) === 'strict' ? session_get_cookie_params()['samesite'] : 'Lax'
+            ]);
         }
 
         return true;
