@@ -245,9 +245,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save") . '&template=' . $this->getTemplateRefId());
