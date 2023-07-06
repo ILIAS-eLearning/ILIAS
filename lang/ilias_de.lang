@@ -10129,17 +10129,28 @@ init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unt
 irss#:#action_download#:#Herunterladen
 irss#:#action_goto#:#Ressource öffnen
 irss#:#action_remove_resource#:#Ressource löschen
+irss#:#action_remove_resource_msg#:#Möchten Sie die folgende(n) Ressource(n) löschen?
 irss#:#action_show_revisions#:#Revisionen anzeigen
+irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
+irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
+irss#:#by_size_asc#:#Dateigrösse (aufsteigend)
+irss#:#by_size_desc#:#Dateigrösse (absteigend)
+irss#:#by_title_asc#:#Titel (aufsteigend)
+irss#:#by_title_desc#:#Titel (absteigend)
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse grösser als (MB)
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
 irss#:#resource_overview#:#Ressourcen-Übersicht
 irss#:#revision#:#Revision
 irss#:#revisions#:#Verfügbare Revisionen
+irss#:#rid_deleted#:#Datei entfernt
+irss#:#rids_appended#:#Ressource(n) hinzugefügt
+irss#:#rids_deleted#:#Ressource(n) gelöscht
 irss#:#sorting#:#Sortierung
 irss#:#sorting_1#:#Titel (aufsteigend)
 irss#:#sorting_2#:#Titel (absteigend)
@@ -10151,6 +10162,8 @@ irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#Dateityp
+irss#:#upload_field_title#:#Ausgewählte Dateien
+irss#:#upload_modal_title#:#Dateien hinzufügen
 itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock

@@ -18,25 +18,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\ResourceStorage\Resources\UI;
+namespace ILIAS\Services\ResourceStorage\Collections\View;
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\UI\Component\Card\Card;
+use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface ToComponent
+final class PreviewDefinition extends PagesToExtract
 {
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
+    public function __construct()
+    {
+        parent::__construct(
+            true,
+            512,
+            1,
+            true,
+            40
+        );
+    }
 
-    public function getAsCard(): Card;
-
-    public function getAsRowMapping(): \Closure;
-
-    public function getImportantProperties(): array;
-
-    public function getCommonProperties(): array;
-
-    public function getDetailedProperties(): array;
+    public function getId(): string
+    {
+        return 'irc_preview';
+    }
 }

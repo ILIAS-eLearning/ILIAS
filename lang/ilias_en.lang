@@ -10127,17 +10127,28 @@ init#:#init_error_redirect_info#:#Redirect not supported by context.
 irss#:#action_download#:#Download
 irss#:#action_goto#:#Open Resource
 irss#:#action_remove_resource#:#Delete Resource
+irss#:#action_remove_resource_msg#:#Do you want to delete the following Resource(s)?
 irss#:#action_show_revisions#:#Show Revisions
+irss#:#by_creation_date_asc#:#By Creation Date (Ascending)
+irss#:#by_creation_date_desc#:#By Creation Date (Descending)
+irss#:#by_size_asc#:#By File Size (Ascending)
+irss#:#by_size_desc#:#By File Size (Descending)
+irss#:#by_title_asc#:#By Title (Ascending)
+irss#:#by_title_desc#:#By Title (Descending)
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#file_size#:#File Size (This Revision)
 irss#:#file_size_bigger_than#:#File Size greater than (MB)
 irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_upload#:#Drop Files to upload
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
 irss#:#resource_overview#:#Resource Overview
 irss#:#revision#:#Revision
 irss#:#revisions#:#Available Revisions
+irss#:#rid_deleted#:#File removed
+irss#:#rids_appended#:#Resource(s) added
+irss#:#rids_deleted#:#Resource(s) deleted
 irss#:#sorting#:#Default Ordering
 irss#:#sorting_1#:#By Title (Ascending)
 irss#:#sorting_2#:#By Title (Descending)
@@ -10149,6 +10160,8 @@ irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#File Type
+irss#:#upload_field_title#:#Selected Files
+irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials

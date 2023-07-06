@@ -18,25 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\ResourceStorage\Resources\UI;
+namespace ILIAS\Services\ResourceStorage\Collections\View;
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\UI\Component\Card\Card;
+use ILIAS\Data\DataSize;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface ToComponent
+trait Formatter
 {
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
+    protected function formatSize(int $size): string
+    {
+        $size_factor = 1000;
+        $unit = match (true) {
+            $size > $size_factor * $size_factor * $size_factor => DataSize::GB,
+            $size > $size_factor * $size_factor => DataSize::MB,
+            $size > $size_factor => DataSize::KB,
+            default => DataSize::Byte,
+        };
 
-    public function getAsCard(): Card;
+        $size = (int) (round((float) $size / (float) $unit, 2) * (float) $unit);
 
-    public function getAsRowMapping(): \Closure;
-
-    public function getImportantProperties(): array;
-
-    public function getCommonProperties(): array;
-
-    public function getDetailedProperties(): array;
+        return (string) (new DataSize($size, $unit));
+    }
 }

@@ -18,25 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\ResourceStorage\Resources\UI;
+namespace ILIAS\Services\ResourceStorage;
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\UI\Component\Card\Card;
-
-/**
- * @author Fabian Schmid <fabian@sr.solutions>
- */
-interface ToComponent
+trait BinToHexSerializer
 {
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
+    private function hash(string $string): string
+    {
+        return bin2hex($string);
+    }
 
-    public function getAsCard(): Card;
-
-    public function getAsRowMapping(): \Closure;
-
-    public function getImportantProperties(): array;
-
-    public function getCommonProperties(): array;
-
-    public function getDetailedProperties(): array;
+    private function unhash(string $string): string
+    {
+        return hex2bin($string);
+    }
 }

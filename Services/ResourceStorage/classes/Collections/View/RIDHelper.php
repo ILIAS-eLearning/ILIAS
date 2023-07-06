@@ -18,25 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\ResourceStorage\Resources\UI;
+namespace ILIAS\Services\ResourceStorage\Collections\View;
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\UI\Component\Card\Card;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Information\Information;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface ToComponent
+trait RIDHelper
 {
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
+    private function getResourceInfo(ResourceIdentification $identification): Information
+    {
+        return $this->getCurrentRevision($identification)->getInformation();
+    }
 
-    public function getAsCard(): Card;
-
-    public function getAsRowMapping(): \Closure;
-
-    public function getImportantProperties(): array;
-
-    public function getCommonProperties(): array;
-
-    public function getDetailedProperties(): array;
+    protected function getCurrentRevision(ResourceIdentification $identification): Revision
+    {
+        return $this->irss->manage()->getCurrentRevision($identification);
+    }
 }
