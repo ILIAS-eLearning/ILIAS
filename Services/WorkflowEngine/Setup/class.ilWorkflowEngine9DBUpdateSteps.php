@@ -40,18 +40,14 @@ class ilWorkflowEngine9DBUpdateSteps implements ilDatabaseUpdateSteps
     public function step_2(): void
     {
         $this->db->dropTable('wfe_det_listening');
-        $this->db->dropTable('wfe_det_listening_seq');
         $this->db->dropTable('wfe_startup_events');
-        $this->db->dropTable('wfe_startup_events_seq');
         $this->db->dropTable('wfe_static_inputs');
-        $this->db->dropTable('wfe_static_inputs_seq');
         $this->db->dropTable('wfe_workflows');
-        $this->db->dropTable('wfe_workflows_seq');
     }
 
     public function step_3(): void
     {
-        $this->delete_directory(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe');
+        $this->delete_directory( '../default/wfe');
     }
 
     public function step_4(): void
@@ -82,7 +78,7 @@ class ilWorkflowEngine9DBUpdateSteps implements ilDatabaseUpdateSteps
                     );
 
                     $this->db->manipulateF(
-                        'DELETE FROM rbac_pa WHERE parent = %s',
+                        'DELETE FROM rbac_pa WHERE ref_id = %s',
                         array('integer'),
                         array($ref_id)
                     );
