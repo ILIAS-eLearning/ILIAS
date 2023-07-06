@@ -400,7 +400,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Editar Bloqueo
-adve#:#adve_char_selector_settings#:#Selector de carácteres
 adve#:#adve_excass_settings#:#Asignación de ejercicios
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -419,45 +418,6 @@ adve#:#adve_text_content_features#:#Menú de contenido de texto
 adve#:#adve_use_physical#:#Use b/i/u en lugar de str/emp/imp
 adve#:#adve_use_physical_info#:#Esta configuración reemplaza los botones de etiquetas semánticas para negrilla, cursiva y subrayado con los botones de atributos físicos b (negrita), i(itálica) y u(subrayado). Tenga en cuenta que esto puede dar lugar a incoherencias si se utiliza el editor de estilo y se asignan otros atributos a las clases de estilo strong/emphasis/important
 adve#:#adve_use_tiny_mce#:#Habilitar TinyMCE para edición WYSIWYG
-adve#:#char_selector_admin#:#Menú para seleccionar caracteres especiales (Unicode) en Tests y Bancos de Preguntas
-adve#:#char_selector_blocks#:#Bloques Unicode disponibles
-adve#:#char_selector_blocks_info#:#Todos los caracteres de los bloques seleccionados se enumeran, pero no todos ellos pueden ser soportados por la fuente actual del navegador.
-adve#:#char_selector_custom_items#:#Selección personalizada
-adve#:#char_selector_custom_items_info1#:#La selección personalizada aparecerá en la lista antes de que los bloques seleccionados. Por favor, añadir sus caracteres de la siguiente forma:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Los caracteres están separados por un espacio, generando botones selectores separados
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Es posible poner más caracteres en un botón
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Los rangos de caracteres se definen con un "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Un carácter también puede definirse en notación Unicode (mayúsculas o minúsculas)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Los rangos son también posibles en notación Unicode
-adve#:#char_selector_disabled_admin#:#Se se activa, se mostrará el Botón-Ω para activar el menú de selección de caracteres especiales.
-adve#:#char_selector_disabled_info_admin#:#Desactiva el selector. Usuarios y tests de evaluación pueden tener ajustes personalizados
-adve#:#char_selector_disabled_info_test#:#Desactiva el selector durante la realización de una prueba
-adve#:#char_selector_disabled_info_user#:#Desactiva el selector. Los tests de evaluación pueden tener una configuración personalizada
-adve#:#char_selector_disabled_test#:#El selector de caracteres especiales está desactivado
-adve#:#char_selector_disabled_user#:#Desactivar menú para seleccionar caracteres especiales
-adve#:#char_selector_enabled_admin#:#El Botón-Ω-Button para activar el menú de selección de caracteres especiales está visible por defecto
-adve#:#char_selector_enabled_info_admin#:#Activa el selector, se utiliza a través de un botón en el menú principal. Usuarios y test de evaluación pueden tener ajustes individuales.
-adve#:#char_selector_enabled_info_test#:#Activa el selector durante la realización de un test de evaluación
-adve#:#char_selector_enabled_info_user#:#Activa el selector, se utiliza a través de un botón en el menú principal.
-adve#:#char_selector_enabled_test#:#El selector de caracteres especiales está activo
-adve#:#char_selector_enabled_user#:#Activar menú para selección de caracteres especiales
-adve#:#char_selector_inactive_admin#:#Desactivar globalmente el menú para seleccionar caracteres especiales
-adve#:#char_selector_inactive_info_admin#:#Desactiva el selector. Los usuarios y los tests no pueden sobrescribir esta configuración.
-adve#:#char_selector_inherit_info_test#:#Utilizar la configuración de la plataforma o del usuario específico
-adve#:#char_selector_inherit_info_user#:#Utilizar la configuración de la plataforma.
-adve#:#char_selector_inherit_test#:#Se aplican ajustes realizados de forma global por el administrador o individualmente por los usuarios.
-adve#:#char_selector_inherit_user#:#Utilizar Ajustes Estándar
-adve#:#char_selector_menu_close#:#Cerrar selector de caracteres especiales
-adve#:#char_selector_menu_open#:#Abrir selector de caracteres especiales
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Cuando actives el selector, por favor, escoja un carácter de bloque o introduzca una selección especial
-adve#:#char_selector_test#:#Menú para seleccionar caracteres especiales (Unicode)
-adve#:#char_selector_unicode_all#:#Todos los bloques Unicode
-adve#:#char_selector_user#:#Menú para seleccionar caracteres especiales (Unicode) en Tests
 assessment#:#action#:#Acción
 assessment#:#addSuggestedSolution#:#Añadir solución recomendada
 assessment#:#add_answers#:#Añadir respuetas
@@ -600,7 +560,6 @@ assessment#:#categories#:#Categorias
 assessment#:#category#:#Categoria
 assessment#:#changeSuggestedSolution#:#Cambiar la solución sugerida
 assessment#:#change_adm_categories_not_allowed#:#Usted no tiene los permisos relativos a esta categoría.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Caja marcada
 assessment#:#checkbox_unchecked#:#Caja no marcada
 assessment#:#circle#:#Circulo

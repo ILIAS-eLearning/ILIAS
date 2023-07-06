@@ -110,11 +110,6 @@ class ilTestQuestionNavigationGUI
     /**
      * @var bool
      */
-    private $charSelectorEnabled = false;
-
-    /**
-     * @var bool
-     */
     private $anythingRendered = false;
 
     /**
@@ -369,22 +364,6 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isCharSelectorEnabled(): bool
-    {
-        return $this->charSelectorEnabled;
-    }
-
-    /**
-     * @param boolean $charSelectorEnabled
-     */
-    public function setCharSelectorEnabled($charSelectorEnabled)
-    {
-        $this->charSelectorEnabled = $charSelectorEnabled;
-    }
-
     // fau: testNav - generate question actions menu
     /**
      * Get the HTML of an actions menu below the title
@@ -466,18 +445,6 @@ class ilTestQuestionNavigationGUI
                 '',
                 'ilTestQuestionAction disabled',
                 'tst_skip_question_action'
-            );
-        }
-
-        if ($this->isCharSelectorEnabled()) {
-            $actions->addSeparator();
-            $actions->addEntry(
-                $this->lng->txt('char_selector_btn_label'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilCharSelectorMenuToggle',
-                'ilCharSelectorMenuToggleLink'
             );
         }
 

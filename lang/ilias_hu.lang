@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Szerkesztés zárolása
-adve#:#adve_char_selector_settings#:#Karakterválasztó
 adve#:#adve_excass_settings#:#Beadandó feladatok
 adve#:#adve_grp_copa#:#Tartalomlapok
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Szövegtartalom menü
 adve#:#adve_use_physical#:#b/i/u használata str/emp/imp helyett
 adve#:#adve_use_physical_info#:#Ez a beállítás lecseréli a félkövér, dőlt, aláhúzott (strong, emphatic, important) szemantikus stílusosztályokhoz tartozó gombokat b (bold), i (italic), u (underline) fizikai attribútumok gombjaira. Ne feledje, hogy ez inkonzisztenciát okozhat, ha a stílusszerkesztőt használ és más fizikai attribútumokat rendelt a strong/emphatic/important stílusosztályokhoz.
 adve#:#adve_use_tiny_mce#:#TinyMCE engedélyezése WYSIWYG szerkesztéshez
-adve#:#char_selector_admin#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben és kérdésgyűjteményekben
-adve#:#char_selector_blocks#:#Elérhető Unicode karaktergyűjtemények
-adve#:#char_selector_blocks_info#:#A kiválasztott blokkok összes karaktere felsorolásra kerül, nem biztos, hogy jelen böngészőbetűk mindegyiket támogatják
-adve#:#char_selector_custom_items#:#Egyéni választó
-adve#:#char_selector_custom_items_info1#:#A kiválasztott blokkok előtt egyéni választó jelenik meg. Adja meg karaktereit a következő formában:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#A karaktereket szóköz választja el, elválasztó gombokat különválasztva ezáltal.
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Egy gombon több karakter is lehetséges.
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Karakterek tartomány '-' kerül elválasztásra.
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Karakter Unicode jelöléssel is megadható (kis- és nagybetű között nincs különbség)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Tartományok Unicode jelöléssel
-adve#:#char_selector_disabled_admin#:#Unicode karakterválasztó csak akkor jelenik meg, ha be van kapcsolva
-adve#:#char_selector_disabled_info_admin#:#Az Unicode karakterválasztó tesztekben és kérdésgyűjteményekben engedélyezve van, de a felhasználó beállítása alatt vagy az adott tesztben, illetve kérdésgyűjteményeben be kell kapcsolniuk a felhasználóknak. A tesztbeállítások felülírják a a felhasználó beállításait.
-adve#:#char_selector_disabled_info_test#:#Az Unicode karakterválasztó ebben a tesztben - a felhasználó egyéni beállításaitól függetlenül - ki van kapcsolva.
-adve#:#char_selector_disabled_info_user#:#Tesztekben az Unicode karakterválasztó nem jelenik meg. Azonban a tesztek egyéni beállításaiban ez mégis kikényszeríthető.
-adve#:#char_selector_disabled_test#:#Unicode karakterválasztó ki van kapcsolva
-adve#:#char_selector_disabled_user#:#Unicode karakterválasztó kikapcsolása
-adve#:#char_selector_enabled_admin#:#Unicode karakterválasztó alapértelmezetten be van kapcsolva
-adve#:#char_selector_enabled_info_admin#:#Az Unicode karakterválasztó a tesztekben és kérdésgyűjteményekben be van kapcsolva. Az alább összeválogatott Unicode karaktergyűjtemények jelennek meg. A felhasználók egyéni beállításokat hozhatnak létre a saját beállításában, és a tesztek, illetve a kérdésgyűjtemények beállításaiban bekapcsolhatják azt.
-adve#:#char_selector_enabled_info_test#:#A felhasználók egyéni beállítástól függően jelenik meg az Unicode karakterválasztó. Speciális karakterek így bevihetőek.
-adve#:#char_selector_enabled_info_user#:#Tesztekben az Unicode karakterválasztó megjelenik. Ennek ellenére egyéni tesztbeállítások meggátolhatják ennek érvényre jutását, és nem jelenik meg az Unicode karakterválasztó.
-adve#:#char_selector_enabled_test#:#Unicode karakterválasztó be van kapcsolva
-adve#:#char_selector_enabled_user#:#Unicode karakterválasztó bekapcsolása
-adve#:#char_selector_inactive_admin#:#Unicode karakterválasztó globális kikapcsolása
-adve#:#char_selector_inactive_info_admin#:#Unicode karakterválasztó globálisan, az egész rendszerre ki van kapcsolva. A felhasználók nem módosíthatják ezt a saját egyéni, a tesztek, illetve a kérdésgyűjtemények beállításaiban sem.
-adve#:#char_selector_inherit_info_test#:#A globális rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó Ω gomb.
-adve#:#char_selector_inherit_info_user#:#A globális, egész rendszerre vonatkozó rendszerbeállítás legyen érvényben.
-adve#:#char_selector_inherit_test#:#A globális rendszer-, illetve az egyéni felhasználói beállítás együtt hatnak.
-adve#:#char_selector_inherit_user#:#Globális beállítások használata
-adve#:#char_selector_menu_close#:#Speciális karakterválasztó bezárása
-adve#:#char_selector_menu_open#:#Speciális karakterválasztó megnyitása
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Amikor aktiválja a karakterválasztót, válasszon egy karakterblokkot vagy adjon meg egy kijelölést!
-adve#:#char_selector_test#:#Unicode karakterválasztó
-adve#:#char_selector_unicode_all#:#Összes Unicode karaktergyűjtemény
-adve#:#char_selector_user#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben
 assessment#:#action#:#Művelet
 assessment#:#addSuggestedSolution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#add_answers#:#Válasz hozzáadása
@@ -598,7 +558,6 @@ assessment#:#categories#:#Kategóriák
 assessment#:#category#:#Kategória
 assessment#:#changeSuggestedSolution#:#Ismétléshez tartalomtípus kiválasztása
 assessment#:#change_adm_categories_not_allowed#:#Nem rendelkezel semmilyen ezt a kategóriát érintő jogosultsággal.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Kiválasztott
 assessment#:#checkbox_unchecked#:#Nem kiválasztott
 assessment#:#circle#:#Kör
