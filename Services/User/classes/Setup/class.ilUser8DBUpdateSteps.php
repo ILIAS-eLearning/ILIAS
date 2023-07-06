@@ -60,7 +60,7 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
                 . "`usr_session_istorage` as the table engine is MyIsam.\n"
                 . "This step will be finished after updating to ILIAS 8.\n"
                 . "You could also lengthen the field manually after you ran the migration\n"
-                . "to migrate to MyIsam, if you require longer session_ids.";
+                . "to migrate to InnoDB, if you require longer session_ids.";
             global $ilLog;
             $ilLog->warning($message);
         }
