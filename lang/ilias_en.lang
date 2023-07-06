@@ -13493,8 +13493,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of an In
 rbac#:#iass_visible#:#Individual Assessment is visible
 rbac#:#iass_write#:#Edit an Individual Assessment
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organisational Unit Employee
-rbac#:#il_orgu_superior#:#Organisational Unit Superior
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 rbac#:#ilias_id#:#ILIAS-ID
