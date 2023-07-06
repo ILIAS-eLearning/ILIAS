@@ -7360,12 +7360,12 @@ crs#:#crs_groupings#:#Course groupings
 crs#:#crs_groups_nr#:#Number of Memberships
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
 crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
-crs#:#crs_grp_assign_crs#:#Assign course
+crs#:#crs_grp_assign_crs#:#Assigned Objects of Membership Limitation
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your personal settings.
-crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
+crs#:#crs_grp_no_courses_assigned#:#None
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
 crs#:#crs_header_delete_members#:#Would you like to remove the following members from this course?
