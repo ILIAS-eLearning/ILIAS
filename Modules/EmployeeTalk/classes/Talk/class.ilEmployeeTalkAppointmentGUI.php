@@ -168,9 +168,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     private function initTalkEditForm(?EmployeeTalk $employeeTalk = null): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $editMode = $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT);
         $form->setFormAction($this->controlFlow->getFormActionByClass(
@@ -203,9 +200,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     private function initSeriesEditForm(?EmployeeTalk $employeeTalk = null): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $editMode = $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES);
         $form->setFormAction($this->controlFlow->getFormActionByClass(

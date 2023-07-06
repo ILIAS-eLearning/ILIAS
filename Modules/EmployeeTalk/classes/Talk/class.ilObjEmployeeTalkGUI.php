@@ -363,7 +363,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $lng->loadLanguageModule('etal');
         $lng->loadLanguageModule('orgu');
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
 
