@@ -9514,6 +9514,7 @@ file#:#file_uploaded_by#:#Version uploaded by
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#important_info#:#Important Information
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.

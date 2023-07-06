@@ -46,6 +46,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected ilObjFileImplementationInterface $implementation;
 
+    protected ?string $important_info = null;
     protected int $page_count = 0;
     protected bool $rating = false;
     protected ?ilLogger $log;
@@ -208,6 +209,21 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function getDirectory($a_version = 0): string
     {
         return $this->implementation->getDirectory($a_version);
+    }
+
+    public function getDownloadFilename(): string
+    {
+        return $this->implementation->getDownloadFilename();
+    }
+
+    public function getImportantInfo(): ?string
+    {
+        return $this->important_info;
+    }
+
+    public function setImportantInfo(string $a_important_info): void
+    {
+        $this->important_info = !empty($a_important_info) ? $a_important_info : null;
     }
 
     public function getVersion(): int
@@ -394,6 +410,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->version = $row->version ?? 1;
         $this->max_version = $row->max_version ?? 1;
         $this->mode = $row->f_mode ?? self::MODE_OBJECT;
+        $this->important_info = $row->important_info ?? "";
         $this->rating = (bool) ($row->rating ?? false);
         $this->page_count = (int) ($row->page_count ?? 0);
         $this->resource_id = $row->rid ?? null;
@@ -502,6 +519,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'file_id' => ['integer', $this->getId()],
             'file_name' => ['text', $this->getFileName()],
             'f_mode' => ['text', $this->getMode()],
+            'important_info' => ['text', $this->getImportantInfo()],
             'page_count' => ['text', $this->getPageCount()],
             'rating' => ['integer', $this->hasRating()],
             'rid' => ['text', $this->resource_id ?? ''],

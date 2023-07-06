@@ -179,6 +179,27 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     }
 
     /**
+     * Adds a new table column called 'important_info' to store
+     * important information regarding a file such as work instructions.
+     */
+    public function step_5(): void
+    {
+        $this->abortIfNotPrepared();
+        if ($this->database->tableExists('file_data')) {
+            $this->database->addTableColumn(
+                'file_data',
+                'important_info',
+                [
+                    'type' => 'text',
+                    'length' => '1024',
+                    'notnull' => false,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    /**
      * Halts the execution of these update steps if no database was
      * provided.
      * @throws LogicException if the database update steps were not

@@ -25,6 +25,8 @@ use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
+use ILIAS\Refinery\String\Group;
+use ILIAS\Data\Factory;
 
 /**
  * GUI class for file objects.
@@ -57,6 +59,9 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
 
+    /**
+    * @var ilObjFile $object
+     */
     public ?ilObject $object = null;
     public ilLanguage $lng;
     protected UIServices $ui;
@@ -70,6 +75,11 @@ class ilObjFileGUI extends ilObject2GUI
     protected General $general_settings;
     protected ilFileServicesSettings $file_service_settings;
     protected IconDatabaseRepository $icon_repo;
+    protected \ILIAS\UI\Component\Input\Factory $inputs;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \Psr\Http\Message\ServerRequestInterface $request;
+    protected \ILIAS\Data\Factory $data_factory;
+
 
     /**
      * Constructor
@@ -93,6 +103,10 @@ class ilObjFileGUI extends ilObject2GUI
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
         $this->icon_repo = new IconDatabaseRepository();
+        $this->inputs = $DIC->ui()->factory()->input();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
+        $this->data_factory = new Factory();
     }
 
     public function getType(): string
@@ -481,33 +495,37 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function update(): void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $form = $this->initPropertiesForm();
+        $form = $form->withRequest($this->request);
+        $inputs = $form->getData();
 
-        $form = $this->initPropertiesForm(self::CMD_EDIT);
-        if (!$form->checkInput()) {
-            $ilTabs->activateTab("settings");
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
+        /**
+        * @var $title_and_description ilObjectPropertyTitleAndDescription
+         */
+        $title_and_description = $inputs['file_info']['title_and_description'];
 
-            return;
-        }
-
-        $title = $form->getInput('title');
+        $title = $title_and_description->getTitle();
         // bugfix mantis 26045:
         $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        if (strlen(trim($title)) == 0) {
+        if ('' === trim($title)) {
             $title = $filename;
         } else {
             $title = $this->object->checkFileExtension($filename, $title);
         }
-
         $this->object->handleChangedObjectTitle($title);
-        $this->object->setDescription($form->getInput('description'));
-        $this->object->setRating($form->getInput('rating'));
-        $this->object->setOnclickMode((int) $form->getInput('on_click_action'));
+
+        $description = $title_and_description->getLongDescription();
+        $this->object->setDescription($description);
+
+        $updated_title_and_description = new ilObjectPropertyTitleAndDescription($title, $description);
+        $this->object->getObjectProperties()->storePropertyTitleAndDescription($updated_title_and_description);
+
+        $this->object->setImportantInfo($inputs['file_info']['important_info']);
+        $this->object->setRating($inputs['file_info']['rating']);
+        $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
-        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+        $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
@@ -519,11 +537,11 @@ class ilObjFileGUI extends ilObject2GUI
         // END ChangeEvent: Record update event.
 
         // Update ecs export settings
-        $ecs = new ilECSFileSettings($this->object);
-        $ecs->handleSettingsUpdate();
+        //        $ecs = new ilECSFileSettings($this->object);
+        //        $ecs->handleSettingsUpdate(); TODO: reintroduce usage of ECS file settings once they have been made compatible with the new ui components
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
+        $this->ctrl->redirectByClass(self::class, self::CMD_EDIT);
     }
 
     public function edit(): void
@@ -540,65 +558,80 @@ class ilObjFileGUI extends ilObject2GUI
 
         $form = $this->initPropertiesForm();
 
-        $val = [];
-        $val['title'] = $this->object->getTitle();
-        $val['description'] = $this->object->getLongDescription();
-        $val['rating'] = $this->object->hasRating();
-        $val['on_click_action'] = (string) $this->object->getOnClickMode();
-        $form->setValuesByArray($val);
-        $ecs = new ilECSFileSettings($this->object);
-        $ecs->addSettingsToForm($form, ilObjFile::OBJECT_TYPE);
+        //        $ecs = new ilECSFileSettings($this->object);
+        //        $ecs->addSettingsToForm($form, ilObjFile::OBJECT_TYPE); TODO: reintroduce usage of ECS file settings once they have been made compatible with the new ui components
 
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function initPropertiesForm(): ilPropertyFormGUI
+    protected function initPropertiesForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
+        $title_and_description = $this->object->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+            $this->lng,
+            $this->ui->factory()->input()->field(),
+            $this->refinery
+        );
 
-        $form->setTitle($this->lng->txt('file_edit'));
-        $form->addCommandButton('update', $this->lng->txt('save'));
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
+        $important_info = $this->inputs->field()->markdown(
+            new ilUIMarkdownPreviewGUI(),
+            $this->lng->txt('important_info'),
+        )->withValue(
+            $this->object->getImportantInfo() ?? ""
+        );
 
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $title->setValue($this->object->getTitle());
-        $title->setInfo($this->lng->txt("if_no_title_then_filename"));
-        $form->addItem($title);
-
-        $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
-        $o->setValue($this->lng->txt('upload_info_desc'));
-        $form->addItem($o);
-
-        $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $desc->setRows(3);
-        $form->addItem($desc);
-
+        $enable_rating = null;
         if ($this->id_type === self::REPOSITORY_NODE_ID) {
             $this->lng->loadLanguageModule('rating');
-            $rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
-            $rate->setInfo($this->lng->txt('rating_activate_rating_info'));
-            $form->addItem($rate);
+
+            $enable_rating = $this->inputs->field()->checkbox(
+                $this->lng->txt('rating_activate_rating'),
+                $this->lng->txt('rating_activate_rating_info')
+            )->withValue(
+                $this->object->hasRating()
+            );
         }
 
-        $on_click_action = new ilRadioGroupInputGUI($this->lng->txt('on_click_action'), 'on_click_action');
-        $on_click_action->addOption(
-            new ilRadioOption(
-                $this->lng->txt('action_download'),
-                (string) ilObjFile::CLICK_MODE_DOWNLOAD
-            )
+        $on_click_action = $this->inputs->field()->radio(
+            $this->lng->txt('on_click_action')
+        )->withOption(
+            (string) ilObjFile::CLICK_MODE_DOWNLOAD,
+            $this->lng->txt('action_download')
+        )->withOption(
+            (string) ilObjFile::CLICK_MODE_INFOPAGE,
+            $this->lng->txt('action_show')
+        )->withValue(
+            (string) $this->object->getOnClickMode()
         );
-        $on_click_action->addOption(
-            new ilRadioOption($this->lng->txt('action_show'), (string) ilObjFile::CLICK_MODE_INFOPAGE)
+
+        $file_info_section = $this->inputs->field()->section(
+            [
+                "title_and_description" => $title_and_description,
+                "important_info" => $important_info,
+                "rating" => $enable_rating,
+                "on_click_action" => $on_click_action
+            ],
+            $this->lng->txt('file_info')
         );
-        $form->addItem($on_click_action);
 
-        $presentationHeader = new ilFormSectionHeaderGUI();
-        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
-        $form->addItem($presentationHeader);
-        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+        $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+            $this->lng,
+            $this->ui->factory()->input()->field(),
+            $this->refinery
+        );
+        $presentation_section = $this->inputs->field()->section(
+            ["tile_image" => $tile_image],
+            $this->lng->txt('settings_presentation_header')
+        );
 
-        return $form;
+
+
+        return $this->inputs->container()->form()->standard(
+            $this->ctrl->getLinkTargetByClass(self::class, 'update'),
+            [
+                "file_info" => $file_info_section,
+                "presentation" => $presentation_section
+            ]
+        );
     }
 
     public function sendFile(): bool
@@ -670,22 +703,6 @@ class ilObjFileGUI extends ilObject2GUI
 
         $info = new ilInfoScreenGUI($this);
 
-        if ($this->checkPermissionBool("read", "sendfile")) {
-            // get permanent download link for repository
-            if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
-            } else {
-                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
-            }
-
-            // add download button
-            $btn_download = $this->ui->factory()->button()->primary(
-                $this->lng->txt('file_download'),
-                $download_target
-            );
-            $this->toolbar->addComponent($btn_download);
-        }
-
         $info->enablePrivateNotes();
 
         if ($this->checkPermissionBool("read")) {
@@ -708,6 +725,31 @@ class ilObjFileGUI extends ilObject2GUI
         $record_gui->setInfoObject($info);
         $record_gui->parse();
 
+        // Important Information
+        $important_info = $this->object->getImportantInfo();
+        if (!empty($important_info)) {
+            $group = new Group(new Factory(), $this->lng);
+            $markdown_to_html = $group->markdown()->toHTML();
+
+            $info->addSection($this->lng->txt("important_info"));
+            $info->addProperty("", $markdown_to_html->transform($important_info));
+        }
+
+        // download button
+        if ($this->checkPermissionBool("read", "sendfile")) {
+            // get permanent download link for repository
+            if ($this->id_type === self::REPOSITORY_NODE_ID) {
+                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
+            } else {
+                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
+            }
+
+            $url = $this->data_factory->uri($download_target);
+            $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
+            $download_launcher = $this->ui->factory()->launcher()->inline($link);
+            $info->addProperty("", $this->renderer->render($download_launcher));
+        }
+
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
@@ -722,9 +764,6 @@ class ilObjFileGUI extends ilObject2GUI
             }
         }
 
-        // forward the command
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->ctrl->forwardCommand($info);
     }
 

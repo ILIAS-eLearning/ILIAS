@@ -9522,6 +9522,7 @@ file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
+file#:#important_info#:#Wichtige Informationen
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
