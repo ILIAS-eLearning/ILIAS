@@ -24,6 +24,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Action as I;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 abstract class Action implements I\Action
 {
@@ -33,27 +35,23 @@ abstract class Action implements I\Action
      * and where to find the options (in case of signal)
      * Theses constants are passed to il.UI.table.data.init
      */
+    public const ROW_ID_PARAMETER = 'rowid';
     public const OPT_ACTIONID = 'actId';
 
     protected Signal|URI $target;
+    protected bool $async = false;
 
     public function __construct(
         protected string $label,
-        protected string $parameter_name,
-        URI $target,
-        protected bool $async
+        protected URLBuilder $url_builder,
+        protected URLBuilderToken $url_builder_token
     ) {
-        $this->target = $target;
+        $this->target = $url_builder->buildURI();
     }
 
     public function getLabel(): string
     {
         return $this->label;
-    }
-
-    public function getParameterName(): string
-    {
-        return $this->parameter_name;
     }
 
     public function getTarget(): Signal|URI
@@ -68,24 +66,40 @@ abstract class Action implements I\Action
         return $clone;
     }
 
+    public function withAsync(bool $async = true): self
+    {
+        $clone = clone $this;
+        $clone->async = $async;
+        return $clone;
+    }
+
     public function isAsync(): bool
     {
         return $this->async;
     }
 
-    public function withRowId(string $value): self
+    public function withRowId(string $row_id): self
     {
         $clone = clone $this;
         $target = $clone->getTarget();
-        $param = $clone->getParameterName();
 
-        if ($target instanceof Signal) {
-            $target->addOption($param, $value);
-        }
         if ($target instanceof URI) {
-            $target = $target->withParameter($param, [$value]);
+            $target = $this->url_builder->writeParameter(
+                $this->url_builder_token,
+                [$row_id]
+            )
+            ->buildURI();
         }
         $clone->target = $target;
         return $clone;
+    }
+
+    public function getURLBuilderJS(): string
+    {
+        return $this->url_builder->renderObject([$this->url_builder_token]);
+    }
+    public function getURLBuilderTokensJS(): string
+    {
+        return $this->url_builder->renderTokens([$this->url_builder_token]);
     }
 }

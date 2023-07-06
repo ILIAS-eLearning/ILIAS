@@ -20,23 +20,36 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Action;
 
-use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Component\Table\Action as I;
 
 class Factory implements I\Factory
 {
-    public function standard(string $label, string $parameter_name, URI $target, bool $async = false): I\Standard
-    {
-        return new Standard($label, $parameter_name, $target, $async);
+    public function standard(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $url_builder_token,
+        bool $async = false
+    ): I\Standard {
+        return new Standard($label, $url_builder, $url_builder_token, $async);
     }
 
-    public function single(string $label, string $parameter_name, URI $target, bool $async = false): I\Single
-    {
-        return new Single($label, $parameter_name, $target, $async);
+    public function single(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $url_builder_token,
+        bool $async = false
+    ): I\Single {
+        return new Single($label, $url_builder, $url_builder_token, $async);
     }
 
-    public function multi(string $label, string $parameter_name, URI $target, bool $async = false): I\Multi
-    {
-        return new Multi($label, $parameter_name, $target, $async);
+    public function multi(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $url_builder_token,
+        bool $async = false
+    ): I\Multi {
+        return new Multi($label, $url_builder, $url_builder_token, $async);
     }
 }

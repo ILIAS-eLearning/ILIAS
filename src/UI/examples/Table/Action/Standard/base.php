@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Table\Action\Standard;
 
 use ILIAS\UI\Implementation\Component\Table as T;
+use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\UI\URLBuilder;
 
 function base()
 {
@@ -15,22 +17,42 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
-    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
 
+    $query_params_namespace = ['datatable', '1'];
+
+    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
 
     //define standard (both single and multi) actions for the table
     $actions = [
         'some_action' => $f->table()->action()->standard(
             'do this',
-            'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something')
+            ...array_values(
+                $url_builder->withURI(
+                    $here_uri->withParameter( // this is a fix parameter
+                        'demo_table_action',  // the action's parameter-name
+                        'do_something'        // its value
+                    )
+                )->acquireParameter(
+                    $query_params_namespace,
+                    Action::ROW_ID_PARAMETER
+                )
+            ),
         ),
         'some_other_action' => $f->table()->action()->standard(
             'do something else',
-            'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something_else'),
-            true
-        ),
+            ...array_values(
+                $url_builder->withURI(
+                    $here_uri->withParameter( //this is a fix parameter
+                        'demo_table_action',
+                        'do_something_else'
+                    )
+                )->acquireParameter( //this is the builder-token for row_ids
+                    $query_params_namespace,
+                    T\Action\Action::ROW_ID_PARAMETER
+                )
+            )
+        )->withAsync(),
     ];
 
     $table = getExampleTable($f)
@@ -39,24 +61,29 @@ function base()
 
     //render table and results
     $result = [$table];
+
     $params = [];
     $request = $DIC->http()->request();
     parse_str($request->getUri()->getQuery(), $params);
     if (array_key_exists('demo_table_action', $params)) {
-        $items = [
-            'table_action' => $params['demo_table_action'],
-            'id' => print_r($params['relay_param'] ?? '', true),
-        ];
-        $result[] = $f->divider()->horizontal();
+        $query_params_namespace[] = Action::ROW_ID_PARAMETER;
+        $param = implode(URLBuilder::SEPARATOR, $query_params_namespace);
+        $items = $f->listing()->characteristicValue()->text(
+            [
+                'table_action' => $params['demo_table_action'],
+                'id' => print_r($params[$param] ?? '', true),
+            ]
+        );
+
         if ($params['demo_table_action'] === 'do_something_else') {
-            echo(
-                $r->render($f->listing()->characteristicValue()->text($items))
-            );
+            echo($r->render($items));
             exit();
         } else {
-            $result[] = $f->listing()->characteristicValue()->text($items);
+            $result[] = $f->divider()->horizontal();
+            $result[] = $items;
         }
     }
+
     return $r->render($result);
 }
 

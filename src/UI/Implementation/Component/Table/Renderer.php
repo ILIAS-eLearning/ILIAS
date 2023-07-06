@@ -26,6 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\Order;
+use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 class Renderer extends AbstractComponentRenderer
@@ -465,13 +466,15 @@ class Renderer extends AbstractComponentRenderer
         string $action_id,
         Action $action
     ): \Closure {
-        $parameter_name = $action->getParameterName();
+        $parameter_name = Action::ROW_ID_PARAMETER;
         $target = $action->getTarget();
         $async = $action->isAsync() ? 'true' : 'false';
+        $url_builder_js = $action->getURLBuilderJS();
+        $tokens_js = $action->getURLBuilderTokensJS();
 
-        return static function ($id) use ($action_id, $target, $parameter_name, $async): string {
+        return static function ($id) use ($action_id, $async, $url_builder_js, $tokens_js): string {
             return "
-                il.UI.table.data.get('{$id}').registerAction('{$action_id}', '{$target}', '{$parameter_name}', {$async});
+                il.UI.table.data.get('{$id}').registerAction('{$action_id}', {$async}, {$url_builder_js}, {$tokens_js});
             ";
         };
     }
@@ -516,9 +519,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($actions as $act) {
             $act = $act->withRowId($row_id);
             $target = $act->getTarget();
-            if ($target instanceof Component\Signal) {
-                $target->addOption($act->getParameterName(), $row_id);
-            } else {
+            if ($target instanceof URI) {
                 $target = (string) $target;
             }
             $buttons[] = $f->button()->shy($act->getLabel(), $target);

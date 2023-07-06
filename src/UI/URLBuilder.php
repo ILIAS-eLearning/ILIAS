@@ -154,7 +154,7 @@ class URLBuilder
     /**
      * Change an acquired parameter's value if the supplied token is valid
      */
-    public function writeParameter(URLBuilderToken $token, string $value): self
+    public function writeParameter(URLBuilderToken $token, string|array $value): self
     {
         $this->checkToken($token);
         $clone = clone $this;

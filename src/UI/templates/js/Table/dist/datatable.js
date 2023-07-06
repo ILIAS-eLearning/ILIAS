@@ -40,7 +40,7 @@ class DataTable {
   #table;
 
   /**
-   * @type {array<string, array>}
+   * @type {array<string, {async: bool, urlBuilder: URLBuilder, urlTokens: Map}>}
    */
   #actionsRegistry;
 
@@ -70,16 +70,16 @@ class DataTable {
 
   /**
    * @param {string} actionId
-   * @param {mixed} target
-   * @param {string} parameterName
    * @param {bool} async
+   * @param {URLBuilder} urlBuilder
+   * @param {Map} urlTokens
    * @return {void}
    */
-  registerAction(actionId, target, parameterName, async) {
+  registerAction(actionId, async, urlBuilder, urlTokens) {
     this.#actionsRegistry[actionId] = {
-      target,
-      param: parameterName,
       async,
+      urlBuilder,
+      urlTokens,
     };
   }
 
@@ -111,13 +111,13 @@ class DataTable {
    * @return {string[]}
    */
   collectSelectedRowIds() {
-    const cols = this.#table.getElementsByClassName('c-table-data__row-selector');
+    const rows = this.#table.getElementsByClassName('c-table-data__row-selector');
     const ret = [];
 
-    cols.forEach(
-      (col) => {
-        if (col.checked) {
-          ret.push(col.value);
+    rows.forEach(
+      (chk) => {
+        if (chk.checked) {
+          ret.push(chk.value);
         }
       },
     );
@@ -137,9 +137,7 @@ class DataTable {
    * @return {void}
    */
   doSingleAction(signalData) {
-    const actId = signalData.options[this.#signalConstants.actionId];
-    const action = this.#actionsRegistry[actId];
-    const rowId = signalData.options[action.param];
+    const rowId = signalData.triggerer.closest('tr')[0].querySelector('.c-table-data__row-selector').value;
     this.doAction(signalData, [rowId]);
   }
 
@@ -155,7 +153,10 @@ class DataTable {
       .getElementsByTagName('select')[0].value;
 
     if (selectedAction in this.#actionsRegistry) {
-      const signalData = { options: { action: selectedAction } };
+      const k = this.#signalConstants.actionId;
+      const signalData = { options: {} };
+      signalData.options[k] = selectedAction;
+
       modalClose.click();
       this.doAction(signalData, ['ALL_OBJECTS']);
     }
@@ -169,22 +170,14 @@ class DataTable {
   doAction(signalData, rowIds) {
     const actId = signalData.options[this.#signalConstants.actionId];
     const action = this.#actionsRegistry[actId];
-    const parts = action.target.split('?');
-    const base = parts[0];
-    const search = parts[1];
-    const params = new URLSearchParams(search);
-    const k = `${action.param}[]`;
-    params.delete(action.param);
-    params.delete(k);
-    rowIds.forEach(
-      (v) => params.append(k, v),
-    );
-    const target = `${base}?${params.toString()}`;
+    const token = action.urlTokens.values().next().value;
+    action.urlBuilder.writeParameter(token, rowIds);
+    const target = decodeURI(action.urlBuilder.getUrl().toString());
 
     if (!action.async) {
       window.location.href = target;
     } else {
-      this.asyncAction(decodeURI(target));
+      this.asyncAction(target);
     }
   }
 
@@ -201,10 +194,11 @@ class DataTable {
     }).done(
       (html) => {
         responseContainer.style.display = 'block';
-        responseContainer.querySelector('.modal-header > button').addEventListener('click',
-          function() {
+        responseContainer.querySelector('.modal-header > button').addEventListener(
+          'click',
+          () => {
             responseContainer.style.display = 'none';
-          }
+          },
         );
         responseContent.innerHTML = html;
       },
