@@ -25,7 +25,7 @@ class DataTable {
   #jquery;
 
   /**
-   * @type {actionId: string, optRowId: string}
+   * @type {actionId: string, rowId: string}
    */
   #signalConstants;
 
@@ -63,7 +63,7 @@ class DataTable {
     this.#jquery = jquery;
     this.#signalConstants = {
       actionId: optActionId,
-      optRowId: optRowId,
+      rowId: optRowId,
     };
     this.#actionsRegistry = {};
 
@@ -139,7 +139,7 @@ class DataTable {
    * @return {void}
    */
   doSingleAction(signalData) {
-    const rowId = signalData.options[this.#signalConstants.optRowId];
+    const rowId = signalData.options[this.#signalConstants.rowId];
     this.doAction(signalData, [rowId]);
   }
 
