@@ -174,6 +174,15 @@ class Unzip
             return false;
         }
 
+        if ($this->options->ensureTopDirectory()) {
+            // top directory with same name as the ZIP without suffix
+            $zip_path = $this->stream->getMetadata(self::URI);
+            $sufix = '.' . pathinfo($zip_path, PATHINFO_EXTENSION);
+            $top_directory = basename($zip_path, $sufix);
+
+            $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
+        }
+
         if ($this->options->isFlat()) {
             foreach ($this->getStreams() as $stream) {
                 $uri = $stream->getMetadata(self::URI);

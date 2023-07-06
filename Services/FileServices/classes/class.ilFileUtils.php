@@ -805,7 +805,7 @@ class ilFileUtils
     public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): bool
     {
         global $DIC;
-        return $DIC->legacyArchives()->unzip($a_file, null, $overwrite, $a_flat);
+        return $DIC->legacyArchives()->unzip($a_file, null, $overwrite, $a_flat, true);
     }
 
     /**
