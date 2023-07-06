@@ -25,7 +25,7 @@ class DataTable {
   #jquery;
 
   /**
-   * @type {actionId: string}
+   * @type {actionId: string, optRowId: string}
    */
   #signalConstants;
 
@@ -47,10 +47,11 @@ class DataTable {
   /**
    * @param {jQuery} jquery
    * @param {string} optActionId
+   * @param {string} optRowId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, optActionId, componentId) {
+  constructor(jquery, optActionId, optRowId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
@@ -62,6 +63,7 @@ class DataTable {
     this.#jquery = jquery;
     this.#signalConstants = {
       actionId: optActionId,
+      optRowId: optRowId,
     };
     this.#actionsRegistry = {};
 
@@ -137,7 +139,7 @@ class DataTable {
    * @return {void}
    */
   doSingleAction(signalData) {
-    const rowId = signalData.triggerer.closest('tr')[0].querySelector('.c-table-data__row-selector').value;
+    const rowId = signalData.options[this.#signalConstants.optRowId];
     this.doAction(signalData, [rowId]);
   }
 
@@ -283,10 +285,11 @@ class DataTableFactory {
   /**
    * @param {string} tableId
    * @param {string} optActionId
+   * @param {string} optRowId
    * @return {void}
    * @throws {Error} if the table was already initialized.
    */
-  init(tableId, optActionId) {
+  init(tableId, optActionId, optRowId) {
     if (this.#instances[tableId] !== undefined) {
       throw new Error(`DataTable with id '${tableId}' has already been initialized.`);
     }
@@ -294,6 +297,7 @@ class DataTableFactory {
     this.#instances[tableId] = new DataTable(
       this.#jquery,
       optActionId,
+      optRowId,
       tableId,
     );
   }

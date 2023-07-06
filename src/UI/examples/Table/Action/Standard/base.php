@@ -17,41 +17,31 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
+    $refinery = $DIC['refinery'];
 
-    $query_params_namespace = ['datatable', '1'];
-
+    //this is the endpoint for actions, in this case the same page.
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
+
+    //these are the query parameters this instance is controlling
+    $query_params_namespace = ['datatable', 'example'];
+    list($url_builder, $id_token, $action_token) = $url_builder->acquireParameters(
+        $query_params_namespace,
+        "some_row_id",
+        "table_action"
+    );
 
     //define standard (both single and multi) actions for the table
     $actions = [
         'some_action' => $f->table()->action()->standard(
             'do this',
-            ...array_values(
-                $url_builder->withURI(
-                    $here_uri->withParameter( // this is a fix parameter
-                        'demo_table_action',  // the action's parameter-name
-                        'do_something'        // its value
-                    )
-                )->acquireParameter(
-                    $query_params_namespace,
-                    Action::ROW_ID_PARAMETER
-                )
-            ),
+            $url_builder->withParameter($action_token, "do_something"),
+            $id_token
         ),
         'some_other_action' => $f->table()->action()->standard(
             'do something else',
-            ...array_values(
-                $url_builder->withURI(
-                    $here_uri->withParameter( //this is a fix parameter
-                        'demo_table_action',
-                        'do_something_else'
-                    )
-                )->acquireParameter( //this is the builder-token for row_ids
-                    $query_params_namespace,
-                    T\Action\Action::ROW_ID_PARAMETER
-                )
-            )
+            $url_builder->withParameter($action_token, "do_something_else"),
+            $id_token
         )->withAsync(),
     ];
 
@@ -62,20 +52,19 @@ function base()
     //render table and results
     $result = [$table];
 
-    $params = [];
-    $request = $DIC->http()->request();
-    parse_str($request->getUri()->getQuery(), $params);
-    if (array_key_exists('demo_table_action', $params)) {
-        $query_params_namespace[] = Action::ROW_ID_PARAMETER;
-        $param = implode(URLBuilder::SEPARATOR, $query_params_namespace);
+    $query = $DIC->http()->wrapper()->query();
+    if ($query->has($action_token->getName())) {
+        $action = $query->retrieve($action_token->getName(), $refinery->to()->string());
+        $ids = $query->retrieve($id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
+
         $items = $f->listing()->characteristicValue()->text(
             [
-                'table_action' => $params['demo_table_action'],
-                'id' => print_r($params[$param] ?? '', true),
+                'table_action' => $action,
+                'id' => print_r($ids, true),
             ]
         );
 
-        if ($params['demo_table_action'] === 'do_something_else') {
+        if ($action === 'do_something_else') {
             echo($r->render($items));
             exit();
         } else {

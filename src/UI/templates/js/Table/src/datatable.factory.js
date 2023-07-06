@@ -21,10 +21,11 @@ export default class DataTableFactory {
   /**
    * @param {string} tableId
    * @param {string} optActionId
+   * @param {string} optRowId
    * @return {void}
    * @throws {Error} if the table was already initialized.
    */
-  init(tableId, optActionId) {
+  init(tableId, optActionId, optRowId) {
     if (this.#instances[tableId] !== undefined) {
       throw new Error(`DataTable with id '${tableId}' has already been initialized.`);
     }
@@ -32,6 +33,7 @@ export default class DataTableFactory {
     this.#instances[tableId] = new DataTable(
       this.#jquery,
       optActionId,
+      optRowId,
       tableId,
     );
   }

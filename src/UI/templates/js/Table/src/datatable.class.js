@@ -25,7 +25,7 @@ export default class DataTable {
   #jquery;
 
   /**
-   * @type {actionId: string}
+   * @type {actionId: string, optRowId: string}
    */
   #signalConstants;
 
@@ -47,10 +47,11 @@ export default class DataTable {
   /**
    * @param {jQuery} jquery
    * @param {string} optActionId
+   * @param {string} optRowId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, optActionId, componentId) {
+  constructor(jquery, optActionId, optRowId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
@@ -62,6 +63,7 @@ export default class DataTable {
     this.#jquery = jquery;
     this.#signalConstants = {
       actionId: optActionId,
+      optRowId: optRowId,
     };
     this.#actionsRegistry = {};
 
@@ -137,7 +139,7 @@ export default class DataTable {
    * @return {void}
    */
   doSingleAction(signalData) {
-    const rowId = signalData.triggerer.closest('tr')[0].querySelector('.c-table-data__row-selector').value;
+    const rowId = signalData.options[this.#signalConstants.optRowId];
     this.doAction(signalData, [rowId]);
   }
 

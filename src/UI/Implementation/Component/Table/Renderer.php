@@ -199,10 +199,11 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->applyViewControls($component);
 
         $opt_action_id = Action::OPT_ACTIONID;
+        $opt_row_id = Action::OPT_ROWID;
         $component = $component
             ->withAdditionalOnLoadCode(
                 static fn($id): string =>
-                    "il.UI.table.data.init('{$id}','{$opt_action_id}');"
+                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
             )
             ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
             ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
@@ -466,8 +467,6 @@ class Renderer extends AbstractComponentRenderer
         string $action_id,
         Action $action
     ): \Closure {
-        $parameter_name = Action::ROW_ID_PARAMETER;
-        $target = $action->getTarget();
         $async = $action->isAsync() ? 'true' : 'false';
         $url_builder_js = $action->getURLBuilderJS();
         $tokens_js = $action->getURLBuilderTokensJS();

@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
 function with_actions()
@@ -16,7 +16,8 @@ function with_actions()
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
-    $ctrl = $DIC['ilCtrl'];
+    $df = new \ILIAS\Data\Factory();
+    $refinery = $DIC['refinery'];
     $request = $DIC->http()->request();
 
     // This is what the table will look like
@@ -35,13 +36,27 @@ function with_actions()
      * a single entry, while Single- and Multiactions will only work for
      * one of them.
     */
+
+    //this is the endpoint for actions, in this case the same page.
+    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
+
+    //these are the query parameters this instance is controlling
+    $query_params_namespace = ['datatable', 'example'];
+    list($url_builder, $id_token, $action_token) = $url_builder->acquireParameters(
+        $query_params_namespace,
+        "ids", //this is the parameter name to be used for rowids
+        "table_action" //this is the actions's parameter name
+    );
+
     $actions = [
         //never in multi actions
-        'edit' => $f->table()->action()->single('edit', 'ids', buildDemoURL($request, 'table_action=edit')),
+        'edit' => $f->table()->action()->single('edit', $url_builder->withParameter($action_token, "edit"), $id_token),
         //never in single row
-        'compare' => $f->table()->action()->multi('compare', 'ids', buildDemoURL($request, 'table_action=compare')),
+        'compare' => $f->table()->action()->multi('compare', $url_builder->withParameter($action_token, "compare"), $id_token),
         //in both
-        'delete' => $f->table()->action()->standard('delete', 'ids', buildDemoURL($request, 'table_action=delete'), true)
+        'delete' => $f->table()->action()->standard('delete', $url_builder->withParameter($action_token, "delete"), $id_token)
+            ->withAsync(),
     ];
 
     // retrieve data and map records to table rows
@@ -101,16 +116,18 @@ function with_actions()
     ];
 
     //demo results
-    $params = [];
-    parse_str($request->getUri()->getQuery(), $params);
-    if (array_key_exists('table_action', $params)) {
-        $items = [
-            'table_action' => $params['table_action'],
-            'ids' => print_r($params['ids'], true)
-        ];
-        $listing = $f->listing()->characteristicValue()->text($items);
+    $query = $DIC->http()->wrapper()->query();
+    if ($query->has($action_token->getName())) {
+        $action = $query->retrieve($action_token->getName(), $refinery->to()->string());
+        $ids = $query->retrieve($id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
+        $listing = $f->listing()->characteristicValue()->text(
+            [
+                'table_action' => $action,
+                'id' => print_r($ids, true),
+            ]
+        );
 
-        if ($params['table_action'] === 'delete') {
+        if ($action === 'delete') {
             echo($r->render([
                 $f->messageBox()->confirmation('You are about to delete items!'),
                 $f->divider()->horizontal(),
@@ -124,10 +141,4 @@ function with_actions()
     }
 
     return $r->render($out);
-}
-
-function buildDemoURL(ServerRequestInterface $request, string $param): URI
-{
-    $df = new \ILIAS\Data\Factory();
-    return $df->uri($request->getUri()->__toString() . '&' . $param);
 }

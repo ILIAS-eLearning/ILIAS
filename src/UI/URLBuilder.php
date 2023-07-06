@@ -45,7 +45,6 @@ class URLBuilder
     public const URL_MAX_LENGTH = 2048;
     /**
      * Separator for parts of a parameter's namespace
-     * (see URLBuilderInterface::acquireParameter() for more details)
      */
     public const SEPARATOR = '_';
     /**
@@ -112,7 +111,7 @@ class URLBuilder
      * changed URLBuilder as well as the token for any
      * subsequent changes to the acquired parameter.
      *
-     * @return array{url: URLBuilder, token: URLBuilderToken}
+     * @return array<URLBuilder,URLBuilderToken>
      * @throws \ilException
      * @throws \InvalidArgumentException
      */
@@ -132,10 +131,19 @@ class URLBuilder
         $clone->params[$parameter] = ($initial_value) ?? '';
         $clone->tokens[$parameter] = $token;
 
-        return [
-            'url' => $clone,
-            'token' => $token
-        ];
+        return [$clone, $token];
+    }
+
+    public function acquireParameters(array $namespace, string ...$names): array
+    {
+        $tokens = [];
+        $builder = $this;
+        foreach ($names as $name) {
+            list($builder, $token) = $builder->acquireParameter($namespace, $name);
+            $tokens[] = $token;
+        }
+        array_unshift($tokens, $builder);
+        return $tokens;
     }
 
     /**
@@ -154,7 +162,7 @@ class URLBuilder
     /**
      * Change an acquired parameter's value if the supplied token is valid
      */
-    public function writeParameter(URLBuilderToken $token, string|array $value): self
+    public function withParameter(URLBuilderToken $token, string|array $value): self
     {
         $this->checkToken($token);
         $clone = clone $this;

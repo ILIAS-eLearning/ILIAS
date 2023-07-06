@@ -35,8 +35,8 @@ abstract class Action implements I\Action
      * and where to find the options (in case of signal)
      * Theses constants are passed to il.UI.table.data.init
      */
-    public const ROW_ID_PARAMETER = 'rowid';
     public const OPT_ACTIONID = 'actId';
+    public const OPT_ROWID = 'rowid';
 
     protected Signal|URI $target;
     protected bool $async = false;
@@ -83,8 +83,11 @@ abstract class Action implements I\Action
         $clone = clone $this;
         $target = $clone->getTarget();
 
+        if ($target instanceof Signal) {
+            $target->addOption('rowid', $row_id);
+        }
         if ($target instanceof URI) {
-            $target = $this->url_builder->writeParameter(
+            $target = $this->url_builder->withParameter(
                 $this->url_builder_token,
                 [$row_id]
             )
