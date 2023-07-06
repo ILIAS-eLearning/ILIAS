@@ -166,7 +166,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             $url = $this->controlFlow->getLinkTargetByClass($talk_class, ControlFlowCommand::CREATE);
             $this->controlFlow->clearParametersByClass($talk_class);
 
-            $buttons[] = $this->ui->factory()->button()->shy(
+            $buttons[] = $this->ui->factory()->link()->standard(
                 (string) $item["title"],
                 $url
             );
