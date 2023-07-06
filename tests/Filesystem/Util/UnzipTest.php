@@ -107,7 +107,7 @@ class UnzipTest extends TestCase
         $zip_path = $this->zips_dir . $zip;
         $this->assertFileExists($zip_path);
 
-        $temp_unzip_path =$this->unzips_dir . uniqid('unzip', true);
+        $temp_unzip_path = $this->unzips_dir . uniqid('unzip', true);
 
         $return = $legacy->unzip(
             $zip_path,
@@ -120,6 +120,30 @@ class UnzipTest extends TestCase
         $expected_paths = array_merge($expected_directories, $expected_files);
         sort($expected_paths);
         $this->assertEquals($expected_paths, $unzipped_files);
+        $this->assertTrue($this->recurseRmdir($temp_unzip_path));
+    }
+
+    public function testEnsureTopDirectory(): void
+    {
+        $legacy = new LegacyArchives();
+        $zip_path = $this->zips_dir . '3_folders_mac.zip';
+        $this->assertFileExists($zip_path);
+
+        $temp_unzip_path = $this->unzips_dir . uniqid('unzip', true);
+
+        $return = $legacy->unzip(
+            $zip_path,
+            $temp_unzip_path,
+            false,
+            false,
+            true
+        );
+
+        $this->assertTrue($return);
+
+        $unzipped_files = $this->directoryToArray($temp_unzip_path);
+
+        $this->assertSame($this->top_directory_tree, $unzipped_files);
         $this->assertTrue($this->recurseRmdir($temp_unzip_path));
     }
 
@@ -239,5 +263,30 @@ class UnzipTest extends TestCase
         9 => 'Ordner C/06_Test.pdf',
         10 => 'Ordner C/Ordner C_2/11_Test.pdf',
         11 => 'Ordner C/Ordner C_2/12_Test.pdf',
+    ];
+
+    protected array $top_directory_tree = [
+        0 => '3_folders_mac/',
+        1 => '3_folders_mac/Ordner A/',
+        2 => '3_folders_mac/Ordner A/01_Test.pdf',
+        3 => '3_folders_mac/Ordner A/02_Test.pdf',
+        4 => '3_folders_mac/Ordner A/Ordner A_1/',
+        5 => '3_folders_mac/Ordner A/Ordner A_2/',
+        6 => '3_folders_mac/Ordner A/Ordner A_2/07_Test.pdf',
+        7 => '3_folders_mac/Ordner A/Ordner A_2/08_Test.pdf',
+        8 => '3_folders_mac/Ordner B/',
+        9 => '3_folders_mac/Ordner B/03_Test.pdf',
+        10 => '3_folders_mac/Ordner B/04_Test.pdf',
+        11 => '3_folders_mac/Ordner B/Ordner B_1/',
+        12 => '3_folders_mac/Ordner B/Ordner B_2/',
+        13 => '3_folders_mac/Ordner B/Ordner B_2/09_Test.pdf',
+        14 => '3_folders_mac/Ordner B/Ordner B_2/10_Test.pdf',
+        15 => '3_folders_mac/Ordner C/',
+        16 => '3_folders_mac/Ordner C/05_Test.pdf',
+        17 => '3_folders_mac/Ordner C/06_Test.pdf',
+        18 => '3_folders_mac/Ordner C/Ordner C_1/',
+        19 => '3_folders_mac/Ordner C/Ordner C_2/',
+        20 => '3_folders_mac/Ordner C/Ordner C_2/11_Test.pdf',
+        21 => '3_folders_mac/Ordner C/Ordner C_2/12_Test.pdf',
     ];
 }
