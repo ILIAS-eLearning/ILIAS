@@ -41,6 +41,7 @@ class ilMStListCertificatesGUI
     private WrapperFactory $httpWrapper;
     private ILIAS\Refinery\Factory $refinery;
     private ilAccessHandler $accessHandler;
+    protected ?array $orgu_names = null;
 
     public function __construct()
     {
@@ -83,7 +84,6 @@ class ilMStListCertificatesGUI
                 break;
             default:
                 switch ($cmd) {
-
                     case self::CMD_RESET_FILTER:
                     case self::CMD_APPLY_FILTER:
                     case self::CMD_INDEX:
@@ -162,7 +162,6 @@ class ilMStListCertificatesGUI
                 );
             };
 
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             /**
              * @var Array<ilOrgUnitUserAssignment> $assignments
              */
@@ -175,6 +174,7 @@ class ilMStListCertificatesGUI
             )->get();
             foreach ($assignments as $org_unit_assignment) {
                 if ($this->accessHandler->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                    $org_units = $this->getTextRepresentationOfOrgUnits();
                     $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
                     $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
                 }
@@ -189,5 +189,14 @@ class ilMStListCertificatesGUI
             echo $selection->getHTML(true);
         }
         exit;
+    }
+
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
     }
 }

@@ -41,7 +41,10 @@ use ilUserSearchOptions;*/
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $selectable_columns_cached = [];
+    protected ?array $orgu_names = null;
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
 
     /**
@@ -185,7 +188,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->filter['user'] = $item->getValue();
 
         if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+            $paths = $this->getTextRepresentationOfOrgUnits();
             $options[0] = $DIC->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
                 $options[$org_ref_id] = $path;
@@ -198,7 +201,34 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
     final public function getSelectableColumns(): array
+    {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
     {
         global $DIC;
 
@@ -312,7 +342,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUsrId())
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUsrId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
@@ -397,7 +427,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
                     break;
                 case 'usr_reg_status':
                     $field_values[$k] = \ILIAS\MyStaff\ListCourses\ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());

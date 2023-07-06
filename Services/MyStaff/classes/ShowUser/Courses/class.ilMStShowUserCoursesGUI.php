@@ -35,6 +35,7 @@ class ilMStShowUserCoursesGUI
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected ?array $orgu_names = null;
 
     public function __construct()
     {
@@ -161,7 +162,6 @@ class ilMStShowUserCoursesGUI
                 );
             };
 
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             foreach (
                 ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
                     'user_id' => $mst_co_usr_id,
@@ -169,6 +169,7 @@ class ilMStShowUserCoursesGUI
                 ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
             ) {
                 if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                    $org_units = $this->getTextRepresentationOfOrgUnits();
                     $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
                     $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
                 }
@@ -184,5 +185,14 @@ class ilMStShowUserCoursesGUI
             echo $selection->getHTML(true);
         }
         exit;
+    }
+
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
     }
 }
