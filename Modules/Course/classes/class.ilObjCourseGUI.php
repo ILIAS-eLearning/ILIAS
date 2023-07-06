@@ -20,6 +20,7 @@ declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\News\Service as News;
 
 /**
  * Class ilObjCourseGUI
@@ -47,7 +48,7 @@ class ilObjCourseGUI extends ilContainerGUI
     public const BREADCRUMB_DEFAULT = 0;
     public const BREADCRUMB_CRS_ONLY = 1;
     public const BREADCRUMB_FULL_PATH = 2;
-    protected ilNewsService $news;
+    protected News $news;
 
     private ?ilAdvancedMDRecordGUI $record_gui = null;
     private ?ilContainerStartObjects $start_obj = null;
