@@ -56,6 +56,19 @@ class Unzip
         }
     }
 
+    /**
+     * @return \Closure
+     */
+    protected function pathToStreamGenerator(): \Closure
+    {
+        return function (\Generator $paths): \Generator {
+            foreach ($paths as $path) {
+                $resource = $this->zip->getStream($path);
+
+                yield Streams::ofResource($resource);
+            }
+        };
+    }
 
     /**
      * @return \Generator<bool|string>
@@ -78,9 +91,22 @@ class Unzip
      */
     public function getStreams(): \Generator
     {
-        foreach ($this->getPaths() as $path) {
-            yield Streams::ofResource($this->zip->getStream($path));
+        $paths_to_stream_generator = $this->pathToStreamGenerator();
+
+        if ($this->options->isFlat()) {
+            yield from $paths_to_stream_generator($this->getFiles());
+        } else {
+            yield from $paths_to_stream_generator($this->getPaths());
         }
+    }
+    /**
+     * @return \Generator|FileStream[]
+     */
+    public function getFileStreams(): \Generator
+    {
+        $paths_to_stream_generator = $this->pathToStreamGenerator();
+
+        yield from $paths_to_stream_generator($this->getFiles());
     }
 
     public function getAmountOfDirectories(): int
@@ -162,7 +188,6 @@ class Unzip
         return false;
     }
 
-
     public function extract(): bool
     {
         if ($this->error_reading_zip) {
@@ -184,6 +209,9 @@ class Unzip
         }
 
         if ($this->options->isFlat()) {
+            if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
+            }
             foreach ($this->getStreams() as $stream) {
                 $uri = $stream->getMetadata(self::URI);
                 if (substr($uri, -1) === self::DIRECTORY_SEPARATOR) {
