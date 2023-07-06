@@ -33,6 +33,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected array $filter = array();
     protected ilMyStaffAccess $access;
     protected ?array $columnDefinition = null;
+    protected ?array $orgu_names = null;
     protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
 
@@ -219,6 +220,15 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
     public function fillRow(array $a_set): void
     {
         global $DIC;
@@ -279,9 +289,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             );
         };
 
-        $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
         foreach (array_unique(ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($mst_lco_usr_id)) as $orgu_id) {
             if ($DIC->access()->checkAccess("read", "", $orgu_id) && !ilObject::_isInTrash($orgu_id)) {
+                $org_units = $this->getTextRepresentationOfOrgUnits();
                 $link = ilLink::_getStaticLink($orgu_id, 'orgu');
                 $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
             }

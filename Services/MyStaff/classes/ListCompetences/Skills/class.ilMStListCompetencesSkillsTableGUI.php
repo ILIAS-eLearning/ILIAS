@@ -27,7 +27,9 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $selectable_columns_cached = [];
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
     protected Container $dic;
     protected \ILIAS\UI\Factory $ui_fac;
@@ -143,6 +145,15 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
 
     final public function getSelectableColumns(): array
     {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
+    {
         $cols = array();
 
         $arr_searchable_user_columns = \ilUserSearchOptions::getSelectableColumnInfo();
@@ -218,6 +229,18 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
+    /**
+     * @param array<\ilMStListCompetencesSkill> $a_set
+     */
     final protected function fillRow(array $a_set): void
     {
         $set = array_pop($a_set);
@@ -233,7 +256,7 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId())
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUserId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
@@ -303,7 +326,7 @@ class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($selected_skill->getUserId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($selected_skill->getUserId());
                     break;
                 default:
                     $field_values[$k] = strip_tags($propGetter($k) ?? "");

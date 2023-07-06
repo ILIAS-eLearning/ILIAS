@@ -27,7 +27,9 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStListCertificatesTableGUI extends \ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $selectable_columns_cached = [];
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
     protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
@@ -144,6 +146,15 @@ class ilMStListCertificatesTableGUI extends \ilTable2GUI
 
     final public function getSelectableColumns(): array
     {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
+    {
         global $DIC;
 
         $cols = array();
@@ -223,6 +234,15 @@ class ilMStListCertificatesTableGUI extends \ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
     /**
      * @param array<UserCertificateDto> $a_set
      * @return void
@@ -247,7 +267,7 @@ class ilMStListCertificatesTableGUI extends \ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId())
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUserId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
@@ -312,7 +332,7 @@ class ilMStListCertificatesTableGUI extends \ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
                     break;
                 case 'issuedOnTimestamp':
                     $field_values[$k] = new \ilDateTime($propGetter($k), IL_CAL_UNIX);
