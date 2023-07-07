@@ -257,6 +257,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>View Title: Short Title</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -297,6 +298,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -338,6 +340,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
     <meta name="meta_datum_key_1" content="meta_datum_value_1" />
     <meta name="meta_datum_key_2" content="meta_datum_value_2" />
@@ -412,6 +415,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
