@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Item\Item;
@@ -184,21 +184,20 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
             if ($settings->isBatchFileDownloadsEnabled() && $this->has_files) {
                 // file download
                 $this->ctrl->setParameter($this, "app_id", $this->appointment['event']->getEntryId());
-
-                $download_btn = ilLinkButton::getInstance();
-                $download_btn->setCaption($this->lng->txt("cal_download_files"), false);
-                $download_btn->setUrl(
+                $download_btn = $ui->factory()->button()->standard(
+                    $this->lng->txt("cal_download_files"),
                     $this->ctrl->getLinkTarget($this, 'downloadFiles')
                 );
                 $this->ctrl->setParameter($this, "app_id", '');
-                $toolbar->addButtonInstance($download_btn);
+                $toolbar->addComponent($download_btn);
                 $toolbar->addSeparator();
             }
 
             foreach ($this->actions as $a) {
-                $btn = ilLinkButton::getInstance();
-                $btn->setCaption($a["txt"], false);
-                $btn->setUrl($a["link"]);
+                $btn = $this->ui->factory()->button()->standard(
+                    $a["txt"],
+                    $a["link"]
+                );
                 // all buttons are sticky
                 $toolbar->addStickyItem($btn);
             }
