@@ -46,7 +46,8 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     {
         return new VC\Factory(
             new I\SignalGenerator(),
-            $this->buildFieldFactory()
+            $this->buildFieldFactory(),
+            $this->buildDataFactory()
         );
     }
     protected function buildFieldFactory(): FieldFactory
@@ -91,7 +92,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertSameSize($controls, $vc->getInputs());
 
         $named = array_map(
-            fn ($input) => $input->withNameFrom($name_source, 'form'),
+            fn($input) => $input->withNameFrom($name_source, 'form'),
             $vc->getInputs()
         );
 
@@ -133,7 +134,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     public function testViewControlContainerTransforms(): void
     {
         $transform = $this->buildRefinery()->custom()->transformation(
-            fn ($v) => ['modified' => 'transformed']
+            fn($v) => ['modified' => 'transformed']
         );
 
         $request = $this->createMock(ServerRequestInterface::class);

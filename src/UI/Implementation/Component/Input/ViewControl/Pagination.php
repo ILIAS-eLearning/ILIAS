@@ -29,10 +29,12 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Range;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input\InputGroup;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Pagination extends ViewControl implements VCInterface\Pagination
 {
     use InputGroup;
+    use ComponentHelper;
 
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'pagination offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'pagination limit';
@@ -42,7 +44,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     protected Signal $internal_selection_signal;
     protected array $options;
     protected ?int $total_count = null;
-    protected int $visible_entries;
+    protected int $number_of_entries;
 
 
     protected Signal $change_signal;
@@ -63,7 +65,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         parent::__construct($data_factory, $refinery, $label_offset);
 
         $this->internal_selection_signal = $signal_generator->create();
-        $this->visible_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
+        $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
         $this->operations[] = $this->getRangeTransform();
     }
 
@@ -100,6 +102,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
 
     public function withLimitOptions(array $options): self
     {
+        $this->checkArgListElements('options', $options, 'int');
         $clone = clone $this;
         $clone->options = $options;
         return $clone;
@@ -115,16 +118,16 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $this->label_limit;
     }
 
-    public function withNumberOfVisibleEntries(int $no_entries): self
+    public function withNumberOfVisibleEntries(int $number_of_entries): self
     {
         $clone = clone $this;
-        $clone->visible_entries = $no_entries;
+        $clone->number_of_entries = $number_of_entries;
         return $clone;
     }
 
     public function getNumberOfVisibleEntries(): int
     {
-        return $this->visible_entries;
+        return $this->number_of_entries;
     }
 
     public function getTotalCount(): ?int

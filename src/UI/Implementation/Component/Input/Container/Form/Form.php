@@ -41,9 +41,6 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
      */
     public function withRequest(ServerRequestInterface $request): self
     {
-        if (!$this->isSanePostRequest($request)) {
-            throw new LogicException("Server request is not a valid post request.");
-        }
         $post_data = $this->extractPostData($request);
 
         $clone = clone $this;

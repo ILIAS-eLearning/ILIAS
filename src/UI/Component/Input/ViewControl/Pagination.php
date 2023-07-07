@@ -27,9 +27,23 @@ use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
  */
 interface Pagination extends IViewControl
 {
+    /**
+     * Optionally provide a list of integers for the page-length selection.
+     * @param int[] $options
+     */
     public function withLimitOptions(array $options): self;
-    public function withTotalCount(int $total_count = null): self;
-    public function withNumberOfVisibleEntries(int $no_entries): self;
 
-    //public function withLabelLimit(string $label): self;
+    /**
+     * In order to calculate the sections, the pagination needs to know
+     * the total amount of entries.
+     */
+    public function withTotalCount(int $total_count = null): self;
+
+    /**
+     * You may alter the amount of sections shown simultanously:
+     * there is always the first and last section, and the remaining amount
+     * in between. E.g., a Number of visible entries = 5 will give you
+     * something like "1 ... 7 8 9 ... 302"
+     */
+    public function withNumberOfVisibleEntries(int $number_of_entries): self;
 }

@@ -39,7 +39,6 @@ interface Factory
      *      The dropdown is being closed upon submission or by clicking outside of it.
      * ---
      * @param array<string,string> $options
-     * @param string $label
      * @return \ILIAS\UI\Component\Input\ViewControl\FieldSelection
      */
     public function fieldSelection(
@@ -61,7 +60,6 @@ interface Factory
      *      changed immediately and the dropdown closes.
      * ---
      * @param array<string,string> $options
-     * @param string $label
      * @return \ILIAS\UI\Component\Input\ViewControl\Sortation
      */
     public function sortation(
@@ -96,8 +94,6 @@ interface Factory
      *      When there are more than a given amount of pages in total, first and last
      *      page will be available along with the pages surrounding the current one.
      * ---
-     * @param string $label_offset
-     * @param string $label_limit
      * @return \ILIAS\UI\Component\Input\ViewControl\Pagination
      */
     public function pagination(

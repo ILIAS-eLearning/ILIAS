@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Input\Container\ViewControl as V;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Factory for the View Control Containers
@@ -32,7 +33,8 @@ class Factory implements V\Factory
 {
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
-        protected FieldFactory $field_factory
+        protected FieldFactory $field_factory,
+        protected DataFactory $data_factory
     ) {
         $this->signal_generator = $signal_generator;
     }
@@ -43,6 +45,7 @@ class Factory implements V\Factory
             $this->signal_generator,
             new Input\FormInputNameSource(),
             $this->field_factory,
+            $this->data_factory,
             $controls
         );
     }

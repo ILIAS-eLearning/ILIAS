@@ -227,7 +227,8 @@ class InitUIFramework
         $c["ui.factory.input.container.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory(
                 $c["ui.signal_generator"],
-                $c["ui.factory.input.field"]
+                $c["ui.factory.input.field"],
+                $c["ui.data_factory"]
             );
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {

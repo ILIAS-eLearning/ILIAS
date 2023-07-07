@@ -84,12 +84,6 @@ abstract class Container implements C\Input\Container\Container
     /**
      * @inheritdoc
      */
-    abstract public function withRequest(ServerRequestInterface $request): self;
-
-
-    /**
-     * @inheritdoc
-     */
     public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
@@ -121,19 +115,8 @@ abstract class Container implements C\Input\Container\Container
             $this->setError($content->error());
             return null;
         }
-
         return $content->value();
     }
-
-    /**
-     * Check the request for sanity.
-     * TODO: implement me!
-     */
-    protected function isSanePostRequest(ServerRequestInterface $request): bool
-    {
-        return true;
-    }
-
 
     public function getDedicatedName(): ?string
     {

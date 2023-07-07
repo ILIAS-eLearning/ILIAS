@@ -30,7 +30,7 @@ use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 use ILIAS\UI\Implementation\Component\Input\Container\Container;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 
@@ -51,6 +51,7 @@ abstract class ViewControl extends Container implements I\ViewControl
         SignalGeneratorInterface $signal_generator,
         Input\NameSource $name_source,
         FieldFactory $field_factory,
+        protected DataFactory $data_factory,
         array $controls
     ) {
         parent::__construct(
@@ -58,7 +59,6 @@ abstract class ViewControl extends Container implements I\ViewControl
             $name_source,
             $controls
         );
-        $this->data_factory = new \ILIAS\Data\Factory();
         $this->submit_signal = $signal_generator->create();
     }
 
