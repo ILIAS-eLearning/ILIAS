@@ -51,28 +51,28 @@ function base()
     /**
      * Define actions:
      * An Action is an URL carrying a parameter that references the targeted record(s).
-     * Standard Actions apply to both a collection of records as well as a single entry, 
+     * Standard Actions apply to both a collection of records as well as a single entry,
      * while Single- and Multiactions will only work for one of them.
      * Also see the docu-entries for Actions.
     */
 
     /** this is the endpoint for actions, in this case the same page. */
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
-    
-    /** 
+
+    /**
      * Actions' commands and the row-ids affected are relayed to the server via GET.
      * The URLBuilder orchestrates query-paramters (a.o. by assigning namespace)
      */
     $url_builder = new URLBuilder($here_uri);
     $query_params_namespace = ['datatable', 'example'];
 
-    /** 
+    /**
      * We have to claim those parameters. In return, there is a token to modify
-     * the value of the param; the tokens will work only with the given copy 
+     * the value of the param; the tokens will work only with the given copy
      * of URLBuilder, so acquireParameters will return the builder as first entry,
      * followed by the tokens.
      */
-    list($url_builder, $action_parameter_token, $row_id_token) = 
+    list($url_builder, $action_parameter_token, $row_id_token) =
     $url_builder->acquireParameters(
         $query_params_namespace,
         "table_action", //this is the actions's parameter name
@@ -85,25 +85,25 @@ function base()
     $actions = [
         'edit' => $f->table()->action()->single( //never in multi actions
             /** the label as shown in dropdowns */
-            'Properties', 
+            'Properties',
             /** set the actions-parameter's value; will become '&datatable_example_table_action=edit' */
-            $url_builder->withParameter($action_parameter_token, "edit"),  
+            $url_builder->withParameter($action_parameter_token, "edit"),
             /** the Table will need to modify the values of this parameter; give the token. */
             $row_id_token
         ),
         'compare' => $f->table()->action()->multi( //never in single row
-            'Add to Comparison', 
-            $url_builder->withParameter($action_parameter_token, "compare"), 
+            'Add to Comparison',
+            $url_builder->withParameter($action_parameter_token, "compare"),
             $row_id_token
         ),
-        'delete' => 
+        'delete' =>
             $f->table()->action()->standard( //in both
-                'Remove Student', 
-                $url_builder->withParameter($action_parameter_token, "delete"), 
+                'Remove Student',
+                $url_builder->withParameter($action_parameter_token, "delete"),
                 $row_id_token
             )
             /**
-             * An async Action will trigger an AJAX-call to the action's target 
+             * An async Action will trigger an AJAX-call to the action's target
              * and display the results in a modal-layer over the Table.
              * Parameters are passed to the call, but you will have to completely
              * build the contents of the response. DO NOT render an entire page ;)
@@ -126,7 +126,8 @@ function base()
         public function __construct(
             protected \ILIAS\UI\Factory $ui_factory,
             protected \ILIAS\UI\Renderer $ui_renderer
-        ) {}
+        ) {
+        }
 
         public function getRows(
             I\DataRowBuilder $row_builder,
@@ -175,8 +176,8 @@ function base()
                 ]
             ];
 
-            list($order_field, $order_direction) = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
-            usort($records, fn ($a, $b) => $a[$order_field] <=> $b[$order_field]);
+            list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+            usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
             if ($order_direction === 'DESC') {
                 $records = array_reverse($records);
             }
@@ -186,21 +187,21 @@ function base()
     };
 
 
-    /** 
-     * setup the Table and hand over the request 
+    /**
+     * setup the Table and hand over the request
      */
     $table = $f->table()
             ->data('a data table', $columns, $data_retrieval)
             ->withActions($actions)
             ->withRequest($request);
 
-    /** 
-     * build some output. 
+    /**
+     * build some output.
      */
     $out = [$table];
 
-    /** 
-     * get the desired action from query; the parameter is namespaced, 
+    /**
+     * get the desired action from query; the parameter is namespaced,
      * but we still have the token and it knows its name:
      */
     $query = $DIC->http()->wrapper()->query();
