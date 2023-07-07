@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -1561,10 +1561,6 @@ class ilAdvancedMDSettingsGUI
                         // currently only optional records for org unit (types)
                         unset($type_options[1]);
                         break;
-                    case "prg":
-                        // currently only optional records for study programme (types)
-                        unset($type_options[1]);
-                        break;
                     case "talt":
                         // currently only optional records for talk templates (types)
                         unset($type_options[1]);
@@ -1762,6 +1758,29 @@ class ilAdvancedMDSettingsGUI
                 "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            );
+        } elseif ($a_obj_type == "prg") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_PRG,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ],
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return array(
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         }
         return [];

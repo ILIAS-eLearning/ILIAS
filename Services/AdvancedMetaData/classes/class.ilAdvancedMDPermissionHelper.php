@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Advanced metadata permission helper
@@ -35,6 +36,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const CONTEXT_SUBSTITUTION_IASS = 8;
     public const CONTEXT_SUBSTITUTION_GROUP = 9;
     public const CONTEXT_SUBSTITUTION_EXERCISE = 10;
+    public const CONTEXT_SUBSTITUTION_PRG = 11;
 
     public const ACTION_MD_CREATE_RECORD = 1;
     public const ACTION_MD_IMPORT_RECORDS = 2;
@@ -74,6 +76,9 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD = 29;
     public const ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY = 30;
 
+    public const ACTION_SUBSTITUTION_PRG_SHOW_FIELD = 31;
+    public const ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY = 32;
+
     public const SUBACTION_RECORD_TITLE = 1;
     public const SUBACTION_RECORD_DESCRIPTION = 2;
     public const SUBACTION_RECORD_OBJECT_TYPES = 3;
@@ -108,6 +113,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
             case self::CONTEXT_SUBSTITUTION_CATEGORY:
             case self::CONTEXT_SUBSTITUTION_IASS:
             case self::CONTEXT_SUBSTITUTION_EXERCISE:
+            case self::CONTEXT_SUBSTITUTION_PRG:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM adv_mdf_definition");
                 break;
@@ -269,7 +275,20 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                             self::SUBACTION_SUBSTITUTION_NEWLINE
                         )
                 )
-            )
+            ),
+            self::CONTEXT_SUBSTITUTION_PRG => array(
+                "actions" => array(
+                    self::ACTION_SUBSTITUTION_PRG_SHOW_FIELD
+                ),
+                "subactions" => array(
+                    self::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY =>
+                        array(
+                            self::SUBACTION_SUBSTITUTION_BOLD
+                            ,
+                            self::SUBACTION_SUBSTITUTION_NEWLINE
+                        )
+                )
+            ),
         );
     }
 
