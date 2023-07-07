@@ -16,6 +16,10 @@
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 	<link rel="icon" href="{FAVICON_PATH}" type="image/x-icon">
 
+	<!-- This is the safest place for now to initialize our global namespace which is -->
+	<!-- used by several scripts included on the way to expose their business logic.  -->
+	<script type="application/javascript">var il = il ||{}; window.il = il;</script>
+
 	<style>
 		{CSS_INLINE}
 	</style>
