@@ -146,7 +146,9 @@ class ilCertificateBackgroundImageUpload
             throw new ilException('Unable to convert the file and the original file');
         }
 
-        $this->fileSystem->delete($this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME);
+        if ($this->fileSystem->has($backgroundImageTempFilePath)) {
+            $this->fileSystem->delete($backgroundImageTempFilePath);
+        }
 
         if ($this->fileSystem->has($backgroundImagePath)) {
             return $this->certificatePath . 'background_' . $version . '.jpg';
