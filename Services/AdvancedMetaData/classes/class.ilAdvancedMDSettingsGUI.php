@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
@@ -316,10 +315,11 @@ class ilAdvancedMDSettingsGUI
         );
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("add");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "createRecord"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('add'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "createRecord")
+            );
+            $ilToolbar->addComponent($button);
 
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
                 $ilToolbar->addSeparator();
@@ -327,10 +327,11 @@ class ilAdvancedMDSettingsGUI
         }
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("import");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "importRecords"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "importRecords")
+            );
+            $ilToolbar->addComponent($button);
         }
 
         $obj_type_context = ($this->obj_id > 0)
