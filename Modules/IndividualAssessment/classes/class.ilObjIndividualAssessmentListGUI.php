@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
 {
     public function init(): void
@@ -30,7 +30,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         $this->link_enabled = true;
         $this->info_screen_enabled = true;
         $this->type = "iass";
-        $this->gui_class_name = "ilobjIndividualassessmentgui";
+        $this->gui_class_name = "ilobjindividualassessmentgui";
 
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         $this->enableSubstitutions($this->substitutions->isActive());
