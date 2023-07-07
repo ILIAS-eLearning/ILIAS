@@ -123,11 +123,11 @@ class ilMailOptions
 
         $this->firstEmailAddress = (string) $row->email;
         $this->secondEmailAddress = (string) $row->second_email;
+        $this->signature = (string) $row->signature;
+        $this->linebreak = (int) $row->linebreak;
+        $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
 
         if ($this->shouldUseIndividualSettings()) {
-            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
-            $this->signature = (string) $row->signature;
-            $this->linebreak = (int) $row->linebreak;
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
 
