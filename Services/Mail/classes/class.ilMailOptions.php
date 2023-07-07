@@ -137,17 +137,17 @@ class ilMailOptions
 
         $this->firstEmailAddress = (string) $row->email;
         $this->secondEmailAddress = (string) $row->second_email;
+        $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+        $this->signature = (string) $row->signature;
+        $this->setAbsenceStatus((bool) $row->absence_status);
+        $this->setAbsentFrom((int) $row->absent_from);
+        $this->setAbsentUntil((int) $row->absent_until);
+        $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
+        $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
 
         if ($this->shouldUseIndividualSettings()) {
-            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
-            $this->signature = (string) $row->signature;
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
-            $this->setAbsenceStatus((bool) $row->absence_status);
-            $this->setAbsentFrom((int) $row->absent_from);
-            $this->setAbsentUntil((int) $row->absent_until);
-            $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
-            $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
 
             if (false === filter_var(
                 $this->incomingType,
