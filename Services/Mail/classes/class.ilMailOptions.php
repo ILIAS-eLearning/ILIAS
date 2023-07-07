@@ -55,11 +55,16 @@ class ilMailOptions
     protected string $absence_auto_responder_subject = '';
     protected ClockInterface $clockService;
 
-    public function __construct(protected int $usrId, ilMailTransportSettings $mailTransportSettings = null, ClockInterface $clockService = null)
-    {
+    public function __construct(
+        protected int $usrId,
+        ilMailTransportSettings $mailTransportSettings = null,
+        ClockInterface $clockService = null,
+        ilSetting $settings = null,
+        ilDBInterface $db = null
+    ) {
         global $DIC;
-        $this->db = $DIC->database();
-        $this->settings = $DIC->settings();
+        $this->db = $db ?? $DIC->database();
+        $this->settings = $settings ?? $DIC->settings();
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
         $this->clockService = $clockService ?? (new DataFactory())->clock()->utc();
 
@@ -99,12 +104,23 @@ class ilMailOptions
         );
     }
 
-    private function shouldUseIndividualSettings(): bool
+    public function mayModifyIndividualTransportSettings(): bool
     {
         return (
-            $this->settings->get('show_mail_settings') === '1' &&
+            $this->mayManageInvididualSettings() &&
+            $this->maySeeIndividualTransportSettings() &&
             $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
         );
+    }
+
+    public function maySeeIndividualTransportSettings(): bool
+    {
+        return $this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1';
+    }
+
+    public function mayManageInvididualSettings(): bool
+    {
+        return $this->settings->get('show_mail_settings') === '1';
     }
 
     protected function read(): void
@@ -137,15 +153,17 @@ class ilMailOptions
 
         $this->firstEmailAddress = (string) $row->email;
         $this->secondEmailAddress = (string) $row->second_email;
-        $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
-        $this->signature = (string) $row->signature;
-        $this->setAbsenceStatus((bool) $row->absence_status);
-        $this->setAbsentFrom((int) $row->absent_from);
-        $this->setAbsentUntil((int) $row->absent_until);
-        $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
-        $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
+        if ($this->mayManageInvididualSettings()) {
+            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+            $this->signature = (string) $row->signature;
+            $this->setAbsenceStatus((bool) $row->absence_status);
+            $this->setAbsentFrom((int) $row->absent_from);
+            $this->setAbsentUntil((int) $row->absent_until);
+            $this->setAbsenceAutoresponderSubject($row->absence_ar_subject ?? '');
+            $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
+        }
 
-        if ($this->shouldUseIndividualSettings()) {
+        if ($this->mayModifyIndividualTransportSettings()) {
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
 
