@@ -329,6 +329,22 @@ However, just building such a UI Component, would not do the trick. This needs
 to go hand in hand with a proper discussion on what a Notification Center should be
 and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
 
+### Introduce Modal Content component (beginner/advanced)
+
+Currently, Modals combine two things: Presentation of content and opening an
+overlay layer. With the separation of those we will gain several advantages:
+- the content-part could be more specific, as there should be variants for the
+  intended purpose/content
+- content-parts might be used without the modal; e.g., on mobile devices, you might
+  just want to change the page instead of using overlays
+- Modals could allow further Components as content by simply adding the Interface
+  For example, the Message Boxes are a good candidate
+- the content parts might be retrieved via AJAX-calls (and thus be build according 
+  to runtime-parameters)
+Especially (but not only) with the DataTable's async-Actions, this would allow to 
+better control the responses.
+
+
 ## Ideas and Food for Thought
 
 * Create a mechanism to wire less-files to delos.less that is more automatic than

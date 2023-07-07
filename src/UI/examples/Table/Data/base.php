@@ -216,10 +216,17 @@ function base()
 
         /** take care of the async-call; 'delete'-action asks for it. */
         if ($action === 'delete') {
-            echo($r->render([
-                $f->messageBox()->confirmation('You are about to delete items!'),
-                $f->divider()->horizontal(),
-                $listing
+            $items = [];
+            $ids = explode(',', $ids);
+            foreach ($ids as $id) {
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
+            }
+            echo($r->renderAsync([
+                $f->modal()->interruptive(
+                    'My Title',
+                    'You are about to delete items!',
+                    '#'
+                )->withAffectedItems($items)
             ]));
             exit();
         }

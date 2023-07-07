@@ -29,27 +29,24 @@ class Factory implements I\Factory
     public function standard(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): I\Standard {
-        return new Standard($label, $url_builder, $url_builder_token, $async);
+        return new Standard($label, $url_builder, $row_id_parameter);
     }
 
     public function single(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): I\Single {
-        return new Single($label, $url_builder, $url_builder_token, $async);
+        return new Single($label, $url_builder, $row_id_parameter);
     }
 
     public function multi(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): I\Multi {
-        return new Multi($label, $url_builder, $url_builder_token, $async);
+        return new Multi($label, $url_builder, $row_id_parameter);
     }
 }

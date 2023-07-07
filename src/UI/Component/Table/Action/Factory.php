@@ -38,8 +38,7 @@ interface Factory
     public function standard(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): Standard;
 
     /**
@@ -55,8 +54,7 @@ interface Factory
     public function single(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): Single;
 
     /**
@@ -72,7 +70,6 @@ interface Factory
     public function multi(
         string $label,
         URLBuilder $url_builder,
-        URLBuilderToken $url_builder_token,
-        bool $async = false
+        URLBuilderToken $row_id_parameter
     ): Multi;
 }

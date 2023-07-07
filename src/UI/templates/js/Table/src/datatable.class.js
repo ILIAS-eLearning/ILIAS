@@ -195,14 +195,19 @@ export default class DataTable {
       dataType: 'html',
     }).done(
       (html) => {
-        responseContainer.style.display = 'block';
-        responseContainer.querySelector('.modal-header > button').addEventListener(
-          'click',
-          () => {
-            responseContainer.style.display = 'none';
-          },
-        );
-        responseContent.innerHTML = html;
+        if(this.#jquery(html).first().hasClass('modal')) {
+          this.#jquery(html).modal({backdrop: false});
+        } else {
+          responseContainer.querySelector('.modal-header > button').addEventListener(
+            'click',
+            () => {
+              responseContainer.style.display = 'none';
+            },
+          );
+          responseContent.innerHTML = html;
+          responseContainer.style.display = 'block';
+        }
+
       },
     );
   }
