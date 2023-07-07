@@ -32,26 +32,32 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->object->email = 'test@test.com';
         $this->object->second_email = 'ilias@ilias.com';
 
-        $this->database->expects($this->once())->method('fetchObject')->willReturn($this->object);
         $this->database->expects($this->once())->method('queryF')->willReturn($queryMock);
+        $this->database->expects($this->once())->method('fetchObject')->willReturn($this->object);
         $this->database->method('replace')->willReturn(0);
         $this->setGlobalVariable('ilDB', $this->database);
-
-        $this->settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
     }
 
     public function testConstructor() : void
     {
-        $this->settings->expects($this->exactly(3))->method('get')->willReturnMap(
-            [
-                ['mail_incoming_mail', '', ''],
-                ['mail_address_option', '', ''],
-                ['show_mail_settings', null, '0']
-            ]
-        );
-        $this->setGlobalVariable('ilSetting', $this->settings);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, $default = false) {
+            if ($key === 'mail_incoming_mail' || $key === 'mail_address_option') {
+                return $default;
+            }
 
-        $mailOptions = new ilMailOptions(1);
+            if ($key === 'show_mail_settings') {
+                return '0';
+            }
+
+            return $default;
+        });
+
+        $mailOptions = new ilMailOptions(
+            1,
+            null,
+            $settings
+        );
 
         $this->assertSame('', $mailOptions->getSignature());
         $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
@@ -61,17 +67,28 @@ class ilMailOptionsTest extends ilMailBaseTest
 
     public function testConstructorWithUserSettings() : void
     {
-        $this->settings->expects($this->exactly(4))->method('get')->willReturnMap(
-            [
-                        ['mail_incoming_mail', '', ''],
-                        ['mail_address_option', '', ''],
-                        ['show_mail_settings', false, '1'],
-                        ['usr_settings_disable_mail_incoming_mail', false, '0']
-                    ]
-        );
-        $this->setGlobalVariable('ilSetting', $this->settings);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, $default = false) {
+            if ($key === 'mail_incoming_mail' || $key === 'mail_address_option') {
+                return $default;
+            }
 
-        $mailOptions = new ilMailOptions(1);
+            if ($key === 'show_mail_settings') {
+                return '1';
+            }
+
+            if ($key === 'usr_settings_disable_mail_incoming_mail') {
+                return '0';
+            }
+
+            return $default;
+        });
+
+        $mailOptions = new ilMailOptions(
+            1,
+            null,
+            $settings
+        );
 
         $this->assertSame($this->object->signature, $mailOptions->getSignature());
         $this->assertSame($this->object->incoming_type, $mailOptions->getIncomingType());

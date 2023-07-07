@@ -37,12 +37,13 @@ class ilMailOptionsGUI
 
     /** @var ilMailOptionsFormGUI */
     protected $form;
+    /** @var ilMailOptions */
+    protected $mail_options;
 
     /**
      * ilMailOptionsGUI constructor.
      * @param ilGlobalPageTemplate|null $tpl
      * @param ilCtrl|null $ctrl
-     * @param ilSetting|null $setting
      * @param ilLanguage|null $lng
      * @param ilObjUser|null $user
      * @param ServerRequestInterface|null $request
@@ -52,12 +53,12 @@ class ilMailOptionsGUI
     public function __construct(
         ilGlobalPageTemplate $tpl = null,
         ilCtrl $ctrl = null,
-        ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,
         ServerRequestInterface $request = null,
         ilFormatMail $mail = null,
-        ilMailbox $malBox = null
+        ilMailbox $malBox = null,
+        ilMailOptions $mail_options = null
     ) {
         global $DIC;
 
@@ -69,11 +70,6 @@ class ilMailOptionsGUI
         $this->ctrl = $ctrl;
         if (null === $this->ctrl) {
             $this->ctrl = $DIC->ctrl();
-        }
-
-        $this->settings = $setting;
-        if (null === $this->settings) {
-            $this->settings = $DIC->settings();
         }
 
         $this->lng = $lng;
@@ -100,6 +96,7 @@ class ilMailOptionsGUI
         if (null === $this->mbox) {
             $this->mbox = new ilMailbox($this->user->getId());
         }
+        $this->mail_options = $mail_options ?? new ilMailOptions((int) $this->user->getId());
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');
@@ -107,7 +104,7 @@ class ilMailOptionsGUI
 
     public function executeCommand() : void
     {
-        if (!$this->settings->get('show_mail_settings')) {
+        if (!$this->mail_options->mayManageInvididualSettings()) {
             $referrer = $this->request->getQueryParams()['referrer'] ?? '';
             if (strtolower('ilPersonalSettingsGUI') === strtolower($referrer)) {
                 $this->ctrl->redirectByClass('ilPersonalSettingsGUI');
@@ -147,7 +144,7 @@ class ilMailOptionsGUI
         }
 
         return new ilMailOptionsFormGUI(
-            new ilMailOptions((int) $this->user->getId()),
+            $this->mail_options,
             $this,
             'saveOptions'
         );
