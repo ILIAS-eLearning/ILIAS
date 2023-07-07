@@ -23,6 +23,7 @@ require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Component\Link\Relationship;
 
 /**
  * Test on link implementation.
@@ -128,6 +129,25 @@ class LinkTest extends ILIAS_UI_TestBase
             . '<div id="id_1" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>'
             . '</div>';
 
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testRenderWithRelationships(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER);
+
+        $expected_html =
+            '<a href="http://www.ilias.de" rel="license noopener">label</a>';
+
+        $html = $r->render($c);
+        $this->assertHTMLEquals($expected_html, $html);
+
+        $c = $c->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+        $html = $r->render($c);
         $this->assertHTMLEquals($expected_html, $html);
     }
 }

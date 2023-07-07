@@ -41,6 +41,11 @@ abstract class Link implements C\Link\Link
     protected ?bool $open_in_new_viewport = null;
     protected ?LanguageTag $action_content_language = null;
 
+    /**
+     * @var C\Link\Relationship[]|C\Link\RelationshipForInternalUse[]
+     */
+    protected array $relationships = [];
+
     public function __construct(string $action)
     {
         $this->action = $action;
@@ -61,6 +66,7 @@ abstract class Link implements C\Link\Link
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
+        $clone = $clone->withAdditionalRelationshipToReferencedResource(C\Link\Relationship::NOOPENER);
         return $clone;
     }
 
@@ -82,5 +88,22 @@ abstract class Link implements C\Link\Link
     public function getLanguageOfReferencedResource(): ?LanguageTag
     {
         return $this->action_content_language;
+    }
+
+    public function withAdditionalRelationshipToReferencedResource(C\Link\Relationship $type): C\Link\Link
+    {
+        $clone = clone $this;
+        if (!in_array($type, $clone->relationships)) {
+            $clone->relationships[] = $type;
+        }
+        return $clone;
+    }
+
+    /**
+     * @return C\Link\Relationship[]|C\Link\RelationshipForInternalUse[]
+     */
+    public function getRelationshipsToReferencedResource(): array
+    {
+        return $this->relationships;
     }
 }
