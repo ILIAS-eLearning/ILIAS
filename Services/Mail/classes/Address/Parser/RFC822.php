@@ -393,20 +393,20 @@ class Mail_RFC822
 
         for (; $i < $iMax; ++$i) {
             switch ($string[$i]) {
-            case '\\':
-                ++$slashes;
-                break;
+                case '\\':
+                    ++$slashes;
+                    break;
 
-            case '"':
-                if ($slashes % 2 === 0) {
-                    $in_quote = !$in_quote;
-                }
-                // Fall through to default action below.
+                case '"':
+                    if ($slashes % 2 === 0) {
+                        $in_quote = !$in_quote;
+                    }
+                    // Fall through to default action below.
 
-                // no break
-            default:
-                $slashes = 0;
-                break;
+                    // no break
+                default:
+                    $slashes = 0;
+                    break;
             }
         }
 
@@ -891,7 +891,7 @@ class Mail_RFC822
                 $domain = $this->default_domain;
             }
             // mjansen patch 16 Sep 2016 end
-        // No @ sign so assume the default domain.
+            // No @ sign so assume the default domain.
         } else {
             $local_part = $addr_spec;
             $domain = $this->default_domain;

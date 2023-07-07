@@ -46,12 +46,16 @@ class ilMailOptions
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
-    public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
-    {
+    public function __construct(
+        int $usrId,
+        ilMailTransportSettings $mailTransportSettings = null,
+        ilSetting $settings = null,
+        ilDBInterface $db = null
+    ) {
         global $DIC;
         $this->usrId = $usrId;
-        $this->db = $DIC->database();
-        $this->settings = $DIC->settings();
+        $this->db = $db ?? $DIC->database();
+        $this->settings = $settings ?? $DIC->settings();
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
 
         $this->incomingType = self::INCOMING_LOCAL;
@@ -92,12 +96,23 @@ class ilMailOptions
         );
     }
 
-    private function shouldUseIndividualSettings(): bool
+    public function mayModifyIndividualTransportSettings(): bool
     {
         return (
-            $this->settings->get('show_mail_settings') === '1' &&
+            $this->mayManageInvididualSettings() &&
+            $this->maySeeIndividualTransportSettings() &&
             $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
         );
+    }
+
+    public function maySeeIndividualTransportSettings(): bool
+    {
+        return $this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1';
+    }
+
+    public function mayManageInvididualSettings(): bool
+    {
+        return $this->settings->get('show_mail_settings') === '1';
     }
 
     protected function read(): void
@@ -123,11 +138,13 @@ class ilMailOptions
 
         $this->firstEmailAddress = (string) $row->email;
         $this->secondEmailAddress = (string) $row->second_email;
-        $this->signature = (string) $row->signature;
-        $this->linebreak = (int) $row->linebreak;
-        $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+        if ($this->mayManageInvididualSettings()) {
+            $this->signature = (string) $row->signature;
+            $this->linebreak = (int) $row->linebreak;
+            $this->isCronJobNotificationEnabled = (bool) $row->cronjob_notification;
+        }
 
-        if ($this->shouldUseIndividualSettings()) {
+        if ($this->mayModifyIndividualTransportSettings()) {
             $this->incomingType = (int) $row->incoming_type;
             $this->emailAddressMode = (int) $row->mail_address_option;
 
