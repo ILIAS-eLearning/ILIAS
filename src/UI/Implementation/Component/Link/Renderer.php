@@ -62,6 +62,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HREF_LANGUAGE", $component->getLanguageOfReferencedResource());
         }
 
+        $rel_strings = [];
+        foreach ($component->getRelationshipsToReferencedResource() as $rel) {
+            $rel_strings[] = $rel->value;
+        }
+        if (!empty($rel_strings)) {
+            $tpl->setVariable("RELS", implode(' ', $rel_strings));
+        }
+
         $tpl->setVariable("LABEL", $label);
         $tpl->setVariable("HREF", $action);
         return $tpl;

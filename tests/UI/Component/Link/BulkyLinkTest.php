@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Link as C;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Component\Link\Relationship;
 
 /**
  * Testing behavior of the Bulky Link.
@@ -247,6 +248,28 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
              </div>
 EXP;
 
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testRenderWithRelationships(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "label", $this->target)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER);
+
+        $html = $r->render($b);
+        $expected_html = <<<EXP
+            <a class="il-link link-bulky" href="http://www.ilias.de" rel="license noopener">
+                <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>
+                <span class="bulky-label">label</span>
+            </a>
+EXP;
+
+        $this->assertHTMLEquals($expected_html, $html);
+
+        $b = $b->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+        $html = $r->render($b);
         $this->assertHTMLEquals($expected_html, $html);
     }
 }

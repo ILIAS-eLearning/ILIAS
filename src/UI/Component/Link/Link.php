@@ -63,7 +63,7 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
     public function withAdditionalRelationshipToReferencedResource(Relationship $type): Link;
 
     /**
-     * @return Relationship[]
+     * @return Relationship[]|RelationshipForInternalUse[]
      */
     public function getRelationshipsToReferencedResource(): array;
 }
