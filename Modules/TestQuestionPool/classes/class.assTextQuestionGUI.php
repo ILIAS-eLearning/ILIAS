@@ -367,12 +367,17 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $tpl = new ilTemplate($tplFile, true, true, 'Modules/TestQuestionPool');
 
         foreach ($answers as $answer) {
-            $keywordString = $answer->getAnswertext();
-
+            $keywordString = '';
             if (in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword())) {
+                $keywordString .= (string) $answer->getPoints() . ' ';
+                if ($answer->getPoints() === 1.0 || $answer->getPoints() === -1.0) {
+                    $keywordString .= $this->lng->txt('point');
+                } else {
+                    $keywordString .= $this->lng->txt('points');
+                }
                 $keywordString .= ' ' . $this->lng->txt('for') . ' ';
-                $keywordString .= $answer->getPoints() . ' ' . $this->lng->txt('points');
             }
+            $keywordString .=  $answer->getAnswertext();
 
             $tpl->setCurrentBlock('keyword');
             $tpl->setVariable('KEYWORD', $keywordString);
