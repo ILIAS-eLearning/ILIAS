@@ -44,7 +44,7 @@ abstract class Action implements I\Action
     public function __construct(
         protected string $label,
         protected URLBuilder $url_builder,
-        protected URLBuilderToken $url_builder_token
+        protected URLBuilderToken $row_id_parameter
     ) {
         $this->target = $url_builder->buildURI();
     }
@@ -88,7 +88,7 @@ abstract class Action implements I\Action
         }
         if ($target instanceof URI) {
             $target = $this->url_builder->withParameter(
-                $this->url_builder_token,
+                $this->row_id_parameter,
                 [$row_id]
             )
             ->buildURI();
@@ -99,10 +99,10 @@ abstract class Action implements I\Action
 
     public function getURLBuilderJS(): string
     {
-        return $this->url_builder->renderObject([$this->url_builder_token]);
+        return $this->url_builder->renderObject([$this->row_id_parameter]);
     }
     public function getURLBuilderTokensJS(): string
     {
-        return $this->url_builder->renderTokens([$this->url_builder_token]);
+        return $this->url_builder->renderTokens([$this->row_id_parameter]);
     }
 }
