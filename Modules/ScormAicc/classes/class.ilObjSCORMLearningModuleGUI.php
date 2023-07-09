@@ -83,7 +83,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilToolbar = $DIC->toolbar();
         $ilTabs = $DIC->tabs();
 
-//        $lng->loadLanguageModule("style");
+        //        $lng->loadLanguageModule("style");
 
         $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_settings');
@@ -237,7 +237,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . $this->object->getMasteryScoreValues());
+            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . ' ' . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
 
@@ -345,7 +345,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-//        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+        //        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -586,16 +586,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description', $this->dic->refinery()->kindlyTo()->string()));
 
-            //check if OfflineMode-Zip has to be created
-//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-//            if ($tmpOfflineMode == true) {
-//                if ($this->object->getOfflineMode() == false) {
-//                    $this->object->zipLmForOfflineMode();
-//                }
-//            }
             if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-                $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
-                // $this->object->updateMasteryScoreValues();
+                $sMasteryScore = $this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->string());
+                if ($sMasteryScore !== "") {
+                    $this->object->setMasteryScore((int) $sMasteryScore);
+                } else {
+                    $this->object->setMasteryScore(null);
+                }
             }
 
             $t_height = $this->object->getHeight();
@@ -615,13 +612,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
 
             $this->object->setOfflineStatus(!($this->dic->http()->wrapper()->post()->has('cobj_online')));
-//            $this->object->setOfflineMode($tmpOfflineMode);
+            //            $this->object->setOfflineMode($tmpOfflineMode);
             $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
             $this->object->setWidth($t_width);
             $this->object->setHeight($t_height);
             $this->object->setAuto_last_visited($this->dic->http()->wrapper()->post()->has('cobj_auto_last_visited'));
             $this->object->setAutoContinue($this->dic->http()->wrapper()->post()->has('auto_continue'));
-//            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
+            //            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setAutoReview(ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string())));
@@ -657,12 +654,18 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
         $scoSelected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
             $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
+        if ($this->dic->http()->wrapper()->query()->has('report')) {
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('report')) {
             $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
@@ -707,12 +710,18 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
 
             $userSelected = "all";
+            if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
                 $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
+            if ($this->dic->http()->wrapper()->query()->has('report')) {
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('report')) {
                 $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }
@@ -728,8 +737,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 } else {
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
-                            $usersSelected[] = $user;
+                        if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
+                            $usersSelected[] = (int) $user;
                         }
                     }
                 }
@@ -828,12 +837,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
-                $caption = ilUtil::getImageTagByType("sahs", (string) $this->tpl->tplPath) .
-                    " " . $this->lng->txt("cont_tracking_data") .
-                    ": " . $user->getLastname() . ", " . $user->getFirstname();
+                //was ilUtil::getImageTagByType("sahs", (string) $this->tpl->getValue("TPLPATH")) .
+                $caption = $this->lng->txt("cont_tracking_data") . ": " . $user->getLastname() . ", " . $user->getFirstname();
 
-
-                $cgui->addItem("user[]", $id, $caption);
+                $cgui->addItem("user[]", (string) $id, $caption);
             }
         }
 

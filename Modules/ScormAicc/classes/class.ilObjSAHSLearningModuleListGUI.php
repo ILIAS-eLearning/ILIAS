@@ -79,12 +79,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
-
                 break;
-
-//            case "editContent":
-//                $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=editContent";
-//                break;
 
             case "edit":
                 $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id;
@@ -104,34 +99,34 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     }
 
 
-//    /**
-//    * Get command target frame
-//    *
-//    * @param	string		$a_cmd			command
-//    *
-//    * @return	string		command target frame
-//    */
-//    public function getCommandFrame($a_cmd) : string
-//    {
-//        switch ($a_cmd) {
-//            case "view":
-//                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-//                $frame = "ilContObj" . $this->obj_id;
-//                break;
-//
-//            case "edit":
+    //    /**
+    //    * Get command target frame
+    //    *
+    //    * @param	string		$a_cmd			command
+    //    *
+    //    * @return	string		command target frame
+    //    */
+    //    public function getCommandFrame($a_cmd) : string
+    //    {
+    //        switch ($a_cmd) {
+    //            case "view":
+    //                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+    //                $frame = "ilContObj" . $this->obj_id;
+    //                break;
+    //
+    //            case "edit":
     ////            case "editContent":
-//            case "infoScreen":
-//                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-//                break;
-//
-//            default:
-//                $frame = "";
-//                break;
-//        }
-//
-//        return $frame;
-//    }
+    //            case "infoScreen":
+    //                $frame = ilFrameTargetInfo::_getFrame("MainContent");
+    //                break;
+    //
+    //            default:
+    //                $frame = "";
+    //                break;
+    //        }
+    //
+    //        return $frame;
+    //    }
 
 
     /**
