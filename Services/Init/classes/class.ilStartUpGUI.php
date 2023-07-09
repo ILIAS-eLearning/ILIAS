@@ -1395,11 +1395,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
 
         // reset cookie
-        $client_id = CLIENT_ID;
         ilUtil::setCookie("ilClientId", "");
 
         // redirect and show logout information
-        $this->ctrl->setParameter($this, 'client_id', $client_id);
+        $this->ctrl->setParameter($this, 'client_id', CLIENT_ID);
         $this->ctrl->setParameter($this, 'lang', $user_language);
         $this->ctrl->redirect($this, 'showLogout');
     }
