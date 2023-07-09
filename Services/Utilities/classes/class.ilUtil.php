@@ -18,6 +18,7 @@
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use ILIAS\HTTP\Cookies\Cookie;
 
 /**
  * Util class
@@ -98,7 +99,7 @@ class ilUtil
             $skin_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
         } elseif (is_object($styleDefinition) && $current_skin != "default") {
             $skin_img = "./Customizing/global/skin/" .
-                $current_skin . "/". $current_style. "/". $module_path . $image_dir . "/" . $img;
+                $current_skin . "/" . $current_style . "/" . $module_path . $image_dir . "/" . $img;
         }
 
         if ($offline) {
@@ -458,13 +459,13 @@ class ilUtil
             $a_str = strip_tags($a_str);        // strip all other tags
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
-        // a possible solution could be something like:
-        // $a_str = str_replace("<", "&lt;", $a_str);
-        // $a_str = str_replace(">", "&gt;", $a_str);
-        // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+            // a possible solution could be something like:
+            // $a_str = str_replace("<", "&lt;", $a_str);
+            // $a_str = str_replace(">", "&gt;", $a_str);
+            // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
             //
-        // output would be ok then, but input fields would show
-        // "a &lt;= b" for input "a <= b" if data is brought back to a form
+            // output would be ok then, but input fields would show
+            // "a &lt;= b" for input "a <= b" if data is brought back to a form
         } else {
             // only for scripts, that need to allow more/other tags and parameters
             if ($a_strip_html) {
@@ -1309,6 +1310,12 @@ class ilUtil
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
 
 
+        if (
+            defined('IL_COOKIE_SECURE') && IL_COOKIE_SECURE &&
+            (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+        ) {
+            $cookie = $cookie->withSamesite(Cookie::SAMESITE_LAX);
+        }
         $jar = $cookie_jar->with($cookie);
         $response = $jar->renderIntoResponseHeader($http->response());
         $http->saveResponse($response);
