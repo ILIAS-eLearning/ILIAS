@@ -101,11 +101,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-//            case 'ilexportgui':
-//                $exp = new ilExportGUI($this);
-//                $exp->addFormat('xml');
-//                $this->ctrl->forwardCommand($exp);
-//                break;
+                //            case 'ilexportgui':
+                //                $exp = new ilExportGUI($this);
+                //                $exp->addFormat('xml');
+                //                $this->ctrl->forwardCommand($exp);
+                //                break;
 
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
@@ -155,9 +155,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             default:
-//                if ($this->object && !$this->object->getEditable()) {
-                    $cmd = $this->ctrl->getCmd("properties");
-//                }
+                //                if ($this->object && !$this->object->getEditable()) {
+                $cmd = $this->ctrl->getCmd("properties");
+                //                }
                 if ((strtolower($baseClass) === "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
                     $cmd !== "frameset") {
@@ -214,17 +214,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
 
-//    /**
-//     * @return void
-//     * @throws ilObjectException
-//     */
-//    public function viewObject() : void
-//    {
-//        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
-//            parent::viewObject();
-//        } else {
-//        }
-//    }
+    //    /**
+    //     * @return void
+    //     * @throws ilObjectException
+    //     */
+    //    public function viewObject() : void
+    //    {
+    //        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+    //            parent::viewObject();
+    //        } else {
+    //        }
+    //    }
 
     /**
     * module properties
@@ -254,7 +254,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      */
     protected function initCreationForms(string $a_new_type): array
     {
-        $forms = array();
+        $forms = [];
 
         $this->initUploadForm();
         $forms[self::CFORM_IMPORT] = $this->form;
@@ -390,60 +390,60 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // always import authoring packages as scorm2004, see bug #27801
-//        if ($_POST["editable"] == 'y') {
-//            $subType = "scorm2004";
-//        }
+        //        if ($_POST["editable"] == 'y') {
+        //            $subType = "scorm2004";
+        //        }
 
         // create and insert object in objecttree
         switch ($subType) {
-        case "scorm2004":
-            $newObj = new ilObjSCORM2004LearningModule();
-//            $newObj->setEditable(false);//$_POST["editable"] == 'y');
-//            $newObj->setImportSequencing($_POST["import_sequencing"]);
-//            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-            break;
+            case "scorm2004":
+                $newObj = new ilObjSCORM2004LearningModule();
+                //            $newObj->setEditable(false);//$_POST["editable"] == 'y');
+                //            $newObj->setImportSequencing($_POST["import_sequencing"]);
+                //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                break;
 
-        case "scorm":
-            $newObj = new ilObjSCORMLearningModule();
-            break;
+            case "scorm":
+                $newObj = new ilObjSCORMLearningModule();
+                break;
 
-        case "exportFile":
-            $sFile = $_FILES["scormfile"];
-            $fType = $sFile["type"];
-            $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
-            if (in_array($fType, $cFileTypes)) {
-                $timeStamp = time();
-                $tempFile = $sFile["tmp_name"];
-                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
-                $lmTempDir = $lmDir . $timeStamp;
-                if (!file_exists($lmTempDir)) {
-                    if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
-                        throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+            case "exportFile":
+                $sFile = $_FILES["scormfile"];
+                $fType = $sFile["type"];
+                $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
+                if (in_array($fType, $cFileTypes)) {
+                    $timeStamp = time();
+                    $tempFile = $sFile["tmp_name"];
+                    $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
+                    $lmTempDir = $lmDir . $timeStamp;
+                    if (!file_exists($lmTempDir)) {
+                        if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
+                            throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+                        }
+                    }
+                    $zar = new ZipArchive();
+                    $zar->open($tempFile);
+                    $zar->extractTo($lmTempDir);
+                    $zar->close();
+                    $importer = new ilScormAiccImporter();
+                    $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
+                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                    $importFromXml = true;
+                    //                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
+                    //                    $importFromXml = true;
+                    //                }
+                    $mprops = $importer->moduleProperties;
+                    $subType = (string) $mprops["SubType"];
+                    if ($subType === "scorm") {
+                        $newObj = new ilObjSCORMLearningModule();
+                    } else {
+                        $newObj = new ilObjSCORM2004LearningModule();
+                        // $newObj->setEditable($_POST["editable"]=='y');
+                        // $newObj->setImportSequencing($_POST["import_sequencing"]);
+                        // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                     }
                 }
-                $zar = new ZipArchive();
-                $zar->open($tempFile);
-                $zar->extractTo($lmTempDir);
-                $zar->close();
-                $importer = new ilScormAiccImporter();
-                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                $importFromXml = true;
-//                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
-//                    $importFromXml = true;
-//                }
-                $mprops = $importer->moduleProperties;
-                $subType = (string) $mprops["SubType"];
-                if ($subType === "scorm") {
-                    $newObj = new ilObjSCORMLearningModule();
-                } else {
-                    $newObj = new ilObjSCORM2004LearningModule();
-                    // $newObj->setEditable($_POST["editable"]=='y');
-                    // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                    // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-                }
-            }
-            break;
+                break;
         }
 
         $newObj->setTitle($name);
@@ -518,48 +518,48 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
     * save new learning module to db
     */
-//    public function saveObject()
-//    {
-//        global $DIC;
-//        $ilErr = $DIC["ilErr"];
-//
-//        if (trim($_POST["title"]) == "") {
-//            $ilErr->raiseError($this->lng->txt("msg_no_title"), $ilErr->MESSAGE);
-//        }
-//        $newObj = new ilObjSCORM2004LearningModule();
-//        $newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
-//        $newObj->setSubType("scorm2004");
-//        $newObj->setEditable(true);
-//        $newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
-//        $newObj->create();
-//        $newObj->createReference();
-//        $newObj->putInTree($_GET["ref_id"]);
-//        $newObj->setPermissions($_GET["ref_id"]);
-//        $newObj->createDataDirectory();
-//        $newObj->createScorm2004Tree();
-//        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
-//
-//        // #7375
-//        $this->ctrl->setParameterByClass("ilObjSCORM2004LearningModuleGUI", "ref_id", $newObj->getRefId());
-//        $this->ctrl->redirectByClass(array("ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI"), "showOrganization");
-//    }
+    //    public function saveObject()
+    //    {
+    //        global $DIC;
+    //        $ilErr = $DIC["ilErr"];
+    //
+    //        if (trim($_POST["title"]) == "") {
+    //            $ilErr->raiseError($this->lng->txt("msg_no_title"), $ilErr->MESSAGE);
+    //        }
+    //        $newObj = new ilObjSCORM2004LearningModule();
+    //        $newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
+    //        $newObj->setSubType("scorm2004");
+    //        $newObj->setEditable(true);
+    //        $newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+    //        $newObj->create();
+    //        $newObj->createReference();
+    //        $newObj->putInTree($_GET["ref_id"]);
+    //        $newObj->setPermissions($_GET["ref_id"]);
+    //        $newObj->createDataDirectory();
+    //        $newObj->createScorm2004Tree();
+    //        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
+    //
+    //        // #7375
+    //        $this->ctrl->setParameterByClass("ilObjSCORM2004LearningModuleGUI", "ref_id", $newObj->getRefId());
+    //        $this->ctrl->redirectByClass(array("ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI"), "showOrganization");
+    //    }
 
 
-//    /**
-//    * permission form
-//    */
-//    public function info()
-//    {
-//        $this->infoObject();
-//    }
+    //    /**
+    //    * permission form
+    //    */
+    //    public function info()
+    //    {
+    //        $this->infoObject();
+    //    }
 
-//    /**
-//    * show owner of learning module
-//    */
-//    public function owner()
-//    {
-//        $this->ownerObject();
-//    }
+    //    /**
+    //    * show owner of learning module
+    //    */
+    //    public function owner()
+    //    {
+    //        $this->ownerObject();
+    //    }
 
     /**
      * output main header (title and locator)
@@ -663,14 +663,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             get_class($this)
         );
 
-//        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
-//            $this->tabs_gui->addTarget(
-//                'learning_progress',
-//                $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
-//                '',
-//                array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui')
-//            );
-//        }
+        //        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+        //            $this->tabs_gui->addTarget(
+        //                'learning_progress',
+        //                $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'), ''),
+        //                '',
+        //                array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui')
+        //            );
+        //        }
 
         // tracking data
         if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
@@ -798,23 +798,23 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
     }
 
-//    /**
-//     * List files
-//     *
-//     * @param
-//     * @return
-//     */
-//    public function editContent()
-//    {
-//        global $DIC;
-//        $ilCtrl = $DIC->ctrl();
-//
+    //    /**
+    //     * List files
+    //     *
+    //     * @param
+    //     * @return
+    //     */
+    //    public function editContent()
+    //    {
+    //        global $DIC;
+    //        $ilCtrl = $DIC->ctrl();
+    //
     ////        if (!$this->object->getEditable()) {
     ////            $ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
     ////        } else {
-//        $ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
+    //        $ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
     ////        }
-//    }
+    //    }
 
     /**
      * @throws ilCtrlException
@@ -883,11 +883,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function exportModule(): void
     {
         global $DIC;
-//        $ilDB = $DIC->database();
-//
+        //        $ilDB = $DIC->database();
+        //
         $moduleId = ilObject::_lookupObjectId($DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()));
         $exporter = new ilScormAiccExporter();
-//        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
+        //        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
     }
 
     public function getType(): string
