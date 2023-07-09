@@ -1375,8 +1375,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
         }
 
-        $client_id = CLIENT_ID;
-        ilUtil::setCookie('ilClientId', '');
+        // reset cookie
+        ilUtil::setCookie("ilClientId", "");
 
         $this->ctrl->setParameter($this, 'lang', $user_language);
         $this->ctrl->setParameter($this, 'client_id', $client_id);

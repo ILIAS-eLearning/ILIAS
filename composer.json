@@ -65,7 +65,7 @@
 		"guzzlehttp/psr7": "^2.6.1",
 		"league/flysystem": "^3.0",
 		"sabre/dav": "^4.5",
-		"dflydev/fig-cookies": "^3.1",
+		"dflydev/fig-cookies": "^3.0",
 		"symfony/yaml": "^6.4",
 		"symfony/console": "^6.4",
 		"simplesamlphp/simplesamlphp": "^2.2.0",

@@ -1,22 +1,26 @@
 <?php
 
-namespace ILIAS\HTTP\Cookies;
-
-use Dflydev\FigCookies\SetCookie;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+namespace ILIAS\HTTP\Cookies;
+
+use Dflydev\FigCookies\SetCookie;
+use Dflydev\FigCookies\Modifier\SameSite;
+
 /**
  * Class CookieWrapper
  * Facade class for the FigCookies SetCookie class.
@@ -99,6 +103,12 @@ class CookieWrapper implements Cookie
     public function getHttpOnly(): bool
     {
         return $this->cookie->getHttpOnly();
+    }
+
+    public function getSamesite(): ?string
+    {
+        $samesite = $this->cookie->getSameSite();
+        return is_null($samesite) ? null : $samesite->asString();
     }
 
     /**
@@ -196,6 +206,14 @@ class CookieWrapper implements Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+
+        return $clone;
+    }
+
+    public function withSamesite(string $sameSite): Cookie
+    {
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withSameSite(SameSite::fromString($sameSite));
 
         return $clone;
     }
