@@ -127,7 +127,11 @@ class ilLTIConsumerGradeSynchronizationGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getProvider()->isGradeSynchronization()) {
-            $actor = $table->getFilterItemByPostVar('actor')->getValue();
+            if ($table->getFilterItemByPostVar('actor') !== null) {
+                $actor = $table->getFilterItemByPostVar('actor')->getValue();
+            } else {
+                $actor = $DIC->user()->getLogin();
+            }
 
             if (strlen($actor)) {
                 $usrId = ilObjUser::getUserIdByLogin($actor);
@@ -193,8 +197,8 @@ class ilLTIConsumerGradeSynchronizationGUI
 
     protected function initTableData(ilLTIConsumerGradeSynchronizationTableGUI $table, ilLTIConsumerGradeSynchronizationFilter $filter): void
     {
-//        $table->setData($statementsReport->getTableData());
-//        $table->setMaxCount($statementsReport->getMaxCount());
+        $table->setData(ilLTIConsumerGradeSynchronization::getGradesForObject($this->object->getId()));
+        //        $table->setMaxCount($statementsReport->getMaxCount());
     }
 
     protected function buildTableGUI(): ilLTIConsumerGradeSynchronizationTableGUI

@@ -182,4 +182,58 @@ class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_15(): void
+    {
+        if(!$this->db->tableExists('lti_consumer_grades')) {
+            $values = array(
+                'id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'obj_id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'usr_id' => array(
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ),
+                'score_given' => array(
+                    'type' => 'float',
+                    'notnull' => false
+                ),
+                'score_maximum' => array(
+                    'type' => 'float',
+                    'notnull' => false
+                ),
+                'activity_progress' => array(
+                    'type' => 'text',
+                    'length' => 20,
+                    'notnull' => true
+                ),
+                'grading_progress' => array(
+                    'type' => 'text',
+                    'length' => 20,
+                    'notnull' => true
+                ),
+                'lti_timestamp' => array(
+                    'type' => 'timestamp',
+                    'notnull' => false,
+                    'default' => null
+                ),
+                'stored' => array(
+                    'type' => 'timestamp',
+                    'notnull' => true
+                )
+            );
+            $this->db->createTable("lti_consumer_grades", $values);
+            $this->db->addPrimaryKey("lti_consumer_grades", array("id"));
+            $this->db->createSequence("lti_consumer_grades");
+            $this->db->addIndex("lti_consumer_grades", array("obj_id","usr_id"), 'i1');
+        }
+    }
 }

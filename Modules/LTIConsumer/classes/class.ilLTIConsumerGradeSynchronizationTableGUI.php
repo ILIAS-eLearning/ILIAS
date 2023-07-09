@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Modal\RoundTrip;
  */
 class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
 {
-    public const TABLE_ID = 'cmix_statements_table';
+    public const TABLE_ID = 'lti_grade_table';
 
     protected bool $isMultiActorReport;
     protected array $filter = [];
@@ -81,7 +81,7 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
         $this->addColumn($this->language->txt('tbl_grade_object'), 'object'); //label otherwise id
 
         $this->addColumn($this->language->txt('tbl_grade_activityProgress'), 'verb'); //activityProgress
-//        gradingProgress necessary?
+        //        gradingProgress necessary?
         $this->addColumn($this->language->txt('tbl_grade_score'), 'score');
 
         $this->addColumn('', '', '1%');
@@ -120,42 +120,15 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $r = $this->dic->ui()->renderer();
-        $a_set['rowkey'] = md5(serialize($a_set['statement']));
-//        $rawDataModal = $this->getRawDataModal($a_set);
+        $this->tpl->setVariable('STMT_DATE', $a_set['lti_timestamp']);
+        $usr = new ilObjUser((int) $a_set['usr_id']);
+        $this->tpl->setVariable('STMT_ACTOR', $usr->getFullname());
 
-        $date = ilDatePresentation::formatDate(
-            ilCmiXapiDateTime::fromXapiTimestamp($a_set['date'])
-        );
+        $this->tpl->setVariable('STMT_OBJECT', $this->language->txt('grade_grading_' . $a_set['grading_progress']));
 
-        $this->tpl->setVariable('STMT_DATE', $date);
+        $this->tpl->setVariable('STMT_VERB', $this->language->txt('grade_activity_' . $a_set['activity_progress']));
 
-        if ($this->isMultiActorReport) {
-            $actor = $a_set['actor'];
-            if (empty($actor)) {
-                $this->tpl->setVariable('STMT_ACTOR', 'user_not_found');
-            } else {
-                $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($a_set['actor']));
-            }
-        }
-
-        $this->tpl->setVariable('STMT_OBJECT', $a_set['object']);
-        $this->tpl->setVariable('STMT_OBJECT_INFO', $a_set['object_info']);
-
-        $this->tpl->setVariable('STMT_VERB', $this->language->txt('grade_activityProgress_' . $a_set['verb_id']));
-
-        $this->tpl->setVariable('STMT_SCORE', $a_set['score']); //scoreMaximum
+        $this->tpl->setVariable('STMT_SCORE', $a_set['score_given'] . ' / ' . $a_set['score_maximum']);
     }
 
-    protected function getUsername(ilCmiXapiUser $cmixUser): string
-    {
-        $ret = 'not found';
-        try {
-            $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
-            $ret = $userObj->getFullname();
-        } catch (Exception $e) {
-            $ret = $this->language->txt('deleted_user');
-        }
-        return $ret;
-    }
 }

@@ -96,12 +96,13 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             !isset($score->gradingProgress) ||
             !isset($score->activityProgress) ||
             !isset($score->timestamp) ||
-//            isset($score->timestamp) && !:validate_iso8601_date($score->timestamp) ||
+            isset($score->timestamp) && !self::validate_iso8601_date($score->timestamp) ||
             (isset($score->scoreGiven) && !is_numeric($score->scoreGiven)) ||
             (isset($score->scoreGiven) && !isset($score->scoreMaximum)) ||
             (isset($score->scoreMaximum) && !is_numeric($score->scoreMaximum))
         ) {
             ilObjLTIConsumer::getLogger()->debug('Incorrect score received');
+            ilObjLTIConsumer::getLogger()->dump($score);
             throw new Exception('Incorrect score received', 400);
             return 400;
         }
@@ -136,8 +137,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
         if (empty($consRes)) {
             ilObjLTIConsumer::getLogger()->debug("lti_consumer_results_id not found!");
-//            throw new Exception('lti_consumer_results_id not found!', 404);
-//            return 404;
+            //            throw new Exception('lti_consumer_results_id not found!', 404);
+            //            return 404;
         }
         if (!isset($consRes->id)) {
             $consRes->id = $DIC->database()->nextId('lti_consumer_results');
@@ -156,6 +157,34 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
 
+        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $score->timestamp);
+        $gradeValues = [
+            'id' => array('integer', $DIC->database()->nextId('lti_consumer_grades')),
+            'obj_id' => array('integer', $objId),
+            'usr_id' => array('integer', $userId),
+            'score_given' => array('float', $score->scoreGiven),
+            'score_maximum' => array('float', $score->scoreMaximum),
+            'activity_progress' => array('text', $score->activityProgress),
+            'grading_progress' => array('text', $score->gradingProgress),
+            'lti_timestamp' => array('timestamp',$ltiTimestamp->format("Y-m-d H:i:s")),
+            'stored' => array('timestamp', date("Y-m-d H:i:s"))
+        ];
+        $DIC->database()->insert('lti_consumer_grades', $gradeValues);
+
+
+
         return 200;
     }
+
+    public static function validate_iso8601_date(string $date): bool
+    {
+        if (preg_match('/^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])' .
+                '(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))' .
+                '([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)' .
+                '?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/', $date) > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }

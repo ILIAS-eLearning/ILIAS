@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 /**
- * Class ilObjLTIConsumerLaunch
+ * Class ilObjLTIConsumerResult
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
