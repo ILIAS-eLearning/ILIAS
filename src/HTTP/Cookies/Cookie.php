@@ -28,6 +28,10 @@ namespace ILIAS\HTTP\Cookies;
  */
 interface Cookie
 {
+    public const SAMESITE_NONE = 'None';
+    public const SAMESITE_LAX = 'Lax';
+    public const SAMESITE_STRICT = 'Strict';
+
     /**
      * Cookie name.
      */
@@ -76,6 +80,10 @@ interface Cookie
      */
     public function getHttpOnly(): bool;
 
+    /**
+     * Cookie samesite
+     */
+    public function getSamesite(): ?string;
 
     /**
      * Sets the cookie value.
@@ -150,6 +158,13 @@ interface Cookie
      */
     public function withHttpOnly(bool $httpOnly = null): Cookie;
 
+    /**
+     * Sets the samesite attribute.
+     *
+     * @param string $sameSite value of the samesite attribute.  Valid values are
+     *                           @const SAMESITE_LAX, @const SAMESITE_STRICT or @const SAMESITE_NONE
+     */
+    public function withSamesite(string $sameSite): Cookie;
 
     /**
      * Returns the string representation of the object.
