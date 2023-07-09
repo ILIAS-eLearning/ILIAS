@@ -1017,7 +1017,7 @@ class ilObjSAHSLearningModule extends ilObject
             array($this->getId())
         );
 
-        $ilLog->write("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
+        $ilLog->debug("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
 
         if ($this->getSubType() === "scorm") {
             $sc_tree = new ilSCORMTree($this->getId());
@@ -1025,7 +1025,7 @@ class ilObjSAHSLearningModule extends ilObject
             if ($r_id > 0) {
                 $items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
                 foreach ($items as $item) {
-                    $sc_object = ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+                    $sc_object = ilSCORMObject::_getInstance((int) $item["obj_id"], $this->getId());
                     if (is_object($sc_object)) {
                         $sc_object->delete();
                     }
