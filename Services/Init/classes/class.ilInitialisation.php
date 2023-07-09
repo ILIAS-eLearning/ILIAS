@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -1465,7 +1466,6 @@ class ilInitialisation
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
-//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**

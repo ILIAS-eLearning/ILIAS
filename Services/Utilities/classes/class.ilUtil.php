@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -165,7 +166,7 @@ class ilUtil
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-                ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
@@ -462,7 +463,7 @@ class ilUtil
             $a_str = strip_tags($a_str);        // strip all other tags
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
-        // a possible solution could be something like:
+            // a possible solution could be something like:
             // $a_str = str_replace("<", "&lt;", $a_str);
             // $a_str = str_replace(">", "&gt;", $a_str);
             // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
