@@ -3,6 +3,7 @@
 namespace ILIAS\HTTP\Cookies;
 
 use Dflydev\FigCookies\SetCookie;
+use Dflydev\FigCookies\Modifier\SameSite;
 
 /******************************************************************************
  *
@@ -101,6 +102,12 @@ class CookieWrapper implements Cookie
         return $this->cookie->getHttpOnly();
     }
 
+    public function getSamesite(): ?string
+    {
+        $samesite = $this->cookie->getSameSite();
+        return is_null($samesite) ? null : $samesite->asString();
+    }
+
     /**
      * @inheritDoc
      */
@@ -196,6 +203,14 @@ class CookieWrapper implements Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+
+        return $clone;
+    }
+
+    public function withSamesite(string $sameSite): Cookie
+    {
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withSameSite(SameSite::fromString($sameSite));
 
         return $clone;
     }
