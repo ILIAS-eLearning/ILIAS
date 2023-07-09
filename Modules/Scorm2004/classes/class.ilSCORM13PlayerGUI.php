@@ -240,7 +240,7 @@ class ilSCORM13PlayerGUI
                         null,
                         $this->userId
                     );
-                //error_log("Saved CMI Data");
+                    //error_log("Saved CMI Data");
                 } else {
                     $this->fetchCMIData();
                 }
@@ -490,7 +490,7 @@ class ilSCORM13PlayerGUI
         }
 
         //disable top menu
-        if ($this->slm->getNoMenu() === "y") {
+        if ($this->slm->getNoMenu() === true) {
             $this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
         } else {
             $this->tpl->setVariable("VAL_DISPLAY", "");
@@ -1010,20 +1010,20 @@ class ilSCORM13PlayerGUI
     }
 
 
-//    /**
-//     * maps API data structure type to internal datatype on a node
-//     * and accepts only valid values, dropping invalid ones from input
-//     */
-//    private function normalizeFields($table, &$node) : void
-//    {
-//        return;
-//        foreach (self::$schema[$table] as $k => $v) {
-//            $value = $node->$k;
-//            if (isset($value) && is_string($v) && !preg_match($v, $value)) {
-//                unset($node->$k);
-//            }
-//        }
-//    }
+    //    /**
+    //     * maps API data structure type to internal datatype on a node
+    //     * and accepts only valid values, dropping invalid ones from input
+    //     */
+    //    private function normalizeFields($table, &$node) : void
+    //    {
+    //        return;
+    //        foreach (self::$schema[$table] as $k => $v) {
+    //            $value = $node->$k;
+    //            if (isset($value) && is_string($v) && !preg_match($v, $value)) {
+    //                unset($node->$k);
+    //            }
+    //        }
+    //    }
 
     /**
      * @return array<string, array<int|string, array<array|int|string>>>
@@ -1204,28 +1204,28 @@ class ilSCORM13PlayerGUI
         return $a_array;
     }
 
-//    /**
-//     * estimate content type for a filename by extension
-//     * first do it for common static web files from external list
-//     * if not found peek into file by slow php function mime_content_type()
-//     * @param $filename required
-//     * @return string mimetype name e.g. image/jpeg
-//     */
-//    public function getMimetype($filename)
-//    {
-//        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-//        return ilObjMediaObject::getMimeType($filename);
-//    }
+    //    /**
+    //     * estimate content type for a filename by extension
+    //     * first do it for common static web files from external list
+    //     * if not found peek into file by slow php function mime_content_type()
+    //     * @param $filename required
+    //     * @return string mimetype name e.g. image/jpeg
+    //     */
+    //    public function getMimetype($filename)
+    //    {
+    //        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+    //        return ilObjMediaObject::getMimeType($filename);
+    //    }
 
 
-//    /**
-//    * Get max. number of attempts allowed for this package
-//    */
-//    public function get_max_attempts()
-//    {
-//        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
-//        return ilObjSCORMInitData::get_max_attempts($this->packageId);
-//    }
+    //    /**
+    //    * Get max. number of attempts allowed for this package
+    //    */
+    //    public function get_max_attempts()
+    //    {
+    //        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+    //        return ilObjSCORMInitData::get_max_attempts($this->packageId);
+    //    }
 
     public function get_Module_Version(): int
     {
@@ -2137,14 +2137,14 @@ class ilSCORM13PlayerGUI
 
     // function get_last_visited($a_obj_id, $a_user_id)
     // {
-        // global $DIC;
-        // $ilDB = $DIC->database();
-        // $val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-        // array('integer','integer'),
-        // array($a_obj_id,$a_user_id));
+    // global $DIC;
+    // $ilDB = $DIC->database();
+    // $val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+    // array('integer','integer'),
+    // array($a_obj_id,$a_user_id));
 
-        // $val_rec = $ilDB->fetchAssoc($val_set);
-        // return $val_rec["last_visited"];
+    // $val_rec = $ilDB->fetchAssoc($val_set);
+    // return $val_rec["last_visited"];
     // }
 }
 
