@@ -228,33 +228,33 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $items;
     }
 
-//    /**
-//    * Return the last access timestamp for a given user
-//    *
-//    * @param	int		$a_obj_id		object id
-//    * @param	int		$user_id		user id
-//    * @return timestamp
-//    */
-//    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//
-//        $result = $ilDB->queryF(
-//            '
+    //    /**
+    //    * Return the last access timestamp for a given user
+    //    *
+    //    * @param	int		$a_obj_id		object id
+    //    * @param	int		$user_id		user id
+    //    * @return timestamp
+    //    */
+    //    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
+    //    {
+    //        global $DIC;
+    //        $ilDB = $DIC->database();
+    //
+    //        $result = $ilDB->queryF(
+    //            '
     //		SELECT last_access FROM sahs_user
     //		WHERE  obj_id = %s
     //		AND user_id = %s',
-//            array('integer','integer'),
-//            array($a_obj_id,$a_usr_id)
-//        );
-//
-//        if ($ilDB->numRows($result)) {
-//            $row = $ilDB->fetchAssoc($result);
-//            return $row["last_access"];
-//        }
-//        return "";
-//    }
+    //            array('integer','integer'),
+    //            array($a_obj_id,$a_usr_id)
+    //        );
+    //
+    //        if ($ilDB->numRows($result)) {
+    //            $row = $ilDB->fetchAssoc($result);
+    //            return $row["last_access"];
+    //        }
+    //        return "";
+    //    }
 
     public function getTrackedUsers(string $a_search): array
     {

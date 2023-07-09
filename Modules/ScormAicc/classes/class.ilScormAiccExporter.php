@@ -53,17 +53,17 @@ class ilScormAiccExporter extends ilXmlExporter
         );
     }
 
-//        public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-//        {
-//            $md_ids = array();
-//            $md_ids[0] = "0:".$mob_id.":mob";
-//
-//            return array (
-//                array(
-//                    "component" => "Modules/ScormAicc",
-//                    "entity" => "md",
-//                    "ids" => $md_ids)
-//                );
-//        }
+    //        public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    //        {
+    //            $md_ids = array();
+    //            $md_ids[0] = "0:".$mob_id.":mob";
+    //
+    //            return array (
+    //                array(
+    //                    "component" => "Modules/ScormAicc",
+    //                    "entity" => "md",
+    //                    "ids" => $md_ids)
+    //                );
+    //        }
 
 }

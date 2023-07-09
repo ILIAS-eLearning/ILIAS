@@ -401,7 +401,7 @@ class ilObjSCORMTracking
     {
         global $DIC;
         $ilDB = $DIC->database();
-//        $ilLog = ilLoggerFactory::getLogger('sahs');
+        //        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         $res = $ilDB->queryF(
             'SELECT DISTINCT user_id FROM scorm_tracking 
@@ -624,7 +624,7 @@ class ilObjSCORMTracking
         $rowtmp = $ilDB->fetchAssoc($res);
         if ($rowtmp['hash'] == $hash) {
             //ok - do nothing
-//            die("allowed");
+            //            die("allowed");
         } else {
             //output used by api
             die("not allowed");

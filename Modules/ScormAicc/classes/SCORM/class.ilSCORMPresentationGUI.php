@@ -153,13 +153,13 @@ class ilSCORMPresentationGUI
         exit;
     }
 
-//    /**
-//    * Get max. number of attempts allowed for this package
-//    */
-//    public function get_max_attempts() : int
-//    {
-//        return ilObjSCORMInitData::get_max_attempts($this->slm->getId());
-//    }
+    //    /**
+    //    * Get max. number of attempts allowed for this package
+    //    */
+    //    public function get_max_attempts() : int
+    //    {
+    //        return ilObjSCORMInitData::get_max_attempts($this->slm->getId());
+    //    }
 
     /**
      * Get number of actual attempts for the user

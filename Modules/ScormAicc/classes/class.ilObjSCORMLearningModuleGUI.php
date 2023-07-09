@@ -83,7 +83,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilToolbar = $DIC->toolbar();
         $ilTabs = $DIC->tabs();
 
-//        $lng->loadLanguageModule("style");
+        //        $lng->loadLanguageModule("style");
 
         $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_settings');
@@ -345,7 +345,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-//        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+        //        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -613,13 +613,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
 
             $this->object->setOfflineStatus(!($this->dic->http()->wrapper()->post()->has('cobj_online')));
-//            $this->object->setOfflineMode($tmpOfflineMode);
+            //            $this->object->setOfflineMode($tmpOfflineMode);
             $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
             $this->object->setWidth($t_width);
             $this->object->setHeight($t_height);
             $this->object->setAuto_last_visited($this->dic->http()->wrapper()->post()->has('cobj_auto_last_visited'));
             $this->object->setAutoContinue($this->dic->http()->wrapper()->post()->has('auto_continue'));
-//            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
+            //            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setAutoReview(ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string())));

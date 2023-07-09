@@ -28,7 +28,7 @@ declare(strict_types=1);
 class ilSCORMPackageParser extends ilSaxParser
 {
     private ilSCORMTree $sc_tree;
-//    public array $cnt;				// counts open elements
+    //    public array $cnt;				// counts open elements
     public array $current_element;	// store current element type
     public object $slm_object;      //better ilObjSCORMModule
     public array $parent_stack;		// stack of current parent nodes
@@ -38,16 +38,16 @@ class ilSCORMPackageParser extends ilSaxParser
     public object $current_resource;	// current resource object
     public array $item_stack;		// current open item objects
     public string $package_title = "";	// title for the package (title from organisation)
-                /**
-                 * Constructor
-                 *
-                 * @param	object		$a_lm_object	must be of type ilObjLearningModule
-                 * @param	string		$a_xml_file		xml file
-                 */
+    /**
+     * Constructor
+     *
+     * @param	object		$a_lm_object	must be of type ilObjLearningModule
+     * @param	string		$a_xml_file		xml file
+     */
     public function __construct(object $a_slm_object, string $a_xml_file)
     {
         parent::__construct($a_xml_file);
-//        $this->cnt = array();
+        //        $this->cnt = array();
         $this->current_element = array();
         $this->slm_object = $a_slm_object;
         $this->tree_created = false;
@@ -87,11 +87,11 @@ class ilSCORMPackageParser extends ilSaxParser
      */
     public function beginElement(string $a_name): void
     {
-//        if (!isset($this->status["$a_name"])) {
-//            $this->cnt[$a_name] == 1;
-//        } else {
-//            $this->cnt[$a_name]++;
-//        }
+        //        if (!isset($this->status["$a_name"])) {
+        //            $this->cnt[$a_name] == 1;
+        //        } else {
+        //            $this->cnt[$a_name]++;
+        //        }
         $this->current_element[count($this->current_element)] = $a_name;
     }
 
@@ -100,7 +100,7 @@ class ilSCORMPackageParser extends ilSaxParser
      */
     public function endElement(string $a_name): void
     {
-//        $this->cnt[$a_name]--;
+        //        $this->cnt[$a_name]--;
         unset($this->current_element[count($this->current_element) - 1]);
     }
 
@@ -120,14 +120,14 @@ class ilSCORMPackageParser extends ilSaxParser
     /*
     * returns number of current open elements of type $a_name
     */
-//    public function getOpenCount($a_name)
-//    {
-//        if (isset($this->cnt[$a_name])) {
-//            return $this->cnt[$a_name];
-//        } else {
-//            return 0;
-//        }
-//    }
+    //    public function getOpenCount($a_name)
+    //    {
+    //        if (isset($this->cnt[$a_name])) {
+    //            return $this->cnt[$a_name];
+    //        } else {
+    //            return 0;
+    //        }
+    //    }
 
     /**
      * generate a tag with given name and attributes

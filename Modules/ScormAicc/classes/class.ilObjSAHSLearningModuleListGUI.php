@@ -99,34 +99,34 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     }
 
 
-//    /**
-//    * Get command target frame
-//    *
-//    * @param	string		$a_cmd			command
-//    *
-//    * @return	string		command target frame
-//    */
-//    public function getCommandFrame($a_cmd) : string
-//    {
-//        switch ($a_cmd) {
-//            case "view":
-//                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-//                $frame = "ilContObj" . $this->obj_id;
-//                break;
-//
-//            case "edit":
+    //    /**
+    //    * Get command target frame
+    //    *
+    //    * @param	string		$a_cmd			command
+    //    *
+    //    * @return	string		command target frame
+    //    */
+    //    public function getCommandFrame($a_cmd) : string
+    //    {
+    //        switch ($a_cmd) {
+    //            case "view":
+    //                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+    //                $frame = "ilContObj" . $this->obj_id;
+    //                break;
+    //
+    //            case "edit":
     ////            case "editContent":
-//            case "infoScreen":
-//                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-//                break;
-//
-//            default:
-//                $frame = "";
-//                break;
-//        }
-//
-//        return $frame;
-//    }
+    //            case "infoScreen":
+    //                $frame = ilFrameTargetInfo::_getFrame("MainContent");
+    //                break;
+    //
+    //            default:
+    //                $frame = "";
+    //                break;
+    //        }
+    //
+    //        return $frame;
+    //    }
 
 
     /**
