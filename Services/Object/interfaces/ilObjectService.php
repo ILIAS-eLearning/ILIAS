@@ -16,13 +16,14 @@
  *
  *********************************************************************/
 
-interface ilObjectCorePropertiesRepository
+namespace ILIAS\Object\Service;
+
+interface ilObjectService
 {
     /**
-     * @param array<int> $ids
+     *
+     * @deprecated 11: This Settings Instance will be removed with ILIAS 11.
+     * Please use ObjectProperties in ilObject.
      */
-    public function preload(array $ids): void;
-    public function resetPreloadedData(): void;
-    public function getFor(int $object_id): ilObjectCoreProperties;
-    public function store(ilObjectCoreProperties $properties): ilObjectCoreProperties;
+    public function commonSettings(): \ilObjectCommonSettings;
 }

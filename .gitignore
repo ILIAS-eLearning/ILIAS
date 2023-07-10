@@ -39,6 +39,7 @@
 /Services/UICore/artifacts/ctrl_security.php
 /Services/Component/artifacts/*
 /Services/EventHandling/artifacts/*
+/Services/Object/artifacts/*
 
 # Directories
 /data

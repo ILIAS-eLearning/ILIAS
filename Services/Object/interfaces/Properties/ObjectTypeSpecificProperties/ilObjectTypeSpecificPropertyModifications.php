@@ -16,13 +16,10 @@
  *
  *********************************************************************/
 
-interface ilObjectCorePropertiesRepository
+namespace ILIAS\Object\Properties\ObjectTypeSpecificProperties;
+
+interface ilObjectTypeSpecificPropertyModifications
 {
-    /**
-     * @param array<int> $ids
-     */
-    public function preload(array $ids): void;
-    public function resetPreloadedData(): void;
-    public function getFor(int $object_id): ilObjectCoreProperties;
-    public function store(ilObjectCoreProperties $properties): ilObjectCoreProperties;
+    public function modifyTitle(int $obj_id, string $current_title): string;
+    public function modifyDescription(int $obj_id, string $current_description): string;
 }

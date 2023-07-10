@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Object\Properties\CoreProperties\TileImage;
+
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
@@ -26,7 +28,7 @@ use ILIAS\FileUpload\MimeType;
 /**
  * @author Stephan Kergomard
  */
-class ilObjectPropertyTileImage implements ilObjectProperty
+class ilObjectPropertyTileImage implements \ilObjectProperty
 {
     public const SUPPORTED_MIME_TYPES = [MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG];
     private const SUPPORTED_FILE_EXTENSIONS = ['png', 'jpg', 'jpeg'];
@@ -35,7 +37,6 @@ class ilObjectPropertyTileImage implements ilObjectProperty
     protected const INPUT_BYLINE = 'obj_tile_image_info';
 
     private bool $deleted_flag = false;
-    private ?string $temp_file_name = null;
 
     public function __construct(
         private ?ilObjectTileImage $tile_image = null
@@ -45,6 +46,13 @@ class ilObjectPropertyTileImage implements ilObjectProperty
     public function getTileImage(): ?ilObjectTileImage
     {
         return $this->tile_image;
+    }
+
+    public function withTileImage(ilObjectTileImage $tile_image): self
+    {
+        $clone = clone $this;
+        $clone->tile_image = $tile_image;
+        return $clone;
     }
 
     public function getDeletedFlag(): bool
@@ -59,68 +67,50 @@ class ilObjectPropertyTileImage implements ilObjectProperty
         return $clone;
     }
 
-    public function getTempFileName(): ?string
-    {
-        return $this->temp_file_name;
-    }
-
-    public function withTempFileName(string $name): self
-    {
-        $clone = clone $this;
-        $clone->temp_file_name = $name;
-        return $clone;
-    }
-
     public function toForm(
         \ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery
     ): File {
         $trafo = $refinery->custom()->transformation(
-            function ($v): ?ilObjectProperty {
-                $property_tile_image = new ilObjectPropertyTileImage(
-                    $this->tile_image
+            function ($v): ?\ilObjectProperty {
+                if ($v === null || $v === []) {
+                    return $this->withDeletedFlag();
+                }
+
+                if (count($v) > 0 && $v[0] === 'tile_image') {
+                    return $this;
+                }
+
+                return $this->withTileImage(
+                    $this->tile_image->withRid($v[0])
                 );
-
-                if (count($v) > 0 && $v[0] !== 'tile_image') {
-                    return $property_tile_image
-                        ->withTempFileName($v[0]);
-                }
-
-                if (count($v) === 0 && $this->tile_image->exists()) {
-                    return $property_tile_image
-                        ->withDeletedFlag();
-                }
-
-                return $property_tile_image;
             }
         );
 
         $tile_image = $field_factory
-            ->file(new ilObjectTileImageUploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
+            ->file(new \ilObjectTileImageUploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
             ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
-            ->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes())
+            ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
             ->withAdditionalTransformation($trafo);
 
-        if (!$this->tile_image->exists()) {
+        if ($this->tile_image->getRid() === null
+            || $this->tile_image->getRid() === '') {
             return $tile_image;
         }
 
-        return $tile_image->withValue(['tile_image']);
+        return $tile_image->withValue([$this->tile_image->getRid()]);
     }
 
     public function toLegacyForm(
         \ilLanguage $language
-    ): ilImageFileInputGUI {
-        $timg = new ilImageFileInputGUI($language->txt(self::INPUT_LABEL), 'tile_image');
+    ): \ilImageFileInputGUI {
+        $timg = new \ilImageFileInputGUI($language->txt(self::INPUT_LABEL), 'tile_image');
         $timg->setInfo($language->txt(self::INPUT_BYLINE));
         $timg->setSuffixes(self::SUPPORTED_FILE_EXTENSIONS);
         $timg->setUseCache(false);
-        if ($this->tile_image?->exists()) {
-            $timg->setImage($this->tile_image->getFullPath());
-        } else {
-            $timg->setImage('');
-        }
+        $timg->setImage($this->tile_image->getSrcUrlForLegacyForm());
+        $timg->setValue($this->tile_image->getRid() ?? '');
         return $timg;
     }
 }

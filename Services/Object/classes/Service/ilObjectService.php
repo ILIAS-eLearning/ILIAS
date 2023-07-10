@@ -18,35 +18,18 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\FileUpload;
+use ILIAS\Object\ilObjectDIC;
 
 class ilObjectService
 {
-    public function __construct(
-        private ilDBInterface $database,
-        private ilLanguage $language,
-        private Filesystem $filesystem,
-        private FileUpload $upload,
-        private ilObjectCustomIconFactory $custom_icon_factory
-    ) {
-    }
-
     /**
      *
      * @deprecated 11: This Settings Instance will be removed with ILIAS 11.
      * Please use ObjectProperties in ilObject.
      */
-    public function commonSettings(): ilObjectCommonSettings
+    public function commonSettings(): \ilObjectCommonSettings
     {
-        return new ilObjectCommonSettings(
-            $this->language,
-            $this->upload,
-            new ilObjectAdditionalPropertiesLegacyRepository(
-                $this->custom_icon_factory,
-                $this->filesystem,
-                $this->upload
-            )
-        );
+        $object_dic = ilObjectDIC::dic();
+        return $object_dic['common_settings'];
     }
 }
