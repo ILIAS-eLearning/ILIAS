@@ -29,6 +29,10 @@ class ilMStListCoursesGUI
      * @var ilHelp
      */
     protected $help;
+    /**
+     * @var array|null
+     */
+    protected $orgu_names = null;
 
 
     /**
@@ -185,12 +189,12 @@ class ilMStListCoursesGUI
                 $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
             };
 
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             foreach (ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
                 'user_id' => $mst_co_usr_id,
                 'object_reference.deleted' => null
             ), array( 'user_id' => '=', 'object_reference.deleted' => '!=' ))->get() as $org_unit_assignment) {
                 if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                    $org_units = $this->getTextRepresentationOfOrgUnits();
                     $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
                     $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
                 }
@@ -202,5 +206,14 @@ class ilMStListCoursesGUI
             echo $selection->getHTML(true);
         }
         exit;
+    }
+
+    protected function getTextRepresentationOfOrgUnits() : array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
     }
 }

@@ -31,6 +31,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI
      * @var ilMyStaffAccess
      */
     protected $access;
+    /**
+     * @var array
+     */
+    protected $selectable_columns_cached = [];
+    /**
+     * @var array
+     */
+    protected $usr_orgu_names = [];
 
 
     /**
@@ -128,9 +136,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->filter['user'] = $item->getValue();
 
         if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $root = ilObjOrgUnit::getRootOrgRefId();
-            $tree = ilObjOrgUnitTree::_getInstance();
-            $nodes = $tree->getAllChildren($root);
             $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
             $options[0] = $DIC->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
@@ -145,11 +150,16 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
+    public function getSelectableColumns() : array
+    {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns()
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns() : array
     {
         $arr_fields_without_table_sort = array(
             'org_units',
@@ -197,6 +207,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id) : string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
 
     /**
      * @param ilMStListUser $my_staff_user
@@ -223,7 +241,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'org_units':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId())));
+                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId()));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'gender':
@@ -337,7 +355,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'org_units':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId());
                     break;
                 case 'gender':
                     $field_values[$k] = $DIC->language()->txt('gender_' . $my_staff_user->getGender());
