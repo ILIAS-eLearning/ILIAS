@@ -220,7 +220,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             } elseif ($reminder_time > 0) {
                 $timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
                 $account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
-                $mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend(
+                $mailSent = ilCronDeleteInactiveUserReminderMail::sendReminderMailIfNeeded(
                     $user,
                     $reminder_time,
                     $account_will_be_deleted_on
