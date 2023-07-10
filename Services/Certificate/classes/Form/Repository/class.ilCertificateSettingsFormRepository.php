@@ -260,6 +260,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $form->addItem($rect);
 
         $certificate = new ilTextAreaInputGUI($this->language->txt("certificate_text"), "certificate_text");
+        $certificate->setInfo($this->language->txt('certificate_text_info'));
         $certificate->removePlugin('ilimgupload');
         $certificate->setRequired(true);
         $certificate->setRows(20);
