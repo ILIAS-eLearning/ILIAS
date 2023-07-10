@@ -24,6 +24,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\Filesystem\Util;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -209,16 +210,20 @@ class Unzip
         }
 
         if ($this->options->isFlat()) {
-            if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
+            if (!is_dir($destination_path)) {
+                if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
+                }
             }
+
             foreach ($this->getStreams() as $stream) {
                 $uri = $stream->getMetadata(self::URI);
                 if (substr($uri, -1) === self::DIRECTORY_SEPARATOR) {
                     continue; // Skip directories
                 }
+                $file_name = Util::sanitizeFileName($destination_path . self::DIRECTORY_SEPARATOR . basename($uri));
                 file_put_contents(
-                    $destination_path . self::DIRECTORY_SEPARATOR . basename($uri),
+                    $file_name,
                     $stream->getContents()
                 );
             }
