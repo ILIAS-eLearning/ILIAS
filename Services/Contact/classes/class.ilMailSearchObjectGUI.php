@@ -280,6 +280,15 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             $ref_ids = ilObject::_getAllReferences($obj_id);
             foreach ($ref_ids as $ref_id) {
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $ref_id,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+                if (!$can_send_mails) {
+                    continue;
+                }
+
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
                     if ($this->isLocalRoleTitle($role['title'])) {
@@ -510,9 +519,16 @@ abstract class ilMailSearchObjectGUI
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
                 $object->setRefId($ref_id);
-                $showMemberListEnabled = $object->getShowMembers();
 
-                if ($this->doesExposeMembers($object)) {
+                $has_untrashed_references = ilObject::_hasUntrashedReference($object->getId());
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $object->getRefId(),
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+
+                if ($has_untrashed_references && ($can_send_mails || $this->doesExposeMembers($object))) {
+                    $member_list_enabled = $object->getShowMembers();
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
@@ -525,7 +541,7 @@ abstract class ilMailSearchObjectGUI
                     $usr_ids = array_values($usr_ids);
 
                     $hiddenMembers = false;
-                    if (!$showMemberListEnabled) {
+                    if (!$member_list_enabled) {
                         ++$num_courses_hidden_members;
                         $hiddenMembers = true;
                     }
@@ -547,7 +563,7 @@ abstract class ilMailSearchObjectGUI
                     $this->ctrl->setParameter($this, 'view', 'myobjects');
 
                     if ($this->isDefaultRequestContext()) {
-                        if ($this->mailing_allowed) {
+                        if ($this->mailing_allowed && $can_send_mails) {
                             $current_selection_list->addItem(
                                 $this->lng->txt('mail_members'),
                                 '',
