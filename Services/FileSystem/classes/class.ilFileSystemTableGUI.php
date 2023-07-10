@@ -24,7 +24,11 @@ use ILIAS\ResourceStorage\Preloader\SecureString;
  */
 class ilFileSystemTableGUI extends ilTable2GUI
 {
-    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
+    use SecureString;
+
+    // This is just for those legacy classes which will be removed soon anyway.
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
     protected bool $has_multi = false;
     protected array $row_commands = [];
     protected bool $label_enable = false;
@@ -36,6 +40,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     protected array $file_labels = [];
     protected \ILIAS\Filesystem\Filesystem $filesystem;
     protected ilFileSystemGUI $filesystem_gui;
+
     /**
      * Constructor
      */
@@ -67,6 +72,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->file_labels = $a_file_labels;
         $this->post_dir_path = $a_post_dir_path;
         $this->filesystem_gui = $a_parent_obj;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($this->lng->txt("cont_files") . " " . $this->cur_subdir);
@@ -82,7 +89,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 $this->row_commands[] = array(
                     "cmd" => "extCommand_" . $i,
                     "caption" => $command["name"],
-                    "allow_dir" => $command["allow_dir"] ?? ""
+                    "allow_dir" => $command["allow_dir"] ?? false,
+                    "method" => $command["method"] ?? null,
                 );
             }
         }
@@ -121,7 +129,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     {
         if ($this->filesystem->has($this->relative_cur_dir)) {
             $entries = [];
-            if ($this->cur_dir!=='') {
+            if ($this->cur_dir !== '') {
                 $entries['..'] = [
                     'order_val' => -1,
                     'order_id' => -1,
@@ -131,7 +139,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
                     'size' => 0
                 ];
             }
-
 
             foreach ($this->filesystem->listContents($this->relative_cur_dir) as $i => $content) {
                 $basename = basename($content->getPath());
@@ -166,12 +173,13 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $pref = ($e["type"] == "dir")
                 ? ($this->getOrderDirection() != "desc" ? "1_" : "9_")
                 : "5_";
-            $items[] = array("file" => $cfile,
-                             "entry" => $e["entry"],
-                             "type" => $e["type"],
-                             "label" => $label ?? '',
-                             "size" => $e["size"] ?? '',
-                             "name" => $pref . $e["entry"]
+            $items[] = array(
+                "file" => $cfile,
+                "entry" => $e["entry"],
+                "type" => $e["type"],
+                "label" => $label ?? '',
+                "size" => $e["size"] ?? '',
+                "name" => $pref . $e["entry"]
             );
         }
         return $items;
@@ -240,8 +248,11 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_FILENAME", $a_set["entry"]);
             $this->tpl->parseCurrentBlock();
 
-            $this->tpl->setVariable("ICON", "<img src=\"" .
-                ilUtil::getImagePath("icon_cat.svg") . "\">");
+            $this->tpl->setVariable(
+                "ICON",
+                "<img src=\"" .
+                ilUtil::getImagePath("icon_cat.svg") . "\">"
+            );
             $this->ctrl->setParameter($this->parent_obj, "resetoffset", "");
         } else {
             $this->tpl->setCurrentBlock("File");
@@ -254,22 +265,27 @@ class ilFileSystemTableGUI extends ilTable2GUI
         }
 
         // single item commands
-        if (sizeof($this->row_commands) &&
-            !($a_set["type"] == "dir" && $a_set["entry"] == "..")) {
-            $advsel = new ilAdvancedSelectionListGUI();
-            $advsel->setListTitle('');
+        if (count($this->row_commands) > 0 && !($a_set["type"] === "dir" && $a_set["entry"] === "..")) {
+            $actions = [];
+
             foreach ($this->row_commands as $rcom) {
-                if ($rcom["allow_dir"] || $a_set["type"] != "dir") {
-                    if (($rcom["caption"] == "Unzip" && MimeType::getMimeType($this->cur_dir . $a_set['entry']) == "application/zip") || $rcom["caption"] != "Unzip") {
+                if ($rcom["allow_dir"] || $a_set["type"] !== "dir") {
+                    $file_path = $this->cur_dir . $a_set['entry'];
+                    if (
+                        $rcom['method'] !== ilFileSystemGUI::CMD_UNZIP_FILE
+                        || ($rcom['method'] === ilFileSystemGUI::CMD_UNZIP_FILE && MimeType::getMimeType($file_path) === "application/zip")
+                    ) {
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", $hash);
                         $url = $this->ctrl->getLinkTarget($this->parent_obj, $rcom["cmd"]);
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", "");
 
-                        $advsel->addItem($rcom["caption"], "", $url);
+                        $actions[] = $this->ui_factory->link()->standard($rcom["caption"], $url);
                     }
                 }
             }
-            $this->tpl->setVariable("ACTIONS", $advsel->getHTML());
+
+            $dropdown = $this->ui_factory->dropdown()->standard($actions);
+            $this->tpl->setVariable("ACTIONS", $this->ui_renderer->render($dropdown));
         }
     }
 }
