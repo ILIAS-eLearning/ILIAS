@@ -2830,10 +2830,25 @@ class ilObjUser extends ilObject
         $xthumb_file = "$image_dir/usr_" . $obj_id . "_xsmall.jpg";
         $xxthumb_file = "$image_dir/usr_" . $obj_id . "_xxsmall.jpg";
 
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-        ilShellUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+        if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+            );
+        } else {
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+        }
 
         // store filename
         self::_writePref($obj_id, "profile_image", $store_file);
