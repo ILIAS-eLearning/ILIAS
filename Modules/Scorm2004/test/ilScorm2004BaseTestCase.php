@@ -58,7 +58,7 @@ class ilScorm2004BaseTestCase extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static fn (\ILIAS\DI\Container $c) => $value;
+        $DIC[$name] = static fn(\ILIAS\DI\Container $c) => $value;
     }
 
     protected function getGlobalTemplateMock(): MockObject
