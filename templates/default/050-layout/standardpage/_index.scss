@@ -1,2 +1,5 @@
+// These are specific layout variables shared by a few major page components (e.g. mainbar, slate,...)
+// They SHOULD only be included by these very specific components.
+
 @forward "./layout_standardpage";
 @forward "./layout_standardpage-mobile";
