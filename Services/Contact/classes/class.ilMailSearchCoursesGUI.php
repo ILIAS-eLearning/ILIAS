@@ -196,6 +196,15 @@ class ilMailSearchCoursesGUI
 
             foreach ($ref_ids as $ref_id) {
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $ref_id,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+                if (!$can_send_mails) {
+                    continue;
+                }
+
                 foreach ($roles as $role) {
                     if (substr($role['title'], 0, 14) == 'il_crs_member_' ||
                         substr($role['title'], 0, 13) == 'il_crs_tutor_' ||
@@ -332,8 +341,16 @@ class ilMailSearchCoursesGUI
                 $showMemberListEnabled = (boolean) $oTmpCrs->getShowMembers();
                 $ref_ids = array_keys(ilObject::_getAllReferences($crs_id));
                 $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_ids[0]);
+                $oTmpCrs->setRefId($ref_ids[0]);
 
-                if ($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser)) {
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $oTmpCrs,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+
+                if ($hasUntrashedReferences &&
+                    ((!$isOffline && ($showMemberListEnabled || $can_send_mails)) || $isPrivilegedUser)) {
                     $oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
                     $crs_members = $oCrsParticipants->getParticipants();
 
@@ -371,11 +388,11 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->setParameter($this, 'search_crs', $crs_id);
                     $this->ctrl->setParameter($this, 'view', 'mycourses');
                     
-                    if ($_GET["ref"] == "mail") {
-                        if ($this->mailing_allowed) {
+                    if ($this->getContext() === 'mail') {
+                        if ($this->mailing_allowed && $can_send_mails) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($_GET["ref"] == "wsp") {
+                    } elseif ($this->getContext() === 'wsp') {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
@@ -389,6 +406,7 @@ class ilMailSearchCoursesGUI
                         "CRS_PATH" => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
                         "hidden_members" => $hiddenMembers,
+                        "can_send_mails" => $can_send_mails,
                     );
                     $counter++;
                     $tableData[] = $rowData;
