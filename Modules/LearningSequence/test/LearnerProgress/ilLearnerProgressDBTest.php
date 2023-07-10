@@ -30,15 +30,9 @@ class ilLearnerProgressDBStub extends ilLearnerProgressDB
 
 class ilLearnerProgressDBTest extends TestCase
 {
-    /**
-     * @var ilLSItemsDB|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $items_db;
-
-    /**
-     * @var ilAccess|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $access;
+    protected ilLSItemsDB $items_db;
+    protected ilAccess $access;
+    protected ilObjectDataCache $obj_data_cache;
 
     protected function setUp(): void
     {

@@ -33,6 +33,8 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
      */
     protected $sig_gen;
 
+    protected C\MainControls\MetaBar $metabar;
+
     public function setUp(): void
     {
         $this->sig_gen = new I\SignalGenerator();
@@ -41,6 +43,8 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            public I\SignalGenerator $sig_gen;
+
             public function counter(): C\Counter\Factory
             {
                 return new I\Counter\Factory();
