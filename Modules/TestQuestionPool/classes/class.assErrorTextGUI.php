@@ -35,16 +35,14 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
     private const DEFAULT_POINTS_WRONG = -1;
-    /**
-     * assErrorTextGUI constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assOrderingHorizontalGUI object.
-     *
-     * @param integer $id The database id of a single choice question object
-     * @access public
-     */
+
+    private ilTabsGUI $tabs;
+
     public function __construct($id = -1)
     {
+        global $DIC;
+        $this->tabs = $DIC->tabs();
+
         parent::__construct();
         $this->object = new assErrorText();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
@@ -122,6 +120,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      */
     public function editQuestion($checkonly = false): bool
     {
+        $this->tabs->setTabActive('edit_question');
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
