@@ -125,7 +125,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->reset_action = $reset_action;
         //No further handling for actions needed here, will be done in constructors of the respective component
 
-        $classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
+        $classes = ['\ILIAS\UI\Component\Input\Container\Filter\FilterInput'];
         $this->checkArgListElements("input", $inputs, $classes);
 
         $this->initSignals();

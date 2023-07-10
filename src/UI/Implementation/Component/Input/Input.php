@@ -25,8 +25,8 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Input\Input as InputInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
@@ -40,7 +40,7 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Input
+abstract class Input implements InputInterface
 {
     use ComponentHelper;
     use JavaScriptBindable;

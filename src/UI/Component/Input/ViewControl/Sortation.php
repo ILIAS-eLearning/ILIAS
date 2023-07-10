@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 
 /**
  * This describes a Sortation View Control
  */
-interface Sortation extends IViewControl
+interface Sortation extends ViewControlInput
 {
 }

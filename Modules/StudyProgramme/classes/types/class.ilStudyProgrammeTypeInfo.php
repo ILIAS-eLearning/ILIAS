@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeTypeInfo
@@ -77,7 +78,7 @@ class ilStudyProgrammeTypeInfo
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ): Field\FormInput {
+    ): FormInput {
         $title = $input
             ->text($lng->txt('title'), '')
             ->withValue($this->getTitle() ?? "")

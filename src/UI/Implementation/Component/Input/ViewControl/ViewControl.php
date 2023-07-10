@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\ViewControl as VCInterface;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -36,7 +36,7 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Implementation\Component\Input\Input;
 
-abstract class ViewControl extends Input implements VCInterface\ViewControl, InputInternal
+abstract class ViewControl extends Input implements ViewControlInput, InputInternal
 {
     use ComponentHelper;
     use JavaScriptBindable;

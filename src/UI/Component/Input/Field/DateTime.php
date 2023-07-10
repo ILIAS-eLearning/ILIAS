@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Component;
 use DateTimeImmutable;

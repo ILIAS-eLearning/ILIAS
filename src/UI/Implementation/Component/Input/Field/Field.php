@@ -20,25 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Field\Field as FieldInterface;
 use ILIAS\UI\Implementation\Component\Input\Input;
+use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Component\Signal;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Triggerer;
 use LogicException;
 use Generator;
 use InvalidArgumentException;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
-abstract class Field extends Input implements C\Input\Field\Field, FormInputInternal
+abstract class Field extends Input implements FieldInterface, FormInputInternal
 {
     protected bool $is_required = false;
     protected ?Constraint $requirement_constraint = null;

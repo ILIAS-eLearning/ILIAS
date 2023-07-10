@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl as IViewControl;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 
 /**
  * This describes a Pagination View Control
  */
-interface Pagination extends IViewControl
+interface Pagination extends ViewControlInput
 {
     /**
      * Optionally provide a list of integers for the page-length selection.

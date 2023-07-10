@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\ViewControl;
+namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Triggerer;
@@ -26,6 +26,6 @@ use ILIAS\UI\Component\Triggerer;
 /**
  * This describes the basis of all View Control Inputs.
  */
-interface ViewControl extends Input, Triggerer
+interface ViewControlInput extends Input, Triggerer
 {
 }

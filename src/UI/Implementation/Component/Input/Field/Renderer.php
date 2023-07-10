@@ -24,6 +24,7 @@ use ILIAS\Data\DateFormat;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
 use ILIAS\UI\Component\Input\Field as FI;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -140,7 +141,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function wrapInFormContext(
-        FI\FormInput $component,
+        FormInput $component,
         string $input_html,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
@@ -179,21 +180,21 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeDisable(FI\FormInput $component, Template $tpl): void
+    protected function maybeDisable(FormInput $component, Template $tpl): void
     {
         if ($component->isDisabled()) {
             $tpl->setVariable("DISABLED", 'disabled="disabled"');
         }
     }
 
-    protected function applyName(FI\FormInput $component, Template $tpl): ?string
+    protected function applyName(FormInput $component, Template $tpl): ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
         return $name;
     }
 
-    protected function bindJSandApplyId(FI\FormInput $component, Template $tpl): string
+    protected function bindJSandApplyId(FormInput $component, Template $tpl): string
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);
@@ -208,7 +209,7 @@ class Renderer extends AbstractComponentRenderer
      * for this specific component and the placement of {VALUE} in its template.
      * Please note: this may not work for customized templates!
      */
-    protected function applyValue(FI\FormInput $component, Template $tpl, callable $escape = null): void
+    protected function applyValue(FormInput $component, Template $tpl, callable $escape = null): void
     {
         $value = $component->getValue();
         if (!is_null($escape)) {
@@ -914,7 +915,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFilePreview(
         FI\File $file_input,
-        FI\FormInput $metadata_input,
+        FormInput $metadata_input,
         RendererInterface $default_renderer,
         ?FileInfoResult $file_info,
         Template $template

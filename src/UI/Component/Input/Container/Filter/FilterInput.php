@@ -18,7 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Component\Input\Container\Filter;
+
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * This interface must be implemented by all Inputs that support

@@ -17,12 +17,13 @@
  *********************************************************************/
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Component\Input\Container\Form;
 
+use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
-use Closure;
 use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * This describes inputs that can be used in forms.
