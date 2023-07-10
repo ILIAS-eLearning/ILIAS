@@ -346,7 +346,7 @@ class ilPersonalProfileGUI
             ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         ) {
             $withdrawalType = 2;
-        } elseif ($this->setting->get('tos_withdrawal_usr_deletion', false)) {
+        } elseif ($this->setting->get('tos_withdrawal_usr_deletion', '0') !== '0') {
             $withdrawalType = 1;
         }
 
