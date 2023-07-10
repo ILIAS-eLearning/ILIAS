@@ -13304,7 +13304,9 @@ rbac#:#crs_visible#:#Kurs ist sichtbar
 rbac#:#crs_write#:#Kurs bearbeiten
 rbac#:#crsr_copy#:#Kurslinks kopieren
 rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
+rbac#:#crsr_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crsr_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Kurs-Administration ändern
