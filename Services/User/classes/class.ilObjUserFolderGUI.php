@@ -909,10 +909,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            $this->ilias->raiseError(
-                $this->lng->txt("no_checkbox"),
-                $this->ilias->error_obj->MESSAGE
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
+            $this->viewObject();
+            return false;
         }
 
         if (!$a_from_search) {
@@ -1002,6 +1001,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deleteUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_delete_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation("delete");
     }
 
@@ -1012,6 +1016,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deactivateUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_deactivate_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation("deactivate");
     }
 
