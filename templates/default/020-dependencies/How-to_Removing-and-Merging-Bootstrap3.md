@@ -1,58 +1,55 @@
+In June 2023 Bootstrap 3 has been removed as a dependency. Instead we now use...
+
+* our own UI concepts written specifically for ILIAS
+* merged, shortened and customized code snippets from Bootstrap 3 directly on the appropriate ITCSS layer
+* very specific parts of Bootstrap 5 or other frameworks for a very specific component, again customized and cut down where possible.
+
+As a result of this big shift you may find areas in ILIAS 9 that look broken or unstyled compared to ILIAS 8. Please report such issues here https://mantis.ilias.de/ using the tag "no-bs".
+
+This guide explains the process of fixing such an issue.
+
 # Preparation
 
-You might want have two instance of ILIAS at hand while you work:
+It's recommended to have two instance of ILIAS at hand while you work:
 
-1. trunk
-2. this work in progress branch
+1. trunk (as the abse for your work)
+2. release_8
 
-In a browser tab you might want to have the following resources available
+The following resources can be very helpful:
 
-* Bootstrap 5 Github branch to look up more modern implementations
+* On Github, the Bootstrap 3 SASS implementation: https://github.com/twbs/bootstrap-sass/tree/master/assets/stylesheets/bootstrap
+* A modern implementation of the area you want to fix e.g. from Bootstrap 5 (https://github.com/twbs/bootstrap/tree/main/scss) or another framework to serve as inspiration.
 
-# State of this branch
+# Process of Fixing an Issue
 
-* the Bootstrap 3 files are still present in the working branch (spread across modifications/bootstrap-3-scss and unmodified/bootstrap-3-scss in /020-dependencies), but almost none of them are being loaded (because they are commented out in /020-dependencies/modifications/bootstrap-3-scss/stylesheets/_bootstrap.scss).
-* some Bootstrap 3 files have already been merged into ILIAS layout, tools and components (always deleting Bootstrap 3 code that wasn't being used).
-* There is a detailed lists of to dos at the end of this document.
-* all Bootstrap mixins have been copied /030-tools/legacy-bootstrap-mixins/unused and can be taken out of the unused folder into tools, layout or the component where they are being needed (if they bring code with them a file needs to load them with @use for them to be compiled)
+First, you might want to
+* inspect the broken element and check in the Bootstrap 3 if this class has been styled there (e.g. btn-group).
+* identify which Bootstrap component used to contain the now missing code (e.g. button-group.less), check where it would go in the ITCSS structure of ILIAS 9.
 
+If code for this class exists in Bootstrap 3, chances are hight that you can immediately fix the issue by copy and pasting the code of the component from the SASS version of Bootstrap 3 (e.g. from _button-group.scss) into an appropriate place in our ITCSS structure (e.g. 070-component/legacy/_btn-group.scss). However, we don't want to reintroduce unnecessary code that we just got rid of, so please follow these guidelines:
 
-# Workflow
+* writing a solution specific to ILIAS with as few lines of possible
+* heavily cutting down the code you are copying from Bootstrap 3 back into our codebase (check if any html template uses a class. If it doesn't, it can very likely be removed)
+* instead of using the Bootstrap 3 version, check if Bootstrap 5 or another framework has a useful or smarter solution for this problem and (if the license allows it) use this code instead.
+* replace framework variables/mixins by ILIAS variables/mixins wherever possible.
+* if a variable is very specific, consider defining it on the lowermost possible level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
+* for missing mixins consider either
+  * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended
+  * turning them into general tools or layout files by copying/mergin them into the correct file or location in our ITCSS structure
+* put the file only in a folder named "legacy" if it's not to be used in the future.
 
-This is a recommended workflow
+Give credit for sections included from other frameworks like this:
 
-* find an area in the working branch instance that looks different/broken
-* check in trunk instance which bootstrap component is responsible for the "correct" rendering
-* copy (and split) the corresponding (currently unloaded) Bootstrap 3 code from they dependency layer into a layout, tool, legacy component, UI component (existing or new) file(s)
-* alternatively use Bootstrap 5 code, snippets from another framework or your own solutions for a more modern implementation
-* fence the copyrighted code between two license comments like this
-  * The following section contains code from Bootstrap 3. For the text of the MIT license see https://github.com/twbs/bootstrap/blob/v3.4.1/LICENSE
-  * (code)
-  * end of Bootstrap 3 code
-* delete any parts of the code that isn't currently being used (search if obscure sounding classes are used by any HTML Templates or set by php/js)
-* deal with variables and mixins in the following way:
-  * replace Bootstrap variables/mixins by ILIAS variables/mixins wherever possible ($font-size-base exists as $il-font-size-base; $brand-primary is $il-main-color; you can see which Bootstrap variables we redefines in .../020-dependencies/modifications/bootstrap-3-scss/stylesheets/bootstrap/_modified-variables.scss, but also check our general color, spacing, border etc. variables)
-  * if a variable is very specific, consider defining it on the lowermost possible level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
-  * for missing mixins consider either
-    * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended
-    * turning them into general tools or layout files by copying/mergin the code from /030-tools/legacy-bootstrap-mixins/unused into the correct file or location in our ITCSS structure
-* Now the SASS compiler should be able to compile the code.
+``` SCSS
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 
-Do not utilize `@use "[...]/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;` or similar to quickly make the Bootstrap variables work. This connection to Bootstrap has to be cut as well as a goal of this project.
+.bootstrap-class {}
 
-# To Dos
+// end of section based on bootstrap 3
+```
 
-These Bootstrap parts definitely need to be merged/fixed/adapted:
+Link the license from this inline comment or the file /templates/default/Guidelines_SCSS-Coding.md
 
-* [ ] alerts are currently half merged, delos doesn't compile
-* [ ] forms
-* [ ] btn-group
-* [ ] panel? (UI component seems to already have all relevant code to work, check if same is true for legacy panel)
-* [ ] responsive variables / mixins have to be turned into a general layout file (maybe only currently in use variables from Bootstrap 3? Bootstrap 5 seems too complex)
-* [ ] alert box
-* [ ] there is still a weird JS bug: when the SCSS code in /070-components/legacy/Services/UIComponent/_component_toolbar.scss is absent, a js issue crashes the browser
+# Contact
 
-To Dos left over / caused by already merged parts:
-
-* [ ] some shadow mixins have been sloppily deactivated and need to be restored (mixin in tools?)
-* [ ] nav bar / toolbar padding is deactivated/broken, needs fix
+If you have any questions, please ask in the CSS Squad channel of the ILIAS Discord server: https://discord.gg/7gGgBMSHUQ

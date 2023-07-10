@@ -1,7 +1,7 @@
 @use "sass:math";
 @use "../../../010-settings/" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_panel" as ls;
-@use "../../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
+@use "../../../030-tools/_tool_border-radius" as *;
 @use "../../../030-tools/tool_clearfix" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
