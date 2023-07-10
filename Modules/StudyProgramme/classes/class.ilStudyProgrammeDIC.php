@@ -101,6 +101,17 @@ class ilStudyProgrammeDIC
         $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
         $dic['ui.renderer'] = static fn ($dic) => $DIC['ui.renderer'];
 
+        $dic['ilStudyProgrammeMailMemberSearchGUI'] = static fn ($dic) =>
+             new ilStudyProgrammeMailMemberSearchGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC['ilAccess'],
+                $DIC->http()->wrapper(),
+                $DIC->refinery(),
+                $dic['permissionhelper']
+            );
+
         return $dic;
     }
 
@@ -291,7 +302,8 @@ class ilStudyProgrammeDIC
                 $DIC['lng'],
                 $DIC['ilAccess'],
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $dic['permissionhelper']
             );
         $dic['ilStudyProgrammeChangeExpireDateGUI'] = static fn ($dic) =>
             new ilStudyProgrammeChangeExpireDateGUI(
