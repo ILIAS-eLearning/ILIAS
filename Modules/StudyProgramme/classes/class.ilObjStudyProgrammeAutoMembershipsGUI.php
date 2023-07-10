@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -153,26 +153,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $selected_src_type = $this->request_wrapper->retrieve(self::F_SOURCE_TYPE, $this->refinery->kindlyTo()->string());
         $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->string());
 
-        $form = $this->getSelectionForm(
+        $modal = $this->getSelectionForm(
             $selected_src_type,
             $selected_src,
             $current_src_type,
             $current_src_id
         );
-        $form_id = "form_" . $form->getId();
-
-        $modal = $this->ui_factory->modal()->roundtrip(
-            $this->txt('modal_member_auto_select_title'),
-            $this->ui_factory->legacy($form->getHtml())
-        );
-
-        $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
-            function ($id) use ($form_id) {
-                return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
-            }
-        );
-
-        $modal = $modal->withActionButtons([$submit]);
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
@@ -581,7 +567,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         string $selected_source,
         string $source_type = null,
         string $source_id = null
-    ): ilPropertyFormGUI {
+    ): ILIAS\UI\Component\Modal\RoundTrip {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
 
@@ -616,7 +602,23 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $hi->setValue($selected_source_type);
         $form->addItem($hi);
 
-        return $form;
+        $form_id = "form_" . $form->getId();
+
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->txt('modal_member_auto_select_title'),
+            $this->ui_factory->legacy($form->getHtml())
+        );
+
+        if (!empty($entries)) {
+            $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
+                function ($id) use ($form_id) {
+                    return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
+                }
+            );
+            $modal = $modal->withActionButtons([$submit]);
+        }
+
+        return $modal;
     }
 
     /**
