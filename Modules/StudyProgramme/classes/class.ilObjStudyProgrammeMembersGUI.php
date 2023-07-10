@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\Factory;
 
@@ -140,7 +140,7 @@ class ilObjStudyProgrammeMembersGUI
                     $this->lng->txt('btn_back'),
                     $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
                 );
-                $dic = ilStudyProgrammeDIC::dic();
+                $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
                 $mail_search = $dic['ilStudyProgrammeMailMemberSearchGUI'];
                 $mail_search->setAssignments($this->getAssignmentsById());
                 $mail_search->setBackTarget(
