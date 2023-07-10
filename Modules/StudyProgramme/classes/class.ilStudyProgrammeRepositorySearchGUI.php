@@ -100,15 +100,19 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             }
         }
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption($a_options['submit_name'], false);
-        $button->setCommand('addUserFromAutoComplete');
-
-        if (!$a_sticky) {
-            $toolbar->addButtonInstance($button);
-        } else {
-            $toolbar->addStickyItem($button);
-        }
+        $button = $ui_factory->button()->standard($a_options['submit_name'], '#')
+        ->withOnLoadCode(
+            fn($id) => "
+                document.getElementById('$id').addEventListener('click',
+                function() {
+                    let frm = this.closest('form');
+                    frm.action = frm.action + '&cmd=addUserFromAutoComplete';
+                    frm.submit();
+                    return false;
+                });
+            "
+        );
+        $toolbar->addComponent($button);
 
         if ((bool) $a_options['add_search'] ||
             is_numeric($a_options['add_from_container'])) {
