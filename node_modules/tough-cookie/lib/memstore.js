@@ -33,19 +33,21 @@ const { fromCallback } = require("universalify");
 const Store = require("./store").Store;
 const permuteDomain = require("./permuteDomain").permuteDomain;
 const pathMatch = require("./pathMatch").pathMatch;
-const util = require("util");
+const { getCustomInspectSymbol, getUtilInspect } = require("./utilHelper");
 
 class MemoryCookieStore extends Store {
   constructor() {
     super();
     this.synchronous = true;
-    this.idx = {};
-    if (util.inspect.custom) {
-      this[util.inspect.custom] = this.inspect;
+    this.idx = Object.create(null);
+    const customInspectSymbol = getCustomInspectSymbol();
+    if (customInspectSymbol) {
+      this[customInspectSymbol] = this.inspect;
     }
   }
 
   inspect() {
+    const util = { inspect: getUtilInspect(inspectFallback) };
     return `{ idx: ${util.inspect(this.idx, false, 2)} }`;
   }
 
@@ -62,7 +64,7 @@ class MemoryCookieStore extends Store {
     const results = [];
     if (typeof allowSpecialUseDomain === "function") {
       cb = allowSpecialUseDomain;
-      allowSpecialUseDomain = false;
+      allowSpecialUseDomain = true;
     }
     if (!domain) {
       return cb(null, []);
@@ -109,10 +111,10 @@ class MemoryCookieStore extends Store {
 
   putCookie(cookie, cb) {
     if (!this.idx[cookie.domain]) {
-      this.idx[cookie.domain] = {};
+      this.idx[cookie.domain] = Object.create(null);
     }
     if (!this.idx[cookie.domain][cookie.path]) {
-      this.idx[cookie.domain][cookie.path] = {};
+      this.idx[cookie.domain][cookie.path] = Object.create(null);
     }
     this.idx[cookie.domain][cookie.path][cookie.key] = cookie;
     cb(null);
@@ -144,7 +146,7 @@ class MemoryCookieStore extends Store {
     return cb(null);
   }
   removeAllCookies(cb) {
-    this.idx = {};
+    this.idx = Object.create(null);
     return cb(null);
   }
   getAllCookies(cb) {
@@ -184,7 +186,57 @@ class MemoryCookieStore extends Store {
   "removeAllCookies",
   "getAllCookies"
 ].forEach(name => {
-  MemoryCookieStore[name] = fromCallback(MemoryCookieStore.prototype[name]);
+  MemoryCookieStore.prototype[name] = fromCallback(
+    MemoryCookieStore.prototype[name]
+  );
 });
 
 exports.MemoryCookieStore = MemoryCookieStore;
+
+function inspectFallback(val) {
+  const domains = Object.keys(val);
+  if (domains.length === 0) {
+    return "[Object: null prototype] {}";
+  }
+  let result = "[Object: null prototype] {\n";
+  Object.keys(val).forEach((domain, i) => {
+    result += formatDomain(domain, val[domain]);
+    if (i < domains.length - 1) {
+      result += ",";
+    }
+    result += "\n";
+  });
+  result += "}";
+  return result;
+}
+
+function formatDomain(domainName, domainValue) {
+  const indent = "  ";
+  let result = `${indent}'${domainName}': [Object: null prototype] {\n`;
+  Object.keys(domainValue).forEach((path, i, paths) => {
+    result += formatPath(path, domainValue[path]);
+    if (i < paths.length - 1) {
+      result += ",";
+    }
+    result += "\n";
+  });
+  result += `${indent}}`;
+  return result;
+}
+
+function formatPath(pathName, pathValue) {
+  const indent = "    ";
+  let result = `${indent}'${pathName}': [Object: null prototype] {\n`;
+  Object.keys(pathValue).forEach((cookieName, i, cookieNames) => {
+    const cookie = pathValue[cookieName];
+    result += `      ${cookieName}: ${cookie.inspect()}`;
+    if (i < cookieNames.length - 1) {
+      result += ",";
+    }
+    result += "\n";
+  });
+  result += `${indent}}`;
+  return result;
+}
+
+exports.inspectFallback = inspectFallback;
