@@ -28,15 +28,15 @@ First, you might want to
 
 If code for this class exists in Bootstrap 3, chances are hight that you can immediately fix the issue by copy and pasting the code of the component from the SASS version of Bootstrap 3 (e.g. from _button-group.scss) into an appropriate place in our ITCSS structure (e.g. 070-component/legacy/_btn-group.scss). However, we don't want to reintroduce unnecessary code that we just got rid of, so please follow these guidelines:
 
-* writing a solution specific to ILIAS with as few lines of possible
-* heavily cutting down the code you are copying from Bootstrap 3 back into our codebase (check if any html template uses a class. If it doesn't, it can very likely be removed)
-* instead of using the Bootstrap 3 version, check if Bootstrap 5 or another framework has a useful or smarter solution for this problem and (if the license allows it) use this code instead.
-* replace framework variables/mixins by ILIAS variables/mixins wherever possible.
+* Write a solution specific to ILIAS with as few lines of code as possible.
+* Heavily cut down the code you are copying from Bootstrap 3 back into our codebase. Check if any html template uses a class. If it doesn't, it can very likely be removed.
+* Instead of using the Bootstrap 3 version, check if Bootstrap 5 or another framework has a useful or smarter solution for this problem and (if the license allows it) use selected snippets from this code instead.
+* Replace framework variables/mixins by ILIAS variables/mixins wherever possible.
 * if a variable is very specific, consider defining it on the lowermost possible level e.g. $component-bg-color does not need to be in the settings layer and can be in the same file as the component
-* for missing mixins consider either
-  * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended
-  * turning them into general tools or layout files by copying/mergin them into the correct file or location in our ITCSS structure
-* put the file only in a folder named "legacy" if it's not to be used in the future.
+* For missing mixins consider either
+  * using an exisiting ILIAS mixin from tools or layout if it accomplishes the same or can be quickly adapted/extended.
+  * turning them into general tools or layout files by copying/mergin them into the correct file or location in our ITCSS structure.
+* Put files only in a folder named "legacy" if it's not to be used in the future.
 
 Give credit for sections included from other frameworks like this:
 
@@ -48,7 +48,7 @@ Give credit for sections included from other frameworks like this:
 // end of section based on bootstrap 3
 ```
 
-Link the license from this inline comment or the file /templates/default/Guidelines_SCSS-Coding.md
+Link the license from this inline comment or (as shown in the example) in the dependency section of the file /templates/default/Guidelines_SCSS-Coding.md
 
 # Contact
 
