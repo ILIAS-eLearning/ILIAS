@@ -53,7 +53,7 @@ class EstimatedReadingTime implements Transformation
     public function transform($from): int
     {
         if (!is_string($from)) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException(__METHOD__ . ' the argument is not a string.');
         }
 
         return $this->calculate($from);
@@ -61,9 +61,9 @@ class EstimatedReadingTime implements Transformation
 
     private function calculate(string $text): int
     {
-        $text = mb_convert_encoding(
+        $text = mb_encode_numericentity(
             '<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body>' . $text . '</body></html>',
-            'HTML-ENTITIES',
+            [0x80, 0x10FFFF, 0, ~0],
             'UTF-8'
         );
 
@@ -77,10 +77,10 @@ class EstimatedReadingTime implements Transformation
             $this->beginXmlLogging();
 
             if (!$document->loadHTML($text)) {
-                throw new InvalidArgumentException(__METHOD__ . " the argument is not a parsable XHTML string.");
+                throw new InvalidArgumentException(__METHOD__ . ' the argument is not a parsable XHTML string.');
             }
         } catch (ErrorException $e) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a parsable XHTML string: " . $e->getMessage());
+            throw new InvalidArgumentException(__METHOD__ . ' the argument is not a parsable XHTML string: ' . $e->getMessage());
         } finally {
             restore_error_handler();
             $this->addErrors();
