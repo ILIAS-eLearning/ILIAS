@@ -46,6 +46,7 @@ class assErrorTextGUITest extends assBaseTestCase
         //$this->markTestIncomplete('Needs mock.');
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorTextGUI.php';
+        $this->getGlobalTemplateMock()->expects($this->any())->method('addOnloadCode');
 
         // Act
         $instance = new assErrorTextGUI();
