@@ -133,7 +133,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
         $type = ilObject::_lookupType($this->ref_id, true);
 
-        if (isset($raw["src"])) {
+        if (isset($raw["src"]) && is_numeric($raw['src'])) {
             $obj_id = ilObject::_lookupObjectId($raw["src"]);
             if ($obj_id) {
                 $result[] = array("action" => $this->lng->txt("rbac_log_source_object"),
