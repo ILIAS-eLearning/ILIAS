@@ -1653,7 +1653,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             // original type "pg" => pg_<page_id>[_<ref_id>]
             if ($t_arr[0] == "pg") {
                 if (isset($t_arr[2])) {
-                    $ref_id = $t_arr[2];
+                    $ref_id = (int) $t_arr[2];
                 } else {
                     $lm_id = ilLMObject::_lookupContObjID($t_arr[1]);
                     $ref_id = ilObject::_getAllReferences($lm_id);
@@ -1662,7 +1662,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     }
                 }
             } else {
-                $ref_id = $t_arr[1];
+                $ref_id = (int) $t_arr[1];
             }
 
             include_once "Services/Membership/classes/class.ilParticipants.php";
