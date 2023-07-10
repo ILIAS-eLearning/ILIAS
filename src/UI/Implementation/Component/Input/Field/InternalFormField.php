@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 /**
  * This type of input is required by forms.
  */
-interface FormInputInternal extends InputInternal, FormInput
+interface InternalFormField extends InternalField, FormInput
 {
     /**
      * Get an input like this one, with a different name.

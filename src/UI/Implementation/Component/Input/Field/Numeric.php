@@ -30,7 +30,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 /**
  * This implements the numeric input.
  */
-class Numeric extends Field implements C\Input\Field\Numeric
+class Numeric extends FormField implements C\Input\Field\Numeric
 {
     private bool $complex = false;
 
@@ -49,7 +49,7 @@ class Numeric extends Field implements C\Input\Field\Numeric
             $this->refinery->kindlyTo()->null(),
             $this->refinery->kindlyTo()->int()
         ])
-        ->withProblemBuilder(fn ($txt) => $txt("ui_numeric_only"));
+        ->withProblemBuilder(fn($txt) => $txt("ui_numeric_only"));
 
         $this->setAdditionalTransformation($trafo_numericOrNull);
     }
@@ -79,7 +79,7 @@ class Numeric extends Field implements C\Input\Field\Numeric
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

@@ -29,7 +29,7 @@ use Closure;
 /**
  * This implements the textarea input.
  */
-class Textarea extends Field implements C\Input\Field\Textarea
+class Textarea extends FormField implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
 
@@ -136,7 +136,7 @@ class Textarea extends Field implements C\Input\Field\Textarea
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

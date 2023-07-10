@@ -22,7 +22,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
+use ILIAS\UI\Implementation\Component\Input\Field\InternalFormField;
 use InvalidArgumentException;
 
 /**
@@ -32,7 +32,7 @@ use InvalidArgumentException;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends FormInput, FormInputInternal
+interface Tag extends FormInput, InternalFormField
 {
     /**
      * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]

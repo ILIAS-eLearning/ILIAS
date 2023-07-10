@@ -21,6 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
+use ILIAS\UI\Implementation\Component\Input\Field\InternalField;
+use ILIAS\UI\Implementation\Component\Input\Input;
+
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -30,13 +33,11 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Implementation\Component\Input\Input;
 
-abstract class ViewControl extends Input implements ViewControlInput, InputInternal
+abstract class ViewControl extends Input implements ViewControlInput, InternalField
 {
     use ComponentHelper;
     use JavaScriptBindable;

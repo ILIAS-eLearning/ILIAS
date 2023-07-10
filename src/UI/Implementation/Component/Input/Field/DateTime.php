@@ -33,7 +33,7 @@ use Closure;
 /**
  * This implements the date input.
  */
-class DateTime extends Field implements C\Input\Field\DateTime
+class DateTime extends FormField implements C\Input\Field\DateTime
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -186,7 +186,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
         }
 
         return $this->refinery->string()->hasMinLength(1)
-            ->withProblemBuilder(fn ($txt, $value) => $txt("datetime_required"));
+            ->withProblemBuilder(fn($txt, $value) => $txt("datetime_required"));
     }
 
     /**
@@ -211,7 +211,7 @@ class DateTime extends Field implements C\Input\Field\DateTime
 
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input dp.change', function(event) {
+        return fn($id) => "$('#$id').on('input dp.change', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());";

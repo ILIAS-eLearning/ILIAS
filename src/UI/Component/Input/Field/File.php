@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
+use ILIAS\UI\Implementation\Component\Input\Field\InternalField;
 
 /**
  * This describes file field.
  */
-interface File extends FileUpload, HasDynamicInputs, InputInternal
+interface File extends FileUpload, HasDynamicInputs, InternalField
 {
 }

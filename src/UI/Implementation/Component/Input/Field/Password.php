@@ -33,7 +33,7 @@ use Closure;
 /**
  * This implements the password input.
  */
-class Password extends Field implements C\Input\Field\Password, Triggerable
+class Password extends FormField implements C\Input\Field\Password, Triggerable
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -168,7 +168,7 @@ class Password extends Field implements C\Input\Field\Password, Triggerable
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));";

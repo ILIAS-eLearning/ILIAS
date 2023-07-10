@@ -35,7 +35,7 @@ use ilLanguage;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-abstract class HasDynamicInputsBase extends Field implements HasDynamicInputs
+abstract class HasDynamicInputsBase extends FormField implements HasDynamicInputs
 {
     // ==========================================
     // BEGIN IMPLEMENTATION OF DynamicInputsAware

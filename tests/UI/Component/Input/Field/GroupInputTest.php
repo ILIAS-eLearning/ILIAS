@@ -21,7 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use ILIAS\UI\Implementation\Component\Input\Field\Field;
+use ILIAS\UI\Implementation\Component\Input\Field\FormField;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -30,11 +30,11 @@ use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Data\Result\Ok;
 
-abstract class Input1 extends Field
+abstract class Input1 extends FormField
 {
 }
 
-abstract class Input2 extends Field
+abstract class Input2 extends FormField
 {
 }
 

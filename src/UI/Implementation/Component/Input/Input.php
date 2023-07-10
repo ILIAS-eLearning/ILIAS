@@ -233,7 +233,7 @@ abstract class Input implements InputInterface
         return $clone;
     }
 
-    // Implementation of FormInputInternal
+    // Implementation of InternalFormField
 
     // This is the machinery to be used to process the input from the client side.
     // This should not be exposed to the consumers of the inputs. These methods

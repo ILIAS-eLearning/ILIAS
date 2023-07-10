@@ -37,7 +37,7 @@ use ILIAS\UI\Implementation\Component\Input\InputGroup;
 /**
  * This implements the group input.
  */
-class Group extends Field implements C\Input\Field\Group
+class Group extends FormField implements C\Input\Field\Group
 {
     use ComponentHelper;
     use InputGroup;
@@ -56,7 +56,7 @@ class Group extends Field implements C\Input\Field\Group
         ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->checkArgListElements("inputs", $inputs, InputInternal::class);
+        $this->checkArgListElements("inputs", $inputs, InternalField::class);
         $this->inputs = $inputs;
         $this->lng = $lng;
     }
@@ -64,7 +64,7 @@ class Group extends Field implements C\Input\Field\Group
     public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
     {
         $clone = parent::withRequired($is_required, $requirement_constraint);
-        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
+        $clone->inputs = array_map(fn($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
         return $clone;
     }
 
@@ -84,7 +84,7 @@ class Group extends Field implements C\Input\Field\Group
     public function withOnUpdate(Signal $signal): self
     {
         $clone = parent::withOnUpdate($signal);
-        $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
+        $clone->inputs = array_map(fn($i) => $i->withOnUpdate($signal), $this->inputs);
         return $clone;
     }
 

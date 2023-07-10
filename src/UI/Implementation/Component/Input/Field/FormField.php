@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Field\Field as FieldInterface;
 use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
@@ -37,51 +38,51 @@ use LogicException;
 use Generator;
 use InvalidArgumentException;
 
-abstract class Field extends Input implements InternalField
+abstract class FormField extends Field implements InternalFormField
 {
     protected bool $is_required = false;
     protected ?Constraint $requirement_constraint = null;
 
-
     /**
-     * Applies the operations in this instance to the value.
-     *
-     * @param    mixed $res
+     * @inheritdoc
      */
-    protected function applyOperationsTo($res): Result
+    public function getByline(): ?string
     {
-        if ($res === null && !$this->isRequired()) {
-            return $this->data_factory->ok($res);
-        }
-
-        $res = $this->data_factory->ok($res);
-        foreach ($this->getOperations() as $op) {
-            if ($res->isError()) {
-                return $res;
-            }
-
-            $res = $op->applyTo($res);
-        }
-
-        return $res;
+        return $this->byline;
     }
 
     /**
-     * Get the operations that should be performed on the input.
-     *
-     * @return Generator<Transformation>
+     * @inheritdoc
      */
-    private function getOperations(): Generator
+    public function withByline(string $byline): self
     {
-        if ($this->isRequired()) {
-            $op = $this->getConstraintForRequirement();
-            if ($op !== null) {
-                yield $op;
-            }
-        }
-
-        foreach ($this->operations as $op) {
-            yield $op;
-        }
+        $clone = clone $this;
+        $clone->byline = $byline;
+        return $clone;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function isRequired(): bool
+    {
+        return $this->is_required;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
+    {
+        $clone = clone $this;
+        $clone->is_required = $is_required;
+        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
+        return $clone;
+    }
+
+    /**
+     * This may return a constraint that will be checked first if the field is
+     * required.
+     */
+    abstract protected function getConstraintForRequirement(): ?Constraint;
 }

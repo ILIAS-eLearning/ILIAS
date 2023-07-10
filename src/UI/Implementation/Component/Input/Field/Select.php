@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the select.
  */
-class Select extends Field implements C\Input\Field\Select
+class Select extends FormField implements C\Input\Field\Select
 {
     protected array $options;
     protected string $label;
@@ -86,7 +86,7 @@ class Select extends Field implements C\Input\Field\Select
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";

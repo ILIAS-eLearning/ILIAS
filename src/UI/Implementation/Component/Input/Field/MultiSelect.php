@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Field implements C\Input\Field\MultiSelect
+class MultiSelect extends FormField implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}
@@ -87,7 +87,7 @@ class MultiSelect extends Field implements C\Input\Field\MultiSelect
         }
 
         return $this->refinery->custom()->constraint(
-            fn ($value) => is_array($value) && count($value) > 0,
+            fn($value) => is_array($value) && count($value) > 0,
             "Empty"
         );
     }
@@ -97,7 +97,7 @@ class MultiSelect extends Field implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "var checkedBoxes = function() {
+        return fn($id) => "var checkedBoxes = function() {
 				var options = [];
 				$('#$id').find('li').each(function() {
 				    if ($(this).find('input').prop('checked')) {

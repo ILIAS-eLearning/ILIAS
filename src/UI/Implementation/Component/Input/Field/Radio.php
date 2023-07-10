@@ -31,7 +31,7 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends Field implements C\Input\Field\Radio
+class Radio extends FormField implements C\Input\Field\Radio
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -131,7 +131,7 @@ class Radio extends Field implements C\Input\Field\Radio
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());";

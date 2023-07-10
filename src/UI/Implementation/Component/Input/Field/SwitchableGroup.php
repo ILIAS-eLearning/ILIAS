@@ -78,7 +78,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
 
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
-        return Field::withRequired($is_required, $requirement_constraint);
+        return FormField::withRequired($is_required, $requirement_constraint);
     }
 
     /**

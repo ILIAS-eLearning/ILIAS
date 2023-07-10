@@ -31,7 +31,7 @@ use Throwable;
 /**
  * This implements the URL input.
  */
-class Url extends Field implements C\Input\Field\Url
+class Url extends FormField implements C\Input\Field\Url
 {
     /**
      * @inheritdoc
@@ -50,7 +50,7 @@ class Url extends Field implements C\Input\Field\Url
     protected function addValidation(): void
     {
         $txt_id = 'ui_invalid_url';
-        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
+        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_string($v) && trim($v) === '') {
                 return true;
@@ -126,7 +126,7 @@ class Url extends Field implements C\Input\Field\Url
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
