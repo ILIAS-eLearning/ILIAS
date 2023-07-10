@@ -98,6 +98,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      */
     public function editQuestion($checkonly = false)
     {
+        global $DIC;
+        $tabs = $DIC['ilTabs'];
+        $tabs->setTabActive('edit_question');
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
