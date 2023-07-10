@@ -52,8 +52,7 @@ function base1()
         $view_controls,
         $mapping_closure
     )
-    ->withEnvironment(environment())
-    ->withExpandCollapseAllToggle(true);
+    ->withEnvironment(environment());
 
     //example data
     $data = included_data1();

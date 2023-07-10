@@ -40,21 +40,17 @@ class Presentation extends Table implements T\Presentation
     private array $environment = [];
 
     private array $records;
-    protected SignalGeneratorInterface $signal_generator;
-    private Closure $row_mapping;
-    protected ?Signal $signal_toggle_all = null;
-    protected bool $initially_expanded = false;
+    protected Signal $signal_toggle_all;
 
     public function __construct(
         string $title,
         array $view_controls,
-        Closure $row_mapping,
-        SignalGeneratorInterface $signal_generator
+        protected Closure $row_mapping,
+        protected SignalGeneratorInterface $signal_generator
     ) {
         parent::__construct($title);
         $this->view_controls = $view_controls;
-        $this->row_mapping = $row_mapping;
-        $this->signal_generator = $signal_generator;
+        $this->signal_toggle_all = $signal_generator->create();
     }
 
     public function getSignalGenerator(): SignalGeneratorInterface
@@ -114,13 +110,6 @@ class Presentation extends Table implements T\Presentation
     public function getData(): array
     {
         return $this->records;
-    }
-
-    public function withExpandCollapseAllToggle(bool $flag = true): self
-    {
-        $clone = clone $this;
-        $clone->signal_toggle_all = $flag ? $this->signal_generator->create() : null;
-        return $clone;
     }
 
     public function getExpandCollapseAllSignal(): ?Signal
