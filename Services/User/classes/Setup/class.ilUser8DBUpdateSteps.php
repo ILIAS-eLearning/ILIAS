@@ -65,4 +65,23 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
             $ilLog->warning($message);
         }
     }
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn(
+            'usr_data',
+            'time_limit_from',
+            [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => '8'
+            ]
+        );
+        $this->db->modifyTableColumn(
+            'usr_data',
+            'time_limit_until',
+            [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => '8'
+            ]
+        );
+    }
 }
