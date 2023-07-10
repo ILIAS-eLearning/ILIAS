@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+
 /**
  * @author Stephan Kergomard
  */
@@ -45,6 +47,7 @@ class ilObjectCoreProperties
     public function __construct(
         private ilObjectPropertyTitleAndDescription $property_title_and_description,
         private ilObjectPropertyIsOnline $property_is_online,
+        private ilObjectPropertyTileImage $property_tile_image,
         array $data = null
     ) {
         if ($this->checkDataArray($data)) {
@@ -117,6 +120,18 @@ class ilObjectCoreProperties
     {
         $clone = clone $this;
         $clone->property_is_online = $property_is_online;
+        return $clone;
+    }
+
+    public function getPropertyTileImage(): ilObjectPropertyTileImage
+    {
+        return $this->property_tile_image;
+    }
+
+    public function withPropertyTileImage(ilObjectPropertyTileImage $property_tile_image): self
+    {
+        $clone = clone $this;
+        $clone->property_tile_image = $property_tile_image;
         return $clone;
     }
 
