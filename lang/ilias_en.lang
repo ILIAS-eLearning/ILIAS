@@ -13349,7 +13349,9 @@ rbac#:#crs_visible#:#Course is visible
 rbac#:#crs_write#:#User can edit course settings and manage content
 rbac#:#crsr_copy#:#User can copy course link
 rbac#:#crsr_delete#:#User can move or delete course link
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#crsr_edit_permission#:#User can change permission settings
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users
 rbac#:#crsr_visible#:#Course link is visible
 rbac#:#crsr_write#:#User can edit settings of course link
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
