@@ -238,11 +238,7 @@ class ilUserUtil
         $all = array();
 
         $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
-
-        if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
-            $ilSetting->get('disable_my_memberships') == 0)) {
-            $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
-        }
+        $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 
         if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
