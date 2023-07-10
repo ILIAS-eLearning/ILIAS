@@ -721,10 +721,20 @@ class ilObjUserGUI extends ilObjectGUI
             $user->setComment($this->form_gui->getInput('referral_comment'));
         }
 
-        // interests
-        $user->setGeneralInterests($this->form_gui->getInput('interests_general'));
-        $user->setOfferingHelp($this->form_gui->getInput('interests_help_offered'));
-        $user->setLookingForHelp($this->form_gui->getInput('interests_help_looking'));
+        $general_interests = is_array($this->form_gui->getInput('interests_general'))
+            ? $this->form_gui->getInput('interests_general')
+            : [];
+        $user->setGeneralInterests($general_interests);
+
+        $offering_help = is_array($this->form_gui->getInput('interests_help_offered'))
+            ? $this->form_gui->getInput('interests_help_offered')
+            : [];
+        $user->setOfferingHelp($offering_help);
+
+        $looking_for_help = is_array($this->form_gui->getInput('interests_help_looking'))
+            ? $this->form_gui->getInput('interests_help_looking')
+            : [];
+        $user->setLookingForHelp($looking_for_help);
 
         // ClientIP
         $user->setClientIP($this->form_gui->getInput('client_ip'));
