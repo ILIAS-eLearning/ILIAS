@@ -3391,10 +3391,10 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_at_top#:#Oben
+cntr#:#sorting_new_items_direction#:#Ausrichtung
 cntr#:#sorting_new_items_order#:#Reihenfolge
 cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
-cntr#:cntr#:#sorting_new_items_direction#:#Ausrichtung
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
