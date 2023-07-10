@@ -512,17 +512,11 @@ class ilUserImportParser extends ilSaxParser
                         case "cas":
                         case "soap":
                         case "openid":
-                        // begin-patch auth_plugin
+                            // begin-patch auth_plugin
                         default:
                             $this->auth_mode_set = true;
                             $this->userObj->setAuthMode($a_attribs["type"]);
                             break;
-                        /*
-                            $this->logFailure($this->userObj->getLogin(),
-                                              sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
-                            break;
-                         *
-                         */
                     }
                 } else {
                     $this->logFailure(
@@ -654,16 +648,10 @@ class ilUserImportParser extends ilSaxParser
                         case "cas":
                         case "soap":
                         case "openid":
-                        // begin-patch auth_plugin
+                            // begin-patch auth_plugin
                         default:
                             $this->userObj->setAuthMode($a_attribs["type"]);
                             break;
-                        /*
-                        default:
-                            $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
-                            break;
-                         *
-                         */
                     }
                 } else {
                     $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"), "AuthMode", "type", ""));
@@ -1851,7 +1839,7 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "ExternalAccount":
-//echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
+                //echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
                 $am = ($this->userObj->getAuthMode() === "default" || $this->userObj->getAuthMode() == "")
                     ? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
                     : $this->userObj->getAuthMode();
@@ -2300,7 +2288,7 @@ class ilUserImportParser extends ilSaxParser
         if (array_key_exists("mail_incoming_type", $this->prefs) ||
             array_key_exists("mail_signature", $this->prefs) ||
             array_key_exists("mail_linebreak", $this->prefs)
-            ) {
+        ) {
             $mailOptions = new ilMailOptions($usr_id);
 
             $mailOptions->setLinebreak(array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak());
