@@ -215,7 +215,10 @@ abstract class ilParticipants
         if (is_int($ref_id_or_instance)) {
             $ref_id = $ref_id_or_instance;
         } elseif ($ref_id_or_instance instanceof ilObject) {
-            $ref_id = array_keys(ilObject::_getAllReferences($ref_id_or_instance->getId()))[0];
+            $ref_id = (int) $ref_id_or_instance->getRefId();
+            if ($ref_id === 0) {
+                $ref_id = array_keys(ilObject::_getAllReferences($ref_id_or_instance->getId()))[0];
+            }
         } else {
             return false;
         }
