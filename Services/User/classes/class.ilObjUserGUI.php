@@ -666,9 +666,22 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->isSettingChangeable('referral_comment')) {
             $user->setComment($this->form_gui->getInput('referral_comment'));
         }
-        $user->setGeneralInterests($this->form_gui->getInput('interests_general'));
-        $user->setOfferingHelp($this->form_gui->getInput('interests_help_offered'));
-        $user->setLookingForHelp($this->form_gui->getInput('interests_help_looking'));
+
+        $general_interests = is_array($this->form_gui->getInput('interests_general'))
+            ? $this->form_gui->getInput('interests_general')
+            : [];
+        $user->setGeneralInterests($general_interests);
+
+        $offering_help = is_array($this->form_gui->getInput('interests_help_offered'))
+            ? $this->form_gui->getInput('interests_help_offered')
+            : [];
+        $user->setOfferingHelp($offering_help);
+
+        $looking_for_help = is_array($this->form_gui->getInput('interests_help_looking'))
+            ? $this->form_gui->getInput('interests_help_looking')
+            : [];
+        $user->setLookingForHelp($looking_for_help);
+
         $user->setClientIP($this->form_gui->getInput('client_ip'));
         $user->setLatitude($this->form_gui->getInput('latitude'));
         $user->setLongitude($this->form_gui->getInput('longitude'));
